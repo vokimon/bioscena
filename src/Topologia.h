@@ -63,8 +63,8 @@ public:
 	t_cella &operator [] (t_posicio index) 
 	{
 		if ((index>=m_totalCasselles)||(index<0)) {
-			error<<"Accedint a una cella del Topologia no existent"<< endl;
-			assert((index<m_totalCasselles)||(index>=0));
+			error << "Accedint a una cella de la Topologia no existent" << endl;
+			cin.get();
 		}
 		return m_casselles[index];
 	}
@@ -148,7 +148,8 @@ template<class Cella> void CTopologia<Cella>::reservaCasselles(uint32 tamany) {
 	{
 		m_casselles = NULL;
 		m_totalCasselles = 0;
-		error << "No hi ha suficient memoria per les celles de la topologia."<<endl;
+		error << "No hi ha suficient memoria per les celles de la topologia." << endl;
+		cin.get();
 	}
 }
 

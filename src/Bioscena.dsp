@@ -231,6 +231,14 @@ SOURCE=.\Detector.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\Distribucio.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Distribucio.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\EnergiaDisipable.cpp
 # End Source File
 # Begin Source File
@@ -268,6 +276,14 @@ SOURCE=.\Genotip.cpp
 # Begin Source File
 
 SOURCE=.\Genotip.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Grafic.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Grafic.h
 # End Source File
 # Begin Source File
 

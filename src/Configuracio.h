@@ -36,8 +36,10 @@ public:
 		t_iteradorDiccionari it = m_diccionari.find(clau);
 		if (it!=m_diccionari.end())
 			valor=it->second;
-		else 
+		else {
 			errorConfiguracio << "No hi ha valor per la clau '" << clau << "'" << endl;
+			cin.get();
+		}
 	}
 	bool exist(t_clau clau) {
 		t_iteradorDiccionari it = m_diccionari.find(clau);
@@ -49,6 +51,7 @@ public:
 		if (it!=m_diccionari.end())
 			return it->second;
 		errorConfiguracio << "No hi ha valor per la clau '" << clau << "'" << endl;
+		cin.get();
 		return (uint32)-1;
 	}
 public:

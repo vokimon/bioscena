@@ -22,18 +22,24 @@ COrganisme::COrganisme() :
 	tracaOrganisme.desactiva();
 	// Inicialitzem el material genetic
 	m_cariotip.init(rnd.get(Config.get("Organisme/Cariotip/LongitudMinima"),Config.get("Organisme/Cariotip/LongitudMaxima")));
+	m_mutat = false; 
 	m_genotip.init(m_cariotip);
 	// En principi cap registre del fenotip es diferit
 	m_lecturaDiferida=0L;
 	// Inicialitzem el fenotip
 	m_fenotip = new uint32[Config.get("Organisme/Fenotip/Longitud")];
-	if (!m_fenotip) error << "Error demanant fenotip";
+	if (!m_fenotip) {
+		error << "Error demanant fenotip" << endl;
+		cin.get();
+	}
 	for (int i=Config.get("Organisme/Fenotip/Longitud"); i--;)
 		rnd >> m_fenotip[i];
 	// Tot individu comenca amb 
 	m_energia.afegeix(Config.get("Organisme/Energia/Inicial"));
 	m_nutrients.clear();
 	m_edat=0;
+	m_foo=0;
+	m_primigeni=true;
 }
 
 COrganisme::COrganisme(CCariotip &c) : 
@@ -43,10 +49,15 @@ COrganisme::COrganisme(CCariotip &c) :
 	tracaOrganisme.desactiva();
 	// Inicialitzem el material genetic
 	m_cariotip.init(c);
+	m_mutat = false; //m_cariotip.muta(); 
 	m_genotip.init(m_cariotip);
 	// Inicialitzem el fenotip
 	m_fenotip = new uint32[Config.get("Organisme/Fenotip/Longitud")];
-	if (!m_fenotip) error << "Error demanant fenotip";
+	if (!m_fenotip) 
+	{
+		error << "Error demanant fenotip" << endl;
+		cin.get();
+	}
 	for (uint32 i=Config.get("Organisme/Fenotip/Longitud"), bit=1; i--;)
 		m_fenotip[i] = (bit <<=1);
 //		rnd >> m_fenotip[i];
@@ -56,6 +67,8 @@ COrganisme::COrganisme(CCariotip &c) :
 	m_energia.afegeix(Config.get("Organisme/Energia/Inicial"));
 	m_nutrients.clear();
 	m_edat=0;
+	m_foo=0;
+	m_primigeni=false;
 }
 
 COrganisme::~COrganisme()
@@ -168,7 +181,7 @@ bool COrganisme::catabolitza(uint32 & energia, uint32 A, uint32 toleranciaA, uin
 void COrganisme::engoleix(t_mollecula element)
 {
 	// TODO: Treure aixo
-	m_energia.afegeix(6);
+	m_energia.afegeix(Config.get("Biosistema/Energia/Engolir"));
 	tracaOrganisme 
 		<<"Engolint: "
 		<< hex << setfill('0')
@@ -180,7 +193,7 @@ void COrganisme::engoleix(t_mollecula element)
 bool COrganisme::excreta(t_mollecula & excreccio, uint32 patro, uint32 tolerancia)
 {
 	// TODO: Treure aixo
-	m_energia.consumeix(3);
+	m_energia.consumeix(Config.get("Biosistema/Energia/Excretar"));
 	tracaOrganisme 
 		<<"Excretant: "<< endl
 		<< hex << setfill('0')

@@ -34,6 +34,7 @@ public:
 		unsigned int i;
 		for (uns=0, bitter=1; bitter; uns++, bitter<<=1);
 		bit = new T[uns];
+		KKEPAssert(bit, "CGeneradorMascares: Falta memoria");
 		for (i=0, bitter=1; i<uns; i++, bitter<<=1)	bit[i]=bitter;
 	}
 
