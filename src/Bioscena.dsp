@@ -114,6 +114,14 @@ SOURCE=.\Color.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\Compatibilitat.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Compatibilitat.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\Cumulador.cpp
 # End Source File
 # Begin Source File
@@ -122,19 +130,15 @@ SOURCE=.\Cumulador.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\Encaix.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\Encaix.h
-# End Source File
-# Begin Source File
-
 SOURCE=.\GeneradorMascares.cpp
 # End Source File
 # Begin Source File
 
 SOURCE=.\GeneradorMascares.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Itineraris.cpp
 # End Source File
 # Begin Source File
 
@@ -183,6 +187,14 @@ SOURCE=.\Substrat.cpp
 # Begin Source File
 
 SOURCE=.\Substrat.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Temporitzador.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Temporitzador.h
 # End Source File
 # Begin Source File
 
