@@ -2,6 +2,7 @@ CC=gcc
 CPPC=gxx
 RM=del
 EXEC=bioscena.exe
+
 CPPSOURCES:= $(wildcard *.cpp)
 CSOURCES:=$(wildcard *.c)
 OBJSCPP:=$(CPPSOURCES:.cpp=.o)
@@ -13,7 +14,7 @@ default: copirrait ${EXEC}
 
 copirrait:
 #	@echo KKEPerians UNLTD generic makefile file 
-#	buildnum
+	buildnum
 
 dep: copirrait 
 #	@echo --- Generant dependencies
