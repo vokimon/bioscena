@@ -13,6 +13,7 @@
 
 CSubstrat::CSubstrat()
 {
+	// TODO: Optimitzar aixo per a la inicialitzacio masiva de substrats
 	m_ocupat=false;
 	m_limitMollecules=Config.get("Biotop/Substrat/MaximInicial");
 	uint32 n=Config.get("Biotop/Substrat/MolleculesInicials/Numero");
