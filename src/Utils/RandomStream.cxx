@@ -22,9 +22,9 @@ void CRandomStream::ProvaClasse(void)
 {
 	CRandomStream rnd;
 	uint32 i;
-	out << "Generant numeros aleatoris entre 2 i 10" << endl;
+	std::cout << "Generant numeros aleatoris entre 2 i 10" << endl;
 	for (i=20; i--;)
-		out << rnd.get(20,10) << endl;
+		std::cout << rnd.get(20,10) << endl;
 	cin.get();
 	rnd >> i;
 	uint32 max=i, min=i, j=0;
@@ -35,7 +35,7 @@ void CRandomStream::ProvaClasse(void)
 		if (i>max) max=i;
 		else if (i<min) min=i;
 		else continue;
-		out << "Num: "
+		std::cout << "Num: "
 			<< hex << setw(8) << setiosflags(ios::internal) << setfill('0')
 			<< j << "  max:" 
 			<< hex << setw(8) << setiosflags(ios::internal) << setfill('0')
@@ -45,7 +45,7 @@ void CRandomStream::ProvaClasse(void)
 			<< hex << setw(8) << setiosflags(ios::internal) << setfill('0')
 			<< min <<endl;
 	}
-	out << dec << setfill(' ');
+	std::cout << dec << setfill(' ');
 }
 
 

@@ -5,8 +5,6 @@
 //   Recull les declaracions i definicions que poden variar d'una
 //   plataforma a una altra.
 /////////////////////////////////////////////////////////////////////
-// Change Log:
-// 1996???? VoK - Creat
 
 // Cal definir els seguents tipus per que tinguin el numero
 // de bits indicats a la plataforma on es vol compilar.

@@ -1,15 +1,13 @@
-// Probabilitat.h: interface for the CProbabilitat class.
+// Probability.hxx: interface for the Probability class.
 //
 //////////////////////////////////////////////////////////////////////
-// 19991018 VoK - Creat
-// 19991116 VoK - Afegits els accessors de lectura encerts() i mostra()
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(__KKEP_PROBABILITAT_H_INCLUDED)
-#define __KKEP_PROBABILITAT_H_INCLUDED
+#if !defined(__KKEP_PROBABILITY_H_INCLUDED)
+#define __KKEP_PROBABILITY_H_INCLUDED
 
 #include "BioIncludes.h"
 #include "RandomStream.h"
+
+namespace Bioscena {
 
 /**
 * Represents a rational probability.
@@ -29,38 +27,31 @@
 * between 1 and the sample size. If the number is less or equal the
 * threshold the probability matches, if the number is greater the
 * probability fails.
-* <p>
-* @attention Because of the implicit conversion to bool, you must
-* be careful, to mix probability in other kind of expressions like
-* comparing two CProbabilitat objects.
 */
-class CProbabilitat 
+class Probability 
 {
 // Construccio/Destruccio
 public:
 	/**
-	* Constructs a CProbabilitat object that will be always true.
+	* Constructs a Probability object that will be always true.
 	* You can modify this behaviour using the fixa function.
 	*/
-	CProbabilitat() {
+	Probability() {
 		m_mostra=1;
 		m_encerts=1;
 	};
 	/**
-	* Constructs a CProbabilitat object that will test true
+	* Constructs a Probability object that will test true
 	* <tt>success</tt> in <tt>sampleSize</tt>.
 	* @param success The number of successes you expect in a given sample
 	* @param sampleSize The number of tries
 	* @pre The sample size must be greater than 0
 	* @pre The success must be not greater than the sample size
 	*/
-	CProbabilitat(uint32 success, uint32 sampleSize) {
-		KKEPAssert(sampleSize, "CProbabilitat: A zero sample size");
-		KKEPAssert(success<=sampleSize, "CProbabilitat: Success is greater than the sample size");
-		m_mostra=sampleSize;
-		m_encerts=success;
+	Probability(uint32 success, uint32 sampleSize) {
+		set(success,sampleSize);
 	};
-	virtual ~CProbabilitat();
+	virtual ~Probability() {};
 // Operacions
 public:
 	/**
@@ -79,31 +70,33 @@ public:
 	* @pre The success must be not greater than the sample size
 	* @todo Use asserts and isValid instead corrections or a secure version of the function
 	*/
-	void fixa(uint32 success, uint32 sampleSize)
+	void set(uint32 success, uint32 sampleSize)
 	{
+		KKEP_ASSERT(sampleSize, "Probability: A zero sample size");
+		KKEP_ASSERT(success<=sampleSize, "Probability: Success is greater than the sample size");
 		// La mostra no pot ser 0 (probabilitat infinita??)
-		m_mostra = sampleSize?sampleSize:1;
+		m_mostra = sampleSize;
 		// Els encerts han de ser inferiors o iguals a la mostra
 		// (probabilitat fora de linterval [0,1])
-		m_encerts = sampleSize<success?sampleSize:success;
+		m_encerts = success;
 	}
 	/// Gives the sample size
-	uint32 mostra() const
+	uint32 sampleSize() const
 	{
 		return m_mostra;
 	}
 	/// Returns the median successful cases expected in a sample
-	uint32 encerts() const
+	uint32 success() const
 	{
 		return m_encerts;
 	}
 	/// A chance for the probability
-	operator bool() const
+	bool operator() () const
 	{
-		return esDona();
+		return chance();
 	};
 	/// A chance for the probability
-	bool esDona() const
+	bool chance() const
 	{
 		return m_encerts >= rnd.get(1,m_mostra);
 	};
@@ -111,29 +104,28 @@ public:
 ///@{
 public:
 	/// @return True if the receiver has a different probability to success than the parameter
-	bool operator != (const CProbabilitat & p) const {
-//		cout << "Intermediate !=: " << m_encerts*p.mostra() << " " << p.encerts()*m_mostra << std::endl;
-		return m_encerts*p.mostra() != p.encerts()*m_mostra;
+	bool operator != (const Probability & p) const {
+		return m_encerts*p.sampleSize() != p.success()*m_mostra;
 	};
 	/// @return True if the receiver has the same probability to success than the parameter
-	bool operator == (const CProbabilitat & p) const {
-		return m_encerts*p.mostra() == p.encerts()*m_mostra;
+	bool operator == (const Probability & p) const {
+		return m_encerts*p.sampleSize() == p.success()*m_mostra;
 	};
 	/// @return True if the receiver has more probability to success than the parameter
-	bool operator > (const CProbabilitat & p) const {
-		return m_encerts*p.mostra() > p.encerts()*m_mostra;
+	bool operator > (const Probability & p) const {
+		return m_encerts*p.sampleSize() > p.success()*m_mostra;
 	};
 	/// @return True if the receiver has more probability to success than the parameter
-	bool operator >= (const CProbabilitat & p) const {
-		return m_encerts*p.mostra() >= p.encerts()*m_mostra;
+	bool operator >= (const Probability & p) const {
+		return m_encerts*p.sampleSize() >= p.success()*m_mostra;
 	};
 	/// @return True if the receiver has less probability to success than the parameter
-	bool operator < (const CProbabilitat & p) const {
-		return m_encerts*p.mostra() < p.encerts()*m_mostra;
+	bool operator < (const Probability & p) const {
+		return m_encerts*p.sampleSize() < p.success()*m_mostra;
 	};
 	/// @return True if the receiver has less or equal probability to success than the parameter
-	bool operator <= (const CProbabilitat & p) const {
-		return m_encerts*p.mostra() <= p.encerts()*m_mostra;
+	bool operator <= (const Probability & p) const {
+		return m_encerts*p.sampleSize() <= p.success()*m_mostra;
 	};
 ///@}
 // Atributs
@@ -144,21 +136,12 @@ private:
 	uint32 m_mostra;
 // Funcions estatiques
 public:
-	/// A chance for a probability without having to create a CProbabilitat object
-	static bool EsDona(uint32 encerts, uint32 mostra) 
+	/// A chance for a probability without having to create a Probability object
+	static bool Chance(uint32 encerts, uint32 mostra) 
 	{
 		return encerts >= rnd.get(1,mostra);
 	}
-	/**
-	* The test for the class.
-	* Test includes:
-	* <ul>
-	* <li>Testing comparation operands for some significative couples
-	* <li>Testing the success ratio tendency along a lot of executions (Tester assisted)
-	* <li>Performance test between several usage patterns
-	* </ul>
-	*/
-	static void TestClass();
 };
 
+} // Namespace Bioscena
 #endif // !defined(__KKEP_PROBABILITAT_H_INCLUDED)
