@@ -5,19 +5,6 @@
 // Aquesta capcelera descriu els prototips per a les especialitzacions
 // de CPosicionador i CDireccionador
 //////////////////////////////////////////////////////////////////////
-// Change Log:
-// 19990822 VoK - Funcions de dump
-// 19990823 VoK - Reordenat els fitxers i netejades les proves
-// 19990823 VoK - Eliminadas funciones inline que passan al cpp
-// 19990823 VoK - Completadas las funcionalidades estandard de CPosicionadorZonal
-// 19990824 VoK - dump ja no posa ':' despres de nom del parametre
-// 19990824 VoK - Funcions de configuracio amb parametres
-// 19991130 VoK - CPosicionador Zonal adaptat per fer servir la funcio
-//                'desplacamentAleatori' de biotop especificant radi
-//                en desplacaments basics i no en vectors de despl.
-// 20000220 VoK - Adaptat topologia sense templates
-// 20000220 VoK - Canviat el nom dels tipus interns tipus_X -> t_X
-//////////////////////////////////////////////////////////////////////
 // TODO: Fer Direccionadors i Posicionadors segons una sequencia.
 //////////////////////////////////////////////////////////////////////
 
