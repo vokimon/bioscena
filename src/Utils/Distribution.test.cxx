@@ -8,6 +8,7 @@
 
 #include "Distribution.hxx"
 #include <time.h>
+#include <iostream>
 
 using Bioscena::Distribution;
 
