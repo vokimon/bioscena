@@ -3,8 +3,9 @@
 //////////////////////////////////////////////////////////////////////
 
 #include <iomanip>
-#include "RandomStream.h"
-#include "Missatger.h"
+//#include <iostream>
+#include "RandomStream.hxx"
+//#include "Missatger.h"
 
 //////////////////////////////////////////////////////////////////////
 // Inicialitzacio variables estatiques
@@ -20,20 +21,26 @@ CRandomStream rnd;
 //////////////////////////////////////////////////////////////////////
 void CRandomStream::ProvaClasse(void)
 {
+	using std::hex;
+	using std::dec;
+	using std::ios;
+	using std::setw;
+	using std::setiosflags;
+	using std::setfill;
 	CRandomStream rnd;
-	uint32 i;
-	std::cout << "Generant numeros aleatoris entre 2 i 10" << endl;
-	for (i=20; i--;)
-		std::cout << rnd.get(20,10) << endl;
-	cin.get();
-	rnd >> i;
-	uint32 max=i, min=i, j=0;
+	std::cout << "Generant numeros aleatoris entre 2 i 10" << std::endl;
+	for (uint32 i=20; i--;)
+		std::cout << rnd.get(20,10) << std::endl;
+	std::cin.get();
+	uint32 value;
+	rnd >> value;
+	uint32 max=value, min=value, j=0;
 	while (true)//cin>>c, c!='n')
 	{
 		j++;
-		rnd >> i;
-		if (i>max) max=i;
-		else if (i<min) min=i;
+		rnd >> value;
+		if (value>max) max=value;
+		else if (value<min) min=value;
 		else continue;
 		std::cout 
 			<< "Num: " 
@@ -41,10 +48,10 @@ void CRandomStream::ProvaClasse(void)
 			<< "  max:" 
 			<< hex << setw(8) << setiosflags(ios::internal) << setfill('0') << max 
 			<< "  random:" 
-			<< hex << setw(8) << setiosflags(ios::internal) << setfill('0') << i 
+			<< hex << setw(8) << setiosflags(ios::internal) << setfill('0') << value 
 			<< "  min:" 
 			<< hex << setw(8) << setiosflags(ios::internal) << setfill('0') << min
-			<< endl;
+			<< std::endl;
 	}
 	std::cout << dec << setfill(' ');
 }
