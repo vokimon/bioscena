@@ -1,0 +1,134 @@
+% Time Log
+%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Compilació
+\label{sec:Compilacio}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Aquest capítol explica com compilar el codi font per generar un 
+executable. És possible que a la distribució ja vingui un executable
+per a la seva plataforma i no calgui generar-ho.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{GCC/DJGPP}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Aquest compilador i, sobretot, la seva versió per a DOS, el DJGPP, ha 
+sigut el més testejat. De cara a compilar cal una versió superior a la 
+2.7 i, per fer-ho sense problemes cal la 2.95.
+Cal assegurar-se que estan instalades les llibreries estàndars de C++.
+
+Per aquest compilador, es proveeix un fitxer {\tt makefile}. 
+El procediment és el següent:
+\begin{enumerate}
+\item Adaptar les següents variables del makefile als noms
+dels executables al sistema on es compila:
+\begin{description}
+\item [CC] Nom del compilador de C. ({\tt gcc}, {\tt cc}, {\tt egcs}...)
+\item [CPPC] Nom del compilador C++. ({\tt c++}, {\tt cxx}...)
+\item [RM] Comanda per esborrar arxius
+\item [EXEC] Nom del executable generat
+\end{description}
+\item Si cal, comenta les crides a {\tt buildnum} que es fan als makefiles
+(veure apartat \ref{sec:buildnum})
+\item Si es vol optimitzar per una maquina en concret, cal afegir '-march=ix86' a la variable CFLAGS del makefile; on x={3,4,5,6}
+\item Executar la comanda 'make'
+\end{enumerate}
+
+El makefile té en compte de forma automàtica qualsevol arxiu {\tt .CPP} 
+i {\tt .C} que s'afegeixi al directori. Si es modifiquen les
+dependències cal executar la comanda {\tt make dep} per actualitzar
+el fitxer {\tt .depend}. Si aquest fitxer no existeix, cal crear-ho
+manualment ({\tt echo >.depend}) per que el makefile no doni
+errors i després executar {\tt make dep}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Problemes}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{itemize}
+\item Generals:
+\begin{itemize}
+\item Asegurat de que el fitxer {\tt .depend} existeixi, encara que
+sigui buit. Si no crea'l amb: {\tt echo >.depend; make dep}
+\item Si es fa servir una versió del compilador o de les llibreries 
+de C++ inferior a la 2.8, dóna errors a una línia de la funció
+{\tt CCariotip::ocupaCromosomes} del fitxer {\tt Cariotip.cpp}.
+A sota de la mateixa línia hi ha un fragment de codi comentat que
+pot substituir la línia del error, i indicacions de com arreglar-ho.
+\item Per problemes amb relacionats amb el programa de generació
+de números de compilació veure l'apartat \ref{sec:buildnum}.
+\end{itemize}
+\item Sistemes Unix:
+\begin{itemize}
+\item Els arxius de text del comprimit estan en format MS-DOS. Per això, cal 
+treure els salts de carro adicionals que impideixen la compilació.
+La forma més ràpida de fer-ho és fer servir l'opció {\tt -a} quan es
+descomprimeix el comprimit amb la utilitat {\tt unzip}.
+\end{itemize}
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Microsoft Visual C++}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Dins del directori {\tt Src/} hi ha els tres arxius del projecte per a
+Microsoft Visual C++: {\tt Bioscena.dsw}, {\tt Bioscena.dsp} i 
+{\tt Bioscena.opt}.
+
+Aquest darrer arxiu no és necessari però, és útil pel manteniment 
+perqué ordena les classes en carpetes al {\em Infoviewer} segons
+la seva funció.
+És imprescindible si es vol treballar amb les més de 70 classes que hi ha.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Problemes amb versions antigues}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Amb versions antigues del compilador es donen un parell de problemes:
+
+\begin{itemize}
+\item
+Hi ha problemes amb la biblioteca estàndard C++ que proporciona 
+l'entorn degut a conflictes entre la implementació dels templates que 
+fa el compilador i la forma de fer-los servir en la biblioteca, 
+implementada per HP.
+Es pot compilar l'eina si es modifiquen els fonts de la biblioteca, 
+ficant entre comentaris les funcions que donen errors.
+\item
+No suporten massa bé punters a funcions membres.
+El codi que fa servir punters a funcions membres, tot i que compila, 
+genera un assembler no massa correcte i dóna errors d'execució.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Compilant amb altres compiladors}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Per compilar amb altres compiladors, es requereix com a mínim un 
+compilador que suporti templates i punters a funcions membres i que
+tingui implementada de forma suficientment amplia la llibreria 
+estàndar C++ segons s'especifica en l'estàndard ISO/ANSI \cite{ISOCPP}. 
+Concretament es fan servir les capçaleres estàndard 
+{\tt <algorithm>}, {\tt <functional>}, 
+{\tt <list>}, {\tt <vector>}, {\tt <map>}, {\tt <deque>}, {\tt <string>}, 
+{\tt <iostream>}, {\tt <fstream>}, {\tt <iomanip>} i {\tt <strstream>}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Generació de números de compilació}
+\label{sec:buildnum}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Cada compilació porta associada un número d'ordre i la seva data 
+i hora d'inici.
+
+Per generar números de compilació, cal el programa {\tt buildnum}
+que es troba al directori {\tt Utils} de la distribució.
+El codi font també està disponible a la pàgina web
+\url{http://www.salleurl.edu/~is04069/Codders}.
+
+Si no es vol fer servir aquest programa, cal treure les crides que 
+s'hi fan al {\tt makefile} o als fitxers de projecte.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

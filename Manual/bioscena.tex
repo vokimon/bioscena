@@ -1,0 +1,114 @@
+%----------------------------------------------------------
+%  Aixo es una plantilla basica de latex on es vol tenir
+%   el format principal d'un document i totes aquelles coses
+%   que normalment utilitzo en latex.
+%  Data inici creacio: 19-11-97
+%----------------------------------------------------------
+\documentclass[12pt,titlepage]{report}
+\usepackage[latin1]{inputenc}
+\usepackage[catalan]{babel}
+\usepackage{layout} % Per visualitzar marges
+\usepackage{graphicx}
+\usepackage{makeidx}
+\usepackage{verbatim}
+\usepackage{amssymb}
+\usepackage{hyperref} % Per PDFTEX
+%\usepackage[dvips]{hyperref} % Per DVIPS
+\def\boldindex#1{\textbf{\hyperpage{#1}}}
+
+\hypersetup{backref,hyperindex,colorlinks}
+
+\include{psfig}
+
+\makeindex
+\newlength{\defbaselineskip}
+\setlength{\defbaselineskip}{\baselineskip}
+\newcommand{\setlinespacing}[1]%
+           {\setlength{\baselineskip}{#1 \defbaselineskip}}
+\newcommand{\doublespacing}{\setlength{\baselineskip}%
+                           {2.0 \defbaselineskip}}
+\newcommand{\singlespacing}{\setlength{\baselineskip}{\defbaselineskip}}
+
+\oddsidemargin 0 cm
+\evensidemargin 0 cm
+\topmargin 0 cm
+\voffset 0 mm
+\headsep 1 cm
+\textheight 8 in
+\textwidth 6.4 in
+\footskip 2 cm
+\parskip 4 mm
+\parindent 0 mm
+\columnsep 1 cm
+
+%\hyphenation{}
+
+\def\baselinestretch{1}
+\setlinespacing{1.5}
+
+\makeindex
+
+\begin{document}
+
+%\DeclareGraphicsExtensions{.eps,.jpg,.gif,.png,.bmp}
+
+%-----------------------------------------------------
+%    Titol del document
+%-----------------------------------------------------
+\title{Manual d'usuari i de manteniment\\Bioscena: Simulador d'entorns biològics evolutius}
+\author{
+David Garcia\\
+\href{mailto:vokimon@jet.es}{vokimon@jet.es}\\
+%\includegraphics{04069.jpg}
+}
+\date{\today}
+
+\maketitle
+\newpage
+
+%-----------------------------------------------------
+%   Index
+%-----------------------------------------------------
+\tableofcontents
+\newpage
+\listoffigures
+\newpage
+\listoftables
+\newpage
+% La linia de sota serveix per visualitzar l'efecte dels parametres
+% de pagina. Cal descomentar (o afegir) la linia \usepackage{layout}
+% a la capcalera
+%\layout*
+
+\setlinespacing{1.66}
+%\part{Introducció}
+\input{introduccio}
+\input{instalacio}
+\input{model}
+\input{operacio}
+\input{compilacio}
+\input{exemple}
+%\part{Model conceptual}
+\input{biotop}
+\input{agents}
+\input{organismes}
+\input{analisis}
+\input{biosistema}
+\input{instruccions}
+%\part{Implementació i manteniment}
+\input{tecnologia}
+\input{metodologia}
+\input{eines}
+\input{manteniment}
+%\part{Conclusions}
+\chapter{Conclusions i línies de futur}
+\input{conclusions}
+\input{todo}
+\appendix
+\input{configuracio}
+\addcontentsline{toc}{chapter}{Bibliografia}
+\input{bibliografia}
+\addcontentsline{toc}{chapter}{Índex Alfabètic}
+\printindex
+
+\end{document}

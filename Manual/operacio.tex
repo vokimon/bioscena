@@ -1,0 +1,242 @@
+% Time Log
+%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Operació normal}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{La pantalla}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Quan executem el programa, un cop carregats els fitxers de configuració,
+s'ens presenta una pantalla d'ajuda a la que podem tornar sempre que
+volguem prement 'H' i return. Aquesta pantalleta explica breument les
+comandes que hi ha. Per començar a executar la simulació premem return.
+
+El que es pot veure es una pantalla semblant a la de la figura 
+\ref{fig:pantalla1}. El de la esquerra és un mapa del món, el de la
+dreta és un gràfic comparatiu dels organismes que hi ha vius en cada 
+moment. De banda d'aquests dos elements, hi ha un indicadors del tamany
+de la població, el temps transcorregut i les coordenades de la posició
+de la cantonada superior esquerra del mapa.
+
+\begin{figure}[ht]
+\fbox{\pdfimage width 6in {pantalla1.png}}
+\label{fig:pantalla1}
+\caption{Pantalla Mapa/Comparativa}
+\end{figure}
+
+Per entrar qualsevol comanda, podem entrar una tecla, en aquest moment
+ens sortirar un prompt {\tt Comanda:} que ens permet visualitzar i
+corregir la nostra entrada. Un cop feta premem return i s'executarà.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{El mapa del món}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+El mapa representa dues coses:
+
+\begin{itemize}
+\item Els organismes, representats per números de colors. Un número i
+un color diferencien cada grup reproductiu (espècie).
+\item La quantitat de nutrients en cada posició, representada per un 
+punt de color. Per ordre de magnitud, els colors són: negre(0), vermell(1),
+verd(2), taronja(3), blau fosc(4), lila(5), cyan(6) i blanc fosc(7).
+\end{itemize}
+
+Si el món representat és més petit que la zona del mapa, aquest es
+repetirà en forma de mosaic, la qual cosa ajuda a veure les conexions
+de la superfície toroidal.
+Si és més gran, podem fer servir el teclat per veure les altres zones
+en direcció nord(W), sud (S), est(D) i oest(A). La lletra en minúscula
+avança una posició, en majúscula avança una pantalla sencera.
+
+L'indicador de coordenades ajuda a saber on som.
+
+Per desactivar el mapa i deixar més espai pels altres elements gràfics
+cal premer a la 'M' majúscula i retorn. Per tornar-ho a activar es prem
+la 'm' minúscula.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{El gràfic comparatiu d'organismes}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+En quant al grafic conparatiu, representa per a cada organisme
+\begin{itemize}
+\item l'energia (amb el símbol '\verb"*"'), 
+\item l'edat (el símbol '\verb"-"'), i 
+\item el grup reproductiu (espècie), amb la mateixa codificació que el mapa
+\end{itemize}
+
+L'escala que es fa servir per l'energia i l'edat es logarítmica o 
+linial segons s'hagi configurat. Per defecte, és logarítmica per 
+tots dos valors.
+
+El factor d'escala de les gràfiques és dinàmic, això vol dir que
+canvia a mesura que el valor màxim creix o decreix.
+Per tenir una referència, la banda de color verda que apareix al
+gràfic representa el valor 255 per la edat i, la taronja, 65535.
+
+Cada organisme té durant la seva vida un lloc fixe al gràfic, que
+es correspon amb un número en base octal que l'identifica. 
+El numero que es trova a la primera filera de números és el digit
+octal de menys pes, el color indica el segon. Podem veure un
+organisme per dins prement la 'v' i escrivint el seu codi octal.
+
+Quan un lloc en la gràfica ja no està ocupat per cap organisme, 
+s'indica amb una {\tt X}.
+
+Per desactivar la comparativa d'organismes i deixar més espai pels
+altres elements gràfics cal premer a la 'O' majúscula i retorn. 
+Per tornar-ho a activar es prem la 'o' minúscula.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{El gràfic comparatiu de grups reproductius}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+El gràfic comparatiu de grups reproductius no es veu quan comença
+el programa donat que comparteix la zona en la pantalla amb el 
+gràfic comparatiu d'organismes.
+
+Per activar la comparativa de grups reproductius, cal prémer 't' i retorn.
+Per desactivar-ho i deixar més espai pels altres elements gràfics cal
+premer a la 'T' majúscula i retorn.
+
+Els grups reproductius estan ordenats al gràfic per antiguitat.
+Generalment la part final del gràfic l'ocupen grups reproductius
+que encara no estan consolidats i que segurament desapareixeran.
+
+La gràfica reflecteix altres dos dades una és el nombre total 
+d'organismes del grup reproductiu que han existit al llarg de la 
+simulació, i l'altre dada és el nombre tota d'organismes que són
+vius en aquell moment donat.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Detall de les accions}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Per veure un log amb el detall de les accions que es produeixen al 
+biosistema, cal prèmer la tecla 'l' minúscula. Per treure el log,
+cal prèmer la 'L' majúscula.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Pas de visualtització}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+La visualizació enlenteix molt el sistema, si es vol anar més ràpid
+es pot saltar un nombre de intervals de temps determinats. Per indicar
+un pas de visualització més relaxat cal prèmer la 'j' i després el 
+número de passos que ens volem saltar entre visualització i 
+visualització.
+
+A les proves, s'ha pogut comprovar que, en un Pentium II, un pas de 10 
+fa que els moviments dels organismes semblin més naturals. Un pas de 
+100 no et permet veure en detall qué és el que passa però, és suficient
+per advertir a temps els canvis bruscos que es donen sovint en la 
+població.
+
+Cal recordar que les unitats de temps que es calculen són les de 
+simulació, i poden durar més o menys segons el tamany de la població.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Important i exportant biosistemes}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Les simulacions són molt llargues i sovint és molt útil poder reempendre
+una simulació interrompuda. S'ha implementat un mecanisme senzill 
+d'exportació i importació de biosistemes que permet fer-ho.
+
+Si en un punt de l'execució escrivim al prompt {\tt Xmimundo.bio}
+{\tt Bioscena} escriurà un arxiu anomenat {\tt mimundo.bio}
+amb tot el contingut actual del sistema amb excepció dels paràmetres 
+de configuració i els agents.
+
+Si en una darrera execució volem recuperar aquest estat només
+cal fer {\tt xmimundo.bio} amb la 'x' en minúscula.
+
+Aquest sistema és provisional i té un parell de deficiències.
+Els paràmetres de configuració i l'estat dels agents, no estan
+inclosos en el sistema de serialització. Una incoherència entre
+els paràmetres del sistema guardat i els paràmetres actuals, 
+pot provocar errors. Es recomana mantenir una còpia del fitxer
+{\tt bioscena.ini} amb els paràmetres del biosistema exportat.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Visualitzant, important i exportant organismes}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Com que la interfície és molt primitiva, és una mica complex referenciar
+els organismes. Un organisme es referencia amb la seva posició en la 
+comunitat. 
+Per poder deduir aquesta posició de forma més ràpida a partir de la
+informació que dona la gràfica comparativa d'organismes, es codifica
+la posició en notació octal.
+
+Per exemple, imaginem que volem visualitzar l'ultim organisme que apareix
+a la grafica comparativa que surt a la figura \ref{fig:pantalla1}
+identificat amb un 7 gris.
+El 7 ens dona el primer dígit octal, el gris ens indica que el segon
+dígit és un zero, segons la relació de colors: gris(0), vermell(1),
+verd(2), groc(3), blau(4), magenta(5), cyan(6) i blanc(7).
+
+Com pertany al quart grup de color gris del gràfic, la resta de 
+dígits és un 3 (el primer grup es zero).
+Així doncs aquest organisme té un identificador octal {\tt 307}.
+
+Per obtindre més informació sobre aquest organisme concret cal posar
+al prompt {\tt v307}
+
+Una altra funcionalitat molt útil de cara a l'experimentació és
+la possibilitat d'aïllar un organismes pel seu anàlisis o per 
+introduir-lo en un altre biosistema.
+
+Si s'escriu al prompt {\tt C12mibicho.org} estem exportant l'organisme
+que ocupa la posició octal 12 en la comunitat cap a l'arxiu {\tt mibicho.org}.
+
+Per recuperar-ho en aquest o altre biosistema s'escriu {\tt cmibicho.org}
+amb la {\tt c} en minúscula.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Modificant la configuració durant la simulació}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+El que es troben el organismes al medi al llarg del temps de simulació
+ve determinat pels fitxers de configuració {\tt agents.ini} (agents 
+ambientals).
+
+A vegades, és complex programar una configuració d'agents per fer que 
+variï molt al llarg del temps. Pot resultar més fàcil modificar-ho
+quan ho necessitem, carregant un arxiu de configuració d'agents amb un
+contingut diferent en mig de l'execució.
+
+La tecla {\tt r} recarrega el fitxer de configuració d'agents 
+{\tt agents.ini} i {\tt R}, en majúscules, carrega el fitxer de 
+configuració d'agents que s'indiqui a continuació.
+Si no s'especifica cap o un d'erroni, donarà un error i es continuarà
+sense cap agent que actui sobre el biosistema. Això és molt útil per
+simular un cataclisme o una crisis, doncs desapareixen tots els agents 
+que diposisten nutrients.
+
+La forma d'actuar recomanada es tenir un arxiu {\tt agents.ini} amb
+una situació normal, i diversos arxius amb configuracions d'agents 
+que implementin situacións excepcionals.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Altres comandes}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{tabular}{lp{6in}}
+p & Congela el biosistema, permetent fer altres operacions sense que
+    la situació canviï \\
+P & Descongela el biosistema \\
+e & Fa que els grups reproductius de pare i fill siguin diferents en fer una mutació \\
+E & Fa que els grups reproductius de pare i fill siguin iguals encara que hi hagi una mutació \\
+H/h & Presenta la pantalla d'ajut \\
+Q/q & Surt del programa \\
+\end{tabular}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

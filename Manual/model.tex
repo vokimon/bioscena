@@ -1,0 +1,176 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Model conceptual}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Diagrama de blocs}
+\label{sec:moduls}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+El sistema consta de diversos elements principals, representats a 
+l'esquema \ref{fig:EsquemaConceptual}, cadascun, amb unes funcions 
+determinades dintre del sistema.
+
+\unitlength 1mm
+\begin{figure}[ht]
+    \centering
+    \fbox{\pdfimage{moduls.png}}
+\caption{Esquema conceptual del sistema}
+\label{fig:EsquemaConceptual}
+\end{figure}
+
+
+\begin{description}
+
+\index{biosistema}
+\item[Biosistema:] És l'objecte coordinador de la resta
+d'elements. Les seves funcions són:
+\begin{enumerate}
+\item Multiplexar l'execució concurrent dels diferents organismes. 
+\item Demanar als organismes les instruccions que volen executar.
+\item Realitzar les accions sobre la resta d'elements del sistema
+que aquestes instruccions requereixin.
+\item Mantenir dintre d'uns mínims la població de la comunitat 
+introduint nous organismes quan aquesta baixa.
+\item Accionar els agents ambientals encarregats de variar el medi
+al llarg del temps.
+\end{enumerate}
+
+\index{topologia} 
+\item[Topologia:] Determina la geometria del medi on viuen els
+organismes. Les seves funcions són:
+\begin{enumerate}
+\item Associar un identificador numèric a cada posició dins del substrat
+\item Establir interconexions entre les parceles de substrat
+\item Determinar moviments, direccions, camins... i tota l'operativa
+que té a veure amb la geometria (topologia) del medi segons aquestes
+interconexions.
+\item Proporcionar l'accés, mitjançant l'identificador de posició, a
+les propietats del medi en aquesta posició.
+\end{enumerate}
+
+\index{substrat} 
+\item[Substrat:] Determina les propietats del medi en 
+una posició donada. Les seves funcions són:
+\begin{enumerate}
+\item Determinar si la posició l'ocupa un organisme i, en cas afirmatiu,
+quin és l'organisme ocupant.
+\item Contenir els nutrients lliures al medi.
+\item Altres característiques associades a la localitat que es 
+vulguin afegir més endavant.
+%TODO: Posar altres funcions del Substrat si apareixen
+\end{enumerate}
+
+\index{agent ambiental}
+\item[Agents Ambientals:] Determinen l'evolució 
+de certs paràmetres (posició, composició, probabilitat, estacionalitat...) 
+que intervenen  en les propietats dels elements del sistema al llarg del
+temps. Les seves aplicacions són:
+\begin{enumerate}
+\item Afegir o eliminar els nutrients lliures del medi de forma controlada.
+\item Generar expontàniament organismes (no implementat encara).
+\item Mutar els organismes depenent de la posició (no implementat encara).
+%% TODO: Posar altres funcions dels Agents si apareixen
+\end{enumerate}
+
+\index{comunitat} 
+\item[Comunitat:] Representa al conjunt d'organismes 
+que viuen al biòtop. La comunitat compleix amb les següents funcions.
+\begin{enumerate}
+\item Associar un identificador a cada organisme dintre de la comunitat
+\item Afegir-ne o extreure'n organismes.
+\item Mantenir la informació referent a l'organisme que el relaciona
+amb el seu entorn, com ara, la posició, el grup reproductiu al que
+pertany... (Informació externa de l'organisme).
+\item Proporcionar l'accés, mitjançant l'identificador d'organisme,
+tant a la informació externa com al propi organisme.
+%TODO: Posar altres funcions de la Comunitat si apareixen
+\end{enumerate}
+
+\index{organisme}
+\item[Organismes:] Representen als individus que 
+viuen al biosistema. Contenen la informació genètica i les estructures
+internes que els fan anar. Les seves funcions són:
+\begin{enumerate}
+\item Oferir instruccions al biosistema del que volen fer.
+\item Proporcionar al biosistema accés als registres de fenotip.
+\item Proporcionar al biosistema operacions per modificar el seu estat intern.
+\item Generar descendents.
+%TODO: Posar altres funcions del Organismes si apareixen
+\end{enumerate}
+
+\item[Taxonomista:] \index{taxonomista} Discrimina entre diferents 
+grups reproductius\index{grup reproductiu} a dins de la població i manté 
+informació sobre ells per facilitar l'anàlisis. Les seves funcions són:
+\begin{enumerate}
+\item Discriminar els diferents grups reproductius.
+\item Mantenir informació històrica sobre l'aparició de grups
+reproductius.
+\item Mantenir un cens de la població de cada grup reproductiu.
+\item Altres funcions d'anàlisi que es vulguin afegir en el futur,
+per exemple, per esbrinar la dieta o els agressors normals de cada 
+grup reproductiu.
+%TODO: Posar altres funcions del Taxonomista si apareixen
+\end{enumerate}
+
+\end{description}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Funcionament}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Un cop identificats els diferents elements, s'explica a continuació
+un resum de com funciona el sistema.
+
+El món implementat és una matriu de caselles amb les vores 
+conectades formant un torus. A cada casella hi cap un organisme i 
+un nombre limitat de nutrients. Cada nutrient té un número associat 
+que indica el seu tipus.
+
+\index{fenotip} 
+\index{sistema de control} 
+El sistema de control dels organismes es basa en l'execució 
+condicional de seqüències d'instruccions. Cada seqüència 
+d'instruccions s'executa, o no, depenent del contingut actual 
+d'uns registres fenotípics que té cada organisme.
+El biosistema modifica aquests registres en executar les instruccions
+la qual cosa permet realimentar el sistema de control.
+
+\index{nutrients}
+\index{nutrients!tipus de}
+Cada organisme té un pap on acumula nutrients. Els pot fer reaccionar
+químicament per obtindre energia o nutrients de diferent tipus.
+També pot expulsar-los fora del seu cos.
+
+\index{sensors}
+Un organisme pot detectar a un altre organisme tot mirant el 
+contingut dels registres fenotípics. Pot detectar nutrients del seu 
+entorn o identificar els nutrients del pap. 
+Aquestes accions sensorials modifiquen el contingut dels registres 
+fenotípics propis amb informació que pot fer-se servir en posteriors 
+instruccions.
+
+\index{transcripció}
+\index{mitosi}
+\index{cariotip}
+El sistema de control d'un organisme es transcriu a partir del
+seu cariotip (conjunt de cromosomes). Els organismes es reprodueixen
+mitjançant la instrucció de mitosi. Durant la mitosi hi ha una
+certa probabilitat de que el cariotip muti en copiar-se al fill.
+El fill es porta part dels nutrients i l'energia del pare.
+Durant la mitosi, el pare escriu una primera dada a un dels 
+registres de fenotip del fill.
+
+Aquesta petita explicació hauria de ser suficient per entendre
+qué està pasant a la simulació.
+El comportament descrit, es pot modificar tot reconfigurant el 
+sistema o modificant el codi font, però, per fer-ho s'aconsella 
+llegir els capítols que parlen més a fons del model per configurar-ho
+o els capítols que parlen de la implementació per modificar el codi. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+

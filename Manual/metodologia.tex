@@ -1,0 +1,210 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Metodologia d'implementació i estil de programació}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Aquest capítol està orientat a les persones que vulguin fer 
+modificacions del sistema. Descriu la metodologia d'implementacio i 
+l'estil de programació. És molt aconsellable seguir aquestes
+directrius.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Registre de canvis}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Cada arxiu d'implementació, porta a l'inici un registre dels canvis
+que s'anat fent al fitxer (Change Log). Cada entrada d'aquest 
+registre porta la data, un indicador de l'autor de la modificació i
+una breu explicació d'una o dos línies, suficient per deduir en què
+consisteix i a quins llocs afecta.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Registre de coses pendents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+El control de les coses pendents (informalment, {\em TODO's}) 
+resulta molt important per no deixar qüestions deslligades, donada la 
+quantitat de coses que cal tenir presents durant la implementació.
+
+Per tenir-ne constància de les coses que s'han anat deixant pendents,
+s'han anat mantenint registres a tres punts diferents:
+\begin{itemize}
+\item Les coses pendents que han d'anar a un punt concret a dins
+del codi s'indiquen al mateix lloc on caldrà afegir-ho. S'indica amb 
+un comentari d'una sola línia que comença amb:
+\begin{verbatim}
+  // TODO:
+\end{verbatim}
+El text del comentari ha de ser suficientment explicatiu, perquè no 
+es necessiti veure'l en el seu context per entendre'l. Tot això es
+fa així perquè es pugui obtindre un extracte de totes les 
+modificacions pendents d'aquest tipus només executant la comanda:
+\begin{verbatim}
+  grep -n TODO *.h *.cpp *.c 
+\end{verbatim}
+\item A l'inici del fitxer d'implementació, a continuació del {\em 
+Change Log}, es posen els canvis pendents que afectan al mòdul en 
+general i que no es puguin localitzar a cap lloc en concret dins
+del codi.
+\item En un fitxer a part anomenat {\tt TODO.txt}, s'han anat 
+recopilant i actualitzant periòdicament els canvis pendents que 
+persisteixen d'entre els anteriors i alguns altres que afecten a
+diversos mòduls o a mòduls que encara no s'han construït.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Control de versions}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Cada cop que es compila, es genera de forma automatitzada una 
+entrada a un log de compilacions amb la data i el número de 
+compilació. Al mateix temps es modifica un arxiu font per tal
+que aquest número de compilació i la data estiguin disponibles
+per al programa.
+
+Això ens permetrà saber, donat un executable, fins a quin punt està
+actualitzat, i amb els {\em Change Logs} quines característiques
+inclou. El registre de compilacions facilitarà, a més, una millor
+aproximació del temps d'implementació.
+
+El registre de compilacions el manté el programa {\tt buildnum}
+el codi font del qual està disponible al comprimit. Cal cridar-lo
+cada cop que intentem compilar el programa.
+
+El programa modifica els fitxers {\tt build.h} i {\tt buildlog.txt}.
+El primer és la informació que s'inclou al programa. El segon fitxer
+és el registre de compilacions.
+
+Per accedir a la informació de l'aplicació, inclosa la que hi ha al
+{\tt build.h}, és aconsellable la utilització de la classe {\tt CAppInfo}.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Fitxers}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Tot i que la intenció inicial era mantenir per a cada classe un 
+fitxer de prototipus i un altre d'implementació, l'ús massiu de les 
+classes ha obligat a fusionar algunes classes en el mateix parell de 
+fitxers.
+
+Això sí, només s'ha fussionat en un fitxer classes molt intimament
+lligades com ara subclasses d'una mateixa classe abstracta factoria 
+en els casos en els que el codi que aportava cada subclasse era molt 
+poc i molt uniforme.
+
+En aquests casos, la classe abstracta factoria té el seu propi fitxer 
+de prototipus de cara a que els seus clients el puguin incloure sense 
+que interfereixi l'existència de les subclasses. La resta s'ha agrupat
+en un o més.
+
+Generalment el fitxer de la classe abstracta té el nom de la classe
+en singular i el de les classes derivades en plural. Fent servir
+un exemple típic, el fitxer {\tt Persona.h} contindria el prototipus 
+de la classe abstracta {\tt CPersona}, i el fitxer {\tt Persones.h} 
+podria contenir les especialitzacions de la classe {\tt CClient} i 
+{\tt CEmpleat} sempre que aquestes classes no afegissin mètodes
+adicionals al protocol públic de {\tt CPersona}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Criteris de nomenclatura d'identificadors}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+En molts, casos s'han adoptat alguns criteris que es fan servir en 
+la programació d'Smalltalk.
+
+En general, els identificadors que representen diverses paraules hem
+adoptat el criteri de fer servir les majúscules per separar-les en
+comptes del símbol de subratllat com és costum entre alguns 
+programadors de C. Així doncs, farem servir {\tt unIdentificadorLlarg}
+en comptes de {\tt un\_identificador\_llarg}.
+
+Els identificadors de les funcions, mètodes de classe (estàtics en 
+nomenclatura C) i objectes globals, els hem començat preferentment 
+per una majúscula. També els noms de les classes i els {\tt namespace}'s. 
+
+La primera paraula dels altres identificadors (dades locals o membres, 
+funcions membres no estàtiques...) he adoptat el conveni de començar-la
+en minúscula.
+
+També he pres alguns convenis estesos en la programació per a
+windows. Per exemple:
+\begin{itemize}
+\item Preposem una {\tt C} majúscula als identificadors de les classes: {\tt CComunitat}
+\item Preposem {\tt m\_} als identificadors de dades membres no estàtiques: {\tt m\_unaVariableMembre}
+\item Preposem {\tt s\_} als identificadors de dades membres estàtiques: {\tt s\_unaVariableEstàtica}
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Proves unitàries de classe}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Cada classe té una funció membre estàtica anomenada {\tt ProvaClasse}
+on es deixa tota la bateria de proves unitàries que s'han fet sobre
+la classe, per, en cas de modificacions, tornar-les a passar.
+
+Els mòduls que no estiguin encapsulats en classes també tindran una
+funció similar. Generalment per ortogonalitat i per no interferir
+en l'espai de noms, la funció de proves del mòdul es posa a dins
+d'un {\tt namespace} sinò hi està posat ja tot el mòdul.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Funcions dels comentaris al codi}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Els comentaris dels fitxers estan tipificats segons la seva 
+funcionalitat. De banda dels que es fan servir per les funcions
+ja explicades (Change Log i TODO's), tenim altres funcionalitats:
+
+\begin{description}
+\item [Comentaris de mòdul:] Serveixen per explicar qué va al mòdul
+que encapçalen i si hi ha alguna consideració global que fer en 
+usar-lo o mantenir-lo. Es troben a l'inici del fitxer, juntament
+amb el Change Log i els TODO globals pel mòdul.
+\item [Comentaris de secció:] Separen visualment les diferents 
+seccions d'un mòdul. Tots els mòduls estan dividits d'una forma
+molt semblant i cada divisió es troba, generalment en el mateix
+ordre per tal de trobar fàcilment les funcions. Exemples de seccions 
+comunes són: Inicialització de variables estàtiques, 
+Construcció/destrucció, Mètodes redefinibles a les subclasses, 
+Operacions (de diferents tipus), Proves...
+Es distingeixen visualment per estar envoltats per un parell de
+línies a dalt i a baix com el següent exemple:
+
+{\setlinespacing{1}
+\begin{verbatim}
+/////////////////////////////////////////////////////////////////////
+// Nom de la secció
+/////////////////////////////////////////////////////////////////////
+\end{verbatim}
+}
+\item [Comentaris d'encapçalament:] Es troben just després de 
+l'encapçalament d'una funció o mètode i just abans de que s'obrin
+els claudàtors del seu cos. Aquests comentaris van adreçats als 
+usuaris potencials de la funció i explica qué és el que fa 
+evitant qualsevol menció als detalls d'implementació. Si cal indicar, 
+precondicions o postcondicions es farà aquí, dedicant, a cadascuna, 
+una linia que vindrà precedida de les partícules {\tt Pre:} o 
+{\tt Post:} segons convingui.
+
+{\setlinespacing{1}
+\begin{verbatim}
+int unaFuncio (int param1, it param2)
+// Comentari d'encapçalament
+// Pre: Precondició
+// Post: Postcondició
+{
+     ...
+}\end{verbatim}
+}
+\item [Comentaris de manteniment:] Aquests comentaris es troben 
+al cos de la funció o mètode (entre els claudàtors), parlen de 
+detalls d'implementació i estan adreçats als mantenidors.
+\end{description}
+
+
