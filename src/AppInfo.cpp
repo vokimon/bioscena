@@ -20,23 +20,23 @@ CAppInfo::CAppInfo(char *name, unsigned int major, unsigned int minor,
 	m_enterprise=enterprise;
 	m_buildDate=buildDate;
 	m_buildNumber=buildNumber;
-	printOn(out);
-}
-/////////////////////////////////////////////////////////////////////
-// Operacions
-/////////////////////////////////////////////////////////////////////
-template<class output> void CAppInfo::printOn (output& sortida)
-{
-	sortida << "\n" << m_name << " v" << m_major << "." << m_minor;
-	sortida << " Build 0x" << setfill('0') << setw(4) << hex;
-	sortida << m_buildNumber <<" - " << m_buildDate <<endl;
-	sortida << setfill('0') << setw(0) << dec;
-	sortida << "Copyright (c) 1998 "<<m_designer<<"/"<<m_enterprise<<endl<<endl;
+	out << *this;
 }
 
 /////////////////////////////////////////////////////////////////////
-// Operacions
+// Amigues
+/////////////////////////////////////////////////////////////////////
+ostream &operator<<(ostream& stream, CAppInfo &info)
+{
+	stream << info.m_name << " v" << info.m_major << "." << info.m_minor;
+	stream << " Build 0x" << setfill('0') << setw(4) << hex;
+	stream << info.m_buildNumber <<" - " << info.m_buildDate <<endl;
+	stream << setfill('0') << setw(0) << dec;
+	stream << "Copyright (c) 1998 "<<info.m_designer<<"/"<<info.m_enterprise<<endl;
+}
+
+/////////////////////////////////////////////////////////////////////
+// 
 /////////////////////////////////////////////////////////////////////
 CAppInfo CAppInfo::MyAppInfo("Bioscena",1,1,"Vokimon","KKEPerians UNLTD",BuildNumber,BuildDate);
-
 
