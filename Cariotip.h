@@ -40,6 +40,7 @@ protected:
 	t_cromosomes m_cromosomes;
 // Proves
 public:
+	bool muta();
 	static void ProvaClasse(void);	
 // Implementacio
 private:

@@ -69,11 +69,12 @@ void CComunitat::dumpEnergies(CMissatger & msg)
 {
 	using AnsiCodes::gotoxy;
 	using AnsiCodes::clrlin;
-	for (uint32 fil=32; fil<43; ++fil)
+	uint32 col;
+	for (uint32 fil=32; fil<44; ++fil)
 	{
 		msg << gotoxy(fil,1) << blanc.fons(blanc) << clrlin;
 	}
-	for (uint32 col=0; col<79 && col<m_organismes.size(); col++)
+	for (col=0; col<79 && col<m_organismes.size(); col++)
 	{
 		msg << CColor(1+(col>>3)&7).brillant();
 		if ((*this)[col].cos()) 
@@ -86,6 +87,17 @@ void CComunitat::dumpEnergies(CMissatger & msg)
 		else 
 			msg << gotoxy(42, col+1) << 'X';
 		msg << gotoxy(43, col+1) << (col&7);
+	}
+	for (col=0; col<79 && col<m_organismes.size(); col++)
+	{
+		if ((*this)[col].cos()) {
+			msg << negre.fons(1+(m_organismes[col].taxo()>>3)&7)
+				<< gotoxy(44, col+1) 
+				<< (m_organismes[col].taxo()&7);
+		}
+		else
+			msg << blanc.fons(negre)
+			    << gotoxy(44, col+1) << " ";
 	}
 	msg << blanc.fosc();
 }

@@ -6,6 +6,7 @@
 #define __KKEP_GENOTIP_H_INCLUDED
 
 #include "BioIncludes.h"
+#include "Gen.h"
 #include "Cariotip.h"
 
 class CGenotip
@@ -21,6 +22,7 @@ public:
 public:
 	bool init(CCariotip& c);
 	uint32 m_genActual;
+	vector<CGen> m_gens;
 };
 
 #endif // !defined(__KKEP_GENOTIP_H_INCLUDED)

@@ -27,6 +27,9 @@
 
 class CItinerari : public CPosicionador
 {
+// Tipus interns
+public:
+	typedef CPosicionador inherited;
 // Construccio/Destruccio
 public:
 	CItinerari(tipus_biotop & biotop);
@@ -57,6 +60,9 @@ public:
 
 class CPosicionadorZonal : public CPosicionador
 {
+// Tipus interns
+public:
+	typedef CPosicionador inherited;
 // Construccio/Destruccio
 public:
 	CPosicionadorZonal(tipus_biotop & biotop);
@@ -87,6 +93,9 @@ public:
 
 class CPosicionadorAleatori : public CPosicionador
 {
+// Tipus interns
+public:
+	typedef CPosicionador inherited;
 // Construccio/Destruccio
 public:
 	CPosicionadorAleatori(tipus_biotop & biotop);
@@ -104,6 +113,9 @@ public:
 
 class CDireccionadorAleatori : public CDireccionador
 {
+// Tipus interns
+public:
+	typedef CDireccionador inherited;
 // Construccio/Destruccio
 public:
 	CDireccionadorAleatori(tipus_biotop & biotop);

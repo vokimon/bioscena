@@ -4,6 +4,7 @@
 // TODO:
 //////////////////////////////////////////////////////////////////////
 
+#include <fstream>
 #include "Biosistema.h"
 #include "Agent.h"
 #include "TopologiaToroidal.h"
@@ -80,34 +81,40 @@ void CBiosistema::operator ( )()
 		eliminaOrganismeActiu();
 		canviaOrganismeActiu();
 	}
+
 //	out << blanc.fosc() << "Actual " << oct << m_idOrganismeActiu << "      " << endl;
-	uint32 instr = (*m_comunitat)[m_idOrganismeActiu].cos()->seguentInstruccio() & 0xF;
-	logAccio << oct << setfill('0') << setw(3) << m_idOrganismeActiu << "." << dec << setw(3) << (*m_comunitat)[m_idOrganismeActiu].subidentificador() << setfill('0') << ".";
-	switch (instr) {
-	case 1:
-	case 5:
+
+	uint32 taxo = (*m_comunitat)[m_idOrganismeActiu].taxo();
+	logAccio 
+		<< setfill('0') 
+		<< setw(3) << (*m_comunitat)[m_idOrganismeActiu].subidentificador() << "-" 
+		<< (m_idOrganismeActiu>>6) << CColor(1+((m_idOrganismeActiu&070)>>3)).brillant() << (m_idOrganismeActiu&07) << blanc.fosc() << " " 
+		<< (taxo>>6) << negre.fons(1+((taxo&070)>>3)) << (taxo&7) << blanc.fosc() << " "
+		<< setfill(' ');
+
+	uint32 instr = (*m_comunitat)[m_idOrganismeActiu].cos()->seguentInstruccio();
+	uint32 param1 = (instr>>3)&07;
+	uint32 param2 = (instr>>6)&07;
+	uint32 param3 = (instr>>9)&07;
+	uint32 param4 = (instr>>12)&07;
+
+	switch (instr & 0x7) {
+	case 0x1:
 		bUtil = organismeAvanca(rnd.get(), rnd.get(), rnd.get());
 		break;
-	case 3:
-	case 9:
-	case 6:
-	case 11:
-	case 12:
-	case 13:
-	case 14:
-		bUtil = organismeEngoleix(rnd.get(), rnd.get(0,3), rnd.get(0,3));
+	case 0x2:
+	case 0x7:
+		bUtil = organismeAtaca(rnd.get(), param1&3, param2&3,  param3, rnd.get());
 		break;
-	case 8:
-	case 4:
-//		bUtil = organismeExcreta(rnd.get(), rnd.get(0,3), rnd.get(0,3));
-//		break;
-	case 10:
-	case 2:
-	case 15:
-		bUtil = organismeAtaca(rnd.get(), rnd.get(0,3), rnd.get(0,3),  rnd.get(0,6), rnd.get());
+	case 0x3:
+	case 0x0:
+	case 0x6:
+		bUtil = organismeEngoleix(rnd.get(), param1&3, param2&3);
 		break;
-	case 7:
-	case 0:
+	case 0x4:
+		bUtil = organismeExcreta(rnd.get(), param1&3, param2&3);
+		break;
+	case 0x5:
 		bUtil = organismeMitosi(rnd.get(), rnd.get());
 		break;
 	default:
@@ -141,7 +148,11 @@ bool CBiosistema::organismeExpontani()
 {
 	uint32 pos = m_biotop->posicioAleatoria();
 	if ((*m_biotop)[pos].esOcupat()) return false;
-	uint32 taxo = rnd.get(1,9); // TODO: Cal canviar aixo, quan tinguem taxonomista
+	// TODO: Cal canviar aixo, quan tinguem taxonomista
+	static uint32 ultimTaxo=1;
+//	ultimTaxo &= 077;
+	if (!(ultimTaxo&070)) ultimTaxo+=8;
+	uint32 taxo = ultimTaxo++;
 	COrganisme * org = new COrganisme;
 	if (!org) {
 		error << "Fallo la memoria ocupando un organismo";
@@ -151,6 +162,11 @@ bool CBiosistema::organismeExpontani()
 	uint32 id = m_comunitat->introdueix(org, pos, taxo);
 	(*m_biotop)[pos].ocupa(id);
 	logAccio << verd.brillant() << "Generat expontaneament: " << oct << id << dec << blanc.fosc() << endl;
+	ofstream logCromo("Cromosomes",ios::out|ios::app);
+	CColorOutputer unaSortida(logCromo);
+	CMissatger msg (NULL, NULL, unaSortida);
+	msg << "Ancestre " << oct << taxo << dec << endl;
+	org->m_cariotip.dump(msg);
 	return true;
 }
 
@@ -160,6 +176,7 @@ bool CBiosistema::eliminaOrganismeActiu()
 	uint32 taxo = m_infoOrganismeActiu->taxo();
 	// TODO: Cal eliminar el taxo
 	(*m_biotop)[pos].desocupa();
+	(*m_comunitat)[m_idOrganismeActiu].taxo(0);
 	m_comunitat->extreu(m_idOrganismeActiu);
 	logAccio << blau.brillant() << "Defuncio de l'organisme " << oct << m_idOrganismeActiu << dec << blanc.fosc() << endl;
 	return true;
@@ -235,7 +252,7 @@ bool CBiosistema::organismeMitosi(uint32 desp, uint32 energia)
 		return false; // Error: Ja hi ha penya a la posicio, no la podem ocupar
 	}
 	// TODO: Cridar al constructor de 'copia' o mitosi millor dit
-	COrganisme * nouOrganisme = new COrganisme;
+	COrganisme * nouOrganisme = new COrganisme(m_organismeActiu->m_cariotip);
 	if (!nouOrganisme) {
 		logAccio << verd.brillant() << "Falta memoria" << blanc.fosc() << endl;
 		cin.get();
@@ -245,6 +262,7 @@ bool CBiosistema::organismeMitosi(uint32 desp, uint32 energia)
 	uint32 taxo = m_infoOrganismeActiu->taxo(); 
 	uint32 id = m_comunitat->introdueix(nouOrganisme, posDesti, taxo);
 	substratDesti.ocupa(id);
+	m_organismeActiu->m_cariotip.muta();
 	m_organismeActiu->consumeix(15);
 	logAccio << verd.brillant() << "Nascut " << oct << id << dec << blanc.fosc() << endl;
 	// TODO: Logs
@@ -295,7 +313,7 @@ bool CBiosistema::organismeAtaca(uint32 desp, uint32 elementBase, uint32 toleran
 		logAccio << vermell.brillant() << oct << idOrganismeAtacat << dec << " no te " << hex << elementBase << "(" << tolerancia << ")" << dec << blanc.fosc() << endl;
 		return false;
 	}
-	logAccio << groc.brillant() << "Extrec " << elements.size() << " nutrients a " << idOrganismeAtacat << blanc.fosc() << endl;
+	logAccio << groc.brillant() << "N'extrec " << elements.size() << " a " << idOrganismeAtacat << blanc.fosc() << endl;
 	// TODO: Logs
 	while (elements.size()) {
 		m_organismeActiu->engoleix(elements.front());

@@ -29,6 +29,7 @@ class CTopologiaToroidal : public CTopologia<Cella>
 {
 // Tipus interns
 public:
+	typedef CTopologia<Cella> inherited;
 	typedef CTopologia<Cella>::t_posicio t_posicio;
 	typedef CTopologia<Cella>::t_desplacament t_desplacament;
 // Contruccio/Destruccio

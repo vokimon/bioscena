@@ -66,6 +66,7 @@ CLEAN :
 	-@erase "$(INTDIR)\FuncioAgent.obj"
 	-@erase "$(INTDIR)\Gen.obj"
 	-@erase "$(INTDIR)\GeneradorMascares.obj"
+	-@erase "$(INTDIR)\Genotip.obj"
 	-@erase "$(INTDIR)\InfoOrganisme.obj"
 	-@erase "$(INTDIR)\Iterador.obj"
 	-@erase "$(INTDIR)\Itineraris.obj"
@@ -120,6 +121,7 @@ LINK32_OBJS= \
 	"$(INTDIR)\FuncioAgent.obj" \
 	"$(INTDIR)\Gen.obj" \
 	"$(INTDIR)\GeneradorMascares.obj" \
+	"$(INTDIR)\Genotip.obj" \
 	"$(INTDIR)\InfoOrganisme.obj" \
 	"$(INTDIR)\Iterador.obj" \
 	"$(INTDIR)\Itineraris.obj" \
@@ -152,84 +154,51 @@ OutDir=.\Debug
 
 !IF "$(RECURSE)" == "0" 
 
-ALL : "$(OUTDIR)\Bioscena.exe" "$(OUTDIR)\Bioscena.bsc"
+ALL : "$(OUTDIR)\Bioscena.exe"
 
 !ELSE 
 
-ALL : "$(OUTDIR)\Bioscena.exe" "$(OUTDIR)\Bioscena.bsc"
+ALL : "$(OUTDIR)\Bioscena.exe"
 
 !ENDIF 
 
 CLEAN :
 	-@erase "$(INTDIR)\Actuador.obj"
-	-@erase "$(INTDIR)\Actuador.sbr"
 	-@erase "$(INTDIR)\Actuadors.obj"
-	-@erase "$(INTDIR)\Actuadors.sbr"
 	-@erase "$(INTDIR)\Agent.obj"
-	-@erase "$(INTDIR)\Agent.sbr"
 	-@erase "$(INTDIR)\Aleaturitzador.obj"
-	-@erase "$(INTDIR)\Aleaturitzador.sbr"
 	-@erase "$(INTDIR)\AppInfo.obj"
-	-@erase "$(INTDIR)\AppInfo.sbr"
 	-@erase "$(INTDIR)\Biosistema.obj"
-	-@erase "$(INTDIR)\Biosistema.sbr"
 	-@erase "$(INTDIR)\Cariotip.obj"
-	-@erase "$(INTDIR)\Cariotip.sbr"
 	-@erase "$(INTDIR)\Color.obj"
-	-@erase "$(INTDIR)\Color.sbr"
 	-@erase "$(INTDIR)\Compatibilitat.obj"
-	-@erase "$(INTDIR)\Compatibilitat.sbr"
 	-@erase "$(INTDIR)\Comunitat.obj"
-	-@erase "$(INTDIR)\Comunitat.sbr"
 	-@erase "$(INTDIR)\Configuracio.obj"
-	-@erase "$(INTDIR)\Configuracio.sbr"
 	-@erase "$(INTDIR)\Cromosoma.obj"
-	-@erase "$(INTDIR)\Cromosoma.sbr"
 	-@erase "$(INTDIR)\Detector.obj"
-	-@erase "$(INTDIR)\Detector.sbr"
 	-@erase "$(INTDIR)\EnergiaDisipable.obj"
-	-@erase "$(INTDIR)\EnergiaDisipable.sbr"
 	-@erase "$(INTDIR)\FuncioAgent.obj"
-	-@erase "$(INTDIR)\FuncioAgent.sbr"
 	-@erase "$(INTDIR)\Gen.obj"
-	-@erase "$(INTDIR)\Gen.sbr"
 	-@erase "$(INTDIR)\GeneradorMascares.obj"
-	-@erase "$(INTDIR)\GeneradorMascares.sbr"
+	-@erase "$(INTDIR)\Genotip.obj"
 	-@erase "$(INTDIR)\InfoOrganisme.obj"
-	-@erase "$(INTDIR)\InfoOrganisme.sbr"
 	-@erase "$(INTDIR)\Iterador.obj"
-	-@erase "$(INTDIR)\Iterador.sbr"
 	-@erase "$(INTDIR)\Itineraris.obj"
-	-@erase "$(INTDIR)\Itineraris.sbr"
 	-@erase "$(INTDIR)\MainBio1.obj"
-	-@erase "$(INTDIR)\MainBio1.sbr"
 	-@erase "$(INTDIR)\Missatger.obj"
-	-@erase "$(INTDIR)\Missatger.sbr"
 	-@erase "$(INTDIR)\MultiAgent.obj"
-	-@erase "$(INTDIR)\MultiAgent.sbr"
 	-@erase "$(INTDIR)\MutacioCariotip.obj"
-	-@erase "$(INTDIR)\MutacioCariotip.sbr"
 	-@erase "$(INTDIR)\MutacioGenica.obj"
-	-@erase "$(INTDIR)\MutacioGenica.sbr"
 	-@erase "$(INTDIR)\Organisme.obj"
-	-@erase "$(INTDIR)\Organisme.sbr"
 	-@erase "$(INTDIR)\Outputer.obj"
-	-@erase "$(INTDIR)\Outputer.sbr"
 	-@erase "$(INTDIR)\Posicionador.obj"
-	-@erase "$(INTDIR)\Posicionador.sbr"
 	-@erase "$(INTDIR)\RandomStream.obj"
-	-@erase "$(INTDIR)\RandomStream.sbr"
 	-@erase "$(INTDIR)\Substrat.obj"
-	-@erase "$(INTDIR)\Substrat.sbr"
 	-@erase "$(INTDIR)\Temporitzador.obj"
-	-@erase "$(INTDIR)\Temporitzador.sbr"
 	-@erase "$(INTDIR)\Topologia.obj"
-	-@erase "$(INTDIR)\Topologia.sbr"
 	-@erase "$(INTDIR)\TopologiaToroidal.obj"
-	-@erase "$(INTDIR)\TopologiaToroidal.sbr"
 	-@erase "$(INTDIR)\vc50.idb"
 	-@erase "$(INTDIR)\vc50.pdb"
-	-@erase "$(OUTDIR)\Bioscena.bsc"
 	-@erase "$(OUTDIR)\Bioscena.exe"
 	-@erase "$(OUTDIR)\Bioscena.ilk"
 	-@erase "$(OUTDIR)\Bioscena.pdb"
@@ -237,57 +206,19 @@ CLEAN :
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
-CPP_PROJ=/G6 /MLd /W3 /Gm /Gi /GX /Zi /Od /Ob2 /D "WIN32" /D "_DEBUG" /D\
- "_CONSOLE" /D "_MBCS" /FR"$(INTDIR)\\" /Fp"$(INTDIR)\Bioscena.pch" /YX\
- /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
+CPP_PROJ=/nologo /MLd /W3 /Gm /GX /Zi /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE"\
+ /D "_MBCS" /Fp"$(INTDIR)\Bioscena.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"\
+ /FD /c 
 CPP_OBJS=.\Debug/
-CPP_SBRS=.\Debug/
+CPP_SBRS=.
 BSC32=bscmake.exe
 BSC32_FLAGS=/nologo /o"$(OUTDIR)\Bioscena.bsc" 
 BSC32_SBRS= \
-	"$(INTDIR)\Actuador.sbr" \
-	"$(INTDIR)\Actuadors.sbr" \
-	"$(INTDIR)\Agent.sbr" \
-	"$(INTDIR)\Aleaturitzador.sbr" \
-	"$(INTDIR)\AppInfo.sbr" \
-	"$(INTDIR)\Biosistema.sbr" \
-	"$(INTDIR)\Cariotip.sbr" \
-	"$(INTDIR)\Color.sbr" \
-	"$(INTDIR)\Compatibilitat.sbr" \
-	"$(INTDIR)\Comunitat.sbr" \
-	"$(INTDIR)\Configuracio.sbr" \
-	"$(INTDIR)\Cromosoma.sbr" \
-	"$(INTDIR)\Detector.sbr" \
-	"$(INTDIR)\EnergiaDisipable.sbr" \
-	"$(INTDIR)\FuncioAgent.sbr" \
-	"$(INTDIR)\Gen.sbr" \
-	"$(INTDIR)\GeneradorMascares.sbr" \
-	"$(INTDIR)\InfoOrganisme.sbr" \
-	"$(INTDIR)\Iterador.sbr" \
-	"$(INTDIR)\Itineraris.sbr" \
-	"$(INTDIR)\MainBio1.sbr" \
-	"$(INTDIR)\Missatger.sbr" \
-	"$(INTDIR)\MultiAgent.sbr" \
-	"$(INTDIR)\MutacioCariotip.sbr" \
-	"$(INTDIR)\MutacioGenica.sbr" \
-	"$(INTDIR)\Organisme.sbr" \
-	"$(INTDIR)\Outputer.sbr" \
-	"$(INTDIR)\Posicionador.sbr" \
-	"$(INTDIR)\RandomStream.sbr" \
-	"$(INTDIR)\Substrat.sbr" \
-	"$(INTDIR)\Temporitzador.sbr" \
-	"$(INTDIR)\Topologia.sbr" \
-	"$(INTDIR)\TopologiaToroidal.sbr"
-
-"$(OUTDIR)\Bioscena.bsc" : "$(OUTDIR)" $(BSC32_SBRS)
-    $(BSC32) @<<
-  $(BSC32_FLAGS) $(BSC32_SBRS)
-<<
-
+	
 LINK32=link.exe
 LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib\
  advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib\
- odbccp32.lib /nologo /subsystem:console /incremental:yes\
+ odbccp32.lib /nologo /subsystem:console /verbose /incremental:yes\
  /pdb:"$(OUTDIR)\Bioscena.pdb" /debug /machine:I386\
  /out:"$(OUTDIR)\Bioscena.exe" /pdbtype:sept 
 LINK32_OBJS= \
@@ -308,6 +239,7 @@ LINK32_OBJS= \
 	"$(INTDIR)\FuncioAgent.obj" \
 	"$(INTDIR)\Gen.obj" \
 	"$(INTDIR)\GeneradorMascares.obj" \
+	"$(INTDIR)\Genotip.obj" \
 	"$(INTDIR)\InfoOrganisme.obj" \
 	"$(INTDIR)\Iterador.obj" \
 	"$(INTDIR)\Itineraris.obj" \
@@ -373,6 +305,7 @@ DEP_CPP_ACTUA=\
 	".\Actuador.h"\
 	".\Agent.h"\
 	".\BioIncludes.h"\
+	".\Color.h"\
 	".\Missatger.h"\
 	".\Outputer.h"\
 	".\Portable.h"\
@@ -391,6 +324,7 @@ DEP_CPP_ACTUA=\
 	".\Actuador.h"\
 	".\Agent.h"\
 	".\BioIncludes.h"\
+	".\Color.h"\
 	".\Missatger.h"\
 	".\Outputer.h"\
 	".\Portable.h"\
@@ -400,8 +334,7 @@ DEP_CPP_ACTUA=\
 	".\Topologia.h"\
 	
 
-"$(INTDIR)\Actuador.obj"	"$(INTDIR)\Actuador.sbr" : $(SOURCE) $(DEP_CPP_ACTUA)\
- "$(INTDIR)"
+"$(INTDIR)\Actuador.obj" : $(SOURCE) $(DEP_CPP_ACTUA) "$(INTDIR)"
 
 
 !ENDIF 
@@ -455,8 +388,7 @@ DEP_CPP_ACTUAD=\
 	".\TopologiaToroidal.h"\
 	
 
-"$(INTDIR)\Actuadors.obj"	"$(INTDIR)\Actuadors.sbr" : $(SOURCE)\
- $(DEP_CPP_ACTUAD) "$(INTDIR)"
+"$(INTDIR)\Actuadors.obj" : $(SOURCE) $(DEP_CPP_ACTUAD) "$(INTDIR)"
 
 
 !ENDIF 
@@ -512,8 +444,7 @@ DEP_CPP_AGENT=\
 	".\TopologiaToroidal.h"\
 	
 
-"$(INTDIR)\Agent.obj"	"$(INTDIR)\Agent.sbr" : $(SOURCE) $(DEP_CPP_AGENT)\
- "$(INTDIR)"
+"$(INTDIR)\Agent.obj" : $(SOURCE) $(DEP_CPP_AGENT) "$(INTDIR)"
 
 
 !ENDIF 
@@ -557,8 +488,7 @@ DEP_CPP_ALEAT=\
 	".\Topologia.h"\
 	
 
-"$(INTDIR)\Aleaturitzador.obj"	"$(INTDIR)\Aleaturitzador.sbr" : $(SOURCE)\
- $(DEP_CPP_ALEAT) "$(INTDIR)"
+"$(INTDIR)\Aleaturitzador.obj" : $(SOURCE) $(DEP_CPP_ALEAT) "$(INTDIR)"
 
 
 !ENDIF 
@@ -586,13 +516,43 @@ DEP_CPP_APPIN=\
 	".\Outputer.h"\
 	
 
-"$(INTDIR)\AppInfo.obj"	"$(INTDIR)\AppInfo.sbr" : $(SOURCE) $(DEP_CPP_APPIN)\
- "$(INTDIR)"
+"$(INTDIR)\AppInfo.obj" : $(SOURCE) $(DEP_CPP_APPIN) "$(INTDIR)"
 
 
 !ENDIF 
 
 SOURCE=.\Biosistema.cpp
+
+!IF  "$(CFG)" == "Bioscena - Win32 Release"
+
+DEP_CPP_BIOSI=\
+	".\Agent.h"\
+	".\BioIncludes.h"\
+	".\Biosistema.h"\
+	".\Cariotip.h"\
+	".\Color.h"\
+	".\Comunitat.h"\
+	".\Configuracio.h"\
+	".\Cromosoma.h"\
+	".\EnergiaDisipable.h"\
+	".\Gen.h"\
+	".\Genotip.h"\
+	".\InfoOrganisme.h"\
+	".\Missatger.h"\
+	".\Organisme.h"\
+	".\Outputer.h"\
+	".\Portable.h"\
+	".\RandomStream.h"\
+	".\Substrat.h"\
+	".\Topologia.h"\
+	".\TopologiaToroidal.h"\
+	
+
+"$(INTDIR)\Biosistema.obj" : $(SOURCE) $(DEP_CPP_BIOSI) "$(INTDIR)"
+
+
+!ELSEIF  "$(CFG)" == "Bioscena - Win32 Debug"
+
 DEP_CPP_BIOSI=\
 	".\Agent.h"\
 	".\BioIncludes.h"\
@@ -614,17 +574,7 @@ DEP_CPP_BIOSI=\
 	".\TopologiaToroidal.h"\
 	
 
-!IF  "$(CFG)" == "Bioscena - Win32 Release"
-
-
 "$(INTDIR)\Biosistema.obj" : $(SOURCE) $(DEP_CPP_BIOSI) "$(INTDIR)"
-
-
-!ELSEIF  "$(CFG)" == "Bioscena - Win32 Debug"
-
-
-"$(INTDIR)\Biosistema.obj"	"$(INTDIR)\Biosistema.sbr" : $(SOURCE)\
- $(DEP_CPP_BIOSI) "$(INTDIR)"
 
 
 !ENDIF 
@@ -660,8 +610,7 @@ DEP_CPP_CARIO=\
 	".\RandomStream.h"\
 	
 
-"$(INTDIR)\Cariotip.obj"	"$(INTDIR)\Cariotip.sbr" : $(SOURCE) $(DEP_CPP_CARIO)\
- "$(INTDIR)"
+"$(INTDIR)\Cariotip.obj" : $(SOURCE) $(DEP_CPP_CARIO) "$(INTDIR)"
 
 
 !ENDIF 
@@ -691,8 +640,7 @@ DEP_CPP_COLOR=\
 	".\Portable.h"\
 	
 
-"$(INTDIR)\Color.obj"	"$(INTDIR)\Color.sbr" : $(SOURCE) $(DEP_CPP_COLOR)\
- "$(INTDIR)"
+"$(INTDIR)\Color.obj" : $(SOURCE) $(DEP_CPP_COLOR) "$(INTDIR)"
 
 
 !ENDIF 
@@ -726,13 +674,38 @@ DEP_CPP_COMPA=\
 	".\RandomStream.h"\
 	
 
-"$(INTDIR)\Compatibilitat.obj"	"$(INTDIR)\Compatibilitat.sbr" : $(SOURCE)\
- $(DEP_CPP_COMPA) "$(INTDIR)"
+"$(INTDIR)\Compatibilitat.obj" : $(SOURCE) $(DEP_CPP_COMPA) "$(INTDIR)"
 
 
 !ENDIF 
 
 SOURCE=.\Comunitat.cpp
+
+!IF  "$(CFG)" == "Bioscena - Win32 Release"
+
+DEP_CPP_COMUN=\
+	".\BioIncludes.h"\
+	".\Cariotip.h"\
+	".\Color.h"\
+	".\Comunitat.h"\
+	".\Configuracio.h"\
+	".\Cromosoma.h"\
+	".\EnergiaDisipable.h"\
+	".\Gen.h"\
+	".\Genotip.h"\
+	".\InfoOrganisme.h"\
+	".\Missatger.h"\
+	".\Organisme.h"\
+	".\Outputer.h"\
+	".\Portable.h"\
+	".\RandomStream.h"\
+	
+
+"$(INTDIR)\Comunitat.obj" : $(SOURCE) $(DEP_CPP_COMUN) "$(INTDIR)"
+
+
+!ELSEIF  "$(CFG)" == "Bioscena - Win32 Debug"
+
 DEP_CPP_COMUN=\
 	".\BioIncludes.h"\
 	".\Cariotip.h"\
@@ -749,17 +722,7 @@ DEP_CPP_COMUN=\
 	".\RandomStream.h"\
 	
 
-!IF  "$(CFG)" == "Bioscena - Win32 Release"
-
-
 "$(INTDIR)\Comunitat.obj" : $(SOURCE) $(DEP_CPP_COMUN) "$(INTDIR)"
-
-
-!ELSEIF  "$(CFG)" == "Bioscena - Win32 Debug"
-
-
-"$(INTDIR)\Comunitat.obj"	"$(INTDIR)\Comunitat.sbr" : $(SOURCE)\
- $(DEP_CPP_COMUN) "$(INTDIR)"
 
 
 !ENDIF 
@@ -789,8 +752,7 @@ DEP_CPP_CONFI=\
 	".\Portable.h"\
 	
 
-"$(INTDIR)\Configuracio.obj"	"$(INTDIR)\Configuracio.sbr" : $(SOURCE)\
- $(DEP_CPP_CONFI) "$(INTDIR)"
+"$(INTDIR)\Configuracio.obj" : $(SOURCE) $(DEP_CPP_CONFI) "$(INTDIR)"
 
 
 !ENDIF 
@@ -824,8 +786,7 @@ DEP_CPP_CROMO=\
 	".\RandomStream.h"\
 	
 
-"$(INTDIR)\Cromosoma.obj"	"$(INTDIR)\Cromosoma.sbr" : $(SOURCE)\
- $(DEP_CPP_CROMO) "$(INTDIR)"
+"$(INTDIR)\Cromosoma.obj" : $(SOURCE) $(DEP_CPP_CROMO) "$(INTDIR)"
 
 
 !ENDIF 
@@ -857,8 +818,7 @@ DEP_CPP_DETEC=\
 	".\Substrat.h"\
 	
 
-"$(INTDIR)\Detector.obj"	"$(INTDIR)\Detector.sbr" : $(SOURCE) $(DEP_CPP_DETEC)\
- "$(INTDIR)"
+"$(INTDIR)\Detector.obj" : $(SOURCE) $(DEP_CPP_DETEC) "$(INTDIR)"
 
 
 !ENDIF 
@@ -888,8 +848,7 @@ DEP_CPP_ENERG=\
 	".\Portable.h"\
 	
 
-"$(INTDIR)\EnergiaDisipable.obj"	"$(INTDIR)\EnergiaDisipable.sbr" : $(SOURCE)\
- $(DEP_CPP_ENERG) "$(INTDIR)"
+"$(INTDIR)\EnergiaDisipable.obj" : $(SOURCE) $(DEP_CPP_ENERG) "$(INTDIR)"
 
 
 !ENDIF 
@@ -929,8 +888,7 @@ DEP_CPP_FUNCI=\
 	".\Topologia.h"\
 	
 
-"$(INTDIR)\FuncioAgent.obj"	"$(INTDIR)\FuncioAgent.sbr" : $(SOURCE)\
- $(DEP_CPP_FUNCI) "$(INTDIR)"
+"$(INTDIR)\FuncioAgent.obj" : $(SOURCE) $(DEP_CPP_FUNCI) "$(INTDIR)"
 
 
 !ENDIF 
@@ -962,8 +920,7 @@ DEP_CPP_GEN_C=\
 	".\Portable.h"\
 	
 
-"$(INTDIR)\Gen.obj"	"$(INTDIR)\Gen.sbr" : $(SOURCE) $(DEP_CPP_GEN_C)\
- "$(INTDIR)"
+"$(INTDIR)\Gen.obj" : $(SOURCE) $(DEP_CPP_GEN_C) "$(INTDIR)"
 
 
 !ENDIF 
@@ -993,11 +950,26 @@ DEP_CPP_GENER=\
 	".\Portable.h"\
 	
 
-"$(INTDIR)\GeneradorMascares.obj"	"$(INTDIR)\GeneradorMascares.sbr" : $(SOURCE)\
- $(DEP_CPP_GENER) "$(INTDIR)"
+"$(INTDIR)\GeneradorMascares.obj" : $(SOURCE) $(DEP_CPP_GENER) "$(INTDIR)"
 
 
 !ENDIF 
+
+SOURCE=.\Genotip.cpp
+DEP_CPP_GENOT=\
+	".\BioIncludes.h"\
+	".\Cariotip.h"\
+	".\Cromosoma.h"\
+	".\Gen.h"\
+	".\Genotip.h"\
+	".\Missatger.h"\
+	".\Outputer.h"\
+	".\Portable.h"\
+	".\RandomStream.h"\
+	
+
+"$(INTDIR)\Genotip.obj" : $(SOURCE) $(DEP_CPP_GENOT) "$(INTDIR)"
+
 
 SOURCE=.\InfoOrganisme.cpp
 
@@ -1008,6 +980,8 @@ DEP_CPP_INFOO=\
 	".\Cariotip.h"\
 	".\Cromosoma.h"\
 	".\EnergiaDisipable.h"\
+	".\Gen.h"\
+	".\Genotip.h"\
 	".\InfoOrganisme.h"\
 	".\Missatger.h"\
 	".\Organisme.h"\
@@ -1032,8 +1006,7 @@ DEP_CPP_INFOO=\
 	".\Portable.h"\
 	
 
-"$(INTDIR)\InfoOrganisme.obj"	"$(INTDIR)\InfoOrganisme.sbr" : $(SOURCE)\
- $(DEP_CPP_INFOO) "$(INTDIR)"
+"$(INTDIR)\InfoOrganisme.obj" : $(SOURCE) $(DEP_CPP_INFOO) "$(INTDIR)"
 
 
 !ENDIF 
@@ -1077,8 +1050,7 @@ DEP_CPP_ITERA=\
 	".\Topologia.h"\
 	
 
-"$(INTDIR)\Iterador.obj"	"$(INTDIR)\Iterador.sbr" : $(SOURCE) $(DEP_CPP_ITERA)\
- "$(INTDIR)"
+"$(INTDIR)\Iterador.obj" : $(SOURCE) $(DEP_CPP_ITERA) "$(INTDIR)"
 
 
 !ENDIF 
@@ -1134,13 +1106,56 @@ DEP_CPP_ITINE=\
 	".\TopologiaToroidal.h"\
 	
 
-"$(INTDIR)\Itineraris.obj"	"$(INTDIR)\Itineraris.sbr" : $(SOURCE)\
- $(DEP_CPP_ITINE) "$(INTDIR)"
+"$(INTDIR)\Itineraris.obj" : $(SOURCE) $(DEP_CPP_ITINE) "$(INTDIR)"
 
 
 !ENDIF 
 
 SOURCE=.\MainBio1.cpp
+
+!IF  "$(CFG)" == "Bioscena - Win32 Release"
+
+DEP_CPP_MAINB=\
+	".\Actuador.h"\
+	".\Actuadors.h"\
+	".\Agent.h"\
+	".\Aleaturitzador.h"\
+	".\AppInfo.h"\
+	".\BioIncludes.h"\
+	".\Biosistema.h"\
+	".\Cariotip.h"\
+	".\Color.h"\
+	".\Compatibilitat.h"\
+	".\Comunitat.h"\
+	".\Cromosoma.h"\
+	".\EnergiaDisipable.h"\
+	".\FuncioAgent.h"\
+	".\Gen.h"\
+	".\GeneradorMascares.h"\
+	".\Genotip.h"\
+	".\InfoOrganisme.h"\
+	".\Iterador.h"\
+	".\Itineraris.h"\
+	".\Missatger.h"\
+	".\MultiAgent.h"\
+	".\MutacioCariotip.h"\
+	".\MutacioGenica.h"\
+	".\Organisme.h"\
+	".\Outputer.h"\
+	".\Portable.h"\
+	".\Posicionador.h"\
+	".\RandomStream.h"\
+	".\Substrat.h"\
+	".\Temporitzador.h"\
+	".\Topologia.h"\
+	".\TopologiaToroidal.h"\
+	
+
+"$(INTDIR)\MainBio1.obj" : $(SOURCE) $(DEP_CPP_MAINB) "$(INTDIR)"
+
+
+!ELSEIF  "$(CFG)" == "Bioscena - Win32 Debug"
+
 DEP_CPP_MAINB=\
 	".\Actuador.h"\
 	".\Actuadors.h"\
@@ -1175,17 +1190,7 @@ DEP_CPP_MAINB=\
 	".\TopologiaToroidal.h"\
 	
 
-!IF  "$(CFG)" == "Bioscena - Win32 Release"
-
-
 "$(INTDIR)\MainBio1.obj" : $(SOURCE) $(DEP_CPP_MAINB) "$(INTDIR)"
-
-
-!ELSEIF  "$(CFG)" == "Bioscena - Win32 Debug"
-
-
-"$(INTDIR)\MainBio1.obj"	"$(INTDIR)\MainBio1.sbr" : $(SOURCE) $(DEP_CPP_MAINB)\
- "$(INTDIR)"
 
 
 !ENDIF 
@@ -1196,20 +1201,8 @@ DEP_CPP_MISSA=\
 	".\Outputer.h"\
 	
 
-!IF  "$(CFG)" == "Bioscena - Win32 Release"
-
-
 "$(INTDIR)\Missatger.obj" : $(SOURCE) $(DEP_CPP_MISSA) "$(INTDIR)"
 
-
-!ELSEIF  "$(CFG)" == "Bioscena - Win32 Debug"
-
-
-"$(INTDIR)\Missatger.obj"	"$(INTDIR)\Missatger.sbr" : $(SOURCE)\
- $(DEP_CPP_MISSA) "$(INTDIR)"
-
-
-!ENDIF 
 
 SOURCE=.\MultiAgent.cpp
 
@@ -1260,8 +1253,7 @@ DEP_CPP_MULTI=\
 	".\TopologiaToroidal.h"\
 	
 
-"$(INTDIR)\MultiAgent.obj"	"$(INTDIR)\MultiAgent.sbr" : $(SOURCE)\
- $(DEP_CPP_MULTI) "$(INTDIR)"
+"$(INTDIR)\MultiAgent.obj" : $(SOURCE) $(DEP_CPP_MULTI) "$(INTDIR)"
 
 
 !ENDIF 
@@ -1299,8 +1291,7 @@ DEP_CPP_MUTAC=\
 	".\RandomStream.h"\
 	
 
-"$(INTDIR)\MutacioCariotip.obj"	"$(INTDIR)\MutacioCariotip.sbr" : $(SOURCE)\
- $(DEP_CPP_MUTAC) "$(INTDIR)"
+"$(INTDIR)\MutacioCariotip.obj" : $(SOURCE) $(DEP_CPP_MUTAC) "$(INTDIR)"
 
 
 !ENDIF 
@@ -1336,8 +1327,7 @@ DEP_CPP_MUTACI=\
 	".\RandomStream.h"\
 	
 
-"$(INTDIR)\MutacioGenica.obj"	"$(INTDIR)\MutacioGenica.sbr" : $(SOURCE)\
- $(DEP_CPP_MUTACI) "$(INTDIR)"
+"$(INTDIR)\MutacioGenica.obj" : $(SOURCE) $(DEP_CPP_MUTACI) "$(INTDIR)"
 
 
 !ENDIF 
@@ -1354,7 +1344,9 @@ DEP_CPP_ORGAN=\
 	".\Configuracio.h"\
 	".\Cromosoma.h"\
 	".\EnergiaDisipable.h"\
+	".\Gen.h"\
 	".\GeneradorMascares.h"\
+	".\Genotip.h"\
 	".\Missatger.h"\
 	".\Organisme.h"\
 	".\Outputer.h"\
@@ -1383,29 +1375,31 @@ DEP_CPP_ORGAN=\
 	".\RandomStream.h"\
 	
 
-"$(INTDIR)\Organisme.obj"	"$(INTDIR)\Organisme.sbr" : $(SOURCE)\
- $(DEP_CPP_ORGAN) "$(INTDIR)"
+"$(INTDIR)\Organisme.obj" : $(SOURCE) $(DEP_CPP_ORGAN) "$(INTDIR)"
 
 
 !ENDIF 
 
 SOURCE=.\Outputer.cpp
+
+!IF  "$(CFG)" == "Bioscena - Win32 Release"
+
 DEP_CPP_OUTPU=\
 	".\Color.h"\
 	".\Outputer.h"\
 	
-
-!IF  "$(CFG)" == "Bioscena - Win32 Release"
-
 
 "$(INTDIR)\Outputer.obj" : $(SOURCE) $(DEP_CPP_OUTPU) "$(INTDIR)"
 
 
 !ELSEIF  "$(CFG)" == "Bioscena - Win32 Debug"
 
+DEP_CPP_OUTPU=\
+	".\Color.h"\
+	".\Outputer.h"\
+	
 
-"$(INTDIR)\Outputer.obj"	"$(INTDIR)\Outputer.sbr" : $(SOURCE) $(DEP_CPP_OUTPU)\
- "$(INTDIR)"
+"$(INTDIR)\Outputer.obj" : $(SOURCE) $(DEP_CPP_OUTPU) "$(INTDIR)"
 
 
 !ENDIF 
@@ -1417,6 +1411,7 @@ SOURCE=.\Posicionador.cpp
 DEP_CPP_POSIC=\
 	".\Agent.h"\
 	".\BioIncludes.h"\
+	".\Color.h"\
 	".\Missatger.h"\
 	".\Outputer.h"\
 	".\Portable.h"\
@@ -1434,6 +1429,7 @@ DEP_CPP_POSIC=\
 DEP_CPP_POSIC=\
 	".\Agent.h"\
 	".\BioIncludes.h"\
+	".\Color.h"\
 	".\Missatger.h"\
 	".\Outputer.h"\
 	".\Portable.h"\
@@ -1443,8 +1439,7 @@ DEP_CPP_POSIC=\
 	".\Topologia.h"\
 	
 
-"$(INTDIR)\Posicionador.obj"	"$(INTDIR)\Posicionador.sbr" : $(SOURCE)\
- $(DEP_CPP_POSIC) "$(INTDIR)"
+"$(INTDIR)\Posicionador.obj" : $(SOURCE) $(DEP_CPP_POSIC) "$(INTDIR)"
 
 
 !ENDIF 
@@ -1474,8 +1469,7 @@ DEP_CPP_RANDO=\
 	".\RandomStream.h"\
 	
 
-"$(INTDIR)\RandomStream.obj"	"$(INTDIR)\RandomStream.sbr" : $(SOURCE)\
- $(DEP_CPP_RANDO) "$(INTDIR)"
+"$(INTDIR)\RandomStream.obj" : $(SOURCE) $(DEP_CPP_RANDO) "$(INTDIR)"
 
 
 !ENDIF 
@@ -1515,8 +1509,7 @@ DEP_CPP_SUBST=\
 	".\Substrat.h"\
 	
 
-"$(INTDIR)\Substrat.obj"	"$(INTDIR)\Substrat.sbr" : $(SOURCE) $(DEP_CPP_SUBST)\
- "$(INTDIR)"
+"$(INTDIR)\Substrat.obj" : $(SOURCE) $(DEP_CPP_SUBST) "$(INTDIR)"
 
 
 !ENDIF 
@@ -1560,8 +1553,7 @@ DEP_CPP_TEMPO=\
 	".\Topologia.h"\
 	
 
-"$(INTDIR)\Temporitzador.obj"	"$(INTDIR)\Temporitzador.sbr" : $(SOURCE)\
- $(DEP_CPP_TEMPO) "$(INTDIR)"
+"$(INTDIR)\Temporitzador.obj" : $(SOURCE) $(DEP_CPP_TEMPO) "$(INTDIR)"
 
 
 !ENDIF 
@@ -1572,6 +1564,7 @@ SOURCE=.\Topologia.cpp
 
 DEP_CPP_TOPOL=\
 	".\BioIncludes.h"\
+	".\Color.h"\
 	".\Missatger.h"\
 	".\Outputer.h"\
 	".\Portable.h"\
@@ -1586,6 +1579,7 @@ DEP_CPP_TOPOL=\
 
 DEP_CPP_TOPOL=\
 	".\BioIncludes.h"\
+	".\Color.h"\
 	".\Missatger.h"\
 	".\Outputer.h"\
 	".\Portable.h"\
@@ -1593,8 +1587,7 @@ DEP_CPP_TOPOL=\
 	".\Topologia.h"\
 	
 
-"$(INTDIR)\Topologia.obj"	"$(INTDIR)\Topologia.sbr" : $(SOURCE)\
- $(DEP_CPP_TOPOL) "$(INTDIR)"
+"$(INTDIR)\Topologia.obj" : $(SOURCE) $(DEP_CPP_TOPOL) "$(INTDIR)"
 
 
 !ENDIF 
@@ -1630,8 +1623,7 @@ DEP_CPP_TOPOLO=\
 	".\TopologiaToroidal.h"\
 	
 
-"$(INTDIR)\TopologiaToroidal.obj"	"$(INTDIR)\TopologiaToroidal.sbr" : $(SOURCE)\
- $(DEP_CPP_TOPOLO) "$(INTDIR)"
+"$(INTDIR)\TopologiaToroidal.obj" : $(SOURCE) $(DEP_CPP_TOPOLO) "$(INTDIR)"
 
 
 !ENDIF 

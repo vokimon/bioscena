@@ -124,7 +124,7 @@ bool CTemporitzador::configura(string parametre, istream & valor, t_diccionariAg
 		return true; // Parametre interceptat
 	}
 	// Li deixem a la superclasse que l'intercepti si vol
-	return CMultiAgent::configura(parametre, valor, diccionari, errors);
+	return inherited::configura(parametre, valor, diccionari, errors);
 }
 
 list<CAgent*> CTemporitzador::subordinats() {

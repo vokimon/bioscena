@@ -45,7 +45,7 @@ bool CPosicionador::configura(string parametre, istream & valor, t_diccionariAge
 		return true;
 	}
 	// Li deixem a la superclasse que l'intercepti si vol
-	return CAgent::configura(parametre, valor, diccionari, errors);
+	return inherited::configura(parametre, valor, diccionari, errors);
 }
 
 void CDireccionador::dump(CMissatger & msg)
@@ -65,7 +65,7 @@ bool CDireccionador::configura(string parametre, istream & valor, t_diccionariAg
 		return true;
 	}
 	// Li deixem a la superclasse que l'intercepti si vol
-	return CAgent::configura(parametre, valor, diccionari, errors);
+	return inherited::configura(parametre, valor, diccionari, errors);
 }
 
 //////////////////////////////////////////////////////////////////////

@@ -32,7 +32,9 @@
 
 class CPosicionador : public CAgent
 {
-// Tipus
+// Tipus interns
+public:
+	typedef CAgent inherited;
 	typedef CSubstrat tipus_substrat;
 	typedef CTopologia<tipus_substrat> tipus_biotop;
 	typedef uint32 tipus_posicio;
@@ -64,7 +66,9 @@ protected:
 
 class CDireccionador : public CAgent
 {
-// Tipus Propis
+// Tipus interns
+public:
+	typedef CAgent inherited;
 	typedef CSubstrat tipus_substrat;
 	typedef CTopologia<tipus_substrat> tipus_biotop;
 	typedef uint32 tipus_posicio;

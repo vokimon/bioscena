@@ -17,6 +17,9 @@
 
 class CNutridor : public CActuador
 {
+// Tipus interns
+public:
+	typedef CActuador inherited;
 // Construccio/Destruccio
 public:
 	CNutridor();
@@ -43,6 +46,9 @@ public:
 
 class CDesnutridor : public CNutridor
 {
+// Tipus interns
+public:
+	typedef CNutridor inherited;
 // Construccio/Destruccio
 public:
 	CDesnutridor();
