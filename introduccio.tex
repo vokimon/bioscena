@@ -20,13 +20,14 @@ característiques més o menys comunes. Les principals són:
 \begin{description}
 \item[Mètode sintètic:]
 En comptes d'analitzar la vida, sintetitzem artificialment sistemes
-amb un comportament similar partint de les premises que hem obtingut
-de l'analisis dels sistemes reals.
+amb un comportament similar partint de premises que obtingudes de
+l'analisis dels sistemes reals.
 
 \item[Construccio Botton-Up:]
-Es parteix de unitats petites les interaccions locals de les quals
-conformen globalment un comportament pel qual el sistema no estava
-explícitament dissenyat.
+Es parteix de unitats petites, definint les interaccions locals, en
+comptes de partir del compontament global desitjat i anar perfilant
+com han de ser els components. El comportament global del sistema és
+un comportament que no estava explícitament dissenyat.
 
 \item[Emergència:]
 El fet de que apareixin aquests comportaments globals no dissenyats
@@ -43,8 +44,8 @@ La complexitat dels sistemes vius es deguda, en part, a que els
 diferents processos es donen en paral·lel. Per fer això en els
 sistemes de vida artificial, tot i que no sempre sigui possible
 dedicar un processador a cada procés, sí que caldria fer servir
-tècniques de temps compartit, que, macroscòpicament, doni la
-impressió d'executar-se paral·lelament.
+tècniques de temps compartit, que, macroscòpicament, els diferents
+processos donin la impressió d'executar-se paral·lelament.
 \end{description}
 
 % TODO: Cap àmbit més pel projecte? De banda de l'Alife
@@ -114,7 +115,6 @@ més grans similars als organismes pluricel·lulars.
 Resumint la comparació entre els tres sistemes:
 
 \begin{tabular}{rl}
-
 Tierra&Sopa primigenia, organització cel·lular procariota\\
 
 Bioscena&Organismes unicel·lulars eucariotes no cognitius\\
@@ -228,7 +228,7 @@ concreta.
 implementar-ho):] Mantenen la variabilitat genètica de la
 descendència augmentant així la capacitat de canvi i adaptació.
 
-\item[Cariotip multicromosòmic]: Divideix la dotació gènica en
+\item[Cariotip multicromosòmic:] Divideix la dotació gènica en
 subunitats d'alt nivell que permeten traspasar divers material gènic
 de cop i possibilita les mutacions cromosòmiques que poden emergir en
 creuament.
@@ -237,3 +237,9 @@ creuament.
 \end{description}
 
 \section{Contingut de la memòria}
+
+%\catcode`\^^I = \active \def`\^^I{\hspace{1 cm}}
+\verbatiminput{Aleaturitzador.cpp}
+%\catcode`\^^I = 10
+
+

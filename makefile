@@ -1,9 +1,15 @@
 RM=del
-POSTSCRIPT=bioscena.ps
-DVI:=$(POSTSCRIPT:.ps=.dvi)
-PDF:=$(POSTSCRIPT:.ps=.pdf)
-MAINTEX:=$(POSTSCRIPT:.ps=.tex)
+MAINTEX:=bioscena.tex
+POSTSCRIPT=$(MAINTEX:.tex=.ps)
+DVI:=$(MAINTEX:.tex=.dvi)
+PDF:=$(MAINTEX:.tex=.pdf)
+HTML:=$(MAINTEX:.tex=.html)
 TEXSOURCES:= $(wildcard *.tex)
+BIBSOURCES:= $(wildcard *.bib)
+JPGSOURCES:= $(wildcard *.jpg)
+BOUNDINGBOXES:= $(JPGSOURCES:.jpg *.bb)
+
+all: copirrait ${POSTSCRIPT} ${PDF}  $(HTML)
 
 default: copirrait ${POSTSCRIPT}
 
@@ -11,8 +17,11 @@ pdf: copirrait ${PDF}
 
 ps: copirrait ${POSTSCRIPT}
 
+html: copirrait $(HTML)
+
 copirrait:
 	@echo KKEPerians UNLTD LaTeX makefile file 
+	buildnum
 
 clean: copirrait 
 	@echo --- Eliminant arxius intermedis
@@ -24,9 +33,12 @@ clean: copirrait
 ${POSTSCRIPT}: $(DVI)
 	@echo --- Generant postscript $@
 	dvips $(DVI) -z -o $(POSTSCRIPT)
-	buildnum
 
-$(DVI): $(TEXSOURCES)
+$(BOUNDINGBOXES) *.bb: *.jpg
+	@echo --- Generant Boundin Box per a $<
+	ebb $<
+
+$(DVI): $(TEXSOURCES) $(BOUNDINGBOXES)
 	@echo --- Compilant $<
 	latex $(MAINTEX)
 	latex $(MAINTEX)
@@ -36,6 +48,6 @@ $(PDF): $(TEXSOURCES)
 	@echo --- Compilant $<
 	pdflatex $(MAINTEX)
 	pdflatex $(MAINTEX)
-	buildnum
 
-
+$(HTML): $(TEXSOURCES)
+	tth -L <$(MAINTEX) >$@

@@ -1,7 +1,7 @@
   <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
            "http://www.w3.org/TR/REC-html40/loose.dtd"><HTML>
 <META NAME="GENERATOR" CONTENT="TtH 2.00">
-                                                                 
+                                                                  [1]           
 <title> Bioscena\\Simulació d'un sistema biològic evolutiu amb interacció entre els individuus</title>
  
 <H1 align=center>Bioscena<br>Simulació d'un sistema biològic evolutiu amb interacció entre els individuus </H1>
@@ -9,32 +9,28 @@
 <H3 align=center>
 David Garcia<br>
 <a href="mailto:vokimon@jet.es">vokimon@jet.es</a><br>
-<a href="04069.jpg">Figure</a> </H3>
+ </H3>
 
-<H3 align=center>Sep 04, 1999
+<H3 align=center>Sep 07, 1999
   </H3>
-
-<p>
-<A NAME="TODO">
-</A>*
 
 <p>
         <H2><A NAME="tth_sEc0.1">
 0.1</A>&nbsp;&nbsp;Abstract</H2>
 
 <p>
-Aquest projecte planteja la simulació d'un sistema biològic 
+Aquest projecte planteja la simulació d'un sistema biològic
 natural evolutiu amb interacció entre els organismes dins
-d'un medi de variabilitat controlada. 
-Es tracta de reproduir comportaments naturals o lògics en 
-individuus mitjançant el procés evolutiu. 
-Es vol estudiar si el fet d'acostar un algorisme genètic al 
-procés real natural tenint més en compte aspectes biològics i 
+d'un medi de variabilitat controlada.
+Es tracta de reproduir comportaments naturals o lògics en
+individuus mitjançant el procés evolutiu.
+Es vol estudiar si el fet d'acostar un algorisme genètic al
+procés real natural tenint més en compte aspectes biològics i
 naturals dona una major adaptabilitat a un medi variable.
 
 <p>
-La part pràctica consisteix en la implementació d'un prototip que 
-permeti a l'usuari veure les relacions que s'estableixen entre els 
+La part pràctica consisteix en la implementació d'un prototip que
+permeti a l'usuari veure les relacions que s'estableixen entre els
 individuus al llarg del procés evolutiu.
 
 <p>
@@ -43,20 +39,26 @@ individuus al llarg del procés evolutiu.
 
 <p>
 L'objectiu del present treball de fi de carrera és implementar una
-eina d'estudi d'aplicació als camps de la biologia i la vida artificial
-que permeti a un usuari configurar, analitzar e intervindre en la 
-dinàmica d'un sistema biològic evolutiu simulat amb interacció
-entre organismes i entre cada organisme i el medi variable.
+eina d'estudi ampliable, d'aplicació als camps de la biologia i la
+vida artificial que permeti a un usuari configurar, analitzar e
+intervindre en la dinàmica d'un sistema biològic evolutiu simulat amb
+interacció entre organismes i entre cada organisme i el medi
+variable.
 
 <p>
-Per això, primer s'estudiaran els processos naturals tant evolutius 
-com ecològics, i es triaran aquells que són més susceptibles de èsser
-implementats i que afegeixen més realisme al model.
+Per això, primer s'estudiaran els processos naturals (evolutius,
+etològics i ecològics), i es triaran aquells que siguin més
+susceptibles de èsser implementats i que afegeixin més realisme i
+generalitat al model. Hi haurà processos que s'implementaran
+directament al model, d'altres que s'espera que emergeixin. Tot i
+així, cal que considerem també els processos emergents de cara a fer
+el model per fer possible que els organismes els adoptin i detectar
+quan i com ho fan.
 
 <p>
-L'aplicació proveirà eines de configuració i intervenció perque 
-l'usuari pugui controlar la forma en que varia el medi i, així,
-poder contrastar els resultats obtinguts.
+L'aplicació proveirà eines de configuració i intervenció perque
+l'usuari pugui controlar la forma en que varia el medi i, així, poder
+contrastar-ho amb els resultats obtinguts.
 
 <p>
 També s'implementaran eines d'anàlisis per tal de que es puguin
@@ -64,7 +66,10 @@ detectar els fenòmens que en l'estudi previ dels processos naturals
 es considerin interesants.
 
 <p>
-El sistema
+El sistema ha de ser prou flexible per permetre l'experimentació amb
+configuracions prou variades. A més, cal donar a l'usuari programador
+l'espai necessari per modificar algun aspecte concret del model o
+ampliar les opcions donades, tot modificant el codi font.
 
 <p>
  <br><H1>Part 1   <br>Introducció</H1><br>
@@ -75,71 +80,293 @@ Chapter 1     </A><br>Introducció al projecte</H1>
 
 <p>
         <H2><A NAME="tth_sEc1.1">
-1.1</A>&nbsp;&nbsp;Objectius</H2>
+1.1</A>&nbsp;&nbsp;Àmbit del projecte</H2>
 
 <p>
-L'objectiu del present treball de fi de carrera és implementar una
-eina educativa d'aplicació als camps de la biologia i la vida artificial
-que permeti a un usuari configurar, analitzar e intervindre en la 
-dinàmica d'un sistema biològic evolutiu simulat amb interacció
-entre organismes i entre cada organisme i el medi variable.
+Aquest projecte és dins de l'àmbit de la vida artificial
+(Artificial Life), disciplina que recull coneixements
+d'informàtica i biologia per recrear fenòmens biològics en un
+entorn artificial.
 
 <p>
-Les eines d'analisis divideixen la comunitat en poblacions, i analitzen les
-diferents interaccions que s'hi produeixen.
-Les eines de configuració i intervenció serveixen per controlar la forma
-en que canvia aquest medi, de forma que, els resultats obtinguts amb les
-eines d'analisis siguin confrontables i els usuaris puguin extreure
-conclusions.
+Aquesta disciplina va sorgir de cara a la biologia com a camp de
+proves alternatiu a la vida real, però, les aplicacions van
+extenent-se, per exemple, aportant noves perspectives a l'analisis,
+simulació i predicció de sistemes complexos no biològics i a
+algorismes per la resolució de problemes als sistemes informàtics.
 
 <p>
-Els organismes de la simulació han de fer front a un medi variable, amb
-canvis caòtics o periòdics que es poden produir freqüentment al llarg de
-la vida d'un organisme o de forma progressiva en el decurs de diverses
-generacions. Amb la finalitat de que la comunitat tingui capacitat de
-reaccionar davant de tots aquests canvis, s'incorporen, als mecanismes
-evolutius que intervenen en la simulació, algunes característiques que
-es donen en els entorns evolutius naturals i que, clàssicament, no
-s'incorporen en els entorns evolutius computacionals
+Les aplicacions de la vida artificial tenen un seguit de
+característiques més o menys comunes. Les principals són:
 
 <p>
-És objectiu del projecte fer un analisis general dels processos 
-naturals per triar quins s'implementaran al model.
+
+<DL compact><dt><b>Mètode sintètic:</b></dt>
+	<dd>
+En comptes d'analitzar la vida, sintetitzem artificialment sistemes
+amb un comportament similar partint de premises que obtingudes de
+l'analisis dels sistemes reals.
 
 <p>
-Les característiques naturals introduïdes a l'entorn evolutiu són:
+<dt><b>Construccio Botton-Up:</b></dt>
+	<dd>
+Es parteix de unitats petites, definint les interaccions locals, en
+comptes de partir del compontament global desitjat i anar perfilant
+com han de ser els components. El comportament global del sistema és
+un comportament que no estava explícitament dissenyat.
 
 <p>
-- Mecanismes d'expressió gènica (transcripció, maduració i
-traducció): utils per implementar les altres caracteristiques
+<dt><b>Emergència:</b></dt>
+	<dd>
+El fet de que apareixin aquests comportaments globals no dissenyats
+explícitament a partir d'un entramat complex d'interacions simples
+s'anomena emergència.
 
 <p>
-- Regulació sobre l'expressió gènica: Control dels gens que es
-transcriuen segons la presencia o no d'alguns factors. Ajuda a
-adaptar-se, sense la utilitzacio d'un sistema cognitiu, a canvis en el
-medi tan esporadics que el procés evolutiu no els soporti.
+<dt><b>No lligat als sistemes reals:</b></dt>
+	<dd>
+Donat el seu caracter sintètic la vida no es limita a la vida
+coneguda sinó que prova de extreure propietats generals per a
+qualsevol forma de vida possible.
 
 <p>
-- Promotor/teminador, zones no codificadores i longitud de cromosoma
-variable: Permet solucions obertes no parametritzades (Nombre i longitud
-variable pels gens)
-
-<p>
-- Parametres del proces evolutiu codificats parcialment al genotip: Ens
-permetra tenir uns parametres optimitzats per a cada situacio concreta.
-
-<p>
-- Genotips no haploides i al·lels (Encara he de considerar si
-implementar-ho): Mantenen la variabilitat genetica de la descendencia
-augmentant aixi la capacitat de canvi i adaptació.
-
-<p>
-- Cariotip multicromosòmic (Encara ho he de considerar, segurament no ho
-posi)
-
+<dt><b>Paral·lelisme implícit:</b></dt>
+	<dd>
+La complexitat dels sistemes vius es deguda, en part, a que els
+diferents processos es donen en paral·lel. Per fer això en els
+sistemes de vida artificial, tot i que no sempre sigui possible
+dedicar un processador a cada procés, sí que caldria fer servir
+tècniques de temps compartit, que, macroscòpicament, els diferents
+processos donin la impressió d'executar-se paral·lelament.
+</DL>
 <p>
         <H2><A NAME="tth_sEc1.2">
-1.2</A>&nbsp;&nbsp;Contingut de la memòria</H2>
+1.2</A>&nbsp;&nbsp;Antecedents</H2>
+
+<p>
+Concretament, l'objectiu del present treball de fi de carrera és
+implementar una eina d'estudi i experimentació amb aplicació als
+camps de la biologia i la vida artificial que permeti a un usuari
+configurar, analitzar e intervindre en la dinàmica d'un sistema
+biològic evolutiu simulat amb interaccions organisme-organisme i
+organisme-medi.
+
+<p>
+Dels treballs que s'han fet sobre vida artificial, cal destacar,
+com a precedents, per la seva relació amb aquest projecte, els
+següents:
+
+<p>
+
+<UL>
+<li> El projecte `Tierra' que encapçala Thomas S. Ray []
+un biòleg que va aplicar els seus coneixements de genètica i de
+ecologia i els va traduir a un medi informàtic on petites porcions de
+codi competien per la memòria i el temps del processador per replicar
+els seus gens.
+
+<li> Les experiències que Richard K. Beleg i Filippo Menezer van fer
+sobre el model Latent Energy Environments (LEE). LEE és un model
+que es basa en l'evolució de sistemes cognitius interaccionen amb
+un medi químic de complexitat controlada. El més remarcable
+d'aquest projecte, de banda de les diverses conclusions que n'han
+anat treient en diferents estudis, és, per un costat, la
+integració d'algorismes evolutius i xarxes neuronals, i, d'altre,
+el fet de basar-se en un model metabòlic.
+</UL>
+<p>
+Bioscena moltes idees dels LEE, com es veurà en la resta de la
+memòria, però, a diferència d'aquests, no pretén simular organismes
+amb comportaments cognitius, sinò organismes amb comportaments
+reactius. La diferència principal radica en que els comportaments
+reactius estan controlats principalment pel codi genétic i
+l'interacció <em>química</em> amb el medi que s'en deriva i, els
+comportaments cognitius estan controlats principalment per un sistema
+nerviós central i un procés d'aprenentatge.
+
+<p>
+Per modelar el comportament dels organismes de Bioscena, es fan
+servir rafagues d'instruccions que formen el genotip de forma
+semblant a com funcionava `Tierra'. La diferència important és que, a
+`Tierra', el conjunt d'instruccions feien de genotip, medi i fenotip,
+tot alhora, i en Bioscena la idea és separar el conjunt
+d'instruccions del medi i tant medi com genotip actuaran sobre el
+fenotip.
+
+<p>
+
+<p><A NAME="tth_fIg1.1">
+</A> <p>La simulació suposa, per a totes les decisions de disseny on sigui
+necessari que els organismes són unicel·lulars. Aquesta suposició no
+vol dir que els resultats siguin aplicables només a aquest tipus
+d'organisme, però, facilita el disseny, donat que el model d'un
+organisme pluricel·lular és molt complexe. A més hi ha la
+possibilitat, si el medi fós suficientment ampli, de que l'evolució
+portés als organismes unicel·lulars a formar estructures cooperatives
+més grans similars als organismes pluricel·lulars.
+
+<p>
+Resumint la comparació entre els tres sistemes:
+
+<p>
+
+<table>
+<tr><td align="right">Tierra</td><td>Sopa primigenia, organització cel·lular procariota</td>
+<tr><td align="right">Bioscena</td><td>Organismes unicel·lulars eucariotes no cognitius</td>
+<tr><td align="right">LEE's</td><td>Organismes cognitius, model d'alt nivell</td></td></table>
+
+
+<p>
+        <H2><A NAME="tth_sEc1.3">
+1.3</A>&nbsp;&nbsp;Objectius del projecte</H2>
+
+<p>
+Els objectius principals del projecte són:
+
+<p>
+
+<OL type="1">
+<li> Fer un estudi dels processos naturals (evolutius, ecològics i
+etològics) que es donen a la natura. Per un costat, cal triar els que
+afegeixirien més realisme i generalitat al model en cas
+d'implementar-se. Per un altre costat, cal triar aquells fenòmens que
+es donen en la natura que no cal implementar directament, sinó, que
+s'espera que puguin emergir. L'esforç de l'analisis ha d'anar adreçat
+a modelar aquelles característiques no cognitives de caire general, i
+sobretot, dels organismes unicel·lulars, tot i que no cal descartar
+que emergeixin estructures pluricel·lulars o cognitives.
+
+<p>
+
+<li> Fer un estudi bibliogràfic dels processos anteriors ja
+implementats. En quines condicions concretes s'han fet i quins
+resultats han donat.
+
+<p>
+
+<li> Dissenyar i implementar el model amb tota la informació
+recollida, possibilitant, sense dirigir-la, l'aparició dels fenòmens
+emergents esperats, i l'adaptació dels organismes a variacions que es
+poden donar durant la vida d'un organisme o al llarg de generacions.
+El model tindrà diversos elements principals:
+
+<p>
+
+<UL>
+<li> El biosistema, que coordina la resta d'elements.
+
+<p>
+
+<li> El biòtop, que és el medi on viuran els organismes. Cal que
+permeti configuracions molt diverses per donar possibilitats
+d'experimentació. Per modificar el biòtop farem servir, sobretot, els
+agents, que són modificadors programables del biòtop.
+
+<p>
+
+<li> La comunitat, que controla el conjunt d'organismes presents al
+medi i la informació que no és intrínseca a ells, com ara la seva
+posició en el medi i la població a la que pertany. Els organismes
+proveeixen al medi les accions que volen realitzar i un conjunt
+d'operacions que el medi pot fer sobre ells.
+
+<p>
+</UL>Els elements del sistema han d'estar dèbilment acoblats per tal de
+poder, en un futur, intercanviar-los per uns altres amb un mínim
+d'efectes laterals.
+
+<p>
+
+<li> Afegir al model les eines d'anàlisis han de poder donar
+informació útil del que està passant al biosistema: Per això, cal
+dividir la comunitat en poblacions i analitzar les interaccions entre
+elles. Cal posar una cura especial en detectar l'aparició de fenòmens
+emergents. Les eines de configuració i intervenció han de servir per
+controlar la forma en que canvia aquest medi, de forma que, els
+resultats obtinguts amb les eines d'analisis siguin confrontables i
+els usuaris puguin extreure conclusions.
+</OL>
+<p>
+A aquests objectius es poden sumar altres objectius adicionals que es
+cobriran de forma secundària.
+
+<p>
+
+<OL type="1">
+<li> El sistema ha de poder abocar-se totalment o parcial a
+disc per tornar-se a restaurar. Això faria possible execucions molt
+més llargues i obtenir poblacions més evolucionades.
+
+<li> Ha de ser possible canviar alguns aspectes de la configuració
+del biòtop o intervindre en la població (extraccions, introduccions,
+clonacions...) sobre la marxa.
+
+<li> Establir uns procediments de modificació per tal de que
+l'usuari-programador no necessiti comprendre tot el sistema per fer
+una modificació puntual.
+</OL>
+<p>
+Els organismes de la simulació han de fer front a un medi variable,
+amb canvis caòtics o periòdics que es poden produir freqüentment al
+llarg de la vida d'un organisme o de forma progressiva en el decurs
+de diverses generacions. Amb la finalitat de que la comunitat tingui
+capacitat de reaccionar davant de tots aquests canvis, s'incorporen,
+als mecanismes evolutius que intervenen en la simulació, algunes
+característiques que es donen en els entorns evolutius naturals i
+que, clàssicament, no s'incorporen en els entorns evolutius
+computacionals.
+
+<p>
+Les característiques naturals que s'estudiarà introduïr a l'entorn
+evolutiu són:
+
+<p>
+
+<DL compact><dt><b>Mecanismes d'expressió gènica (transcripció, maduració i
+traducció):</b></dt>
+	<dd> Útils per implementar les altres característiques
+
+<p>
+<dt><b>Regulació sobre l'expressió gènica:</b></dt>
+	<dd>
+Control dels gens que es transcriuen segons la presència o no
+d'alguns factors. Ajuda a adaptar-se, sense l'utilització d'un
+sistema cognitiu, a canvis en el medi tan esporàdics que el procés
+evolutiu no els soporti.
+
+<p>
+<dt><b>Promotor/teminador, zones no codificadores i longitud de
+cromosoma variable:</b></dt>
+	<dd> Permet solucions obertes no parametritzades
+(Nombre i longitud variable pels gens)
+
+<p>
+<dt><b>Paràmetres del procés evolutiu codificats parcialment al
+genotip:</b></dt>
+	<dd>
+Ens permetrà tenir uns paràmetres optimitzats per a cada situació
+concreta.
+
+<p>
+<dt><b>Genotips no haplonts i al·lels (Encara he de considerar si
+implementar-ho):</b></dt>
+	<dd> Mantenen la variabilitat genètica de la
+descendència augmentant així la capacitat de canvi i adaptació.
+
+<p>
+<dt><b>Cariotip multicromosòmic:</b></dt>
+	<dd> Divideix la dotació gènica en
+subunitats d'alt nivell que permeten traspasar divers material gènic
+de cop i possibilita les mutacions cromosòmiques que poden emergir en
+creuament.
+
+<p>
+</DL>        <H2><A NAME="tth_sEc1.4">
+1.4</A>&nbsp;&nbsp;Contingut de la memòria</H2>
+
+<p>
+
+<pre> </pre>Aleaturitzador.cpp
 
 <p>
  <br><H1>Part 2   <br>Part teòrica</H1><br>
@@ -1092,7 +1319,7 @@ el seu tipus.
 La recollida de nutrients, es fa amb un patró de cerca pel tipus de 
 nutrient i una tolerància a nivell de bit segons la funció de compatibilitat
 estandard.
-Com s'explica a l'apartat <A href="#TODO">*</A>, aquesta funció retorna cert si 
+Com s'explica a l'apartat , aquesta funció retorna cert si 
 
 <pre>
 	((Patro^Clau)&amp;Random&amp;~Tolerancia)==0 
@@ -1117,14 +1344,14 @@ La cerca es fa des dels més nous fins els més vells.
 <p>
 Els agents són objectes que disparen una acció determinada quan són
 cridats. La majoria d'accions es produeixen sobre el biòtop, sobre
-la configuració d'altres agents o sobre paràmetres globals de 
+la configuració d'altres agents o sobre paràmetres globals de
 configuració.
 
 <p>
-El paper dels agents a dins del sistema és permetre a l'usuari 
+El paper dels agents a dins del sistema és permetre a l'usuari
 controlar com evolucionarà l'entorn on es mouran els organismes
 de cara a obtindre resultats que s'hi puguin contrastar.
-Per sí mateix, el conjunt d'agents implementats permet configuracions 
+Per sí mateix, el conjunt d'agents implementats permet configuracions
 molt complexes, però, a més, ofereix un seguit d'eines molt útils
 per que l'usuari-programador pugui ampliar aquests agents.
 
@@ -1134,7 +1361,7 @@ l'agent ha sigut <b>accionat</b>. Quan algú requereix un valor contingut
 en l'estat de l'agent es diu que l'agent ha sigut <b>consultat</b>.
 
 <p>
-Direm que un agent A té com a <b>subordinat</b> a un altre agent B si és 
+Direm que un agent A té com a <b>subordinat</b> a un altre agent B si és
 A qui acciona a B. Ho representarem així: A <font face=symbol>®</font
 > B.
 L'estructura de subordinació ha de ser un arbre on els subordinats
@@ -1143,14 +1370,14 @@ són els fills d'aquell a qui es subordinen.
 <p>
 Direm que un agent A és <b>depenent</b> d'un altre agent B si A,
 quan és accionat, necessita consultar l'estat de l'agent B.
-Ho representarem així: A(B). La consulta no ha d'implicar cap 
-modificació ni recàlcul d'estat en l'agent consultat. 
-Això permet que no hi hagi restriccions en l'estructura de 
-dependència i que puguin existir dependències creuades. 
+Ho representarem així: A(B). La consulta no ha d'implicar cap
+modificació ni recàlcul d'estat en l'agent consultat.
+Això permet que no hi hagi restriccions en l'estructura de
+dependència i que puguin existir dependències creuades.
 <a href="#tthFtNtAAC" name=tthFrefAAC><sup>2</sup></a>
 
 <p>
-Tots els agents duen un nom assocciat que, per defecte, coincideix amb 
+Tots els agents duen un nom assocciat que, per defecte, coincideix amb
 un prefixe i un número de sèrie únic entre tots els agents. Aquest
 nom es pot canviar per un que sigui més mnemotècnic per a l'usuari.
 
@@ -1159,7 +1386,7 @@ nom es pot canviar per un que sigui més mnemotècnic per a l'usuari.
 3.2.2</A>&nbsp;&nbsp;Agents Subordinadors</H3>
 
 <p>
-Els agents subordinadors són agents que, quan són accionats, accionen 
+Els agents subordinadors són agents que, quan són accionats, accionen
 tot un seguit d'agents subordinats.
 
 <p>
@@ -1167,7 +1394,7 @@ tot un seguit d'agents subordinats.
 <H4>Agents Múltiples</H4>
 
 <p>
-L'agent múltiple acciona una i només una vegada cadascun dels 
+L'agent múltiple acciona una i només una vegada cadascun dels
 agents subordinats cada cop que és accionat.
 
 <p>
@@ -1178,42 +1405,42 @@ agents subordinats cada cop que és accionat.
 Els agents temporitzadors són agents multiples que no sempre
 que reben un accionat el propaguen cap els subordinats.
 Estableixen dos periodes, un actiu i un altre inactiu.
-Els accionats només es propagen als subordinats durant el 
+Els accionats només es propagen als subordinats durant el
 periode actiu.
 
 <p>
 Els periodes es defineixen mitjançant tres paràmetres:
 El periode mínim és el número d'accionats que dura el periode
 com a mínim. Aquest mínim es pot augmentar de forma no determinística
-el resultat de sumar-li n vegades un número aleatori en l'interval [0,m] 
+el resultat de sumar-li n vegades un número aleatori en l'interval [0,m]
 (els corxets indiquen que els extrems estan inclosos).
-<em>n</em> és el número de daus, i <em>m</em> és el valor màxim o magnitud 
+<em>n</em> és el número de daus, i <em>m</em> és el valor màxim o magnitud
 del dau.
 
 <p>
-D'aquesta especificació es pot deduir algunes dades, pot ser, més 
+D'aquesta especificació es pot deduir algunes dades, pot ser, més
 intuitives per a l'usuari:
 
 <UL>
 <p>
 
-<li>	El valor màxim que pot adoptar el periode és el mínim més n*m
+<li>   El valor màxim que pot adoptar el periode és el mínim més n*m
 
-<li>	Un sól dau equival a una distribució uniforme entre els límits
+<li>   Un sól dau equival a una distribució uniforme entre els límits
 
-<li>	A mesura que incrementem el nombre de daus, la distribució dels
-	periodes s'aproxima a una distribució normal entorn al centre
-	entre el valor màxim i mínim, amb un desviació típica cada vegada
-	menor.
+<li>   A mesura que incrementem el nombre de daus, la distribució dels
+    periodes s'aproxima a una distribució normal entorn al centre
+    entre el valor màxim i mínim, amb un desviació típica cada vegada
+    menor.
 </UL>
 <p>
 Per defecte, els paràmetres que introdueixen indeterminisme en els
-temporitzadors, com són els daus, estan ajustats de manera que el 
+temporitzadors, com són els daus, estan ajustats de manera que el
 seu efecte sigui nul.
 Si no es toca res més que els periodes mínims, actuarà de forma determinista.
 De la mateixa manera, els periodes mínims dels cicles estan ajustats,
-per defecte, per que sempre s'estigui en un cicle actiu. 
-D'aquesta forma, si no es configura res, l'efecte d'un temporitzador 
+per defecte, per que sempre s'estigui en un cicle actiu.
+D'aquesta forma, si no es configura res, l'efecte d'un temporitzador
 és el d'un agent múltiple ordinari.
 
 <p>
@@ -1222,13 +1449,13 @@ Paràmetres per defecte i una execució:
 <UL>
 <p>
 
-<li>	Cicle Actiu ( minim=1 daus=0 magnitud=0)
+<li>   Cicle Actiu ( minim=1 daus=0 magnitud=0)
 
-<li>	Cicle Inactiu ( minim=0 daus=0 magnitud=0)
+<li>   Cicle Inactiu ( minim=0 daus=0 magnitud=0)
 
-<li>	Periode Actual ( actiu )
+<li>   Periode Actual ( actiu )
 
-<li>	Periode Restant (1)
+<li>   Periode Restant (1)
 </UL>
 <p>
 Paràmetres ilustratius:
@@ -1236,18 +1463,20 @@ Paràmetres ilustratius:
 <UL>
 <p>
 
-<li>	Cicle Actiu ( minim=0 daus=2 magnitud=3)
+<li>   Cicle Actiu ( minim=0 daus=2 magnitud=3)
 
-<li>	Cicle Inactiu ( minim=4 daus=0 magnitud=0)
+<li>   Cicle Inactiu ( minim=4 daus=0 magnitud=0)
 
-<li>	Periode Actual ( actiu )
+<li>   Periode Actual ( actiu )
 
-<li>	Periode Restant (1)
+<li>   Periode Restant (1)
 </UL>
 <p>
-A continuació hi ha una execució dels paràmetres anteriors.
-Els guions representen accionats durant el periode inactiu i les O's 
+A continuació hi ha una execució dels paràmetres anteriors. Els
+guions representen accionats durant el periode inactiu i les O's
 representen accionats durant el periode actiu.
+
+<p>
 
 <pre>
 OO----OOOOO----OO----O----OOOO----O----OOO----OOOO----OOO----OOOO----O----OO----
@@ -1262,16 +1491,16 @@ OOOOO----OOO----OOOOO----OOOO----OO----OOOOO----OOOO----OOO----OOO----OOOOO----O
 <H4>Agents Probabilitzadors</H4>
 
 <p>
-Els agents probabilitzadors són també agents múltiples que controlen 
+Els agents probabilitzadors són també agents múltiples que controlen
 si l'accionat es propaga cap els subordinats o no. Però, a diferència
 dels agents temporitzadors, ho fan mitjançant una llei probabilística.
 Si es dòna la probabilitat, s'accionen els subordinats, si no es dòna,
 no s'accionen.
 
 <p>
-La probabilitat es defineix amb el nombre de vegades que es donaria 
+La probabilitat es defineix amb el nombre de vegades que es donaria
 la probabilitat en un tamany de mostra.
-Per exemple, podem definir una probabilitat dient que es dòna 3 de 
+Per exemple, podem definir una probabilitat dient que es dòna 3 de
 cada 14 vegades. 14 és el tamany de mostra i 3 les vegades que es
 donaria en la mostra.
 
@@ -1285,13 +1514,14 @@ Paràmetres ilustratius:
 <UL>
 <p>
 
-<li>	Probabilitat ( mostra=40 encerts=25)
+<li>   Probabilitat ( mostra=40 encerts=25)
 </UL>
 <p>
-A continuació hi ha una execució dels paràmetres anteriors.
-Els guions representen accionats en els quals no s'ha donat la
-probabilitat i les O's, accionats en els quals sí s'ha
-donat.
+A continuació hi ha una execució dels paràmetres anteriors. Els
+guions representen accionats en els quals no s'ha donat la
+probabilitat i les O's, accionats en els quals sí s'ha donat.
+
+<p>
 
 <pre>
 OOOO-O-O-O-OO----OOOO-OOOOOOOO-OOO-OOOOOOOOOOO-OOOOOOOOO---O-OOOOOOO-O--OOOO-OO-
@@ -1306,7 +1536,7 @@ OOO-OO-O-OO-OO-OOOOO----OO-OO-----O-OOOOO--O---OOOOOOOOOO-O-OO-O-OOOOO---OOO-OO-
 <H4>Agents Iteradors</H4>
 
 <p>
-Els agents iteradors són agents múltiples que no limiten els 
+Els agents iteradors són agents múltiples que no limiten els
 accionats que arriben als seus subordinats, sinó que el que fan és
 multiplicar els accionats que li arriben.
 
@@ -1327,12 +1557,14 @@ Paràmetres ilustratius:
 <UL>
 <p>
 
-<li>	Iteracions ( minim=2 daus=2 magnitud=4)
+<li>   Iteracions ( minim=2 daus=2 magnitud=4)
 </UL>
 <p>
-A continuació hi ha una execució dels paràmetres anteriors.
-Els parèntesis agrupen els accionaments dels subordinats 
-que es fan sota un mateix accionament de l'iterador.
+A continuació hi ha una execució dels paràmetres anteriors. Els
+parèntesis agrupen els accionaments dels subordinats que es fan sota
+un mateix accionament de l'iterador.
+
+<p>
 
 <pre>
 (OOOOOO)(OOOOOOOO)(OOOOOOO)(OOOOO)(OOO)(OOOOOOO)(OO)(OOOOOOO)(OOOOOOO)(OOOOOO)(O
@@ -1342,12 +1574,16 @@ OOOOOOO)(OOOOO)(OOOOOO)(OOO)(OOOOOO)(OOOO)(OOOOOO)(OOOOOO)(OOO)(OOOOOO)
 <p>
 Amb dos accions subordinades una execució quedaria com això:
 
+<p>
+
 <pre>
 (OEOEOEOEOEOEOEOEOEOE)(OEOEOEOEOEOEOEOEOE)(OEOEOEOEOEOEOE)(OEOEOEOE)(OEOEOEOEOEO
 EOEOE)(OEOEOEOEOEOEOEOE)(OEOEOEOEOEOEOEOEOEOE)(OEOE)(OEOEOEOEOEOEOE)(OEOEOEOEOEO
 EOE)(OEOEOEOEOEOE)(OEOEOEOEOEOE)(OEOEOEOEOE)(OEOEOEOEOEOEOE)(OEOEOEOEOEOE)(OEOEO
 EOEOEOE)(OEOEOEOEOEOE)(OEOEOEOEOE)(OEOEOEOEOE)(OEOEOEOEOE)
 </pre>
+
+<p>
 on les E's representen l'execució de la segona acció subordinada.
 
 <p>
@@ -1355,7 +1591,7 @@ on les E's representen l'execució de la segona acció subordinada.
 3.2.3</A>&nbsp;&nbsp;Agents Posicionadors</H3>
 
 <p>
-Els agents posicionadors controlen una posició en la topologia del biòtop. 
+Els agents posicionadors controlen una posició en la topologia del biòtop.
 No tènen subordinats, però, generalment hi ha agents que en depenen del
 seu valor i segons el tipus de posicionador per recalcular la seva
 posició fan servir altres agents dels quals depenen.
@@ -1364,31 +1600,31 @@ posició fan servir altres agents dels quals depenen.
 
 <DL compact><dt><b><b>Posicionador Bàsic:</b></b></dt>
 	<dd> No modifica la seva posició si és accionat.
-	A menys que, per configuració, es fixi a una posició concreta, 
-	s'inicialitza amb una posició aleatoria vàlida dins de la topologia,
+    A menys que, per configuració, es fixi a una posició concreta,
+    s'inicialitza amb una posició aleatoria vàlida dins de la topologia,
 <dt><b><b>Posicionador Aleatori:</b></b></dt>
-	<dd> Cada cop que és accionat pren una posició aleatoria 
-	vàlida dintre de la topologia.
+	<dd> Cada cop que és accionat pren una posició aleatoria
+    vàlida dintre de la topologia.
 <dt><b><b>Posicionador Zonal:</b></b></dt>
-	<dd> Cada cop que és accionat pren una posició 
-	aleatoria dintre d'una zona. 
-	La zona es defineix per una posició central, determinada per un altre 
-	posicionador de qual depen, i un radi, que no és més que el nombre de 
-	desplaçaments aleatoris que es fan a partir d'aquesta posició central 
-	per trobar la posició final.
-	Les posicions tendeixen a adoptar una distribució normal en l'entorn
-	de la posició central. 
+	<dd> Cada cop que és accionat pren una posició
+    aleatoria dintre d'una zona.
+    La zona es defineix per una posició central, determinada per un altre
+    posicionador de qual depen, i un radi, que no és més que el nombre de
+    desplaçaments aleatoris que es fan a partir d'aquesta posició central
+    per trobar la posició final.
+    Les posicions tendeixen a adoptar una distribució normal en l'entorn
+    de la posició central.
 <dt><b><b>Posicionador Seqüencial:</b></b></dt>
-	<dd> Cada cop que és accionat pren la  
-	posició del següent posicionador que hi ha en una seqüència 
-	de posicionadors. Els agents posicionadors de la seqüència són
-	dependència del posicionador seqüencial.
+	<dd> Cada cop que és accionat pren la
+    posició del següent posicionador que hi ha en una seqüència
+    de posicionadors. Els agents posicionadors de la seqüència són
+    dependència del posicionador seqüencial.
 <dt><b><b>Posicionador Direccional (Itinerari):</b></b></dt>
-	<dd> Cada cop que és 
-	accionat pren la posició que en resulta d'aplicar-li un 
-	desplaçament a la posició anterior. 
-	El desplaçament el determina un agent direccionador que és dependència.
-	Els agents direccionadors s'expliquen al següent apartat.
+	<dd> Cada cop que és
+    accionat pren la posició que en resulta d'aplicar-li un
+    desplaçament a la posició anterior.
+    El desplaçament el determina un agent direccionador que és dependència.
+    Els agents direccionadors s'expliquen al següent apartat.
 </DL>
 <p>
 A continuació es presenten exemples d'execució d'un posicionador aleatori,
@@ -1399,9 +1635,9 @@ un de seqüencial i un de zonal aplicats sobre una topologia toroidal.
 3.2.4</A>&nbsp;&nbsp;Agents Direccionadors</H3>
 
 <p>
-Els agents direccionadors controlen una direcció per calcular 
-desplaçaments dintre de la topologia del biòtop. La seva utilitat 
-principal radica en controlar la posició d'un posicionador de tipus 
+Els agents direccionadors controlen una direcció per calcular
+desplaçaments dintre de la topologia del biòtop. La seva utilitat
+principal radica en controlar la posició d'un posicionador de tipus
 direccional, però, no es descarten altres aplicacions futures.
 
 <p>
@@ -1411,13 +1647,13 @@ direccional, però, no es descarten altres aplicacions futures.
 <dt><b><b>Direccionador Aleatori:</b></b></dt>
 	<dd> Cada cop que és accionat pren una direcció aleatoria.
 <dt><b><b>Direccionador Seqüencial:</b></b></dt>
-	<dd> Cada cop que és accionat pren la  
-	direcció del següent direccionador que hi ha en una seqüència 
-	de direccionadors. Els agents direccionadors de la seqüència són
-	dependència del direccionador seqüencial.
+	<dd> Cada cop que és accionat pren la
+    direcció del següent direccionador que hi ha en una seqüència
+    de direccionadors. Els agents direccionadors de la seqüència són
+    dependència del direccionador seqüencial.
 </DL>
 <p>
-A continuació es presenten exemples d'execució d'un posicionador 
+A continuació es presenten exemples d'execució d'un posicionador
 direccional, que depen de diferents tipus de direccionadors.
 
 <p>
@@ -1431,19 +1667,19 @@ La topologia de l'exemple és toroidal.
 
 <p>
 Els agents actuadors són els que finalment modifiquen el substrat.
-Els actuadors depenen d'un agent posicionador que els indica la 
+Els actuadors depenen d'un agent posicionador que els indica la
 cel·la que han de modificar.
 
 <p>
 La majoria dels agents que hem vist fins ara eren molt independents
-davant de les modificacions en la topologia i en la composició del 
+davant de les modificacions en la topologia i en la composició del
 substrat que es puguin fer més endavant.
 Les especialitzacions dels actuadors, en canvi, han de dependre
 per força del substrat i la seva composció, perqué actuen sobre ell.
 Segueixen sent independents, però, de la topologia.
 
 <p>
-Aquí a sota, expliquem alguns actuadors vàlids pel substrat 
+Aquí a sota, expliquem alguns actuadors vàlids pel substrat
 implementat en aquest treball.
 
 <p>
@@ -1455,11 +1691,11 @@ Aquests actuadors depositen nutrients al substrat.
 Un tipus de nutrient es codifica amb un enter de 32 bits sense signe.
 El tipus de nutrient que es depositarà s'especifica amb dos nombres
 enters de 32 bits sense signe. El primer enter indica el número
-del tipus bàsic, i el segon indica els bits del tipus bàsic que 
+del tipus bàsic, i el segon indica els bits del tipus bàsic que
 poden variar aleatoriament.
 
 <p>
-Per exemple, el parell 
+Per exemple, el parell
 
 <table>
 <tr><td align="right">element bàsic: </td><td>0x0000000000000000 </td>
@@ -1489,7 +1725,7 @@ una tolerància per a certs bits.
 <H4>Motivació i criteris de disseny</H4>
 
 <p>
-De cara a poder passivitzar un biosistema a disc per poder-ho 
+De cara a poder passivitzar un biosistema a disc per poder-ho
 restaurar posteriorment, caldria també poder passivitzar i restaurar
 l'estat dels seus agents.
 L'arxiu de configuració d'agents és un arxiu de text que conté
@@ -1497,13 +1733,13 @@ l'estat i l'estructura dels agents d'un biosistema, que es
 pot extreure en un moment donat i restaurar-ho posteriorment.
 
 <p>
-Els agents a un biosistema, com s'ha dit abans, formen una 
+Els agents a un biosistema, com s'ha dit abans, formen una
 estructura d'arbre segons les seves relacions de subordinació.
-Cada arxiu de configuració conté un arbre d'agents subordinats 
+Cada arxiu de configuració conté un arbre d'agents subordinats
 partint d'un agent arrel.
-Seria possible penjar tota l'estructura d'un arxiu de configuració 
+Seria possible penjar tota l'estructura d'un arxiu de configuració
 i subordinar-ho a un agent d'una estructura ja existent a un biosistema.
-Es podria formar una mena de biblioteca d'arxius amb configuracions 
+Es podria formar una mena de biblioteca d'arxius amb configuracions
 comunes que es podrien convinar per muntar ràpidament l'estructura
 d'agents d'un biosistema.
 
@@ -1512,11 +1748,11 @@ d'agents d'un biosistema.
 <H4>Estructura</H4>
 
 <p>
-Els arxius de configuració d'agents ténen una estructura molt simple: 
-Primer van unes linies de text que determinen, per cada agent, el seu 
-nom i el seu tipus. 
+Els arxius de configuració d'agents ténen una estructura molt simple:
+Primer van unes linies de text que determinen, per cada agent, el seu
+nom i el seu tipus.
 Un cop definits els noms i els tipus, es configuren els paràmetres
-per a cada agent. 
+per a cada agent.
 
 <p>
 La definició dels noms i els tipus es fa amb una línia per cada agent
@@ -1526,10 +1762,10 @@ A cada línia es posa, per ordre i <em>separats per espais</em> un signe
 asterisc, el nom i el tipus.
 
 <p>
-Quan es carrega un arxiu de configuració d'agents, si és possible 
-a cada agent se li dòna el nom amb el que apareix a l'arxiu, però 
+Quan es carrega un arxiu de configuració d'agents, si és possible
+a cada agent se li dòna el nom amb el que apareix a l'arxiu, però
 això no és posible si ja existeix un amb el mateix nom. En aquest
-cas, se li dòna un nom per defecte i s'hi tradueixen totes les 
+cas, se li dòna un nom per defecte i s'hi tradueixen totes les
 posteriors referències al nom antic.
 
 <p>
@@ -1543,27 +1779,27 @@ Dins d'un arxiu de configuració d'agents, es reconeixen els següents tipus:
 <p>
 
 <table border>
-<tr><td><b>Nom de tipus a la memòria</b>		</td><td><b>Nom del tipus a un fitxer de configuració</b></td>
-<tr><td>Agent Subordinador Multiple		</td><td>Agent/Multiple			</td>
-<tr><td>Agent Subordinador Temporitzador	</td><td>Agent/Multiple/Temporitzador		</td>
-<tr><td>Agent Subordinador Iterador		</td><td>Agent/Multiple/Iterador		</td>
-<tr><td>Agent Subordinador Aleaturitzador	</td><td>Agent/Multiple/Aleaturitzador		</td>
-<tr><td>Posicionador Fixe			</td><td>Agent/Posicionador			</td>
-<tr><td>Posicionador Aleatori			</td><td>Agent/Posicionador/Aleatori		</td>
-<tr><td>Posicionador Zonal			</td><td>Agent/Posicionador/Zonal		</td>
-<tr><td>Posicionador Direccional (Itinerari)	</td><td>Agent/Posicionador/Direccional	</td>
-<tr><td>Direccionador Fixe			</td><td>Agent/Direccionador			</td>
-<tr><td>Direccionador Aleatori			</td><td>Agent/Direccionador/Aleatori		</td>
-<tr><td>Actuador Nutridor			</td><td>Agent/Actuador/Nutridor		</td>
-<tr><td>Actuador Desnutridor			</td><td>Agent/Actuador/Nutridor/Invers	</td></td></table>
+<tr><td><b>Nom de tipus a la memòria</b>     </td><td><b>Nom del tipus a un fitxer de configuració</b></td>
+<tr><td>Agent Subordinador Multiple     </td><td>Agent/Multiple            </td>
+<tr><td>Agent Subordinador Temporitzador    </td><td>Agent/Multiple/Temporitzador      </td>
+<tr><td>Agent Subordinador Iterador     </td><td>Agent/Multiple/Iterador       </td>
+<tr><td>Agent Subordinador Aleaturitzador   </td><td>Agent/Multiple/Aleaturitzador     </td>
+<tr><td>Posicionador Fixe           </td><td>Agent/Posicionador            </td>
+<tr><td>Posicionador Aleatori           </td><td>Agent/Posicionador/Aleatori       </td>
+<tr><td>Posicionador Zonal          </td><td>Agent/Posicionador/Zonal      </td>
+<tr><td>Posicionador Direccional (Itinerari)    </td><td>Agent/Posicionador/Direccional    </td>
+<tr><td>Direccionador Fixe          </td><td>Agent/Direccionador           </td>
+<tr><td>Direccionador Aleatori          </td><td>Agent/Direccionador/Aleatori      </td>
+<tr><td>Actuador Nutridor           </td><td>Agent/Actuador/Nutridor       </td>
+<tr><td>Actuador Desnutridor            </td><td>Agent/Actuador/Nutridor/Invers    </td></td></table>
 
 
 <p>
-Es fan servir identificadors jerarquics molt semblants als que es 
+Es fan servir identificadors jerarquics molt semblants als que es
 fan servir a UNIX per identificar els directoris. La jerarquia
 de noms el que especifica aquí és una jerarquia de tipus i subtipus
 de tal forma que si, per exemple, a un lloc es requereix <em>Agent/Posicionador</em>,
-aquest lloc el pot ocupar tant un <em>Agent/Posicionador/Direccional</em> com un 
+aquest lloc el pot ocupar tant un <em>Agent/Posicionador/Direccional</em> com un
 <em>Agent/Posicionador/Zonal</em>.
 
 <p>
@@ -1592,8 +1828,8 @@ Les linies de configuració de paràmetres comencen amb un signe menys
 i el nom del paràmetre i es segueix amb els valors que necessita
 el paràmetre per configurar-se, tot separat per espais.
 Com veurem al següent exemple, és normal que un paràmetre s'especifiqui
-amb diversos valors separats per espais. 
-La posició dels valors acostuma a ser significativa o sigui que és 
+amb diversos valors separats per espais.
+La posició dels valors acostuma a ser significativa o sigui que és
 important mantenir l'ordre.
 
 <p>
@@ -1610,8 +1846,8 @@ Quan un paràmetre necessita com a valor un altre agent, fa servir
 els seu nom com a referència.
 
 <p>
-Al següent apartat, es presenta el detall dels paràmetres que 
-controlen els diferents tipus d'agent. 
+Al següent apartat, es detalla els paràmetres que controlen cada
+tipus d'agent.
 
 <p>
       <H3><A NAME="tth_sEc3.2.7">
@@ -1628,7 +1864,7 @@ i es detallen, ordenats tal qual han d'aparèixer, els valors que el
 defineixen.
 
 <p>
-Els valors dels paràmetres es detallen posant un tipus de dada, 
+Els valors dels paràmetres es detallen posant un tipus de dada,
 dos punts, una petita explicació del valor i, entre parèntesis,
 les restriccions que s'hi apliquen.
 
@@ -1638,11 +1874,11 @@ Als agents implementats, els tipus de dada possibles pels valors són:
 <UL>
 <p>
 
-<li>	<b>agent:</b> Nom d'un agent especificat a la definició de noms i tipus
+<li>   <b>agent:</b> Nom d'un agent especificat a la definició de noms i tipus
 
-<li>	<b>uint32:</b> Senser sense signe codificable en 32 bits i expressat en base decimal
+<li>   <b>uint32:</b> Senser sense signe codificable en 32 bits i expressat en base decimal
 
-<li>	<b>id(Alternativa1/Alternativa2...):</b> Un dels identificadors posats com a alternativa
+<li>   <b>id(Alternativa1/Alternativa2...):</b> Un dels identificadors posats com a alternativa
 </UL>
 <p>
 Després dels paràmetres de cada tipus hi ha un exemple de com quedarien
@@ -1656,16 +1892,16 @@ les línies de configuració.
 <p>
 <dt><b>Accio:</b></dt>
 	<dd> Determina un agent subordinat. Es repeteix tantes vegades com subordinats tingui.
-		<br>- agent: agent que es subordina (No ha de ser subordinat de cap altre)
+        <br>- agent: agent que es subordina (No ha de ser subordinat de cap altre)
 </DL>
 <p>
-	Exemple de configuració texte
+    Exemple de configuració texte
 
 <pre>
-		+ AgentMultiple1: 
-		- Accio Posicionador1
-		- Accio Posicionador2
-		- Accio Direccionador1
+        + AgentMultiple1:
+        - Accio Posicionador1
+        - Accio Posicionador2
+        - Accio Direccionador1
 </pre>
 
 <p>
@@ -1676,34 +1912,34 @@ les línies de configuració.
 <p>
 <dt><b>Accio:</b></dt>
 	<dd> Determina un agent subordinat. Es repeteix tantes vegades com subordinats tingui.
-		<br>- agent: agent que es subordina (No ha de ser subordinat de cap altre)
+        <br>- agent: agent que es subordina (No ha de ser subordinat de cap altre)
 <dt><b>CicleActiu:</b></dt>
 	<dd> Determina quan triguen els periodes de temps actius
-		<br>- uint32: periode minim
-		<br>- uint32: número de daus
-		<br>- uint32: magnitud dels daus (Van de zero a la magnitud)
+        <br>- uint32: periode minim
+        <br>- uint32: número de daus
+        <br>- uint32: magnitud dels daus (Van de zero a la magnitud)
 <dt><b>CicleInactiu:</b></dt>
 	<dd> Determina quan triguen els periodes de temps inactius
-		<br>- uint32: periode minim
-		<br>- uint32: número de daus
-		<br>- uint32: magnitud dels daus (Van de zero a la magnitud)
+        <br>- uint32: periode minim
+        <br>- uint32: número de daus
+        <br>- uint32: magnitud dels daus (Van de zero a la magnitud)
 <dt><b>AntiAccio:</b></dt>
 	<dd> Agent subordinat especial que s'acciona en el cicle inactiu (Nomes un per temporitzador i es opcional)
-		<br>- agent: agent que es subordina (No ha de ser subordinat de cap altre)
+        <br>- agent: agent que es subordina (No ha de ser subordinat de cap altre)
 <dt><b>CicleActual:</b></dt>
 	<dd> Valors del temporitzador quan es reemprengui la marxa
-		<br>- id(Actiu/Inactiu): cicle actiu o inactiu
-		<br>- uint32: periode restant del cicle actual
+        <br>- id(Actiu/Inactiu): cicle actiu o inactiu
+        <br>- uint32: periode restant del cicle actual
 </DL>
 <p>
-	Exemple de configuració texte
+    Exemple de configuració texte
 
 <pre>
-		+ Temporitzador1
-		- Accio Posicionador3
-		- CicleActiu 34 2 5 
-		- CicleInactiu 2 4 4
-		- CicleActual 3 Inactiu
+        + Temporitzador1
+        - Accio Posicionador3
+        - CicleActiu 34 2 5
+        - CicleInactiu 2 4 4
+        - CicleActual 3 Inactiu
 </pre>
 
 <p>
@@ -1714,27 +1950,27 @@ les línies de configuració.
 <p>
 <dt><b>Accio:</b></dt>
 	<dd> Determina un agent subordinat. Es repeteix tantes vegades com subordinats tingui.
-		<br>- agent: agent que es subordina (No ha de ser subordinat de cap altre)
+        <br>- agent: agent que es subordina (No ha de ser subordinat de cap altre)
 <dt><b>Iteracions:</b></dt>
 	<dd> Determina quantes vegades es repiteixen els subordinats
-		<br>- uint32: iteracions minimes
-		<br>- uint32: número de daus
-		<br>- uint32: magnitud dels daus (Van de zero a la magnitud)
+        <br>- uint32: iteracions minimes
+        <br>- uint32: número de daus
+        <br>- uint32: magnitud dels daus (Van de zero a la magnitud)
 <dt><b>PreAccio:</b></dt>
 	<dd> Agent subordinat especial que s'executa un sol cop abans de tot (Nomes un per iterador i es opcional)
-		<br>- agent: agent que es subordina (No ha de ser subordinat de cap altre)
+        <br>- agent: agent que es subordina (No ha de ser subordinat de cap altre)
 <dt><b>PostAccio:</b></dt>
 	<dd> Agent subordinat especial que s'executa un sol cop despres de tot (Nomes un per iterador i es opcional)
-		<br>- agent: agent que es subordina (No ha de ser subordinat de cap altre)
+        <br>- agent: agent que es subordina (No ha de ser subordinat de cap altre)
 </DL>
 <p>
-	Exemple de configuració
+    Exemple de configuració
 
 <pre>
-		+ Iterador3
-		- Accio Posicionador4
-		- Accio Actuador2
-		- Iteracions 20 3 6
+        + Iterador3
+        - Accio Posicionador4
+        - Accio Actuador2
+        - Iteracions 20 3 6
 </pre>
 
 <p>
@@ -1745,22 +1981,22 @@ les línies de configuració.
 <p>
 <dt><b>Accio:</b></dt>
 	<dd> Determina un agent subordinat. Es repeteix tantes vegades com subordinats tingui.
-		<br>- agent: agent que es subordina (No ha de ser subordinat de cap altre)
+        <br>- agent: agent que es subordina (No ha de ser subordinat de cap altre)
 <dt><b>Probabilitat:</b></dt>
 	<dd> La que hi ha d'accionar els subordinats
-		<br>- uint32: número d'encerts que segons la probabilitat tenderien a donar-se en la mostra
-		<br>- uint32: número de intents o mostra
+        <br>- uint32: número d'encerts que segons la probabilitat tenderien a donar-se en la mostra
+        <br>- uint32: número de intents o mostra
 <dt><b>ReAccio:</b></dt>
 	<dd> Agent subordinat especial que s'acciona si no es dona la probabilitat (Nomes un per temporitzador i es opcional)
-		<br>- agent: agent que es subordina (No ha de ser subordinat de cap altre)
+        <br>- agent: agent que es subordina (No ha de ser subordinat de cap altre)
 </DL>
 <p>
-	Exemple de configuració
+    Exemple de configuració
 
 <pre>
-		+ Aleaturitzador1
-		- Accio Posicionador3
-		- Probabilitat 20 100
+        + Aleaturitzador1
+        - Accio Posicionador3
+        - Probabilitat 20 100
 </pre>
 
 <p>
@@ -1771,14 +2007,14 @@ les línies de configuració.
 <p>
 <dt><b>Posicio:</b></dt>
 	<dd> Posició inicial
-		<br>- uint32: valor de la posició (Ha d'existir a la topologia)
+        <br>- uint32: valor de la posició (Ha d'existir a la topologia)
 </DL>
 <p>
-	Exemple de configuració
+    Exemple de configuració
 
 <pre>
-		+ Posicionador1
-		- Posicio 12
+        + Posicionador1
+        - Posicio 12
 </pre>
 
 <p>
@@ -1789,14 +2025,14 @@ les línies de configuració.
 <p>
 <dt><b>Posicio:</b></dt>
 	<dd> Posició inicial
-		<br>- uint32: valor de la posició (Ha d'existir a la topologia)
+        <br>- uint32: valor de la posició (Ha d'existir a la topologia)
 </DL>
 <p>
-	Exemple de configuració
+    Exemple de configuració
 
 <pre>
-		+ Posicionador2
-		- Posicio 23
+        + Posicionador2
+        - Posicio 23
 </pre>
 
 <p>
@@ -1807,24 +2043,24 @@ les línies de configuració.
 <p>
 <dt><b>Posicio:</b></dt>
 	<dd> Posició inicial
-		<br>- uint32: valor de la posició (Ha d'existir a la topologia)
+        <br>- uint32: valor de la posició (Ha d'existir a la topologia)
 <dt><b>Sequencia</b></dt>
 	<dd>: Determina una posició de la seqüència. Es repeteix tantes vegades com calgui.
-		<br>- uint32: valor de la posició (Ha d'existir a la topologia)
+        <br>- uint32: valor de la posició (Ha d'existir a la topologia)
 <dt><b>SequenciaActual</b></dt>
 	<dd>:
-		<br>- uint32: el número de seqüència de la següent posició (Si es passa es pren l'ultim)
+        <br>- uint32: el número de seqüència de la següent posició (Si es passa es pren l'ultim)
 </DL>
 <p>
-	Exemple de configuració
+    Exemple de configuració
 
 <pre>
-		+ Posicionador3
-		- Posicio 23
-		- Sequencia 27
-		- Sequencia 50
-		- Sequencia 402
-		- SequenciaActual 2
+        + Posicionador3
+        - Posicio 23
+        - Sequencia 27
+        - Sequencia 50
+        - Sequencia 402
+        - SequenciaActual 2
 </pre>
 
 <p>
@@ -1835,22 +2071,22 @@ les línies de configuració.
 <p>
 <dt><b>Posicio:</b></dt>
 	<dd> Posicio inicial
-	<br>- uint32: valor de la posició (Ha d'existir a la topologia)
+    <br>- uint32: valor de la posició (Ha d'existir a la topologia)
 <dt><b>Posicionador:</b></dt>
 	<dd> Dona la posició central de la zona
-	<br>- agent: agent posicionador (dependència)
+    <br>- agent: agent posicionador (dependència)
 <dt><b>Radi:</b></dt>
 	<dd> Nombre de desplacaments que pot fer la posició entorn al centre
-	<br>- uint32: valor del radi
+    <br>- uint32: valor del radi
 </DL>
 <p>
 Exemple de configuració
 
 <pre>
-		+ Posicionador4
-		- Posicio 23
-		- Posicionador Posicionador1
-		- Radi 3
+        + Posicionador4
+        - Posicio 23
+        - Posicionador Posicionador1
+        - Radi 3
 </pre>
 
 <p>
@@ -1861,22 +2097,22 @@ Exemple de configuració
 <p>
 <dt><b>Posicio:</b></dt>
 	<dd> Posició inicial
-		<br>- uint32: valor de la posició (Ha d'existir a la topologia)
+        <br>- uint32: valor de la posició (Ha d'existir a la topologia)
 <dt><b>Direccionador:</b></dt>
 	<dd> Dona la direcció del desplacament
-		<br>- agent: agent direccionador (dependència)
+        <br>- agent: agent direccionador (dependència)
 <dt><b>Radi:</b></dt>
 	<dd> Nombre de desplacaments que pot fer la posició respecte a la posició anterior
-		<br>- uint32: valor del radi
+        <br>- uint32: valor del radi
 </DL>
 <p>
 Exemple de configuració
 
 <pre>
-	+ Posicionador5
-	- Posicio 23
-	- Direccionador Direccionador3
-	- Radi 1
+    + Posicionador5
+    - Posicio 23
+    - Direccionador Direccionador3
+    - Radi 1
 </pre>
 
 <p>
@@ -1887,14 +2123,14 @@ Exemple de configuració
 <p>
 <dt><b>Direccio:</b></dt>
 	<dd> Direcció inicial
-		<br>- uint32: valor de la direcció
+        <br>- uint32: valor de la direcció
 </DL>
 <p>
 Exemple de configuració
 
 <pre>
-	+ Direccionador1
-	- Direccio 876342
+    + Direccionador1
+    - Direccio 876342
 </pre>
 
 <p>
@@ -1905,14 +2141,14 @@ Exemple de configuració
 <p>
 <dt><b>Direccio:</b></dt>
 	<dd> Direcció inicial
-		<br>- uint32: valor de la direcció
+        <br>- uint32: valor de la direcció
 </DL>
 <p>
 Exemple de configuració
 
 <pre>
-	+ Direccionador2
-	- Direccio 23442684
+    + Direccionador2
+    - Direccio 23442684
 </pre>
 
 <p>
@@ -1923,24 +2159,24 @@ Exemple de configuració
 <p>
 <dt><b>Direccio:</b></dt>
 	<dd> Direcció inicial
-		<br>- uint32: valor de la direcció
+        <br>- uint32: valor de la direcció
 <dt><b>Sequencia:</b></dt>
 	<dd> Determina una direcció de la seqüència. Es repeteix tantes vegades com calgui.
-		<br>- uint32: valor de la direcció
+        <br>- uint32: valor de la direcció
 <dt><b>SequenciaActual:</b></dt>
 	<dd> Determina el punt actual de la seqüència
-		<br>- uint32: el número de seqüència de la següent direcció (Si es passa es pren l'ultim)
+        <br>- uint32: el número de seqüència de la següent direcció (Si es passa es pren l'ultim)
 </DL>
 <p>
 Exemple de configuració
 
 <pre>
-	+ Direccionador3
-	- Direccio 23
-	- Sequencia 27
-	- Sequencia 50
-	- Sequencia 402
-	- SequenciaActual 2
+    + Direccionador3
+    - Direccio 23
+    - Sequencia 27
+    - Sequencia 50
+    - Sequencia 402
+    - SequenciaActual 2
 </pre>
 
 <p>
@@ -1951,19 +2187,19 @@ Exemple de configuració
 <p>
 <dt><b>Posicionador:</b></dt>
 	<dd> Dona la posició on s'actua
-		<br>- agent: Agent posicionador (dependència)
+        <br>- agent: Agent posicionador (dependència)
 <dt><b>Composicio:</b></dt>
 	<dd> Determina els elements que es depositen
-		<br>- uint32: element basic
-		<br>- uint32: variabilitat, a 1 els bits que poden variar
+        <br>- uint32: element basic
+        <br>- uint32: variabilitat, a 1 els bits que poden variar
 </DL>
 <p>
 Exemple de configuració
 
 <pre>
-	+ Actuador1
-	- Posicionador Posicionador4
-	- Composicio 13152450903 0
+    + Actuador1
+    - Posicionador Posicionador4
+    - Composicio 13152450903 0
 </pre>
 
 <p>
@@ -1974,19 +2210,19 @@ Exemple de configuració
 <p>
 <dt><b>Posicionador:</b></dt>
 	<dd> Dona la posició on s'actua
-		<br>- agent: Agent posicionador (dependència)
+        <br>- agent: Agent posicionador (dependència)
 <dt><b>Composicio:</b></dt>
 	<dd> Determina els elements que s'eliminen
-		<br>- uint32: element basic
-		<br>- uint32: tolerancia, a 1 els bits que no importa que coincideixin
+        <br>- uint32: element basic
+        <br>- uint32: tolerancia, a 1 els bits que no importa que coincideixin
 </DL>
 <p>
 Exemple de configuració
 
 <pre>
-	+ Actuador2
-	- Posicionador Posicionador3
-	- Composicio 8943742645 768764258
+    + Actuador2
+    - Posicionador Posicionador3
+    - Composicio 8943742645 768764258
 </pre>
 
 <p>
@@ -2047,11 +2283,7 @@ A continuació es presenta un exemple complert:
 
 <p>
         <H2><A NAME="tth_sEc3.3">
-3.3</A>&nbsp;&nbsp;Estructura dels organismes</H2>
-
-<p>
-        <H2><A NAME="tth_sEc3.4">
-3.4</A>&nbsp;&nbsp;Serveis que donen al biosistema els organismes</H2>
+3.3</A>&nbsp;&nbsp;Serveis que donen al biosistema els organismes</H2>
 
 <p>
 De cara a poder manegar
@@ -2066,27 +2298,36 @@ qüestió dels propis individuus.
 <li>
 <p>
 L'organisme proveeix al biosistema un conjunt de registres que formen
-el seu fenotip. El biosistema pot modificar-los i consultar-los. 
-L'accés al fenotip no és exclusiu del biosistema sinó que el propi 
+el seu fenotip. El biosistema pot modificar-los i consultar-los.
+L'accés al fenotip no és exclusiu del biosistema sinó que el propi
 organisme i les seves estructures internes també poden accedir-hi
 paral·lelament.
 
 <li>
 <p>
-L'organisme ha d'implementar unes funcions vitals que modifiquin 
+L'organisme ha d'implementar unes funcions vitals que modifiquin
 l'estat intern de l'organisme als que no tingui accés el biosistema
-per altres vies. Això no inclou, per exemple, canvis de posició. 
-El biosistema ha de proporcionar tots els paràmetres 
-de les funcions vitals que no siguin interns que ell coneixi: el 
+per altres vies. Això no inclou, per exemple, canvis de posició.
+El biosistema ha de proporcionar tots els paràmetres
+de les funcions vitals que no siguin interns que ell coneixi: el
 fenotip del propi organisme o un d'aliè.
 
+<li>
 <p>
-</UL>      <H3><A NAME="tth_sEc3.4.1">
+També han d'implementar operadors per tal de crear nous organismes a
+partir d'altres i organismes aleatoris.
+
+<p>
+</UL>        <H2><A NAME="tth_sEc3.4">
+3.4</A>&nbsp;&nbsp;Estructura interna dels organismes</H2>
+
+<p>
+      <H3><A NAME="tth_sEc3.4.1">
 3.4.1</A>&nbsp;&nbsp;El cariotip</H3>
 
 <p>
 Definim el cariotip com el conjunt de cromosomes que conté un
-organisme, doncs en el present cas es consideren organismes 
+organisme, doncs en el present cas es consideren organismes
 unicel·lulars.
 
 <p>
@@ -2130,13 +2371,13 @@ de mol·lècules excretades.
 3.4.6</A>&nbsp;&nbsp;Metabolisme</H3>
 
 <p>
-Un cop els nutrients estan dins de l'organisme, pot metabolitzar-los, 
+Un cop els nutrients estan dins de l'organisme, pot metabolitzar-los,
 ja sigui per obtindre energia, per obtindre un producte d'excreció o
 totes dues coses.
 
 <p>
-L'organisme pot fer ús de l'energia que s'obte de les reaccions 
-durant un temps limitat, si no es consumeix dintre d'aquest temps, 
+L'organisme pot fer ús de l'energia que s'obte de les reaccions
+durant un temps limitat, si no es consumeix dintre d'aquest temps,
 aquesta es disipa.
 
 <p>
@@ -2145,7 +2386,7 @@ equilibri
 
 <p>
 Pot ser, una espècie tendeix a acomular masses nutrients.
-Si això passes, els seus depredadors tenderien a augmentar en 
+Si això passes, els seus depredadors tenderien a augmentar en
 nombre d'organismes i en nombre d'espècies.
 
 <p>
@@ -2157,73 +2398,73 @@ nombre d'organismes i en nombre d'espècies.
 3.5.1</A>&nbsp;&nbsp;Mecanismes d'especiació</H3>
 
 <p>
-Per que l'usuari pugui extreure una informacio útil, cal que poguem 
-agrupar els individus en espècies. És clar que a la nostra comunitat, 
-al igual que a la natura, l'especiació és un fenòmen que cal que emergeixi, 
-L'espècie, no és quelcom intrínsec a tot individu; és a dir, que el 
-concepte d'espècie no estarà implementat al codi genetic o als mecanismes 
-de funcionament comuns dels individus sinó que caldrà observar-ho en el 
+Per que l'usuari pugui extreure una informacio útil, cal que poguem
+agrupar els individus en espècies. És clar que a la nostra comunitat,
+al igual que a la natura, l'especiació és un fenòmen que cal que emergeixi,
+L'espècie, no és quelcom intrínsec a tot individu; és a dir, que el
+concepte d'espècie no estarà implementat al codi genetic o als mecanismes
+de funcionament comuns dels individus sinó que caldrà observar-ho en el
 seu comportament.
 
 <p>
-El concepte clàssic d'espècie considera que dos individus són de la 
+El concepte clàssic d'espècie considera que dos individus són de la
 mateixa espècie si són capaços de donar descencència fèrtil.
 
 <p>
-A la biologia moderna es considera que la diferenciació de les espècies 
-no està tant en la capacitat sinó en el fet mateix de reproduir-se. 
+A la biologia moderna es considera que la diferenciació de les espècies
+no està tant en la capacitat sinó en el fet mateix de reproduir-se.
 En això pot influir:
 
 <UL>
 <p>
 
-<li>	Compatibilitat genètica
+<li>   Compatibilitat genètica
 
-<li>	Compatibilitat d'acoplament
+<li>   Compatibilitat d'acoplament
 
-<li>	Compatibilitat geogràfica
+<li>   Compatibilitat geogràfica
 
-<li>	Altres
+<li>   Altres
 </UL>
 <p>
-També, cal adonar-se de que totes aquestes consideracions es 
-refereixen als individus que es reprodueixen sexualment i es creuen. 
-Còm es poden identificar les espècies dels individus que es 
-reprodueixen asexualment? En quin punt es considera que dos 
+També, cal adonar-se de que totes aquestes consideracions es
+refereixen als individus que es reprodueixen sexualment i es creuen.
+Còm es poden identificar les espècies dels individus que es
+reprodueixen asexualment? En quin punt es considera que dos
 descendents d'un mateix individus sòn d'una espècie diferent?
 
 <p>
-A més, degut a la seva qualitat emergent, l'especiació no estarà 
-sempre ben definida. També pot ser que la selecció a l'hora de 
-reproduir-se tingui en compte altres mecanismes que no pas 
+A més, degut a la seva qualitat emergent, l'especiació no estarà
+sempre ben definida. També pot ser que la selecció a l'hora de
+reproduir-se tingui en compte altres mecanismes que no pas
 l'especiació.
 
 <p>
-Tota aquesta conjuntura ha obligat a deixar de banda el concepte 
-d'espècie cap al concepte, una mica més relaxat, de grup reproductiu 
-que, tot i la relaxació, segueix proporcionant informació útil sobre 
-les diferents poblacions del biosistema. 
-Considerem que un grup reproductiu és un conjunt d'organismes que es 
-creuen entre sí o provenen d'ancestres que s'han creuat entre sí 
+Tota aquesta conjuntura ha obligat a deixar de banda el concepte
+d'espècie cap al concepte, una mica més relaxat, de grup reproductiu
+que, tot i la relaxació, segueix proporcionant informació útil sobre
+les diferents poblacions del biosistema.
+Considerem que un grup reproductiu és un conjunt d'organismes que es
+creuen entre sí o provenen d'ancestres que s'han creuat entre sí
 dintre d'un cert perióde de temps o d'un cert nombre de generacions.
 
 <p>
-La política que determina els grups reproductius es basa en un marcatge 
+La política que determina els grups reproductius es basa en un marcatge
 històric.
 
 <p>
-Cada individu s'associa amb un taxó que no és més que una seqüència de 
-marques amb diferent antiguitat. Les marques es traspasen idèntiques a 
-la descendència via mitosi. 
+Cada individu s'associa amb un taxó que no és més que una seqüència de
+marques amb diferent antiguitat. Les marques es traspasen idèntiques a
+la descendència via mitosi.
 
 <p>
-Cada cert temps, es fa una discriminació que consisteix en fondre les 
-dos marques més antigues de cada taxó en una sola i afegir una marca 
-nova que diferenciarà els individus que fins llavors compartien les 
+Cada cert temps, es fa una discriminació que consisteix en fondre les
+dos marques més antigues de cada taxó en una sola i afegir una marca
+nova que diferenciarà els individus que fins llavors compartien les
 mateixes marques i que pendrà importància a mida que adquireixi antiguitat.
 
 <p>
-Cóm es produirà aquesta discriminació? Imaginem que existeixen individus 
+Cóm es produirà aquesta discriminació? Imaginem que existeixen individus
 amb els taxons següents:
 
 <center>
@@ -2277,11 +2518,11 @@ amb els taxons següents:
 </td></table>
 
 <p>
-</center>D'altra banda, hem de considerar el que passa quan es creuen dos 
+</center>D'altra banda, hem de considerar el que passa quan es creuen dos
 individuus que pertanyen a diferents taxons.
 
 <p>
-Quan dos individus es creuen, s'asimilen les marques des de la marca 
+Quan dos individus es creuen, s'asimilen les marques des de la marca
 més antiga fins a la primera que els diferencia als dos (marca discriminant). Es a dir, a tots els taxons cal revisar les marques. Pot ser es veu més clar amb un exemple. Considerem el següent conjunt de taxons.
 
 <p>
@@ -2297,31 +2538,30 @@ més antiga fins a la primera que els diferencia als dos (marca discriminant). Es
 </td></table>
 
 <p>
-Si es creuen AAAABB i AAABBA, cal considerar equivalemts les 
-subseqüencies de marques AAAA i AAAB equivalents. 
-Tots els taxons que comencin per AAAB els canviem per AAAA sense 
-oblidar-nos de modificar la següent marca més jove que la discriminant 
+Si es creuen AAAABB i AAABBA, cal considerar equivalemts les
+subseqüencies de marques AAAA i AAAB equivalents.
+Tots els taxons que comencin per AAAB els canviem per AAAA sense
+oblidar-nos de modificar la següent marca més jove que la discriminant
 amb l'objectiu de que els taxons asimilats mantinguin el sentit.
 
 <p>
 
 <table>
-<tr><td>A A A A A A</td><td align="center">\dasharrowr</td><td>A A A A A A</td>
-<tr><td>A A A A A B</td><td align="center">\dasharrowright</td><td>A A A A A B</td>
-<tr><td>A A A A B B</td><td align="center"><font face=symbol>®</font
-></td><td>A A A A B B</td>
+<tr><td>A A A A A A</td><td align="center">\dashrightarrow</td><td>A A A A A A</td>
+<tr><td>A A A A A B</td><td align="center">\dashrightarrow</td><td>A A A A A B</td>
+<tr><td>A A A A B B</td><td align="center">\dashrightarrow</td><td>A A A A B B</td>
 <tr><td>A A A B A B</td><td align="center"><font face=symbol>Þ</font
 ></td><td>A A A <em>A C</em> B</td>
 <tr><td>A A A B B A</td><td align="center"><font face=symbol>Þ</font
 ></td><td>A A A <em>A D</em> A</td>
 <tr><td>A A A B B B</td><td align="center"><font face=symbol>Þ</font
 ></td><td>A A A <em>A D</em> B</td>
-<tr><td>A A B A A A</td><td align="center"></td><td>A A B A A A
+<tr><td>A A B A A A</td><td align="center">\dashrightarrow</td><td>A A B A A A
 </td></table>
 
 <p>
-De cara a la implementació, he considerat separar la major part 
-del procés associat a la determinació de grups reproductius en 
+De cara a la implementació, he considerat separar la major part
+del procés associat a la determinació de grups reproductius en
 un objecte independent anomenat taxonomista. Aquest objecte s'encarrega de mantenir els taxons al dia mitjançant una interfície estreta que manté amb el processador.
 
 <p>
@@ -2330,52 +2570,60 @@ A dins de la comunitat es manté una informació mínima: l'identificador del taxó 
 <p>
 
 <UL>
-<li>	Incrementar o decrementar la poblacio assignada a un taxó
+<li>   Incrementar o decrementar la poblacio assignada a un taxó
 
-<li>	Creuar un parell de taxons
+<li>   Creuar un parell de taxons
 
-<li>	Generar un nou taxó (Per individuus generats espontàneament)
+<li>   Generar un nou taxó (Per individuus generats espontàneament)
 
-<li>	Envellir les marques i discriminar la població que comparteix el mateix taxó
+<li>   Envellir les marques i discriminar la població que comparteix el mateix taxó
 
-<li>	Determinar el grau de parentesc entre dos individuus
+<li>   Determinar el grau de parentesc entre dos individuus
 </UL>
 <p>
-Quan hem de discriminar o quan fussionem dos taxons, necessitem 
-que la Comunitat i el Taxonomista cooperin. 
+Quan hem de discriminar o quan fussionem dos taxons, necessitem
+que la Comunitat i el Taxonomista cooperin.
 
 <p>
-Quan cal discriminar la població, la Comunitat demana al Taxonomista, 
-per a cada individu, un nou taxó, basant-se en el taxó antic i el 
+Quan cal discriminar la població, la Comunitat demana al Taxonomista,
+per a cada individu, un nou taxó, basant-se en el taxó antic i el
 número de individus que en queden sense discriminar d'aquest.
 
 <p>
-El nou taxo duu les marques X.X.X. ... .X.N on N és el número de 
+El nou taxo duu les marques X.X.X. ... .X.N on N és el número de
 queden sense discriminar.
 
 <p>
-Quan, fruit d'un creuament, es fusionen dos taxons, un dels dos 
-taxons és assimilat per l'altre i, en conseqüència, els individus 
+Quan, fruit d'un creuament, es fusionen dos taxons, un dels dos
+taxons és assimilat per l'altre i, en conseqüència, els individus
 associats al taxò assimilat, cal associar-los al taxó assimilador.
 
 <p>
-Per dins, el taxonomista està composat per una llista indexada de 
-taxons (taxonari). Els números d'índex es referencien des de cada 
+Per dins, el taxonomista està composat per una llista indexada de
+taxons (taxonari). Els números d'índex es referencien des de cada
 individu pertanyent a la Comunitat.
 
 <p>
-Una alternativa al taxonari hagués sigut una implementació en arbre 
-en comptes de la llista indexada. En cada node hi hauria una marca 
-i a les fulles els identificadors de cada taxó. La implementació en 
-arbre simplifica molt la lògica dels algorismes de discriminació i 
-creuament però complica altres operacions internes que amb la llista 
+Una alternativa al taxonari hagués sigut una implementació en arbre
+en comptes de la llista indexada. En cada node hi hauria una marca
+i a les fulles els identificadors de cada taxó. La implementació en
+arbre simplifica molt la lògica dels algorismes de discriminació i
+creuament però complica altres operacions internes que amb la llista
 indexada són trivials.
 
 <p>
-La llista indexada permet un accés directe als taxons i, a més, els 
-manté ordenats de tal forma que les cerques de grups de parentesc 
+La llista indexada permet un accés directe als taxons i, a més, els
+manté ordenats de tal forma que les cerques de grups de parentesc
 tenen un cost temporal mínim.
- 
+
+<p>
+      <H3><A NAME="tth_sEc3.5.2">
+3.5.2</A>&nbsp;&nbsp;Estadístiques de població</H3>
+
+<p>
+      <H3><A NAME="tth_sEc3.5.3">
+3.5.3</A>&nbsp;&nbsp;Estadístiques inter-poblacionals</H3>
+
 <p>
       <H1><A NAME="tth_chAp4">
 Chapter 4     </A><br>Manual del programador</H1>
@@ -2641,67 +2889,15 @@ ja implementats i retocar el mínim.
 4.3</A>&nbsp;&nbsp;Programació de nous substrats</H2>
 
 <p>
-<H2>Bibliography</H2>
-<DL compact>
-
-<p>
-        <H2><A NAME="tth_sEc4.4">
-4.4</A>&nbsp;&nbsp;Biologia</H2>
-
-<p>
-<dt>[]</dt><dd>	CHARLES DARWIN: <em>The Origin of the Especies</em> 
-	Version electronica, Proyecto Nuremberg (1859)
-<dt>[]</dt><dd>
-<p>
-	M. STRICKBERGER: <em>Genética</em>, 3a Edició 
-	Ed. Omega, Barcelona.
-<dt>[]</dt><dd>
-<p>
-	G. MANGIAROTTI: <em>Del gen al organismo. Biologia General</em>
-	Ed. Picin. Padova, Italia.
-
-<p>
-        <H2><A NAME="tth_sEc4.5">
-4.5</A>&nbsp;&nbsp;Vida artificial</H2>
-
-<p>
-<dt>[]</dt><dd>	HELMUT A. MAYER, <em>ptGA's, Genetic algorithms Using Promoter/Terminator Sequences 
-	Evolution of Number, Size and Location of Parameters and Parts of Representation</em>
-<dt>[]</dt><dd>
-<p>
-	RAICH/GHABOUSSI, Autogenesis and Redundancy in GA Representation
-	(Abstacts ICGA97)
-<dt>[]</dt><dd>
-<p>
-	TERENCE SOULE / JAMES A. FOSTER, <em>Comments on the intron/exon 
-	distinction as it relates to the genetic programming and biology</em> 
-	(Abstacts ICGA97)
-<dt>[]</dt><dd>
-<p>
-	HILLOL KARGUPTA, <em>Relation Learning in Gene Expression: 
-	Introns, Variable Legth Representation, And All That</em>
-	(Abstacts ICGA97)
-<dt>[]</dt><dd>
-<p>
-	Frank Hoffmeister, Thomas Back. 
-	<em>Genetic Algortihms and Evolution Strategies: Similarities and Differences</em>,
-	Technical Report SyS-91/2,
-	Systems Analysis Research Group, LSXI, Dept. of Computer Science,
-	University of Dortmund.
-
-<p>
-        <H2><A NAME="tth_sEc4.6">
-4.6</A>&nbsp;&nbsp;Programació</H2>
-
-<p>
-</DL>	<hr><H3>Footnotes:</H3>
+<A NAME="TODO">
+</A><hr><H3>Footnotes:</H3>
 
 <p><a name=tthFtNtAAB></a><a href="#tthFrefAAB"><sup>1</sup></a> Això dòna una idea de en quin punt de l'evolució, les mitocondries
 passaren simbiòticament a formar part dels altres organismes
 <p><a name=tthFtNtAAC></a><a href="#tthFrefAAC"><sup>2</sup></a> 
-Tot i així, és important preveure que l'ordre d'accionat entre 
+Tot i així, és important preveure que l'ordre d'accionat entre
 agents interdependents podria implicar variacions en els resultats.
 
-<p><a name=tthFtNtAAD></a><a href="#tthFrefAAD"><sup>3</sup></a> Veure l'apartat <A href="#TODO">*</A> que parla del que cal fer si es redefineix el substrat
-<p><hr><small>File translated from T<sub><font size="-1">E</font></sub>X by <a href="http://hutchinson.belmont.ma.us/tth/">T<sub><font size="-1">T</font></sub>H</a>, version 2.00.<br>On 04 Sep 1999, 20:34.</small>
+<p><a name=tthFtNtAAD></a><a href="#tthFrefAAD"><sup>3</sup></a> Veure l'apartat  que parla del que cal fer si es redefineix el substrat
+<p><hr><small>File translated from T<sub><font size="-1">E</font></sub>X by <a href="http://hutchinson.belmont.ma.us/tth/">T<sub><font size="-1">T</font></sub>H</a>, version 2.00.<br>On 07 Sep 1999, 06:42.</small>
 </HTML>
