@@ -84,7 +84,7 @@ bool CMissatger::activat () {return m_activat;}
 /////////////////////////////////////////////////////////////////////
 // Insercions
 /////////////////////////////////////////////////////////////////////
-CMissatger & CMissatger::operator<<(ostream& (*pf)(ostream&))
+CMissatger & CMissatger::operator<<(std::ostream& (*pf)(std::ostream&))
 // Aquest membre serveix per interceptar els 'endl'
 {
 	if (!m_activat) return *this;
@@ -109,7 +109,7 @@ void CMissatger::operator() (char * str)
 // Implementacio
 /////////////////////////////////////////////////////////////////////
 void CMissatger::print(char * capcelera) {
-	m_stream << ends;
+	m_stream << std::ends;
 	m_out.print(m_stream.str(), capcelera);
 	m_stream.rdbuf()->freeze(false);
 	m_stream.seekp(0);	
@@ -120,29 +120,29 @@ void CMissatger::print(char * capcelera) {
 /////////////////////////////////////////////////////////////////////
 void CMissatger::ProvaClasse() {
 	// Provant els predefinits
-	error << "Provant error" << endl;
-	warning << "Provant avis" << endl;
+	error << "Provant error" << std::endl;
+	warning << "Provant avis" << std::endl;
 	out << "Salida" << endl;
-	log << "Log no especialitzat" << endl;
-	log1 << "Log de nivell 1" << endl;
-	log2 << "Log de nivell 2" << endl;
-	log3 << "Log de nivell 3" << endl;
-	log4 << "Log de nivell 4" << endl;
+	log << "Log no especialitzat" << std::endl;
+	log1 << "Log de nivell 1" << std::endl;
+	log2 << "Log de nivell 2" << std::endl;
+	log3 << "Log de nivell 3" << std::endl;
+	log4 << "Log de nivell 4" << std::endl;
 	// En principi, no cal definir cal outputer
 	// Un missatger portable (No cal canviar cap parametre especific)
 	// Segons com definim el typedef COutputer pot ser un o un altre
 	COutputer portableOut;
 	CMissatger portable("Portable", "Missatges portables", portableOut);
-	portable << "Yo sempre surto :-|" << endl;
+	portable << "Yo sempre surto :-|" << std::endl;
 	// Un missatger per a terminals ANSI amb suport de color
 	CColorOutputer colorOut(cout, 12);
 	CMissatger color("Color", "Missatges colorejats", colorOut);
-	color << "Mira! Surto pintat!" << endl;
+	color << "Mira! Surto pintat!" << std::endl;
 	// Aquest es un MessageBox de Windows, compte!
 	#ifdef WIN32
 	CBoxOutputer boxOut(MB_ICONEXCLAMATION);
 	CMissatger box("Error a un dialeg", NULL, boxOut);
-	box << "A que mai havies fet servir una MB com a stream?" << endl;
+	box << "A que mai havies fet servir una MB com a stream?" << std::endl;
 	#endif		
 }
 
