@@ -43,7 +43,7 @@ namespace Bioscena {
 		uint32 m_totalCasselles;
 	// Construccio/Destruccio
 	public:
-		Topology(uint32 tamany=0);
+		Topology(uint32 size=0);
 		virtual ~Topology();
 
 	/// @name Redefinibles
@@ -51,29 +51,29 @@ namespace Bioscena {
 	public:
 		/// Gives the number of discrete positions that the topology has
 		/// @return The number of discrete positions for the topology
-		virtual uint32 tamany() const;
+		virtual uint32 size() const;
 
 		/// Returns whether a given position is valid for the topology
-		/// @param A position
-		/// @return true if the position is valid on the topology
-		virtual bool esPosicioValida(t_position cassella) const;
+		/// @param position A position to be checked
+		/// @return true if the position is a valid one on the topology
+		virtual bool isValidPosition(t_position position) const;
 		
 		/// Returns a random valid position on the topology
-		virtual t_position posicioAleatoria() const;
+		virtual t_position randomPosition() const;
 
 		/// Calculates a single movement within the topology
-		/// @param origen The origin of a movement
-		/// @param movimentRelatiu A displacement
+		/// @param origin The origin of a movement
+		/// @param relativeMovement A displacement
 		/// @return The displaced position
-		virtual t_position displace(t_position origen, t_displacement movimentRelatiu) const;
+		virtual t_position displace(t_position origin, t_displacement relativeMovement) const;
 		
 		/// Calculates a randomly displaced position from an origin.
 		/// By applying several random displacements you will obtain a normal
 		/// distribution arround the origin.
-		/// @param origen The origin of a movement
-		/// @param radi The number of random displacements to perform
+		/// @param origin The origin of a movement
+		/// @param radius The number of random displacements to perform
 		/// @return The displaced position
-		virtual t_position displaceRandomly(t_position origen, uint32 radi) const;
+		virtual t_position displaceRandomly(t_position origin, uint32 radius) const;
 
 		/// Calculates the displacement needed in order to go from one position to the other one.
 		/// Not always an only displacement is enough to reach the goal but the displacement
@@ -82,16 +82,12 @@ namespace Bioscena {
 		/// @param posDesti The goal for the movement
 		/// @param desp A reference to the variable where to put the calculated displacement
 		/// @returns True if the given displacement is enough to reach the goal.
-		virtual bool unio(t_position posOrigen, t_position posDesti, t_displacement & desp) const;
+		virtual bool pathTowards(t_position posOrigen, t_position posDesti, t_displacement & desp) const;
 		
-		/// Calculates the inverse displacement.
-		/// Not always an only displacement is enough to reach the goal but the displacement
-		/// gives the direction to get closer.
-		/// @param posOrigen The origin position
-		/// @param posDesti The goal for the movement
-		/// @param desp A reference to the variable where to put the calculated displacement
-		/// @returns True if the given displacement is enough to reach the goal.
-		virtual t_displacement invers(t_displacement desp) const;
+		/// Calculates the oposite/mirrored displacement.
+		/// @param desp A displacement to be mirror
+		/// @returns The mirrored displacement
+		virtual t_displacement opositeDisplacement(t_displacement desp) const;
 		
 		/// Returns a displacement value that applied to one position it gives the same position.
 		/// @returns A null displacement
