@@ -28,17 +28,22 @@ public:
 	uint32 m_posicio;
 	uint32 m_taxo;
 	bool m_propietari;
+	uint32 m_subIdentificador;
 // Operacions (Acces)
 public:
 	inline void taxo (uint32 tx) {m_taxo=tx;};
 	inline uint32 taxo () {return m_taxo;};
 	inline void posicio (uint32 pos) {m_posicio=pos;};
 	inline uint32 posicio () {return m_posicio;};
+	inline uint32 subidentificador () {return m_subIdentificador;};
 	inline void cos (COrganisme* org) {
 		if (m_cos) delete m_cos;
+		if (org) ++m_subIdentificador;
 		m_cos=org;
 	}
 	inline COrganisme* cos() {m_propietari=true; return m_cos;};
+//	bool operator< (const COrganisme & o) const {return false;};
+//	bool operator< (const COrganisme & o) {return false;};
 };
 
 #endif // !defined(__KKEP_INFOORGANISME_H_INCLUDED)

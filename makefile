@@ -6,10 +6,9 @@ CPPSOURCES:= $(wildcard *.cpp)
 CSOURCES:=$(wildcard *.c)
 OBJSCPP:=$(CPPSOURCES:.cpp=.o)
 OBJSC:=$(CSOURCES:.c=.o)
-CFLAGS= -g -Wall
+CFLAGS= -g -Wall -fexceptions -pedantic
 LDLIBS=-lm 
 LDFLAGS=-s --relax 
-
 default: copirrait ${EXEC}
 
 copirrait:

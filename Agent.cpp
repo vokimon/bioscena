@@ -14,6 +14,8 @@
 #include "Color.h"
 #include "TopologiaToroidal.h"
 
+using namespace AnsiCodes;
+
 //////////////////////////////////////////////////////////////////////
 // Construccio/Desctruccio
 //////////////////////////////////////////////////////////////////////
@@ -51,6 +53,11 @@ void CAgent::dump(CMissatger& msg)
 
 bool CAgent::configura(string parametre, istream & nom, t_diccionariAgents & diccionari, CMissatger & errors)
 {
+	if (parametre=="Com") {
+		// Ignorem el contingut
+		// TODO: Guardar el contingut
+		return true;
+	}
 	// CAgent no te cap parametre configurar
 	// El retorn diu si l'agent ha interceptat el parametre
 	return false;
@@ -238,7 +245,7 @@ CAgent * CAgent::CreaAgent(string tipus, CTopologia<CSubstrat> &biotop)
 
 void CAgent::ProvaClasse()
 {
-	out << "\033[J";// Un clrscr xapuser pero standard (ANSI)
+	out << clrscr;
 	out << blanc.brillant() << "Provant Agent Parsing" << blanc.fosc() << endl;
 	CTopologiaToroidal<CSubstrat> biotop(70,21);
 	CAgent * agentArrel = ParsejaArxiu("AgentsLog.txt", biotop, error);

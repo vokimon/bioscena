@@ -29,6 +29,7 @@ CColorOutputer log1Outputer(clog, 15);
 CColorOutputer log2Outputer(clog, 11);
 CColorOutputer log3Outputer(clog, 10);
 CColorOutputer log4Outputer(clog, 14);
+CMemoryOutputer memOutputer(clog, 20);
 
 // Els noms son curts per a ser facils d'usar, pero, es facil
 // que hi hagi conflictes amb altres variables.
@@ -41,6 +42,7 @@ CMissatger log1("\n>>>>>", NULL, log1Outputer);
 CMissatger log2("--", NULL, log2Outputer);
 CMissatger log3("  ", NULL, log3Outputer);
 CMissatger log4("    ", NULL, log4Outputer);
+CMissatger mem("Cua de missatges", NULL, memOutputer);
 
 /////////////////////////////////////////////////////////////////////
 // Construccio/Desctruccio

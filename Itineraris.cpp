@@ -8,6 +8,9 @@
 #include "Temporitzador.h"
 #include "Iterador.h"
 #include "TopologiaToroidal.h"
+#include "Color.h"
+
+using namespace AnsiCodes;
 
 //////////////////////////////////////////////////////////////////////
 // Construccio/Destruccio
@@ -228,7 +231,7 @@ void CPosicionadorZonal::radi(uint32 rad)
 
 void CItinerari::ProvaClasse()
 {
-	out << "\033[J";
+	out << clrscr;
 	out << blanc.brillant() << "Provant Itinerari" << endl;
 	CTopologiaToroidal<CSubstrat> biotop(70,21);
 /*
@@ -325,7 +328,7 @@ void CItinerari::ProvaClasse()
 
 void CPosicionadorZonal::ProvaClasse()
 {
-	out << "\033[J";
+	out << clrscr;
 	out << blanc.brillant() << "Provant Posicionador Zonal" << endl;
 	CTopologiaToroidal<CSubstrat> biotop(70,35);
 	CPosicionador* posicioCentral = new CPosicionador(biotop);
@@ -353,7 +356,7 @@ void CPosicionadorZonal::ProvaClasse()
 
 void CDireccionadorAleatori::ProvaClasse()
 {
-	out << "\033[J";
+	out << clrscr;
 	out << blanc.brillant() << "Provant Direccionador Aleatori" << endl;
 	CTopologiaToroidal<CSubstrat> biotop(70,22);
 
@@ -389,7 +392,7 @@ void CDireccionadorAleatori::ProvaClasse()
 
 void CPosicionadorAleatori::ProvaClasse()
 {
-	out << "\033[J";
+	out << clrscr;
 	out << blanc.brillant() << "Provant Posicionador Aleatori" << blanc.fosc() << endl;
 	CTopologiaToroidal<CSubstrat> biotop(70,22);
 	CPosicionador* posicio = new CPosicionadorAleatori(biotop);

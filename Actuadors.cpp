@@ -8,6 +8,9 @@
 #include "TopologiaToroidal.h"
 #include "Iterador.h"
 #include "MultiAgent.h"
+#include "Color.h"
+
+using namespace AnsiCodes;
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -72,7 +75,7 @@ void CNutridor::composicio(uint32 element, uint32 variabilitat)
 
 void CNutridor::ProvaClasse()
 {
-	out << "\033[J";
+	out << clrscr;
 	out << blanc.brillant() << "Provant Agent Nutridor" << endl;
 	
 	CTopologiaToroidal<CSubstrat> biotop(70,22);
@@ -120,7 +123,7 @@ void CNutridor::ProvaClasse()
 
 void CDesnutridor::ProvaClasse()
 {
-	out << "\033[J";
+	out << clrscr;
 	out << blanc.brillant() << "Provant Agent Desnutridor" << endl;
 
 	CTopologiaToroidal<CSubstrat> biotop(70,22);

@@ -12,6 +12,9 @@
 #include "Actuadors.h"
 #include "Iterador.h"
 #include "Temporitzador.h"
+#include "Color.h"
+
+using namespace AnsiCodes;
 
 //////////////////////////////////////////////////////////////////////
 // Construccio/Destruccio
@@ -99,7 +102,7 @@ bool CMultiAgent::desubordina(CAgent * ag)
 
 void CMultiAgent::ProvaClasse()
 {
-	out << "\033[J";// Un clrscr xapuser pero standard (ANSI)
+	out << clrscr;
 	out << blanc.brillant() << "Provant MultiAgent" << blanc.fosc() << endl;
 	CTopologiaToroidal<CSubstrat> biotop(40,20);//(70,24);
 

@@ -81,7 +81,7 @@ protected:
 // Proves
 public:
 	virtual void debugPresenta(CMissatger & stream) {
-		stream << "\033[2;1H";// Un gotoxy xapuser pero standard (ANSI)
+		stream << gotoxy(2,1);
 		for (uint32 i=0;i<m_totalCasselles;i++)
 			stream << m_casselles[i]<<"#";
 		stream<<endl;

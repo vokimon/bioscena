@@ -5,12 +5,6 @@
 #if !defined(KKEP_MISSATGER_H_INCLUDED_)
 #define KKEP_MISSATGER_H_INCLUDED_
 
-#if _MSC_VER >= 1000
-#pragma once
-//#else
-//#pragma implementation
-#endif // _MSC_VER >= 1000
-
 #include <strstream>
 #include <iostream>
 #include "Outputer.h"
@@ -67,6 +61,6 @@ public:
 };
 
 // Missatgers de la aplicació
-extern CMissatger error,warning,out,log,log1,log2,log3,log4;
+extern CMissatger error,warning,out,log,log1,log2,log3,log4,mem;
 
 #endif // !defined(KKEP_MISSATGER_H_INCLUDED_)

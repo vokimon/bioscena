@@ -10,6 +10,8 @@
 #include "RandomStream.h"
 #include "Color.h"
 
+using namespace AnsiCodes;
+
 //////////////////////////////////////////////////////////////////////
 // Variables estatiques
 //////////////////////////////////////////////////////////////////////
@@ -226,7 +228,7 @@ string CEuploidiaPositiva::Tipus()
 
 void CMutacioCariotip::ProvaClasse(void)
 {
-	out << "\033[J";// Un clrscr xapuser pero standard (ANSI)
+	out << clrscr;
 	out << blanc.brillant() << "Provant MutacioCariotip" << blanc.fosc() << endl;
 	out << "Entra un numero entre 1 i " << CMutacioCariotip::Nombre() << " per veure una mutacio" << endl;
 	out << "Entra un numero fora de l'interval per sortir" << endl;

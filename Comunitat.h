@@ -8,8 +8,6 @@
 #if !defined(__KKEP_COMUNITAT_H_INCLUDED)
 #define __KKEP_COMUNITAT_H_INCLUDED
 
-#include <algorithm>
-#include <functional>
 #include <vector>
 #include "Missatger.h"
 #include "InfoOrganisme.h"
@@ -24,11 +22,10 @@ public:
 public:
 	void dump(CMissatger & msg);
 	void dumpDisponibles(CMissatger & msg);
+	void dumpEnergies(CMissatger & msg);
 // Operacions
 public:
-	CInfoOrganisme & operator[](uint32 index) {
-		return m_organismes[index];
-	}
+	CInfoOrganisme & operator[](uint32 index);
 	uint32 introdueix(COrganisme* org, uint32 posicio, uint32 taxo);
 	void extreu (uint32 index);
 	uint32 organismeAleatori();

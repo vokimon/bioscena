@@ -36,6 +36,10 @@ private:
 	uint32 m_instruccionsRestants;
 	uint32 m_maxInstruccions;
 	uint32 m_idOrganismeActiu;
+	COrganisme * m_organismeActiu;
+	CInfoOrganisme * m_infoOrganismeActiu;
+	uint32 m_tempsPerAccionarAgents;
+	uint32 m_temps;
 // Construccio/Destruccio
 public:
 	CBiosistema();
@@ -43,7 +47,6 @@ public:
 // Redefinibles
 public:
 	virtual void operator () (void);
-	void canviaOrganismeActiu();
 // Operacions (Access als membres)
 public:
 	t_biotop * biotop();
@@ -56,8 +59,11 @@ public:
 	void agents(t_agent *);
 	void deleteAgents();
 	bool organismeExpontani();
+	bool eliminaOrganismeActiu();
+	void canviaOrganismeActiu();
 // Operacions (Instruccions)
 public:
+	bool organismeMitosi(uint32 desp, uint32 energia);
 	bool organismeAvanca(uint32 desp, uint32 energia, uint32 clauMoviment);
 	bool organismeAtaca(uint32 desp, uint32 elementBase, uint32 tolerancia, uint32 energia, uint32 clauAtac);
 	bool organismeCreua(uint32 desp, uint32 energia, uint32 clauCreuament);

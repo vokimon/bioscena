@@ -8,6 +8,8 @@
 #include "Missatger.h"
 #include "Color.h"
 
+using namespace AnsiCodes;
+
 //////////////////////////////////////////////////////////////////////
 // Construccio/Desctruccio
 //////////////////////////////////////////////////////////////////////
@@ -21,7 +23,7 @@ static void hola(){out << "Hola mon!"<<endl;}
 
 void CFuncioAgent::ProvaClasse ()
 {
-	out << "\033[J";// Un clrscr xapuser pero standard (ANSI)
+	out << clrscr;
 	out << blanc.brillant() << "Provant Agent Funcio Usuari" << blanc.fosc() << endl;
 	CFuncioAgent ag(hola);
 	ag();

@@ -6,35 +6,26 @@ Project's tools are:
 			"32-bit C/C++ Compiler for 80x86" with flags "/nologo /MLd /W3 /Gm /GX /Zi /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"Debug/Bioscena.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /c "
 			"Win32 Resource Compiler" with flags "/l 0x403 /d "_DEBUG" "
 			"Browser Database Maker" with flags "/nologo /o"Debug/Bioscena.bsc" "
-			"COFF Linker for 80x86" with flags "kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:yes /pdb:"Debug/Bioscena.pdb" /debug /machine:I386 /out:"Debug/Bioscena.exe" /pdbtype:sept "
+			"COFF Linker for 80x86" with flags "kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /verbose /incremental:yes /pdb:"Debug/Bioscena.pdb" /debug /machine:I386 /out:"Debug/Bioscena.exe" /pdbtype:sept "
 			"Custom Build" with flags ""
 			"<Component 0xa>" with flags ""
 
-Creating temp file "C:\WINDOWS\TEMP\RSP10C3.TMP" with contents </nologo /MLd /W3 /Gm /GX /Zi /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"Debug/Bioscena.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /c 
-"D:\Bioscena\Bioscena\Actuador.cpp"
-"D:\Bioscena\Bioscena\Actuadors.cpp"
-"D:\Bioscena\Bioscena\Agent.cpp"
-"D:\Bioscena\Bioscena\Aleaturitzador.cpp"
+Creating temp file "C:\WINDOWS\TEMP\RSPA1A2.TMP" with contents </nologo /MLd /W3 /Gm /GX /Zi /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"Debug/Bioscena.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /c 
 "D:\Bioscena\Bioscena\AppInfo.cpp"
-"D:\Bioscena\Bioscena\Comunitat.cpp"
-"D:\Bioscena\Bioscena\FuncioAgent.cpp"
-"D:\Bioscena\Bioscena\Iterador.cpp"
-"D:\Bioscena\Bioscena\Itineraris.cpp"
-"D:\Bioscena\Bioscena\MainBio1.cpp"
-"D:\Bioscena\Bioscena\MultiAgent.cpp"
-"D:\Bioscena\Bioscena\Posicionador.cpp"
-"D:\Bioscena\Bioscena\Temporitzador.cpp"
-"D:\Bioscena\Bioscena\Topologia.cpp"
-"D:\Bioscena\Bioscena\TopologiaToroidal.cpp"
 "D:\Bioscena\Bioscena\Biosistema.cpp"
+"D:\Bioscena\Bioscena\Color.cpp"
+"D:\Bioscena\Bioscena\Comunitat.cpp"
+"D:\Bioscena\Bioscena\InfoOrganisme.cpp"
+"D:\Bioscena\Bioscena\MainBio1.cpp"
 >
-Creating command line "cl.exe @C:\WINDOWS\TEMP\RSP10C3.TMP" 
-Creating temp file "C:\WINDOWS\TEMP\RSP10C4.TMP" with contents <kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:yes /pdb:"Debug/Bioscena.pdb" /debug /machine:I386 /out:"Debug/Bioscena.exe" /pdbtype:sept 
+Creating command line "cl.exe @C:\WINDOWS\TEMP\RSPA1A2.TMP" 
+Creating temp file "C:\WINDOWS\TEMP\RSPA1A3.TMP" with contents <kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /verbose /incremental:yes /pdb:"Debug/Bioscena.pdb" /debug /machine:I386 /out:"Debug/Bioscena.exe" /pdbtype:sept 
 .\Debug\Actuador.obj
 .\Debug\Actuadors.obj
 .\Debug\Agent.obj
 .\Debug\Aleaturitzador.obj
 .\Debug\AppInfo.obj
+.\Debug\Biosistema.obj
 .\Debug\Cariotip.obj
 .\Debug\Color.obj
 .\Debug\Compatibilitat.obj
@@ -55,93 +46,47 @@ Creating temp file "C:\WINDOWS\TEMP\RSP10C4.TMP" with contents <kernel32.lib use
 .\Debug\MutacioCariotip.obj
 .\Debug\MutacioGenica.obj
 .\Debug\Organisme.obj
+.\Debug\Outputer.obj
 .\Debug\Posicionador.obj
 .\Debug\RandomStream.obj
 .\Debug\Substrat.obj
 .\Debug\Temporitzador.obj
 .\Debug\Topologia.obj
-.\Debug\TopologiaToroidal.obj
-.\Debug\Biosistema.obj>
-Creating command line "link.exe @C:\WINDOWS\TEMP\RSP10C4.TMP" 
+.\Debug\TopologiaToroidal.obj>
+Creating command line "link.exe @C:\WINDOWS\TEMP\RSPA1A3.TMP" 
 Compiling...
-Comunitat.cpp
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(45) : error C2784: 'bool __cdecl std::operator <(const class std::multimap<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4'> &,const class std::multimap<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4'> &)' : could not deduce template argument for 'const class std::multimap<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(45) : error C2784: 'bool __cdecl std::operator <(const class std::map<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4'> &,const class std::map<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4'> &)' : could not deduce template argument for 'const class std::map<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(45) : error C2784: 'bool __cdecl std::operator <(const class std::_Tree<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4',`template-parameter-5'> &,const class std::_Tree<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4',`template-parameter-5'> &)' : could not deduce template argument for 'const class std::_Tree<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4',`template-parameter-5'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(45) : error C2784: 'bool __cdecl std::operator <(const class std::basic_string<`template-parameter-1',`template-parameter-2',`template-parameter-3'> &,const template-parameter-1 *)' : could not deduce template argument for 'const class std::basic_string<`template-parameter-1',`template-parameter-2',`template-parameter-3'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(45) : error C2784: 'bool __cdecl std::operator <(const template-parameter-1 *,const class std::basic_string<`template-parameter-1',`template-parameter-2',`template-parameter-3'> &)' : could not deduce template argument for 'const template-parameter-1 *' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(45) : error C2784: 'bool __cdecl std::operator <(const class std::basic_string<`template-parameter-1',`template-parameter-2',`template-parameter-3'> &,const class std::basic_string<`template-parameter-1',`template-parameter-2',`template-parameter-3'> &)' : could not deduce template argument for 'const class std::basic_string<`template-parameter-1',`template-parameter-2',`template-parameter-3'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(45) : error C2784: 'bool __cdecl std::operator <(const class std::list<`template-parameter-1',`template-parameter-2'> &,const class std::list<`template-parameter-1',`template-parameter-2'> &)' : could not deduce template argument for 'const class std::list<`template-parameter-1',`template-parameter-2'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(45) : error C2784: 'bool __cdecl std::operator <(const class std::reverse_iterator<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4',`template-parameter-5'> &,const class std::reverse_iterator<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4',`template-parameter-5'> &)' : could not deduce template argument for 'const class std::reverse_iterator<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4',`template-parameter-5'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(45) : error C2784: 'bool __cdecl std::operator <(const struct std::pair<`template-parameter-1',`template-parameter-2'> &,const struct std::pair<`template-parameter-1',`template-parameter-2'> &)' : could not deduce template argument for 'const struct std::pair<`template-parameter-1',`template-parameter-2'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(45) : error C2676: binary '<' : 'const class CInfoOrganisme' does not define this operator or a conversion to a type acceptable to the predefined operator
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(47) : error C2784: 'bool __cdecl std::operator <(const class std::multimap<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4'> &,const class std::multimap<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4'> &)' : could not deduce template argument for 'const class std::multimap<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(47) : error C2784: 'bool __cdecl std::operator <(const class std::map<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4'> &,const class std::map<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4'> &)' : could not deduce template argument for 'const class std::map<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(47) : error C2784: 'bool __cdecl std::operator <(const class std::_Tree<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4',`template-parameter-5'> &,const class std::_Tree<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4',`template-parameter-5'> &)' : could not deduce template argument for 'const class std::_Tree<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4',`template-parameter-5'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(47) : error C2784: 'bool __cdecl std::operator <(const class std::basic_string<`template-parameter-1',`template-parameter-2',`template-parameter-3'> &,const template-parameter-1 *)' : could not deduce template argument for 'const class std::basic_string<`template-parameter-1',`template-parameter-2',`template-parameter-3'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(47) : error C2784: 'bool __cdecl std::operator <(const template-parameter-1 *,const class std::basic_string<`template-parameter-1',`template-parameter-2',`template-parameter-3'> &)' : could not deduce template argument for 'const template-parameter-1 *' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(47) : error C2784: 'bool __cdecl std::operator <(const class std::basic_string<`template-parameter-1',`template-parameter-2',`template-parameter-3'> &,const class std::basic_string<`template-parameter-1',`template-parameter-2',`template-parameter-3'> &)' : could not deduce template argument for 'const class std::basic_string<`template-parameter-1',`template-parameter-2',`template-parameter-3'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(47) : error C2784: 'bool __cdecl std::operator <(const class std::list<`template-parameter-1',`template-parameter-2'> &,const class std::list<`template-parameter-1',`template-parameter-2'> &)' : could not deduce template argument for 'const class std::list<`template-parameter-1',`template-parameter-2'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(47) : error C2784: 'bool __cdecl std::operator <(const class std::reverse_iterator<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4',`template-parameter-5'> &,const class std::reverse_iterator<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4',`template-parameter-5'> &)' : could not deduce template argument for 'const class std::reverse_iterator<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4',`template-parameter-5'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(47) : error C2784: 'bool __cdecl std::operator <(const struct std::pair<`template-parameter-1',`template-parameter-2'> &,const struct std::pair<`template-parameter-1',`template-parameter-2'> &)' : could not deduce template argument for 'const struct std::pair<`template-parameter-1',`template-parameter-2'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(47) : error C2676: binary '<' : 'const class CInfoOrganisme' does not define this operator or a conversion to a type acceptable to the predefined operator
-Itineraris.cpp
-MainBio1.cpp
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(45) : error C2784: 'bool __cdecl std::operator <(const class std::multimap<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4'> &,const class std::multimap<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4'> &)' : could not deduce template argument for 'const class std::multimap<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(45) : error C2784: 'bool __cdecl std::operator <(const class std::map<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4'> &,const class std::map<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4'> &)' : could not deduce template argument for 'const class std::map<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(45) : error C2784: 'bool __cdecl std::operator <(const class std::_Tree<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4',`template-parameter-5'> &,const class std::_Tree<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4',`template-parameter-5'> &)' : could not deduce template argument for 'const class std::_Tree<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4',`template-parameter-5'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(45) : error C2784: 'bool __cdecl std::operator <(const class std::basic_string<`template-parameter-1',`template-parameter-2',`template-parameter-3'> &,const template-parameter-1 *)' : could not deduce template argument for 'const class std::basic_string<`template-parameter-1',`template-parameter-2',`template-parameter-3'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(45) : error C2784: 'bool __cdecl std::operator <(const template-parameter-1 *,const class std::basic_string<`template-parameter-1',`template-parameter-2',`template-parameter-3'> &)' : could not deduce template argument for 'const template-parameter-1 *' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(45) : error C2784: 'bool __cdecl std::operator <(const class std::basic_string<`template-parameter-1',`template-parameter-2',`template-parameter-3'> &,const class std::basic_string<`template-parameter-1',`template-parameter-2',`template-parameter-3'> &)' : could not deduce template argument for 'const class std::basic_string<`template-parameter-1',`template-parameter-2',`template-parameter-3'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(45) : error C2784: 'bool __cdecl std::operator <(const class std::list<`template-parameter-1',`template-parameter-2'> &,const class std::list<`template-parameter-1',`template-parameter-2'> &)' : could not deduce template argument for 'const class std::list<`template-parameter-1',`template-parameter-2'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(45) : error C2784: 'bool __cdecl std::operator <(const class std::reverse_iterator<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4',`template-parameter-5'> &,const class std::reverse_iterator<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4',`template-parameter-5'> &)' : could not deduce template argument for 'const class std::reverse_iterator<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4',`template-parameter-5'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(45) : error C2784: 'bool __cdecl std::operator <(const struct std::pair<`template-parameter-1',`template-parameter-2'> &,const struct std::pair<`template-parameter-1',`template-parameter-2'> &)' : could not deduce template argument for 'const struct std::pair<`template-parameter-1',`template-parameter-2'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(45) : error C2676: binary '<' : 'const class CInfoOrganisme' does not define this operator or a conversion to a type acceptable to the predefined operator
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(47) : error C2784: 'bool __cdecl std::operator <(const class std::multimap<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4'> &,const class std::multimap<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4'> &)' : could not deduce template argument for 'const class std::multimap<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(47) : error C2784: 'bool __cdecl std::operator <(const class std::map<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4'> &,const class std::map<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4'> &)' : could not deduce template argument for 'const class std::map<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(47) : error C2784: 'bool __cdecl std::operator <(const class std::_Tree<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4',`template-parameter-5'> &,const class std::_Tree<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4',`template-parameter-5'> &)' : could not deduce template argument for 'const class std::_Tree<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4',`template-parameter-5'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(47) : error C2784: 'bool __cdecl std::operator <(const class std::basic_string<`template-parameter-1',`template-parameter-2',`template-parameter-3'> &,const template-parameter-1 *)' : could not deduce template argument for 'const class std::basic_string<`template-parameter-1',`template-parameter-2',`template-parameter-3'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(47) : error C2784: 'bool __cdecl std::operator <(const template-parameter-1 *,const class std::basic_string<`template-parameter-1',`template-parameter-2',`template-parameter-3'> &)' : could not deduce template argument for 'const template-parameter-1 *' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(47) : error C2784: 'bool __cdecl std::operator <(const class std::basic_string<`template-parameter-1',`template-parameter-2',`template-parameter-3'> &,const class std::basic_string<`template-parameter-1',`template-parameter-2',`template-parameter-3'> &)' : could not deduce template argument for 'const class std::basic_string<`template-parameter-1',`template-parameter-2',`template-parameter-3'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(47) : error C2784: 'bool __cdecl std::operator <(const class std::list<`template-parameter-1',`template-parameter-2'> &,const class std::list<`template-parameter-1',`template-parameter-2'> &)' : could not deduce template argument for 'const class std::list<`template-parameter-1',`template-parameter-2'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(47) : error C2784: 'bool __cdecl std::operator <(const class std::reverse_iterator<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4',`template-parameter-5'> &,const class std::reverse_iterator<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4',`template-parameter-5'> &)' : could not deduce template argument for 'const class std::reverse_iterator<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4',`template-parameter-5'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(47) : error C2784: 'bool __cdecl std::operator <(const struct std::pair<`template-parameter-1',`template-parameter-2'> &,const struct std::pair<`template-parameter-1',`template-parameter-2'> &)' : could not deduce template argument for 'const struct std::pair<`template-parameter-1',`template-parameter-2'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(47) : error C2676: binary '<' : 'const class CInfoOrganisme' does not define this operator or a conversion to a type acceptable to the predefined operator
-Posicionador.cpp
-Biosistema.cpp
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(45) : error C2784: 'bool __cdecl std::operator <(const class std::multimap<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4'> &,const class std::multimap<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4'> &)' : could not deduce template argument for 'const class std::multimap<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(45) : error C2784: 'bool __cdecl std::operator <(const class std::map<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4'> &,const class std::map<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4'> &)' : could not deduce template argument for 'const class std::map<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(45) : error C2784: 'bool __cdecl std::operator <(const class std::_Tree<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4',`template-parameter-5'> &,const class std::_Tree<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4',`template-parameter-5'> &)' : could not deduce template argument for 'const class std::_Tree<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4',`template-parameter-5'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(45) : error C2784: 'bool __cdecl std::operator <(const class std::basic_string<`template-parameter-1',`template-parameter-2',`template-parameter-3'> &,const template-parameter-1 *)' : could not deduce template argument for 'const class std::basic_string<`template-parameter-1',`template-parameter-2',`template-parameter-3'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(45) : error C2784: 'bool __cdecl std::operator <(const template-parameter-1 *,const class std::basic_string<`template-parameter-1',`template-parameter-2',`template-parameter-3'> &)' : could not deduce template argument for 'const template-parameter-1 *' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(45) : error C2784: 'bool __cdecl std::operator <(const class std::basic_string<`template-parameter-1',`template-parameter-2',`template-parameter-3'> &,const class std::basic_string<`template-parameter-1',`template-parameter-2',`template-parameter-3'> &)' : could not deduce template argument for 'const class std::basic_string<`template-parameter-1',`template-parameter-2',`template-parameter-3'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(45) : error C2784: 'bool __cdecl std::operator <(const class std::list<`template-parameter-1',`template-parameter-2'> &,const class std::list<`template-parameter-1',`template-parameter-2'> &)' : could not deduce template argument for 'const class std::list<`template-parameter-1',`template-parameter-2'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(45) : error C2784: 'bool __cdecl std::operator <(const class std::reverse_iterator<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4',`template-parameter-5'> &,const class std::reverse_iterator<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4',`template-parameter-5'> &)' : could not deduce template argument for 'const class std::reverse_iterator<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4',`template-parameter-5'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(45) : error C2784: 'bool __cdecl std::operator <(const struct std::pair<`template-parameter-1',`template-parameter-2'> &,const struct std::pair<`template-parameter-1',`template-parameter-2'> &)' : could not deduce template argument for 'const struct std::pair<`template-parameter-1',`template-parameter-2'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(45) : error C2676: binary '<' : 'const class CInfoOrganisme' does not define this operator or a conversion to a type acceptable to the predefined operator
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(47) : error C2784: 'bool __cdecl std::operator <(const class std::multimap<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4'> &,const class std::multimap<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4'> &)' : could not deduce template argument for 'const class std::multimap<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(47) : error C2784: 'bool __cdecl std::operator <(const class std::map<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4'> &,const class std::map<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4'> &)' : could not deduce template argument for 'const class std::map<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(47) : error C2784: 'bool __cdecl std::operator <(const class std::_Tree<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4',`template-parameter-5'> &,const class std::_Tree<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4',`template-parameter-5'> &)' : could not deduce template argument for 'const class std::_Tree<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4',`template-parameter-5'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(47) : error C2784: 'bool __cdecl std::operator <(const class std::basic_string<`template-parameter-1',`template-parameter-2',`template-parameter-3'> &,const template-parameter-1 *)' : could not deduce template argument for 'const class std::basic_string<`template-parameter-1',`template-parameter-2',`template-parameter-3'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(47) : error C2784: 'bool __cdecl std::operator <(const template-parameter-1 *,const class std::basic_string<`template-parameter-1',`template-parameter-2',`template-parameter-3'> &)' : could not deduce template argument for 'const template-parameter-1 *' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(47) : error C2784: 'bool __cdecl std::operator <(const class std::basic_string<`template-parameter-1',`template-parameter-2',`template-parameter-3'> &,const class std::basic_string<`template-parameter-1',`template-parameter-2',`template-parameter-3'> &)' : could not deduce template argument for 'const class std::basic_string<`template-parameter-1',`template-parameter-2',`template-parameter-3'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(47) : error C2784: 'bool __cdecl std::operator <(const class std::list<`template-parameter-1',`template-parameter-2'> &,const class std::list<`template-parameter-1',`template-parameter-2'> &)' : could not deduce template argument for 'const class std::list<`template-parameter-1',`template-parameter-2'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(47) : error C2784: 'bool __cdecl std::operator <(const class std::reverse_iterator<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4',`template-parameter-5'> &,const class std::reverse_iterator<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4',`template-parameter-5'> &)' : could not deduce template argument for 'const class std::reverse_iterator<`template-parameter-1',`template-parameter-2',`template-parameter-3',`template-parameter-4',`template-parameter-5'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(47) : error C2784: 'bool __cdecl std::operator <(const struct std::pair<`template-parameter-1',`template-parameter-2'> &,const struct std::pair<`template-parameter-1',`template-parameter-2'> &)' : could not deduce template argument for 'const struct std::pair<`template-parameter-1',`template-parameter-2'> &' from 'const class CInfoOrganisme'
-C:\Archivos de programa\Programacio\DevStudio\VC\INCLUDE\xutility(47) : error C2676: binary '<' : 'const class CInfoOrganisme' does not define this operator or a conversion to a type acceptable to the predefined operator
-Actuador.cpp
-Actuadors.cpp
-Agent.cpp
-Aleaturitzador.cpp
-FuncioAgent.cpp
-Iterador.cpp
-MultiAgent.cpp
-Temporitzador.cpp
-Topologia.cpp
-TopologiaToroidal.cpp
 AppInfo.cpp
-Error executing cl.exe.
+Biosistema.cpp
+D:\Bioscena\Bioscena\Biosistema.cpp(336) : warning C4101: 'p' : unreferenced local variable
+D:\Bioscena\Bioscena\Biosistema.cpp(363) : warning C4101: 'a' : unreferenced local variable
+Color.cpp
+InfoOrganisme.cpp
+Comunitat.cpp
+MainBio1.cpp
+Linking...
+Start Pass2
+     Temporitzador.obj
+     Outputer.obj
+     MutacioGenica.obj
+     MutacioCariotip.obj
+     MultiAgent.obj
+     MainBio1.obj
+     Itineraris.obj
+     Iterador.obj
+     InfoOrganisme.obj
+     Gen.obj
+     FuncioAgent.obj
+     Cromosoma.obj
+     Comunitat.obj
+     Color.obj
+     Cariotip.obj
+     Biosistema.obj
+     AppInfo.obj
+     Aleaturitzador.obj
+     Agent.obj
+     Actuadors.obj
+End Pass2
 
 
 
-Bioscena.exe - 60 error(s), 0 warning(s)
+Bioscena.exe - 0 error(s), 2 warning(s)

@@ -11,6 +11,7 @@
 CInfoOrganisme::CInfoOrganisme()
 {
 	m_cos=NULL;
+	m_subIdentificador=0;
 }
 
 CInfoOrganisme::~CInfoOrganisme()

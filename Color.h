@@ -40,4 +40,19 @@ inline ostream& operator << (ostream& stream, CColor c)
 }
 extern const CColor negre, vermell, verd, groc, blau, magenta, cyan, blanc;
 
+namespace AnsiCodes {
+
+	extern const string clrscr; // Clear screen
+	extern const string clrlin; // Clear line (a partir de la posicio del cursor
+	extern const string conrep; // Imprimeix l'estat del dispositiu
+
+	string gotoxy(int lin, int col); // Posicionament del cursor
+	string cursup(int lin); // Cursor Up
+	string cursdn(int lin); // Cursor Down
+	string cursfw(int lin); // Cursor Forward
+	string cursbw(int lin); // Cursor Backward
+	extern const string push_cursor; // Push Cursor Position
+	extern const string pop_cursor; // Pop Cursor Position
+	string set_mode(int mode); // Setmode
+}
 #endif // !defined(_KKEP_COLOR_H_INCLUDED)

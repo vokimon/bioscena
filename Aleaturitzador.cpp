@@ -6,6 +6,8 @@
 #include "FuncioAgent.h"
 #include "Color.h"
 
+using namespace AnsiCodes;
+
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -60,7 +62,7 @@ bool CAleaturitzador::configura(string parametre, istream & valor, t_diccionariA
 			errors << "Falta la quantitat de mostra per a la probabilitat de '" << nom() << "'" << endl;
 		else 
 			probabilitat(mostra, encerts);
-		return true;
+		return true; // Parametre interceptat
 	}
 	if (parametre=="ReAccio") {
 		string nomSubordinat;
@@ -113,7 +115,7 @@ static void Ok () {out << "O";}
 
 void CAleaturitzador::ProvaClasse()
 {
-	out << "\033[J";// Un clrscr xapuser pero standard (ANSI)
+	out << clrscr;
 	out << blanc.brillant() << "Provant Agent Aleaturitzador" << blanc.fosc() << endl;
 	int exits=0;
 	int intents=0;

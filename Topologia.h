@@ -11,6 +11,9 @@
 #include <iomanip>
 #include "BioIncludes.h"
 #include "RandomStream.h"
+#include "Color.h"
+
+using namespace AnsiCodes;
 
 template<class Cella> 
 class CTopologia  
@@ -81,7 +84,7 @@ protected:
 // Proves
 public:
 	virtual void debugPresenta(CMissatger & stream) {
-		stream << "\033[2;1H";// Un gotoxy xapuser pero standard (ANSI)
+		stream << gotoxy(1,2);
 		for (uint32 i=0;i<m_totalCasselles;i++)
 			stream << m_casselles[i]<<"#";
 		stream<<endl;

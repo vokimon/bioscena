@@ -7,6 +7,8 @@
 #include "RandomStream.h"
 #include "Color.h"
 
+using namespace AnsiCodes;
+
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -151,7 +153,7 @@ static void Ok2 () {out << "E";}
 
 void CIterador::ProvaClasse()
 {
-	out << "\033[J";// Un clrscr xapuser pero standard (ANSI)
+	out << clrscr;
 	out << blanc.brillant() << "Provant Agent Iterador" << blanc.fosc() << endl;
 	int exits=0;
 	int intents=0;

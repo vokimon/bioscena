@@ -12,6 +12,8 @@
 #include "RandomStream.h"
 #include "Color.h"
 
+using namespace AnsiCodes;
+
 //////////////////////////////////////////////////////////////////////
 // Variables estatiques
 //////////////////////////////////////////////////////////////////////
@@ -375,7 +377,7 @@ string CMutacioInsercioReplicada::Tipus()
 
 void CMutacioGenica::ProvaClasse(void)
 {
-	out << "\033[J";// Un clrscr xapuser pero standard (ANSI)
+	out << clrscr;
 	out << blanc.brillant() << "Provant MutacioGenica" << blanc.fosc() << endl;
 	out << "Entra un numero entre 1 i " << CMutacioGenica::Nombre() << " per veure una mutacio" << endl;
 	out << "Entra un numero fora de l'interval per sortir" << endl;
