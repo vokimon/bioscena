@@ -65,10 +65,9 @@ bool CAgent::nom(string unNom)
 	// Primer em trec del diccionari amb el nom antic
 	if (m_nomDefinit) s_DiccionariAgents.erase(m_nom); 
 	replace(unNom.begin(), unNom.end(), ' ', '_');
-	replace(unNom.begin(), unNom.end(), '\"', '\'');
-	map<string, CAgent*>::value_type parell(unNom,this);
+//	replace(unNom.begin(), unNom.end(), '\"', '\'');
 	// Si ja existia no fem 
-	if (!s_DiccionariAgents.insert(parell).second) 
+	if (!s_DiccionariAgents.insert(make_pair(unNom,this)).second) 
 		return false;
 	m_nomDefinit=true;
 	m_nom=unNom;

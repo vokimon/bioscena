@@ -28,13 +28,14 @@
 #include "EnergiaDisipable.h"
 #include "Organisme.h"
 //#include "Comunitat.h"
+#include "Cromosoma.h"
+#include "Cariotip.h"
 #include "Biosistema.h"
 //#include "LlistaDinamica.h"
-//#include "Cromosoma.h"
 
 using namespace std;
 
-void main () 
+int main () 
 {
 	out << cyan.brillant() << CAppInfo::MyAppInfo << blanc << endl;
 
@@ -69,13 +70,15 @@ void main ()
 
 // Proves Comunitat
 //	CEnergiaDisipable::ProvaClasse();
-	COrganisme::ProvaClasse();
+//	COrganisme::ProvaClasse();
 //	CTaxo::ProvaClasse();
 //	CTaxonomista::ProvaClasse();
-//	CCromosoma::ProvaClasse();
+	CCromosoma::ProvaClasse();
+	CCariotip::ProvaClasse();
 //	CComunitat::ProvaClasse();
 //	CBiosistema::ProvaClasse();
 
 //	cout << ">> Final de proves. Pulsa la tecla de retorn...";
 //	cin.get();
+	return 0;
 }

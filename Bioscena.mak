@@ -55,6 +55,7 @@ CLEAN :
 	-@erase "$(INTDIR)\Aleaturitzador.obj"
 	-@erase "$(INTDIR)\AppInfo.obj"
 	-@erase "$(INTDIR)\Biosistema.obj"
+	-@erase "$(INTDIR)\Cariotip.obj"
 	-@erase "$(INTDIR)\Color.obj"
 	-@erase "$(INTDIR)\Compatibilitat.obj"
 	-@erase "$(INTDIR)\Comunitat.obj"
@@ -108,6 +109,7 @@ LINK32_OBJS= \
 	"$(INTDIR)\Aleaturitzador.obj" \
 	"$(INTDIR)\AppInfo.obj" \
 	"$(INTDIR)\Biosistema.obj" \
+	"$(INTDIR)\Cariotip.obj" \
 	"$(INTDIR)\Color.obj" \
 	"$(INTDIR)\Compatibilitat.obj" \
 	"$(INTDIR)\Comunitat.obj" \
@@ -165,6 +167,7 @@ CLEAN :
 	-@erase "$(INTDIR)\Aleaturitzador.obj"
 	-@erase "$(INTDIR)\AppInfo.obj"
 	-@erase "$(INTDIR)\Biosistema.obj"
+	-@erase "$(INTDIR)\Cariotip.obj"
 	-@erase "$(INTDIR)\Color.obj"
 	-@erase "$(INTDIR)\Compatibilitat.obj"
 	-@erase "$(INTDIR)\Comunitat.obj"
@@ -222,6 +225,7 @@ LINK32_OBJS= \
 	"$(INTDIR)\Aleaturitzador.obj" \
 	"$(INTDIR)\AppInfo.obj" \
 	"$(INTDIR)\Biosistema.obj" \
+	"$(INTDIR)\Cariotip.obj" \
 	"$(INTDIR)\Color.obj" \
 	"$(INTDIR)\Compatibilitat.obj" \
 	"$(INTDIR)\Comunitat.obj" \
@@ -545,12 +549,12 @@ DEP_CPP_BIOSI=\
 	".\Agent.h"\
 	".\BioIncludes.h"\
 	".\Biosistema.h"\
+	".\Color.h"\
 	".\Comunitat.h"\
 	".\EnergiaDisipable.h"\
 	".\InfoOrganisme.h"\
 	".\LlistaEstatica.h"\
 	".\Missatger.h"\
-	".\MultiAgent.h"\
 	".\Organisme.h"\
 	".\Outputer.h"\
 	".\Portable.h"\
@@ -559,9 +563,34 @@ DEP_CPP_BIOSI=\
 	".\Taxo.h"\
 	".\Taxonomista.h"\
 	".\Topologia.h"\
+	".\TopologiaToroidal.h"\
 	
 
 "$(INTDIR)\Biosistema.obj" : $(SOURCE) $(DEP_CPP_BIOSI) "$(INTDIR)"
+
+
+!ENDIF 
+
+SOURCE=.\Cariotip.cpp
+
+!IF  "$(CFG)" == "Bioscena - Win32 Release"
+
+DEP_CPP_CARIO=\
+	".\BioIncludes.h"\
+	".\Cariotip.h"\
+	".\Cromosoma.h"\
+	".\Missatger.h"\
+	".\Outputer.h"\
+	".\Portable.h"\
+	
+
+"$(INTDIR)\Cariotip.obj" : $(SOURCE) $(DEP_CPP_CARIO) "$(INTDIR)"
+
+
+!ELSEIF  "$(CFG)" == "Bioscena - Win32 Debug"
+
+
+"$(INTDIR)\Cariotip.obj" : $(SOURCE) "$(INTDIR)"
 
 
 !ENDIF 
@@ -712,6 +741,7 @@ SOURCE=.\Cromosoma.cpp
 
 DEP_CPP_CROMO=\
 	".\BioIncludes.h"\
+	".\Color.h"\
 	".\Cromosoma.h"\
 	".\Missatger.h"\
 	".\Outputer.h"\
@@ -726,6 +756,7 @@ DEP_CPP_CROMO=\
 
 DEP_CPP_CROMO=\
 	".\BioIncludes.h"\
+	".\Color.h"\
 	".\Cromosoma.h"\
 	".\Missatger.h"\
 	".\Outputer.h"\
@@ -845,7 +876,11 @@ SOURCE=.\Gen.cpp
 !IF  "$(CFG)" == "Bioscena - Win32 Release"
 
 DEP_CPP_GEN_C=\
+	".\BioIncludes.h"\
 	".\Gen.h"\
+	".\Missatger.h"\
+	".\Outputer.h"\
+	".\Portable.h"\
 	
 
 "$(INTDIR)\Gen.obj" : $(SOURCE) $(DEP_CPP_GEN_C) "$(INTDIR)"
@@ -853,8 +888,15 @@ DEP_CPP_GEN_C=\
 
 !ELSEIF  "$(CFG)" == "Bioscena - Win32 Debug"
 
+DEP_CPP_GEN_C=\
+	".\BioIncludes.h"\
+	".\Gen.h"\
+	".\Missatger.h"\
+	".\Outputer.h"\
+	".\Portable.h"\
+	
 
-"$(INTDIR)\Gen.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\Gen.obj" : $(SOURCE) $(DEP_CPP_GEN_C) "$(INTDIR)"
 
 
 !ENDIF 
@@ -1068,6 +1110,7 @@ DEP_CPP_MAINB=\
 	".\Color.h"\
 	".\Compatibilitat.h"\
 	".\Comunitat.h"\
+	".\Cromosoma.h"\
 	".\EnergiaDisipable.h"\
 	".\FuncioAgent.h"\
 	".\GeneradorMascares.h"\
@@ -1106,6 +1149,7 @@ DEP_CPP_MAINB=\
 	".\Color.h"\
 	".\Compatibilitat.h"\
 	".\Comunitat.h"\
+	".\Cromosoma.h"\
 	".\EnergiaDisipable.h"\
 	".\FuncioAgent.h"\
 	".\GeneradorMascares.h"\

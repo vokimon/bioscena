@@ -56,12 +56,12 @@ public:
 // Operacions (Instruccions)
 public:
 	bool organismeAvanca(uint32 desp, uint32 energia, uint32 clauMoviment);
-	bool organismeAtaca(uint32 desp, uint32 energia, uint32 clauAtac);
+	bool organismeAtaca(uint32 desp, uint32 elementBase, uint32 tolerancia, uint32 energia, uint32 clauAtac);
 	bool organismeCreua(uint32 desp, uint32 energia, uint32 clauCreuament);
 	bool organismeEngoleix(uint32 desp, uint32 elementBase, uint32 tolerancia);
 	bool organismeExcreta(uint32 desp, uint32 elementBase, uint32 tolerancia);
 	bool organismeBiparteix(uint32 desp, uint32 elementBase, uint32 tolerancia);
-	bool organismeCreaSensor(uint32 vector);
+	bool organismeCreaSensor(uint32 sensor, uint32 vector);
 // Proves
 public:
 	static void ProvaClasse(void);
