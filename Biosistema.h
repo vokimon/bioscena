@@ -55,6 +55,7 @@ public:
 	t_agent * agents();
 	void agents(t_agent *);
 	void deleteAgents();
+	bool organismeExpontani();
 // Operacions (Instruccions)
 public:
 	bool organismeAvanca(uint32 desp, uint32 energia, uint32 clauMoviment);
