@@ -2,9 +2,11 @@
 //
 //////////////////////////////////////////////////////////////////////
 
+#include <iomanip>
 #include "Gen.h"
 #include "Color.h"
 #include "RandomStream.h" // Nomes per proves
+#include "Configuracio.h"
 
 using namespace AnsiCodes;
 
@@ -14,7 +16,7 @@ using namespace AnsiCodes;
 
 CGen::CGen()
 {
-
+	m_ip=1; // m_instruccions.size();
 }
 
 CGen::~CGen()
@@ -34,14 +36,15 @@ bool CGen::init(CCromosoma & crm, uint32 & pos)
 {
 	while (pos<crm.tamany() && !esPromotor(crm[pos])) 
 		pos++;
-	if (pos<crm.tamany()) 
+	if (pos>=crm.tamany()) 
 		return false;
 	while (pos<crm.tamany()) {
 		if (!esIntro(crm[pos]))
 			m_instruccions.push_back (traduccio(crm[pos]));
 		pos++;
 	}
-	return tamany();
+	m_ip=m_instruccions.size();
+	return tamany()!=0;
 }
 
 uint32 CGen::tamany()
@@ -52,7 +55,7 @@ uint32 CGen::tamany()
 bool CGen::finalitzat()
 // Diu si l'ip ha arribat al final
 {
-	return m_ip>=m_instruccions.size();
+	return !(m_ip<m_instruccions.size());
 }
 
 bool CGen::traduible(uint32 * fenotip)
@@ -60,10 +63,12 @@ bool CGen::traduible(uint32 * fenotip)
 {
 	// Comportament amb zona operadora
 	m_ip = 0;
-	while (m_ip<m_instruccions.size() && esOperadora())
+	while (m_ip<m_instruccions.size() && esOperadora())	{
 		if (!condicioOperadora(fenotip))
 			return false;
-	return true;
+		m_ip++;
+	}
+	return m_ip<m_instruccions.size();
 
 	// Comportament sense zona operadora
 	m_ip = 0; 
@@ -72,7 +77,7 @@ bool CGen::traduible(uint32 * fenotip)
 
 bool CGen::seguentInstruccio(t_instruccio & valor)
 {
-	valor = m_instruccions[m_ip];
+	valor = m_instruccions[m_ip++];
 	return true;
 }
 
@@ -106,38 +111,70 @@ void CGen::ProvaClasse(void)
 
 bool CGen::esIntro(uint32 codo)
 {
-	return false;
-	// TODO: Donar-li coherencia
+	// TODO: Donar-li sentit
+	return (codo&Config.get("Organisme/Genotip/Intro/Mascara"))!=0;
+	return false; // La versio simple
 }
 
 bool CGen::esPromotor(uint32 codo)
 {
-	return true;
-	// TODO: Donar-li coherencia
+	// Ha de ser molt probable
+	// TODO: Donar-li sentit
+	return (codo&Config.get("Organisme/Genotip/Promotor/Mascara"))!=0;
+	return true; // La versio simple (Qualsevol es Promotor)
+}
+
+bool CGen::esTerminador(uint32 codo)
+{
+	// Ha de ser poc probable
+	// TODO: Donar-li sentit
+	return ~(codo|Config.get("Organisme/Genotip/Terminador/Mascara"))==0;
+	return false; // La versio simple (Sense Terminador)
 }
 
 CGen::t_instruccio CGen::traduccio(uint32 codo)
 {
-	return codo;
-	// TODO: Donar-li coherencia
+	// TODO: Donar-li sentit
+	return codo; // La versio simple (Sense traduccio)
 }
 
 bool CGen::esOperadora()
 // Retorna cert si la instruccio actual pertany a la zona operadora
 {
-	// Versio amb zona operadora
-	return m_instruccions[m_ip]&0x01;
-	// Versio sense zona operadora
-	return false;
+	return (m_instruccions[m_ip]&Config.get("Organisme/Genotip/ZonaOperadora/Mascara"))!=0;
+	return false; // La versio simple (Sense zona operadora)
 }
 
 bool CGen::condicioOperadora(uint32 * fenotip)
 // PRE: fenotip apunta a una array de 32 elements
 {
 	uint32 instr = m_instruccions[m_ip];
-	uint32 param1 = fenotip[ instr      & 0x00000017];
-	uint32 param2 = fenotip[(instr>>=5) & 0x00000360];
-	uint32 param3 = fenotip[(instr>>=5) & 0x00007400];
-	uint32 param4 = fenotip[(instr>>=5) & 0x00170000];
+	uint32 param1 = fenotip[(instr&0x0000001F)>> 0];
+	uint32 param2 = fenotip[(instr&0x000003E0)>> 5];
+	uint32 param3 = fenotip[(instr&0x00007C00)>>10];
+	uint32 param4 = fenotip[(instr&0x000F8000)>>15];
 	return (param1 ^ param2) && param2 && param4;
+}
+
+
+
+void CGen::dump(CMissatger & msg)
+{
+	uint32 oldIp = m_ip;
+	m_ip=0;
+	bool colorOperadora = true;
+	msg << '[' << vermell;
+	for (t_instruccions::iterator it = m_instruccions.begin(); it != m_instruccions.end(); it++)
+	{
+		if (colorOperadora && !esOperadora()) {
+			msg << blanc.fosc();
+			colorOperadora = false;
+		}
+		msg << hex << setw(8) << *it << dec << '.';
+		m_ip++;
+	}
+	if (colorOperadora)
+		msg << blanc.fosc();
+	msg << ']' << endl;
+	m_ip = oldIp;
 }

@@ -4,6 +4,7 @@
 // Change Log:
 // 19991119 VoK - Afegit linies alternatives al cpp per compilar amb
 //                versions de la biblioteca STL sense 'assign'
+// 19991207 VoK - Fix: La probabilitat de mutacio mai es complia
 //////////////////////////////////////////////////////////////////////
 
 #if !defined(__KKEP_CARIOTIP_H_INCLUDED)

@@ -26,17 +26,6 @@ public:
 	typedef CMultiAgent inherited;
 	typedef CAgent t_accio;
 //	typedef void (t_accio)(); // Aixo es per fer proves nomes
-	// TODO: Esborrar aixo
-/*	struct t_probabilitat_saxona
-	{
-		bool esDona()
-		{
-			return rnd.get(0,m_mostra-1)<m_encerts;
-		};
-		uint32 m_encerts;
-		uint32 m_mostra;
-	};
-*/
 // Construccio/Destruccio
 public:
 	CAleaturitzador();

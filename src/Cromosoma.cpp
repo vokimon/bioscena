@@ -224,7 +224,7 @@ void CCromosoma::treuCodons(uint32 primer, uint32 longitud)
 	uint32 *tmp= new uint32[m_nCodons-longitud];
 	if (!tmp) return; // Fugida discreta
 	uint32 idxDesti=0;
-	if (m_nCodons-primer<longitud) 
+	if (m_nCodons-primer<=longitud)
 	{
 		uint32 idxOrigen=longitud-(m_nCodons-primer);
 		while (idxOrigen<primer)

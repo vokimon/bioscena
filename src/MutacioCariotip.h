@@ -20,8 +20,6 @@ public:
 	virtual string tipus()=0;
 // Atributs
 protected:
-//	uint32 * m_codons;
-//	uint32 m_nCodons;
 	string m_tipus;
 // Funcions estatiques
 public:
@@ -33,10 +31,6 @@ public:
 // Proves
 public:
 	static void ProvaClasse (void);
-// Implementacio 
-protected:
-//	void agafaInformacio(CCariotip &c);
-//	void fixaInformacio(CCariotip &c);
 };
 
 //////////////////////////////////////////////////////////////////////
