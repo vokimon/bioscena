@@ -33,13 +33,15 @@ public:
 	virtual ~CBiosistema();
 // Operacions
 public:
-// Implementacio
-protected:
+	void operator () (void);
+	t_agent * agents();
+	void agents(t_agent *);
+	void deleteAgents();
 // Proves
 public:
-	t_agent * agents();
-	void operator () (void);
 	static void ProvaClasse(void);
+// Implementacio
+protected:
 };
 
 #endif // !defined(__KKEP_BIOSISTEMA_H_INCLUDED)

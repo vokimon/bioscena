@@ -16,8 +16,9 @@ class CTopologiaToroidal : public CTopologia<Cella>
 // Contruccio/Destruccio
 public: 
 	CTopologiaToroidal (uint32 XMax, uint32 YMax);
-// Redefinicio
-	virtual t_idCella desplacament (t_idCella origen, t_desplacament movimentRelatiu);
+// Redefinibles
+	virtual t_posicio desplacament (t_posicio origen, t_desplacament movimentRelatiu);
+	virtual bool unio (t_posicio posOrigen, t_posicio posDesti, t_desplacament & desp);
 // Atributs
 protected:
 	uint32 m_xMax;
@@ -67,8 +68,8 @@ public:
 template <class Cella>
 CTopologiaToroidal<Cella>::CTopologiaToroidal(uint32 xMax=5, uint32 yMax=5)
 	// Precondicions:
-	//   xMax*yMax < Maxim valor positiu representable amb un uint32.
-	//   xMax>2 yMax>2
+	//   2<xMax<0x1FFFFFFF
+	//   2<yMax<(0xFFFFFFFF>>digitsSignificatius(xMax))
 {
 //	cout<<"Inicializando un Substrato Toroidal de "<<xMax <<" X "<<yMax<<endl;
 	reservaCasselles(xMax*yMax);
@@ -85,11 +86,11 @@ CTopologiaToroidal<Cella>::CTopologiaToroidal(uint32 xMax=5, uint32 yMax=5)
 }
 
 //////////////////////////////////////////////////////////////////////
-// Operacions
+// Redefinibles
 //////////////////////////////////////////////////////////////////////
 
 template <class Cella>
-CTopologiaToroidal<Cella>::t_idCella CTopologiaToroidal<Cella>::desplacament(t_idCella origen, t_desplacament movimentRelatiu)
+CTopologiaToroidal<Cella>::t_posicio CTopologiaToroidal<Cella>::desplacament(t_posicio origen, t_desplacament movimentRelatiu)
 {
 	// Segur que es podria fer mes optim pero no funcionaria pels
 	// biotops amb un nombre de celles elevat.
@@ -101,7 +102,7 @@ CTopologiaToroidal<Cella>::t_idCella CTopologiaToroidal<Cella>::desplacament(t_i
 	}
 	if (moviment<0) {
 		if (origen < uint32(-moviment))
-			return (m_totalCasselles - uint32(-moviment)) + origen;
+			return (m_totalCasselles - uint32(-moviment)) + origen - 1;
 		else
 			return origen + moviment;
 		}
@@ -109,8 +110,14 @@ CTopologiaToroidal<Cella>::t_idCella CTopologiaToroidal<Cella>::desplacament(t_i
 		if (m_totalCasselles-origen>uint32(moviment))
 			return origen + moviment;
 		else
-			return (uint32)moviment - (m_totalCasselles - origen);
+			return (uint32)moviment - (m_totalCasselles - origen) + 1;
 		}
+}
+template <class Cella>
+bool CTopologiaToroidal<Cella>::unio (t_posicio posOrigen, t_posicio posDesti, t_desplacament & desp)
+{
+
+	return true;
 }
 
 #endif // !defined(__KKEP_TOPOLOGIATOROIDAL_H_INCLUDED)

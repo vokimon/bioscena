@@ -16,8 +16,6 @@ CBiosistema::CBiosistema()
 	m_biotop = NULL;
 	m_comunitat = NULL;
 	m_agents = NULL;
-
-	m_agents = new CMultiAgent;
 }
 
 CBiosistema::~CBiosistema()
@@ -61,4 +59,17 @@ void CBiosistema::operator ( )()
 CBiosistema::t_agent * CBiosistema::agents()
 {
 	return m_agents;
+}
+
+void CBiosistema::agents(t_agent * agents)
+{
+	if (!m_agents)
+		m_agents=agents;
+}
+
+void CBiosistema::deleteAgents()
+{
+	if (m_agents)
+		delete m_agents;
+	m_agents=NULL;
 }

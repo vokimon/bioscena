@@ -37,7 +37,23 @@ CDesnutridor::CDesnutridor()
 void CNutridor::dump(CMissatger & msg)
 {
 	CActuador::dump(msg);
-	msg << "- Composicio: " << m_element << " " << m_variabilitat << endl;
+	msg << "- Composicio " << m_element << " " << m_variabilitat << endl;
+}
+
+bool CNutridor::configura(string parametre, istream & valor, t_diccionariAgents & diccionari, CMissatger & errors)
+{
+	if (parametre=="Composicio") {
+		uint32 element, variabilitat;
+		if (!(valor>>element))
+			errors << "Format invalid per la composicio de '" << nom() << "'" << endl;
+		else if (!(valor>>variabilitat))
+			composicio(element);
+		else 
+			composicio(element, variabilitat);
+		return true; // Parametre interceptat
+	}
+	// Li deixem a la superclasse que l'intercepti si vol
+	return CActuador::configura(parametre, valor, diccionari, errors);
 }
 
 //////////////////////////////////////////////////////////////////////

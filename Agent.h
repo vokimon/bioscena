@@ -24,11 +24,15 @@
 #include <iomanip>
 #include "BioIncludes.h"
 #include "Missatger.h"
+#include "Substrat.h"
+#include "Topologia.h"
 
 using namespace std;
 
 class CAgent 
 {
+// Tipus Propis
+	typedef map<string, CAgent*> t_diccionariAgents;
 // Algunes amigues
 	friend ostream& operator<< (ostream& str, CAgent& ag);
 // Construccio/Destruccio
@@ -39,6 +43,7 @@ public:
 public:
 	virtual void operator() (void)=0;
 	virtual void dump(CMissatger & msg);
+	virtual bool configura(string parametre, istream & nom, t_diccionariAgents & diccionari, CMissatger & errors);
 	virtual list<CAgent*> subordinats() {list<CAgent*> l; return l;};
 	virtual list<CAgent*> dependencies() {list<CAgent*> l; return l;};
 // Operacions
@@ -62,11 +67,17 @@ private:
 // Dades estatiques
 public:
 	static uint32 s_ultimNumeroAgent;
-	static map<string, CAgent*> s_DiccionariAgents;
+	static t_diccionariAgents s_DiccionariAgents;
 // Funcions estatiques
 public:
-	static void dumpDiccionari(CMissatger& msg);
-	static CAgent * cercaDiccionari(string s);
+	static void DumpDiccionari(CMissatger& msg);
+	static CAgent * CercaDiccionari(string s);
+	static CAgent * ParsejaArxiu(char * nomArxiu, CTopologia<CSubstrat> & biotop, CMissatger & errors);
+private:
+	static CAgent * CreaAgent(string tipus, CTopologia<CSubstrat>& biotop);
+// Proves
+public:
+	static void ProvaClasse();
 };
 
 

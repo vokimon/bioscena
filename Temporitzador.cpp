@@ -51,18 +51,77 @@ void CTemporitzador::operator()(void)
 void CTemporitzador::dump(CMissatger & msg)
 {
 	CMultiAgent::dump(msg);
-	msg << "- CicleActiu: " 
+	msg << "- CicleActiu " 
 		<< m_cicleActiu.m_periodeMinim << " "
 		<< m_cicleActiu.m_nombreDaus << " "
 		<< m_cicleActiu.m_magnitudDau << endl;
-	msg << "- CicleInactiu: " 
+	msg << "- CicleInactiu " 
 		<< m_cicleInactiu.m_periodeMinim << " "
 		<< m_cicleInactiu.m_nombreDaus << " "
 		<< m_cicleInactiu.m_magnitudDau << endl;
-	msg << "- CicleActual: " 
-		<< (m_actiu? "Actiu":"Inactiu") << " "
-		<< m_periodeActual << endl;
-	if (m_antiAccio) msg << "- AntiAccio: " << m_antiAccio->nom() << endl; 
+	msg << "- CicleActual " 
+		<< m_periodeActual << " "
+		<< (m_actiu? "Actiu":"Inactiu") << endl;
+	if (m_antiAccio) msg << "- AntiAccio " << m_antiAccio->nom() << endl; 
+}
+
+bool CTemporitzador::configura(string parametre, istream & valor, t_diccionariAgents & diccionari, CMissatger & errors)
+{
+	if (parametre=="CicleActiu") {
+		uint32 minim, nDaus, magDau;
+		if (!(valor>>minim))
+			errors << "Format invalid pel cicle actiu de '" << nom() << "'" << endl;
+		else if (!(valor>>nDaus))
+			errors << "Falta la quantitat de daus pel cicle actiu de '" << nom() << "'" << endl;
+		else if (!(valor>>magDau))
+			errors << "Falta la magnitud dels daus pel cicle actiu de '" << nom() << "'" << endl;
+		else 
+			cicleActiu(minim, magDau, nDaus);
+		return true;
+	}
+	if (parametre=="CicleInactiu") {
+		uint32 minim, nDaus, magDau;
+		if (!(valor>>minim))
+			errors << "Format invalid pel cicle inactiu de '" << nom() << "'" << endl;
+		else if (!(valor>>nDaus))
+			errors << "Falta la quantitat de daus pel cicle inactiu de '" << nom() << "'" << endl;
+		else if (!(valor>>magDau))
+			errors << "Falta la magnitud dels daus pel cicle inactiu de '" << nom() << "'" << endl;
+		else 
+			cicleInactiu(minim, magDau, nDaus);
+		return true;
+	}
+	if (parametre=="CicleActual") {
+		uint32 periodeRestant;
+		string actiu;
+		if (!(valor>>periodeRestant))
+			errors << "Format invalid pel cicle actual de '" << nom() << "'" << endl;
+		else if (!(valor>>actiu))
+			error << "Falta el segon parametre de CicleActual per l'agent '" << nom() << "'." << endl;
+//			cicleActual(periodeRestant);
+		else if (actiu!="Actiu"&&actiu!="Inactiu")
+			error << "El segon parametre de CicleActual per l'agent '" << nom() << "' ha de ser 'Actiu' o 'Inactiu'." << endl;
+		else 
+			cicleActual(actiu=="Actiu", periodeRestant);
+		return true;
+	}
+	if (parametre=="AntiAccio") {
+		string nomSubordinat;
+		t_diccionariAgents::iterator it;
+		if (!(valor>>nomSubordinat))
+			errors << "Format invalid per a l'especificacio de subordinat de '" << nom() << "'" << endl;
+		else if (m_antiAccio)
+			errors << "L'agent '" << nom() << "' ja tenia una preAccio" << endl;
+		else if ((it=diccionari.find(nomSubordinat))==diccionari.end())
+			errors << "L'agent subordinat '" << nomSubordinat << "' de l'agent '" << nom() << "' no esta definit al fitxer." << endl;
+		else if ((*it).second->subordinant())
+			errors << "L'agent subordinat '" << nomSubordinat << "' de l'agent '" << nom() << "' ja esta subordinat a l'agent '" << it->second->subordinant()->nom() << "'." << endl;
+		else 
+			antiAccio(it->second);
+		return true; // Parametre interceptat
+	}
+	// Li deixem a la superclasse que l'intercepti si vol
+	return CMultiAgent::configura(parametre, valor, diccionari, errors);
 }
 
 list<CAgent*> CTemporitzador::subordinats() {

@@ -70,7 +70,6 @@ CLEAN :
 	-@erase "$(INTDIR)\Missatger.obj"
 	-@erase "$(INTDIR)\MultiAgent.obj"
 	-@erase "$(INTDIR)\Organisme.obj"
-	-@erase "$(INTDIR)\ParserAgents.obj"
 	-@erase "$(INTDIR)\Posicionador.obj"
 	-@erase "$(INTDIR)\RandomStream.obj"
 	-@erase "$(INTDIR)\Substrat.obj"
@@ -121,7 +120,6 @@ LINK32_OBJS= \
 	"$(INTDIR)\Missatger.obj" \
 	"$(INTDIR)\MultiAgent.obj" \
 	"$(INTDIR)\Organisme.obj" \
-	"$(INTDIR)\ParserAgents.obj" \
 	"$(INTDIR)\Posicionador.obj" \
 	"$(INTDIR)\RandomStream.obj" \
 	"$(INTDIR)\Substrat.obj" \
@@ -176,7 +174,6 @@ CLEAN :
 	-@erase "$(INTDIR)\Missatger.obj"
 	-@erase "$(INTDIR)\MultiAgent.obj"
 	-@erase "$(INTDIR)\Organisme.obj"
-	-@erase "$(INTDIR)\ParserAgents.obj"
 	-@erase "$(INTDIR)\Posicionador.obj"
 	-@erase "$(INTDIR)\RandomStream.obj"
 	-@erase "$(INTDIR)\Substrat.obj"
@@ -231,7 +228,6 @@ LINK32_OBJS= \
 	"$(INTDIR)\Missatger.obj" \
 	"$(INTDIR)\MultiAgent.obj" \
 	"$(INTDIR)\Organisme.obj" \
-	"$(INTDIR)\ParserAgents.obj" \
 	"$(INTDIR)\Posicionador.obj" \
 	"$(INTDIR)\RandomStream.obj" \
 	"$(INTDIR)\Substrat.obj" \
@@ -380,12 +376,24 @@ SOURCE=.\Agent.cpp
 !IF  "$(CFG)" == "Bioscena - Win32 Release"
 
 DEP_CPP_AGENT=\
+	".\Actuador.h"\
+	".\Actuadors.h"\
 	".\Agent.h"\
+	".\Aleaturitzador.h"\
 	".\BioIncludes.h"\
 	".\Color.h"\
+	".\Iterador.h"\
+	".\Itineraris.h"\
 	".\Missatger.h"\
+	".\MultiAgent.h"\
 	".\Outputer.h"\
 	".\Portable.h"\
+	".\Posicionador.h"\
+	".\RandomStream.h"\
+	".\Substrat.h"\
+	".\Temporitzador.h"\
+	".\Topologia.h"\
+	".\TopologiaToroidal.h"\
 	
 
 "$(INTDIR)\Agent.obj" : $(SOURCE) $(DEP_CPP_AGENT) "$(INTDIR)"
@@ -394,12 +402,24 @@ DEP_CPP_AGENT=\
 !ELSEIF  "$(CFG)" == "Bioscena - Win32 Debug"
 
 DEP_CPP_AGENT=\
+	".\Actuador.h"\
+	".\Actuadors.h"\
 	".\Agent.h"\
+	".\Aleaturitzador.h"\
 	".\BioIncludes.h"\
 	".\Color.h"\
+	".\Iterador.h"\
+	".\Itineraris.h"\
 	".\Missatger.h"\
+	".\MultiAgent.h"\
 	".\Outputer.h"\
 	".\Portable.h"\
+	".\Posicionador.h"\
+	".\RandomStream.h"\
+	".\Substrat.h"\
+	".\Temporitzador.h"\
+	".\Topologia.h"\
+	".\TopologiaToroidal.h"\
 	
 
 "$(INTDIR)\Agent.obj" : $(SOURCE) $(DEP_CPP_AGENT) "$(INTDIR)"
@@ -421,6 +441,8 @@ DEP_CPP_ALEAT=\
 	".\Outputer.h"\
 	".\Portable.h"\
 	".\RandomStream.h"\
+	".\Substrat.h"\
+	".\Topologia.h"\
 	
 
 "$(INTDIR)\Aleaturitzador.obj" : $(SOURCE) $(DEP_CPP_ALEAT) "$(INTDIR)"
@@ -432,11 +454,14 @@ DEP_CPP_ALEAT=\
 	".\Agent.h"\
 	".\Aleaturitzador.h"\
 	".\BioIncludes.h"\
+	".\Color.h"\
 	".\Missatger.h"\
 	".\MultiAgent.h"\
 	".\Outputer.h"\
 	".\Portable.h"\
 	".\RandomStream.h"\
+	".\Substrat.h"\
+	".\Topologia.h"\
 	
 
 "$(INTDIR)\Aleaturitzador.obj" : $(SOURCE) $(DEP_CPP_ALEAT) "$(INTDIR)"
@@ -806,6 +831,8 @@ DEP_CPP_ITERA=\
 	".\Outputer.h"\
 	".\Portable.h"\
 	".\RandomStream.h"\
+	".\Substrat.h"\
+	".\Topologia.h"\
 	
 
 "$(INTDIR)\Iterador.obj" : $(SOURCE) $(DEP_CPP_ITERA) "$(INTDIR)"
@@ -816,12 +843,15 @@ DEP_CPP_ITERA=\
 DEP_CPP_ITERA=\
 	".\Agent.h"\
 	".\BioIncludes.h"\
+	".\Color.h"\
 	".\Iterador.h"\
 	".\Missatger.h"\
 	".\MultiAgent.h"\
 	".\Outputer.h"\
 	".\Portable.h"\
 	".\RandomStream.h"\
+	".\Substrat.h"\
+	".\Topologia.h"\
 	
 
 "$(INTDIR)\Iterador.obj" : $(SOURCE) $(DEP_CPP_ITERA) "$(INTDIR)"
@@ -963,12 +993,14 @@ DEP_CPP_MAINB=\
 	".\Compatibilitat.h"\
 	".\EnergiaDisipable.h"\
 	".\GeneradorMascares.h"\
+	".\Iterador.h"\
 	".\Itineraris.h"\
 	".\LlistaEstatica.h"\
 	".\Missatger.h"\
 	".\MultiAgent.h"\
 	".\Organisme.h"\
 	".\Outputer.h"\
+	".\ParserAgents.h"\
 	".\Portable.h"\
 	".\Posicionador.h"\
 	".\RandomStream.h"\
@@ -1099,46 +1131,6 @@ DEP_CPP_ORGAN=\
 	
 
 "$(INTDIR)\Organisme.obj" : $(SOURCE) $(DEP_CPP_ORGAN) "$(INTDIR)"
-
-
-!ENDIF 
-
-SOURCE=.\ParserAgents.cpp
-
-!IF  "$(CFG)" == "Bioscena - Win32 Release"
-
-DEP_CPP_PARSE=\
-	".\Actuador.h"\
-	".\Actuadors.h"\
-	".\Agent.h"\
-	".\Aleaturitzador.h"\
-	".\BioIncludes.h"\
-	".\Color.h"\
-	".\Iterador.h"\
-	".\Itineraris.h"\
-	".\Missatger.h"\
-	".\MultiAgent.h"\
-	".\Outputer.h"\
-	".\ParserAgents.h"\
-	".\Portable.h"\
-	".\Posicionador.h"\
-	".\RandomStream.h"\
-	".\Substrat.h"\
-	".\Temporitzador.h"\
-	".\Topologia.h"\
-	".\TopologiaToroidal.h"\
-	
-
-"$(INTDIR)\ParserAgents.obj" : $(SOURCE) $(DEP_CPP_PARSE) "$(INTDIR)"
-
-
-!ELSEIF  "$(CFG)" == "Bioscena - Win32 Debug"
-
-DEP_CPP_PARSE=\
-	".\ParserAgents.h"\
-	
-
-"$(INTDIR)\ParserAgents.obj" : $(SOURCE) $(DEP_CPP_PARSE) "$(INTDIR)"
 
 
 !ENDIF 
@@ -1326,7 +1318,9 @@ DEP_CPP_TEMPO=\
 	".\Outputer.h"\
 	".\Portable.h"\
 	".\RandomStream.h"\
+	".\Substrat.h"\
 	".\Temporitzador.h"\
+	".\Topologia.h"\
 	
 
 "$(INTDIR)\Temporitzador.obj" : $(SOURCE) $(DEP_CPP_TEMPO) "$(INTDIR)"
@@ -1337,12 +1331,15 @@ DEP_CPP_TEMPO=\
 DEP_CPP_TEMPO=\
 	".\Agent.h"\
 	".\BioIncludes.h"\
+	".\Color.h"\
 	".\Missatger.h"\
 	".\MultiAgent.h"\
 	".\Outputer.h"\
 	".\Portable.h"\
 	".\RandomStream.h"\
+	".\Substrat.h"\
 	".\Temporitzador.h"\
+	".\Topologia.h"\
 	
 
 "$(INTDIR)\Temporitzador.obj" : $(SOURCE) $(DEP_CPP_TEMPO) "$(INTDIR)"

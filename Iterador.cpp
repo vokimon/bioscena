@@ -51,12 +51,60 @@ void CIterador::operator ( )()
 void CIterador::dump(CMissatger & msg)
 {
 	CMultiAgent::dump(msg);
-	msg << "- Iteracions: " 
+	msg << "- Iteracions " 
 		<< m_iteracionsMinimes << " " 
 		<< m_nombreDaus << " " 
 		<< m_magnitudDau << endl;
 	if (m_preAccio) msg << "- PreAccio: " << m_preAccio->nom() << endl; 
 	if (m_postAccio) msg << "- PostAccio: " << m_postAccio->nom() << endl; 
+}
+
+bool CIterador::configura(string parametre, istream & valor, t_diccionariAgents & diccionari, CMissatger & errors)
+{
+	if (parametre=="Iteracions") {
+		uint32 minim, nDaus, magDau;
+		if (!(valor>>minim))
+			errors << "Format invalid pel nombre d'iteracions de '" << nom() << "'" << endl;
+		else if (!(valor>>nDaus))
+			errors << "Falta la quantitat de daus pel nombre d'iteracions de '" << nom() << "'" << endl;
+		else if (!(valor>>magDau))
+			errors << "Falta la magnitud dels daus pel nombre d'iteracions de '" << nom() << "'" << endl;
+		else 
+			iteracions(minim, magDau, nDaus);
+		return true;
+	}
+	if (parametre=="PreAccio") {
+		string nomSubordinat;
+		t_diccionariAgents::iterator it;
+		if (!(valor>>nomSubordinat))
+			errors << "Format invalid per a l'especificacio de subordinat de '" << nom() << "'" << endl;
+		else if (m_preAccio)
+			errors << "L'agent '" << nom() << "' ja tenia una preAccio" << endl;
+		else if ((it=diccionari.find(nomSubordinat))==diccionari.end())
+			errors << "L'agent subordinat '" << nomSubordinat << "' de l'agent '" << nom() << "' no esta definit al fitxer." << endl;
+		else if ((*it).second->subordinant())
+			errors << "L'agent subordinat '" << nomSubordinat << "' de l'agent '" << nom() << "' ja esta subordinat a l'agent '" << it->second->subordinant()->nom() << "'." << endl;
+		else 
+			preAccio(it->second);
+		return true; // Parametre interceptat
+	}
+	if (parametre=="PostAccio") {
+		string nomSubordinat;
+		t_diccionariAgents::iterator it;
+		if (!(valor>>nomSubordinat))
+			errors << "Format invalid per a l'especificacio de subordinat de '" << nom() << "'" << endl;
+		else if (m_postAccio)
+			errors << "L'agent '" << nom() << "' ja tenia una postAccio" << endl;
+		else if ((it=diccionari.find(nomSubordinat))==diccionari.end())
+			errors << "L'agent subordinat '" << nomSubordinat << "' de l'agent '" << nom() << "' no esta definit al fitxer." << endl;
+		else if ((*it).second->subordinant())
+			errors << "L'agent subordinat '" << nomSubordinat << "' de l'agent '" << nom() << "' ja esta subordinat a l'agent '" << it->second->subordinant()->nom() << "'." << endl;
+		else 
+			postAccio(it->second);
+		return true; // Parametre interceptat
+	}
+	// Li deixem a la superclasse que l'intercepti si vol
+	return CMultiAgent::configura(parametre, valor, diccionari, errors);
 }
 
 list<CAgent*> CIterador::subordinats() {
