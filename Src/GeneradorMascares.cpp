@@ -1,0 +1,6 @@
+// GeneradorMascares.cpp: implementation of the CGeneradorMascares class.
+//
+//////////////////////////////////////////////////////////////////////
+
+#include "GeneradorMascares.h"
+

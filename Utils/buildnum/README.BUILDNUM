@@ -1,0 +1,72 @@
+//////////////////////////////////////////////////////////////////////
+// Build Number Generator v1.4
+// Coded by Vokimon (vokimon@jet.es)
+//////////////////////////////////////////////////////////////////////
+
+What is this?
+
+Buildnum is a simple utility that mantains up to date a build number
+in your C programing projects. Simply you must execute it while you 
+build the project.
+
+Features:
+
+- Available as bash script or as ISO-C++ compilable code
+- It's multiplatform (executable works for DOS and Win but the code
+is fully portable)
+- Every build number has an associated time-stamp
+- Build number and timestamp are available from a C program
+- It mantains a history file, "buildlog.txt" with all your builds
+listed.
+
+Files:
+- Readme.txt   - This file
+- buildnum     - Script version
+- buildnum.cpp - Source code for the compilable version
+- AppInfo.*    - Simple singleton wrapper class for buildnum
+- Makefile     - A generic makefile that uses buildnum (and also
+                 can be used as is to compile buildnum.cpp)
+
+Its execution generates two files:
+
+ * "build.h" A header file defining two constants with the current 
+   build number and time-stamp. These constants are available by 
+   including "build.h" in the one we want to use the build number.
+   When buildnum is executed, the previous "build.h" is used to 
+   calculate the next one, so be careful by altering it.
+   If "build.h" its not present, current buildnumber will be 1.
+
+ * "buildlog.txt" A history file containing all the build numbers 
+   and time-stamps as they are generated.
+
+The example:
+
+Provided files "AppInfo.cpp", "AppInfo.h" and the generic "Makefile" 
+are the illustration of a good way to use it in a C++ project.
+
+The constant "_KKEP_BUSCANT_DEPENDENCIES" is defined only while 
+determining dependencies and "build.h" is included in "AppInfo.cpp" 
+only when this constant is not defined. Consequently, althought the 
+"build.h" file is updated by BNG, the project is in an 'All done' 
+status.
+
+Legalities:
+
+I get no responability of any damage implied by the use of this
+software as expressed in GNU General Public Licence version 2 
+available at Software Foundation, Inc., 675 Mass Ave, Cambridge, 
+MA 02139, USA.
+
+It would be gently the user to keep the credits in BNG executable 
+(if recompiled), in the source code in this package (if modified) 
+and in the files it generates (mainly build.h).
+
+Keep all modifications to this package on public domain if you feel
+it would be usefull to other people.
+
+Contact:
+
+vokimon@jet.es
+is04069@salleurl.edu
+
+

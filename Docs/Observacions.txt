@@ -1,0 +1,38 @@
+- Un entorn molt restrictiu anularia la possibilitat de desenvolupament de nous 
+organismes primigenis. Un entorn poc restrictiu ho facilitaria tot i que, si 
+nomes considerem l'entorn, treure pressio selectiva podria fer que la poblacio 
+no evoluciones cap a comportaments complexos. Si ho considerem en global, pero,
+veiem que tot i que l'entorn no sigui suficientment restrictiu, quan la poblacio 
+creix, donat que hi ha recursos limitats, la pressio selectiva l'exerceixen els 
+propis organismes.
+- Es pot establir un equilibri entre els costos i els beneficis energetics de 
+moure's en el biosistema per tal de que la poblacio es mantingui estable en
+un entorn.
+- Com més ric sigui el biosistema més nivells tròfics apareixeran
+- Una alta probabilitat d'aparicio de cepes noves es sobreposa a la capacitat
+d'adaptacio dels procesos genetics.
+- En moments, de poca poblacio les cepes molt primigenies tenen major
+probabilitat de perdurar i evolucionar.
+- Sense sensibilitat als nutrients, els fills es coloquen a una posicio aleatoria
+Amb sensibilitat als nutrients els fills es coloquen alli on hi ha menjar
+- De moment, amb 2 nutrients, i sense metabolisme, no serveix de gran cosa 
+detectar el tipus de nutrient.
+- Els organismes eviten mutacions fen gran el seu cariotip -> penalitzacio
+- Si el lloc on menjar ho treiem dels registres, tambe acaba localitzant.
+
+- Si els cromosomes no son suficientment llargs els comportaments es tornen
+molt simplistes i hi ha poca tolerància a la mutació.
+
+- Si els costos energètics ho permeten, els organismes es poden adaptar per
+reproduir-se durant un sól quantum.
+
+- Si se'ls hi posa molt cost per fer la mitosi obliguem a que la vida dels
+organismes sigui més llarga, i, sovint, més complexa tot i que els primers 
+primigenis triguen molt més en apendre a reproduir-se eficaçmet. 
+Posen les instruccions de mitosi al final de gens molt llargs o darrera 
+d'operadors molt improbables. Si hi ha algun bug molt improvable, 
+l'aprofitaran.
+
+
+
+

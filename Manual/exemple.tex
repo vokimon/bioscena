@@ -1,0 +1,185 @@
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Exemple d'execució: Biosistema amb múltiples climes}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Condicions de la simulació}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Els fitxers de configuració que venen amb l'executable modelitzen
+una simulació d'exemple.
+
+És un biosistema de 160x80 on s'han diferenciat algunes regions amb 
+l'objectiu que els diferents organismes s'especialitzin, a la regiò 
+on viuen. Es vol demostrar que cada grup d'organismes, potser i tot 
+d'origens genètics comuns, es pot especialitzar per viure en cada zona.
+
+Així doncs s'han diferenciat, mitjançant els agents ambientals quatre
+zones amb {\em climes diferents}:
+\begin{enumerate}
+\item [A] 
+Una taca de 20 posicions de radi que dipositava nutrients de tipus A
+amb molta freqüència, però, que tenia períodes d'inactivitat.
+\item [B] 
+Una taca de 20 posicions de radi que dipositava nutrients de tipus B
+amb un xic menys de freqüència, però, de forma constant.
+\item [C]
+Una taca molt dispersa però molt ampla (60 posicions de radi) que 
+dipositava nutrients de tipus C.
+\item [D] 
+Per la resta del biòtop es deixen petits grupùscles molt densos
+de forma aleatòria.
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Primigenis}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+El primer que cal dir és ha de passar cert temps de simulació
+perquè l'atzar faci aparèixer un organisme vàlid que es sàpiga
+reproduir. Fins llavors els organismes, apareixen aleatòriament
+i desapareixen quan se'ls acaba l'energia.
+
+La millor forma veure quan apareix un organisme vàlid és anar
+mirant el gràfic de grups reproductius. Al començament podem
+trobar quatre tipus d'organismes:
+\begin{enumerate}
+\item Organismes inestables que no trascendeixen.
+\item Organismes inmortals que sobreviuen però no es reprodueixen
+\item Organismes que es reprodueixen amb una tasa de creixement
+al voltant de 1.
+\item Organismes que es reprodueixen amb una tasa de creixement major
+que un.
+\end{enumerate}
+
+\index{organismes!inmortals}
+Els organismes inmortal sobreviuran, però, segurament no sobreviuran
+quan es desenvolupin organismes del quart tipus.
+
+Els organismes amb tasa de creixement al voltant de 1, són organismes
+que poc després de reproduir-se es moren o que el seus descendents
+no sobreviuen. Aquest tipus d'organisme té l'esperança de que un fill
+seu muti i esdevingui un organisme primigeni, però amb tota probabilitat
+aquesta mutació acabarà sent negativa.
+
+Un cop apareix un grup reproductiu tal com el quart cas, aquest
+primer grup acaba sent el dominador del biosistema amb més o menys
+velocitat, donat que la probabilitat de generar al atzar un individu 
+bó és molt petita, com hem vist, i la competència en aquest punt ja 
+seria massa ofegant.
+
+Així doncs, els principis de supervivència que fan servir els primers 
+organismes que aprenen a reproduir-se eficientment són aquells en els 
+que es basaran la majoria dels organismes que apareixin a partir 
+d'aquell moment.
+
+Si es vol obtenir organismes amb principis de supervivéncia diferents,
+un mètode que s'aconsella és fer diverses simulacions i exportar
+els organismes que aprenen a reproduir-se en cadascuna.
+Si els importem a un altre biosistema, tenen més probabilitat de conviure.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Especialització}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Degut al caracter no determinista de les simulacions, els resultats
+poden diferir molt, tot i així, el que es fa a continuació és resumir 
+alguns aspectes observats a les simulacions basades en aquesta
+configuració que es donen de forma majoritària o que resulten interesants.
+
+Entre la zona C i D al llarg del temps no hi ha masses diferències
+tret una diferència en la densitat dels organismes. Diguem que el
+tipus d'organisme que trionfa a D (que normalment són els que millor
+cerquen l'aliment) acaba dominant en C.
+
+A les altres dos zones, el resultat més clar es que a la llarga 
+(aproximadament 1.500.000 d'unitats temporals) els organismes de A i B,
+que sempre són molt voraços i competitius, acabaven no movent-se. 
+Com que la font de menjar que tenien no es mou, si ells es mouen
+es temps que perden de menjar.
+
+A les zones A i B, al començament hi ha molta densitat d'organismes
+la qual cosa crea que en sorgir comportaments d'agressió aleatòria, 
+és a dir sense saber si hi ha ningú a on ataquem, aquests siguin
+beneficiosos. 
+
+En A els comportaments d'agressió, de banda d'un 
+complement per la nutrició resultaven una forma de debilitar a 
+la competència.
+
+En canvi, en B, l'augment de la voracitat dels organismes causa que
+durant el període de temps en que no es diposita aliment no hi hagi
+res a menjar. En aquesta situació, l'agressió deixa de ser un 
+complement i passa a ser vital. De tal forma que en B, els organismes
+que fan servir els sensors de presència comencen a tindre avantatge
+i es desenvolupen comportaments d'aquest tipus.
+
+Desprès d'això, la densitat en B, descendeix i els organismes que
+hi sobreviuen s'alimenten del medi, quan hi ha menjar i dels 
+organismes que, atrets per la quantitat de nutrients, s'apropen
+des de C i D.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Pressió selectiva depenent de la densitat}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Les primeres experiències amb el prototip van servir, per clarificar 
+un dilema que em plantejava al començament de les proves: Cal fer un 
+biosistema molt restrictiu per que hi hagi pressió evolutiva i així
+es desenvolupin comportaments bons o cal fer-ne un de menys restrictiu 
+per que es puguin desenvolupar els organismes primigenis amb major 
+facilitat. 
+
+Realment vam comprovar que configurant un biosistema on els primigenis
+puguessin desenvolupar-se amb facilitat, quan la població començava
+a pujar, els mateixos organismes, en la competència pels recursos 
+limitats es creaven la pressió evolutiva.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Distribució d'edats i organismes inmortals}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\index{organismes!inmortals}
+Un altre tema relacionat és el de la distribució de les edats i
+el problema dels organismes inmortals apuntat per Todd en \cite{ADeath}.
+El problema es basa en el fet de que, si no limitem artificialment
+l'edat dels organismes, ens podriem trobar situacions en les que
+hi haguessin organismes que no morissin mai.
+
+Beleg i Menezer \cite{LEEIntro1994} apunten el fet de que sense 
+limitar artificialment l'edat dels organismes a LEE, emergeixen 
+distribucions d'edats estables semblants a les corbes de la equació
+clàssica d'Euler-Lotka. Això és degut al fet de que els organismes 
+comparteixen recursos finits i, en conseqüència, com hem vist a
+l'apartat anterior, la pressió selectiva depen de la densitat de la
+població.
+
+Quan la població es manté estable deixa de crèixer, la distribució 
+en edats tendeix a ser tal que la fracció d'organismes amb una 
+determinada edat equival a la probabilitat de que un organisme
+arribi a aquesta edat. \cite{Stearns1992}
+
+En el nostre cas, el problema és que, a diferència del que passa
+al sistema LEE, els organismes de Bioscena no es reprodueixen
+automàticament quan arriben a un nivell energètic, sinó que
+han de desenvolupar en el seu codi genètic la capacitat de 
+reproduir-se només quan tenen prou energia.
+
+Mentre que no hi ha cap organisme que sapiga reproduir-se 
+adientment, a grans trets hi ha dos tipus d'organismes. Uns que
+proven de reproduir-se abans de tenir l'energia necessària i en
+fer-ho moren. D'altres que no proven mai de reproduir-se i només
+menjen sense que ningú els faci competència.
+
+Aquests darrers es podrien considerar organismes inmortals. Però,
+en el moment en el que apareix un organisme que es sap reproduir
+correctament, la població puja explossivament i arriba al punt en 
+que comença a haver pressió selectiva. En aquest punt, ja es donen 
+les condicions perquè aparegui el comportament emergent descrit 
+pels autors del LEE i com he pogut contrastar es dóna.
+
+
