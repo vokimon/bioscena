@@ -97,3 +97,24 @@ D:\Bioscena\Bioscena\Iterador.cpp(29):	if (m_preAccio) delete m_preAccio;
 D:\Bioscena\Bioscena\Iterador.cpp(30):	if (m_postAccio) delete m_postAccio;
 D:\Bioscena\Bioscena\MultiAgent.cpp(31):		delete (*(m_agents.begin()));
 D:\Bioscena\Bioscena\Temporitzador.cpp(31):	if (m_antiAccio) delete m_antiAccio;
+
+
+
+
+
+~CMutacioDesplacament >>
+~CAneuploidiaPositiva >> delete (Despres d'un desplacament)
+CMutacioDesplacament::muta >> 123 delete 
+CMutacioPerFusio::muta >> ~CCromosoma >> delete
+CAneuploidiaNegativa::muta >> ~CCromosoma >> alliberaCodons >> delete
+CInsercioAleatoria::muta >> 170 delete (despres Despl i Aneu+) nCodons=40
+CCromosoma::treuCodons   primer+longitud==m_nCodons **	
+CCromosoma::fusiona:134 >> CCromosoma::alliberaCodons:195
+InsercioReplicada::muta:208 >> delete  longitud:3 nCodons:7
+InsercioReplicada::muta:208 >> delete  longitud:6 nCodons:6 iReplica:4 iDesti1:2 iOrigen:oo
+
+
+
+
+
+

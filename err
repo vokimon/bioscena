@@ -1,0 +1,24 @@
+MutacioGenica.cpp:38: invalid use of undefined type `class CMutacioEstructural'
+Cromosoma.h:15: forward declaration of `class CMutacioEstructural'
+MutacioGenica.cpp:42: invalid use of undefined type `class CMutacioEstructural'
+Cromosoma.h:15: forward declaration of `class CMutacioEstructural'
+MutacioGenica.cpp: In method `CMutacioEstructural::~CMutacioEstructural()':
+MutacioGenica.cpp:43: `sizeof' applied to incomplete type `CMutacioEstructural'
+MutacioGenica.cpp: In function `static class CMutacioGenica * CMutacioGenica::Nova(long unsigned int)':
+MutacioGenica.cpp:121: cannot allocate an object of type `CMutacioPuntualBinaria'
+MutacioGenica.cpp:121:   since the following virtual functions are abstract:
+MutacioGenica.h:20: 	void CMutacioGenica::muta(uint32 &)
+MutacioGenica.cpp:122: cannot allocate an object of type `CMutacioPuntualBinariaGaussiana'
+MutacioGenica.cpp:122:   since the following virtual functions are abstract:
+MutacioGenica.h:20: 	void CMutacioGenica::muta(uint32 &)
+MutacioGenica.cpp:123: cannot allocate an object of type `CMutacioPuntualDrastica'
+MutacioGenica.cpp:123:   since the following virtual functions are abstract:
+MutacioGenica.h:20: 	void CMutacioGenica::muta(uint32 &)
+MutacioGenica.cpp: In function `static class CMutacioGenica * CMutacioGenica::Nova(basic_string<char,string_char_traits<char>,__default_alloc_template<false,0> >)':
+MutacioGenica.cpp:130: cannot allocate an object of type `CMutacioPuntualBinaria'
+MutacioGenica.cpp:130:   since type `CMutacioPuntualBinaria' has abstract virtual functions
+MutacioGenica.cpp:131: cannot allocate an object of type `CMutacioPuntualBinariaGaussiana'
+MutacioGenica.cpp:131:   since type `CMutacioPuntualBinariaGaussiana' has abstract virtual functions
+MutacioGenica.cpp:132: cannot allocate an object of type `CMutacioPuntualDrastica'
+MutacioGenica.cpp:132:   since type `CMutacioPuntualDrastica' has abstract virtual functions
+make.exe: *** [MutacioGenica.o] Error 1

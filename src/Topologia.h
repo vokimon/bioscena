@@ -38,7 +38,7 @@ public:
 	virtual t_posicio desplacament (t_posicio origen, t_desplacament movimentRelatiu)
 		// Retorna la posicio resultant de fer el desplacament des de l'origen
 	{
-		// TODO: Per defecte aillades o indeterministic
+		// TODO: Per defecte aillades o indeterministic?
 		return posicioAleatoria();
 //		return origen;
 	}

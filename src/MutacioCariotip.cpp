@@ -195,7 +195,7 @@ CMutacioCariotip * CMutacioCariotip::Nova(uint32 n)
 	case 1: return new CMutacioPerEscisio;
 	case 2: return new CAneuploidiaPositiva;
 	case 3: return new CAneuploidiaNegativa;
-	case 4: return new CEuploidiaPositiva;
+//	case 4: return new CEuploidiaPositiva;
 	default: return NULL;
 	}
 }
@@ -206,7 +206,7 @@ CMutacioCariotip * CMutacioCariotip::Nova(string tipus)
 	if (tipus==CMutacioPerEscisio::Tipus()) return new CMutacioPerEscisio;
 	if (tipus==CAneuploidiaPositiva::Tipus()) return new CAneuploidiaPositiva;
 	if (tipus==CAneuploidiaNegativa::Tipus()) return new CAneuploidiaNegativa;
-	if (tipus==CEuploidiaPositiva::Tipus()) return new CEuploidiaPositiva;
+//	if (tipus==CEuploidiaPositiva::Tipus()) return new CEuploidiaPositiva;
 	else return NULL;
 }
 
