@@ -10,8 +10,6 @@
 #include "Outputer.h"
 
 
-using namespace std;
-
 class CMissatger  
 {
 // Construccio
@@ -28,7 +26,7 @@ public:
 	bool activat ();
 // Insercions
 public:
-	CMissatger & operator<<(ostream& (*pf)(ostream&));
+	CMissatger & operator<<(std::ostream& (*pf)(std::ostream&));
 	void operator() (char * str);
 	template<class T> CMissatger & operator<<(T object)
 	{
@@ -44,7 +42,7 @@ public:
 // Atributs
 protected:
 	CBasicOutputer &m_out;
-	ostrstream m_stream;
+	std::ostrstream m_stream;
 	bool m_hiHaCapcelera; // A true si hem definit una capcelera
 	char m_capcelera[40]; // Guarda una capcelera comuna a aquests missatges
 	bool m_hiHaFinal; // A true si hem definit un missatge de sumari.
