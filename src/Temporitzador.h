@@ -1,18 +1,16 @@
-// Agent.h: interface for the CAgent class.
+// Temporitzador.h: interface for the CTemporitzador class.
 //
 //////////////////////////////////////////////////////////////////////
 
-#if !defined(__KKEP_AGENT_H_INCLUDED)
-#define __KKEP_AGENT_H_INCLUDED
+#if !defined(__KKEP_TEMPORITZADOR_H_INCLUDED)
+#define __KKEP_TEMPORITZADOR_H_INCLUDED
 
 #include <string>
 #include "BioIncludes.h"
 #include "RandomStream.h"
 #include "Missatger.h"
 
-// typedef void (*TipusAccio)();
-template <class TipusAccio> 
-class CAgent 
+class CTemporitzador 
 {
 	struct t_cicle 
 	{
@@ -29,10 +27,13 @@ class CAgent
 		uint32 m_encerts;
 		uint32 m_mostra;
 	};
+	typedef CAgent t_accio;
+//	typedef void (*TipusAccio)(); // Aixo es per fer proves nomes
+
 // Construccio/Destruccio
 public:
-	CAgent();
-	virtual ~CAgent();
+	CTemporitzador();
+	virtual ~CTemporitzador();
 // Operacions
 public:
 	void tic ();
@@ -49,7 +50,7 @@ public:
 	t_cicle m_cicleActiu;
 	t_cicle m_cicleDesactiu;
 	t_probabilitat_saxona m_probabilitat;
-	TipusAccio m_accio;
+	t_accio * m_accio;
 // Proves
 public:
 	static void ProvaClasse();
@@ -62,8 +63,7 @@ private:
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-template <class TipusAccio> 
-CAgent<TipusAccio>::CAgent()
+CTemporitzador::CTemporitzador()
 {
 	m_nom="Anonim";
 	m_cicleActiu.m_periodeMinim=1;
@@ -79,8 +79,7 @@ CAgent<TipusAccio>::CAgent()
 	m_accionat = false;
 }
 
-template <class TipusAccio> 
-CAgent<TipusAccio>::~CAgent()
+CTemporitzador::~CTemporitzador()
 {
 
 }
@@ -89,8 +88,7 @@ CAgent<TipusAccio>::~CAgent()
 // Operacions
 //////////////////////////////////////////////////////////////////////
 
-template <class TipusAccio> 
-void CAgent<TipusAccio>::cicleActiu(uint32 periode, uint32 margeDau, uint32 nombreDaus)
+void CTemporitzador::cicleActiu(uint32 periode, uint32 margeDau, uint32 nombreDaus)
 {
 	m_cicleActiu.m_periodeMinim=periode;
 	m_cicleActiu.m_nombreDaus=nombreDaus;
@@ -98,8 +96,7 @@ void CAgent<TipusAccio>::cicleActiu(uint32 periode, uint32 margeDau, uint32 nomb
 	recalculaActual();
 }
 
-template <class TipusAccio> 
-void CAgent<TipusAccio>::cicleDesactiu(uint32 periode, uint32 margeDau, uint32 nombreDaus)
+void CTemporitzador::cicleDesactiu(uint32 periode, uint32 margeDau, uint32 nombreDaus)
 {
 	m_cicleDesactiu.m_periodeMinim=periode;
 	m_cicleDesactiu.m_nombreDaus=nombreDaus;
@@ -107,24 +104,18 @@ void CAgent<TipusAccio>::cicleDesactiu(uint32 periode, uint32 margeDau, uint32 n
 	recalculaActual();
 }
 
-template <class TipusAccio> 
-void CAgent<TipusAccio>::probabilitat(uint32 mostra, uint32 encerts)
+void CTemporitzador::probabilitat(uint32 mostra, uint32 encerts)
 {
 	m_probabilitat.m_mostra=mostra;
 	m_probabilitat.m_encerts=encerts;
 }
 
-template <class TipusAccio> 
-void CAgent<TipusAccio>::accio(TipusAccio a)
+void CTemporitzador::accio(TipusAccio a)
 {
 	m_accio=a;
 }
 
-template <class TipusAccio> 
-bool CAgent<TipusAccio>::tic()
-
-template <class TipusAccio> 
-void CAgent<TipusAccio>::tic()
+void CTemporitzador::tic()
 {
 	m_accionat=false;
 	if (!m_periodeActual) {
@@ -151,12 +142,11 @@ void CAgent<TipusAccio>::tic()
 //////////////////////////////////////////////////////////////////////
 // Proves
 //////////////////////////////////////////////////////////////////////
-void hola();
+void hola(); // Definit al .cpp
 
-template <class TipusAccio> 
-void CAgent<TipusAccio>::ProvaClasse()
+void CTemporitzador::ProvaClasse()
 {
-	CAgent <void(*)()>ag;
+	CTemporitzador ag;
 	ag.cicleDesactiu(4,0,0);
 	ag.cicleActiu(0,2,3);
 	ag.probabilitat(20,15);
@@ -172,8 +162,7 @@ void CAgent<TipusAccio>::ProvaClasse()
 // Ìmplementacio
 //////////////////////////////////////////////////////////////////////
 
-template <class TipusAccio> 
-void CAgent<TipusAccio>::recalculaActual()
+void CTemporitzador::recalculaActual()
 {
 	t_cicle & nouCicle = m_actiu?m_cicleActiu:m_cicleDesactiu;
 	// Inicialitzem am el periode minim del cicle
@@ -184,4 +173,4 @@ void CAgent<TipusAccio>::recalculaActual()
 	if (!m_periodeActual) recalculaActual();
 }
 
-#endif // !defined(__KKEP_AGENT_H_INCLUDED)
+#endif // !defined(__KKEP_TEMPORITZADOR_H_INCLUDED)

@@ -1,0 +1,6 @@
+// Posicionador.cpp: implementation of the CPosicionador class.
+//
+//////////////////////////////////////////////////////////////////////
+
+#include "Posicionador.h"
+

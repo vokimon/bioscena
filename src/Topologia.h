@@ -8,6 +8,7 @@
 #if !defined(__KKEP_TOPOLOGIA_H_INCLUDED)
 #define __KKEP_TOPOLOGIA_H_INCLUDED
 
+#include <iomanip>
 #include "BioIncludes.h"
 #include "RandomStream.h"
 
