@@ -2,20 +2,20 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#if !defined(__KKEP_BIOTOPTOROIDAL_H_INCLUDED)
-#define __KKEP_BIOTOPTOROIDAL_H_INCLUDED
+#if !defined(__KKEP_TOPOLOGIATOROIDAL_H_INCLUDED)
+#define __KKEP_TOPOLOGIATOROIDAL_H_INCLUDED
 
 #include "BioIncludes.h"
-#include "Biotop.h"
+#include "Topologia.h"
 #include "RandomStream.h"
 #include "Color.h"
 
 template <class Cella>
-class CBiotopToroidal : public CBiotop<Cella>
+class CTopologiaToroidal : public CTopologia<Cella>
 {
 // Contruccio/Destruccio
 public:
-	CBiotopToroidal (uint32 XMax, uint32 YMax);
+	CTopologiaToroidal (uint32 XMax, uint32 YMax);
 // Redefinicio
 	virtual uint32 desplacament (uint32 origen, uint32 movimentRelatiu);
 // Atributs
@@ -39,18 +39,18 @@ public:
 	static void ProvaClasse(void) {
 		uint32 i;
 		int escala[]={7,6,4,4,12,14,15,9};
-		CBiotopToroidal<Cella> biotop(25,21);
+		CTopologiaToroidal<Cella> topo(25,21);
 		uint32 cuc[7]={130,130,130,130,130,130,130};
 		while (cuc[0]!=8) {
-			for (i=7;i--;) biotop[cuc[i]]=escala[6-i];
-			biotop[biotop.cassellaAlAtzar()]=vermell.brillant().fons(groc);
-			biotop.debugPresenta(out);
+			for (i=7;i--;) topo[cuc[i]]=escala[6-i];
+			topo[topo.cassellaAlAtzar()]=vermell.brillant().fons(groc);
+			topo.debugPresenta(out);
 			CRandomStream rnd;
 			uint32 direccio;
 			rnd>>direccio;
 			for (i=6;i--;) cuc[i+1]=cuc[i];
-			cuc[0]=biotop.desplacament(cuc[0],direccio);
-			if (cuc[0]==cuc[6]) cuc[0]=biotop.cassellaAlAtzar();
+			cuc[0]=topo.desplacament(cuc[0],direccio);
+			if (cuc[0]==cuc[6]) cuc[0]=topo.cassellaAlAtzar();
 			out<<"Celles"<<setw(5)<<setfill(' ');
 			for (i=7;i--;) out << cuc[i] << " - ";
 			out<<setw(0)<<endl;
@@ -63,7 +63,7 @@ public:
 //////////////////////////////////////////////////////////////////////
 
 template <class Cella>
-CBiotopToroidal<Cella>::CBiotopToroidal(uint32 xMax=5, uint32 yMax=5)
+CTopologiaToroidal<Cella>::CTopologiaToroidal(uint32 xMax=5, uint32 yMax=5)
 {
 	// Precondicions:
 	//   xMax*yMax < Maxim valor positiu representable amb un uint32.
@@ -87,9 +87,9 @@ CBiotopToroidal<Cella>::CBiotopToroidal(uint32 xMax=5, uint32 yMax=5)
 //////////////////////////////////////////////////////////////////////
 
 template <class Cella>
-uint32 CBiotopToroidal<Cella>::desplacament(uint32 origen, uint32 movimentRelatiu)
+uint32 CTopologiaToroidal<Cella>::desplacament(uint32 origen, uint32 movimentRelatiu)
 {
-	// Es podria fer mes optim pero no funcionaria pels
+	// Segur que es podria fer mes optim pero no funcionaria pels
 	// biotops amb un nombre de celles elevat.
 	int moviment=0;
 	moviment += m_direccions [(movimentRelatiu&0x0007)];
@@ -109,4 +109,4 @@ uint32 CBiotopToroidal<Cella>::desplacament(uint32 origen, uint32 movimentRelati
 		}
 }
 
-#endif // !defined(__KKEP_BIOTOPTOROIDAL_H_INCLUDED)
+#endif // !defined(__KKEP_TOPOLOGIATOROIDAL_H_INCLUDED)
