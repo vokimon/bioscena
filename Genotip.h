@@ -14,8 +14,9 @@
 #include "Missatger.h"
 #include "Gen.h"
 #include "Cariotip.h"
+#include "ControlOrganisme.h"
 
-class CGenotip
+class CGenotip : public CControlOrganisme
 {
 // Construccio/Destruccio
 public:

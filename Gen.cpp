@@ -1,12 +1,26 @@
 // Gen.cpp: implementation of the CGen class.
 //
 //////////////////////////////////////////////////////////////////////
+// Change Log:
+// 19991201 VoK - Fix: Errors calculant la condicio operadora
+// 19991201 VoK - Es pot especificar la mascara de la regio operadora
+//                des del fitxer de configuracio
+// 19991202 VoK - Procediment de proves. Dumping
+// 19991202 VoK - Fix: Inicialitzacions
+// 19991202 VoK - Fix: Mecanismes d'expressio en general
+// 19991202 VoK - Fix: Mecanismes de traduccio
+// 19991202 VoK - Mascares per Promotors i Introns configurables
+// 19991202 VoK - Implementats els Terminadors
+// 19991212 VoK - Canvi condicioOperadora: Fenotips 32 -> 16 bits
+// 19991220 VoK - Un operador es una Or de compatibilitats i no una And
+//////////////////////////////////////////////////////////////////////
 
 #include <iomanip>
 #include "Gen.h"
 #include "Color.h"
 #include "RandomStream.h" // Nomes per proves
 #include "Configuracio.h"
+#include "Compatibilitat.h"
 
 using namespace AnsiCodes;
 
@@ -47,6 +61,11 @@ bool CGen::init(CCromosoma & crm, uint32 & pos)
 	return m_ip!=0;
 }
 
+void CGen::reset() 
+{
+	m_ip=tamany();
+}
+
 uint32 CGen::tamany()
 {
 	return m_instruccions.size();
@@ -64,8 +83,10 @@ bool CGen::traduible(uint32 * fenotip)
 	// Comportament amb zona operadora
 	m_ip = 0;
 	while (m_ip<m_instruccions.size() && esOperadora())	{
-		if (!condicioOperadora(fenotip))
+		if (!condicioOperadora(fenotip)) {
+			m_ip = 0;
 			return false;
+		}
 		m_ip++;
 	}
 	return m_ip<m_instruccions.size();
@@ -149,17 +170,20 @@ bool CGen::condicioOperadora(uint32 * fenotip)
 // PRE: fenotip apunta a una array de 32 elements
 {
 	uint32 instr = m_instruccions[m_ip];
-	uint32 param1 = fenotip[(instr&0x0000000F)>> 0];
-	uint32 param2 = fenotip[(instr&0x000000F0)>> 4];
-	uint32 param3 = fenotip[(instr&0x00000F00)>> 8];
-	uint32 param4 = fenotip[(instr&0x0000F000)>>12];
-	return (param1 ^ param2) && param2 && param4;
+	uint32 param1 = fenotip[(instr>> 0)&0x0000000F];
+	uint32 param2 = fenotip[(instr>> 4)&0x0000000F];
+	uint32 param3 = fenotip[(instr>> 8)&0x0000000F];
+	uint32 param4 = fenotip[(instr>>12)&0x0000000F];
+	uint32 param5 = fenotip[(instr>>16)&0x0000000F];
+	uint32 param6 = fenotip[(instr>>20)&0x0000000F];
+	return sonCompatibles(param1, param2, param5) || sonCompatibles(param3, param4, param6);
 }
 
 
 
 void CGen::dump(CMissatger & msg)
 {
+	char hexadecimal[]="0123456789ABCDEF";
 	uint32 oldIp = m_ip;
 	m_ip=0;
 	bool colorOperadora = true;

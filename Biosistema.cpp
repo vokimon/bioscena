@@ -1,6 +1,23 @@
 // Biosistema.cpp: implementation of the CBiosistema class.
 //
 //////////////////////////////////////////////////////////////////////
+// Change Log:
+// 19990831 VoK - Prototips instruccions organismes
+// 19990831 VoK - Ja tenim taxonomista per natros sols
+// 19991120 VoK - Implementades les operacions de fenotip
+// 19991122 VoK - Proves: Control de teclat + estat visualitzacio
+// 19991128 VoK - Els opcodes es llegeixen d'un fitxer
+// 19991130 VoK - Implementades les operacions sensorials quimiques
+// 19991130 VoK - Reorganitzada la classe
+// 19991205 VoK - Implementades les operacions sensorials presencia
+// 19991210 VoK - Traspasats des d'Organisme.cpp els costos d'engolir, 
+//                excretar i atacar
+// 19991211 VoK - Traspasats des d'Organisme.cpp els costos de mitosi
+//                i generacio expontanea
+// 19991214 VoK - Incorporada kbhit portable
+// 19991214 VoK - Funcio 'nibble' per fer mes llegible el codi.
+// 19991220 VoK - Afegides operacions de Shift
+//////////////////////////////////////////////////////////////////////
 // Notes de manteniment:
 // - m_infoOrganisme apunta a un element d'un vector. Com a tal es pot
 //   invalidar en inserir o eliminar un element. Aixi s'ha obviat la
@@ -27,7 +44,7 @@ using namespace AnsiCodes;
 // Variables estatiques
 //////////////////////////////////////////////////////////////////////
 
-static CMemoryOutputer unLog(clog, 26);
+static CMemoryOutputer unLog(clog, 40);
 //static CColorOutputer unLog(clog);
 static CMissatger logAccio("Accions realitzades", NULL, unLog);
 // TODO: Cal canviar aixo, quan tinguem taxonomista
@@ -37,11 +54,34 @@ static uint32 ultimTaxo=0;
 // Funcions Auxiliars (Locals al modul)
 //////////////////////////////////////////////////////////////////////
 
-inline static uint32 nibble(uint32 numero, uint32 valor) 
-{
-	return valor >> (numero<<2) & 0x0000000F;
-}
+struct COpcodeInfo {
+	char *mnemonic;
+	CBiosistema::t_accioOrganisme fn;
+	char *param[8];
+	};
 
+COpcodeInfo opcodes [] = {
+	{"NoOperacio", &CBiosistema::organismeNoOperacio, {NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL}},
+	{"Avanca", &CBiosistema::organismeAvanca, {"dir","ener","clau",NULL,NULL,NULL,NULL,NULL}},
+	{"Mitosi", &CBiosistema::organismeMitosi, {"dir","ener",NULL,NULL,NULL,NULL,NULL,NULL}},
+	{"Ataca", &CBiosistema::organismeAtaca, {"dir","base","tol","ener","clau",NULL,NULL,NULL}},
+	{"Engoleix", &CBiosistema::organismeEngoleix, {"dir","base","tol",NULL,NULL,NULL,NULL,NULL}},
+	{"Excreta", &CBiosistema::organismeExcreta, {"dir","base","tol",NULL,NULL,NULL,NULL,NULL}},
+	{"And", &CBiosistema::organismeAnd, {"dest","op1","op2",NULL,NULL,NULL,NULL,NULL}},
+	{"Or", &CBiosistema::organismeXor, {"dest","op1","op2",NULL,NULL,NULL,NULL,NULL}},
+	{"Xor", &CBiosistema::organismeOr, {"dest","op1","op2",NULL,NULL,NULL,NULL,NULL}},
+	{"ShiftR", &CBiosistema::organismeShiftRight, {"dest","op1","num",NULL,NULL,NULL,NULL,NULL}},
+	{"ShiftL", &CBiosistema::organismeShiftLeft, {"dest","op1","num",NULL,NULL,NULL,NULL,NULL}},
+	{"Not", &CBiosistema::organismeNot, {"dest","op1",NULL,NULL,NULL,NULL,NULL,NULL}},
+	{"Oposa", &CBiosistema::organismeOposa, {"dest","op1",NULL,NULL,NULL,NULL,NULL,NULL}},
+	{"Copia", &CBiosistema::organismeCopia, {"dest","op1",NULL,NULL,NULL,NULL,NULL,NULL}},
+	{"Random", &CBiosistema::organismeRandom, {"dest",NULL,NULL,NULL,NULL,NULL,NULL,NULL}},
+	{"Carrega", &CBiosistema::organismeCarrega, {"dest",NULL,NULL,NULL,NULL,NULL,NULL,NULL}},
+	{"SensorQ", &CBiosistema::organismeSensorQuimic, {"dir","radi","base","tol","ddir","dtip",NULL,NULL}},
+	{"SensorP", &CBiosistema::organismeSensorPresencia, {"dir","radi","base","tol","ddir","dtip",NULL,"reg"}},
+	{NULL, NULL, {NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL}}
+//	{"SensorI", &CBiosistema::organismeSensorIntern, {"","","base","tol","denr","dtip",NULL,NULL}},
+};
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -148,11 +188,12 @@ void CBiosistema::deleteAgents()
 
 bool CBiosistema::carregaOpCodes(char * nomArxiu, CMissatger & errors)
 {
-	// Obrim l'arxiu
-	ifstream entrada(nomArxiu);
 	string prefetch;
 	string mnemonicOperacio;
 	uint32 valor;
+
+	// Obrim l'arxiu
+	ifstream entrada(nomArxiu);
 
 	out << "Carregant la taula de codis d'operacions [" << nomArxiu << "]" << endl;
 	if (!entrada) {
@@ -194,40 +235,11 @@ bool CBiosistema::carregaOpCodes(char * nomArxiu, CMissatger & errors)
 			continue;
 		}
 #endif
-		if      (mnemonicOperacio=="Avanca")
-			m_opcodes[valor]=&CBiosistema::organismeAvanca;
-		else if (mnemonicOperacio=="Mitosi")
-			m_opcodes[valor]=&CBiosistema::organismeMitosi;
-		else if (mnemonicOperacio=="Ataca")
-			m_opcodes[valor]=&CBiosistema::organismeAtaca;
-		else if (mnemonicOperacio=="Engoleix")
-			m_opcodes[valor]=&CBiosistema::organismeEngoleix;
-		else if (mnemonicOperacio=="Excreta")
-			m_opcodes[valor]=&CBiosistema::organismeExcreta;
-		else if (mnemonicOperacio=="NoOperacio")
-			m_opcodes[valor]=&CBiosistema::organismeNoOperacio;
-		else if (mnemonicOperacio=="And")
-			m_opcodes[valor]=&CBiosistema::organismeAnd;
-		else if (mnemonicOperacio=="Or")
-			m_opcodes[valor]=&CBiosistema::organismeOr;
-		else if (mnemonicOperacio=="Xor")
-			m_opcodes[valor]=&CBiosistema::organismeXor;
-		else if (mnemonicOperacio=="Not")
-			m_opcodes[valor]=&CBiosistema::organismeNot;
-		else if (mnemonicOperacio=="Oposa")
-			m_opcodes[valor]=&CBiosistema::organismeOposa;
-		else if (mnemonicOperacio=="Random")
-			m_opcodes[valor]=&CBiosistema::organismeRandom;
-		else if (mnemonicOperacio=="Copia")
-			m_opcodes[valor]=&CBiosistema::organismeCopia;
-		else if (mnemonicOperacio=="Carrega")
-			m_opcodes[valor]=&CBiosistema::organismeCarrega;
-		else if (mnemonicOperacio=="Localitza")
-			m_opcodes[valor]=&CBiosistema::organismeLocalitza;
-		else if (mnemonicOperacio=="Identifica")
-			m_opcodes[valor]=&CBiosistema::organismeIdentifica;
-		else if (mnemonicOperacio=="LocalitzaOrganisme")
-			m_opcodes[valor]=&CBiosistema::organismeLocalitzaOrganisme;
+		uint32 i;
+		for (i=0; opcodes[i].mnemonic && mnemonicOperacio!=opcodes[i].mnemonic; i++);
+		if (opcodes[i].mnemonic) {
+			m_opcodes[valor]=opcodes[i].fn;
+		}
 		else {
 			errors
 				<< "El mnemonic '" << mnemonicOperacio
@@ -384,13 +396,20 @@ bool CBiosistema::organismeMitosi(uint32 parametres)
 	CSubstrat & substratOrigen=(*m_biotop)[posOrigen];
 	CSubstrat & substratDesti=(*m_biotop)[posDesti];
 
-	m_organismeActiu->consumeixEnergia((m_organismeActiu->m_cariotip.tamanyCodons()>>Config.get("Organisme/Cariotip/CromosomaLlarg/BitsTamanyMaxim"))*Config.get("Organisme/Cariotip/CromosomaLlarg/FactorPenalitzacio"));
+	// Fem pagar al futur pare la penalitzacio per cromosoma llarg
+	uint32 tamanyPenat = Config.get("Organisme/Cariotip/PenalitzacioLlarg/BitsTamanyMaxim");
+	uint32 factorPenat = Config.get("Organisme/Cariotip/PenalitzacioLlarg/Factor");
+	m_organismeActiu->consumeixEnergia((m_organismeActiu->m_cariotip.tamanyCodons()>>tamanyPenat)*factorPenat);
+
+	// Inici del log
+	logAccio << m_infoOrganismeActiu->descripcio() << "Mitosi " << hex << nibble(0,parametres) << ":" << setw(8) << desp << dec << ": ";
+
+	// Mirem si encara tenim energia per fer la mitosi
 	if (!m_organismeActiu->consumeixEnergia(Config.get("Biosistema/Energia/Mitosi")*Config.get("Biosistema/Energia/FactorDescendencia"))) {
-		logAccio << m_infoOrganismeActiu->descripcio() << "Mitosi " << hex << nibble(0,parametres) << ":" << setw(8) << desp << dec << ": " << vermell << "No tinc prouta energia" << blanc.fosc() << endl;
+		logAccio << vermell << "No tinc energia" << blanc.fosc() << endl;
 		return false;
 		}
 
-	logAccio << m_infoOrganismeActiu->descripcio() << "Mitosi " << hex << nibble(0,parametres) << ":" << setw(8) << desp << dec << ": ";
 	if (substratDesti.esOcupat()) {
 		logAccio << vermell.brillant() << "Ocupat " << blanc.fosc() << (*m_comunitat)[substratDesti.ocupant()].descripcio() << endl;
 		return false; // Error: Ja hi ha penya a la posicio, no la podem ocupar
@@ -413,13 +432,12 @@ bool CBiosistema::organismeMitosi(uint32 parametres)
 
 	nouOrganisme->guanyaEnergia(Config.get("Biosistema/Energia/Mitosi"));
 	uint32 id = m_comunitat->introdueix(nouOrganisme, posDesti, taxo);
-	substratDesti.ocupa(id);
-
 	// Restaurem el punter que probablement haura quedat invalidat
 	m_infoOrganismeActiu = &((*m_comunitat)[m_idOrganismeActiu]);
-
-	// Logging
+	substratDesti.ocupa(id);
 	logAccio << verd.brillant() << "Nascut " << blanc.fosc() << (*m_comunitat)[id].descripcio() << endl;
+
+	// Logging adicional (i provisional)
 	if (taxo!=m_infoOrganismeActiu->taxo()) {
 		logAccio << "Eps! Mutacio " /*<< m_infoOrganismeActiu->taxo() << "->" << taxo*/ << endl;
 	}
@@ -488,7 +506,7 @@ bool CBiosistema::organismeAtaca(uint32 parametres)
 	uint32 agarrapinyats = elements.size();
 	logAccio << groc.brillant() << "N'extrec " << agarrapinyats << " a " << blanc.fosc() << (*m_comunitat)[idOrganismeAtacat].descripcio() << endl;
 	m_organismeActiu->guanyaEnergia(Config.get("Biosistema/Energia/Engolir")*agarrapinyats);
-	(*m_comunitat)[idOrganismeAtacat].cos()->consumeixEnergia(Config.get("Biosistema/Energia/Excretar")*agarrapinyats);
+	(*m_comunitat)[idOrganismeAtacat].cos()->consumeixEnergia(Config.get("Biosistema/Energia/Extraccio")*agarrapinyats);
 	while (elements.size()) {
 		m_organismeActiu->engoleix(elements.front());
 		elements.pop_front();
@@ -528,7 +546,7 @@ bool CBiosistema::organismeExcreta(uint32 parametres)
 	// Precalculem tot el que utilitzem mutliples vegades
 	uint32 posOrigen = m_infoOrganismeActiu->posicio();
 	uint32 posDesti = m_biotop->desplacament(posOrigen, desp);
-	logAccio << m_infoOrganismeActiu->descripcio() << "Excreto " << hex << nibble(0,parametres) << ":" << setw(8) << desp << dec << ": ";
+	logAccio << m_infoOrganismeActiu->descripcio() << "Excret " << hex << nibble(0,parametres) << ":" << setw(8) << desp << dec << ": ";
 	CSubstrat & substratDesti = (*m_biotop)[posDesti];
 	uint32 element;
 	if (!(*m_comunitat)[m_idOrganismeActiu].cos()->excreta(element, elementBase, tolerancia)) {
@@ -565,6 +583,24 @@ bool CBiosistema::organismeXor(uint32 parametres)
 	(*m_organismeActiu)[nibble(1,parametres)] ^
 	(*m_organismeActiu)[nibble(2,parametres)] ;
 	logAccio << m_infoOrganismeActiu->descripcio() << "Xor    " << hex << nibble(0,parametres) << "=" << setw(8) << (*m_organismeActiu)[nibble(0,parametres)] << " " << nibble(1,parametres) << "^" << nibble(2,parametres) << dec << endl;
+	return true;
+}
+
+bool CBiosistema::organismeShiftRight(uint32 parametres)
+{
+	(*m_organismeActiu)[nibble(0,parametres)] =
+	(*m_organismeActiu)[nibble(1,parametres)] >>
+	nibble(2,parametres);
+	logAccio << m_infoOrganismeActiu->descripcio() << "ShiftR " << hex << nibble(0,parametres) << "=" << setw(8) << (*m_organismeActiu)[nibble(0,parametres)] << " " << nibble(1,parametres) << ">>" << dec << setw(2) << nibble(2,parametres) << endl;
+	return true;
+}
+
+bool CBiosistema::organismeShiftLeft(uint32 parametres)
+{
+	(*m_organismeActiu)[nibble(0,parametres)] =
+	(*m_organismeActiu)[nibble(1,parametres)] <<
+	nibble(2,parametres);
+	logAccio << m_infoOrganismeActiu->descripcio() << "ShiftL " << hex << nibble(0,parametres) << "=" << setw(8) << (*m_organismeActiu)[nibble(0,parametres)] << " " << nibble(1,parametres) << "<<"<< dec << setw(2) << nibble(2,parametres) << endl; 
 	return true;
 }
 
@@ -616,83 +652,60 @@ bool CBiosistema::organismeNoOperacio(uint32 parametres)
 	return false;
 }
 
-bool CBiosistema::organismeLocalitza(uint32 parametres)
+bool CBiosistema::organismeSensorQuimic(uint32 parametres)
 {
 	// Extreiem els parametres del codi d'operacio i el fenotip de l'organisme
 	uint32 direccio        = (*m_organismeActiu)[nibble(0,parametres)];
 	uint32 radi            = (*m_organismeActiu)[nibble(1,parametres)]&31;
 	uint32 clauElement     = (*m_organismeActiu)[nibble(2,parametres)]&3;
 	uint32 tolerancia      = (*m_organismeActiu)[nibble(3,parametres)]&3;
-	uint32 & registreDesti = (*m_organismeActiu)[nibble(4,parametres)];
-	// Precalculem tot el que utilitzem mutliples vegades
-	uint32 posOrigen = m_infoOrganismeActiu->posicio();
-	uint32 posBase = m_biotop->desplacament(posOrigen, direccio);
-
-	for (uint32 i=Config.get("Sensors/Localitzacio/Intents"); i--;) {
-		uint32 posDesti = m_biotop->desplacamentAleatori (posBase, radi);
-		uint32 elementTrobat;
-		if ((*m_biotop)[posDesti].rastreja(elementTrobat, clauElement, tolerancia)) {
-			// TODO: Aixo retorna si hi arribes nomes amb el desplacament
-			m_biotop->unio(posOrigen,posDesti,registreDesti);
-			logAccio << m_infoOrganismeActiu->descripcio() << "LocalM " << hex << nibble(4,parametres) << "=" << setw(8) << registreDesti << " " << clauElement << "(" << tolerancia << ") a " << nibble(0,parametres) << ":" << setw(8) << direccio << dec << endl;
-			return true;
-		}
-	}
-	logAccio << m_infoOrganismeActiu->descripcio() << "LocalM " << hex << nibble(4,parametres) << ":???????? " << " " << clauElement << "(" << tolerancia << ") a " << nibble(0,parametres) << ":" << setw(8) << direccio << dec << endl;
-	// TODO: Be, com sempre aixo hauria de tenir un significat
-	return true;
-}
-
-bool CBiosistema::organismeIdentifica(uint32 parametres)
-{
-	// Extreiem els parametres del codi d'operacio i el fenotip de l'organisme
-	uint32 direccio        = (*m_organismeActiu)[nibble(0,parametres)];
-	uint32 radi            = (*m_organismeActiu)[nibble(1,parametres)]&31;
-	uint32 clauElement     = (*m_organismeActiu)[nibble(2,parametres)]&5;
-	uint32 tolerancia      = (*m_organismeActiu)[nibble(3,parametres)]&5;
-	uint32 & registreDesti = (*m_organismeActiu)[nibble(4,parametres)];
+	uint32 & destiDireccio = (*m_organismeActiu)[nibble(4,parametres)];
+	uint32 & destiTipus    = (*m_organismeActiu)[nibble(5,parametres)];
 	// Precalculem tot el que utilitzem mutliples vegades
 	uint32 posOrigen = m_infoOrganismeActiu->posicio();
 	uint32 posBase = m_biotop->desplacament(posOrigen, direccio);
 
 	for (uint32 i=Config.get("Sensors/Identificacio/Intents"); i--;) {
 		uint32 posDesti = m_biotop->desplacamentAleatori (posBase, radi);
-		if ((*m_biotop)[posDesti].rastreja(registreDesti, clauElement, tolerancia)) {
-			logAccio << m_infoOrganismeActiu->descripcio() << "IdentM " << hex << nibble(4,parametres) << "=" << setw(8) << registreDesti << " a " << nibble(0,parametres) << ":" << setw(8) << direccio << dec << endl;
+		if ((*m_biotop)[posDesti].rastreja(destiTipus, clauElement, tolerancia)) {
+			// TODO: Aixo retorna true si hi arribes nomes amb el desplacament. Ho fem servir?
+			m_biotop->unio(posOrigen,posDesti,destiDireccio);
+			logAccio << m_infoOrganismeActiu->descripcio() << "SensrQ " << hex << nibble(5,parametres) << "=" << setw(8) << destiDireccio << " " << nibble(4,parametres) << "=" << setw(8) << destiTipus << " " << clauElement << "(" << tolerancia << ") a " << nibble(0,parametres) << ":" << setw(8) << direccio << dec << endl;
 			return true;
 		}
 	}
-	logAccio << m_infoOrganismeActiu->descripcio() << "IdentM " << hex << nibble(4,parametres) << ":???????? " << dec << clauElement << "(" << tolerancia << ")  a " << nibble(0,parametres) << ":" << setw(8) << direccio << dec << endl;
+	logAccio << m_infoOrganismeActiu->descripcio() << "SensrQ " << hex << nibble(5,parametres) << "=???????? " << nibble(4,parametres) << "=???????? " << clauElement << "(" << tolerancia << ") a " << nibble(0,parametres) << ":" << setw(8) << direccio << dec << endl;
+	// TODO: Be, com sempre aixo hauria de tenir un significat
 	return true;
 }
 
-bool CBiosistema::organismeLocalitzaOrganisme(uint32 parametres)
+bool CBiosistema::organismeSensorPresencia(uint32 parametres)
 {
 	// Extreiem els parametres del codi d'operacio i el fenotip de l'organisme
 	uint32 direccio        = (*m_organismeActiu)[nibble(0,parametres)];
 	uint32 radi            = (*m_organismeActiu)[nibble(1,parametres)]&31;
 	uint32 clauElement     = (*m_organismeActiu)[nibble(2,parametres)];
 	uint32 tolerancia      = (*m_organismeActiu)[nibble(3,parametres)];
-	uint32 & registreDesti = (*m_organismeActiu)[nibble(4,parametres)];
-	uint32 registre        = nibble(5,parametres);
+	uint32 & destiDireccio = (*m_organismeActiu)[nibble(4,parametres)];
+	uint32 & destiTipus    = (*m_organismeActiu)[nibble(5,parametres)];
+	uint32 registre        = nibble(7,parametres);
 	// Precalculem tot el que utilitzem mutliples vegades
 	uint32 posOrigen = m_infoOrganismeActiu->posicio();
 	uint32 posBase = m_biotop->desplacament(posOrigen, direccio);
 
 	for (uint32 i=Config.get("Sensors/Localitzacio/Intents"); i--;) {
 		uint32 posDesti = m_biotop->desplacamentAleatori (posBase, radi);
-		uint32 contingutTrobat;
 		if ((*m_biotop)[posDesti].esOcupat()) {
 			uint32 ocupant=(*m_biotop)[posDesti].ocupant();
 			if (sonCompatibles((*(*m_comunitat)[ocupant].cos())[registre],clauElement,tolerancia)) {
-				// TODO: Aixo retorna si hi arribes nomes amb el desplacament
-				m_biotop->unio(posOrigen,posDesti,registreDesti);
-				logAccio << m_infoOrganismeActiu->descripcio() << "LocalO " << hex << nibble(4,parametres) << "=" << setw(8) << registreDesti << " a " << nibble(0,parametres) << ":" << setw(8) << direccio << " tq " << registre << ":" << clauElement << "(" << tolerancia << ")" << dec << endl;
+				// TODO: Aixo retorna true si hi arribes nomes amb el desplacament. Ho fem servir?
+				m_biotop->unio(posOrigen,posDesti,destiDireccio);
+				logAccio << m_infoOrganismeActiu->descripcio() << "SensrP " << hex << nibble(4,parametres) << "=" << setw(8) << destiDireccio << " " << nibble(5,parametres) << "=" << setw(8) << destiTipus << " dir(" << nibble(0,parametres) << ") tq " << nibble(7,parametres) << "==R" << nibble(2,parametres) << "(R" << nibble(3,parametres) << ")" << dec << endl; 
 				return true;
 			}
 		}
 	}
-	logAccio << m_infoOrganismeActiu->descripcio() << "LocalO " << hex << nibble(4,parametres) << "=" << "???????? a " << nibble(0,parametres) << ":" << setw(8) << direccio << " tq " << nibble(5,parametres) << "==R" << nibble(2,parametres) << "(R" << nibble(3,parametres) << ")" << dec << endl;
+	logAccio << m_infoOrganismeActiu->descripcio() << "SensrP " << hex << nibble(4,parametres) << "=???????? " << nibble(5,parametres) << "=???????? dir(" << nibble(0,parametres) << ") tq " << nibble(7,parametres) << "==R" << nibble(2,parametres) << "(R" << nibble(3,parametres) << ")" << dec << endl; 
 
 	// TODO: Be, com sempre aixo hauria de tenir un significat
 	return true;
@@ -819,10 +832,9 @@ void CBiosistema::ProvaClasse()
 			out << gotoxy(26,1) << "Temps: " << setw(8) << biosistema.m_temps;
 			out << setfill(' ') << endl;
 		}
-
+		char filename[300];
 		// Obtenim l'entrada del teclat
-//		cin.rdbuf()->sync();
-		if (kbhit())// || cin.rdbuf()->in_avail()) 
+		if (kbhit())
 		{
 			cout << gotoxy(1,48) << clrlin << "Comanda: " << flush;
 			bool sortir=false;
@@ -868,13 +880,31 @@ void CBiosistema::ProvaClasse()
 				case 'q': return;
 				case 'H': 
 				case 'h': helpWanted=true; break;
-				case 'L': logAccio.desactiva(); break;
-				case 'l': logAccio.activa(); break;
+				case 'L': modeCanviat = true; logAccio.desactiva(); break;
+				case 'l': modeCanviat = true; logAccio.activa(); break;
 				case 'R': 
+					cin.get(filename,30);
+					if (!cin.get(filename,30)) {
+						cin.clear();
+						break;
+					}
+					cin.clear();
+					out << clrscr << endl;
+					biosistema.deleteAgents();
+					biosistema.agents(CAgent::ParsejaArxiu(filename, *(biosistema.biotop()), error));
+					// TODO: Recarregar configuracio 
+					out << "Prem una tecla" << endl;
+					cin.get();
+					modeCanviat = true;
+					break;
 				case 'r': 
+					out << clrscr << endl;
 					biosistema.deleteAgents();
 					biosistema.agents(CAgent::ParsejaArxiu("Agents.ini", *(biosistema.biotop()), error));
 					// TODO: Recarregar configuracio 
+					out << "Prem una tecla" << endl;
+					cin.get();
+					modeCanviat = true;
 					break;
 				case 'e': biosistema.m_calEspeciar=true; break;
 				case 'E': biosistema.m_calEspeciar=false; break;
@@ -936,8 +966,8 @@ void CBiosistema::ProvaClasse()
 		if (editWanted) {
 			editWanted=false;
 			cout << clrscr << endl;
-			COrganisme * org = (*biosistema.comunitat())[id].cos();
-			if (org) {
+			if (biosistema.comunitat()->esValid(id)) {
+				COrganisme * org = (*biosistema.comunitat())[id].cos();
 				uint32 pos = (*biosistema.comunitat())[id].posicio();
 				out << (*biosistema.comunitat())[id].descripcio() << '\t' 
 					<<  pos%Config.get("Biotop/CassellesAmplitud")<< '@' <<  pos/Config.get("Biotop/CassellesAmplitud") 
@@ -946,7 +976,7 @@ void CBiosistema::ProvaClasse()
 					<< endl;
 				org->dump(out);
 			}
-			else cout << "Ops! ha devido palmar" << endl;
+			else cout << "L'organisme ha mort o mai ha existit" << endl;
 			cin.get();
 			modeCanviat = true;
 		}

@@ -60,6 +60,7 @@ CLEAN :
 	-@erase "$(INTDIR)\Compatibilitat.obj"
 	-@erase "$(INTDIR)\Comunitat.obj"
 	-@erase "$(INTDIR)\Configuracio.obj"
+	-@erase "$(INTDIR)\ControlOrganisme.obj"
 	-@erase "$(INTDIR)\Cromosoma.obj"
 	-@erase "$(INTDIR)\Distribucio.obj"
 	-@erase "$(INTDIR)\EnergiaDisipable.obj"
@@ -86,6 +87,7 @@ CLEAN :
 	-@erase "$(INTDIR)\Temporitzador.obj"
 	-@erase "$(INTDIR)\Topologia.obj"
 	-@erase "$(INTDIR)\TopologiaToroidal.obj"
+	-@erase "$(INTDIR)\turbioconio.obj"
 	-@erase "$(INTDIR)\vc50.idb"
 	-@erase "$(OUTDIR)\Bioscena.exe"
 
@@ -118,6 +120,7 @@ LINK32_OBJS= \
 	"$(INTDIR)\Compatibilitat.obj" \
 	"$(INTDIR)\Comunitat.obj" \
 	"$(INTDIR)\Configuracio.obj" \
+	"$(INTDIR)\ControlOrganisme.obj" \
 	"$(INTDIR)\Cromosoma.obj" \
 	"$(INTDIR)\Distribucio.obj" \
 	"$(INTDIR)\EnergiaDisipable.obj" \
@@ -143,7 +146,8 @@ LINK32_OBJS= \
 	"$(INTDIR)\Substrat.obj" \
 	"$(INTDIR)\Temporitzador.obj" \
 	"$(INTDIR)\Topologia.obj" \
-	"$(INTDIR)\TopologiaToroidal.obj"
+	"$(INTDIR)\TopologiaToroidal.obj" \
+	"$(INTDIR)\turbioconio.obj"
 
 "$(OUTDIR)\Bioscena.exe" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
     $(LINK32) @<<
@@ -191,6 +195,8 @@ CLEAN :
 	-@erase "$(INTDIR)\Comunitat.sbr"
 	-@erase "$(INTDIR)\Configuracio.obj"
 	-@erase "$(INTDIR)\Configuracio.sbr"
+	-@erase "$(INTDIR)\ControlOrganisme.obj"
+	-@erase "$(INTDIR)\ControlOrganisme.sbr"
 	-@erase "$(INTDIR)\Cromosoma.obj"
 	-@erase "$(INTDIR)\Cromosoma.sbr"
 	-@erase "$(INTDIR)\Distribucio.obj"
@@ -243,6 +249,8 @@ CLEAN :
 	-@erase "$(INTDIR)\Topologia.sbr"
 	-@erase "$(INTDIR)\TopologiaToroidal.obj"
 	-@erase "$(INTDIR)\TopologiaToroidal.sbr"
+	-@erase "$(INTDIR)\turbioconio.obj"
+	-@erase "$(INTDIR)\turbioconio.sbr"
 	-@erase "$(INTDIR)\vc50.idb"
 	-@erase "$(INTDIR)\vc50.pdb"
 	-@erase "$(OUTDIR)\Bioscena.bsc"
@@ -271,6 +279,7 @@ BSC32_SBRS= \
 	"$(INTDIR)\Compatibilitat.sbr" \
 	"$(INTDIR)\Comunitat.sbr" \
 	"$(INTDIR)\Configuracio.sbr" \
+	"$(INTDIR)\ControlOrganisme.sbr" \
 	"$(INTDIR)\Cromosoma.sbr" \
 	"$(INTDIR)\Distribucio.sbr" \
 	"$(INTDIR)\EnergiaDisipable.sbr" \
@@ -296,7 +305,8 @@ BSC32_SBRS= \
 	"$(INTDIR)\Substrat.sbr" \
 	"$(INTDIR)\Temporitzador.sbr" \
 	"$(INTDIR)\Topologia.sbr" \
-	"$(INTDIR)\TopologiaToroidal.sbr"
+	"$(INTDIR)\TopologiaToroidal.sbr" \
+	"$(INTDIR)\turbioconio.sbr"
 
 "$(OUTDIR)\Bioscena.bsc" : "$(OUTDIR)" $(BSC32_SBRS)
     $(BSC32) @<<
@@ -321,6 +331,7 @@ LINK32_OBJS= \
 	"$(INTDIR)\Compatibilitat.obj" \
 	"$(INTDIR)\Comunitat.obj" \
 	"$(INTDIR)\Configuracio.obj" \
+	"$(INTDIR)\ControlOrganisme.obj" \
 	"$(INTDIR)\Cromosoma.obj" \
 	"$(INTDIR)\Distribucio.obj" \
 	"$(INTDIR)\EnergiaDisipable.obj" \
@@ -346,7 +357,8 @@ LINK32_OBJS= \
 	"$(INTDIR)\Substrat.obj" \
 	"$(INTDIR)\Temporitzador.obj" \
 	"$(INTDIR)\Topologia.obj" \
-	"$(INTDIR)\TopologiaToroidal.obj"
+	"$(INTDIR)\TopologiaToroidal.obj" \
+	"$(INTDIR)\turbioconio.obj"
 
 "$(OUTDIR)\Bioscena.exe" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
     $(LINK32) @<<
@@ -622,6 +634,9 @@ DEP_CPP_APPIN=\
 !ENDIF 
 
 SOURCE=.\Biosistema.cpp
+
+!IF  "$(CFG)" == "Bioscena - Win32 Release"
+
 DEP_CPP_BIOSI=\
 	".\Agent.h"\
 	".\BioIncludes.h"\
@@ -631,6 +646,7 @@ DEP_CPP_BIOSI=\
 	".\Compatibilitat.h"\
 	".\Comunitat.h"\
 	".\Configuracio.h"\
+	".\ControlOrganisme.h"\
 	".\Cromosoma.h"\
 	".\EnergiaDisipable.h"\
 	".\Gen.h"\
@@ -646,16 +662,41 @@ DEP_CPP_BIOSI=\
 	".\Substrat.h"\
 	".\Topologia.h"\
 	".\TopologiaToroidal.h"\
+	".\turbioconio.h"\
 	
-
-!IF  "$(CFG)" == "Bioscena - Win32 Release"
-
 
 "$(INTDIR)\Biosistema.obj" : $(SOURCE) $(DEP_CPP_BIOSI) "$(INTDIR)"
 
 
 !ELSEIF  "$(CFG)" == "Bioscena - Win32 Debug"
 
+DEP_CPP_BIOSI=\
+	".\Agent.h"\
+	".\BioIncludes.h"\
+	".\Biosistema.h"\
+	".\Cariotip.h"\
+	".\Color.h"\
+	".\Compatibilitat.h"\
+	".\Comunitat.h"\
+	".\Configuracio.h"\
+	".\ControlOrganisme.h"\
+	".\Cromosoma.h"\
+	".\EnergiaDisipable.h"\
+	".\Gen.h"\
+	".\Genotip.h"\
+	".\Grafic.h"\
+	".\InfoOrganisme.h"\
+	".\Missatger.h"\
+	".\Organisme.h"\
+	".\Outputer.h"\
+	".\Portable.h"\
+	".\Probabilitat.h"\
+	".\RandomStream.h"\
+	".\Substrat.h"\
+	".\Topologia.h"\
+	".\TopologiaToroidal.h"\
+	".\turbioconio.h"\
+	
 
 "$(INTDIR)\Biosistema.obj"	"$(INTDIR)\Biosistema.sbr" : $(SOURCE)\
  $(DEP_CPP_BIOSI) "$(INTDIR)"
@@ -681,6 +722,7 @@ DEP_CPP_CARIO=\
 	".\Portable.h"\
 	".\Probabilitat.h"\
 	".\RandomStream.h"\
+	".\turbioconio.h"\
 	
 
 "$(INTDIR)\Cariotip.obj" : $(SOURCE) $(DEP_CPP_CARIO) "$(INTDIR)"
@@ -702,6 +744,7 @@ DEP_CPP_CARIO=\
 	".\Portable.h"\
 	".\Probabilitat.h"\
 	".\RandomStream.h"\
+	".\turbioconio.h"\
 	
 
 "$(INTDIR)\Cariotip.obj"	"$(INTDIR)\Cariotip.sbr" : $(SOURCE) $(DEP_CPP_CARIO)\
@@ -786,6 +829,7 @@ DEP_CPP_COMUN=\
 	".\Color.h"\
 	".\Comunitat.h"\
 	".\Configuracio.h"\
+	".\ControlOrganisme.h"\
 	".\Cromosoma.h"\
 	".\EnergiaDisipable.h"\
 	".\Gen.h"\
@@ -809,6 +853,7 @@ DEP_CPP_COMUN=\
 	".\Color.h"\
 	".\Comunitat.h"\
 	".\Configuracio.h"\
+	".\ControlOrganisme.h"\
 	".\Cromosoma.h"\
 	".\EnergiaDisipable.h"\
 	".\Gen.h"\
@@ -854,6 +899,51 @@ DEP_CPP_CONFI=\
 
 "$(INTDIR)\Configuracio.obj"	"$(INTDIR)\Configuracio.sbr" : $(SOURCE)\
  $(DEP_CPP_CONFI) "$(INTDIR)"
+
+
+!ENDIF 
+
+SOURCE=.\ControlOrganisme.cpp
+
+!IF  "$(CFG)" == "Bioscena - Win32 Release"
+
+DEP_CPP_CONTR=\
+	".\BioIncludes.h"\
+	".\Cariotip.h"\
+	".\Color.h"\
+	".\Configuracio.h"\
+	".\ControlOrganisme.h"\
+	".\Cromosoma.h"\
+	".\Gen.h"\
+	".\Genotip.h"\
+	".\Missatger.h"\
+	".\Outputer.h"\
+	".\Portable.h"\
+	".\turbioconio.h"\
+	
+
+"$(INTDIR)\ControlOrganisme.obj" : $(SOURCE) $(DEP_CPP_CONTR) "$(INTDIR)"
+
+
+!ELSEIF  "$(CFG)" == "Bioscena - Win32 Debug"
+
+DEP_CPP_CONTR=\
+	".\BioIncludes.h"\
+	".\Cariotip.h"\
+	".\Color.h"\
+	".\Configuracio.h"\
+	".\ControlOrganisme.h"\
+	".\Cromosoma.h"\
+	".\Gen.h"\
+	".\Genotip.h"\
+	".\Missatger.h"\
+	".\Outputer.h"\
+	".\Portable.h"\
+	".\turbioconio.h"\
+	
+
+"$(INTDIR)\ControlOrganisme.obj"	"$(INTDIR)\ControlOrganisme.sbr" : $(SOURCE)\
+ $(DEP_CPP_CONTR) "$(INTDIR)"
 
 
 !ENDIF 
@@ -1077,6 +1167,7 @@ DEP_CPP_GENOT=\
 	".\Cariotip.h"\
 	".\Color.h"\
 	".\Configuracio.h"\
+	".\ControlOrganisme.h"\
 	".\Cromosoma.h"\
 	".\Gen.h"\
 	".\Genotip.h"\
@@ -1084,6 +1175,7 @@ DEP_CPP_GENOT=\
 	".\Outputer.h"\
 	".\Portable.h"\
 	".\RandomStream.h"\
+	".\turbioconio.h"\
 	
 
 "$(INTDIR)\Genotip.obj" : $(SOURCE) $(DEP_CPP_GENOT) "$(INTDIR)"
@@ -1096,6 +1188,7 @@ DEP_CPP_GENOT=\
 	".\Cariotip.h"\
 	".\Color.h"\
 	".\Configuracio.h"\
+	".\ControlOrganisme.h"\
 	".\Cromosoma.h"\
 	".\Gen.h"\
 	".\Genotip.h"\
@@ -1103,6 +1196,7 @@ DEP_CPP_GENOT=\
 	".\Outputer.h"\
 	".\Portable.h"\
 	".\RandomStream.h"\
+	".\turbioconio.h"\
 	
 
 "$(INTDIR)\Genotip.obj"	"$(INTDIR)\Genotip.sbr" : $(SOURCE) $(DEP_CPP_GENOT)\
@@ -1122,6 +1216,7 @@ DEP_CPP_GRAFI=\
 	".\Cariotip.h"\
 	".\Color.h"\
 	".\Comunitat.h"\
+	".\ControlOrganisme.h"\
 	".\Cromosoma.h"\
 	".\EnergiaDisipable.h"\
 	".\Gen.h"\
@@ -1151,6 +1246,7 @@ DEP_CPP_GRAFI=\
 	".\Cariotip.h"\
 	".\Color.h"\
 	".\Comunitat.h"\
+	".\ControlOrganisme.h"\
 	".\Cromosoma.h"\
 	".\EnergiaDisipable.h"\
 	".\Gen.h"\
@@ -1181,6 +1277,7 @@ SOURCE=.\InfoOrganisme.cpp
 DEP_CPP_INFOO=\
 	".\BioIncludes.h"\
 	".\Cariotip.h"\
+	".\ControlOrganisme.h"\
 	".\Cromosoma.h"\
 	".\EnergiaDisipable.h"\
 	".\Gen.h"\
@@ -1200,6 +1297,7 @@ DEP_CPP_INFOO=\
 DEP_CPP_INFOO=\
 	".\BioIncludes.h"\
 	".\Cariotip.h"\
+	".\ControlOrganisme.h"\
 	".\Cromosoma.h"\
 	".\EnergiaDisipable.h"\
 	".\Gen.h"\
@@ -1338,6 +1436,7 @@ DEP_CPP_MAINB=\
 	".\Compatibilitat.h"\
 	".\Comunitat.h"\
 	".\Configuracio.h"\
+	".\ControlOrganisme.h"\
 	".\Cromosoma.h"\
 	".\EnergiaDisipable.h"\
 	".\FuncioAgent.h"\
@@ -1381,6 +1480,7 @@ DEP_CPP_MAINB=\
 	".\Compatibilitat.h"\
 	".\Comunitat.h"\
 	".\Configuracio.h"\
+	".\ControlOrganisme.h"\
 	".\Cromosoma.h"\
 	".\EnergiaDisipable.h"\
 	".\FuncioAgent.h"\
@@ -1496,6 +1596,7 @@ DEP_CPP_MUTAC=\
 	".\BioIncludes.h"\
 	".\Cariotip.h"\
 	".\Color.h"\
+	".\Configuracio.h"\
 	".\Cromosoma.h"\
 	".\Missatger.h"\
 	".\MutacioCariotip.h"\
@@ -1513,6 +1614,7 @@ DEP_CPP_MUTAC=\
 	".\BioIncludes.h"\
 	".\Cariotip.h"\
 	".\Color.h"\
+	".\Configuracio.h"\
 	".\Cromosoma.h"\
 	".\Missatger.h"\
 	".\MutacioCariotip.h"\
@@ -1621,6 +1723,7 @@ DEP_CPP_ORGAN=\
 	".\Color.h"\
 	".\Compatibilitat.h"\
 	".\Configuracio.h"\
+	".\ControlOrganisme.h"\
 	".\Cromosoma.h"\
 	".\EnergiaDisipable.h"\
 	".\Gen.h"\
@@ -1643,6 +1746,7 @@ DEP_CPP_ORGAN=\
 	".\Color.h"\
 	".\Compatibilitat.h"\
 	".\Configuracio.h"\
+	".\ControlOrganisme.h"\
 	".\Cromosoma.h"\
 	".\EnergiaDisipable.h"\
 	".\Gen.h"\
@@ -1942,6 +2046,25 @@ DEP_CPP_TOPOLO=\
 
 "$(INTDIR)\TopologiaToroidal.obj"	"$(INTDIR)\TopologiaToroidal.sbr" : $(SOURCE)\
  $(DEP_CPP_TOPOLO) "$(INTDIR)"
+
+
+!ENDIF 
+
+SOURCE=.\turbioconio.c
+
+!IF  "$(CFG)" == "Bioscena - Win32 Release"
+
+DEP_CPP_TURBI=\
+	{$(INCLUDE)}"sys\types.h"\
+	
+
+"$(INTDIR)\turbioconio.obj" : $(SOURCE) $(DEP_CPP_TURBI) "$(INTDIR)"
+
+
+!ELSEIF  "$(CFG)" == "Bioscena - Win32 Debug"
+
+
+"$(INTDIR)\turbioconio.obj"	"$(INTDIR)\turbioconio.sbr" : $(SOURCE) "$(INTDIR)"
 
 
 !ENDIF 

@@ -37,14 +37,18 @@ uint32 CGenotip::seguentInstruccio(uint32 * fenotip)
 	if (m_gens[m_genActual].finalitzat()) {
 		int intents=Config.get("Organisme/Genotip/Traduibilitat/Intents");
 		do {
-			m_genActual=rnd.get(1,m_gens.size())-1;
-		} while (!m_gens[m_genActual].traduible(fenotip) && --intents);
+			uint32 unGenAleatori=rnd.get(1,m_gens.size())-1;
+			if (m_gens[unGenAleatori].traduible(fenotip)) {
+				m_genActual=unGenAleatori;
+				break;
+			}
+			m_gens[unGenAleatori].reset();
+		} while (--intents);
+		if (!intents) {
+			return 0;
+			}
 	}
 
-	// Pot ser no hem trobat cap de bo
-	if (m_gens[m_genActual].finalitzat())
-		return 0; //rnd.get();
-	
 	// Finalment la podem agafar, pero, potser no funciona
 	uint32 instr;
 	if (!m_gens[m_genActual].seguentInstruccio(instr))

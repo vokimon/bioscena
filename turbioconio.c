@@ -7,13 +7,21 @@
 //
 // Aquesta llibreria usa els caracters de control ANSI. Funciona si el
 // terminal soporta aquests caracters de control.
+///////////////////////////////////////////////////////////////////////
+// No es la versio original, aquest fitxer ha estat retallat i adaptat
+// a les meves necessitats, amb el permis d'en Joan.
+//         David Garcia Garzon.
+///////////////////////////////////////////////////////////////////////
 */
 
+/* 
 #ifndef __TURBOC__
 #ifndef __DJGPP__
 #ifndef _MSC_VER
+*/
 
-#include "conio.h"
+#ifdef UNIX
+
 #include <stdio.h>
 #include <unistd.h>
 #include <termio.h>
@@ -28,54 +36,14 @@
 #endif
 
 struct termio old_term_options;
-unsigned short color_table[] = {
-	30, /* BLACK / DARKGRAY */
-        34, /* BLUE / LIGHTBLUE */
-        32, /* GREEN / LIGHTGREEN */
-        36, /* CYAN / LIGHTCYAN */
-        31, /* RED / LIGHTRED */
-        35, /* MAGENTA / LIGHTMAGENTA */
-        33, /* BROWN / YELLOW */
-        37, /* LIGHTGRAY / WHITE */
-};
-
-
-void clrscr(void)
-{
-	printf("%c[2J%c[%i;%iH", chESC, chESC, 1, 1);
-}
-
-
-void gotoxy(int x, int y)
-{
-	printf("%c[%i;%iH", chESC, y, x);
-}
-
-
-void textcolor(int color)
-{
-	/* Si el color esta entre el 8 i el 16 activem la negreta; sino la
-	   desactivem. */
-	color %= 16;
-	color < DARKGRAY ?
-		printf("%c[0m%c[%dm", chESC, chESC, color_table[color]) :
-		printf("%c[1m%c[%dm", chESC, chESC, color_table[color-8]);
-}
-
-
-void textbackground(int color)
-{
-	/* De fons nomes tenim del color 0 al color 7. */
-	printf("%c[%dm", chESC, 10 + color_table[color % 8]);
-}
-
 
 void conio_set_term(void)
 {
 	struct termio new_term_options;
 
 	new_term_options.c_lflag &= !ICANON;
-	new_term_options.c_lflag &= !ECHO; 
+// VoK: Komentado por mi pa no desactivar el echo
+//	new_term_options.c_lflag &= !ECHO; 
 	new_term_options.c_cc[VTIME] = 0;
 	new_term_options.c_cc[VMIN] = 0;
 	ioctl(STDIN_DESCRIPTOR, TCGETA, &old_term_options);
@@ -113,31 +81,9 @@ int kbhit(void)
 	return desc;
 }
 
-
-void cursor_off(void)
-{
-	printf("%c[?25l", chESC);
-}
-
-
-void cursor_on(void)
-{
-	printf("%c[?25h", chESC);
-}
-
-
-void key_off(void)
-{
-	printf("%c[2h", chESC);
-}
-
-
-void key_on(void)
-{
-	printf("%c[2l", chESC);
-}
-
-
-#endif /* _MSC_VER */
-#endif /* __DJGPP__ */
-#endif /* __TURBOC__ */
+#endif /* UNIX */
+/*
+#endif // _MSC_VER
+#endif // __DJGPP__
+#endif // __TURBOC__
+*/

@@ -1,22 +1,6 @@
 // Biosistema.h: interface for the CBiosistema class.
 //
 //////////////////////////////////////////////////////////////////////
-// Change Log:
-// 19990831 VoK - Prototips instruccions organismes
-// 19990831 VoK - Ja tenim taxonomista per natros sols
-// 19991120 VoK - Implementades les operacions de fenotip
-// 19991122 VoK - Proves: Control de teclat + estat visualitzacio
-// 19991128 VoK - Els opcodes es llegeixen d'un fitxer
-// 19991130 VoK - Implementades les operacions sensorials quimiques
-// 19991130 VoK - Reorganitzada la classe
-// 19991205 VoK - Implementades les operacions sensorials presencia
-// 19991210 VoK - Traspasats des d'Organisme.cpp els costos d'engolir, 
-//                excretar i atacar
-// 19991211 VoK - Traspasats des d'Organisme.cpp els costos de mitosi
-//                i generacio expontanea
-// 19991214 VoK - Incorporada kbhit portable
-// 19991214 VoK - Funcio 'nibble' per fer mes llegible el codi.
-//////////////////////////////////////////////////////////////////////
 
 #if !defined(__KKEP_BIOSISTEMA_H_INCLUDED)
 #define __KKEP_BIOSISTEMA_H_INCLUDED
@@ -113,14 +97,16 @@ public:
 	bool organismeAnd(uint32 parametres);
 	bool organismeOr(uint32 parametres);
 	bool organismeXor(uint32 parametres);
+	bool organismeShiftRight(uint32 parametres);
+	bool organismeShiftLeft(uint32 parametres);
 	bool organismeNot(uint32 parametres);
 	bool organismeOposa(uint32 parametres);
 	bool organismeRandom(uint32 parametres);
 	bool organismeCopia(uint32 parametres);
 	bool organismeCarrega(uint32 parametres);
-	bool organismeIdentifica(uint32 parametres);
-	bool organismeLocalitza(uint32 parametres);
-	bool organismeLocalitzaOrganisme(uint32 parametres);
+	bool organismeSensorQuimic(uint32 parametres);
+	bool organismeSensorPresencia(uint32 parametres);
+	bool organismeSensorIntern(uint32 parametres);
 
 // Proves
 public:

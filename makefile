@@ -6,14 +6,14 @@ CPPSOURCES:= $(wildcard *.cpp)
 CSOURCES:=$(wildcard *.c)
 OBJSCPP:=$(CPPSOURCES:.cpp=.o)
 OBJSC:=$(CSOURCES:.c=.o)
-CFLAGS= -Wall -pedantic -Os  -march=i686 #-g -fexceptions 
+CFLAGS= -Wall -pedantic -Os  -march=i586 #-g -fexceptions 
 LDLIBS=-lm 
 LDFLAGS=--relax -s
 default: copirrait ${EXEC}
 
 copirrait:
 #	@echo KKEPerians UNLTD generic makefile file 
-	buildnum
+#	buildnum
 
 dep: copirrait 
 #	@echo --- Generant dependencies

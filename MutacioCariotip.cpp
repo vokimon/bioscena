@@ -5,12 +5,14 @@
 // 19990914 VoK - Creat a imatge i semblant de CMutacioGenica
 // 19991126 VoK - Fix: No esborraven el material genetic residual
 //                a les Mutacions per Fusio
+// 19991214 VoK - Afegida insercio d'un cromosoma aleatori
 //////////////////////////////////////////////////////////////////////
 
 #include <algorithm>
 #include "MutacioCariotip.h"
 #include "RandomStream.h"
 #include "Color.h"
+#include "Configuracio.h"
 
 using namespace AnsiCodes;
 
@@ -80,6 +82,7 @@ void CMutacioPerEscisio::muta(CCariotip & car)
 	if (!crm2) {
 		error << "Mutant per Escisio: Error de memoria" << endl;
 		cin.get();
+		return;
 	}
 	crm1->parteix(*crm2,idxCentromer);
 	car.afegeix(crm2,idxDesti);
@@ -103,9 +106,34 @@ void CAneuploidiaPositiva::muta(CCariotip & car)
 	if (!crm2) {
 		error << "Mutant AneuploidiaPositiva: Error de memoria" << endl;
 		cin.get();
+		return;
 	}
 
 	crm2->init(*crm1);
+	car.afegeix(crm2,posicioFinal);
+}
+
+void CAneuploidiaAleatoria::muta(CCariotip & car)
+// Duplicacio total d'un cromosoma del cariotip
+// (Granularitat Cariotip)
+{
+	uint32 posicioFinal = rnd.get(0,car.tamany());
+	if (traceMutacions)
+		out << tipus()
+			<< " Posicio: " << posicioFinal 
+			<< endl;
+	if (!car.tamany())
+		return;
+	CCariotip::t_cromosoma crm2 = new CCromosoma;
+	if (!crm2) {
+		error << "Mutant AneuploidiaPositiva: Error de memoria" << endl;
+		cin.get();
+		return;
+	}
+
+	crm2->init(rnd.get(
+		Config.get("Organisme/Cariotip/LongitudMinima"),
+		Config.get("Organisme/Cariotip/LongitudMaxima")));
 	car.afegeix(crm2,posicioFinal);
 }
 
@@ -113,7 +141,7 @@ void CAneuploidiaNegativa::muta(CCariotip & car)
 // Duplicacio total d'un cromosoma del cariotip
 // (Granularitat Cromosoma)
 {
-	if (car.tamany()<2)	return; // Fugida Discreta
+	if (car.tamany()<2) return; // Fugida Discreta
 	uint32 cromosomaEliminat = car.cromosomaAleatori();
 	if (traceMutacions)
 		out << tipus()
@@ -139,6 +167,7 @@ void CEuploidiaPositiva::muta(CCariotip & car)
 		if (!crm2) {
 			error << "Mutant EuploidiaPositiva: Error de memoria" << endl;
 			cin.get();
+			return;
 		}
 		crm2->init(*crm1);
 		car.afegeix(crm2,0);
@@ -169,6 +198,11 @@ string CAneuploidiaNegativa::tipus()
 	return CAneuploidiaNegativa::Tipus();
 }
 
+string CAneuploidiaAleatoria::tipus()
+{
+	return CAneuploidiaAleatoria::Tipus();
+}
+
 string CEuploidiaPositiva::tipus()
 {
 	return CEuploidiaPositiva::Tipus();
@@ -195,7 +229,8 @@ CMutacioCariotip * CMutacioCariotip::Nova(uint32 n)
 	case 1: return new CMutacioPerEscisio;
 	case 2: return new CAneuploidiaPositiva;
 	case 3: return new CAneuploidiaNegativa;
-//	case 4: return new CEuploidiaPositiva;
+	case 4: return new CAneuploidiaAleatoria;
+//	case 5: return new CEuploidiaPositiva;
 	default: return NULL;
 	}
 }
@@ -206,6 +241,7 @@ CMutacioCariotip * CMutacioCariotip::Nova(string tipus)
 	if (tipus==CMutacioPerEscisio::Tipus()) return new CMutacioPerEscisio;
 	if (tipus==CAneuploidiaPositiva::Tipus()) return new CAneuploidiaPositiva;
 	if (tipus==CAneuploidiaNegativa::Tipus()) return new CAneuploidiaNegativa;
+	if (tipus==CAneuploidiaAleatoria::Tipus()) return new CAneuploidiaAleatoria;
 //	if (tipus==CEuploidiaPositiva::Tipus()) return new CEuploidiaPositiva;
 	else return NULL;
 }
@@ -232,6 +268,11 @@ string CAneuploidiaPositiva::Tipus()
 string CAneuploidiaNegativa::Tipus()
 {
 	return "Mutacio/Cariotip/Aneuploidia/Negativa";
+}
+
+string CAneuploidiaAleatoria::Tipus()
+{
+	return "Mutacio/Cariotip/Aneuploidia/Aleatoria";
 }
 
 string CEuploidiaPositiva::Tipus()

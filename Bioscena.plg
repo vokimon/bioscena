@@ -10,12 +10,11 @@ Project's tools are:
 			"Custom Build" with flags ""
 			"<Component 0xa>" with flags ""
 
-Creating temp file "C:\WINDOWS\TEMP\RSP1064.TMP" with contents </nologo /G6 /MLd /W3 /Gm /GX /Zi /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR"Debug/" /Fp"Debug/Bioscena.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /c 
-"D:\Bioscena\Bioscena\Configuracio.cpp"
-"D:\Bioscena\Bioscena\Organisme.cpp"
+Creating temp file "C:\WINDOWS\TEMP\RSP7002.TMP" with contents </nologo /G6 /MLd /W3 /Gm /GX /Zi /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR"Debug/" /Fp"Debug/Bioscena.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /c 
+"D:\Bioscena\Bioscena\Biosistema.cpp"
 >
-Creating command line "cl.exe @C:\WINDOWS\TEMP\RSP1064.TMP" 
-Creating temp file "C:\WINDOWS\TEMP\RSP1065.TMP" with contents <kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /version:0.7 /subsystem:console /incremental:no /pdb:"Debug/Bioscena.pdb" /debug /machine:I386 /out:"Debug/Bioscena.exe" /pdbtype:sept 
+Creating command line "cl.exe @C:\WINDOWS\TEMP\RSP7002.TMP" 
+Creating temp file "C:\WINDOWS\TEMP\RSP7003.TMP" with contents <kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /version:0.7 /subsystem:console /incremental:no /pdb:"Debug/Bioscena.pdb" /debug /machine:I386 /out:"Debug/Bioscena.exe" /pdbtype:sept 
 .\Debug\Actuador.obj
 .\Debug\Actuadors.obj
 .\Debug\Agent.obj
@@ -52,19 +51,15 @@ Creating temp file "C:\WINDOWS\TEMP\RSP1065.TMP" with contents <kernel32.lib use
 .\Debug\Substrat.obj
 .\Debug\Temporitzador.obj
 .\Debug\Topologia.obj
-.\Debug\TopologiaToroidal.obj>
-Creating command line "link.exe @C:\WINDOWS\TEMP\RSP1065.TMP" 
+.\Debug\TopologiaToroidal.obj
+.\Debug\ControlOrganisme.obj
+.\Debug\turbioconio.obj>
+Creating command line "link.exe @C:\WINDOWS\TEMP\RSP7003.TMP" 
 Compiling...
-Configuracio.cpp
-Organisme.cpp
+Biosistema.cpp
+D:\Bioscena\Bioscena\Biosistema.cpp(697) : warning C4101: 'contingutTrobat' : unreferenced local variable
 Linking...
-Creating temp file "C:\WINDOWS\TEMP\RSP3294.TMP" with contents </nologo /G6 /MLd /W3 /Gm /GX /Zi /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR"Debug/" /Fp"Debug/Bioscena.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /c 
-"D:\Bioscena\Bioscena\AppInfo.cpp"
->
-Creating command line "cl.exe @C:\WINDOWS\TEMP\RSP3294.TMP" 
-Compiling...
-AppInfo.cpp
 
 
 
-Bioscena.exe - 0 error(s), 0 warning(s)
+Bioscena.exe - 0 error(s), 1 warning(s)

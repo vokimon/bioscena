@@ -1,13 +1,6 @@
 // Color.h: interface for the CColor class.
 //
 //////////////////////////////////////////////////////////////////////
-// Change Log:
-// 19990724 VoK - Fix: Tots els foscos es pintaven blanc: el 0 no es 
-//                no brillant si no tot normal, color inclos.
-// 19990724 VoK - Els colors estandars son 'const'.
-//////////////////////////////////////////////////////////////////////
-// TODO: Intermitencies colors de fons i xorrades d'aquestes que sempre
-//       estas a temps de fer
 #if !defined(_KKEP_COLOR_H_INCLUDED)
 #define _KKEP_COLOR_H_INCLUDED
 
@@ -30,29 +23,43 @@ private:
 
 inline ostream& operator << (ostream& stream, CColor c)
 {
-	stream 
-		<<"\033["<<((c&0x08)?1:0)
-		<<";"<<(30+(c&0x07));
-	if (c&0x80)
-		stream <<";"<<(40+((c>>4)&0x07));
-	stream <<"m";
+	if (c&0x80) {
+		char *ansiseq = "\033[0;30;40m";
+		ansiseq[2]=(c&0x08)?'1':'0';
+		ansiseq[5]='0'+(c&0x07);
+		ansiseq[8]='0'+((c>>4)&0x07);
+		stream << ansiseq;
+		}
+	else {
+		char *ansiseq = "\033[0;30m";
+		ansiseq[2]=(c&0x08)?'1':'0';
+		ansiseq[5]='0'+(c&0x07);
+		stream << ansiseq;
+	}
 	return stream;
 }
 extern const CColor negre, vermell, verd, groc, blau, magenta, cyan, blanc;
 
 namespace AnsiCodes {
 
-	extern const string clrscr; // Clear screen
-	extern const string clrlin; // Clear line (a partir de la posicio del cursor
-	extern const string conrep; // Imprimeix l'estat del dispositiu
+	extern const char clrscr[]; // Clear screen
+	extern const char clrlin[]; // Clear line (a partir de la posicio del cursor
+	extern const char conrep[]; // Imprimeix l'estat del dispositiu
 
 	string gotoxy(int col, int lin); // Posicionament del cursor
 	string cursup(int lin); // Cursor Up
 	string cursdn(int lin); // Cursor Down
 	string cursfw(int col); // Cursor Forward
 	string cursbw(int col); // Cursor Backward
-	extern const string push_cursor; // Push Cursor Position
-	extern const string pop_cursor; // Pop Cursor Position
+	extern const char push_cursor[]; // Push Cursor Position
+	extern const char pop_cursor[]; // Pop Cursor Position
+	extern const char cursor_on[]; // Cursor ON
+	extern const char cursor_off[]; // Cursor OFF
+	extern const char key_on[]; // Key ON
+	extern const char key_off[]; // Key OFF
 	string set_mode(int mode); // Setmode
+	string colorbg(int bg); // Color de fons
+	string colorfg(int fg); // Color del davant
+	string color(int fg, int bg); // Color del davant i fons
 }
 #endif // !defined(_KKEP_COLOR_H_INCLUDED)
