@@ -27,14 +27,27 @@ CNutrient::~CNutrient()
 
 }
 
-CNutrient & CNutrient::operator =(const CNutrient & n)
+CNutrient & CNutrient::operator =(CNutrient n)
 {
 	m_idonietat=n.m_idonietat;
 	m_quantitat=n.m_quantitat;
 	return *this;
 }
-
-bool CNutrient::operator ==(const CNutrient & n)
+/*
+bool CNutrient::operator ==(CNutrient n)
 {
 	return m_idonietat==n.m_idonietat;
 }
+bool CNutrient::operator !=(CNutrient n)
+{
+	return m_idonietat==n.m_idonietat;
+}
+bool CNutrient::operator <(CNutrient n)
+{
+	return m_idonietat<n.m_idonietat;
+}
+bool CNutrient::operator >(CNutrient n)
+{
+	return m_idonietat>n.m_idonietat;
+}
+*/

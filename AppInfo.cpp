@@ -33,6 +33,7 @@ ostream &operator<<(ostream& stream, CAppInfo &info)
 	stream << info.m_buildNumber <<" - " << info.m_buildDate <<endl;
 	stream << setfill('0') << setw(0) << dec;
 	stream << "Copyright (c) 1998 "<<info.m_designer<<"/"<<info.m_enterprise<<endl;
+	return stream;
 }
 
 /////////////////////////////////////////////////////////////////////

@@ -31,7 +31,8 @@ protected:
 		uint32 nCella=0;
 		for (uint32 j=0;j<m_yMax;j++) {
 			for (uint32 i=0;i<m_xMax;i++)
-				stream << m_casselles[nCella++] <<"#";
+//				stream << m_casselles[nCella++] <<"#";
+				stream << m_casselles[nCella++];
 			stream<<endl;
 			}
 		}
@@ -42,8 +43,9 @@ public:
 		CTopologiaToroidal<Cella> topo(25,21);
 		uint32 cuc[7]={130,130,130,130,130,130,130};
 		while (cuc[0]!=8) {
-			for (i=7;i--;) topo[cuc[i]]=escala[6-i];
-			topo[topo.cassellaAlAtzar()]=vermell.brillant().fons(groc);
+			for (i=7;i--;) topo[cuc[i]].ocupa(escala[6-i]);
+			topo[cuc[6]].desocupa();
+			topo[topo.cassellaAlAtzar()].afegeixMollecula(4);
 			topo.debugPresenta(out);
 			CRandomStream rnd;
 			uint32 direccio;

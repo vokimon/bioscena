@@ -33,7 +33,7 @@ public:
 		}
 		return m_casselles[index];
 	}
-	bool esValidaCassella(uint32 cassella) {return (index<m_totalCasselles)||(index>=0);};
+	bool esValidaCassella(uint32 cassella) {return (cassella<m_totalCasselles)||(cassella>=0);};
 	uint32 cassellaAlAtzar() {
 		CRandomStream rnd;
 		return rnd.get(0,m_totalCasselles-1);
@@ -43,7 +43,7 @@ public:
 protected:
 	void reservaCasselles(uint32 tamany);
 // Proves
-protected:
+public:
 template<class output>
 void debugPresenta(output & stream) {
 	stream << "\033[1;1H";// Un gotoxy xapuser pero standard (ANSI)

@@ -5,13 +5,15 @@
 #include <iostream>
 #include "BioIncludes.h"
 #include "AppInfo.h"
-#include "Encaix.h"
+#include "Compatibilitat.h"
 #include "Missatger.h"
 #include "RandomStream.h"
 #include "Color.h"
 
 #include "TopologiaToroidal.h"
 #include "Substrat.h"
+#include "Agent.h"
+#include "Cumulador.h"
 
 //#include "Biosistema.h"
 //#include "Comunitat.h"
@@ -29,7 +31,8 @@ void main ()
 // Proves classes d'implementacio
 
 //	CMissatger::ProvaClasse();
-	CEncaix<uint32>::ProvaClasse();
+//	ProvaTemplateCompatibilitat<uint32>(); // OK
+//	CEncaix<uint32>::ProvaClasse();
 //	CRandomStream::ProvaClasse(); // OK
 //	CLlistaEstatica<int>::ProvaClasse(); // Ei aixo no rula :-)
 //	CLlistaDinamica<int>::ProvaClasse();
@@ -37,9 +40,13 @@ void main ()
 
 // Proves classes  Genetix
 
-//	CTopologia<CColor>::ProvaClasse();
-//	CTopologiaToroidal<CColor>::ProvaClasse();
-	CSubstrat::ProvaClasse();
+//	CTopologia<CColor>::ProvaClasse(); //OK
+//	CTopologiaToroidal<CColor>::ProvaClasse(); //OK
+	CSubstrat::ProvaClasse(); //OK
+//	CTopologiaToroidal<CSubstrat>::ProvaClasse(); //OK
+//	CAgent<void(*)()>::ProvaClasse();
+//	CCumulador::ProvaClasse();
+	CClareador::ProvaClasse();
 
 //	CTaxo::ProvaClasse();
 //	CTaxonomista::ProvaClasse();

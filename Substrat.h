@@ -7,16 +7,17 @@
 
 #include <list>
 #include "BioIncludes.h"
-#include "Nutrient.h"
-#include "Encaix.h"
+//#include "Nutrient.h"
 
 class CSubstrat  
 {
+// Los tipos propios
+	typedef uint32 t_mol;
 // Algunas amigas
 	friend ostream & operator<< (ostream & stream, CSubstrat s);
 // Atributs
 private:
-	list<CNutrient> m_nutrients; // Llista de nutrients presents
+	list<uint32> m_nutrients; // Llista de nutrients presents
 	bool m_ocupat; // Cert si no hi cap cap altre organisme
 	uint32 m_ocupant; // Identificador de l'organisme, si n'hi ha
 	uint32 m_costSortida;
@@ -32,10 +33,13 @@ public:
 	void desocupa();
 	bool esOcupat();
 	uint32 ocupant();
+	CSubstrat operator=(int i) {ocupa(i); return *this;};
 // Operacions (Quimica)
 public:
-	bool getNutrient(CNutrient &n, CEncaix<uint32> clau, uint32 tolerancia);
-	void addNutrient(CNutrient &n);
+	void limitaMollecules(uint32 n);
+	bool agafaMollecula(uint32 &n, uint32 clau, uint32 tolerancia);
+	void afegeixMollecula(uint32 n);
+	uint32 numeroMollecules();
 // Proves
 public:
 	static void ProvaClasse();
