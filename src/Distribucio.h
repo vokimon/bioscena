@@ -9,7 +9,7 @@
 #include "RandomStream.h"
 
 /**
-* A probability distribution of natural numbers where you can obtain values from.
+* A natural numbers probability distribution based on the role game dices metafore.
 * The distribution is parametrized as this:
 * <ul>
 * <li>(m) The minimum value you can obtain
@@ -24,12 +24,15 @@
 * with an increasing typical deviation and the median arround the center ( m + (n * M)/2 ).
 * </ul>
 * @todo Implement and use it
+* @see CRoulette
 * @see CProbabilitat
-* @see Compatibles
+* @see sonCompatibles
 */
 
 class CDistribucio  
 {
+/// @name Construction/Destruction
+/// @{
 public:
 	/**
 	* The CDistribucio constructor.
@@ -43,12 +46,16 @@ public:
 		m_magnitudDau=magnitude;
 		m_nombreDaus=dices;
 	};
-
-/// @name Operators
-///@{
-public:
-
 	virtual ~CDistribucio() {};
+/// @}
+
+/// @name Extraction
+/// @{
+public:
+	/**
+	* This conversion operator is used to get a distribution value.
+	* It allows to use the distribution as a number in a expression.
+	*/
 	operator uint32()
 	{
 		uint32 val;
@@ -59,9 +66,10 @@ public:
 			val+=rnd.get(0,m_magnitudDau);
 		return val;
 	}
-///@}
-/// @name Accessors
-///@{
+/// @}
+
+/// @name Configuration
+/// @{
 public:
 	/// Sets the minimum value
 	void minimum(uint32 minim) {
@@ -87,10 +95,15 @@ public:
 	uint32 dicesMagnitude() {
 		return m_magnitudDau;
 	}
-///@}
-// Testing
+/// @}
+
+/// @name Testing
+/// @{
 public:
 	static void ClassTest();
+/// @}
+
+// Attributes
 private:
 	uint32 m_minim;
 	uint32 m_magnitudDau;
