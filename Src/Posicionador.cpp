@@ -81,7 +81,7 @@ bool CDireccionador::configura(string parametre, istream & valor, t_diccionariAg
 // Operacions
 //////////////////////////////////////////////////////////////////////
 
-void CPosicionador::pos(t_posicio nova) 
+void CPosicionador::pos(t_position nova) 
 {
 	if (m_biotop.esPosicioValida(nova))
 		m_pos=nova;
