@@ -73,14 +73,18 @@ void CConfiguracio::parsejaArxiu(char * nomArxiu, CMissatger & errors)
 	t_valor valor;
 	string prefetch;
 
+	out << "Carregant configuracio general [" << nomArxiu << "]" << endl;
+
 	if (!entrada) {
 		errors << "No s'ha pogut obrir \"" << nomArxiu << "\"" << endl;
+		return;
 	}
 
 	entrada >> prefetch;
 	while (entrada && prefetch=="*") {	
 		entrada >> parametre >> valor >> prefetch;
-		out << parametre << ": " << valor << endl;
+		// TODO: Esborrar aquesta traca (o no)
+		out << '\t' << parametre << ":\t" << valor << endl;
 		if (!exist(parametre)) {
 			errors 
 				<< "'" << parametre << "' no es un parametre configurable. " 
@@ -93,6 +97,7 @@ void CConfiguracio::parsejaArxiu(char * nomArxiu, CMissatger & errors)
 		errors << "No s'esperava '" << prefetch << "'"<< endl;
 	}
 
+	out << "Final configuracio general [" << nomArxiu << "]" << endl;
 	// TODO: Comprovacions de que es tracta d'una estructura arborea correcta
 
 }

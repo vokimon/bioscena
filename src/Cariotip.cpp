@@ -121,6 +121,7 @@ void CCariotip::afegeix(t_cromosoma & c)
 
 CCariotip::t_cromosoma CCariotip::extreu(uint32 index)
 // Pre: No ha d'estar buida
+// Post: Compte! Extreu pero no elimina el cromosoma, el retorna!
 {
 	t_cromosoma crm;
 	if (index<m_cromosomes.size())
@@ -138,6 +139,7 @@ CCariotip::t_cromosoma CCariotip::extreu(uint32 index)
 
 CCariotip::t_cromosoma CCariotip::extreu()
 // Pre: No ha d'estar buida
+// Post: Compte! Extreu pero no elimina el cromosoma, el retorna!
 {
 	t_cromosoma crm;
 	crm = m_cromosomes.back();
@@ -164,6 +166,11 @@ bool CCariotip::ocupaCromosomes(uint32 nCromosomes)
 	if (!nCromosomes) 
 		return false;
 	m_cromosomes.assign(nCromosomes, NULL);
+/*
+	// Si la biblioteca no esta actualitzada aixo serveix com a alternativa a l'assign
+	m_cromosomes.clear();
+	m_cromosomes.insert(m_cromosomes.begin(), size_t(nCromosomes), (CCromosoma*)NULL);
+*/
 	return true;
 }
 

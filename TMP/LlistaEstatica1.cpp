@@ -1,6 +1,0 @@
-// LlistaEstatica.cpp: implementation of the CLlistaEstatica class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "LlistaEstatica.h"
-

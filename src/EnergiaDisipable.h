@@ -1,6 +1,10 @@
 // EnergiaDisipable.h: interface for the CEnergiaDisipable class.
 //
 //////////////////////////////////////////////////////////////////////
+// Change Log:
+// 199908?? VoK - Creat
+// 19991126 VoK - Fix: No feiem delete dels slots d'energia
+//////////////////////////////////////////////////////////////////////
 
 #if !defined(__KKEP_ENERGIADISIPABLE_H_INCLUDED)
 #define __KKEP_ENERGIADISIPABLE_H_INCLUDED

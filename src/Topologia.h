@@ -129,6 +129,7 @@ template<class Cella> CTopologia<Cella>::CTopologia(uint32 tamany)
 }
 template<class Cella> CTopologia<Cella>::~CTopologia()
 {
+	if (m_casselles) delete[] m_casselles;
 
 }
 
@@ -141,8 +142,17 @@ template<class Cella> void CTopologia<Cella>::reservaCasselles(uint32 tamany) {
 		warning << "Tornant a definir les celles de la topologia." <<endl;
 		delete[] m_casselles;
 		}
+	if (!tamany) {
+		error << "Creant un biotop sense casselles." <<endl;
+		cin.get();
+		}
 	try {
 		m_casselles = new Cella [m_totalCasselles=tamany];
+		if (!m_casselles) {
+			m_totalCasselles = 0;
+			error << "No hi ha suficient memoria per les celles de la topologia." << endl;
+			cin.get();
+			}
 		}
 	catch (...) 
 	{

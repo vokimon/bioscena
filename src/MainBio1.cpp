@@ -55,7 +55,6 @@ int main (int argc, char**argv)
 		Config.dump(out);
 		exit(0);
 	}
-	Config.parsejaArxiu("Bioscena.ini", error);
 
 // Proves eines d'implementacio
 //	CMissatger::ProvaClasse(); //Ok
@@ -97,6 +96,7 @@ int main (int argc, char**argv)
 //	CCariotip::ProvaClasse();
 //	CMutacioCariotip::ProvaClasse();
 //	CComunitat::ProvaClasse(); // OK
+	CBiosistema::ProvaClasse();
 	CBiosistema::ProvaClasse();
 
 //	cout << ">> Final de proves. Pulsa la tecla de retorn...";
