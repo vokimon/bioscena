@@ -8,7 +8,7 @@ Compatibilitat.o: Compatibilitat.cpp Compatibilitat.h \
  RandomStream.h
 Cumulador.o: Cumulador.cpp Cumulador.h TopologiaToroidal.h \
  BioIncludes.h Missatger.h Outputer.h portable.h Topologia.h \
- RandomStream.h Color.h Substrat.h Agent.h
+ RandomStream.h Color.h Substrat.h Posicionador.h Agent.h Itineraris.h
 Encaix.o: Encaix.cpp Encaix.h GeneradorMascares.h BioIncludes.h \
  Missatger.h Outputer.h portable.h RandomStream.h
 GeneradorMascares.o: GeneradorMascares.cpp GeneradorMascares.h \
@@ -16,10 +16,13 @@ GeneradorMascares.o: GeneradorMascares.cpp GeneradorMascares.h \
 MainBio1.o: MainBio1.cpp BioIncludes.h Missatger.h Outputer.h \
  portable.h AppInfo.h Compatibilitat.h GeneradorMascares.h \
  RandomStream.h Color.h TopologiaToroidal.h Topologia.h Substrat.h \
- Agent.h Cumulador.h
+ Agent.h Cumulador.h Posicionador.h
 Missatger.o: Missatger.cpp Missatger.h Outputer.h
 Nutrient.o: Nutrient.cpp Nutrient.h BioIncludes.h Missatger.h \
  Outputer.h portable.h
+Posicionador.o: Posicionador.cpp Posicionador.h Topologia.h \
+ BioIncludes.h Missatger.h Outputer.h portable.h RandomStream.h \
+ Substrat.h
 RandomStream.o: RandomStream.cpp RandomStream.h BioIncludes.h \
  Missatger.h Outputer.h portable.h
 Substrat.o: Substrat.cpp Substrat.h BioIncludes.h Missatger.h \

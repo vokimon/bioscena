@@ -57,6 +57,7 @@ CLEAN :
 	-@erase "$(INTDIR)\GeneradorMascares.obj"
 	-@erase "$(INTDIR)\MainBio1.obj"
 	-@erase "$(INTDIR)\Missatger.obj"
+	-@erase "$(INTDIR)\Posicionador.obj"
 	-@erase "$(INTDIR)\RandomStream.obj"
 	-@erase "$(INTDIR)\Substrat.obj"
 	-@erase "$(INTDIR)\Topologia.obj"
@@ -90,6 +91,7 @@ LINK32_OBJS= \
 	"$(INTDIR)\GeneradorMascares.obj" \
 	"$(INTDIR)\MainBio1.obj" \
 	"$(INTDIR)\Missatger.obj" \
+	"$(INTDIR)\Posicionador.obj" \
 	"$(INTDIR)\RandomStream.obj" \
 	"$(INTDIR)\Substrat.obj" \
 	"$(INTDIR)\Topologia.obj" \
@@ -127,6 +129,7 @@ CLEAN :
 	-@erase "$(INTDIR)\GeneradorMascares.obj"
 	-@erase "$(INTDIR)\MainBio1.obj"
 	-@erase "$(INTDIR)\Missatger.obj"
+	-@erase "$(INTDIR)\Posicionador.obj"
 	-@erase "$(INTDIR)\RandomStream.obj"
 	-@erase "$(INTDIR)\Substrat.obj"
 	-@erase "$(INTDIR)\Topologia.obj"
@@ -164,6 +167,7 @@ LINK32_OBJS= \
 	"$(INTDIR)\GeneradorMascares.obj" \
 	"$(INTDIR)\MainBio1.obj" \
 	"$(INTDIR)\Missatger.obj" \
+	"$(INTDIR)\Posicionador.obj" \
 	"$(INTDIR)\RandomStream.obj" \
 	"$(INTDIR)\Substrat.obj" \
 	"$(INTDIR)\Topologia.obj" \
@@ -308,9 +312,11 @@ DEP_CPP_CUMUL=\
 	".\BioIncludes.h"\
 	".\Color.h"\
 	".\Cumulador.h"\
+	".\Itineraris.h"\
 	".\Missatger.h"\
 	".\Outputer.h"\
 	".\Portable.h"\
+	".\Posicionador.h"\
 	".\RandomStream.h"\
 	".\Substrat.h"\
 	".\Topologia.h"\
@@ -401,12 +407,13 @@ DEP_CPP_MAINB=\
 	".\AppInfo.h"\
 	".\BioIncludes.h"\
 	".\Color.h"\
-	".\compatibilitat.h"\
+	".\Compatibilitat.h"\
 	".\Cumulador.h"\
 	".\GeneradorMascares.h"\
 	".\Missatger.h"\
 	".\Outputer.h"\
 	".\Portable.h"\
+	".\Posicionador.h"\
 	".\RandomStream.h"\
 	".\Substrat.h"\
 	".\Topologia.h"\
@@ -422,7 +429,7 @@ DEP_CPP_MAINB=\
 	".\AppInfo.h"\
 	".\BioIncludes.h"\
 	".\Color.h"\
-	".\compatibilitat.h"\
+	".\Compatibilitat.h"\
 	".\GeneradorMascares.h"\
 	".\Missatger.h"\
 	".\Outputer.h"\
@@ -461,6 +468,21 @@ DEP_CPP_MISSA=\
 
 
 !ENDIF 
+
+SOURCE=.\Posicionador.cpp
+DEP_CPP_POSIC=\
+	".\BioIncludes.h"\
+	".\Missatger.h"\
+	".\Outputer.h"\
+	".\Portable.h"\
+	".\Posicionador.h"\
+	".\RandomStream.h"\
+	".\Substrat.h"\
+	".\Topologia.h"\
+	
+
+"$(INTDIR)\Posicionador.obj" : $(SOURCE) $(DEP_CPP_POSIC) "$(INTDIR)"
+
 
 SOURCE=.\RandomStream.cpp
 

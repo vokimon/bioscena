@@ -10,48 +10,33 @@ Project's tools are:
 			"Custom Build" with flags ""
 			"<Component 0xa>" with flags ""
 
-Creating temp file "C:\WINDOWS\TEMP\RSP9274.TMP" with contents </nologo /MLd /W3 /Gm /GX /Zi /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"Debug/Bioscena.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /c 
+Creating temp file "C:\WINDOWS\TEMP\RSP30C1.TMP" with contents </nologo /MLd /W3 /Gm /GX /Zi /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"Debug/Bioscena.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /c 
 "D:\Bioscena\Bioscena\AppInfo.cpp"
-"D:\Bioscena\Bioscena\MainBio1.cpp"
-"D:\Bioscena\Bioscena\Substrat.cpp"
-"D:\Bioscena\Bioscena\Topologia.cpp"
-"D:\Bioscena\Bioscena\TopologiaToroidal.cpp"
-"D:\Bioscena\Bioscena\Agent.cpp"
 "D:\Bioscena\Bioscena\Cumulador.cpp"
+"D:\Bioscena\Bioscena\MainBio1.cpp"
 >
-Creating command line "cl.exe @C:\WINDOWS\TEMP\RSP9274.TMP" 
-Creating temp file "C:\WINDOWS\TEMP\RSP9275.TMP" with contents <kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:yes /pdb:"Debug/Bioscena.pdb" /debug /machine:I386 /out:"Debug/Bioscena.exe" /pdbtype:sept 
+Creating command line "cl.exe @C:\WINDOWS\TEMP\RSP30C1.TMP" 
+Creating temp file "C:\WINDOWS\TEMP\RSP30C2.TMP" with contents <kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:yes /pdb:"Debug/Bioscena.pdb" /debug /machine:I386 /out:"Debug/Bioscena.exe" /pdbtype:sept 
+.\Debug\Agent.obj
 .\Debug\AppInfo.obj
 .\Debug\Color.obj
+.\Debug\Cumulador.obj
 .\Debug\Encaix.obj
 .\Debug\GeneradorMascares.obj
 .\Debug\MainBio1.obj
 .\Debug\Missatger.obj
+.\Debug\Posicionador.obj
 .\Debug\RandomStream.obj
 .\Debug\Substrat.obj
 .\Debug\Topologia.obj
-.\Debug\TopologiaToroidal.obj
-.\Debug\Agent.obj
-.\Debug\Cumulador.obj>
-Creating command line "link.exe @C:\WINDOWS\TEMP\RSP9275.TMP" 
+.\Debug\TopologiaToroidal.obj>
+Creating command line "link.exe @C:\WINDOWS\TEMP\RSP30C2.TMP" 
 Compiling...
-MainBio1.cpp
-D:\Bioscena\Bioscena\MainBio1.cpp(47) : error C2039: 'ProvaClasse' : is not a member of '`global namespace''
-Substrat.cpp
-D:\Bioscena\Bioscena\Substrat.cpp(148) : warning C4101: 'representacio' : unreferenced local variable
-Agent.cpp
 Cumulador.cpp
-D:\Bioscena\Bioscena\Topologia.h(70) : error C2065: 'setw' : undeclared identifier
-D:\Bioscena\Bioscena\Topologia.h(70) : error C2065: 'setfill' : undeclared identifier
-D:\Bioscena\Bioscena\Cumulador.cpp(38) : error C2248: 'debugPresenta' : cannot access protected member declared in class 'CTopologiaToroidal<class CSubstrat>'
-D:\Bioscena\Bioscena\Cumulador.cpp(54) : error C2248: 'debugPresenta' : cannot access protected member declared in class 'CTopologiaToroidal<class CSubstrat>'
-D:\Bioscena\Bioscena\Cumulador.cpp(59) : error C2374: 'i' : redefinition; multiple initialization
-D:\Bioscena\Bioscena\Cumulador.cpp(62) : error C2248: 'debugPresenta' : cannot access protected member declared in class 'CTopologiaToroidal<class CSubstrat>'
-Topologia.cpp
-TopologiaToroidal.cpp
+MainBio1.cpp
 AppInfo.cpp
-Error executing cl.exe.
+Linking...
 
 
 
-Bioscena.exe - 7 error(s), 1 warning(s)
+Bioscena.exe - 0 error(s), 0 warning(s)

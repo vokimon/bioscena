@@ -24,7 +24,7 @@ protected:
 	uint32 m_yMax;
 	int32 m_direccions[10]; // Cal que sigui signed!
 // Proves
-protected:
+public:
 	template<class output>
 	void debugPresenta(output & stream) {
 		stream << "\033[1;1H";// Un gotoxy xapuser pero standard (ANSI)

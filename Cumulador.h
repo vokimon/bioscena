@@ -7,18 +7,20 @@
 
 #include "TopologiaToroidal.h"
 #include "Substrat.h"
+#include "Posicionador.h"
 
 class CCumulador  
 {
 // Construccio/Destruccio
 public:
+	CCumulador(CTopologia<CSubstrat>& biotop, CPosicionador *pos, uint32 densitat, uint32 element, uint32 radio=1, uint32 variabilitat=0);
 	CCumulador(CTopologia<CSubstrat>& biotop, uint32 densitat, uint32 element, uint32 radio=1, uint32 variabilitat=0);
 	virtual ~CCumulador();
 // Operadors (Per accionar)
 public:
 	virtual void operator () (void)
 	{
-		uint32 posicioMitja = m_biotop.cassellaAlAtzar();
+		uint32 posicioMitja = m_posicionador->pos();
 		for (int i=m_densitat;i--;) {
 			uint32 pos = posicioMitja;
 			for (int j=m_radio; j--;)
@@ -36,6 +38,7 @@ public:
 	uint32 m_variabilitat; // Mascara amb els bits de l'element que poden variar
 	uint32 m_densitat; // Numero de elements inserits per execucio
 	uint32 m_radio; // Desplacaments que es pot separar del centre
+	CPosicionador *m_posicionador; // Objecte que determina el centre
 // Proves
 public:
 	static void ProvaClasse();
@@ -51,7 +54,7 @@ public:
 public:
 	void operator () (void)
 	{
-		uint32 posicioMitja = m_biotop.cassellaAlAtzar();
+		uint32 posicioMitja = m_posicionador->pos();
 		for (int i=m_densitat;i--;) {
 			uint32 pos = posicioMitja;
 			for (int j=m_radio; j--;)
