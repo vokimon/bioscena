@@ -77,6 +77,7 @@ public:
 	* @param sampleSize The number of tries
 	* @pre The sample size must be greater than 0
 	* @pre The success must be not greater than the sample size
+	* @todo Use asserts and isValid instead corrections or a secure version of the function
 	*/
 	void fixa(uint32 success, uint32 sampleSize)
 	{
