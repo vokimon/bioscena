@@ -5,7 +5,7 @@
 #define __KKEP_PROBABILITY_H_INCLUDED
 
 #include "BioIncludes.h"
-#include "RandomStream.h"
+#include "RandomStream.hxx"
 
 namespace Bioscena {
 
