@@ -109,12 +109,6 @@ bool CGen::parametres(uint32 & valor)
 	// TODO: Determinar la semantica del retorn
 }
 
-bool CGen::salt(uint32 patro)
-{
-	return finalitzat();
-	// TODO: Determinar la semantica del retorn
-}
-
 //////////////////////////////////////////////////////////////////////
 // Proves
 //////////////////////////////////////////////////////////////////////

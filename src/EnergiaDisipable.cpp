@@ -1,6 +1,11 @@
 // EnergiaDisipable.cpp: implementation of the CEnergiaDisipable class.
 //
 //////////////////////////////////////////////////////////////////////
+// Change Log:
+// 199908?? VoK - Creat
+// 19991126 VoK - Fix: No feiem delete dels slots d'energia
+// 20000406 VoK - La disipacio ja no es un operador sino una funcio
+//////////////////////////////////////////////////////////////////////
 
 #include <iomanip>
 #include "EnergiaDisipable.h"
@@ -104,7 +109,7 @@ void CEnergiaDisipable::afegeix(uint32 quantitat)
 	m_total+=quantitat;
 }
 
-void CEnergiaDisipable::operator () (void)
+void CEnergiaDisipable::disipa (void)
 {
 	if (!m_slotActual) 
 		m_slotActual=m_nSlots;
@@ -135,21 +140,21 @@ void CEnergiaDisipable::ProvaClasse()
 	out << e << endl;
 	e.afegeix(43);
 	out << e << endl;
-	e();
+	e.disipa();
 	out << e << endl;
 	e.afegeix(21);
 	out << e << endl;
-	e();
+	e.disipa();
 	out << e << endl;
 	e.afegeix(25);
 	out << e << endl;
 	e.afegeix(11);
 	out << e << endl;
-	e();
+	e.disipa();
 	cout << e << endl;
 	e.afegeix(41);
 	cout << e << endl;
-//	e();
+//	e.disipa();
 	out << e << endl;
 	e.afegeix(27);
 	out << e << endl;

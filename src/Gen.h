@@ -25,22 +25,25 @@ public:
 	virtual ~CGen();
 // Redefinibles
 public:
-// Operacions
+// Operacions traduccio
 public:
 	bool init(CCromosoma & crm, uint32 & pos);
-	bool traduible(uint32 * fenotip);
-	bool salt(uint32 patro);
-	bool seguentInstruccio(uint32 & t_instruccio);
-	bool parametres(uint32 & valor);
-	bool finalitzat();
-	void reset();
 	bool esIntro(uint32 codo);
 	bool esPromotor(uint32 codo);
 	bool esTerminador(uint32 codo);
 	t_instruccio traduccio(uint32 codo);
+// Operacions expresio
+public:
+	bool traduible(uint32 * fenotip);
+	bool seguentInstruccio(uint32 & t_instruccio);
+	bool parametres(uint32 & valor);
+	bool finalitzat();
+	void reset();
 	bool esOperadora();
-	uint32 tamany();
 	bool condicioOperadora(uint32 * fenotip);
+// Operacions expresio
+public:
+	uint32 tamany();
 	void dump(CMissatger & msg);
 // Atributs
 public:

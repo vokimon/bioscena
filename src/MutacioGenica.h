@@ -19,8 +19,8 @@ public:
 	virtual ~CMutacioGenica();
 // Redefinibles
 public:
-	virtual void muta(CCromosoma & c);
-	virtual void muta(t_codo & c)=0;
+	virtual bool muta(CCromosoma & c);
+	virtual bool muta(t_codo & c)=0;
 	virtual string tipus()=0;
 // Atributs
 protected:
@@ -45,7 +45,7 @@ class CMutacioPuntualBinariaGaussiana: public CMutacioGenica
 {
 // Redefinibles
 public:
-	virtual void muta (t_codo & c);
+	virtual bool muta (t_codo & c);
 	virtual string tipus();
 // Funcions estatiques
 public:
@@ -56,7 +56,7 @@ class CMutacioPuntualBinaria : public CMutacioGenica
 {
 // Redefinibles
 public:
-	virtual void muta (t_codo & c);
+	virtual bool muta (t_codo & c);
 	virtual string tipus();
 // Funcions estatiques
 public:
@@ -67,7 +67,7 @@ class CMutacioPuntualDrastica : public CMutacioGenica
 {
 // Redefinibles
 public:
-	virtual void muta (t_codo & c);
+	virtual bool muta (t_codo & c);
 	virtual string tipus();
 // Funcions estatiques
 public:

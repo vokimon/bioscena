@@ -7,6 +7,7 @@
 // 19990911 VoK - Fix: Algunos bugs que havia en los operadores
 // 19991209 VoK - No fan servir agafa/fixaCromosoma sino el protocol
 //                public de CCromosoma.
+// 20000527 VoK - Mutacions retornen si han anat be
 //////////////////////////////////////////////////////////////////////
 
 #include <algorithm>
@@ -38,15 +39,15 @@ CMutacioGenica::~CMutacioGenica()
 // Redefinibles
 //////////////////////////////////////////////////////////////////////
 
-void CMutacioGenica::muta(CCromosoma & cr)
+bool CMutacioGenica::muta(CCromosoma & cr)
 // Generalitzacio Estructural -> Genica
 {
 	uint32 codo = cr.codoAleatori();
-	if (cr.tamany())
-		muta(cr[codo]);
+	if (!cr.tamany()) return false;
+	return muta(cr[codo]);
 }
 
-void CMutacioPuntualDrastica::muta(t_codo & c)
+bool CMutacioPuntualDrastica::muta(t_codo & c)
 // Substitucio total d'un codo
 // (Granularitat Codo)
 {
@@ -54,9 +55,10 @@ void CMutacioPuntualDrastica::muta(t_codo & c)
 		out << "Mutacio Puntual de tot el codo: "
 			<< endl;
 	c=rnd.get();
+	return true;
 }
 
-void CMutacioPuntualBinaria::muta(t_codo & c)
+bool CMutacioPuntualBinaria::muta(t_codo & c)
 // Invertim nomes un Bit
 // (Granularitat Base)
 {
@@ -64,9 +66,10 @@ void CMutacioPuntualBinaria::muta(t_codo & c)
 		out << "Mutacio Puntual de d'una base: "
 			<< endl;
 	c^= 0x00000001<<rnd.get(0,31);
+	return true;
 }
 
-void CMutacioPuntualBinariaGaussiana::muta(t_codo & c)
+bool CMutacioPuntualBinariaGaussiana::muta(t_codo & c)
 // El numero d'uns invertits es una distribucio de gauss amb mitja 4=32bits*1/(2^3)
 // (Granularitat Codo)
 {
@@ -74,6 +77,7 @@ void CMutacioPuntualBinariaGaussiana::muta(t_codo & c)
 		out << "Mutacio Gaussiana de tot el codo: "
 			<< endl;
 	c^=(rnd.get()&rnd.get()&rnd.get());
+	return true;
 }
 
 //////////////////////////////////////////////////////////////////////

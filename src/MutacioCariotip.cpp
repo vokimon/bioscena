@@ -7,6 +7,9 @@
 //                a les Mutacions per Fusio
 // 19991214 VoK - Afegida insercio d'un cromosoma aleatori
 // 20000111 VoK - Afegits prototips de translocacio i trans. reciproca
+// 20000526 VoK - Implementada translocacio simple i activada
+// 20000527 VoK - Fix: No es podia translocar cap al final d'un cromosoma
+// 20000527 VoK - Mutacions retornen si han anat be
 //////////////////////////////////////////////////////////////////////
 // TODO: Implementar les mutacions per translocacio i activar-les perque puguin ser usades.
 
@@ -40,11 +43,11 @@ CMutacioCariotip::~CMutacioCariotip()
 // Redefinibles
 //////////////////////////////////////////////////////////////////////
 
-void CMutacioPerFusio::muta(CCariotip & car)
+bool CMutacioPerFusio::muta(CCariotip & car)
 // Fusio de dos cromosomes d'un cariotip
 // (Granularitat Cariotip)
 {
-	if (!car.tamany()) return; // Fugida discreta
+	if (!car.tamany()) return false; // Fugida discreta
 	uint32 idxOrigen=car.cromosomaAleatori();
 	uint32 idxDesti=car.cromosomaAleatori();
 	if (traceMutacions)
@@ -59,18 +62,19 @@ void CMutacioPerFusio::muta(CCariotip & car)
 		crm1 = car.extreu(idxOrigen);
 		if (crm1) delete crm1;
 	}
+	return true;
 }
 
-void CMutacioPerEscisio::muta(CCariotip & car)
+bool CMutacioPerEscisio::muta(CCariotip & car)
 // Escisio d'un cromosoma del cariotip en dos cromosomes
 // (Granularitat Cariotip)
 {
-	if (!car.tamany()) return; // Fugida discreta
+	if (!car.tamany()) return false; // Fugida discreta
 	uint32 idxOrigen=car.cromosomaAleatori();
 	uint32 idxDesti=rnd.get(0,car.tamany());
 
 	CCariotip::t_cromosoma crm1 = car[idxOrigen];
-	if (crm1->tamany()<2) return; // Fugida discreta
+	if (crm1->tamany()<2) return false; // Fugida discreta
 
 	uint32 idxCentromer = rnd.get(1,crm1->tamany()-1);
 
@@ -84,27 +88,70 @@ void CMutacioPerEscisio::muta(CCariotip & car)
 	if (!crm2) {
 		error << "Mutant per Escisio: Error de memoria" << endl;
 		cin.get();
-		return;
+		return false;
 	}
 	crm1->parteix(*crm2,idxCentromer);
+	// TODO: Controlar memoria
 	car.afegeix(crm2,idxDesti);
+	return true;
 }
 
-void CMutacioPerTranslocacio::muta(CCariotip & car)
+bool CMutacioPerTranslocacio::muta(CCariotip & car)
 // Migració d'un fragment cromosomic d'un cromosoma a un altre
 // (Granularitat Cariotip)
 {
-	if (!car.tamany()) return; // Fugida discreta
+	if (!car.tamany()) return false; // Fugida discreta
+	uint32 idxOrigen=car.cromosomaAleatori();
+	uint32 idxDesti=car.cromosomaAleatori();
+	if (idxOrigen==idxDesti) return false; // Fugida discreta
+
+	CCariotip::t_cromosoma crm1 = car[idxOrigen];
+	CCariotip::t_cromosoma crm2 = car[idxDesti];
+	uint32 nCodonsOrig = crm1->tamany();
+	uint32 nCodonsDesti = crm2->tamany();
+	if (nCodonsOrig<=1) return false; // Fugida discreta
+
+	uint32 iniciOrig = rnd.get(0,nCodonsOrig-1);
+	uint32 longitud = rnd.get(1,nCodonsOrig-1);
+	uint32 iniciDesti = rnd.get(0,nCodonsDesti);
+
+	if (!crm2->afegeixCodons(iniciDesti,longitud)) {
+		error << "CMutacioPerTranslocacio: error de memoria mutant" << endl;
+		cin.get();
+		return false;
+		}
+	if (traceMutacions)
+		out << tipus()
+			<< " Origen: " << idxOrigen << '(' << nCodonsOrig << ')'
+			<< " Inici:" << iniciOrig
+			<< " Desti:" << idxDesti << '(' << nCodonsDesti << ')'
+			<< " Inici:" << iniciDesti
+			<< " Longitud:" << longitud 
+			<< endl;
+	uint32 i1 = iniciOrig;
+	uint32 i2 = iniciDesti;
+	for (uint32 cont=longitud; cont--;) {
+		(*crm2)[i2++]=(*crm1)[i1++];
+		if (i1>=nCodonsOrig) i1=0;
+		}
+	if (!crm1->treuCodons(iniciOrig,longitud)) {
+		error << "CMutacioPerTranslocacio: error de memoria mutant" << endl;
+		cin.get();
+		return false;
+		}
+	return true;
 }
 
-void CMutacioPerTranslocacioReciproca::muta(CCariotip & car)
+bool CMutacioPerTranslocacioReciproca::muta(CCariotip & car)
 // Intercanvi mutu de dos fragments entre dos cromosomes
 // (Granularitat Cariotip)
 {
-	if (!car.tamany()) return; // Fugida discreta
+	// TODO: Mutacio per Translocacio Reciproca
+	if (!car.tamany()) return false; // Fugida discreta
+	return false;
 }
 
-void CAneuploidiaPositiva::muta(CCariotip & car)
+bool CAneuploidiaPositiva::muta(CCariotip & car)
 // Duplicacio total d'un cromosoma del cariotip
 // (Granularitat Cariotip)
 {
@@ -116,20 +163,21 @@ void CAneuploidiaPositiva::muta(CCariotip & car)
 			<< " Posicio: " << posicioFinal 
 			<< endl;
 	if (!car.tamany())
-		return;
+		return false;
 	CCariotip::t_cromosoma crm1 = car[cromosomaDuplicat];
 	CCariotip::t_cromosoma crm2 = new CCromosoma;
 	if (!crm2) {
 		error << "Mutant AneuploidiaPositiva: Error de memoria" << endl;
 		cin.get();
-		return;
+		return false;
 	}
 
 	crm2->init(*crm1);
 	car.afegeix(crm2,posicioFinal);
+	return true;
 }
 
-void CAneuploidiaAleatoria::muta(CCariotip & car)
+bool CAneuploidiaAleatoria::muta(CCariotip & car)
 // Duplicacio total d'un cromosoma del cariotip
 // (Granularitat Cariotip)
 {
@@ -139,25 +187,26 @@ void CAneuploidiaAleatoria::muta(CCariotip & car)
 			<< " Posicio: " << posicioFinal 
 			<< endl;
 	if (!car.tamany())
-		return;
+		return false;
 	CCariotip::t_cromosoma crm2 = new CCromosoma;
 	if (!crm2) {
 		error << "Mutant AneuploidiaPositiva: Error de memoria" << endl;
 		cin.get();
-		return;
+		return false;
 	}
 
 	crm2->init(rnd.get(
 		Config.get("Organisme/Cariotip/LongitudMinima"),
 		Config.get("Organisme/Cariotip/LongitudMaxima")));
 	car.afegeix(crm2,posicioFinal);
+	return true;
 }
 
-void CAneuploidiaNegativa::muta(CCariotip & car)
+bool CAneuploidiaNegativa::muta(CCariotip & car)
 // Duplicacio total d'un cromosoma del cariotip
 // (Granularitat Cromosoma)
 {
-	if (car.tamany()<2) return; // Fugida Discreta
+	if (car.tamany()<2) return false; // Fugida Discreta
 	uint32 cromosomaEliminat = car.cromosomaAleatori();
 	if (traceMutacions)
 		out << tipus()
@@ -165,16 +214,17 @@ void CAneuploidiaNegativa::muta(CCariotip & car)
 			<< endl;
 	CCariotip::t_cromosoma crm1 = car.extreu(cromosomaEliminat);
 	if (crm1) delete crm1;
+	return true;
 }
 
-void CEuploidiaPositiva::muta(CCariotip & car)
+bool CEuploidiaPositiva::muta(CCariotip & car)
 // Duplicacio total del cariotip
 // (Granularitat Cariotip)
 {
 	if (traceMutacions)
 		out << tipus()
 			<< endl;
-	if (!car.tamany()) return;
+	if (!car.tamany()) return false;
 	uint32 ultim=car.tamany()-1;
 	uint32 restants=car.tamany();
 	while(restants--) {
@@ -183,11 +233,12 @@ void CEuploidiaPositiva::muta(CCariotip & car)
 		if (!crm2) {
 			error << "Mutant EuploidiaPositiva: Error de memoria" << endl;
 			cin.get();
-			return;
+			return false;
 		}
 		crm2->init(*crm1);
 		car.afegeix(crm2,0);
 	}
+	return true;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -244,7 +295,7 @@ string CEuploidiaPositiva::tipus()
 
 uint32 CMutacioCariotip::Nombre(void)
 {
-	return 5;
+	return 6;
 }
 
 CMutacioCariotip * CMutacioCariotip::Nova(uint32 n)
@@ -256,8 +307,8 @@ CMutacioCariotip * CMutacioCariotip::Nova(uint32 n)
 	case 2: return new CAneuploidiaPositiva;
 	case 3: return new CAneuploidiaNegativa;
 	case 4: return new CAneuploidiaAleatoria;
-//	case 5: return new CEuploidiaPositiva;
-//	case 6: return new CMutacioPerTranslocacio;
+	case 5: return new CMutacioPerTranslocacio;
+//	case 6: return new CEuploidiaPositiva;
 //	case 7: return new CMutacioPerTranslocacioReciproca;
 	default: return NULL;
 	}
@@ -270,8 +321,8 @@ CMutacioCariotip * CMutacioCariotip::Nova(string tipus)
 	if (tipus==CAneuploidiaPositiva::Tipus()) return new CAneuploidiaPositiva;
 	if (tipus==CAneuploidiaNegativa::Tipus()) return new CAneuploidiaNegativa;
 	if (tipus==CAneuploidiaAleatoria::Tipus()) return new CAneuploidiaAleatoria;
+	if (tipus==CMutacioPerTranslocacio::Tipus()) return new CMutacioPerTranslocacio;
 //	if (tipus==CEuploidiaPositiva::Tipus()) return new CEuploidiaPositiva;
-//	if (tipus==CMutacioPerTranslocacio::Tipus()) return new CMutacioPerTranslocacio;
 //	if (tipus==CMutacioPerTranslocacioReciproca::Tipus()) return new CMutacioPerTranslocacioReciproca;
 	else return NULL;
 }

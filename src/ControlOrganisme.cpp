@@ -14,6 +14,7 @@
 //////////////////////////////////////////////////////////////////////
 
 uint32 CControlOrganisme::Nombre(void)
+// Retorna el nombre de subclasses que te
 {
 	return 1;
 	return 2;
@@ -78,9 +79,10 @@ void CControlOrganisme::ProvaClasse()
 	while (!kbhit()) {
 		CCariotip cariotip;
 		cariotip.init(8); // Creem un cariotip de 8 cromosomes
-		CGenotip genotip; // Creem un genotip
-		genotip.init(cariotip); // L'omplim de la traduccio del cariotip
-		// Al final de la volta es destrueixen.
+		CControlOrganisme * ctrl = 
+			CControlOrganisme::Nou(rnd.get(0,CControlOrganisme.Nombre()-1)) // Creem un genotip
+		ctrl->init(cariotip); // L'omplim de la traduccio del cariotip
+		delete ctrl;
 	}
 */
 	cin.get();
