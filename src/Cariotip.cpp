@@ -270,10 +270,13 @@ void CCariotip::ProvaClasse(void)
 	car3.dump(out);
 	cin.get();
 
+
 	out << "Provant mutacio masiva de cariotips fins que premis una tecla" << endl;
 	while (!kbhit()) {
-		car3.muta();
-//		car3.dump(out);
+		CCariotip car4;
+		car4.init(1);
+		car4.muta();
+//		car4.dump(out);
 	}
 }
 
@@ -285,7 +288,7 @@ bool CCariotip::muta()
 	if (!CProbabilitat::EsDona(Config.get("Organisme/ProbabilitatMutacio/Encerts"),Config.get("Organisme/ProbabilitatMutacio/Mostra")))
 		return false;	
 	CMutacioCariotip * mutacio;
-	switch (rnd.get(1,1))
+	switch (rnd.get(0,2))
 	{
 	case 0:
 		mutacio = CMutacioGenica::Nova(rnd.get(1,CMutacioGenica::Nombre())-1);
@@ -310,3 +313,13 @@ bool CCariotip::muta()
 	
 	return true;
 }
+
+uint32 CCariotip::tamanyCodons()
+{
+	uint32 tamany=0;
+	for (uint32 i=m_cromosomes.size(); i--;) {
+		if (m_cromosomes[i]) tamany+=m_cromosomes[i]->tamany();
+	}
+	return tamany;
+}
+

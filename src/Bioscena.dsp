@@ -118,6 +118,22 @@ SOURCE=.\TODO.txt
 SOURCE=.\Vistes.txt
 # End Source File
 # End Group
+# Begin Group "Configuracio"
+
+# PROP Default_Filter "ini"
+# Begin Source File
+
+SOURCE=.\Agents2.ini
+# End Source File
+# Begin Source File
+
+SOURCE=.\Bioscena.ini
+# End Source File
+# Begin Source File
+
+SOURCE=.\Opcodes.ini
+# End Source File
+# End Group
 # Begin Source File
 
 SOURCE=.\Actuador.cpp
