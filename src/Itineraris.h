@@ -30,7 +30,7 @@ class CItinerari : public CPosicionador
 // Construccio/Destruccio
 public:
 	CItinerari(tipus_biotop & biotop);
-// Virtuals redefinibles a les subclasses
+// Redefinibles
 public:
 	virtual void operator() (void);
 	virtual void dump(CMissatger & msg);
@@ -60,7 +60,7 @@ class CPosicionadorZonal : public CPosicionador
 // Construccio/Destruccio
 public:
 	CPosicionadorZonal(tipus_biotop & biotop);
-// Virtuals redefinibles a les subclasses
+// Redefinibles
 public:
 	virtual void operator() (void);
 	virtual void dump(CMissatger & msg);
@@ -90,7 +90,7 @@ class CPosicionadorAleatori : public CPosicionador
 // Construccio/Destruccio
 public:
 	CPosicionadorAleatori(tipus_biotop & biotop);
-// Virtuals redefinibles a les subclasses
+// Redefinibles
 public:
 	virtual void operator() (void);
 // Proves
@@ -107,7 +107,7 @@ class CDireccionadorAleatori : public CDireccionador
 // Construccio/Destruccio
 public:
 	CDireccionadorAleatori(tipus_biotop & biotop);
-// Virtuals redefinibles a les subclasses
+// Redefinibles
 public:
 	virtual void operator() (void);
 // Proves

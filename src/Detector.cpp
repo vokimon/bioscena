@@ -26,3 +26,16 @@ bool CDetector::analitza(CSubstrat & s)
 {
 	return true;
 }
+
+//////////////////////////////////////////////////////////////////////
+// Operacions
+//////////////////////////////////////////////////////////////////////
+
+CDetector * CDetector::nouDetector(uint32 tipus)
+{
+	switch (tipus) {
+	case 0: return new CDetectorQuimic;
+	case 1: return new CDetectorPresencia;
+	default: return NULL;
+	}
+}

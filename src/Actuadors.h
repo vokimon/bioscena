@@ -21,7 +21,7 @@ class CNutridor : public CActuador
 public:
 	CNutridor();
 	virtual ~CNutridor();
-// Virtuals redefinibles a les subclasses
+// Redefinibles
 public:
 	virtual void operator () (CSubstrat & s) {
 		uint32 mol = m_element^(m_variabilitat&rnd.get());
@@ -46,7 +46,7 @@ class CDesnutridor : public CNutridor
 // Construccio/Destruccio
 public:
 	CDesnutridor();
-// Virtuals redefinibles a les subclasses
+// Redefinibles
 public:
 	virtual void operator() (CSubstrat & s) {
 		uint32 nutrient;

@@ -30,13 +30,13 @@ public:
 	CTopologia(uint32 tamany);
 	virtual ~CTopologia();
 
-// Virtuals redefinibles a les subclasses
+// Redefinibles
 public:
 	virtual t_posicio desplacament (t_posicio origen, t_desplacament movimentRelatiu)
 		// Retorna la posicio resultant de fer el desplacament des de l'origen
 	{
 		// TODO: Per defecte aillades o indeterministic
-		return cassellaAlAtzar();
+		return posicioAlAtzar();
 //		return origen;
 	}
 	virtual bool esValidaCassella(t_posicio cassella) 
@@ -50,7 +50,7 @@ public:
 		rnd >> desp;
 		return false;
 	}
-	virtual t_posicio cassellaAlAtzar() 
+	virtual t_posicio posicioAlAtzar() 
 	{
 		CRandomStream rnd;
 		return rnd.get(0,m_totalCasselles-1);
@@ -95,14 +95,14 @@ public:
 		t_posicio cuc[7]={130,130,130,130,130,130,130};
 		while (cuc[0]!=8) {
 			for (i=7;i--;) topologia[cuc[i]]=escala[6-i];
-			topologia[topologia.cassellaAlAtzar()]=9;
+			topologia[topologia.posicioAlAtzar()]=9;
 			topologia.debugPresenta(out);
 			CRandomStream rnd;
 			t_desplacament direccio;
 			rnd>>direccio;
 			for (i=6;i--;) cuc[i+1]=cuc[i];
 			cuc[0]=topologia.desplacament(cuc[0],direccio);
-			if (cuc[0]==cuc[6]) cuc[0]=topologia.cassellaAlAtzar();
+			if (cuc[0]==cuc[6]) cuc[0]=topologia.posicioAlAtzar();
 			out<<"Celles"<<setw(5)<<setfill(' ');
 			for (i=7;i--;) out << cuc[i] << " - ";
 			out<<setw(0)<<endl;

@@ -35,7 +35,7 @@ class CAleaturitzador : public CMultiAgent
 public:
 	CAleaturitzador();
 	virtual ~CAleaturitzador();
-// Virtuals redefinibles a les subclasses
+// Redefinibles
 public:
 	virtual void operator() (void);
 	virtual void dump(CMissatger & msg);
