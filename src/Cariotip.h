@@ -32,10 +32,12 @@ public:
 	virtual ostream & store(ostream & str);
 // Operacions
 public:
-	bool init(CCariotip &c);
-	bool init(uint32 nCromosomess);
-	bool init(uint32 primer, uint32 ultim);
+	bool init (const CCariotip &c);
+	bool init (uint32 nCromosomes);
+	bool init (uint32 primer, uint32 ultim);
+//	t_cromosoma & operator [ ](const uint32 n);
 	t_cromosoma & operator [ ](uint32 n);
+	const t_cromosoma & operator [ ](uint32 n) const;
 	uint32 cromosomaAleatori(void) const;
 	uint32 tamany() const;
 
