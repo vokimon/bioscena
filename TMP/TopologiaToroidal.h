@@ -1,11 +1,6 @@
 // BiotopToroidal.h: interface for the CBiotopToroidal class.
 //
 //////////////////////////////////////////////////////////////////////
-// Change Log
-// 19990722 VoK - Fa servir templates per a les cel·les
-// 19990722 VoK - La superclasse reserva les casselles
-// 19990723 VoK - Rebautizat: BiotopToroidal -> TopologiaToroidal
-//////////////////////////////////////////////////////////////////////
 
 #if !defined(__KKEP_TOPOLOGIATOROIDAL_H_INCLUDED)
 #define __KKEP_TOPOLOGIATOROIDAL_H_INCLUDED
@@ -32,23 +27,12 @@ enum DireccionsBasiques
 template <class Cella>
 class CTopologiaToroidal : public CTopologia<Cella>
 {
-// Tipus interns
-public:
-	typedef CTopologia<Cella> inherited;
-	typedef CTopologia<Cella>::t_posicio t_posicio;
-	typedef CTopologia<Cella>::t_desplacament t_desplacament;
 // Contruccio/Destruccio
 public: 
 	CTopologiaToroidal (uint32 XMax, uint32 YMax);
-// Operacions
-public: 
-	uint32 amplada() {return m_xMax;}
-	uint32 altura() {return m_yMax;}
 // Redefinibles
-public: 
 	virtual t_posicio desplacament (t_posicio origen, t_desplacament movimentRelatiu);
 	virtual bool unio (t_posicio posOrigen, t_posicio posDesti, t_desplacament & desp);
-	virtual t_posicio desplacamentAleatori (t_posicio posOrigen, uint32 radi);
 // Atributs
 protected:
 	uint32 m_xMax;
@@ -65,7 +49,6 @@ public:
 				stream << m_casselles[nCella++];
 			stream<<endl;
 			}
-		stream << blanc.fosc();
 		}
 public:
 	static void ProvaClasse(void) {
@@ -161,7 +144,7 @@ bool CTopologiaToroidal<Cella>::unio (t_posicio posOrigen, t_posicio posDesti, t
 	uint32 y1 = posOrigen / m_xMax;
 	uint32 x2 = posDesti % m_xMax;
 	uint32 y2 = posDesti / m_xMax;
-//	out << "Origen: " << x1 << "@" << y1 << " Desti: " << x2 << "@" << y2 << endl;
+	out << "Origen: " << x1 << "@" << y1 << " Desti: " << x2 << "@" << y2 << endl;
 	bool adalt, esquerra;
 	uint32 dx, dy;
 	uint32 inner, outer;
@@ -201,7 +184,7 @@ bool CTopologiaToroidal<Cella>::unio (t_posicio posOrigen, t_posicio posDesti, t
 	}
 
 	uint32 basic;
-//	out << "dx: " << dx << (esquerra?"L":"R")<< " dy: " << dy << (adalt?"U":"D") << endl;
+	out << "dx: " << dx << (esquerra?"L":"R")<< " dy: " << dy << (adalt?"U":"D") << endl;
 
 	uint32 nBasics=8;
 	desplacament=0x00000000;
@@ -223,22 +206,6 @@ bool CTopologiaToroidal<Cella>::unio (t_posicio posOrigen, t_posicio posDesti, t
 	}
 
 	return !(dx || dy);
-}
-
-template <class Cella>
-CTopologiaToroidal<Cella>::t_posicio CTopologiaToroidal<Cella>::desplacamentAleatori (t_posicio posOrigen, uint32 radi)
-{
-	// El radi esta expressat en desplacaments basics (4 bits) -> en un vector de 
-	// desplacament (32 bits) hi han 8 de basics.
-	// pe. Si tenim radi=45 -> 5 vectors * 8 basics/vector + 5 basics
-	// Recorda que el bit de mes pes de cada basic es un 'enabled'.
-
-	// Primer calculem els basics que en sobren
-	uint32 posDesti = desplacament(posOrigen, (rnd.get()|0x88888888) & (0xFFFFFFFF>>((radi&7)<<2)));
-	// Despres calculem vectors sencers amb 8 basics cadascun 
-	for (radi>>=3; radi--;)
-		posDesti = desplacament(posDesti,rnd.get()|0x88888888);
-	return posDesti;
 }
 
 #endif // !defined(__KKEP_TOPOLOGIATOROIDAL_H_INCLUDED)

@@ -9,6 +9,11 @@
 // 19991128 VoK - Els opcodes es llegeixen d'un fitxer
 // 19991130 VoK - Implementades les operacions sensorials quimiques
 // 19991130 VoK - Reorganitzada la classe
+// 19991205 VoK - Implementades les operacions sensorials presencia
+// 19991210 VoK - Traspasats des d'Organisme.cpp els costos d'engolir, 
+//                excretar i atacar
+// 19991211 VoK - Traspasats des d'Organisme.cpp els costos de mitosi
+//                i generacio expontanea
 //////////////////////////////////////////////////////////////////////
 
 #if !defined(__KKEP_BIOSISTEMA_H_INCLUDED)
@@ -23,9 +28,17 @@
 //#include "Taxonomista.h"
 
 /*
+class CParametreOpcode {
+	uint32 offset;
+	uint32 mascara;
+	string nom;
+	}
+   
 class COpCode {
 	uint32 m_index;
 	string m_mnemonic;
+	bool (CBiosistema::*m_accio) (uint32);
+	
 }
 */
 
@@ -82,6 +95,7 @@ public:
 	t_agent * agents() const;
 	void agents(t_agent *);
 	void deleteAgents();
+	uint32 temps();
 // Operacions (cicle basic)
 	bool organismeExpontani();
 	bool eliminaOrganismeActiu();
@@ -106,11 +120,8 @@ public:
 	bool organismeLocalitza(uint32 parametres);
 	bool organismeLocalitzaOrganisme(uint32 parametres);
 
-	bool organismeCreua(uint32 parametres);
-	bool organismeCreaSensor(uint32 parametres);
 // Proves
 public:
-	uint32 temps();
 	static void ProvaClasse(void);
 // Implementacio
 protected:

@@ -11,9 +11,6 @@
 #include <iomanip>
 #include "BioIncludes.h"
 #include "RandomStream.h"
-#include "Color.h"
-
-using namespace AnsiCodes;
 
 template<class Cella> 
 class CTopologia  
@@ -38,15 +35,9 @@ public:
 	virtual t_posicio desplacament (t_posicio origen, t_desplacament movimentRelatiu)
 		// Retorna la posicio resultant de fer el desplacament des de l'origen
 	{
-		// TODO: Per defecte aillades o indeterministic?
+		// TODO: Per defecte aillades o indeterministic
 		return posicioAleatoria();
 //		return origen;
-	}
-	virtual t_posicio desplacamentAleatori (t_posicio origen, uint32 radi)
-		// Retorna la posicio resultant de tants desplacaments aleatoris des de l'origen com indiqui el radi
-	{
-		while (radi--) origen = desplacament (origen, rnd.get());
-		return origen;
 	}
 	virtual bool esValidaCassella(t_posicio cassella) 
 	{
@@ -69,13 +60,13 @@ public:
 	t_cella &operator [] (t_posicio index) 
 	{
 		if ((index>=m_totalCasselles)||(index<0)) {
-			error << "Accedint a una cella de la Topologia no existent" << endl;
-			cin.get();
+			error<<"Accedint a una cella del Topologia no existent"<< endl;
+			assert((index<m_totalCasselles)||(index>=0));
 		}
 		return m_casselles[index];
 	}
-	template <class t_predicat> bool explora 
-		(t_desplacament &desplacament, t_posicio origen, t_desplacament direccio, uint32 radi, t_predicat pred)
+	template <class t_predicat> t_desplacament explora 
+		(t_posicio origen, t_desplacament direccio, uint32 radi, t_predicat pred)
 	{
 		uint32 base=desplacament(origen, desplacament);
 		for (uint32 i=10; i--;) {
@@ -90,7 +81,7 @@ protected:
 // Proves
 public:
 	virtual void debugPresenta(CMissatger & stream) {
-		stream << gotoxy(2,1);
+		stream << gotoxy(1,2);
 		for (uint32 i=0;i<m_totalCasselles;i++)
 			stream << m_casselles[i]<<"#";
 		stream<<endl;
@@ -135,7 +126,6 @@ template<class Cella> CTopologia<Cella>::CTopologia(uint32 tamany)
 }
 template<class Cella> CTopologia<Cella>::~CTopologia()
 {
-	if (m_casselles) delete[] m_casselles;
 
 }
 
@@ -148,23 +138,12 @@ template<class Cella> void CTopologia<Cella>::reservaCasselles(uint32 tamany) {
 		warning << "Tornant a definir les celles de la topologia." <<endl;
 		delete[] m_casselles;
 		}
-	if (!tamany) {
-		error << "Creant un biotop sense casselles." <<endl;
-		cin.get();
-		}
-	try {
-		m_casselles = new Cella [m_totalCasselles=tamany];
-		if (!m_casselles) {
-			m_totalCasselles = 0;
-			error << "No hi ha suficient memoria per les celles de la topologia." << endl;
-			cin.get();
-			}
-		}
-	catch (...) 
+	m_casselles = new Cella [m_totalCasselles=tamany];
+	if (!m_casselles)
 	{
-		m_casselles = NULL;
+		m_casselles = NULL; // TODO: Treure aquesta perogrullada
 		m_totalCasselles = 0;
-		error << "No hi ha suficient memoria per les celles de la topologia." << endl;
+		error << "No hi ha suficient memoria per les celles de la topologia."<<endl;
 		cin.get();
 	}
 }

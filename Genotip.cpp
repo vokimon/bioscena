@@ -63,12 +63,11 @@ uint32 CGenotip::seguentInstruccio(uint32 * fenotip)
 
 bool CGenotip::init(CCariotip & car)
 {
-	for (uint32	crm=car.tamany(); crm--;) {
+	for (uint32 crm=car.tamany(); crm--;) {
 		if (!car[crm]) continue;
 		for (uint32 pos=0; pos<car[crm]->tamany();) {
 			CGen gen;
-			gen.init(*(car[crm]),pos);
-			if (gen.tamany())
+			if (gen.init(*(car[crm]),pos))
 				m_gens.push_back(gen);
 		}
 	}
@@ -100,8 +99,8 @@ void CGenotip::ProvaClasse()
 	genotip.init(cariotip); // L'omplim de la traduccio del cariotip
 	genotip.dump(out); // El mostrem
 
-	uint32 fenotip[32];
-	for (uint32 i=32; i--;) fenotip[i]=0xFFFFFFFF<<i;
+	uint32 fenotip[16];
+	for (uint32 i=16; i--;) fenotip[i]=0xFFFFFFFF<<i;
 
 	while (cin.get()!='q') {
 		uint32 instr = genotip.seguentInstruccio(fenotip);

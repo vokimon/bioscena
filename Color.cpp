@@ -25,7 +25,7 @@ namespace AnsiCodes {
 	const string clrscr ("\033[2J"); // Clear screen
 	const string clrlin ("\033[K"); // Clear line (a partir de la posicio del cursor
 
-	string gotoxy(int lin, int col) // Posicionament del cursor
+	string gotoxy(int col, int lin) // Posicionament del cursor
 	{
 		ostrstream str(myBuffer,16);
 		str << "\033[" << lin << ';' << col << 'H' << ends;

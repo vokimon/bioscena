@@ -92,20 +92,20 @@ void CComunitat::dumpEnergies(CMissatger & msg)
 	// Esborrem el fons
 	for (fil=posY; fil<posY+tope+margeInf; ++fil)
 	{
-		msg << gotoxy(fil, posX) << blanc.fons(blanc) << clrlin;
+		msg << gotoxy(posX,fil) << blanc.fons(blanc) << clrlin;
 	}
 
 	// Coloquem les guies
 	if (dominiEdat.premapeja(15)<tope) {
-		msg << gotoxy(posY+tope-dominiEdat.mapeja(15), posX) << blanc.fons(groc) << clrlin;
+		msg << gotoxy(posX, posY+tope-dominiEdat.mapeja(15)) << blanc.fons(groc) << clrlin;
 		msg << blanc.fons(blanc);
 	}
 	if (dominiEdat.premapeja(7)<tope) {
-		msg << gotoxy(posY+tope-dominiEdat.mapeja(7), posX) << blanc.fons(verd) << clrlin;
+		msg << gotoxy(posX, posY+tope-dominiEdat.mapeja(7)) << blanc.fons(verd) << clrlin;
 		msg << blanc.fons(blanc);
 	}
 	if (dominiEdat.premapeja(31)<tope) {
-		msg << gotoxy(posY+tope-dominiEdat.mapeja(31), posX) << blanc.fons(vermell) << clrlin;
+		msg << gotoxy(posX, posY+tope-dominiEdat.mapeja(31)) << blanc.fons(vermell) << clrlin;
 		msg << blanc.fons(blanc);
 	}
 
@@ -122,27 +122,27 @@ void CComunitat::dumpEnergies(CMissatger & msg)
 			uint32 energia = org->energia();
 			energia = dominiEnergia.mapeja(energia);
 			if (energia>tope)
-				msg << gotoxy(posY, col) << '?';
+				msg << gotoxy(col, posY) << '?';
 			else
-				msg << gotoxy(posY+tope-energia, col) << '*';
+				msg << gotoxy(col, posY+tope-energia) << '*';
 
 			// Posem l'edat
 			uint32 edat    = org->edat();
 			edat    = dominiEdat.mapeja(edat);
 			if (edat>tope)
-				msg << gotoxy(posY, col) << '!';
+				msg << gotoxy(col, posY) << '!';
 			else
-				msg << gotoxy(posY+tope-edat   , col) << '-';
+				msg << gotoxy(col, posY+tope-edat) << '-';
 		}
 		else {
-			msg << gotoxy(posY+tope, col) << 'X';
+			msg << gotoxy(col, posY+tope) << 'X';
 		}
 		// Numero identificador
-		msg << gotoxy(posY+tope+1, col) << (idOrg&7);
+		msg << gotoxy(col, posY+tope+1) << (idOrg&7);
 	}
 
 	// Afegim els ids dels taxons
-	msg << gotoxy(posY+tope+2, posX);
+	msg << gotoxy(posX, posY+tope+2);
 	for (idOrg=primerOrg,col=posX; col<posX+amplada && idOrg<m_organismes.size(); col++,idOrg++)
 	{
 		if ((*this)[idOrg].cos()) {

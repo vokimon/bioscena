@@ -46,11 +46,11 @@ namespace AnsiCodes {
 	extern const string clrlin; // Clear line (a partir de la posicio del cursor
 	extern const string conrep; // Imprimeix l'estat del dispositiu
 
-	string gotoxy(int lin, int col); // Posicionament del cursor
+	string gotoxy(int col, int lin); // Posicionament del cursor
 	string cursup(int lin); // Cursor Up
 	string cursdn(int lin); // Cursor Down
-	string cursfw(int lin); // Cursor Forward
-	string cursbw(int lin); // Cursor Backward
+	string cursfw(int col); // Cursor Forward
+	string cursbw(int col); // Cursor Backward
 	extern const string push_cursor; // Push Cursor Position
 	extern const string pop_cursor; // Pop Cursor Position
 	string set_mode(int mode); // Setmode

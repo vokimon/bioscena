@@ -35,7 +35,6 @@ COrganisme::COrganisme() :
 	for (int i=Config.get("Organisme/Fenotip/Longitud"); i--;)
 		rnd >> m_fenotip[i];
 	// Tot individu comenca amb 
-	m_energia.afegeix(Config.get("Organisme/Energia/Inicial"));
 	m_nutrients.clear();
 	m_edat=0;
 	m_foo=0;
@@ -180,8 +179,6 @@ bool COrganisme::catabolitza(uint32 & energia, uint32 A, uint32 toleranciaA, uin
 
 void COrganisme::engoleix(t_mollecula element)
 {
-	// TODO: Treure aixo
-	m_energia.afegeix(Config.get("Biosistema/Energia/Engolir"));
 	tracaOrganisme 
 		<<"Engolint: "
 		<< hex << setfill('0')
@@ -192,8 +189,6 @@ void COrganisme::engoleix(t_mollecula element)
 	
 bool COrganisme::excreta(t_mollecula & excreccio, uint32 patro, uint32 tolerancia)
 {
-	// TODO: Treure aixo
-	m_energia.consumeix(Config.get("Biosistema/Energia/Excretar"));
 	tracaOrganisme 
 		<<"Excretant: "<< endl
 		<< hex << setfill('0')
@@ -321,9 +316,14 @@ COrganisme::t_instruccio COrganisme::seguentInstruccio()
 //	return rnd.get();
 }
 
-bool COrganisme::consumeix(uint32 energia)
+bool COrganisme::consumeixEnergia(uint32 energia)
 {
 	return m_energia.consumeix(energia)==0;
+}
+
+void COrganisme::guanyaEnergia(uint32 energia)
+{
+	m_energia.afegeix(energia);
 }
 
 uint32 COrganisme::energia()
