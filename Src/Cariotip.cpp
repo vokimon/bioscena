@@ -104,7 +104,7 @@ bool CCariotip::init(uint32 nCromosomes)
 	return true;
 }
 
-bool CCariotip::init(CCariotip & c)
+bool CCariotip::init(const CCariotip & c)
 {
 	if (!ocupaCromosomes(c.tamany()))
 		return false;
@@ -128,6 +128,12 @@ uint32 CCariotip::cromosomaAleatori(void) const
 uint32 CCariotip::tamany() const
 {
 	return m_cromosomes.size();
+}
+
+const CCariotip::t_cromosoma & CCariotip::operator[] (uint32 n) const
+// Pre: No ha d'estar buida i n<this->tamany()
+{
+	return m_cromosomes[n];
 }
 
 CCariotip::t_cromosoma & CCariotip::operator[] (uint32 n)
