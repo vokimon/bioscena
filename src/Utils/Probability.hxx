@@ -96,7 +96,7 @@ public:
 	/// Give a chance for the probability
 	bool chance() const
 	{
-		return m_success >= rnd.get(1,m_sampleSize);
+		return m_success >= Random::Get(1,m_sampleSize);
 	};
 /// @name Compare operators
 ///@{
@@ -137,7 +137,7 @@ public:
 	/// A chance for a probability without having to create a Probability object
 	static bool Chance(uint32 success, uint32 sampleSize) 
 	{
-		return success >= rnd.get(1,sampleSize);
+		return success >= Random::Get(1,sampleSize);
 	}
 };
 

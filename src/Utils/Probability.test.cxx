@@ -9,7 +9,6 @@
 #include <cppunit/TestFixture.h>
 
 #include "Probability.hxx"
-#include <time.h>
 
 using Bioscena::Probability;
 
@@ -41,7 +40,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION(ProbabilityComparationTest);
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ProbabilityComparationTest, "ProbabilityTests");
 
 //class ProbabilityTest;
-//CPPUNIT_TEST_SUITE_REGISTRATION(ProbabilityTest);
+//PPUNIT_TEST_SUITE_REGISTRATION(ProbabilityTest);
 //CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ProbabilityTest, "ProbabilityTests");
 
 #define assertBehavesLikeStrictlyOrderedPair(lower, higher) \
@@ -184,9 +183,10 @@ protected:
 		try {
 			Probability zeroSampleSizeProbability(0,0);
 			CPPUNIT_FAIL("Setting zero sample size should throw an assertion");
-		} catch (Bioscena::ErrAssertionFailed) 
-		{
-			// TODO: Check message
+		} catch (Bioscena::ErrAssertionFailed & e) {
+			CPPUNIT_ASSERT_EQUAL(
+				std::string("Probability: Using a zero sample size"),
+				std::string(e.what()));
 		}
 	}
 
@@ -194,9 +194,10 @@ protected:
 		try {
 			Probability greaterSuccessProbability(3,2);
 			CPPUNIT_FAIL("Setting a success greater than the sample size should throw an assertion");
-		} catch (Bioscena::ErrAssertionFailed) 
-		{
-			// TODO: Check message
+		} catch (Bioscena::ErrAssertionFailed & e) {
+			CPPUNIT_ASSERT_EQUAL(
+				std::string("Probability: Success is greater than the sample size"),
+				std::string(e.what()));
 		}
 	}
 
@@ -205,8 +206,10 @@ protected:
 		try {
 			zeroSampleSizeProbability.set(0,0);
 			CPPUNIT_FAIL("Setting zero sample size should fail");
-		} catch (Bioscena::ErrAssertionFailed) {
-			// TODO: Check message
+		} catch (Bioscena::ErrAssertionFailed & e) {
+			CPPUNIT_ASSERT_EQUAL(
+				std::string("Probability: Using a zero sample size"),
+				std::string(e.what()));
 		}
 	}
 
@@ -216,17 +219,23 @@ protected:
 			greaterSuccessProbability.set(3,2);
 			CPPUNIT_FAIL(
 				"Setting a success greater than the sample size should throw an assertion");
-		} catch (Bioscena::ErrAssertionFailed) {
-			// TODO: Check message
+		} catch (Bioscena::ErrAssertionFailed & e) {
+			CPPUNIT_ASSERT_EQUAL(
+				std::string("Probability: Success is greater than the sample size"),
+				std::string(e.what()));
 		}
 	}
 
 };
 
+#ifdef NEVERDEFINED
+#include <time.h>
+#include <iostream>
+
 class ProbabilityTest : public CppUnit::TestCase {
 	typedef CppUnit::TestCase super;
 	CPPUNIT_TEST_SUITE( ProbabilityTest );
-//	CPPUNIT_TEST( testPerformance );
+	CPPUNIT_TEST( testPerformance );
 	CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -238,25 +247,25 @@ public:
 	}
 protected:
 	void testPerformance() {
-		const uint32 N = 0xfff;
+		const uint32 N = 0xff;
 		const uint32 success=3;
 		const uint32 sample=10;
-//		ostream & out = std::cout;
-//		out 
-//			<< "Performance and success ratio tendency for a " 
-//			<< success << "/" <<sample << " probability..." << std::endl;
+		std::ostream & out = std::cout;
+		if (1) out 
+			<< "Performance and success ratio tendency for a " 
+			<< success << "/" <<sample << " probability..." << std::endl;
 		{
 			uint32 encerts=0;
 			time_t t = time(NULL);
 			for (uint32 i = N; i--;) {
 				if (Probability(success,sample)()) encerts++;
 			}
-//			out << "Temporary object -"
-//				<< " Time:" << time(NULL)-t 
-//				<< " Encerts: " << encerts 
-//				<< " Mostra: " << N 
-//				<< " Ratio: " << ((double)encerts*100/N) 
-//				<< std::endl;
+			if (1) out << "Temporary object -"
+				<< " Time:" << time(NULL)-t 
+				<< " Encerts: " << encerts 
+				<< " Mostra: " << N 
+				<< " Ratio: " << ((double)encerts*100/N) 
+				<< std::endl;
 		}
 		{
 			uint32 encerts=0;
@@ -264,12 +273,12 @@ protected:
 			for (uint32 i = N; i--;) {
 				if (Probability::Chance(success,sample)) encerts++;
 			}
-//			out << "Static function -" 
-//				<< " Time:" << time(NULL)-t 
-//				<< " Encerts: " << encerts 
-//				<< " Mostra: " << N 
-//				<< " Ratio: " << ((double)encerts*100/N) 
-//				<< std::endl;
+			if (1) out << "Static function -" 
+				<< " Time:" << time(NULL)-t 
+				<< " Encerts: " << encerts 
+				<< " Mostra: " << N 
+				<< " Ratio: " << ((double)encerts*100/N) 
+				<< std::endl;
 		}
 		{
 			uint32 encerts=0;
@@ -277,12 +286,12 @@ protected:
 			for (uint32 i = N; i--;) {
 				if (Probability::Chance(3,10)) encerts++;
 			}
-//			out << "Static function inmediate -" 
-//				<< " Time:" << time(NULL)-t 
-//				<< " Encerts: " << encerts 
-//				<< " Mostra: " << N 
-//				<< " Ratio: " << ((double)encerts*100/N) 
-//				<< std::endl;
+			if (1) out << "Static function inmediate -" 
+				<< " Time:" << time(NULL)-t 
+				<< " Encerts: " << encerts 
+				<< " Mostra: " << N 
+				<< " Ratio: " << ((double)encerts*100/N) 
+				<< std::endl;
 		}
 		{
 			uint32 encerts=0;
@@ -291,15 +300,16 @@ protected:
 			for (uint32 i = N; i--;) {
 				if (p.chance()) encerts++;
 			}
-//			out << "Stack object -"
-//				<< " Time:" << time(NULL)-t 
-//				<< " Encerts: " << encerts 
-//				<< " Mostra: " << N 
-//				<< " Ratio: " << ((double)encerts*100/N) 
-//				<< std::endl;
+			if (1) out << "Stack object -"
+				<< " Time:" << time(NULL)-t 
+				<< " Encerts: " << encerts 
+				<< " Mostra: " << N 
+				<< " Ratio: " << ((double)encerts*100/N) 
+				<< std::endl;
 		}
 	}
 };
 
+#endif // NEVERDEFINED
 
 }
