@@ -138,6 +138,10 @@ SOURCE=.\GeneradorMascares.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\Itineraris.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\MainBio1.cpp
 # End Source File
 # Begin Source File
@@ -155,6 +159,14 @@ SOURCE=.\Outputer.h
 # Begin Source File
 
 SOURCE=.\Portable.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Posicionador.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Posicionador.h
 # End Source File
 # Begin Source File
 
