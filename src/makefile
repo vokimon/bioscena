@@ -18,19 +18,19 @@ CFLAGS=-Wall -pedantic -Os -march=i686# -g -fexceptions
 	# The C compiler
 CC=gcc
 	# The C++ compiler
-CPPC=g++
+CXX=g++
 	# Command used to delete files
 RM=rm
 	# The build counter program (empty if none)
 BUILDCOUNTER=./buildnum
+
+OBJDIR=../Obj/
 
 # Those variables rarely need changes (pe. When you use .cxx extension for c++)
 CPPSOURCES:= $(wildcard *.cpp)
 CSOURCES:=$(wildcard *.c)
 OBJSCPP:=$(CPPSOURCES:.cpp=.o)
 OBJSC:=$(CSOURCES:.c=.o)
-
-
 
 default: copirrait ${EXEC}
 
@@ -41,28 +41,30 @@ copirrait:
 
 dep: copirrait .depend
 	@echo --- Generant dependencies
-	$(CPPC) -MM $(CPPSOURCES) $(CSOURCES) -D_KKEP_BUSCANT_DEPENDENCIES > .depend
+	$(CXX) -MM $(CPPSOURCES) $(CSOURCES) -D_KKEP_BUSCANT_DEPENDENCIES > .depend
 
 .depend:
 	touch .depend
 
 clean: copirrait 
 	@echo --- Eliminant arxius intermedis
-	$(RM) *.o ${EXEC}
+	$(RM) $(OBJDIR)*.o ${EXEC}
 
 include .depend
 
-${EXEC}: $(OBJSCPP) $(OBJSC)
+${EXEC}: $(addprefix $(OBJDIR),$(OBJSCPP) $(OBJSC))
 	@echo --- Linkant $@
-	${CPPC} $(LDFLAGS) $(OBJSCPP) $(OBJSC) ${LDLIBS} -o ${EXEC}
+	${CXX} $(LDFLAGS) $(addprefix $(OBJDIR),$(OBJSCPP) $(OBJSC)) ${LDLIBS} -o ${EXEC}
 
-$(OBJSC) : %.o: %.c
+$(OBJDIR)%.o: %.c
 	@echo --- Compilant $<
+	@mkdir -p `dirname $@`
 	${CC} ${CFLAGS} -c $< -o $@
 
 
-$(OBJSCPP) : %.o: %.cpp
+$(OBJDIR)%.o: %.cpp
 	@echo --- Compilant $<
-	${CPPC} ${CFLAGS} -c $< -o $@
+	@mkdir -p `dirname $@`
+	${CXX} ${CFLAGS} -c $< -o $@
 
 
