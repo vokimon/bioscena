@@ -3,23 +3,89 @@
 %
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Estructura dels organismes}
+\section{Serveis que donen al biosistema els organismes}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+De cara a poder manegar
+\begin{itemize}
+\item
+L'organisme ha d'anar proveint al biosistema de instruccions que
+l'indiquin les seves accions. Com es generen les instruccions és
+qüestió dels propis individuus.
+\item
+L'organisme proveeix al biosistema un conjunt de registres que formen
+el seu fenotip. El biosistema pot modificar-los i consultar-los.
+L'accés al fenotip no és exclusiu del biosistema sinó que el propi
+organisme i les seves estructures internes també poden accedir-hi
+paral·lelament.
+\item
+L'organisme ha d'implementar unes funcions vitals que modifiquin
+l'estat intern de l'organisme als que no tingui accés el biosistema
+per altres vies. Això no inclou, per exemple, canvis de posició.
+El biosistema ha de proporcionar tots els paràmetres
+de les funcions vitals que no siguin interns que ell coneixi: el
+fenotip del propi organisme o un d'aliè.
+\item
+També han d'implementar operadors per tal de crear nous organismes a
+partir d'altres i organismes aleatoris.
+
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Estructura interna dels organismes}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{El cariotip}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Definim el cariotip com el conjunt de cromosomes que conté un
+organisme, doncs en el present cas es consideren organismes
+unicel·lulars.
+
+Cada cromosoma està format per una seqüència de bases representada
+cadascuna amb un sencer.
+
+Cariotip->Cromosoma->Base->Codo->
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{El genotip}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+El genotip és la traducció del cariotip a elements significatius.
+És el conjunt de gens que s'interpreten
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{El fenotip}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+El que anomenem propiament fenotip és un conjunt de 32 registres de
+32 bits que té cada organisme. Representen el cos físic de l'organisme.
+El fenotip es modifica per acció directa del genotip, però també
+es veu afectat pel medi mitjançant els sensors i, al mateix temps
+afecta al medi mitjançant els motors. A més, és un dels dos mitjans
+que tènen els organismes per reconeixer-se juntament amb la detecció
+de mol·lècules excretades.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Sensors i motors}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Presa}
+\subsection{Presa de nutrients}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Metabolisme}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Un cop els nutrients estan dins de l'organisme, pot metabolitzar-los, 
+Un cop els nutrients estan dins de l'organisme, pot metabolitzar-los,
 ja sigui per obtindre energia, per obtindre un producte d'excreció o
 totes dues coses.
 
-L'organisme pot fer ús de l'energia que s'obte de les reaccions 
-durant un temps limitat, si no es consumeix dintre d'aquest temps, 
+L'organisme pot fer ús de l'energia que s'obte de les reaccions
+durant un temps limitat, si no es consumeix dintre d'aquest temps,
 aquesta es disipa.
 
 
@@ -28,7 +94,5 @@ Es preten que les diferents circumstàncies permetin que hi hagi un
 equilibri
 
 Pot ser, una espècie tendeix a acomular masses nutrients.
-Si això passes, els seus depredadors tenderien a augmentar en 
+Si això passes, els seus depredadors tenderien a augmentar en
 nombre d'organismes i en nombre d'espècies.
-
-

@@ -25,14 +25,33 @@ Coneixements tecnològics
 	Tècniques avançades de disseny orientat a objectes
 	...
 Disseny de l'aplicació
-	Visio general de l'esquema
-	Funció de compatibilitat entre claus
+	Esquema general de l'aplicació
+	Eines
+		Portabilitat de l'entrada/sortida
+		Random Stream
+		Funció de compatibilitat entre claus
+		Llista estàtica
+		Configuradors		
 	El Biotop
-	El Cariotip
-	El Processador
+		Topologia
+		Substrat
+		Serialització/Deserialització del Biòtop
+	Els Agents
+		Trets generals
+			Alternatives prèvies
+		Subordinadors
+		Posicionadors
+		Direccionadors
+		Actuadors
+	Fitxer de configuració dels agents
+		Trets	
+		Definició dels noms i els tipus
+		
+	Els Organismes
+	El Biosistema
 	Els Opcodes
 	Fluxe d'energia
-	Mecanismes de extraccio d'informacio
+	Mecanismes d'anàlisi
 	Interfície amb l'usuari
 	Utilitats complementaries
 Manual d'usuari
