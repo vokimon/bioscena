@@ -103,7 +103,7 @@ void CComparativaOrganismes::visualitza(CMissatger & msg)
 	// Esborrem el fons
 	for (fil=m_posY; fil<m_posY+m_tope+m_margeInf; ++fil)
 	{
-		msg << gotoxy(fil, m_posX) << blanc.fons(blanc) << clrlin;
+		msg << gotoxy(m_posX, fil) << blanc.fons(blanc) << clrlin;
 	}
 
 	if (!m_comunitat)
@@ -112,15 +112,15 @@ void CComparativaOrganismes::visualitza(CMissatger & msg)
 
 	// Coloquem les guies
 	if (m_dominiEdat.premapeja(0xFF)<m_tope) {
-		msg << gotoxy(m_posY+m_tope-m_dominiEdat.mapeja(0xFF), m_posX) << blanc.fons(verd) << clrlin;
+		msg << gotoxy(m_posX, m_posY+m_tope-m_dominiEdat.mapeja(0xFF)) << blanc.fons(verd) << clrlin;
 		msg << blanc.fons(blanc);
 	}
 	if (m_dominiEdat.premapeja(0xFFFF)<m_tope) {
-		msg << gotoxy(m_posY+m_tope-m_dominiEdat.mapeja(0xFFFF), m_posX) << blanc.fons(groc) << clrlin;
+		msg << gotoxy(m_posX, m_posY+m_tope-m_dominiEdat.mapeja(0xFFFF)) << blanc.fons(groc) << clrlin;
 		msg << blanc.fons(blanc);
 	}
 	if (m_dominiEdat.premapeja(0xFFFFFFFF)<m_tope) {
-		msg << gotoxy(m_posY+m_tope-m_dominiEdat.mapeja(0xFFFFFFFF), m_posX) << blanc.fons(vermell) << clrlin;
+		msg << gotoxy(m_posX, m_posY+m_tope-m_dominiEdat.mapeja(0xFFFFFFFF)) << blanc.fons(vermell) << clrlin;
 		msg << blanc.fons(blanc);
 	}
 
@@ -139,24 +139,24 @@ void CComparativaOrganismes::visualitza(CMissatger & msg)
 			uint32 energia = org->energia();
 			energia = m_dominiEnergia.mapeja(energia);
 			if (energia>m_tope)
-				msg << gotoxy(m_posY, col) << '?';
+				msg << gotoxy(col, m_posY) << '?';
 			else
-				msg << gotoxy(m_posY+m_tope-energia, col) << '*';
+				msg << gotoxy(col, m_posY+m_tope-energia) << '*';
 
 			// Posem l'edat
 			uint32 edat    = org->edat();
 			edat    = m_dominiEdat.mapeja(edat);
 			if (edat>m_tope)
-				msg << gotoxy(m_posY, col) << '!';
+				msg << gotoxy(col, m_posY) << '!';
 			else
-				msg << gotoxy(m_posY+m_tope-edat   , col) << '-';
+				msg << gotoxy(col, m_posY+m_tope-edat) << '-';
 		}
 		else {
-			msg << gotoxy(m_posY+m_tope, col) << 'X';
+			msg << gotoxy(col, m_posY+m_tope) << 'X';
 		}
 	}
 
-	msg << gotoxy(m_posY+m_tope+1, m_posX);
+	msg << gotoxy(m_posX, m_posY+m_tope+1);
 	colorOrg=(m_primerOrg>>3)&7;
 	if (m_primerOrg&7)
 		msg << CColor((colorOrg++)&7).brillant();
@@ -169,7 +169,7 @@ void CComparativaOrganismes::visualitza(CMissatger & msg)
 	}
 
 	// Afegim els ids dels taxons
-	msg << gotoxy(m_posY+m_tope+2, m_posX);
+	msg << gotoxy(m_posX, m_posY+m_tope+2);
 	for (idOrg=m_primerOrg,col=m_posX; col<m_posX+m_amplada && idOrg<comunitat.m_organismes.size(); col++,idOrg++)
 	{
 		if (comunitat[idOrg].cos()) {
@@ -229,7 +229,7 @@ void CGraficaEvolutiva::visualitza(CMissatger & msg)
 	// Esborrem el fons
 	for (fil=m_posY; fil<m_posY+m_tope+m_margeInf; ++fil)
 	{
-		msg << gotoxy(fil, m_posX) << blanc.fons(blanc) << clrlin;
+		msg << gotoxy(m_posX, fil) << blanc.fons(blanc) << clrlin;
 	}
 
 	if (!m_biosistema)
@@ -241,15 +241,15 @@ void CGraficaEvolutiva::visualitza(CMissatger & msg)
 
 	// Coloquem les guies
 	if (domini.premapeja(15)<m_tope) {
-		msg << gotoxy(m_posY+m_tope-domini.mapeja(15), m_posX) << blanc.fons(groc) << clrlin;
+		msg << gotoxy(m_posX, m_posY+m_tope-domini.mapeja(15)) << blanc.fons(groc) << clrlin;
 		msg << blanc.fons(blanc);
 	}
 	if (domini.premapeja(7)<m_tope) {
-		msg << gotoxy(m_posY+m_tope-domini.mapeja(7), m_posX) << blanc.fons(verd) << clrlin;
+		msg << gotoxy(m_posX, m_posY+m_tope-domini.mapeja(7)) << blanc.fons(groc) << clrlin;
 		msg << blanc.fons(blanc);
 	}
 	if (domini.premapeja(31)<m_tope) {
-		msg << gotoxy(m_posY+m_tope-domini.mapeja(31), m_posX) << blanc.fons(vermell) << clrlin;
+		msg << gotoxy(m_posX, m_posY+m_tope-domini.mapeja(31)) << blanc.fons(groc) << clrlin;
 		msg << blanc.fons(blanc);
 	}
 
@@ -268,9 +268,9 @@ void CGraficaEvolutiva::visualitza(CMissatger & msg)
 		uint32 valor = domini[time];
 		valor = dominiEnergia.mapeja(valor);
 		if (valor>m_tope)
-			msg << gotoxy(m_posY, col) << '?';
+			msg << gotoxy(col, m_posY) << '?';
 		else
-			msg << gotoxy(m_posY+m_tope-valor, col) << '*';
+			msg << gotoxy(col, m_posY+m_tope-valor) << '*';
 	}
 	// Restaurem els colors
 	msg << blanc.fosc();
@@ -386,7 +386,7 @@ void CMapa::visualitza(CMissatger & msg)
 		// Ens posicionem al inici de la linia
 		msg << blanc.fosc().fons(negre);
 //		msg << negre.fosc();
-		msg << gotoxy(posY, m_posX); 
+		msg << gotoxy(m_posX, posY); 
 		uint32 cella=cellaIniciLinia;
 		for (uint32 col=m_amplada; col--;) {
 			if (cella>=m_totalCelles) cella=0;

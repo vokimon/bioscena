@@ -11,6 +11,7 @@
 // 19991202 VoK - Fix: Mecanismes de traduccio
 // 19991202 VoK - Mascares per Promotors i Introns configurables
 // 19991202 VoK - Implementats els Terminadors
+// 19991212 VoK - Canvi condicioOperadora: Fenotips 32 -> 16 bits
 //////////////////////////////////////////////////////////////////////
 
 #if !defined(__KKEP_GEN_H_INCLUDED)
@@ -50,6 +51,7 @@ public:
 	t_instruccio traduccio(uint32 codo);
 	bool esOperadora();
 	uint32 tamany();
+	bool condicioOperadora(uint32 * fenotip);
 	void dump(CMissatger & msg);
 // Atributs
 public:
@@ -57,7 +59,6 @@ public:
 	uint32 m_ip;
 // Proves
 public:
-	bool condicioOperadora(uint32 * fenotip);
 	static void ProvaClasse(void);
 };
 

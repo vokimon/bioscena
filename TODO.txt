@@ -6,32 +6,32 @@ APLICACIONS EXTERNES:
 
 CONFIGURACIO:
 	Opcions de linia comandes per posar traces dels fitxers de configuracio.
-	Comanda per recarregar els arxius de configuracio
 	Considerar l'us de diversos objectes configuradors
 	Considerar on cal consultar cada parametre de la configuracio 
 		(Optimitzar + Consistencia en recarregues)
 
 EXECUCIO D'INSTRUCCIONS:
-	Operacions per sentir presencia
+	Millorar operacions per sentir presencia
 	Operacions per sentir estat intern
 	Complicar les logiques de moviment, atac
 	Instruccions per modificar claus internes
 	Afegir metabolisme (transformacio dels principis inmediats) (Ubicacio Biosistema)
-	Treure tots els canvis d'energia de l'organisme al Biosistema
 
 OPCODES:
 	Considerar fer configurable els parametres de les instruccions
 	Cal fer alguna comprovacio extra del fitxer de configuracio dels opcodes
 	Que no s'esborrin els opcodes vells fins que no s'hagin llegit correctament els nous
+	Comprovar que passa amb els opcodes i MSVC
 
 ORGANISMES:
 	Considerar una forma empaquetada de enmagatzemar els cariotips primigenis
 	Aillar la signatura general de qualsevol organimse a COrganismeBasic
 	Fer de COrganismeBasic una classe factoria
 	Inicialitzar el fenotip d'una altra manera mes rica potser
+	Considerar nomes fer 16 registres de fenotip
 
 CONTROL (CARIOTIP/GENOTIP):
-	Donar-li mes cos a la traduccio i a l'expressio!!!
+	Donar-li mes cos a les zones operadores
 	Considerar quines de Gen Cromosoma Cariotip Genotip cal posar com a base virtual
 	Control genetic sobre les mutacions
 	Fer que l'escisio centrica esborri els escisionats
@@ -42,15 +42,24 @@ GENERICS:
 	Sistema de Logging/Analisis
 	Alliberar un xic del vector de comunitat (taxo?) quan hi hagi molt de lliure
 	Unificar la forma de fer les traces per moduls
+	Format de gravacio del biosistema.
 
-GRAFICS I VISTES
-	Fer mes prima l'escala logaritmica
-	Fer programable el que visualitzen les comparatives d'organismes
-	Fer programable el que visualitzen els mapes
-	Muntar un conjunt de visualitzadors des d'un fitxer
-	Implementar Grafic Evolutiu/Temporal
-	Implementar Comparativa Taxons
-	Intentar generalitzar per un model OpenGL
+AGENTS EXTERNS:
+	Agent mutagen
+	Agent biogenerador
+	Agent direccionador sequencial 
+	Agent posicionador sequencial
+	Comprovar l'estructura d'arbre d'un fitxer i recuperar-se
+	Definir un KindOf
+	Verificar els tipus requerits de les dependencies
+	Diccionari global de noms
+	Solucionar els conflictes si els noms per defecte estan agafats
+	Solucionar els conflictes si els noms finals estan agafats
+	Guardar-se el pare en l'estructura
+	Funcio de validacio de l'invariant
+	Guardar el contingut dels comentaris dels fitxers de configuracio
+	Permetre comentaris en altres llocs
+	Definir be i fer servir CDistribucioNormal o com li vulguis dir (daus)
 
 ANALISIS:
 	TOT!!!
@@ -59,18 +68,15 @@ ANALISIS:
 	Determinar les dades que guardem de cada poblacio i com ho fem
 	Determinar com manegar l'historic de les poblacions
 
-AGENTS EXTERNS:
-	Direccionador i Posicionador sequencials
-	Agent extern injector d'organismes segons un posicionador
-	Comprovar l'estructura d'arbre d'un fitxer i recuperar-se
-	Definir un KindOf
-	Verificar els tipus requerits a les dependencies
-	Solucionar els conflictes si els noms per defecte estan agafats
-	Guardar-se el pare en l'estructura
-	Funcio de validacio de l'invariant
-	Guardar el contingut dels comentaris dels fitxers de configuracio
-	Permetre comentaris en altres llocs
-	Definir be i fer servir CDistribucioNormal o com li vulguis dir (daus)
+GRAFICS I VISTES
+	Fer mes prima l'escala logaritmica
+	Fer programable el que visualitzen les comparatives d'organismes
+	Fer programable el que visualitzen els mapes
+	Protegir visualitzacio interna organisme si es fora de domini del vector comunitat
+	Muntar un conjunt de visualitzadors des d'un fitxer
+	Implementar Grafic Evolutiu/Temporal
+	Implementar Comparativa Taxons
+	Intentar generalitzar per un model OpenGL
 
 MISSATGERS:
 	Testejar el COutputer per a CEdits de MFC's
@@ -84,3 +90,4 @@ ALTERNATIVES:
 	Considerar si fer alimentació autòtrofa
 	Considerar si fer una funcio de desplacament fisic 
 		(cada desplacament intermig ha de ser possible)
+

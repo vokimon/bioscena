@@ -8,7 +8,7 @@
 #include "Outputer.h"
 #include "Color.h"
 
-static unsigned int col=30, fil=2;
+static unsigned int col=20, fil=2;
 
 /////////////////////////////////////////////////////////////////////
 // CMemoryOutputer
@@ -23,12 +23,12 @@ void CMemoryOutputer::print(char *msg, char *caption) {
 	m_stream << push_cursor << blanc.fosc();
 	int cont=fil;
 	if (caption) {
-		m_stream << gotoxy(++cont,col) << clrlin;
+		m_stream << gotoxy(col,++cont) << clrlin;
 		m_stream << caption << ": " << endl;
 	}
 	for (deque<string>::iterator it=m_llista.begin(); it!=m_llista.end(); it++)
 	{
-		m_stream << gotoxy(++cont,col) << clrlin << *it << endl; 
+		m_stream << gotoxy(col,++cont) << clrlin << *it << endl; 
 	}
 	m_stream << pop_cursor;
 //	m_stream.flush();
