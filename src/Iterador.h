@@ -1,6 +1,11 @@
 // Iterador.h: interface for the CIterador class.
 //
 //////////////////////////////////////////////////////////////////////
+// Change Log:
+// 19990822 VoK - Creat
+// 19990822 VoK - Funcions de dump
+// 19990823 VoK - Reordenat els fitxers i netejades les proves
+//////////////////////////////////////////////////////////////////////
 
 #if !defined(__KKEP_ITERADOR_H_INCLUDED)
 #define __KKEP_ITERADOR_H_INCLUDED
@@ -9,22 +14,39 @@
 
 class CIterador : public CMultiAgent  
 {
-// Operacions
-public:
-	void iteracions(uint32 iteracions, uint32 magDaus=0, uint32 nDaus=0);
-// Virtuals redefinibles a les subclasses
-public:
-	virtual void operator() (void);
+// Tipus Propis
+	typedef CAgent t_accio;
+//	typedef void (t_accio)(); // Aixo es per fer proves nomes
+
 // Construccio/Destruccio
 public:
 	CIterador();
 	virtual ~CIterador();
+// Virtuals redefinibles a les subclasses
+public:
+	virtual void operator() (void);
+	virtual void dump(CMissatger & msg);
+	virtual list<CAgent*> subordinats (void);
+// Operacions
+public:
+	void iteracions(uint32 iteracions, uint32 magDaus=0, uint32 nDaus=0);
+protected:
+	// No fixat al protocol, son aqui per debug
+	void preAccio(t_accio * a);
+	void postAccio(t_accio * a);
 // Atributs
 public:
-	void dump(CMissatger &msg);
 	uint32 m_iteracionsMinimes;
 	uint32 m_nombreDaus;
 	uint32 m_magnitudDau;
+	uint32 m_accionats;
+protected:
+	// No fixat al protocol, son aqui per debug
+	t_accio * m_preAccio;
+	t_accio * m_postAccio;
+// Proves
+public:
+	static void ProvaClasse();
 };
 
 #endif // !defined(__KKEP_ITERADOR_H_INCLUDED)

@@ -1,6 +1,13 @@
 // MultiAgent.h: interface for the CMultiAgent class.
 //
 //////////////////////////////////////////////////////////////////////
+// Change Log:
+// 19990814 VoK - Creat
+// 19990818 VoK - Afegides funcions per recolectar subordinats
+// 19990822 VoK - Funcions de dump
+// 19990823 VoK - Reordenat els fitxers
+// 19990823 VoK - Membre 'desubordina' per treure subordinats
+//////////////////////////////////////////////////////////////////////
 
 #if !defined(__KKEP_MULTIAGENT_H_INCLUDED)
 #define __KKEP_MULTIAGENT_H_INCLUDED
@@ -12,43 +19,30 @@ using namespace std;
 
 class CMultiAgent : public CAgent
 {
+// Tipus Propis
+	typedef CAgent t_accio;
+//	typedef void (t_accio)(); // Aixo es per fer proves nomes
+	typedef list<t_accio *> t_accions;
+
 // Construccio/Destruccio
 public:
-	CMultiAgent()
-	{
-		m_tipus+="/Multiple";
-	};
-	virtual ~CMultiAgent()
-	{
-		while (!m_agents.empty()) {
-			delete (*(m_agents.begin()));
-			m_agents.pop_front();
-		}
-	};
+	CMultiAgent();
+	virtual ~CMultiAgent();
+// Virtuals redefinibles a les subclasses
+public:
+	virtual void operator() (void);
+	virtual void dump(CMissatger & msg);
+	virtual list<CAgent*> subordinats (void);
 // Operacions
 public:
-	void accio(CAgent * ag) {m_agents.push_back(ag);}
-// Funcions virtuals definides a les subclasses
-public:
-	virtual list<CAgent*> subordinats() {
-		list<CAgent*> l=CAgent::subordinats();
-		for (list<CAgent*>::iterator it=m_agents.begin(); it!=m_agents.end(); it++)
-			l.push_back(*it);
-		return l;
-	};
-	virtual void operator() (void){
-		for (list<CAgent*>::iterator it=m_agents.begin(); it!=m_agents.end(); it++)
-			(**it)();
-	};
+	void accio(t_accio * ag);
 // Atributs
 public:
-	list<CAgent *> m_agents;
+	list<t_accio *> m_agents;
 // Proves
 public:
-	void dump (CMissatger & msg);
+	bool desubordina(CAgent * ag);
 	static void ProvaClasse();
-// Implementacio
-private:
 };
 
 #endif // !defined(__KKEP_MULTIAGENT_H_INCLUDED)

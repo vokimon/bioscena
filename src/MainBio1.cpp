@@ -12,12 +12,15 @@
 
 #include "TopologiaToroidal.h"
 #include "Substrat.h"
+
 #include "Agent.h"
 #include "Itineraris.h"
 #include "Actuadors.h"
-#include "Temporitzador.h"
 #include "MultiAgent.h"
+#include "Temporitzador.h"
 #include "Aleaturitzador.h"
+#include "Iterador.h"
+#include "ParserAgents.h"
 
 #include "Taxo.h"
 #include "Taxonomista.h"
@@ -50,16 +53,18 @@ void main ()
 //	CSubstrat::ProvaClasse(); //
 //	CTopologiaToroidal<CSubstrat>::ProvaClasse(); //OK
 
-// Proves Agents diversos
+// Proves Agents
 //	CFuncioAgent::ProvaClasse(); //OK
-//	CAleaturitzador::ProvaClasse(); //Ok
 //	CTemporitzador::ProvaClasse(); //OK
-//	CNutridor::ProvaClasse();//OK
-//	CDesnutridor::ProvaClasse();//Ok
+//	CAleaturitzador::ProvaClasse(); //Ok
+//	CIterador::ProvaClasse(); //Ok
+//	CNutridor::ProvaClasse(); //OK
+//	CDesnutridor::ProvaClasse(); //OK
 //	CPosicionadorAleatori::ProvaClasse(); //OK
-	CDireccionadorAleatori::ProvaClasse(); //OK
+//	CDireccionadorAleatori::ProvaClasse(); //OK
 //	CPosicionadorZonal::ProvaClasse(); //OK
-//	CMultiAgent::ProvaClasse(); //Ok
+	CMultiAgent::ProvaClasse(); //OK
+	CParserAgents::ProvaClasse();
 
 // Proves Comunitat
 //	CEnergiaDisipable::ProvaClasse();
@@ -70,7 +75,6 @@ void main ()
 //	CComunitat::ProvaClasse();
 //	CBiosistema::ProvaClasse();
 
-//	cout << ">> Final de proves. Pulsa una tecla...";
-//	char a;
-//	cin >> a;
+//	cout << ">> Final de proves. Pulsa la tecla de retorn...";
+//	cin.get();
 }

@@ -3,7 +3,7 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "Aleaturitzador.h"
-#include "Missatger.h"
+#include "Color.h"
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -11,11 +11,11 @@
 
 CAleaturitzador::CAleaturitzador()
 {
+	m_tipus+="/Aleaturitzador";
 	m_probabilitat.m_encerts=1;
 	m_probabilitat.m_mostra=1;
 	m_reAccio = NULL;
 	m_accionat = false;
-	m_tipus+="/Aleaturitzador";
 }
 
 CAleaturitzador::~CAleaturitzador()
@@ -24,35 +24,8 @@ CAleaturitzador::~CAleaturitzador()
 }
 
 //////////////////////////////////////////////////////////////////////
-// Operacions
+// Virtuals redefinibles a les subclasses
 //////////////////////////////////////////////////////////////////////
-
-
-void CAleaturitzador::probabilitat(uint32 mostra, uint32 encerts)
-{
-	m_probabilitat.m_mostra=mostra;
-	m_probabilitat.m_encerts=encerts;
-}
-
-void CAleaturitzador::reAccio(t_accio * a)
-{
-	m_reAccio=a;
-}
-
-list<CAgent*> CAleaturitzador::subordinats() {
-	list<CAgent*> l=CMultiAgent::subordinats();
-	if (m_reAccio) l.push_back(m_reAccio);
-	return l;
-}
-
-void CAleaturitzador::dump(CMissatger & msg)
-{
-	CAgent::dump(msg);
-	msg << "\tProbabilitat(" 
-		<< m_probabilitat.m_encerts << " de "
-		<< m_probabilitat.m_mostra << ")" << endl;
-	if (m_reAccio) msg << "\tReAccio(" << m_reAccio->nom() << ")" << endl; 
-}
 
 void CAleaturitzador::operator()(void)
 {
@@ -67,15 +40,49 @@ void CAleaturitzador::operator()(void)
 		(*m_reAccio)();
 }
 
+void CAleaturitzador::dump(CMissatger & msg)
+{
+	CMultiAgent::dump(msg);
+	msg << "- Probabilitat: " 
+		<< m_probabilitat.m_encerts << " de "
+		<< m_probabilitat.m_mostra << endl;
+	if (m_reAccio) msg << "- ReAccio: " << m_reAccio->nom() << endl; 
+}
+
+list<CAgent*> CAleaturitzador::subordinats() {
+	list<CAgent*> l=CMultiAgent::subordinats();
+	if (m_reAccio) l.push_back(m_reAccio);
+	return l;
+}
+
+//////////////////////////////////////////////////////////////////////
+// Operacions
+//////////////////////////////////////////////////////////////////////
+
+void CAleaturitzador::probabilitat(uint32 mostra, uint32 encerts)
+{
+	m_probabilitat.m_mostra=mostra;
+	m_probabilitat.m_encerts=encerts;
+}
+
+void CAleaturitzador::reAccio(t_accio * a)
+{
+	m_reAccio=a;
+	if (a&&!a->subordinant(this))
+		warning << "Subordinant l'agent '" << a->nom() << "' a un segon subordinant" << endl;
+}
+
 //////////////////////////////////////////////////////////////////////
 // Proves
 //////////////////////////////////////////////////////////////////////
 
-static void Ko () {out << "K";}
+static void Ko () {out << "-";}
 static void Ok () {out << "O";}
 
 void CAleaturitzador::ProvaClasse()
 {
+	out << "\033[J";// Un clrscr xapuser pero standard (ANSI)
+	out << blanc.brillant() << "Provant Agent Aleaturitzador" << blanc.fosc() << endl;
 	int exits=0;
 	int intents=0;
 	CAleaturitzador aleaturitzador;
@@ -91,6 +98,8 @@ void CAleaturitzador::ProvaClasse()
 			exits++;
 	}
 	out << endl << "S'han executat " << exits << " de " << intents << endl;
+	aleaturitzador.dumpAll(out);
+	cin.get();
 }
 
 

@@ -10,18 +10,22 @@
 
 class CActuador : public CAgent  
 {
+// Tipus Propis
+	typedef CAgent super;
 // Construccio/Destruccio
 public:
 	CActuador();
 	virtual ~CActuador();
+// Virtuals redefinibles a les subclasses
+public:
+	virtual void operator() (void);
+	virtual void operator() (CSubstrat & s)=0;
+	virtual void dump(CMissatger & msg);
+	virtual list<CAgent*> dependencies();
 // Operacions
 public:
 	void posicionador (CPosicionador* pos);
 	CPosicionador* posicionador ();
-// Redefinibles per les subclasses
-public:
-	virtual void operator() (void);
-	virtual void operator() (CSubstrat & s)=0;
 // Atributs
 public:
 	CPosicionador * m_posicionador;
