@@ -5,6 +5,10 @@
 #include <fstream>
 #include "Biotop.h"
 #include "Substrat.h"
+
+using namespace Bioscena;
+using namespace AnsiCodes;
+
 // Donat que es un template tota la implementacio ha de anar a la 
 // capcelera (Es necessari per la majoria de compiladors
 
@@ -29,7 +33,7 @@ template <> void CBiotop<CSubstrat>::ProvaClasse(void)
 		t_displacement direccio;
 		rnd >> direccio;
 		for (i=6;i--;) cuc[i+1]=cuc[i];
-		cuc[0]=topologia.desplacament(cuc[0],direccio);
+		cuc[0]=topologia.displace(cuc[0],direccio);
 		if (cuc[0]==cuc[6]) cuc[0]=topologia.posicioAleatoria();
 		out << blanc.fosc() << "Celles" << setfill(' ');
 		for (i=7;i--;) out << setw(5) << cuc[i] << " - ";
