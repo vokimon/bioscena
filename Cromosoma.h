@@ -23,6 +23,8 @@ public:
 // Redefinibles
 public:
 	virtual void dump(CMissatger & msg);
+	virtual istream & load(istream & str);
+	virtual ostream & store(ostream & str);
 // Operacions
 public:
 	bool init(CCromosoma & c);

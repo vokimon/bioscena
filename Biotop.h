@@ -1,12 +1,11 @@
-// Topologia.h: interface for the CTopologia class.
+// Biotop.h: interface for the CBiotop class.
 //
 //////////////////////////////////////////////////////////////////////
 // Change Log
-// 19990722 VoK - Fa servir templates per a les cel·les
-// 19990723 VoK - Rebautizat: BiotopToroidal -> TopologiaToroidal
+// 20000218 VoK - Creat
 
-#if !defined(__KKEP_TOPOLOGIA_H_INCLUDED)
-#define __KKEP_TOPOLOGIA_H_INCLUDED
+#if !defined(__KKEP_BIOTOP_H_INCLUDED)
+#define __KKEP_BIOTOP_H_INCLUDED
 
 #include <iomanip>
 #include "BioIncludes.h"
@@ -16,59 +15,61 @@
 using namespace AnsiCodes;
 
 template<class Cella> 
-class CTopologia  
+class CBiotop: public CTopologia  
 {
 // Tipus propis
 public:
-	typedef uint32 t_posicio;
-	typedef uint32 t_desplacament;
+//	typedef uint32 t_posicio;
+//	typedef uint32 t_desplacament;
 	typedef Cella t_cella;
 // Atributs
 protected:
 	uint32 m_totalCasselles;
 	Cella *m_casselles;
+	CTopologia * m_topologia;
 // Construccio/Destruccio
 public:
-	CTopologia();
-	CTopologia(uint32 tamany);
-	virtual ~CTopologia();
+	CBiotop(CTopologia * topologia);
+	virtual ~CBiotop();
 
 // Redefinibles
 public:
 	virtual t_posicio desplacament (t_posicio origen, t_desplacament movimentRelatiu)
-		// Retorna la posicio resultant de fer el desplacament des de l'origen
+	// Retorna la posicio resultant de fer el desplacament des de l'origen
 	{
-		// TODO: Per defecte aillades o indeterministic?
-		return posicioAleatoria();
-//		return origen;
+		return m_topologia->desplacament(origen, movimentRelatiu);
 	}
 	virtual t_posicio desplacamentAleatori (t_posicio origen, uint32 radi)
-		// Retorna la posicio resultant de tants desplacaments aleatoris des de l'origen com indiqui el radi
+	// Retorna la posicio resultant de tants desplacaments aleatoris des de l'origen com indiqui el radi
 	{
-		while (radi--) origen = desplacament (origen, rnd.get());
-		return origen;
+		return m_topologia->desplacamentAleatori(origen, radi);
 	}
 	virtual bool esValidaCassella(t_posicio cassella) 
+	// Indica si la posicio es valida
 	{
-		return (cassella<m_totalCasselles)&&(cassella>=0);
+		return m_topologia->esValidaCassella(cassella);
 	}
 	virtual bool unio (t_posicio posOrigen, t_posicio posDesti, t_desplacament & desp)
-		// Retorna cert si es posible unir-les amb un sol desplacament, a desp hi es
-		// el desplacament per unir-les o apropar-les
+	// Retorna cert si es posible unir-les amb un sol desplacament, a desp hi es
+	// el desplacament per unir-les o apropar-les
 	{
-		rnd >> desp;
-		return false;
+		return m_topologia->unio(posOrigen, posDesti, desp);
 	}
 	virtual t_posicio posicioAleatoria() 
+	// Retorna una posicio aleatoria
 	{
-		CRandomStream rnd;
-		return rnd.get(0,m_totalCasselles-1);
+		return m_topologia->posicioAleatoria();
+	}
+	virtual uint32 tamany() 
+	// Retorna el nombre de casselles de la topologia
+	{
+		return m_topologia->tamany();
 	}
 // Operacions
 public:
 	t_cella &operator [] (t_posicio index) 
 	{
-		if ((index>=m_totalCasselles)||(index<0)) {
+		if ((index>=tamany())||(index<0)) {
 			error << "Accedint a una cella de la Topologia no existent" << endl;
 			cin.get();
 		}
@@ -112,16 +113,13 @@ public:
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-template<class Cella> CTopologia<Cella>::CTopologia()
+template<class Cella> CBiotop<Cella>::CBiotop(CTopologia * topologia)
 {
 	m_casselles=NULL;
 	m_totalCasselles=0;
-}
-template<class Cella> CTopologia<Cella>::CTopologia(uint32 tamany)
-{
-	m_casselles=NULL;
-	m_totalCasselles=0;
-	reservaCasselles(tamany);
+	m_topologia=topologia;
+	
+	reservaCasselles(m_topologia->tamany());
 }
 template<class Cella> CTopologia<Cella>::~CTopologia()
 {
@@ -133,7 +131,7 @@ template<class Cella> CTopologia<Cella>::~CTopologia()
 // Implementacio
 //////////////////////////////////////////////////////////////////////
 
-template<class Cella> void CTopologia<Cella>::reservaCasselles(uint32 tamany) {
+template<class Cella> void CBiotop<Cella>::reservaCasselles(uint32 tamany) {
 	if (m_casselles) {
 		warning << "Tornant a definir les celles de la topologia." <<endl;
 		delete[] m_casselles;
@@ -142,22 +140,12 @@ template<class Cella> void CTopologia<Cella>::reservaCasselles(uint32 tamany) {
 		error << "Creant un biotop sense casselles." <<endl;
 		cin.get();
 		}
-	try {
-		m_casselles = new Cella [m_totalCasselles=tamany];
-		if (!m_casselles) {
-			m_totalCasselles = 0;
-			error << "No hi ha suficient memoria per les celles de la topologia." << endl;
-			cin.get();
-			}
-		}
-	catch (...) 
-	{
-		m_casselles = NULL;
+	m_casselles = new Cella [m_totalCasselles=tamany];
+	if (!m_casselles) {
 		m_totalCasselles = 0;
 		error << "No hi ha suficient memoria per les celles de la topologia." << endl;
 		cin.get();
-	}
+		}
 }
 
-
-#endif // !defined(__KKEP_TOPOLOGIA_H_INCLUDED)
+#endif // !defined(__KKEP_BIOTOP_H_INCLUDED)

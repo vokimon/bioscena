@@ -1,6 +1,22 @@
 // Grafic.cpp: implementation of the CGrafic class.
 //
 //////////////////////////////////////////////////////////////////////
+// Change Log:
+// 19991107 VoK - Creat de l'unio d'algunes funcions de visualitzacio
+// 19991107 VoK - Doble constructor de DominiGrafic
+// 19991117 VoK - Diferenciem CGrafic de CComparativaOrganismes
+// 19991118 VoK - Mapa es un nou objete Grafic
+// 19991118 VoK - Mapa: Tamanys de mapa i topologia independents
+// 19991119 VoK - Mapa: Origen movil -> escroll
+// 20000217 VoK - Fix: ScrollDown no definia be els limits
+//////////////////////////////////////////////////////////////////////
+// TODO:
+// Fer mes prima l'escala logaritmica
+// Fer programable el que visualitzen les comparatives d'organismes
+// Fer programable el que visualitzen els mapes
+// Implementar Grafic Evolutiu/Temporal
+// Muntar un conjunt de visualitzadors des d'un fitxer
+// Implementar Comparativa Taxons
 
 #include "Grafic.h"
 #include "Color.h"
@@ -470,7 +486,7 @@ void CMapa::scrollDown(uint32 steps)
 
 	steps%=m_alturaZona;
 	while (steps--) {
-		if (m_primeraPosicio>m_totalCelles-m_ampladaZona)
+		if (m_primeraPosicio>=m_totalCelles-m_ampladaZona)
 			m_primeraPosicio=m_ampladaZona-(m_totalCelles-m_primeraPosicio);
 		else 
 			m_primeraPosicio+=m_ampladaZona;

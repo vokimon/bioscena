@@ -65,6 +65,27 @@ void CCromosoma::dump(CMissatger & msg)
 	msg << endl;
 }
 
+ostream & CCromosoma::store(ostream & str) {
+//	str << binary;
+	str.write((char*)&m_nCodons, sizeof(uint32));
+	for (uint32 i=0; i<m_nCodons; i++)
+		str.write((char*)&(m_codons[i]),sizeof(t_codo));
+	return str;
+}
+
+istream & CCromosoma::load(istream & str) {
+//	str >> binary;
+	alliberaCodons();
+	str.read((char*)&m_nCodons, sizeof(uint32));
+	bool totOk = ocupaCodons(m_nCodons);
+	for (uint32 i=0; i<m_nCodons; i++) {
+		t_codo nouCodo;
+		str.read((char*)&nouCodo,sizeof(t_codo));
+		if (totOk) m_codons[i]=nouCodo;
+	}
+	return str;
+}
+
 //////////////////////////////////////////////////////////////////////
 // Operacions
 //////////////////////////////////////////////////////////////////////

@@ -2,6 +2,7 @@
 //
 //////////////////////////////////////////////////////////////////////
 
+#include <iomanip>
 #include "EnergiaDisipable.h"
 #include "Missatger.h"
 
@@ -26,6 +27,44 @@ CEnergiaDisipable::CEnergiaDisipable(uint32 slots)
 CEnergiaDisipable::~CEnergiaDisipable()
 {
 	if (m_slots) delete [] m_slots;
+}
+
+//////////////////////////////////////////////////////////////////////
+// Redefinibles
+//////////////////////////////////////////////////////////////////////
+
+void CEnergiaDisipable::dump(CMissatger & msg)
+{
+	msg << hex << setfill('0');
+	msg << "[";
+	if (m_nSlots) 
+		msg << setw(8) << m_slots[0];
+	for (uint32 i=1; i<m_nSlots; i++)
+		msg << "." << setw(8) << m_slots[i];
+	msg << "]";
+	msg << dec << setfill(' ');
+	msg << endl;
+}
+
+ostream & CEnergiaDisipable::store(ostream & str) {
+//	str << binary;
+	str.write((char*)&m_nSlots, sizeof(uint32));
+	for (uint32 i=0; i<m_nSlots; i++)
+		str.write((char*)&(m_slots[i]),sizeof(uint32));
+	return str;
+}
+
+istream & CEnergiaDisipable::load(istream & str) {
+	if (m_slots) delete [] m_slots;
+//	str >> binary;
+	str.read((char*)&m_nSlots, sizeof(uint32));
+	m_slots=new uint32[m_nSlots];
+	for (uint32 i=0; i<m_nSlots; i++) {
+		uint32 nouSlot;
+		str.read((char*)&nouSlot,sizeof(uint32));
+		if (m_slots) m_slots[i]=nouSlot;
+	}
+	return str;
 }
 
 //////////////////////////////////////////////////////////////////////

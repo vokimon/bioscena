@@ -1,21 +1,6 @@
 // Grafic.h: interface for the CGrafic class.
 //
 //////////////////////////////////////////////////////////////////////
-// Change Log:
-// 19991107 VoK - Creat de l'unio d'algunes funcions de visualitzacio
-// 19991107 VoK - Doble constructor de DominiGrafic
-// 19991117 VoK - Diferenciem CGrafic de CComparativaOrganismes
-// 19991118 VoK - Mapa es un nou objete Grafic
-// 19991118 VoK - Mapa: Tamanys de mapa i topologia independents
-// 19991119 VoK - Mapa: Origen movil -> escroll
-//////////////////////////////////////////////////////////////////////
-// TODO:
-// Fer mes prima l'escala logaritmica
-// Fer programable el que visualitzen les comparatives d'organismes
-// Fer programable el que visualitzen els mapes
-// Implementar Grafic Evolutiu/Temporal
-// Muntar un conjunt de visualitzadors des d'un fitxer
-// Implementar Comparativa Taxons
 
 #if !defined(_KKEP_GRAFIC_H_INCLUDED)
 #define _KKEP_GRAFIC_H_INCLUDED

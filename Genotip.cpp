@@ -1,6 +1,12 @@
 // Genotip.cpp: implementation of the CGenotip class.
 //
 //////////////////////////////////////////////////////////////////////
+// Change Log:
+// 19991202 VoK - Procediment de proves. Dumping
+// 19991202 VoK - Fix: Inicialitzacions
+// 19991202 VoK - Fix: Mecanisme d'expressio (seguentInstruccio...)
+// 20000218 VoK - Afegit el membre 'clear'
+//////////////////////////////////////////////////////////////////////
 
 #include <iomanip>
 #include "turbioconio.h" 
@@ -67,6 +73,10 @@ bool CGenotip::init(CCariotip & car)
 		}
 	}
 	return true;
+}
+
+void CGenotip::clear() {
+	m_gens.clear();
 }
 
 void CGenotip::dump(CMissatger & msg)

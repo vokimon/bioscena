@@ -12,6 +12,7 @@
 // - 
 // - 
 
+#include <iomanip>
 #include "turbioconio.h"
 #include "Cariotip.h"
 #include "Configuracio.h"
@@ -59,6 +60,32 @@ void CCariotip::dump(CMissatger & msg)
 		if (m_cromosomes[i]) m_cromosomes[i]->dump(msg);
 		else msg << "(NULL)" << endl;
 	}
+}
+
+ostream & CCariotip::store(ostream & str) {
+//	str << binary;
+	uint32 nCromosomes=m_cromosomes.size();
+	str.write((char*)&nCromosomes, sizeof(uint32));
+	for (uint32 i=0; i<nCromosomes; i++)
+		m_cromosomes[i]->store(str);
+	return str;
+}
+
+istream & CCariotip::load(istream & str) {
+//	str >> binary;
+	uint32 nCromosomes=0;
+	str.read((char*)&nCromosomes, sizeof(uint32));
+	bool totOk = ocupaCromosomes(nCromosomes);
+	for (uint32 i=0; i<nCromosomes; i++) {
+		t_cromosoma & crm = m_cromosomes[i];
+		if (totOk) crm = new CCromosoma;
+		if (crm && totOk) crm->load(str);
+		else {
+			error << "Error omplint el cariotip per debug" << endl;
+			cin.get();
+		}
+	}
+	return str;
 }
 
 //////////////////////////////////////////////////////////////////////

@@ -10,6 +10,7 @@
 // 19991215 VoK - L'energia es disipa
 // 20000103 VoK - Funcio membre que detecta nutrients al pap sense 
 //                extreure'ls. Y2K compatible!!!
+// 20000217 VoK - Serialitzacio
 //////////////////////////////////////////////////////////////////////
 
 #include <iomanip>
@@ -74,7 +75,6 @@ COrganisme::COrganisme(CCariotip &c) :
 		m_fenotip[i] = rnd.get() & ~0x88888888; // (bit <<=1);
 //		rnd >> m_fenotip[i];
 	// Tot individu comenca amb 
-	m_energia.afegeix(Config.get("Organisme/Energia/Inicial"));
 	m_nutrients.clear();
 	m_edat=0;
 	m_foo=0;
@@ -86,6 +86,62 @@ COrganisme::COrganisme(CCariotip &c) :
 COrganisme::~COrganisme()
 {
 	if (m_fenotip) delete[] m_fenotip;
+}
+
+//////////////////////////////////////////////////////////////////////
+// Redefinibles
+//////////////////////////////////////////////////////////////////////
+
+ostream & COrganisme::store(ostream & str) 
+{
+//	str << binary;
+	for (uint32 i=0; i<Config.get("Organisme/Fenotip/Longitud"); i++) {
+		str.write((char*)&(m_fenotip[i]),sizeof(uint32));
+		if (!str) error << "Error escrivint la cassella " << i << " del fenotip" << endl;
+		}
+	uint32 nNutrients=m_nutrients.size();
+	str.write((char*)&nNutrients,sizeof(uint32));
+	list<t_mollecula>::iterator it;
+	for (it=m_nutrients.begin(); it!=m_nutrients.end(); it++) {
+		str.write((char*)&(*it),sizeof(uint32));
+		if (!str) error << "Error escrivint el nutrient " << i << " del pap" << endl;
+		}
+	m_cariotip.store(str);
+	m_energia.store(str);
+	// TODO: Store: Pap
+	return str;
+}
+
+istream & COrganisme::load(istream & str) {
+//	str >> binary;
+	if (m_fenotip) delete[] m_fenotip;
+	m_fenotip = new uint32[Config.get("Organisme/Fenotip/Longitud")];
+	for (uint32 i=0; i<Config.get("Organisme/Fenotip/Longitud"); i++) {
+		uint32 valor;
+		str.read((char*)&valor,sizeof(uint32));
+		if (m_fenotip&&str) m_fenotip[i]=valor;
+	}
+	uint32 nNutrients;
+	str.read((char*)&nNutrients,sizeof(uint32));
+	for (uint32 i=0; i<nNutrients; i++) {		
+		uint32 valor;
+		str.read((char*)&valor,sizeof(uint32));
+		if (str) m_nutrients.push_back(valor);
+		}
+	m_cariotip.load(str);
+	m_genotip.clear();
+	m_genotip.init(m_cariotip);
+	m_energia.load(str);
+	// TODO: Load: Pap
+	return str;
+}
+
+void COrganisme::dump(CMissatger & msgr)
+{
+//	debugPresentaNutrients(msgr);
+	debugPresentaFenotip(msgr);
+	m_cariotip.dump(msgr);
+	m_genotip.dump(msgr);
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -111,92 +167,8 @@ uint32 & COrganisme::operator[](uint32 index)
 
 // Nutricio
 
-bool COrganisme::anabolitza(uint32 & energia, uint32 A, uint32 toleranciaA, uint32 B, uint32 toleranciaB)
-	// Realitza la reaccio A + B + energia -> C
-{
-	tracaOrganisme <<"Anabolitzant: "<< endl;
-	tracaOrganisme << hex << setfill('0');
-	tracaOrganisme <<"\tPatrons:     "<<setw(8)<<A<<" "<<setw(8)<<B<<endl;
-	tracaOrganisme <<"\tTolerancies: "<<setw(8)<<toleranciaA<<" "<<setw(8)<<toleranciaB<<endl;
-	tracaOrganisme << dec << setfill(' ');
-	list<t_mollecula>::iterator itA;
-	for (itA=m_nutrients.begin(); itA!=m_nutrients.end(); itA++)
-	{
-		if (sonCompatibles(*itA, A, toleranciaA))
-			break;
-	}
-	if (itA==m_nutrients.end()) {
-		tracaOrganisme <<"\tNo s'ha trobat la mol·lecula A: "<<endl;
-		return false;
-	}
-	list<t_mollecula>::iterator itB;
-	for (itB=m_nutrients.begin(); itB!=m_nutrients.end(); itB++)
-	{
-		if (sonCompatibles(*itB, B, toleranciaB)&&(itA!=itB))
-			break;
-	}
-	if (itB==m_nutrients.end()) {
-		tracaOrganisme <<"\tNo s'ha trobat la mol·lecula B: "<<endl;
-		return false;
-	}
-	uint32 C=*itA|*itB;
-	energia=comptaUns(C)- min(comptaUns(*itA),comptaUns(*itB));
-
-	tracaOrganisme << hex << setfill('0');
-	tracaOrganisme <<"\tReactius: "<<setw(8)<<(*itA)<<" "<<setw(8)<<(*itB)<<endl;
-	tracaOrganisme <<"\tProducte: "<<setw(8)<<C<<endl;
-	tracaOrganisme << dec << setfill(' ');
-	tracaOrganisme << "\tEnergia emprada: " << energia << endl;
-
-	m_nutrients.erase(itA);
-	m_nutrients.erase(itB);
-	m_nutrients.push_back(C);
-
-	return true;
-}
-
-bool COrganisme::catabolitza(uint32 & energia, uint32 A, uint32 toleranciaA, uint32 clauCatabolitzadora)
-{
-	tracaOrganisme <<"Catabolitzant: "<< endl;
-	tracaOrganisme << hex << setfill('0');
-	tracaOrganisme <<"\tPatro     : "<<setw(8)<<A<<endl;
-	tracaOrganisme <<"\tTolerancia: "<<setw(8)<<toleranciaA<<endl;
-	tracaOrganisme <<"\tCatabolic : "<<setw(8)<<clauCatabolitzadora<<endl;
-	tracaOrganisme << dec << setfill(' ');
-	list<t_mollecula>::iterator itA;
-	for (itA=m_nutrients.begin(); itA!=m_nutrients.end(); itA++)
-	{
-		if (sonCompatibles(*itA, A, toleranciaA))
-			break;
-	}
-	if (itA==m_nutrients.end()) {
-		tracaOrganisme <<"\tNo s'ha trobat la mol·lecula"<< endl;
-		return false;
-	}
-	uint32 B=(*itA^clauCatabolitzadora)&*itA;
-	uint32 C=(*itA^~clauCatabolitzadora)&*itA;
-	energia=comptaUns(*itA)- max(comptaUns(B),comptaUns(C));
-
-	tracaOrganisme << hex << setfill('0');
-	tracaOrganisme <<"\tReactius: "<<setw(8)<<(*itA)<<endl;
-	tracaOrganisme <<"\tProducte: "<<setw(8)<<B<<" "<<setw(8)<<C<<endl;
-	tracaOrganisme << dec << setfill(' ');
-	tracaOrganisme << "\tEnergia obtinguda: " << energia << endl;
-
-	m_nutrients.erase(itA);
-	m_nutrients.push_back(B);
-	m_nutrients.push_back(C);
-
-	return true;
-}
-
 void COrganisme::engoleix(t_mollecula element)
 {
-	tracaOrganisme 
-		<<"Engolint: "
-		<< hex << setfill('0')
-		<<"\tElement: "<<setw(8)<<element<<endl
-		<< dec << setfill(' ');
 	m_nutrients.push_back(element);
 	uint32 maximNutrients = Config.get("Organisme/Pap/Capacitat"); 
 	if (maximNutrients && m_nutrients.size()>maximNutrients)
@@ -205,49 +177,25 @@ void COrganisme::engoleix(t_mollecula element)
 	
 bool COrganisme::excreta(t_mollecula & excretada, uint32 patro, uint32 tolerancia)
 {
-	tracaOrganisme 
-		<<"Excretant: "<< endl
-		<< hex << setfill('0')
-		<<"\tPat: "<<setw(8)<<patro<<endl
-		<<"\tTol: "<<setw(8)<<tolerancia<<endl
-		<< dec << setfill(' ');
 	list<t_mollecula>::iterator it;
 	for (it=m_nutrients.begin(); it!=m_nutrients.end(); it++)
-	{
 		if (sonCompatibles(*it, patro, tolerancia))
 			break;
-	}
 	if (it==m_nutrients.end())
 		return false;
 	excretada=*it;
 	m_nutrients.erase(it);
-	tracaOrganisme 
-		<< hex << setfill('0')
-		<<"\tExc: "<<setw(8)<<excretada<<endl
-		<< dec << setfill(' ');
 	return true;
 }
 
 bool COrganisme::detecta(uint32 & detectada, uint32 patro, uint32 tolerancia)
 {
-	tracaOrganisme 
-		<<"Detectant: "<< endl
-		<< hex << setfill('0')
-		<<"\tPat: "<<setw(8)<<patro<<endl
-		<<"\tTol: "<<setw(8)<<tolerancia<<endl
-		<< dec << setfill(' ');
 	list<t_mollecula>::iterator it;
 	for (it=m_nutrients.begin(); it!=m_nutrients.end(); it++)
-	{
 		if (sonCompatibles(*it, patro, tolerancia)) {
 			detectada=*it;
-			tracaOrganisme 
-				<< hex << setfill('0')
-				<<"\tDet: "<<setw(8)<<detectada<<endl
-				<< dec << setfill(' ');
 			return true;
 			}
-	}
 	return false;
 }
 
@@ -285,7 +233,7 @@ void COrganisme::ProvaClasse()
 	log1 << "Provant organismes: "<< endl;
 	tracaOrganisme << hex << setfill('0');
 	COrganisme pepe;
-	pepe.debugPresentaFenotip(tracaOrganisme);
+//	pepe.debugPresentaFenotip(log1);
 	pepe.engoleix(0x0000FF00);
 	pepe.engoleix(0x0000FFF0);
 	pepe.engoleix(0x00000F00);
@@ -297,23 +245,37 @@ void COrganisme::ProvaClasse()
 	pepe.engoleix(0x0000F000);
 	pepe.engoleix(0x0000FF0F);
 	pepe.engoleix(0x00000F0F);
-	pepe.debugPresentaNutrients(tracaOrganisme);
+//	pepe.debugPresentaNutrients(log1);
 	t_mollecula excrecio;
 	uint32 energia;
 	uint32 A, tolA, B, tolB, key;
-	pepe.catabolitza(energia, A=0x0006FF00, tolA=0x000000FF, key=0x0000F000);
-	pepe.anabolitza (energia, A=0x000000F0, tolA=0x0000FFFF, B=0x0000F600, tolB=0x0000F0F0);
 	pepe.excreta   (excrecio, A=0x000000F0, tolA=0x0000FFFF);
-	pepe.debugPresentaNutrients(tracaOrganisme);
-	tracaOrganisme << dec << setfill(' ');
-}
+	pepe.excreta   (excrecio, B=0x000000F0, tolB=0x0000FFFF);
 
-void COrganisme::dump(CMissatger & msgr)
-{
-//	debugPresentaNutrients(msgr);
-	debugPresentaFenotip(msgr);
-	m_cariotip.dump(msgr);
-	m_genotip.dump(msgr);
+	pepe.debugPresentaNutrients(log1);
+
+	out << "Provant Serialitzacio" << endl;
+
+	ofstream ofile("borrame.hex", ios::binary|ios::out);
+	if (!ofile) error << "Abriendo fichero" << endl;
+	pepe.store(ofile);
+	ofile.close();
+
+	COrganisme pepet;
+	ifstream ifile("borrame.hex", ios::binary|ios::in);
+	if (!ifile) error << "Abriendo fichero" << endl;
+	pepet.load(ifile);
+	ifile.close();
+	pepe.debugPresentaFenotip(out);	cin.get();
+	pepet.debugPresentaFenotip(out); cin.get();
+	pepe.debugPresentaNutrients(out); cin.get();
+	pepet.debugPresentaNutrients(out); cin.get();
+	pepe.m_cariotip.dump(out); cin.get();
+	pepet.m_cariotip.dump(out); cin.get();
+	pepe.m_genotip.dump(out); cin.get();
+	pepet.m_genotip.dump(out); cin.get();
+	pepe.m_energia.dump(out); cin.get();
+	pepet.m_energia.dump(out); cin.get();
 }
 
 void COrganisme::debugPresentaNutrients(CMissatger & msgr)

@@ -11,7 +11,7 @@
 #include "Agent.h"
 #include "Comunitat.h"
 #include "Probabilitat.h"
-//#include "Taxonomista.h"
+#include "Taxonomista.h"
 
 /*
 class CParametreOpcode {
@@ -36,14 +36,14 @@ public:
 	typedef CSubstrat t_substrat;
 	typedef CComunitat t_comunitat;
 	typedef CAgent t_agent;
-//	typedef CTaxonomista t_taxonomista;
+	typedef CTaxonomista t_taxonomista;
 	typedef bool (CBiosistema::*t_accioOrganisme) (uint32);
 // Atributs
 protected:
 	t_biotop * m_biotop;
 	t_comunitat * m_comunitat;
 	t_agent * m_agents;
-//	t_taxonomista * m_taxonomista;
+	t_taxonomista * m_taxonomista;
 
 	uint32 m_maxInstruccionsUtils;
 	uint32 m_maxInstruccions;
@@ -52,7 +52,6 @@ protected:
 	uint32 m_bitsCodiOperacio;
 	uint32 m_nCodisOperacio;
 	uint32 m_mascaraCodis;
-	bool m_calEspeciar;
 	uint32 m_mascaraQuimica;
 private:
 	uint32 m_instruccionsUtilsRestants;
@@ -82,11 +81,16 @@ public:
 	t_agent * agents() const;
 	void agents(t_agent *);
 	void deleteAgents();
+	t_taxonomista * taxonomista() const;
+	void taxonomista(t_taxonomista *);
+	void deleteTaxonomista();
 	uint32 temps();
 // Operacions (cicle basic)
 	bool organismeExpontani();
 	bool eliminaOrganismeActiu();
 	void canviaOrganismeActiu();
+	bool introdueix(COrganisme * org);
+	void activaLog(bool actiu);
 // Operacions (Instruccions)
 public:
 	bool organismeMitosi(uint32 parametres);

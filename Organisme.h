@@ -49,8 +49,8 @@ public:
 	uint32 fenotip(uint32);
 	uint32 & operator[](uint32);
 	// Nutricio
-	bool anabolitza(uint32 & energia, uint32 A, uint32 toleranciaA, uint32 B, uint32 toleranciaB);
-	bool catabolitza(uint32 & energia, uint32 C, uint32 toleranciaC, uint32 clauCatabolica);
+//	bool anabolitza(uint32 & energia, uint32 A, uint32 toleranciaA, uint32 B, uint32 toleranciaB);
+//	bool catabolitza(uint32 & energia, uint32 C, uint32 toleranciaC, uint32 clauCatabolica);
 	bool detecta(uint32 & clauDetectada, uint32 patro, uint32 tolerancia);
 	bool excreta(t_mollecula & excretada, uint32 patro, uint32 tolerancia);
 	void engoleix(t_mollecula mol);
@@ -63,6 +63,8 @@ public:
 // Proves
 public:
 	void dump(CMissatger &msgr);
+	virtual istream & load(istream & str);
+	virtual ostream & store(ostream & str);
 	void debugPresentaNutrients(CMissatger &msgr);
 	void debugPresentaFenotip(CMissatger &msgr);
 	static void ProvaClasse();
