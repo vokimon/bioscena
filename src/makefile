@@ -6,7 +6,7 @@ CPPSOURCES:= $(wildcard *.cpp)
 CSOURCES:=$(wildcard *.c)
 OBJSCPP:=$(CPPSOURCES:.cpp=.o)
 OBJSC:=$(CSOURCES:.c=.o)
-CFLAGS= -Wall -pedantic -Os #-g -fexceptions 
+CFLAGS= -Wall -pedantic -Os  -march=i686 #-g -fexceptions 
 LDLIBS=-lm 
 LDFLAGS=--relax -s
 default: copirrait ${EXEC}
@@ -30,7 +30,7 @@ ${EXEC}: $(OBJSCPP) $(OBJSC)
 #	@echo --- Linkant $@
 	${CPPC} $(LDFLAGS) $(OBJSCPP) $(OBJSC) ${LDLIBS} -o ${EXEC} 
 
-$(OBJSC) %.o: %.c
+$(OBJSC) : %.o: %.c
 #	@echo --- Compilant $<
 	${CC} ${CFLAGS} -c $< -o $@
 

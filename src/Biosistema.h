@@ -14,6 +14,8 @@
 //                excretar i atacar
 // 19991211 VoK - Traspasats des d'Organisme.cpp els costos de mitosi
 //                i generacio expontanea
+// 19991214 VoK - Incorporada kbhit portable
+// 19991214 VoK - Funcio 'nibble' per fer mes llegible el codi.
 //////////////////////////////////////////////////////////////////////
 
 #if !defined(__KKEP_BIOSISTEMA_H_INCLUDED)
