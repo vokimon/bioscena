@@ -1,0 +1,114 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Visió global del disseny}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Criteris de disseny i metodologia}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Disseny modular}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:moduls}
+
+L'aplicatiu que es vol dissenyar consta de diversos elements
+principals, cadascun, amb funcions determinades dintre del sistema.
+
+% TODO: Esquemeta del disseny modular global
+
+\begin{description}
+\item[Biosistema:] És l'objecte coordinador de la resta
+d'elements. Les seves funcions són:
+\begin{enumerate}
+\item Demanar instruccions als organismes.
+\item Controlar quantes operacions pot executar cada organisme
+d'una tacada.
+\item Fer les operacions de modificació i consulta sobre
+la resta d'elements del sistema, necessàries per executar les
+instruccions proveïdes per la comunitat d'organismes.
+\item Demanar a la comunitat d'organismes per un nou organisme
+quan l'organisme actual ja ha executat les seves instruccions.
+\item Accionar els agents configuradors que varien el medi
+al llarg del temps segons uns parametres.
+\end{enumerate}
+
+\item[Topologia:] Determina la geometria del medi on viuen els
+organismes. Les seves funcions són:
+\begin{enumerate}
+\item Associar un identificador a cada posició dins del substrat
+\item Establir interconexions entre les parceles de substrat
+\item Determinar moviments, direccions, camins... i tota l'operativa
+que té a veure amb la geometria (topologia) del medi segons aquestes
+interconexions.
+\item Proporcionar l'accés, mitjançant l'identificador de posició, a
+les propietats del medi en aquesta posició.
+\end{enumerate}
+
+\item[Substrat:] Determina les propietats del medi en una posició
+donada. Les seves funcions són:
+\begin{enumerate}
+\item Determinar si la posició l'ocupa un organisme i, en cas afirmatiu,
+quin és l'organisme ocupant.
+\item Contenir els nutrients lliures al medi.
+%TODO: Posar altres funcions del Substrat si apareixen
+\end{enumerate}
+
+\item[Agents Configuradors:] Determinen l'evolució de certs
+paràmetres (posició, composició, probabilitat, estacionalitat...) que
+intervenen  en les propietats dels elements del sistema al llarg del
+temps. Les seves aplicacions són:
+\begin{enumerate}
+\item Afegeixir o eliminar nutrients lliures dins del medi.
+\item Modificar els paràmetres del substrat.
+\item Generar expontàneament organismes.
+%% TODO: Posar altres funcions dels Agents si apareixen
+%% TODO: Considerar les que hi ha perque t'has lluit
+\end{enumerate}
+
+\item[Comunitat:] Representa al conjunt d'organismes que viuen al
+biòtop. La comunitat compleix amb les següents funcions.
+\begin{enumerate}
+\item Associar un identificador a cada organisme dintre de la comunitat
+\item Afegir-ne o extreure'n organismes.
+\item Controlar la informació referent a l'organisme que el relaciona
+amb el seu entorn, com ara, la posició, el grup reproductiu al que
+pertany... (Informació externa de l'organisme)
+\item Proporcionar l'accés, mitjançant l'identificador d'organisme,
+tant a la informació externa com al propi organisme.
+%TODO: Posar altres funcions de la Comunitat si apareixen
+\end{enumerate}
+
+\item[Organismes:] Representen als individuus que viuen al
+biosistema. Contenen la informació genètica i les estructures
+internes que els fan anar.
+\begin{enumerate}
+\item Oferir instruccions al biosistema del que volen fer.
+\item Proporcionar al biosistema accés al fenotip.
+\item Proporcionar al biosistema operacions per modificar el seu estat intern.
+\item Generar organismes nous.
+%TODO: Posar altres funcions del Organismes si apareixen
+\end{enumerate}
+
+\item[Taxonomista:] Reuneix un conjunt d'eines que permeten fer un
+anàlisis de l'evolució d'un grup reproductiu (població) i de les
+interaccions amb els altres grups. Aquest seguiment requereix que el
+taxonomista estigui intimament lligat al funcionament del biosistema.
+\begin{enumerate}
+\item Detectar l'aparició de comportaments sexuals.
+\item Mantenir informació històrica sobre l'aparició de grups
+reproductius.
+\item Mantenir un cens per edats de la població de cada grup
+reproductiu i a cada edat.
+\item Mantenir un llistat sobre la dieta de cada grup reproductiu.
+\item Mantenir un llistat dels agressors de cada grup reproductiu.
+%TODO: Posar altres funcions del Organismes si apareixen
+\end{enumerate}
+
+\end{description}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage

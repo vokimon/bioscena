@@ -64,64 +64,155 @@ Dels treballs que s'han fet sobre vida artificial, cal destacar,
 com a precedents, per la seva relació amb aquest projecte, els
 següents:
 
-\begin{itemize}
-\item El projecte `Tierra' que encapçala Thomas S. Ray \cite{RayThomas93}
-un biòleg que va aplicar els seus coneixements de genètica i de
-ecologia i els va traduir a un medi informàtic on petites porcions de
-codi competien per la memòria i el temps del processador per replicar
-els seus gens.
-\item Les experiències que Richard K. Beleg i Filippo Menezer van fer
-sobre el model Latent Energy Environments (LEE). LEE és un model
-que es basa en l'evolució de sistemes cognitius interaccionen amb
-un medi químic de complexitat controlada. El més remarcable
-d'aquest projecte, de banda de les diverses conclusions que n'han
-anat treient en diferents estudis, és, per un costat, la
-integració d'algorismes evolutius i xarxes neuronals, i, d'altre,
-el fet de basar-se en un model metabòlic.
+\subsection{Latent Energy Environment (LEE)}
+
+El projecte que aquesta memòria presenta parteix de les experiències
+que Richard K. Beleg i Filippo Menezer van fer sobre el model Latent
+Energy Environments (LEE)\index{LEE!Latent Energy Environments}.
 %% TODO: Referencies de LEE
-\end{itemize}
 
-Bioscena moltes idees dels LEE, com es veurà en la resta de la
-memòria, però, a diferència d'aquests, no pretén simular organismes
-amb comportaments cognitius, sinò organismes amb comportaments
-reactius. La diferència principal radica en que els comportaments
-reactius estan controlats principalment pel codi genétic i
-l'interacció {\em química} amb el medi que s'en deriva i, els
-comportaments cognitius estan controlats principalment per un sistema
-nerviós central i un procés d'aprenentatge.
 
-Per modelar el comportament dels organismes de Bioscena, es fan
-servir rafagues d'instruccions que formen el genotip de forma
-semblant a com funcionava `Tierra'. La diferència important és que, a
-`Tierra', el conjunt d'instruccions feien de genotip, medi i fenotip,
-tot alhora, i en Bioscena la idea és separar el conjunt
-d'instruccions del medi i tant medi com genotip actuaran sobre el
-fenotip.
+LEE és un model que es basa en l'evolució de sistemes cognitius
+\index{sistemes cognitius} (xarxes neuronals) que interaccionen amb
+un medi químic de complexitat controlada. La complexitat del medi es
+controla amb la complexitat d'un model metabòlic: Per obtenir energia
+útil, a l'organisme no li basta amb introduir els nutrients dins seu,
+sinó que li cal juntar-los amb altres nutrients que produiran
+mitjançant una reacció, un balanç energètic, positiu o negatiu, i uns
+productes segons a una taula de reaccions. Bioscena partirà d'aquesta
+idea de l'entorn metabòlic de complexitat controlada i en farà
+algunes petites modificacions. La figura \ref{fig:modelMetabolicLEE}
+mostra esquemàticament el sistema metabòlic implementat a LEE. La
+comparativa es pot fer amb la figura \ref{fig:modelMetabolic} que
+representa el model metabòlic implementat finalment en aquest
+projecte.
 
-\begin{figure}
-% TODO: Imatge de l'estructura genotip -> fenotip <- medi
+\begin{figure}[h]
+\centering
+\begin{tabular}{@{\extracolsep{.1 cm}}c@{\extracolsep{.1 cm}}c@{\extracolsep{.1 cm}}c@{\extracolsep{-.1 cm}}c@{\extracolsep{.1 cm}}c@{\extracolsep{.1 cm}}c@{\extracolsep{.1 cm}}c@{\extracolsep{.1 cm}}}
+    \begin{tabular}{|c|}
+            \hline Medi \\\hline
+    \end{tabular}
+    &
+    \begin{tabular}{c}
+        \\ $\rightarrow$
+        \\ ingestió
+    \end{tabular}
+    &
+    \begin{tabular}{|c|}
+    \hline Pap\\ \hline
+    \end{tabular}
+    &
+    \begin{tabular}{c}
+        \\ $\rightarrow$
+        \\ reactius
+    \end{tabular}
+    &
+    \begin{tabular}{|c|}
+    \hline Reaccions\\ metabòliques\\ \hline
+    \end{tabular}
+    &
+    \begin{tabular}{cc}
+        \begin{tabular}{c}
+            energia \\
+            $\leftrightarrow$ \\
+        \end{tabular}
+        &
+        \begin{tabular}{|c|}
+            \hline Energia\\ útil\\ \hline
+        \end{tabular}
+        \\ \\
+        \begin{tabular}{c}
+            \\ $\rightarrow$
+            \\ productes
+        \end{tabular}
+        &
+        \begin{tabular}{|c|}
+             \hline Medi \\\hline
+        \end{tabular}
+    \end{tabular}
+\end{tabular}
+\caption{Model metabòlic a LEE} \label{fig:modelMetabolicLEE}
 \end{figure}
 
+%% TODO: Referència al Plasticity de LEE
+La plasticitat\index{plasticitat}, segons Beleg i Menezer, és la
+capacitat que té l'organisme de modificar el seu fenotip durant la
+seva vida. Als LEE aquesta plasticitat els hi dona la xarxa neuronal,
+un sistema cognitiu. Però, trobem a la natura, que la resta
+d'organismes que no estan provistos d'un sistema cognitiu
+d'aprenentatge també presenten una plasticitat equivalent que els hi
+permet adaptar-se a tot un seguit de canvis.
 
-La simulació suposa, per a totes les decisions de disseny on sigui
-necessari que els organismes són unicel·lulars. Aquesta suposició no
-vol dir que els resultats siguin aplicables només a aquest tipus
-d'organisme, però, facilita el disseny, donat que el model d'un
-organisme pluricel·lular és molt complexe. A més hi ha la
-possibilitat, si el medi fós suficientment ampli, de que l'evolució
-portés als organismes unicel·lulars a formar estructures cooperatives
-més grans similars als organismes pluricel·lulars.
+El que ens interesa comprovar és si els sistemes control sobre
+l'expressió gènica que es donen a natura poden ocupar el paper de les
+xarxes neuronals en el sentit de donar plasticitat als organismes no
+cognitius. La funció d'aquest control sobre l'expressió gènica és
+decidir, en cada moment, quin gens s'expressen i quins no, tot tenint
+en compte factors del medi i de l'estat intern.
 
-Resumint la comparació entre els tres sistemes:
+A la natura, aquest control sobre l'expressió gènica, prové d'una
+certa complexitat en els mecanismes genètics. S'intentaràn
+implementar els màxims d'aquests mecanismes per tal de determinar
+l'influxe de cadascun sobre la plasticitat de l'organisme, activant
+uns i desactivant altres.
 
-\begin{tabular}{rl}
-Tierra&Sopa primigenia, organització cel·lular procariota\\
+\subsection{Projecte `Tierra'}
 
-Bioscena&Organismes unicel·lulars eucariotes no cognitius\\
+De cara a plantejar com controlar els gens s'ens presenta una altra
+incògnita prèvia: Als LEE, el codi genètic representa les
+interconexions i els pesos inicials de les neurones; qué és el que
+codifiquen els gens al sistema que proposem?
 
-LEE's&Organismes cognitius, model d'alt nivell\\
-\end{tabular}
+Com a punt de partida per trobar una codificació edient pels gens
+s'ha pres com a referència el projecte `Tierra' que encapçala Thomas
+S. Ray \cite{RayThomas93}. Thomas S. Ray és un biòleg que va traduir
+els seus coneixements de genètica i d'ecologia a un medi informàtic
+on petites porcions de codi competien per la memòria i el temps del
+processador amb la finalitat de replicar els seus gens. Va obtenir
+comportaments molt elaborats al llarg de la evolució: parasitisme,
+simbiosis, curses de braços, comportaments sexuals....
+% TODO: Que ous es el nom, Thomas o Ray!!??
 
+A `Tierra', el genoma estava composat per un seguit d'instruccions
+que s'executaven cíclicament. Per modelar el comportament dels
+organismes de Bioscena, es fan servir, també, rafagues d'instruccions
+que formen el genotip de forma semblant a com funcionava `Tierra'.
+Però, a `Tierra' el propòsit dels fragments de codi era el de
+replicar-se el més eficientment possible dintre d'un medi que estava
+composat només pels fragments de codi en competència. Aquí, en canvi,
+les instruccions hauran d'implementar funcions per interaccionar amb
+un medi que li és aliè. Per això, es farà sevir una estructura que
+farà de pont entre el medi i el codi genètic. D'ara en endavant,
+aquesta estructura serà la que anomenarem fenotip\index{fenotip}, tot
+i tenir present que el fenotip no el forma només aquesta estructura
+sinó que també hi forma part el comportament global observat i les
+altres variables d'estat internes de l'organisme. Simplement el diem
+fenotip perque la seva única funció és, la de fer de fenotip.
+
+El fenotip controla:
+\begin{itemize}
+\item Quin grup d'instruccions s'executa.
+\item De quina forma ho fan (paràmetres o valors).
+\end{itemize}
+
+Tantmateix, el fenotip és modificat per l'execució d'alguns gens.
+Aquestes modificacions poden dependre només de la instrucció
+executada, però, sovint, la modificació també depen de:
+\begin{enumerate}
+\item L'estat de l'entorn de l'organisme
+\item L'estat intern de l'organisme
+\end{enumerate}
+
+\begin{figure}[h]
+    \centering
+    \fbox{
+    \fbox{genotip} $\leftrightarrow$ \fbox{fenotip} $\leftrightarrow$
+    \fbox{Condicions d'entorn i internes} }
+    % TODO: Imatge de l'estructura genotip -> fenotip <- medi
+    \label{fig:introFenotip}
+    \caption{Graf de dependències entre el fenotip i els altres elements de l'organisme.}
+\end{figure}
 
 \section{Objectius del projecte}
 
@@ -136,11 +227,12 @@ es donen en la natura que no cal implementar directament, sinó, que
 s'espera que puguin emergir. L'esforç de l'analisis ha d'anar adreçat
 a modelar aquelles característiques no cognitives de caire general, i
 sobretot, dels organismes unicel·lulars, tot i que no cal descartar
-que emergeixin estructures pluricel·lulars o cognitives.
+que emergeixin estructures pluricel·lulars o cognitives, com s'ha dit
+abans.
 
-\item Fer un estudi bibliogràfic dels processos anteriors ja
-implementats. En quines condicions concretes s'han fet i quins
-resultats han donat.
+\item Fer un estudi bibliogràfic dels processos anteriors que ja
+hagin estat implementats. En quines condicions concretes s'han fet i
+quins resultats han donat.
 
 \item Dissenyar i implementar el model amb tota la informació
 recollida, possibilitant, sense dirigir-la, l'aparició dels fenòmens
@@ -154,18 +246,19 @@ El model tindrà diversos elements principals:
 \item El biòtop, que és el medi on viuran els organismes. Cal que
 permeti configuracions molt diverses per donar possibilitats
 d'experimentació. Per modificar el biòtop farem servir, sobretot, els
-agents, que són modificadors programables del biòtop.
+agents, que són modificadors del biòtop dels quals es pot programar
+el seu efecte al llarg de temps. \footnote{La majoria de la
+bibliografia de vida artificial anomena agents al que aquí anomenem
+organismes. Cal que quedi clar que els agents, en aquest projecte, no
+són els individuus que poblen el món, sinó una eina de configuració.}
 
 \item La comunitat, que controla el conjunt d'organismes presents al
 medi i la informació que no és intrínseca a ells, com ara la seva
 posició en el medi i la població a la que pertany. Els organismes
-proveeixen al medi les accions que volen realitzar i un conjunt
-d'operacions que el medi pot fer sobre ells.
+proveeixen al medi les accions que volen realitzar quan li són
+requerides, i un conjunt d'operacions que el medi pot fer sobre ells.
 
 \end{itemize}
-Els elements del sistema han d'estar dèbilment acoblats per tal de
-poder, en un futur, intercanviar-los per uns altres amb un mínim
-d'efectes laterals.
 
 \item Afegir al model les eines d'anàlisis han de poder donar
 informació útil del que està passant al biosistema: Per això, cal
@@ -177,19 +270,24 @@ resultats obtinguts amb les eines d'analisis siguin confrontables i
 els usuaris puguin extreure conclusions.
 \end{enumerate}
 
+%% TODO: Incloure una figura float amb l'esquema global
+
 A aquests objectius es poden sumar altres objectius adicionals que es
 cobriran de forma secundària.
 
 \begin{enumerate}
+\item Els elements del sistema han d'estar dèbilment acoblats per tal
+de poder, en un futur, intercanviar-los per uns altres de forma
+individual amb un mínim d'efectes laterals.
 \item El sistema ha de poder abocar-se totalment o parcial a
-disc per tornar-se a restaurar. Això faria possible execucions molt
-més llargues i obtenir poblacions més evolucionades.
+disc per tornar-se a restaurar, posteriorment. Això faria possible
+execucions molt més llargues i obtenir poblacions més evolucionades.
 \item Ha de ser possible canviar alguns aspectes de la configuració
-del biòtop o intervindre en la població (extraccions, introduccions,
-clonacions...) sobre la marxa.
+del biòtop o intervindre en la població amb extraccions,
+introduccions, clonacions... sobre la marxa.
 \item Establir uns procediments de modificació per tal de que
-l'usuari-programador no necessiti comprendre tot el sistema per fer
-una modificació puntual.
+l'usuari-programador no necessiti comprendre les interioritats de tot
+el sistema per fer una modificació puntual.
 \end{enumerate}
 
 Els organismes de la simulació han de fer front a un medi variable,
@@ -224,18 +322,27 @@ genotip:]
 Ens permetrà tenir uns paràmetres optimitzats per a cada situació
 concreta.
 
-\item[Genotips no haplonts i al·lels (Encara he de considerar si
-implementar-ho):] Mantenen la variabilitat genètica de la
-descendència augmentant així la capacitat de canvi i adaptació.
-
 \item[Cariotip multicromosòmic:] Divideix la dotació gènica en
 subunitats d'alt nivell que permeten traspasar de cop divers material
 genètic entre organismes i possibilita les mutacions cromosòmiques.
 Amdues coses poden emergir en un creuament.
 %% TODO: Revisa esto ultimo que es una fantochada
 
+\item[Genotips no haplonts i al·lels (Encara he de considerar si
+implementar-ho):] Mantenen la variabilitat genètica de la
+descendència augmentant així la capacitat de canvi i adaptació.
+
 \end{description}
+
+Per a la simulació es suposa, per a totes les decisions de disseny on
+sigui necessari fer-ho, que els organismes són unicel·lulars. Aquesta
+suposició no vol dir que els resultats siguin aplicables només a
+aquest tipus d'organisme, però, facilita el disseny, donat que el
+model d'un organisme pluricel·lular és molt més complexe. A més, hi
+ha la possibilitat, si el medi fós suficientment ampli, de que
+l'evolució portés als organismes unicel·lulars a formar estructures
+cooperatives més grans similars als organismes pluricel·lulars.
 
 \section{Contingut de la memòria}
 
-%% TODO: Quando la estructura de la memoria este mas o menos bien establecida lo pones
+TODO: Quan l'estructura de la memòria estigui més o menys establerta ho poses

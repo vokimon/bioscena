@@ -13,7 +13,8 @@ BBL:=$(MAINTEX:.tex=.bbl)
 TEXSOURCES:= $(wildcard *.tex)
 BIBSOURCES:= $(wildcard *.bib)
 JPGSOURCES:= $(wildcard *.jpg)
-BOUNDINGBOXES:= $(JPGSOURCES:.jpg *.bb)
+GIFSOURCES:= $(wildcard *.gif)
+BOUNDINGBOXES:= $(JPGSOURCES:.jpg=.bb)
 INTERMEDIATES:= $(AUX) $(IDX)  $(IND) $(BBL) $(TOC)
 LOGS:=$(wildcard *.out) $(wildcard *.log) $(wildcard *.blg) $(wildcard *.ilg) head.tmp body.tmp
 FINALS:= $(DVI) $(PDF) $(HTML) $(PS)
@@ -50,7 +51,10 @@ todo: copirrait
 	grep -n TODO $(TEXSOURCES) $(BIBSOURCES) | more
 
 
-$(AUX): $(TEXSOURCES) $(BIBSOURCES)
+$(BOUNDINGBOXES): $(JPGSOURCES) 
+	ebb $<
+
+$(AUX): $(TEXSOURCES) $(BIBSOURCES) $(BOUNDINGBOXES)
 	@echo
 	@echo --- Precompilant $(MAINTEX) -----------------------------------
 	latex $(TEXOPTS) $(MAINTEX)

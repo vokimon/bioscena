@@ -10,13 +10,16 @@
 \usepackage[catalan]{babel}
 \usepackage{layout} % Per visualitzar marges
 \usepackage{graphicx}
-%[dvips][pdftex,dvips]
 \usepackage{makeidx}
 \usepackage{verbatim}
 \usepackage{amssymb}
-\usepackage{hyperref}
+\usepackage{hyperref} % Per PDFTEX
+%\usepackage[dvips]{hyperref} % Per DVIPS
 \def\boldindex#1{\textbf{\hyperpage{#1}}}
+
 \hypersetup{backref,hyperindex,colorlinks}
+
+
 \makeindex
 \newlength{\defbaselineskip}
 \setlength{\defbaselineskip}{\baselineskip}
@@ -45,6 +48,8 @@
 
 \begin{document}
 
+%\DeclareGraphicsExtensions{.eps,.jpg,.gif,.png,.bmp}
+
 %-----------------------------------------------------
 %    Titol del document
 %-----------------------------------------------------
@@ -64,6 +69,10 @@ David Garcia\\
 %-----------------------------------------------------
 \tableofcontents
 \newpage
+\listoffigures
+\newpage
+\listoftables
+\newpage
 % La linia de sota serveix per visualitzar l'efecte dels parametres
 % de pagina. Cal descomentar (o afegir) la linia \usepackage{layout}
 % a la capcalera
@@ -74,17 +83,22 @@ David Garcia\\
 \input{introduccio}
 \part{Part teòrica}
 \input{biologia}
-%\input{alive}
+\input{alive}
+\input{tecnologia}
 \part{Part pràctica}
 \chapter{Disseny de l'aplicatiu}
+\input{dissenyglobal}
+\input{eines}
 \input{biotop}
 \input{agents}
 \input{organismes}
 \input{analisis}
+\input{manualusuari}
 \input{manualprogramador}
 \appendix
 \input{bibliografia}
 \label{TODO}
+\addcontentsline{toc}{chapter}{Index Alfabètic}
 \printindex
 
 %% TODO: Treure aixo dels links
