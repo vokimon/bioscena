@@ -49,6 +49,7 @@ public:
 				stream << m_casselles[nCella++];
 			stream<<endl;
 			}
+		stream << blanc.fosc();
 		}
 public:
 	static void ProvaClasse(void) {

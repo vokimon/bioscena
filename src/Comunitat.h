@@ -29,7 +29,7 @@ public:
 	CInfoOrganisme & operator[](uint32 index) {
 		return m_organismes[index];
 	}
-	uint32 introdueix(COrganisme* org, uint32 taxo, uint32 posicio);
+	uint32 introdueix(COrganisme* org, uint32 posicio, uint32 taxo);
 	void extreu (uint32 index);
 	uint32 organismeAleatori();
 // Atributs
