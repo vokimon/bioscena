@@ -38,33 +38,53 @@
 
 using namespace AnsiCodes;
 
-static void importaOrganisme(CBiosistema & biosistema, char * filename)
+static void importaOrganisme(CBiosistema & biosistema)
 {
+	char filename[300];
 	out << clrscr << endl;
-	out << "Important l'organisme del fitxer '" << filename << '\'' << endl;
-	ifstream file(filename, ios::binary|ios::in);
-	if (!file) {
-		error << "Error obrint '" << filename << "'" << endl;
-		cin.get();
+	if (!cin.get(filename,300)) {
+		cin.clear();
 		return;
 	}
+	out << "Important l'organisme del fitxer '" << filename << '\'' << endl;
 	COrganisme * org = new COrganisme;
 	if (!org) {
 		error << "Error de memoria" << endl;
 		cin.get();
 		return;
 	}
+	ifstream file(filename, ios::binary|ios::in);
+	if (!file) {
+		delete org;
+		error << "Error obrint '" << filename << "'" << endl;
+		cin.get();
+		return;
+	}
 	org->load(file);
+	file.close();
 	if (!biosistema.introdueix(org)) {
 		error << "Error introduint l'organisme" << endl;
 		delete org;
 		cin.get();
 		return;
 	}
+	out << "Prem una tecla" << endl;
+	cin.get();
 }
 
-static void exportaOrganisme(CBiosistema & biosistema, char * filename, uint32 id)
+static void exportaOrganisme(CBiosistema & biosistema)
 {
+	char filename[300];
+	uint32 id;
+	cin >> oct >> id >> dec;
+	if (!cin) {
+		cin.clear();
+		return;
+	}
+	if (!cin.getline(filename,300)) {
+		cin.clear();
+		return;
+	}
 	out << clrscr << endl;
 	out << "Exportant l'organisme " << oct << id << dec << " al fitxer '" << filename << '\'' << endl;
 	ofstream file(filename, ios::binary|ios::out);
@@ -76,7 +96,54 @@ static void exportaOrganisme(CBiosistema & biosistema, char * filename, uint32 i
 	COrganisme * org = (*biosistema.comunitat())[id].cos();
 	org->store(file);
 	file.close();
+	out << "Prem una tecla" << endl;
+	cin.get();
 }
+
+static void exportaBiosistema(CBiosistema & biosistema)
+{
+	char filename[300];
+	if (!cin.getline(filename,300)) {
+		cin.clear();
+		return;
+	}
+	out << clrscr << endl;
+	out << "Exportant el biosisitema al fitxer '" << filename << '\'' << endl;
+	ofstream file(filename, ios::binary|ios::out);
+	if (!file) {
+		error << "Error obrint '" << filename << "'" << endl;
+		cin.get();
+		return;
+	}
+	biosistema.store(file);
+	file.close();
+	out << "Prem una tecla" << endl;
+	cin.get();
+}
+
+static void importaBiosistema(CBiosistema & biosistema)
+{
+	char filename[300];
+	if (!cin.getline(filename,300)) {
+		cin.clear();
+		return;
+	}
+	out << clrscr << endl;
+	out << "Important el biosisitema del fitxer '" << filename << '\'' << endl;
+	ifstream file(filename, ios::binary|ios::in);
+	if (!file) {
+		error << "Error obrint '" << filename << "'" << endl;
+		cin.get();
+		return;
+	}
+	biosistema.load(file);
+	biosistema.canviaOrganismeActiu();
+
+	file.close();
+	out << "Prem una tecla" << endl;
+	cin.get();
+}
+
 //////////////////////////////////////////////////////////////////////
 // Variables estatiques
 //////////////////////////////////////////////////////////////////////
@@ -89,6 +156,31 @@ static CMissatger logAccio("Accions realitzades", NULL, unLog);
 // Proves
 //////////////////////////////////////////////////////////////////////
 
+static char TextAjuda[] =
+	"Ajuda de consola de Bioscena\n" 
+	"****************************\n\n" 
+	"Aquestes tecles son disposables durant l'execucio del prototip.\n"
+	"Si prems qualsevol tecla/comanda el programa es para fins que prems el retorn.\n"
+	"\nGeneral:\n\n"
+	"  H      Per tornar a veure aquesta pantalla d'ajuda\n"
+	"  Q      Surt del programa\n"
+	"\nVisualitzacio:\n\n" 
+	"  M      Visualitza el mapa (amb Shift ho treu)\n" 
+	"  O      Visualitza comparativa organismes (amb Shift la treu)\n"
+	"  L      Visualitza les accions dels organismes una per una (Amb Shift ho treu)\n"
+	"  V+Num  Visualitza l'interior de l'organisme especificat\n"
+	"  J+Num  Es salta 'Num' pasos entre visualitzacio i visualitzacio\n"
+	"\nNavegacio Mapa:\n\n"
+	"  W      1 posicio adalt (amb Shift 1 pantalla sencera)\n"
+	"  S      1 posicio abaix (amb Shift 1 pantalla sencera)\n"
+	"  D      1 posicio a la dreta (amb Shift 1 pantalla sencera)\n"
+	"  A      1 posicio a l'esquerra (amb Shift 1 pantalla sencera)\n"
+	"\nActuacio sobre el biosistema:\n\n"
+	"  R      Torna a carregar el fitxer de configuracio d'agents externs\n"
+	"  E      Diferencia els colors dels organismes mutants (amb Shift es desactiva)\n"
+	"  P      Congela el biosistema (amb Shift ho descongela)\n"
+	"\n  Premi return per a continuar amb el programa\n"
+	"\n  Copirait KKEPerians UNLTD\n";
 
 void CBiosistema::ProvaClasse()
 {
@@ -99,7 +191,8 @@ void CBiosistema::ProvaClasse()
 	CBiosistema biosistema;
 	biosistema.carregaOpCodes("Opcodes.ini", error);
 	out << "Inicialitzant Biotop..." << endl;
-	biosistema.biotop(new CTopologiaToroidal<CBiosistema::t_substrat>(Config.get("Biotop/CasellesAmplitud"),Config.get("Biotop/CasellesAltitud")));
+	CTopologia * topologia = new CTopologiaToroidal(Config.get("Biotop/CasellesAmplitud"),Config.get("Biotop/CasellesAltitud"));
+	biosistema.biotop(new CBiotop<CBiosistema::t_substrat>(topologia));
 	biosistema.comunitat(new CComunitat);
 	biosistema.agents(CAgent::ParsejaArxiu("Agents.ini", *(biosistema.biotop()), error));
 	biosistema.taxonomista(new CTaxonomista);
@@ -251,18 +344,16 @@ void CBiosistema::ProvaClasse()
 					else modeCanviat = false;
 					break;
 				case 'Q': 
-				case 'q': return;
+				case 'q': cin.clear(); return;
 				case 'H': 
 				case 'h': helpWanted=true; break;
 				case 'L': modeCanviat = true; biosistema.activaLog(false); break;
 				case 'l': modeCanviat = true; biosistema.activaLog(true); break;
 				case 'R': 
-					cin.get(filename,30);
-					if (!cin.get(filename,30)) {
+					if (!cin.get(filename,300)) {
 						cin.clear();
 						break;
 					}
-					cin.clear();
 					out << clrscr << endl;
 					biosistema.deleteAgents();
 					biosistema.agents(CAgent::ParsejaArxiu(filename, *(biosistema.biotop()), error));
@@ -280,31 +371,20 @@ void CBiosistema::ProvaClasse()
 					cin.get();
 					modeCanviat = true;
 					break;
+				case 'x':
+					importaBiosistema(biosistema);
+					modeCanviat = true;
+					break;
+				case 'X':
+					exportaBiosistema(biosistema);
+					modeCanviat = true;
+					break;
 				case 'c': 
-					if (!cin.get(filename,30)) {
-						cin.clear();
-						break;
-					}
-					cin.clear();
-					importaOrganisme(biosistema, filename);
-					out << "Prem una tecla" << endl;
-					cin.get();
+					importaOrganisme(biosistema);
 					modeCanviat = true;
 					break;
 				case 'C': 
-					cin >> oct >> id >> dec;
-					if (!cin) {
-						cin.clear();
-						break;
-					}
-					if (!cin.get(filename,30)) {
-						cin.clear();
-						break;
-					}
-					cin.clear();
-					exportaOrganisme(biosistema, filename, id);
-					out << "Prem una tecla" << endl;
-					cin.get();
+					exportaOrganisme(biosistema);
 					modeCanviat = true;
 					break;
 				case 'e': biosistema.taxonomista()->activaEspeciacio(true); break;
@@ -334,33 +414,7 @@ void CBiosistema::ProvaClasse()
 		}
 		if (helpWanted) {
 			helpWanted=false;
-			cout << clrscr <<
-				"Ajuda de consola de Bioscena\n" 
-				"****************************\n\n" 
-				"Aquestes tecles son disposables durant l'execucio del prototip.\n"
-				"Si prems qualsevol tecla/comanda el programa es para fins que prems el retorn.\n"
-				"\nGeneral:\n\n"
-				"  H      Per tornar a veure aquesta pantalla d'ajuda\n"
-				"  Q      Surt del programa\n"
-				"\nVisualitzacio:\n\n" 
-				"  M      Visualitza el mapa (amb Shift ho treu)\n" 
-				"  O      Visualitza comparativa organismes (amb Shift la treu)\n"
-				"  L      Visualitza les accions dels organismes una per una (Amb Shift ho treu)\n"
-				"  V+Num  Visualitza l'interior de l'organisme especificat\n"
-				"  J+Num  Es salta 'Num' pasos entre visualitzacio i visualitzacio\n"
-				"\nNavegacio Mapa:\n\n"
-				"  W      1 posicio adalt (amb Shift 1 pantalla sencera)\n"
-				"  S      1 posicio abaix (amb Shift 1 pantalla sencera)\n"
-				"  D      1 posicio a la dreta (amb Shift 1 pantalla sencera)\n"
-				"  A      1 posicio a l'esquerra (amb Shift 1 pantalla sencera)\n"
-				"\nActuacio sobre el biosistema:\n\n"
-				"  R      Torna a carregar el fitxer de configuracio d'agents externs\n"
-				"  E      Diferencia els colors dels organismes mutants (amb Shift es desactiva)\n"
-				"  P      Congela el biosistema (amb Shift ho descongela)\n"
-				"\n  Premi return per a continuar amb el programa\n"
-				"\n  Copirait KKEPerians UNLTD\n"
-				<< endl
-				;
+			cout << clrscr << TextAjuda << endl;
 			cin.get();
 			modeCanviat = true;
 		}

@@ -6,7 +6,7 @@
 #define __KKEP_BIOSISTEMA_H_INCLUDED
 
 #include <functional>
-#include "Topologia.h"
+#include "Biotop.h"
 #include "Substrat.h"
 #include "Agent.h"
 #include "Comunitat.h"
@@ -32,7 +32,7 @@ class CBiosistema
 {
 // Tipus propis
 public:
-	typedef CTopologia<CSubstrat> t_biotop;
+	typedef CBiotop<CSubstrat> t_biotop;
 	typedef CSubstrat t_substrat;
 	typedef CComunitat t_comunitat;
 	typedef CAgent t_agent;
@@ -69,6 +69,8 @@ public:
 // Redefinibles
 public:
 	virtual void operator () (void);
+	virtual istream & load(istream & str);
+	virtual ostream & store(ostream & str);
 // Operacions (Access als membres)
 public:
 	bool carregaOpCodes(char * nomFitxer, CMissatger & errors);

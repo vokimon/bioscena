@@ -67,10 +67,10 @@ int main (int argc, char**argv)
 //	CConfiguracio::ProvaClasse();
 
 // Proves Biotop
-//	CTopologia<CColor>::ProvaClasse(); //OK TODO: Provar tipus propis i scan
-//	CTopologiaToroidal<CColor>::ProvaClasse(); //OK
-//	CSubstrat::ProvaClasse(); //
-//	CTopologiaToroidal<CSubstrat>::ProvaClasse(); //OK
+//	CTopologia::ProvaClasse(); //OK 20000220 TODO: Integrar unio en les proves
+//	CTopologiaToroidal::ProvaClasse(); // OK 20000220 TODO: Integrar unio en les proves
+//	CSubstrat::ProvaClasse();  //OK 20000220
+//	CBiotop<CSubstrat>::ProvaClasse(); //OK 20000221
 
 // Proves Agents
 //	CFuncioAgent::ProvaClasse(); //OK
@@ -96,20 +96,11 @@ int main (int argc, char**argv)
 //	CCariotip::ProvaClasse();
 //	CMutacioCariotip::ProvaClasse();
 //	CGenotip::ProvaClasse(); // OK 19991202
-//	CComunitat::ProvaClasse(); // OK
+//	CComunitat::ProvaClasse(); // OK 20000221
 	CBiosistema::ProvaClasse();
 
 //	cout << ">> Final de proves. Pulsa la tecla de retorn...";
 //	cin.get();
-/*}
-catch(exception& e)
-{
-	out << "Recogida excepcion: '" << e.what() << "'" << endl;
-}
-catch(...)
-{
-	error << "Ostia patxi, la he cogido" << endl;
-	throw;
-}*/
+
 	return 0;
 }
