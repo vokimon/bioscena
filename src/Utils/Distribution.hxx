@@ -40,9 +40,9 @@ public:
 	* @param magnitude The maximum value of the distribution
 	*/
 	Distribution(uint32 minimum = 0, uint32 dices=0, uint32 magnitude=1) :
-		m_minim(minimum),
-		m_magnitudDau(magnitude),
-		m_nombreDaus(dices)
+		m_minimum(minimum),
+		m_dicesMagnitude(magnitude),
+		m_numberOfDices(dices)
 	{
 	};
 	virtual ~Distribution() {};
@@ -57,11 +57,9 @@ public:
 	*/
 	uint32 operator() ()
 	{
-		// Inicialitzem amb el valor minim
-		uint32 val=m_minim;
-		// I li afegim l'extra dels daus
-		for (uint32 i=m_nombreDaus; i--;)
-			val+=rnd.get(0,m_magnitudDau);
+		uint32 val=m_minimum;
+		for (uint32 i=m_numberOfDices; i--;)
+			val+=rnd.get(0,m_dicesMagnitude);
 		return val;
 	}
 /// @}
@@ -70,36 +68,36 @@ public:
 /// @{
 public:
 	/// Sets the minimum value
-	void minimum(uint32 minim) {
-		m_minim=minim;
+	void minimum(uint32 minimum) {
+		m_minimum=minimum;
 	}
 	/// Gets the minimum value
 	uint32 minimum() const {
-		return m_minim;
+		return m_minimum;
 	}
 	/// Sets the dices number
 	void dices(uint32 dices) {
-		m_nombreDaus=dices;
+		m_numberOfDices=dices;
 	}
 	/// Gets the dices number
 	uint32 dices() const {
-		return m_nombreDaus;
+		return m_numberOfDices;
 	}
 	/// Sets the dices magnitude
 	void dicesMagnitude(uint32 magnitude) {
-		m_magnitudDau=magnitude;
+		m_dicesMagnitude=magnitude;
 	}
 	/// Gets the dices magnitude
 	uint32 dicesMagnitude() const {
-		return m_magnitudDau;
+		return m_dicesMagnitude;
 	}
 /// @}
 
 // Attributes
 private:
-	uint32 m_minim;
-	uint32 m_magnitudDau;
-	uint32 m_nombreDaus;
+	uint32 m_minimum;
+	uint32 m_dicesMagnitude;
+	uint32 m_numberOfDices;
 };
 
 }
