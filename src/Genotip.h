@@ -17,11 +17,11 @@ class CGenotip : public CControlOrganisme
 public:
 	CGenotip();
 	virtual ~CGenotip();
-// Operacions
+// ControlOrganisme Interface Implementation
 public:
-	virtual bool init(CCariotip& c);
+	virtual bool init(const CCariotip& c);
 	virtual void clear();
-	virtual uint32 seguentInstruccio(uint32 * fenotip);
+	virtual uint32 seguentInstruccio(const uint32 * fenotip);
 	virtual void dump(CMissatger & msg);
 // Atributs
 public:
