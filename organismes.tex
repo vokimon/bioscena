@@ -9,33 +9,63 @@
 \subsection{Visió externa dels organismes}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Externament, sigui quina sigui la estructura interna de l'organisme,
-ha de proveir a biosistema els següents serveis.
+Independentment de la seva estructura interna, l'organisme ha 
+d'oferir al biosistema els següents serveis:
 
 \begin{itemize}
 \item
-L'organisme ha d'anar proveint al biosistema de instruccions que
-l'indiquin les seves accions. Com es generen les instruccions és
-qüestió dels propis organismes.
+Expedir instruccions que indiquin al biosistema les accions que 
+pensa realitzar.
 \item
-L'organisme proveeix al biosistema un conjunt de registres que formen
-el seu fenotip. El biosistema pot modificar-los i consultar-los
+Permetre l'accés a un conjunt de registres que formen el fenotip de 
+l'organisme. El biosistema pot modificar-los i consultar-los
 segons ho requereixin les instruccions d'aquest o d'altres
 organismes.
 \item
-L'organisme ha d'implementar unes funcions vitals que modifiquin
-l'estat intern\footnote{L'estat intern no inclou, per exemple, canvis
-de posició, donat que són dades que no són intrínseques al propi
-organisme, sinó que són el resultat de la seva integració en el
-biosistema. Aquest altre tipus de dades les controla la Comunitat.}
-de l'organisme. El biosistema ha de proporcionar tots els paràmetres
-que necessitin les funcions vitals, inclosos els que, segurament,
-provinguin de valors del fenotip.
+L'organisme ha de proveir al biosistema d'un protocol d'accés al
+seu sistema metabòlic i a d'altres funcions vitals. Aquestes
+funcions vitals, no poden accedir directament al fenotip. 
 \item
-També han d'implementar operadors per tal de crear nous organismes a
-partir d'altres i organismes aleatoris.
-
+També han d'implementar mecanismes per tal de crear nous organismes.
+De forma aleatòria o a partir d'altres ja existents.
 \end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Components bàsics}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Un organisme es composa, doncs, de quatre parts principals:
+\begin{itemize}
+\item {\em Sistema d'herència (cariotip):} Conté la informació genètica que es passa de pares a fills.
+\item {\em Sistema de control (genotip):} Determina les accions que realitza l'organisme.
+\item {\em Sistema de memòria (fenotip):} Fa d'interfície entre l'entorn i l'organisme.
+\item {\em Sistema metabòlic (pap+estat energètic):} Conjunt de recursos que permeten a l'organisme obtenir i fer servir l'energia.
+\end{itemize}
+
+Les interrelacions entre els diferents mòduls es descriuen a la 
+figura \ref{fig:execucioInstruccions}. 
+\begin{figure}[h]
+\centering
+%    \includegraphics[width=6.1 in, keepaspectratio, draft]{compatibilitat2}
+    \framebox[6.2 in]{TODO: Posar la gràfica del funcionament que hi ha a la presentació Power Point}
+    \caption{Model d'execució d'instruccións}
+    \label{fig:execucioInstruccions}
+\end{figure}
+
+A grans trets, el funcionament és el següent:
+\begin{enumerate}
+\item Quan un organisme neix, es genera un sistema de control a partir del cariotip i s'inicialitzen el fenotip i el sistema metabòlic.
+\item Un cop introduït l'organisme dins de la comunitat, el biosistema pot demanar-li instruccions al sistema de control.
+\item El sistema de control consulta el fenotip i decideix quina instrucció cal executar.
+\item El sistema de control retorna al biosistema la instrucció en qüestió.
+\item El biosistema completa la instrucció amb paràmetres que es troben dins del fenotip.
+\item El biosistema executa la instrucció. L'execució pot comportar consultes i/o modificacions sobre l'estat de:
+\begin{itemize}
+\item La comunitat i el biòtop
+\item El fenotip i el sistema metabòlic del propi organisme.
+\end{itemize}
+\end{enumerate}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Model metabòlic dels organismes}
@@ -104,102 +134,82 @@ metabòlic. Per un costat, l'energia útil és l'única que pot fer-se
 servir a la majoria de processos vitals. Per un altre, aquesta
 energia útil té una caducitat de forma que, quan passa un cert temps
 de la seva obtenció, es disipa. La figura \ref{fig:modelMetabolic}
-indica els camins que poden fer els nutrients dins de l'organisme.
+representa els cicles energètics dins d'un organisme.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Ingestió}
+\subsubsection{Fluxe de nutrients}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Com s'ha explicat a la secció \ref{sec:biotop}, els nutrients tenen
+Com s'ha explicat a l'apartat \ref{sec:biotop}, els nutrients tenen
 un identificador o patró qualitatiu que indica quin tipus de nutrient
 és. Per seleccionar un nutrient dins d'un grup, només cal oferir una
 clau o patró de cerca i una tolerància respecte a aquest patró.
+Cal recordar que la funció de compatibilitat entre claus no és 
+determinista (apartat \ref{TODO}) i l'execució d'una mateixa cerca
+pot donar resultats diferents.
 
-Per introduir un nutrient dins del seu cos, un organisme només té que
-precissar el lloc d'on vol extreure-ho (un substrat o un altre
-organisme a una posició determinada), si existeix l'element que
-compleixi aquest requisit i es donen totes les altres condicions
-necessàries, el nutrient és introduït a l'interior de l'organisme.
+Un organisme pot introduir un nutrient en el seu cos des del medi
+per ingestió o des d'un altre organisme en atacar-lo.
+Anàlogament, els nutrients es poden extreure del cos cap al medi 
+per excreció i cap un altre organisme en rebre un atac.
 
-Es possible configurar el sistema perque el fet d'engolir un nutrient
-comporti un guany energètic sense necessitat de processar-ho. 
+El nombre de nutrients que hi caben al pap d'un organisme pot estar 
+limitat per configuració. De fet es recomana, donat que alguns 
+organismes tendeixen a acomular-ne i se'n deriva un alt consum de
+memòria. Al igual que succeeix al substrat, quan es sobrepassa el
+límit, els nutrients més antics s'eliminen.
 
-També seria possible configurar un nombre màxim de elements que
-es mantenen al pap. Això és molt aconsellat si, per les característiques
-del biosistema els organismes tendeixen a acomular excessius nutrients
-amb la conseqüent ocupació de memòria.
-Al igual que al substrat, si en sobren s'eliminen els més antics.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Metabolisme}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-Un cop els nutrients estan dins de l'organisme, pot metabolitzar-los,
-amb l'objectiu d'obtindre energia, un producte resultant o totes dues
-coses. Els productes resultants es poden fer servir per una altra
-reacció, per mantenir-ho de reserva, o per excretar-ho.
-
-L'organisme pot fer ús de l'energia que s'obté de les reaccions
-durant un temps limitat, si no es consumeix dintre d'aquest temps,
-aquesta es disipa.
-Es preten que les diferents circumstàncies permetin que hi hagi un
-equilibri entre els nutrients acomulats i l'energia processada.
-
-Pot ser, una espècie tendeix a acomular masses nutrients. Si això
-passes, els seus depredadors tenderien a augmentar en nombre
-d'organismes i en nombre d'espècies.
+Per fer una reacció metabòlica, s'extreuen els nutrients reactius 
+del pap de l'organisme. D'aquesta reacció s'obte un balanç d'energia
+i uns productes que son introduïts al pap novament.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Excreció}
+\subsubsection{Fluxe d'energia útil}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Tant els nutrients introduïts recentment, com els nutrients que són
-productes d'una reacció química poden ser excretats per l'organisme.
-Les oportunitats que donem a l'evolució amb aquest mecanisme són molt
-diverses.
+Segons els reactius, les reaccions metabòliques acaben sent exògenes
+o endògenes, és a dir, proudeixen energia o en consumeixen.
+
+El més normal segons el model és obtindre energia útil a partir de 
+les reaccions metabòliques exògenes. Però, és possible configurar el 
+biosistema per que certes accions, com el simple fet d'ingerir un 
+nutrient, en generin energia útil. No dependre del metabolisme per 
+obtindre energia permet implementar sistemes més simples, que 
+facilitin la feina als organismes per sobreviure.
+
+L'energia útil es consumeix per tres motius:
 \begin{itemize}
-\item Treure a fora els nutrients que ja ens fan més nosa que servei.
-\item Proporcionar a la descendència nutrients via excreció.
-\item Detectar als membres d'una espècie o el seu estat per les
-mol·lecules excretades.
-\item ...
+\item Les contribucions energètiques a reaccions endògenes
+\item El cost de les accions realitzades
+\item La disipació
 \end{itemize}
 
-El caracter obert que poden adoptar les soluccions dels organismes
-implica que la llista anterior pot no ser tancada, o pot ser els
-organismes no arribin a cap dels punts anteriors.
+Es pot configurar el cost associat a cada funció vital. Equilibrar
+els costos i guanys energètics de les diferents operacions és crucial 
+per obtindre comportaments complexos en els organismes. Cal forçar-los
+a que desenvolupin estratègies complexes i que tinguin flexibilitat
+de maniobra per evolucionar estrategies no optimes. 
 
-Els nutrients excretats s'indiquen amb un element bàsic i una
-tolerància. Es fa una cerca, amb la funció de compatibilitat, dins
-dels nutrients que hi ha a l'interior de l'organisme.
+La disipació de l'energia s'implementa amb un seguit de contenidors
+cadascun dels quals té una caducitat. L'energia obtinguda es fica en
+el contenidor més nou, mentres que l'energia que perdem l'extreiem
+dels contenidors més vells. Quan el contenidor més vell caduca,
+l'energia que hi conté es perd (es disipa) i s'afegeix un contenidor
+nou buit. 
 
-TODO: Balanç energètic de l'excreció
-TODO: Elements configurables de l'excreció
+\begin{figure}[h]
+\centering
+%    \includegraphics[width=6.1 in, keepaspectratio, draft]{disipable}
+    \framebox[6.2 in]{TODO: Esquema dels contenidors d'energia}
+    \caption{Disipació de l'energia}
+    \label{fig:disipacio}
+\end{figure}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Atac i defensa}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-Un organisme, de banda d'obtindre nutrients del medi, tambè els pot 
-obtindre d'altres organismes. Per fer-ho, només cal indicar una 
-posició on suposadament hi ha un altre organisme, un element base
-i una tolerància, i una clau d'atac. Aquesta clau d'atac, en 
-enfrentar-la a la clau de defensa de la victima en resulta la força
-final de l'atac. Aquesta força indica el nombre de vegades que es 
-provarà d'extreure un nutrient del pap de la victima segons l'element
-base i la tolerància.
-
-Com es pot deduir, d'un atac es poden obtindre molts nutrients al
-mateix temps. Això prova de compensar els desavantatges de 
-desenvolupar una conducta depredadora.
-
-TODO: Balanç energètic de l'atac
-TODO: Elements configurables de l'atac
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Model genètic dels organismes}
+\subsection{Sistèma d'herència}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -207,22 +217,27 @@ TODO: Elements configurables de l'atac
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 En aquest projecte, estan diferenciats els conceptes de cariotip i
-genotip. El cariotip, simplement és un seguit de dades,
+genotip. El cariotip, simplement és un seguit de dades, 
 significatives o no, organitzades en cromosomes. El genotip és la
 interpretació de la informació útil que s'hi troba al cariotip i està
-organitzada en gens.
+organitzada en gens i que en el nostre cas serveix com a sistema de
+control com s'explica més endavant.
 
 Si els cromosomes que formen el cariotip són unitats estructurals del
-codi genètic, els gens que formen el genotip en són les seves unitats
-funcionals. Aquest divisió té les següents justificacions:
+material genètic, els gens que formen el genotip en són les seves 
+unitats funcionals. 
+
+Aquest diferenciació es justifica perquè:
 \begin{enumerate}
 \item Permet un model multicromosómic, amb un nombre i longitud de
-cromosomes variable.
+cromosomes variable que possibilita solucions creatives 
+\cite{VarLengthKargupta}.
 \item Permet implementar, sobre els cromosomes, operadors de
 mutació i creuament planers.
-\item La traducció de cariotip a fenotip, ens permet detectar
-promotors i terminadors, proporcionar operadors, eliminar introns...
-facilitant d'aquesta forma l'implementació d'aquests fenòmens.
+\item La traducció de cariotip a genotip, ens permet detectar
+promotors i terminadors \cite{ptGAs}, proporcionar operadors, 
+eliminar introns \cite{IntronExonFoster}... Facilita d'aquesta 
+forma la implementació d'aquests fenòmens.
 \item És més semblant al comportament biològic.
 \end{enumerate}
 
@@ -248,13 +263,17 @@ on estan les dades genètiques. És un medi que pot tenir errors i
 provocar mutacions. Dins d'un organisme, la tasa de mutació de cada
 cromosoma és proporcional a la seva longitud.
 
-El cariotip és el responsable de les mutacions germinals (en
-contraposició a les somàtiques, com es va comentar a la secció
-\ref{mutacioMolecular}), és a dir, les mutacions que passaran a la
-descendència.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Mutacions}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+El cariotip és el responsable de les mutacions que passaran a la
+descendència (mutacions germinals, veure l'apartat \ref{mutacioMolecular}).
+
+% TODO: Ei, que al final no evoluciones la mutació
 
 Tot i que la probabilitat de mutació ha de dependre, en gran mesura,
-dels agens mutagens del medi, els organismes han de poder controlar
+dels agents mutàgens del medi, els organismes han de poder controlar
 genèticament la probabilitat de mutació per adaptar-la a la seva
 situació. En posar en mans de l'evolució la probabilitat de mutar
 estem confiant en que l'coevolució castigarà els organismes que no
@@ -265,7 +284,7 @@ una clau que té el propi organisme. Aquesta clau es pot adaptar, en
 major o menor mesura, al llarg del procés evolutiu, a una
 d'equivalent que hi ha a cada posició del substrat.
 
-TODO: Cal clarificar més com determinar la probabilitat de mutació.
+% TODO: Cal clarificar més com determinar la probabilitat de mutació.
 
 Un cop es dóna, a un organisme, la probabilitat de mutar, cal decidir
 com es fa la mutació, es a dir, amb quin operador de mutació es fa.
@@ -278,16 +297,53 @@ operador de mutació.
 
 %% TODO: On es codifica la ponderació pels operadors de mutació
 
-Una mutació és cromosòmica si afecta a diversos cromosomes alhora,
-sent llavors el cariotip el responsable d'executar-la. O bé, si la
-mutació és gènica o biomol·lecular, afectarà nomes a un sól
-cromosoma. En aquest cas el cariotip li traspassa la responsabilitat
-a un cromosoma per que muti. Com decidim en quin cromosoma aplicarem
-la mutació? Ho farem mitjançant una formula com la de la equació
-\ref{eq:ponderacioOperadors}, pero en comptes de tenir en compte una
-ponderació codificada genèticament, tindrem en compta la longitud del
-cromosoma en front de la longitud total del cariotip. Així fem que
-sigui uniforme la densitat de mutació.
+Els operadors de mutació són objectes que podem aplicar a un cariotip
+per aplicar la mutació. Els operadors de mutació implementats es basen
+en el funcionalment de les mutacions naturals i es divideixen en tres
+categories segons el seu abast:
+\begin{itemize}
+\item {\em Mutació Cariotípica:} Modifica el cariotip.
+\begin{itemize}
+\item {\em Mutació per fusió:} Fusiona dos cromosomes.
+\item {\em Mutació per escisió:} Parteix en dos un cromosoma.
+\item {\em Euploidia positiva:} Duplicació total del cariotip.
+\item {\em Aneuploidia positiva:} Duplicació d'un cromosoma.
+\item {\em Aneuploidia negativa:} Eliminació d'un cromosoma.
+\end{itemize}
+\item {\em Mutacio cromosómica o estructural:} Modifica l'estructura 
+d'un cromosoma. 
+\begin{itemize}
+\item {\em Mutació per delecció:} Elimina un fragment del cromosoma.
+\item {\em Mutació per desplaçament:} Desplaça un fragment de lloc 
+dins del cromosoma.
+\item {\em Mutació per inserció aleatòria:} Insereix al cromosoma un 
+fragment aleatori.
+\item {\em Mutació per inserció replicada:} Insereix al cromosoma un 
+fragment replicat del mateix cromosoma.
+\end{itemize}
+\item {\em Mutació gènica o puntual:} Modifica el contingut d'una 
+base o conjunt de bases.
+\begin{itemize}
+\item {\em Mutació puntual dràstica:} Canvia una paraula (codó) per un altre.
+\item {\em Mutació puntual binària:} Inverteix una base (bit) per un altre.
+\item {\em Mutació puntual binària en distribució gaussiana:} Inverteix aproximadament 4 bits d'un codó (el nombre de bases modificades següeix una distribució normal).
+\end{itemize}
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{El sistema de control}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Trets generals}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Per a la resta del sistema, la implementació interna del sistema de 
+control és indiferent. Podria ser una Xarxa neuronal com als LEE, 
+però, a l'exemple que es proposava aquí, es pretenia comprovar si els 
+mecanismes d'expressió gènica naturals poden ocupar aquest lloc.
+
+El nostre sistema de control ha de simular aquests mecanismes.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Els gens i el genotip}
@@ -299,13 +355,13 @@ significatius s'agrupen en {\bf gens}\index{gen!segons aquest
 projecte}, que s'interpreten a partir dels codons del cromosoma.
 
 Cada gen té una zona operadora\index{zona operadora} que activa o
-desactiva el gen segons certa condició que depèn del fenotip o
+desactiva el gen segons certa condició que ha de complir el fenotip o
 indirectament, mitjançant el fenotip, del món exterior.
 
 La zona estructural (seguint de forma aproximada la nomenclatura de
-Jacob i Monod) és la que es veu controlada per la zona operadora. En
-ella estan la informació (instruccions) que s'executaran si la zona
-operadora ho permet.
+Jacob i Monod) és la que es veu controlada per la zona operadora. 
+Dins d'ella està la informació (instruccions) que s'executarà si la 
+zona operadora ho permet.
 
 En resum, la transcripció del cromosoma en gens constarà de diverses
 parts:
@@ -318,24 +374,24 @@ el final d'un locus)
 interpretació de la zona operadora (indicarà quan cal executar el gen
 traduït).
 \item Eliminació d'introns (sequencies de codons no significatius) entre
-promotora i terminadora
+promotora i terminadora (procés de maduració)
 \item Traducció de la zona estructural (la que porta les instruccions
 que s'executaran amb el gen)
 \end{enumerate}
 
-Per raons d'optimització, aquesta transcripció es fa només una vegada
-durant la vida de l'organisme, encara que, a la natura, la
-transcripció de l'ADN es fa contínuament. Això no té implicacions
-massa importants, donat que ens guardem amb el gen el significat de 
-la seva zona operadora que ens serveix per simular el comportament 
-temporal de la transcripció.
+Per raons d'optimització, la transcripció, maduració i traducció es 
+fa només una vegada durant la vida de l'organisme, encara que, a la 
+natura, la transcripció de l'ADN es fa contínuament. Això no té 
+implicacions massa importants, donat que ens guardem amb el gen el 
+significat de la seva zona operadora que ens serveix per simular el 
+comportament temporal de la transcripció.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{El fenotip}
+\subsection{El fenotip}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-El que anomenem propiament {\em fenotip}\index{fenotip!segons aquest
+El que anomenem pròpiament {\em fenotip}\index{fenotip!segons aquest
 projecte} és un conjunt de 16 registres de 32 bits que té cada
 organisme. Representen el cos físic de l'organisme.
 
@@ -343,49 +399,18 @@ El fenotip es modifica per acció directa del genotip. Sovint, si es
 tracta d'operacions sensorials, aquestes modificacions depenen del
 medi o de l'estat intern. Les operacions també poden ser motores, i
 en aquest cas el contingut del fenotip és qui afecta al medi i/o a
-l'estat intern. En resum, tenim els següents grups d'instruccions
-segons el seu efecte sobre el fenotip, el medi i l'estat intern:
-
-\begin{description}
-\item[Instruccions d'operador:] Controlen quines instruccions
-s'executen segons l'estat del fenotip.
-\item[Instruccions motores:] Modifiquen el medi i/o l'estat intern en
-funció de paràmetres codificats al fenotip.
-\item[Instruccions sensores:] Introdueixen, dins del fenotip, informació del
-medi i/o de l'estat intern de l'organisme. L'execució de instruccions
-sensores també depenen de paràmetres que es troben codificats al
-fenotip.
-\item[Instruccions fenotípiques:] Modifiquen el fenotip sense que en
-depengui d'altre cosa que el fenotip i la instrucció executada.
-\end{description}
+l'estat intern modificant les instruccions expedides per l'organisme. 
 
 Per últim, cal remarcar que el fenotip és un dels dos mitjans que
-tènen els organismes per reconeixer-se, juntament amb la detecció de
-mol·lècules excretades. Hi ha instruccions sensores el resultat de
-les quals depén del fenotip de l'organisme que es troba a una posició
-relativa.
+tènen els organismes per reconèixer els altres, juntament amb la 
+detecció de mol·lècules excretades. Hi ha instruccions sensores el 
+resultat de les quals depén del fenotip de l'organisme que es troba 
+a una posició relativa.
 
 En resum, el fenotip és el mecanisme principal d'interacció que tenen
 els organismes.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\subsubsection{Sensors}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Operacions sobre l'estat intern}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-TODO: Descriure les operacions sobre l'estat intern
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Conjunt d'instruccions}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-TODO: Descriure el conjunt d'instruccions (i com s'executen?)
-
-TODO: Posar a algun lloc el tema de les mutacions somàtiques
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
+

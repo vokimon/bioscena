@@ -10,8 +10,190 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Generalitats}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Per a l'execució del programa, només són necessaris els següents arxius:
+
+\begin{tabular}{lp{6in}}
+bioscena.exe	& L'executable. Pot tenir un altre nom segons el sistema \\
+bioscena.ini	& Conté la configuració dels paràmetres del biosistema\\
+agents.ini	& Conté la configuració dels agents externs que actuen sobre el medi\\
+opcodes.ini	& Conté la correspondència dels bytecodes amb les intruccions
+\end{tabular}
+Han d'estar tots quatre al mateix directori.
+
+L'executable necessita una pantalla de text de 80x50 i seqüències de 
+terminal ANSI. Els següents apartats expliquen com fer-ho a diferents
+sistemes.
+
+Si, al sistema destí, no és possible treballar amb un terminal 80x50
+es poden canviar fàcilment el codi font les coordenades dels objectes
+gràfics.
+
+% TODO: Aixo fins que posi quelcom per configurar-ho
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Terminal ANSI de 50 linies sota Windows 95}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Per suportar les seqüències de control ANSI, cal haver iniciat l'ordinador
+o una sessió MSDOS amb la línia 
+\begin{verbatim}
+DEVICE=C:\WINDOWS\COMMAND\ANSI.SYS
+\end{verbatim}
+dintre del config.sys.
+
+Per posar la pantalla a 80x50, si és un executable de DOS (DJGPP), 
+cal crear un acces directe i, a les seves propietats, al separador 
+'Pantalla' especificar 50 linies.
+
+Si és un executable Win32 (compilat amb Microsoft Visual C++), 
+automaticament es posa a 80x50.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Terminal ANSI de 50 linies sota Windows-NT}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Per fer servir les seqüències ANSI amb l'executable MS-DOS, cal 
+seguir les següents passes:
+\begin{itemize}
+\item Si ja existeix l'arxiu {\tt config.nt} al comprimit, cal 
+copiar-lo al directori del executable, i saltar-se els dos següents 
+passos.
+\item Copiem l'arxiu \verb"c:\WINNT\SYSTEM32\config.nt" al directori de l'executable.
+\item L'editem i afegim la línia:
+\begin{verbatim}
+DEVICE=$WINNT$\SYSTEM32\ANSI.SYS
+\end{verbatim}
+\item Obrim les propietats de l'executable DOS
+\item Premem el botó 'Avanzada' del separador 'Programa'
+\item A la capsa pel {\tt config.nt} posem l'encaminament del personalitzat.
+\end{itemize}
+
+Per canviar el nombre de linies de la pantalla, si ho fem al mateix lloc
+ke ho feiem a Windows 95, no en fa cas. Cal seguir les següents passes:
+\begin{itemize}
+\item Executar el programa
+\item Accedir a l'opcio propietats del menu de sistema de la finestra.
+Surtirà un diàleg de propietats diferent que el de Windows 95. 
+\item Cal canviar a una lletra suficient petita, si no, ignorarà la resta de canvis. 
+\item Augmentar el tamany del buffer de sortida i de l'àrea de pantalla fins a 50 línies com a mínim.
+\item En aceptar, posar que guardi les opcions per a proximes execucions.
+\end{itemize}
+Si tot va bé, la proxima vegada que ho executem, sortirà bé.
+
+Un executable Win32 es posarà automaticament a 80x50, però, no s'ha 
+provat encara com fer funcionar l'ANSI.SYS amb un executable Win32 sota 
+Windows NT.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Terminal ANSI de 50 linies sota Linux}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+A linux ja hi ha ANSI per defecte tant a terminals texte com a X-terms.
+
+Per obtindre un terminal 80x50 aquí hi han unes solucions.
+\begin{tabular}{lp{5in}}
+Xterms & Simplement, cal augmentar el tamany de la finestra fins que hi
+capiguen 80x50 linies. \\
+Terminals ordinaris & Cal especificar al {\tt lilo} el mode gràfic que fa servir. Consulta el manual.
+\end{tabular}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Configuració}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Existeixen tres arxius de configuració:
+
+\begin{tabular}{lp{6in}}
+bioscena.ini	& Paràmetres del biosistema\\
+agents.ini	& Agents externs\\
+opcodes.ini	& Correspondència entre codis i intruccions
+\end{tabular}
+
+A continuació s'expliquen en detall.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Arxiu {\tt bioscena.ini}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+TODO: Explicacio del bioscena.ini
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Arxiu {\tt opcodes.ini}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Aquest arxiu simplement configura la correspondència entre els opcodes
+i les instruccions que s'executen.
+
+Amb la variable {\tt Biosistema/OpCodes/BitsOperacio} de l'arxiu 
+{\tt bioscena.ini} es pot limitar els bits útils d'aquest byte 
+escollint els n menys significatius. 
+Així no cal generar les 256 entrades.
+
+El següent arxiu serviria per a 5 bits significatius. 
+{\setlinespacing{1}
+\begin{verbatim}
+* 00 NoOperacio
+* 01 Mitosi
+* 02 Anabol
+* 03 Engoleix
+* 04 Excreta
+* 05 Ataca
+* 06 Avanca
+* 07 SensorI
+* 08 SensorP
+* 09 SensorQ
+* 0A Random
+* 0B Carrega
+* 0C And
+* 0D Xor
+* 0E Oposa
+* 0F ShiftR
+\end{verbatim}
+}
+
+El números que es fan servir per l'opcode estan codificats en hexadecimal.
+Cada línia ha d'anar precedida d'un signe {\tt *} i separant els tres
+elements de cada línia, va un espai o tabulador.
+
+La taula \ref{tab:mnemonics} es citen tots els mnemònics implementats:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|cccc|}
+\multicolumn{4}{c}{Instruccions Motores}\\
+\hline
+ NoOperacio	& Mitosi 	& Avanca	& Catabol	\\
+ Engoleix	& Excreta	& Ataca		& Anabol	\\
+\hline
+\multicolumn{4}{c}{}\\
+\multicolumn{4}{c}{Instruccions Fenotip}\\
+\hline
+ And		& Or		& Xor		& Carrega	\\
+ Copia		& Not		& Oposa		& Random	\\
+ ShiftR		& ShiftL	&		&		\\
+\hline
+\multicolumn{4}{c}{}\\
+\multicolumn{4}{c}{Instruccions Sensorials}\\
+\hline
+ SensorI	& SensorP	& SensorQ	& 		\\
+\hline
+\end{tabular}
+\caption{Mnemònics implementats}
+\label{tab:mnemonics}
+\end{table}
+
+Si cap opcode queda està sense assignar-li un mnemònic, es donarà
+un missatge d'advertiment i se li asignara {\tt NoOperacio}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Arxiu {\tt agents.ini}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+El funcionament d'aquest fitxer de configuració s'explica en més 
+detall a l'apartat \ref{sec:agentsExterns} de la memòria.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Operació normal}

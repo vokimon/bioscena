@@ -1,7 +1,11 @@
 
-\chapter{Introducció al projecte}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Introducció}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Àmbit del projecte}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Aquest projecte és dins de l'àmbit de la vida artificial
 (Artificial Life), disciplina que recull coneixements
@@ -50,13 +54,17 @@ processos donin la impressió d'executar-se paral·lelament.
 % TODO: Cap àmbit més pel projecte? De banda de l'Alife
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Antecedents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Dels treballs que s'han fet sobre vida artificial, cal destacar,
 com a precedents, per la seva relació amb aquest projecte, els
 següents:
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Latent Energy Environment (LEE)}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 El projecte que aquesta memòria presenta parteix de les experiències
 que Richard K. Beleg i Filippo Menezer van fer sobre el model Latent
@@ -132,7 +140,7 @@ projecte.
 La plasticitat\index{plasticitat}, segons Beleg i Menezer
 \cite{LEEPlasticity1994}, 
 és la capacitat que té l'organisme de modificar el seu fenotip durant la
-seva vida. Als LEE aquesta plasticitat els hi dona la xarxa neuronal,
+seva vida. Als LEE aquesta plasticitat els hi dóna la xarxa neuronal,
 un sistema cognitiu. Però, trobem a la natura, que la resta
 d'organismes que no estan provistos d'un sistema cognitiu
 d'aprenentatge també presenten una plasticitat equivalent que els hi
@@ -149,10 +157,12 @@ de l'estat intern.
 A la natura, aquest control sobre l'expressió gènica, prové d'una
 certa complexitat en els mecanismes genètics. S'intentaràn
 implementar els màxims d'aquests mecanismes per tal de determinar
-l'influència de cadascun sobre la plasticitat de l'organisme, 
+la influència de cadascun sobre la plasticitat de l'organisme, 
 activant uns i desactivant altres.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Projecte `Tierra'}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 De cara a plantejar com controlar els gens s'ens presenta una altra
 incògnita prèvia: Als LEE, el codi genètic representa les
@@ -224,7 +234,9 @@ A Bioscena el genotip està composat per diversos conjunts
 d'instruccions. Un conjunt d'instruccions (gen) necessita que es 
 donin certes condicions al fenotip per poder ser executat.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Objectius del projecte}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Els objectius principals del projecte són:
 
@@ -257,10 +269,11 @@ El model tindrà diversos elements principals:
 permeti configuracions molt diverses per donar possibilitats
 d'experimentació. Per modificar el biòtop farem servir, sobretot, els
 agents externs, que són modificadors del biòtop dels quals es pot 
-programar el seu efecte al llarg de temps. \footnote{La majoria de la
-bibliografia de vida artificial anomena agents al que aquí anomenem
-organismes. Cal que quedi clar que els agents, en aquest projecte, no
-són els individuus que poblen el món, sinó una eina de configuració.}
+programar el seu efecte al llarg de temps. \footnote{Majoritàriament 
+en la bibliografia de vida artificial, s'anomena agents al que aquí 
+anomenem organismes. Cal que quedi clar que els agents externs, en 
+aquest projecte, no tenen res a veure amb els individuus que poblen 
+el món, sinó que són una eina de configuració.}
 
 \item La comunitat, que controla el conjunt d'organismes presents al
 medi i la informació que no és intrínseca a ells, com ara la seva
@@ -270,14 +283,17 @@ requerides, i un conjunt d'operacions que el medi pot fer sobre ells.
 
 \end{itemize}
 
-\item Afegir al model les eines d'anàlisis han de poder donar
-informació útil del que està passant al biosistema: Per això, cal
-dividir la comunitat en poblacions i analitzar les interaccions entre
-elles. Cal posar una cura especial en detectar l'aparició de fenòmens
-emergents. Les eines de configuració i intervenció han de servir per
+\item Experimentar amb l'eina i observar l'aparició de fenòmens
+emergents. Per experimentar són necessàris dos elements a l'eina.
+\begin{description}
+\item [Eines d'anàlisis:] Han de poder donar informació útil del 
+que està passant al biosistema: Per això, cal dividir la comunitat 
+en poblacions i analitzar les interaccions entre elles. 
+\item [Eines de configuració i intervenció:] Han de servir per
 controlar la forma en que canvia aquest medi, de forma que, els
 resultats obtinguts amb les eines d'analisis siguin confrontables i
 els usuaris puguin extreure conclusions.
+\end{description}
 \end{enumerate}
 
 %% TODO: Incloure una figura float amb l'esquema global
@@ -289,15 +305,16 @@ cobriran de forma secundària.
 \item Els elements del sistema han d'estar dèbilment acoblats per tal
 de poder, en un futur, intercanviar-los per uns altres de forma
 individual amb un mínim d'efectes laterals.
-\item El sistema ha de poder abocar-se totalment o parcial a
-disc per tornar-se a restaurar, posteriorment. Això faria possible
-execucions molt més llargues i obtenir poblacions més evolucionades.
-\item Ha de ser possible canviar alguns aspectes de la configuració
-del biòtop o intervindre en la població amb extraccions,
-introduccions, clonacions... sobre la marxa.
 \item Establir uns procediments de modificació per tal de que
 l'usuari-programador no necessiti comprendre les interioritats de tot
 el sistema per fer una modificació puntual.
+\item Ha de ser possible canviar alguns aspectes de la configuració
+del biòtop o intervindre en la població amb extraccions,
+introduccions, clonacions... sobre la marxa.
+%TODO: Abocat a disc, si o no? De moment no, pero si sí que.
+%\item El sistema ha de poder abocar-se totalment o parcial a
+%disc per tornar-se a restaurar, posteriorment. Això faria possible
+%execucions molt més llargues i obtenir poblacions més evolucionades.
 \end{enumerate}
 
 Els organismes de la simulació han de fer front a un medi variable,
@@ -310,8 +327,8 @@ algunes característiques que es donen en els entorns evolutius naturals
 i que, clàssicament, no s'incorporen en els entorns evolutius
 computacionals.
 
-Les característiques naturals que s'estudiarà introduïr a l'entorn
-evolutiu són:
+Les característiques naturals que s'estudiarà si introduïr a 
+l'entorn evolutiu són:
 
 \begin{description}
 \item[Mecanismes d'expressió gènica (transcripció, maduració i
@@ -335,14 +352,14 @@ concreta.
 \item[Cariotip multicromosòmic:] Divideix la dotació gènica en
 subunitats d'alt nivell que permeten traspasar de cop divers material
 genètic entre organismes i possibilita les mutacions cariotípiques
-\footnote{Per diferenciant-les de les gèniques o cromosòmiques. Els
+\footnote{Per diferenciant-les de les gèniques o les cromosòmiques. Els
 tipus de mutacions possibles es van comentant més endavant en la memòria.}.
 Amdues coses poden emergir en un creuament.
 %% TODO: Revisa esto ultimo que es una fantochada
 
-\item[Genotips no haplonts i al·lels (Encara he de considerar si
-implementar-ho):] Mantenen la variabilitat genètica de la
-descendència augmentant així la capacitat de canvi i adaptació.
+\item[Genotips no haplonts i al·lels:] Mantenen la variabilitat 
+genètica de la descendència augmentant així la capacitat de canvi 
+i adaptació.
 
 \end{description}
 
@@ -355,6 +372,40 @@ ha la possibilitat, si el medi fós suficientment ampli, de que
 l'evolució portés als organismes unicel·lulars a formar estructures
 cooperatives més grans similars als organismes pluricel·lulars.
 
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Contingut de la memòria}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-TODO: Quan l'estructura de la memòria estigui més o menys establerta ho poses
+Aquest apartat finalitza el primer capítol introductori. Comento
+a continuació el contingut de la resta de capítols de la present
+memòria.
+
+\begin{description}
+\item[Capítol 2.] Fa una introducció a alguns conceptes de biologia,
+alguns dels quals s'introduiran en el projecte. Es fa un anàlisi de
+el que podria aportar cadascun, i de les implementacions i estudis 
+que s'hi han realitzat en els camps de la vida artificial, computació 
+evolutiva i similars.
+\item[Capítol 3.] Fa una introducció als conceptes tecnològics amb
+els que s'han treballat durant el projecte.
+\item[Capítol 4.] Comenta en detall el disseny de l'eina: Es descriu
+la metodologia emprada pel disseny i per la implementació, els 
+móduls que composen el sistema i les seves interrelacions.
+\item[Capítol 5.] Descriu les experiències realitzades amb l'eina
+i comenta els resultats obtinguts.
+\item[Capítol 6.] Fa un recull de les conclusions d'aquest projecte
+des de varies perspectives, analitza el cost econòmic del projecte 
+i proposa algunes linies de futur.
+\end{description}
+
+La memòria es complementa amb dos apèndixos:
+
+\begin{description}
+\item[Apèndix A.] Manual de l'usuari. Explica com instalar, configurar
+i fer funcionar l'eina.
+\item[Apèndix B.] Manual del programador. Conté alguns procediments
+i comentaris adicionals adreçats a qui vulgui treballar amb els fonts
+per afegir funcionalitats o modificar-ne les existents.
+\end{description}
+

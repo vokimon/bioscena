@@ -1,0 +1,137 @@
+\begin{thebibliography}{JCGC98}
+
+\bibitem[AML86]{OOP}
+Francisco J. Segovia~Pèrez Angel Morales~Lozano.
+\newblock {\em Programacion orientada a objetos, aplicaciones con Smalltalk}.
+\newblock Paraninfo, Madrid, 1986.
+
+\bibitem[AMR97]{RedundanciaRaich}
+Jamshid~Ghaboussi Anne M.~Raich.
+\newblock Autogenesis and redundancy in ga representation.
+\newblock In {\em Proceedings of the 1997 International Conference on Genetics
+  Algorithms ICGA97}. Michigan State University, 1997.
+
+\bibitem[Dar59]{ElOrigenDeLasEspecies}
+Charles Darwin.
+\newblock {\em The Origin of the Especies}.
+\newblock Guttemberg Project, 1859.
+
+\bibitem[FH91]{GAvsES}
+Thomas~Back Frank~Hoffmeister.
+\newblock Genetic algortihms and evolution strategies: Similarities and
+  differences technical report sys-91/2.
+\newblock Technical report, Systems Analysis Research Group, LSXI, Dept. of
+  Computer Science, 1991.
+
+\bibitem[Fra97]{ExponentialGrowIntrons}
+Wolfgang Banzhaf; Peter Nordin; Frank~D. Francone.
+\newblock Why introns in genetic programming grow exponentially.
+\newblock In {\em Proceedings of the 1997 International Conference on Genetics
+  Algorithms ICGA97}. Michigan State University, 1997.
+
+\bibitem[JCGC98]{Alive98}
+Grupo~G9 Jose Carlos González~Cristóbal.
+\newblock {\em Vida artificial: análisis y simulación}.
+\newblock PhD thesis, TODO: Investigar de que escuela es, 1998.
+
+\bibitem[Kar97]{VarLengthKargupta}
+Hillol Kargupta.
+\newblock Relation learning in gene expression: Introns, variable length
+  representation, and all that.
+\newblock In {\em Proceedings of the 1997 International Conference on Genetics
+  Algorithms ICGA97}. Michigan State University, 1997.
+
+\bibitem[Lam86]{latex}
+Leslie Lamport.
+\newblock {\em {\LaTeX:} {A} Document Preparation System}.
+\newblock Addison-Wesley, 1986.
+
+\bibitem[Man]{DelGenAlOrganismo}
+G.~Mangiarotti.
+\newblock {\em Del gen al organismo. Biologia General}.
+\newblock Picin, Padova, Italia.
+
+\bibitem[May97]{ptGAs}
+Helmut~A. Mayer.
+\newblock ptga's, genetic algorithms using promoter/terminator sequences
+  evolution of number, size and location of parameters and parts of
+  representation.
+\newblock In {\em Proceedings of the 1997 International Conference on Genetics
+  Algorithms ICGA97}. Michigan State University, 1997.
+
+\bibitem[MB93]{LEETool1993}
+Filippo Menezer and R.~K. Beleg.
+\newblock Latent energy enviroments: A tool for artificial live simulations.
+\newblock Technical Report 93-301, Computer Science and Engineering Department,
+  La Jolla, CA 92093-0114, 1993.
+
+\bibitem[MB94]{LEESensors1994}
+Filippo Menezer and R.~K. Beleg.
+\newblock Evolving sensors in environments of controled complexity.
+\newblock In R.~Brooks and P.~Maes, editors, {\em Artificial Live IV}, La
+  Jolla, CA 92093-0114, 1994. MIT Press.
+
+\bibitem[MB95]{LEEIntro1994}
+Filippo Menezer and R.~K. Beleg.
+\newblock Latent energy enviroments.
+\newblock Technical report, Computer Science and Engineering Department, La
+  Jolla, CA 92093-0114, 1995.
+
+\bibitem[MB96]{LEEComplex1996}
+Filippo Menezer and R.~K. Beleg.
+\newblock Complex environments to complex behaviors.
+\newblock {\em Adaptive Behavior}, 4(3/4):317--363, 1996.
+
+\bibitem[MBC95]{LEEMature1995}
+Filippo Menezer, R.~K. Beleg, and Federico Cecconi.
+\newblock Maturation and evolution of imitative learning in artificial
+  organisms.
+\newblock Technical Report 506, Computer Science and Engineering Department, La
+  Jolla, CA 92093-0114, 1995.
+
+\bibitem[Men94]{LEEPlasticity1994}
+Filippo Menezer.
+\newblock Changing latent energy enviroments: A case for evolution of
+  plasticity.
+\newblock Technical Report 94-336, Computer Science and Engineering Department,
+  La Jolla, CA 92093-0114, 1994.
+
+\bibitem[Ray93]{RayThomas93}
+Thomas~S. Ray.
+\newblock Jugué a ser dios y creé vida en mi computadora.
+\newblock {\em Epistemología e Informática}, pages 257--267, 1993.
+
+\bibitem[Ser96]{PERE96}
+Anselmo~Pérez Serrada.
+\newblock {\em Una Introducción a la Computación Evolutiva}.
+\newblock PhD thesis, TODO: Investigar de que escuela es, Marzo 1996.
+
+\bibitem[Ste]{Stearns1992}
+S~C Stearns.
+\newblock {\em The evolution of Life Histories}.
+\newblock Oxford University Press, New York.
+
+\bibitem[Str]{GeneticaStrickberger}
+M.~Strickberger.
+\newblock {\em Genética}.
+\newblock Ed. Omega, Barcelona, 3 edition.
+
+\bibitem[Str86]{c++}
+Bjarne Stroustrup.
+\newblock {\em El C++, lenguaje de programacion}.
+\newblock Addison-Wesley, 2 edition, 1986.
+
+\bibitem[Tod93]{ADeath}
+PM~Todd.
+\newblock Artificial death.
+\newblock In {\em Second European Conference on Artificial Life}, Brussels,
+  Belgium, May 1993.
+
+\bibitem[TS97]{IntronExonFoster}
+James A.~Foster Terence~Soule.
+\newblock Comments on the intron/exon distinction as it relates to the genetic
+  programming and biology.
+\newblock In {\em Proceedings of the 1997 International Conference on Genetics
+  Algorithms ICGA97}. Michigan State University, 1997.
+
+\end{thebibliography}

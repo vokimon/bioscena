@@ -3,22 +3,49 @@
 %
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Eines d'analisis}
+\section{Mecanismes d'especiació i anàlisi}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Mecanismes d'especiació}
+\subsection{Els taxonomistes}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Per que l'usuari pugui extreure una informació útil, cal que poguem
-agrupar els individus en espècies. És clar que a la nostra comunitat,
+agrupar els organismes en espècies. És clar que a la nostra comunitat,
 al igual que a la natura, l'especiació és un fenòmen que cal que
-emergeixi, L'espècie, no és quelcom intrínsec a tot individu; és a
+emergeixi, L'espècie, no és quelcom intrínsec a tot organisme; és a
 dir, que el concepte d'espècie no estarà implementat al codi genètic
-o als mecanismes de funcionament comuns dels individus sinó que
+o als mecanismes de funcionament comuns dels organismes sinó que
 caldrà observar-ho en el seu comportament.
 
-El concepte clàssic d'espècie considera que dos individus són de la
+Els taxonomistes són objectes que agrupen organismes per afinitat
+evolutiva segons els conceptes abans mencionats.
+
+Com que, abans de definir objectius, em plantejava implementar
+organismes amb reproducció sexual, vaig construir un taxonomista que
+soportava tota la complexitat que comporten els creuaments i que he
+mencionat abans.
+
+Com finalment, els intercanvis sexuals es van excloure dels objectius 
+del projecte, les relacions evolutives es limiten a un arbre i vaig 
+implementar un taxonomista molt més senzill, que simplement discrimina 
+organismes amb diferent cromosoma quan es produeix una mutació, però, 
+que compleix el mateix protocol que el més elaborat implementat 
+anteriorment de forma que es podrien intercanviar.
+
+El taxonomista simple és el que he fet servir a les proves donat que
+era molt més ràpid i la informació que dona ja és suficient per la
+complexitat dels sistemes generats. 
+
+Tot i així, documento el taxonomista per organismes sexuals de cara 
+a ilustrar millor el protocol i donat que serà útil en futures 
+ampliacions del sistema si s'afegeixen creuaments.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Qué es vol solucionar}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+El concepte clàssic d'espècie considera que dos organismes són de la
 mateixa espècie si són capaços de donar descencència fèrtil.
 
 A la biologia moderna es considera que la diferenciació de les espècies
@@ -33,9 +60,10 @@ En això pot influir:
 
 També, cal adonar-se de que totes aquestes consideracions es
 refereixen als individus que es reprodueixen sexualment i es creuen.
-Còm es poden identificar les espècies dels individus que es
-reprodueixen asexualment? En quin punt es considera que dos
-descendents d'un mateix individus sòn d'una espècie diferent?
+Còm es poden identificar les espècies dels organismes que es
+reprodueixen asexualment (com és el cas implementat)? En quin punt es 
+considera que dos descendents d'un mateix organisme sòn d'una 
+espècie diferent?
 
 A més, degut a la seva qualitat emergent, l'especiació no estarà
 sempre ben definida. També pot ser que la selecció a l'hora de
@@ -47,10 +75,12 @@ d'espècie cap al concepte, una mica més relaxat, de grup reproductiu
 que, tot i la relaxació, segueix proporcionant informació útil sobre
 les diferents poblacions del biosistema. Considerem que un grup
 reproductiu és un conjunt d'organismes que es creuen entre sí o
-provenen d'ancestres que s'han creuat entre sí dintre d'un cert
-període de temps o d'un cert nombre de generacions.
+provenen d'ancestres comuns o ancestres que s'han creuat entre sí 
+dintre d'un cert període de temps o d'un cert nombre de generacions.
 
-% TODO: Aclareix-te: o generacions o temps.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Taxonomista d'organismes sexuals}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 La política que determina els grups reproductius es basa en un marcatge
 històric.
@@ -183,15 +213,6 @@ La llista indexada permet un accés directe als taxons i, a més, els
 manté ordenats de tal forma que les cerques de grups de parentesc
 tenen un cost temporal mínim.
 
-TODO: Revisar tots aquests procediments amb la nova forma de portar la comunitat.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Estadístiques de població}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Estadístiques inter-poblacionals}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

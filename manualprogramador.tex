@@ -6,7 +6,108 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Programació de noves topologies}
+\section{Compilació}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Generació de números de compilació}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Per generar números de compilació, cal el programa {\tt buildnum},
+el codi font del qual està disponible a la pagina 
+\begin{verbatim}
+http:\\www.salleurl.edu\~is04069\Codders
+\end{verbatim}
+
+Si no es vol fer servir aquest programa, cal treure les crides que 
+s'hi fan al {\tt makefile} o als fitxers de projecte.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{GCC/DJGPP}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Aquest compilador i, sobretot, la seva versió per a DOS, el DJGPP, ha 
+sigut el més testejat. De cara a compilar cal una versió superior a la 
+TODO i, per fer-ho sense problemes cal la TODO.
+
+Per aquest compilador, es proveeix un fitxer {\tt makefile}. Cal 
+assegurar-se que estan instalades les llibreries de 
+
+El procediment és el següent:
+\begin{enumerate}
+\item Adaptar les variables següents variables del makefile als noms
+dels executables al sistema on es compila:
+\begin{description}
+\item [CC] Nom del compilador de C. ({\tt gcc}, {\tt cc}, {\tt egcs}...)
+\item [CPPC] Nom del compilador C++. ({\tt c++}, {\tt cxx}...)
+\item [RM] Comanda per esborrar arxius
+\item [EXEC] Nom del executable generat
+\end{description}
+\item Si cal, comenta les crides a 'buildnum' que es fan als makefiles
+\item Si es vol optimitzar per una maquina en concret, cal afegir '-march=ix86' a la variable CFLAGS del makefile; on x={3,4,5,6}
+\item Escriure- 'make' i ale.
+\end{enumerate}
+
+Posibles problemes:
+\begin{itemize}
+\item Si teniu una versió del compilador inferior a la TODO, dona 
+problemes a la linia 170 de Cariotip.cpp.
+A sota de la mateixa linia hi ha un fragment de codi substitutori
+per a la línia del error, amb indicacions de com arreglar-ho.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Problemes en sistemes UNIX (Linux)}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Els arxius de text del comprimit estan en format MS-DOS. Per això, cal 
+treure els salts de carro adicional que impideixen la compilació.
+
+La forma més ràpida de fer-ho és fer servir l'opció {\tt -a} quan es
+descomprimeix el comprimit amb la utilitat {\tt unzip}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Microsoft Visual C++}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Dins de l'arxiu comprimit hi ha un projecte per Microsoft Visual C++
+anomenat {\tt Bioscena.dsw}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Problemes amb versions antigues}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Amb versions antigues del compilador (TODO) es donen un parell de problemes:
+
+\begin{itemize}
+\item
+Hi ha problemes amb la biblioteca estàndard C++ que proporciona 
+l'entorn degut a conflictes entre la implementació dels templates que 
+fa el compilador i la forma de fer-los servir en la biblioteca, 
+implementada per HP.
+Es pot compilar l'eina si es modifiquen els fonts de la biblioteca, 
+ficant entre comentaris les funcions que donen errors.
+\item
+No suporten massa bé punters a funcions membres.
+El codi que fa servir punters a funcions membres, tot i que compila, 
+genera un assembler no massa correcte i dóna errors d'execució.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Compilant amb altres compiladors}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Per compilar amb altres compiladors, es requereix com a mínim un 
+compilador que suporti templates i punters a funcions membres i que
+tingui implementada de forma suficientment amplia la llibreria 
+estàndar C++ segons s'especifica en l'estàndard ISO/ANSI \ref{TODO}. 
+Concretament es fan servir les capçaleres estàndard 
+{\tt <algorithm>}, {\tt <functional>}, 
+{\tt <list>}, {\tt <vector>}, {\tt <map>}, {\tt <deque>}, {\tt <string>}, 
+{\tt <iostream>}, {\tt <fstream>}, {\tt <iomanip>} i {\tt <strstream>}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Programació de noves topologies per els biòtops}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Si l'usuari necessités crear un nou tipus de topologia, cal que la
@@ -31,7 +132,7 @@ si cal, és:
     Una funció per averiguar la posició destí en aplicar-li un vector
     de desplaçament a una posició origen.
     CTopologia, la defineix de tal forma que el resultat és una posició
-    destí aleatoria.
+    destí aleatòria.
 \item   {\tt bool CTopologia::esValid(t\_posicio id)}:
     Una funció per saber si un identificador és vàlid. Només cal
     redefinir-ho si es modifica la correspondència directa entre
@@ -202,7 +303,7 @@ següents passos:
     Afegir a l'arxiu {\tt Agent.cpp} un include a {\tt AgentNou.h}
     i, a la funció estàtica CAgent::CreaAgent(...) una línia com
     les que ja n'hi ha per cada tipus d'agent, però, per a CAgentNou.
-    Això permet que la funció CAgent::ParsejaArxiu pugui reconeixer
+    Això permet que la funció CAgent::ParsejaArxiu pugui reconèixer
     el nou tipus als arxius de configuració.
 
 \end{enumerate}
@@ -213,9 +314,6 @@ i el mètode d'accionament (o d'actuació en el cas dels actuadors).
 Per a la resta de coses el més pràctic es fer un cut\&paste dels agents
 ja implementats i retocar el mínim.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Programació de nous substrats}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% TODO: Programació de nous substrats
 
