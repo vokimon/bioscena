@@ -1,7 +1,7 @@
   <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
            "http://www.w3.org/TR/REC-html40/loose.dtd"><HTML>
 <META NAME="GENERATOR" CONTENT="TtH 2.00">
-                                                                  [1]           
+                                                                   [1]           
 <title> Bioscena\\Simulació d'un sistema biològic evolutiu amb interacció entre els individuus</title>
  
 <H1 align=center>Bioscena<br>Simulació d'un sistema biològic evolutiu amb interacció entre els individuus </H1>
@@ -11,7 +11,7 @@ David Garcia<br>
 <a href="mailto:vokimon@jet.es">vokimon@jet.es</a><br>
  </H3>
 
-<H3 align=center>Sep 08, 1999
+<H3 align=center>Sep 14, 1999
   </H3>
 
 <p>
@@ -157,65 +157,204 @@ com a precedents, per la seva relació amb aquest projecte, els
 següents:
 
 <p>
-
-<UL>
-<li> El projecte `Tierra' que encapçala Thomas S. Ray []
-un biòleg que va aplicar els seus coneixements de genètica i de
-ecologia i els va traduir a un medi informàtic on petites porcions de
-codi competien per la memòria i el temps del processador per replicar
-els seus gens.
-
-<li> Les experiències que Richard K. Beleg i Filippo Menezer van fer
-sobre el model Latent Energy Environments (LEE). LEE és un model
-que es basa en l'evolució de sistemes cognitius interaccionen amb
-un medi químic de complexitat controlada. El més remarcable
-d'aquest projecte, de banda de les diverses conclusions que n'han
-anat treient en diferents estudis, és, per un costat, la
-integració d'algorismes evolutius i xarxes neuronals, i, d'altre,
-el fet de basar-se en un model metabòlic.
-</UL>
-<p>
-Bioscena moltes idees dels LEE, com es veurà en la resta de la
-memòria, però, a diferència d'aquests, no pretén simular organismes
-amb comportaments cognitius, sinò organismes amb comportaments
-reactius. La diferència principal radica en que els comportaments
-reactius estan controlats principalment pel codi genétic i
-l'interacció <em>química</em> amb el medi que s'en deriva i, els
-comportaments cognitius estan controlats principalment per un sistema
-nerviós central i un procés d'aprenentatge.
+      <H3><A NAME="tth_sEc1.2.1">
+1.2.1</A>&nbsp;&nbsp;Latent Energy Environment (LEE)</H3>
 
 <p>
-Per modelar el comportament dels organismes de Bioscena, es fan
-servir rafagues d'instruccions que formen el genotip de forma
-semblant a com funcionava `Tierra'. La diferència important és que, a
-`Tierra', el conjunt d'instruccions feien de genotip, medi i fenotip,
-tot alhora, i en Bioscena la idea és separar el conjunt
-d'instruccions del medi i tant medi com genotip actuaran sobre el
-fenotip.
+El projecte que aquesta memòria presenta parteix de les experiències
+que Richard K. Beleg i Filippo Menezer van fer sobre el model Latent
+Energy Environments (LEE)<a NAME="LEE+Latent Energy Environments12">
+</a>.
+
+<p>
+LEE és un model que es basa en l'evolució de sistemes cognitius
+<a NAME="sistemes cognitius12">
+</a> (xarxes neuronals) que interaccionen amb
+un medi químic de complexitat controlada. La complexitat del medi es
+controla amb la complexitat d'un model metabòlic: Per obtenir energia
+útil, a l'organisme no li basta amb introduir els nutrients dins seu,
+sinó que li cal juntar-los amb altres nutrients que produiran
+mitjançant una reacció, un balanç energètic, positiu o negatiu, i uns
+productes segons a una taula de reaccions. Bioscena partirà d'aquesta
+idea de l'entorn metabòlic de complexitat controlada i en farà
+algunes petites modificacions. La figura 
+mostra esquemàticament el sistema metabòlic implementat a LEE. La
+comparativa es pot fer amb la figura  que
+representa el model metabòlic implementat finalment en aquest
+projecte.
 
 <p>
 
 <p><A NAME="tth_fIg1.1">
-</A> <p>La simulació suposa, per a totes les decisions de disseny on sigui
-necessari que els organismes són unicel·lulars. Aquesta suposició no
-vol dir que els resultats siguin aplicables només a aquest tipus
-d'organisme, però, facilita el disseny, donat que el model d'un
-organisme pluricel·lular és molt complexe. A més hi ha la
-possibilitat, si el medi fós suficientment ampli, de que l'evolució
-portés als organismes unicel·lulars a formar estructures cooperatives
-més grans similars als organismes pluricel·lulars.
-
-<p>
-Resumint la comparació entre els tres sistemes:
-
-<p>
-
+</A> <center>
 <table>
-<tr><td align="right">Tierra</td><td>Sopa primigenia, organització cel·lular procariota</td>
-<tr><td align="right">Bioscena</td><td>Organismes unicel·lulars eucariotes no cognitius</td>
-<tr><td align="right">LEE's</td><td>Organismes cognitius, model d'alt nivell</td></td></table>
+<tr><td align="center">.1 cm
+<table border>
+<tr><td align="center">Medi </td></td></table>
 
+    </td><td align="center">.1 cm
+<table>
+<tr><td align="center"></td>
+<tr><td align="center"><font face=symbol>®</font
+>
+        </td>
+<tr><td align="center">ingestió
+    </td></table>
 
+<p>
+    </td><td align="center">.1 cm
+<table border>
+<tr><td align="center">Pap</td></td></table>
+
+    </td><td align="center">-.1 cm
+<table>
+<tr><td align="center"></td>
+<tr><td align="center"><font face=symbol>®</font
+>
+        </td>
+<tr><td align="center">reactius
+    </td></table>
+
+<p>
+    </td><td align="center">.1 cm
+<table border>
+<tr><td align="center">Reaccions</td>
+<tr><td align="center">metabòliques</td></td></table>
+
+    </td><td align="center">.1 cm
+<table>
+<tr><td align="center">
+<table>
+<tr><td align="center">energia </td>
+<tr><td align="center"><font face=symbol>«</font
+> </td></td></table>
+
+        </td><td align="center">
+<table border>
+<tr><td align="center">Energia</td>
+<tr><td align="center">útil</td></td></table>
+
+        </td>
+<tr><td align="center"></td>
+<tr><td align="center">
+<table>
+<tr><td align="center"></td>
+<tr><td align="center"><font face=symbol>®</font
+>
+            </td>
+<tr><td align="center">productes
+        </td></table>
+
+<p>
+        </td><td align="center">
+<table border>
+<tr><td align="center">Medi </td></td></table>
+
+    </td></table>
+
+<p>
+</td></table>
+ <center>      Figure 1.1: Model metabòlic a LEE</center> <A NAME="fig:modelMetabolicLEE">
+</A>
+</center><p>
+<p>
+La plasticitat<a NAME="plasticitat12">
+</a>, segons Beleg i Menezer, és la
+capacitat que té l'organisme de modificar el seu fenotip durant la
+seva vida. Als LEE aquesta plasticitat els hi dona la xarxa neuronal,
+un sistema cognitiu. Però, trobem a la natura, que la resta
+d'organismes que no estan provistos d'un sistema cognitiu
+d'aprenentatge també presenten una plasticitat equivalent que els hi
+permet adaptar-se a tot un seguit de canvis.
+
+<p>
+El que ens interesa comprovar és si els sistemes control sobre
+l'expressió gènica que es donen a natura poden ocupar el paper de les
+xarxes neuronals en el sentit de donar plasticitat als organismes no
+cognitius. La funció d'aquest control sobre l'expressió gènica és
+decidir, en cada moment, quin gens s'expressen i quins no, tot tenint
+en compte factors del medi i de l'estat intern.
+
+<p>
+A la natura, aquest control sobre l'expressió gènica, prové d'una
+certa complexitat en els mecanismes genètics. S'intentaràn
+implementar els màxims d'aquests mecanismes per tal de determinar
+l'influxe de cadascun sobre la plasticitat de l'organisme, activant
+uns i desactivant altres.
+
+<p>
+      <H3><A NAME="tth_sEc1.2.2">
+1.2.2</A>&nbsp;&nbsp;Projecte `Tierra'</H3>
+
+<p>
+De cara a plantejar com controlar els gens s'ens presenta una altra
+incògnita prèvia: Als LEE, el codi genètic representa les
+interconexions i els pesos inicials de les neurones; qué és el que
+codifiquen els gens al sistema que proposem?
+
+<p>
+Com a punt de partida per trobar una codificació edient pels gens
+s'ha pres com a referència el projecte `Tierra' que encapçala Thomas
+S. Ray []. Thomas S. Ray és un biòleg que va traduir
+els seus coneixements de genètica i d'ecologia a un medi informàtic
+on petites porcions de codi competien per la memòria i el temps del
+processador amb la finalitat de replicar els seus gens. Va obtenir
+comportaments molt elaborats al llarg de la evolució: parasitisme,
+simbiosis, curses de braços, comportaments sexuals....
+
+<p>
+A `Tierra', el genoma estava composat per un seguit d'instruccions
+que s'executaven cíclicament. Per modelar el comportament dels
+organismes de Bioscena, es fan servir, també, rafagues d'instruccions
+que formen el genotip de forma semblant a com funcionava `Tierra'.
+Però, a `Tierra' el propòsit dels fragments de codi era el de
+replicar-se el més eficientment possible dintre d'un medi que estava
+composat només pels fragments de codi en competència. Aquí, en canvi,
+les instruccions hauran d'implementar funcions per interaccionar amb
+un medi que li és aliè. Per això, es farà sevir una estructura que
+farà de pont entre el medi i el codi genètic. D'ara en endavant,
+aquesta estructura serà la que anomenarem fenotip<a NAME="fenotip12">
+</a>, tot
+i tenir present que el fenotip no el forma només aquesta estructura
+sinó que també hi forma part el comportament global observat i les
+altres variables d'estat internes de l'organisme. Simplement el diem
+fenotip perque la seva única funció és, la de fer de fenotip.
+
+<p>
+El fenotip controla:
+
+<UL>
+<p>
+
+<li> Quin grup d'instruccions s'executa.
+
+<li> De quina forma ho fan (paràmetres o valors).
+</UL>
+<p>
+Tantmateix, el fenotip és modificat per l'execució d'alguns gens.
+Aquestes modificacions poden dependre només de la instrucció
+executada, però, sovint, la modificació també depen de:
+
+<OL type="1">
+<p>
+
+<li> L'estat de l'entorn de l'organisme
+
+<li> L'estat intern de l'organisme
+</OL>
+<p>
+
+<p><A NAME="tth_fIg1.2">
+</A>     <center>        genotip <font face=symbol>«</font
+> fenotip <font face=symbol>«</font
+>
+    Condicions d'entorn i internes 
+        <A NAME="fig:introFenotip">
+</A>
+    
+<p>
+ <center>      Figure 1.2: Graf de dependències entre el fenotip i els altres elements de l'organisme.</center>
+</center><p>
 <p>
         <H2><A NAME="tth_sEc1.3">
 1.3</A>&nbsp;&nbsp;Objectius del projecte</H2>
@@ -234,13 +373,14 @@ es donen en la natura que no cal implementar directament, sinó, que
 s'espera que puguin emergir. L'esforç de l'analisis ha d'anar adreçat
 a modelar aquelles característiques no cognitives de caire general, i
 sobretot, dels organismes unicel·lulars, tot i que no cal descartar
-que emergeixin estructures pluricel·lulars o cognitives.
+que emergeixin estructures pluricel·lulars o cognitives, com s'ha dit
+abans.
 
 <p>
 
-<li> Fer un estudi bibliogràfic dels processos anteriors ja
-implementats. En quines condicions concretes s'han fet i quins
-resultats han donat.
+<li> Fer un estudi bibliogràfic dels processos anteriors que ja
+hagin estat implementats. En quines condicions concretes s'han fet i
+quins resultats han donat.
 
 <p>
 
@@ -260,23 +400,19 @@ El model tindrà diversos elements principals:
 <li> El biòtop, que és el medi on viuran els organismes. Cal que
 permeti configuracions molt diverses per donar possibilitats
 d'experimentació. Per modificar el biòtop farem servir, sobretot, els
-agents, que són modificadors programables del biòtop.
+agents, que són modificadors del biòtop dels quals es pot programar
+el seu efecte al llarg de temps. <a href="#tthFtNtAAB" name=tthFrefAAB><sup>1</sup></a>
 
 <p>
 
 <li> La comunitat, que controla el conjunt d'organismes presents al
 medi i la informació que no és intrínseca a ells, com ara la seva
 posició en el medi i la població a la que pertany. Els organismes
-proveeixen al medi les accions que volen realitzar i un conjunt
-d'operacions que el medi pot fer sobre ells.
+proveeixen al medi les accions que volen realitzar quan li són
+requerides, i un conjunt d'operacions que el medi pot fer sobre ells.
 
 <p>
-</UL>Els elements del sistema han d'estar dèbilment acoblats per tal de
-poder, en un futur, intercanviar-los per uns altres amb un mínim
-d'efectes laterals.
-
-<p>
-
+</UL>
 <li> Afegir al model les eines d'anàlisis han de poder donar
 informació útil del que està passant al biosistema: Per això, cal
 dividir la comunitat en poblacions i analitzar les interaccions entre
@@ -293,17 +429,21 @@ cobriran de forma secundària.
 <p>
 
 <OL type="1">
+<li> Els elements del sistema han d'estar dèbilment acoblats per tal
+de poder, en un futur, intercanviar-los per uns altres de forma
+individual amb un mínim d'efectes laterals.
+
 <li> El sistema ha de poder abocar-se totalment o parcial a
-disc per tornar-se a restaurar. Això faria possible execucions molt
-més llargues i obtenir poblacions més evolucionades.
+disc per tornar-se a restaurar, posteriorment. Això faria possible
+execucions molt més llargues i obtenir poblacions més evolucionades.
 
 <li> Ha de ser possible canviar alguns aspectes de la configuració
-del biòtop o intervindre en la població (extraccions, introduccions,
-clonacions...) sobre la marxa.
+del biòtop o intervindre en la població amb extraccions,
+introduccions, clonacions... sobre la marxa.
 
 <li> Establir uns procediments de modificació per tal de que
-l'usuari-programador no necessiti comprendre tot el sistema per fer
-una modificació puntual.
+l'usuari-programador no necessiti comprendre les interioritats de tot
+el sistema per fer una modificació puntual.
 </OL>
 <p>
 Els organismes de la simulació han de fer front a un medi variable,
@@ -348,163 +488,34 @@ Ens permetrà tenir uns paràmetres optimitzats per a cada situació
 concreta.
 
 <p>
+<dt><b>Cariotip multicromosòmic:</b></dt>
+	<dd> Divideix la dotació gènica en
+subunitats d'alt nivell que permeten traspasar de cop divers material
+genètic entre organismes i possibilita les mutacions cromosòmiques.
+Amdues coses poden emergir en un creuament.
+
+<p>
 <dt><b>Genotips no haplonts i al·lels (Encara he de considerar si
 implementar-ho):</b></dt>
 	<dd> Mantenen la variabilitat genètica de la
 descendència augmentant així la capacitat de canvi i adaptació.
 
 <p>
-<dt><b>Cariotip multicromosòmic:</b></dt>
-	<dd> Divideix la dotació gènica en
-subunitats d'alt nivell que permeten traspasar divers material gènic
-de cop i possibilita les mutacions cromosòmiques que poden emergir en
-creuament.
+</DL>Per a la simulació es suposa, per a totes les decisions de disseny on
+sigui necessari fer-ho, que els organismes són unicel·lulars. Aquesta
+suposició no vol dir que els resultats siguin aplicables només a
+aquest tipus d'organisme, però, facilita el disseny, donat que el
+model d'un organisme pluricel·lular és molt més complexe. A més, hi
+ha la possibilitat, si el medi fós suficientment ampli, de que
+l'evolució portés als organismes unicel·lulars a formar estructures
+cooperatives més grans similars als organismes pluricel·lulars.
 
 <p>
-</DL>        <H2><A NAME="tth_sEc1.4">
+        <H2><A NAME="tth_sEc1.4">
 1.4</A>&nbsp;&nbsp;Contingut de la memòria</H2>
 
 <p>
-
-<pre>// Aleaturitzador.cpp: implementation of the CAleaturitzador class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#include "Aleaturitzador.h"
-#include "FuncioAgent.h"
-#include "Color.h"
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
-CAleaturitzador::CAleaturitzador()
-{
-	m_tipus+="/Aleaturitzador";
-	m_probabilitat.m_encerts=1;
-	m_probabilitat.m_mostra=1;
-	m_reAccio = NULL;
-	m_accionat = false;
-}
-
-CAleaturitzador::~CAleaturitzador()
-{
-	if (m_reAccio) delete m_reAccio;
-}
-
-//////////////////////////////////////////////////////////////////////
-// Redefinibles
-//////////////////////////////////////////////////////////////////////
-
-void CAleaturitzador::operator()(void)
-{
-	m_accionat=false;
-	// Nomes si es dona la probabilitat i existeix l'accio, l'executem
-	if (m_probabilitat.esDona()) 
-	{
-		CMultiAgent::operator()();
-		m_accionat=true;
-	}
-	else if (m_reAccio)
-		(*m_reAccio)();
-}
-
-void CAleaturitzador::dump(CMissatger &amp; msg)
-{
-	CMultiAgent::dump(msg);
-	msg &lt;&lt; "- Probabilitat " 
-		&lt;&lt; m_probabilitat.m_encerts &lt;&lt; " "
-		&lt;&lt; m_probabilitat.m_mostra &lt;&lt; endl;
-	if (m_reAccio) msg &lt;&lt; "- ReAccio " &lt;&lt; m_reAccio-&#62;nom() &lt;&lt; endl; 
-}
-
-bool CAleaturitzador::configura(string parametre, istream &amp; valor, t_diccionariAgents &amp; diccionari, CMissatger &amp; errors)
-{
-	if (parametre=="Probabilitat") {
-		uint32 mostra, encerts;
-		if (!(valor&#62;&#62;encerts))
-			errors &lt;&lt; "Format invalid per la probabilitat de '" &lt;&lt; nom() &lt;&lt; "'" &lt;&lt; endl;
-		else if (!(valor&#62;&#62;mostra))
-			errors &lt;&lt; "Falta la quantitat de mostra per a la probabilitat de '" &lt;&lt; nom() &lt;&lt; "'" &lt;&lt; endl;
-		else 
-			probabilitat(mostra, encerts);
-		return true;
-	}
-	if (parametre=="ReAccio") {
-		string nomSubordinat;
-		t_diccionariAgents::iterator it;
-		if (!(valor&#62;&#62;nomSubordinat))
-			errors &lt;&lt; "Format invalid per a l'especificacio de subordinat de '" &lt;&lt; nom() &lt;&lt; "'" &lt;&lt; endl;
-		else if (m_reAccio)
-			errors &lt;&lt; "L'agent '" &lt;&lt; nom() &lt;&lt; "' ja tenia una reAccio" &lt;&lt; endl;
-		else if ((it=diccionari.find(nomSubordinat))==diccionari.end())
-			errors &lt;&lt; "L'agent subordinat '" &lt;&lt; nomSubordinat &lt;&lt; "' de l'agent '" &lt;&lt; nom() &lt;&lt; "' no esta definit al fitxer." &lt;&lt; endl;
-		else if ((*it).second-&#62;subordinant())
-			errors &lt;&lt; "L'agent subordinat '" &lt;&lt; nomSubordinat &lt;&lt; "' de l'agent '" &lt;&lt; nom() &lt;&lt; "' ja esta subordinat a l'agent '" &lt;&lt; it-&#62;second-&#62;subordinant()-&#62;nom() &lt;&lt; "'." &lt;&lt; endl;
-		else 
-			reAccio(it-&#62;second);
-		return true; // Parametre interceptat
-	}
-	// Li deixem a la superclasse que l'intercepti si vol
-	return CMultiAgent::configura(parametre, valor, diccionari, errors);
-}
-
-list&lt;CAgent*&#62; CAleaturitzador::subordinats() {
-	list&lt;CAgent*&#62; l=CMultiAgent::subordinats();
-	if (m_reAccio) l.push_back(m_reAccio);
-	return l;
-}
-
-//////////////////////////////////////////////////////////////////////
-// Operacions
-//////////////////////////////////////////////////////////////////////
-
-void CAleaturitzador::probabilitat(uint32 mostra, uint32 encerts)
-{
-	m_probabilitat.m_mostra=mostra;
-	m_probabilitat.m_encerts=encerts;
-}
-
-void CAleaturitzador::reAccio(t_accio * a)
-{
-	m_reAccio=a;
-	if (a&amp;&amp;!a-&#62;subordinant(this))
-		warning &lt;&lt; "Subordinant l'agent '" &lt;&lt; a-&#62;nom() &lt;&lt; "' a un segon subordinant" &lt;&lt; endl;
-}
-
-//////////////////////////////////////////////////////////////////////
-// Proves
-//////////////////////////////////////////////////////////////////////
-
-static void Ko () {out &lt;&lt; "-";}
-static void Ok () {out &lt;&lt; "O";}
-
-void CAleaturitzador::ProvaClasse()
-{
-	out &lt;&lt; "\033[J";// Un clrscr xapuser pero standard (ANSI)
-	out &lt;&lt; blanc.brillant() &lt;&lt; "Provant Agent Aleaturitzador" &lt;&lt; blanc.fosc() &lt;&lt; endl;
-	int exits=0;
-	int intents=0;
-	CAleaturitzador aleaturitzador;
-	CAgent * ag1= new CFuncioAgent(Ok);
-	CAgent * ag2= new CFuncioAgent(Ko);
-	aleaturitzador.probabilitat(40,25);
-	aleaturitzador.accio(ag1);
-	aleaturitzador.reAccio(ag2);
-	for (int i=400; i--;) {
-		aleaturitzador();
-		intents++;
-		if (aleaturitzador.m_accionat)
-			exits++;
-	}
-	out &lt;&lt; endl &lt;&lt; "S'han executat " &lt;&lt; exits &lt;&lt; " de " &lt;&lt; intents &lt;&lt; endl;
-	aleaturitzador.dumpAll(out);
-	cin.get();
-}
-
-
-
-</pre>
+TODO: Quan l'estructura de la memòria estigui més o menys establerta ho poses
 
 <p>
  <br><H1>Part 2   <br>Part teòrica</H1><br>
@@ -518,12 +529,20 @@ Chapter 2     </A><br>Coneixements teòrics sobre biologia</H1>
 2.1</A>&nbsp;&nbsp;Introducció</H2>
 
 <p>
-Aquest capítol introdueix alguns conceptes sobre procediments que es donen
-a la natura que necessitem coneixer per, posteriorment, aplicar-los en dos
-àmbits. Per un costat, necessitem coneixer els procediments genètics que
-es donen a la natura per adaptar-los als algorismes genètics.
-Per un altre costat, necessitem coneixements sobre etologia i ecologia
-per interpretar i analitzar els resultats de la simulació.
+Aquest capítol introdueix alguns conceptes sobre procediments que es
+donen a la natura que necessitem coneixer per, posteriorment,
+aplicar-los en dos àmbits. Per un costat, necessitem coneixer els
+procediments genètics que es donen a la natura per adaptar-los als
+algorismes genètics. Per un altre costat, necessitem coneixements
+sobre etologia i ecologia per interpretar i analitzar els resultats
+de la simulació.
+
+<p>
+A aquest projecte, quan es presenti l'opció d'una nomenclatura o una
+altra, farà servir la nomenclatura i els conceptes biològics, donat
+que els usuaris finals seran pretesament biòlegs. Per això, un altre
+objectiu d'aquest capítol és introduir aquests conceptes i aquesta
+nomenclatura a tot aquell que no estigui familiaritzat.
 
 <p>
         <H2><A NAME="tth_sEc2.2">
@@ -585,62 +604,73 @@ al·lels diversos (Híbrid).
 2.2.2</A>&nbsp;&nbsp;Expressió dels al·lels al fenotip</H3>
 
 <p>
-Un individuu homozigòtic presenta el caràcter fenotípic representatiu de l'al·lel.
-Aquest caràcter s'en diu el fenotip homozigòtic per aquest al·lel.
+Un individuu homozigòtic presenta el caràcter fenotípic representatiu
+de l'al·lel. Aquest caràcter s'en diu el fenotip homozigòtic per
+aquest al·lel.
 
 <p>
-En la natura, sovint, els genotips homozigòtics estan associats, directament o indirecta,
-a fenotips negatius. Això és degut a que els individuus homozigòtics donen molt
-poca variabilitat genètica. Si una població acaba convertint-se en homozigotica,
-per exemple, per excesiva endogàmia, aquest gen es queda estancat i no dòna
-variabilitat. Si, per adaptar-se a un canvi en l'entorn cal canviar aquest gen,
-una població homozigòtica tindrà menys capacitat de resposta perqué dependrà de les mutacions.
-En els gens que no interesa aquest estancament la pròpia dotació genètica s'autopenalitza.
-Si una població no castiga la homozigosis, té més probabilitat de tornar-s'en.
+En la natura, sovint, els genotips homozigòtics estan associats,
+directament o indirecta, a fenotips negatius. Això és degut a que els
+individuus homozigòtics donen molt poca variabilitat genètica. Si una
+població acaba convertint-se en homozigotica, per exemple, per
+excesiva endogàmia, aquest gen es queda estancat i no dòna
+variabilitat. Si, per adaptar-se a un canvi en l'entorn cal canviar
+aquest gen, una població homozigòtica tindrà menys capacitat de
+resposta perqué dependrà de les mutacions. En els gens que no
+interesa aquest estancament la pròpia dotació genètica
+s'autopenalitza. Si una població no castiga la homozigosis, té més
+probabilitat de tornar-s'en.
 
 <p>
-A vegades la millor forma de penalitzacio són els gens letals.
-Un genotip letal és aquella combinació d'al·lels que no es presenten mai
-donat que els individuus no sobrepassen l'estat embrionari.
+A vegades la millor forma de penalitzacio són els gens
+letals<a NAME="genotip+letal22">
+</a>. Un genotip letal és aquella combinació
+d'al·lels que no es presenten mai donat que els individuus no
+sobrepassen l'estat embrionari.
 
 <p>
-Quan el genotip és heterozigot ens podem trobar les següents relacions entre els al·lels
-dels gens homòlegs, segons la forma d'expressar-se en el fenotip:
+Quan el genotip és heterozigot ens podem trobar les següents
+relacions entre els al·lels dels gens homòlegs, segons la forma
+d'expressar-se en el fenotip:
 
 <UL>
 <p>
 
-<li>   <b>Dominància - Recessivitat:</b> Un al·lel (dominant) s'imposa sobre l'altre (recessiu),
-        i, el fenotip resultant és el mateix que el d'un homozigot amb l'al·lel dominant.
+<li>   <b>Dominància - Recessivitat:</b> Un al·lel (dominant)
+        s'imposa sobre l'altre (recessiu), i, el fenotip resultant
+        és el mateix que el d'un homozigot amb l'al·lel dominant.
 
-<li>   <b>Herència intermitja:</b> El fenotip no és l'equivalent a cap dels dos fenotips
-        homozigots sinó que és un fenotip intermig.
+<li>   <b>Herència intermitja:</b> El fenotip no és l'equivalent a
+        cap dels dos fenotips homozigots sinó que és un fenotip
+        intermig.
 
-<li>   <b>Codominància:</b> Es presenten els fenotips dels dos al·lels a la vegada.
+<li>   <b>Codominància:</b> Es presenten els fenotips dels dos
+        al·lels a la vegada.
 
-<li>   <b>Superdominància o heterosis:</b> La presència de l'al·lel recessiu reforça el fenotip
-        de al·lel dominant més que si fós un homozigot.
+<li>   <b>Superdominància o heterosis:</b> La presència de l'al·lel
+        recessiu reforça el fenotip de al·lel dominant més que si fós
+        un homozigot.
 </UL>
 <p>
       <H3><A NAME="tth_sEc2.2.3">
 2.2.3</A>&nbsp;&nbsp;Fenotips de distribució contínua</H3>
 
 <p>
-Alguns caràcters de l'individu, com per exemple l'altura o la inteligència,
-no presenten unes alternatives fenotípiques tan discontínues sinó que
-són més contínues.
+Alguns caràcters de l'individu, com per exemple l'altura o la
+inteligència, no presenten unes alternatives fenotípiques tan
+discontínues sinó que són més contínues.
 
 <p>
-El caràcter pot dependre de diversos gens <b>poligen</b> amb la qual cosa
-es produeix una distribució normal en el caràcter.
-Com més gens s'hi impliquin, més graus discontinus hi haurà a la distribució.
-Per exemple:
+El caràcter pot dependre de diversos gens <b>poligen</b> amb la qual
+cosa es produeix una distribució normal en el caràcter. Com més gens
+s'hi impliquin, més graus discontinus hi haurà a la distribució. Per
+exemple:
 
 <p>
 
 <table>
 <tr><td>Número de gens implicats    </td><td align="center">Distribució del caracter </td>
-<tr><td>1 (haploide)</td><td align="center">1:1 </td>
+<tr><td>1   </td><td align="center">1:1 </td>
 <tr><td>2   </td><td align="center">1:2:1 </td>
 <tr><td>4   </td><td align="center">1:2:3:4:3:2:1 </td>
 <tr><td>6   </td><td align="center">1:6:15:20:15:6:1
@@ -649,59 +679,71 @@ Per exemple:
 <p>
 Arriba un moment que hi intervenen tants gens que el gradient no és
 identificable. A més, considerant el fet de que l'entorn afecta al
-fenotip, tenim que un individuu amb genotip AABBBB pot ser fenotipicament
-més semblant a un homozigot A que un individuu amb genotip AAABBB.
+fenotip, és possible que un individuu amb genotip AABBBB sigui
+fenotipicament més semblant a un homozigot A que un individuu amb
+genotip AAABBB.
 
 <p>
       <H3><A NAME="tth_sEc2.2.4">
 2.2.4</A>&nbsp;&nbsp;Interaccions entre gens no homòlegs</H3>
 
 <p>
-Així com diversos gens homòlegs poden contribuir al fenotip d'un caràcter,
-gens no homòlegs també poden contribuir-hi, però en aquest cas la influència
-dels gens no es equivalent (per la definició anterior de gens homòlegs).
+Així com diversos gens homòlegs poden contribuir al fenotip d'un
+caràcter, gens no homòlegs també poden contribuir-hi, però en aquest
+cas la influència dels gens no es equivalent (per la definició
+anterior de gens homòlegs).
 
 <p>
-Una de les interaccions entre gens no homòlegs és la <b>epistàsia</b>: un gen
-(epistàtic) controla l'activació o desactivació d'un altre (hipostàtic).
+Una de les interaccions entre gens no homòlegs és la <b>
+epistàsia</b><a NAME="epistàsia22">
+</a>: un gen (epistàtic) controla l'activació
+o desactivació d'un altre (hipostàtic).
 
 <p>
       <H3><A NAME="tth_sEc2.2.5">
 2.2.5</A>&nbsp;&nbsp;Mutació gènica</H3>
 
 <p>
-El concepte d'herència tal i com el definia Mendel, s'enfrontava amb les noves
-idees de Darwin sobre l'evolució [DARWIN 1859]. El concepte que tenia Darwin
-sobre l'evolució és que als individuus es produien petits canvis (mutacions)
-dels quals la natura escollia els més apropiats per a l'entorn.
-En el concepte de Mendel sobre l'herència, no es creaven al·lels nous, les generacions
-posteriors tenen simplement una recombinació dels al·lels de les generacions anteriors.
-De Vries, un dels redescobridors dels postulats de Mendel, va introduir el concepte
-de mutació gènica [DEVRIES 1900] que ve a reconciliar els dos corrents i donar
-una explicació a l'aparició de al·lels diferents dintre d'un gen.
+El concepte d'herència estàtica, tal i com el definia Mendel,
+s'enfrontava amb les noves idees de Darwin sobre l'evolució [DARWIN
+1859]. El concepte que tenia Darwin sobre l'evolució és que als
+individuus es produien petits canvis (mutacions) dels quals la natura
+escollia els més apropiats per a l'entorn. En el concepte de Mendel
+sobre l'herència, no es creaven al·lels nous, les generacions
+posteriors tenen simplement una recombinació dels al·lels de les
+generacions anteriors. De Vries, un dels redescobridors dels
+postulats de Mendel, va introduir el concepte de mutació gènica
+[DEVRIES 1900] que ve a reconciliar els dos corrents i donar una
+explicació a l'aparició d'al·lels diferents dintre d'un gen.
 
 <p>
-Una mutació genica o puntual és l'aparició sobtada d'una nova alternativa (al·lel)
-per a un gen.
+Una mutació genica o puntual és l'aparició sobtada d'una nova
+alternativa (al·lel) per a un gen.
 
 <p>
-La mutació (tan si és gènica com si és una altra de les que veurem més endavant) és un
-fenòmen aleatori que es dona amb una determinada freqüència que sol ser molt baixa.
-La <b>freqüència de mutació</b> és una probabilitat que es mesura per a un gen donat,
-i durant una generació.
+La mutació (tan si és gènica com si és una altra de les que veurem
+més endavant) és un fenòmen aleatori que es dona amb una determinada
+freqüència que sol ser molt baixa. La <b>freqüència de mutació</b> és
+una probabilitat que es mesura per a un gen donat, i durant una
+generació.
 
 <p>
-La probabilitat de mutació génica és mantè constant, tot i que diferent per a cada
-gen. Això s'explica per la diferent longitud de gens, o per la quantitat de mutacions
-que no impliquen un canvi d'al·lel (com es veu a la secció ).
+La probabilitat de mutació génica és mantè constant, tot i que
+diferent per a cada gen. Això s'explica per la diferent longitud de
+gens, o per la quantitat de mutacions que no impliquen un canvi
+d'al·lel (com es veu a la secció ).
 
 <p>
-Als organismes pluricel·lulars, les mutacions poden ser <b>somàtiques</b> o <b>germinals</b>.
-Una mutació somàtica, només afecta a una cel·lula i a totes les que en deriven.
-Per exemple, els tumors, les pigues... són mutacions somàtiques.
-Una mutació germinal es produeix a les cèl·lules del teixit que donaran lloc a les gametes.
-En conseqüència, aquesta mutació afectara, no només a la cèl·lula i a les que en derivin
-sinó que també a la descendència.
+Als organismes pluricel·lulars, les mutacions poden ser <b>
+somàtiques</b><a NAME="mutació+somàtica22">
+</a> o <b>
+germinals</b><a NAME="mutació+germinal22">
+</a>. Una mutació somàtica, només
+afecta a una cel·lula i a totes les que en deriven. Per exemple, els
+tumors, les pigues... són mutacions somàtiques. Una mutació germinal
+es produeix a les cèl·lules del teixit que donaran lloc a les
+gametes. En conseqüència, aquesta mutació afectara, no només a la
+cèl·lula i a les que en derivin sinó que també a la descendència.
 
 <p>
       <H3><A NAME="tth_sEc2.2.6">
@@ -1088,7 +1130,7 @@ La raò és que en els organismes mínimament evolucionats, un canvi
 en el codi genètic suposaria tants canvis que segurament serien letals,
 en canvi en els organismes primigenis, seria possible trobar més diversitat
 de codis.
-<a href="#tthFtNtAAB" name=tthFrefAAB><sup>1</sup></a>
+<a href="#tthFtNtAAC" name=tthFrefAAC><sup>2</sup></a>
 
 <p>
       <H3><A NAME="tth_sEc2.4.4">
@@ -1246,52 +1288,474 @@ durant la fase de maduració.
 2.6</A>&nbsp;&nbsp;Ecologia</H2>
 
 <p>
- <br><H1>Part 3   <br>Part pràctica</H1><br>
-
       <H1><A NAME="tth_chAp3">
-Chapter 3     </A><br>Disseny de l'aplicatiu</H1>
+Chapter 3     </A><br>Coneixements teòrics sobre vida artificial</H1>
 
 <p>
         <H2><A NAME="tth_sEc3.1">
-3.1</A>&nbsp;&nbsp;Estructura del medi</H2>
+3.1</A>&nbsp;&nbsp;Introducció</H2>
 
 <p>
-      <H3><A NAME="tth_sEc3.1.1">
-3.1.1</A>&nbsp;&nbsp;Visió general</H3>
+      <H1><A NAME="tth_chAp4">
+Chapter 4     </A><br>Coneixements tecnològics</H1>
 
 <p>
-El present apartat descriu el funcionament del medi on viuran els 
-organismes i alguns detalls de disseny i d'implementació. 
+        <H2><A NAME="tth_sEc4.1">
+4.1</A>&nbsp;&nbsp;Orientació a objectes</H2>
+
+<p>
+        <H2><A NAME="tth_sEc4.2">
+4.2</A>&nbsp;&nbsp;Tecniques de disseny</H2>
+
+<p>
+        <H2><A NAME="tth_sEc4.3">
+4.3</A>&nbsp;&nbsp;Llibreria estàndard de C++</H2>
+
+<p>
+ <br><H1>Part 3   <br>Part pràctica</H1><br>
+
+      <H1><A NAME="tth_chAp5">
+Chapter 5     </A><br>Disseny de l'aplicatiu</H1>
+
+<p>
+        <H2><A NAME="tth_sEc5.1">
+5.1</A>&nbsp;&nbsp;Visió global del disseny</H2>
+
+<p>
+      <H3><A NAME="tth_sEc5.1.1">
+5.1.1</A>&nbsp;&nbsp;Criteris de disseny i metodologia</H3>
+
+<p>
+      <H3><A NAME="tth_sEc5.1.2">
+5.1.2</A>&nbsp;&nbsp;Disseny modular</H3>
+
+<p>
+L'aplicatiu que es vol dissenyar consta de diversos elements
+principals, cadascun, amb funcions determinades dintre del sistema.
+
+<p>
+
+<DL compact><dt><b>Biosistema:</b></dt>
+	<dd> És l'objecte coordinador de la resta
+d'elements. Les seves funcions són:
+
+<OL type="1">
+<p>
+
+<li> Demanar instruccions als organismes.
+
+<li> Controlar quantes operacions pot executar cada organisme
+d'una tacada.
+
+<li> Fer les operacions de modificació i consulta sobre
+la resta d'elements del sistema, necessàries per executar les
+instruccions proveïdes per la comunitat d'organismes.
+
+<li> Demanar a la comunitat d'organismes per un nou organisme
+quan l'organisme actual ja ha executat les seves instruccions.
+
+<li> Accionar els agents configuradors que varien el medi
+al llarg del temps segons uns parametres.
+</OL>
+<p>
+<dt><b>Topologia:</b></dt>
+	<dd> Determina la geometria del medi on viuen els
+organismes. Les seves funcions són:
+
+<OL type="1">
+<p>
+
+<li> Associar un identificador a cada posició dins del substrat
+
+<li> Establir interconexions entre les parceles de substrat
+
+<li> Determinar moviments, direccions, camins... i tota l'operativa
+que té a veure amb la geometria (topologia) del medi segons aquestes
+interconexions.
+
+<li> Proporcionar l'accés, mitjançant l'identificador de posició, a
+les propietats del medi en aquesta posició.
+</OL>
+<p>
+<dt><b>Substrat:</b></dt>
+	<dd> Determina les propietats del medi en una posició
+donada. Les seves funcions són:
+
+<OL type="1">
+<p>
+
+<li> Determinar si la posició l'ocupa un organisme i, en cas afirmatiu,
+quin és l'organisme ocupant.
+
+<li> Contenir els nutrients lliures al medi.
+</OL>
+<p>
+<dt><b>Agents Configuradors:</b></dt>
+	<dd> Determinen l'evolució de certs
+paràmetres (posició, composició, probabilitat, estacionalitat...) que
+intervenen  en les propietats dels elements del sistema al llarg del
+temps. Les seves aplicacions són:
+
+<OL type="1">
+<p>
+
+<li> Afegeixir o eliminar nutrients lliures dins del medi.
+
+<li> Modificar els paràmetres del substrat.
+
+<li> Generar expontàneament organismes.
+</OL>
+<p>
+<dt><b>Comunitat:</b></dt>
+	<dd> Representa al conjunt d'organismes que viuen al
+biòtop. La comunitat compleix amb les següents funcions.
+
+<OL type="1">
+<p>
+
+<li> Associar un identificador a cada organisme dintre de la comunitat
+
+<li> Afegir-ne o extreure'n organismes.
+
+<li> Controlar la informació referent a l'organisme que el relaciona
+amb el seu entorn, com ara, la posició, el grup reproductiu al que
+pertany... (Informació externa de l'organisme)
+
+<li> Proporcionar l'accés, mitjançant l'identificador d'organisme,
+tant a la informació externa com al propi organisme.
+</OL>
+<p>
+<dt><b>Organismes:</b></dt>
+	<dd> Representen als individuus que viuen al
+biosistema. Contenen la informació genètica i les estructures
+internes que els fan anar.
+
+<OL type="1">
+<p>
+
+<li> Oferir instruccions al biosistema del que volen fer.
+
+<li> Proporcionar al biosistema accés al fenotip.
+
+<li> Proporcionar al biosistema operacions sobre ell.
+</OL>
+<p>
+<dt><b>Taxonomista:</b></dt>
+	<dd> Reuneix un conjunt d'eines que permeten fer un
+anàlisis de l'evolució d'un grup reproductiu (població) i de les
+interaccions amb els altres grups. Aquest seguiment requereix que el
+taxonomista estigui intimament lligat al funcionament del biosistema.
+
+<OL type="1">
+<p>
+
+<li> Detectar l'aparició de comportaments sexuals.
+
+<li> Mantenir informació històrica sobre l'aparició de grups
+reproductius.
+
+<li> Mantenir un cens per edats de la població de cada grup
+reproductiu i a cada edat.
+
+<li> Mantenir un llistat sobre la dieta de cada grup reproductiu.
+
+<li> Mantenir un llistat dels agressors de cada grup reproductiu.
+</OL>
+<p>
+</DL>        <H2><A NAME="tth_sEc5.2">
+5.2</A>&nbsp;&nbsp;Eines i ajudes a la implementació</H2>
+
+<p>
+En aquest apartat s'expliquen algunes eines que s'han implementat per
+tal d'afavorir l'implementació de la resta del sistema.
+
+<p>
+      <H3><A NAME="tth_sEc5.2.1">
+5.2.1</A>&nbsp;&nbsp;Dispositius d'entrada i sortida portables</H3>
+
+<p>
+TODO: Dispositius d'entrada i sortida portables
+
+<p>
+      <H3><A NAME="tth_sEc5.2.2">
+5.2.2</A>&nbsp;&nbsp;Funció de compatibilitat de claus</H3>
+<A NAME="sec:compatibilitat">
+</A>
+
+<p>
+Es tracta d'obtenir una funció que, a partir de dues claus, en
+determini si es compleix que són compatibles o no. La compatibilitat
+entre claus es fara servir, per exemple, per a la identificació
+d'organismes (amb l'objectiu de cercar preses, triar la parella,
+identificar fills i pares...), identificació de nutrients (amb
+l'objectiu d'ingerir-los, evitar-los, detectar excrecions ajenes,
+controlar els processos metabòlics interns...) i contesa (mecanismes
+de depredació i defensa). Donat que aquesta funció és una de les més
+utilitzades al sistema, ha de ser molt poc costosa.
+
+<p>
+Cal que la funció no tingui en compte la ponderació dels bits que
+formen la clau i que els tracti tots de la mateixa forma perque no es
+converteixi en una optimització numèrica. A mes, és desitjable que
+aquesta funció permeti nivells de tolerància variables i un cert
+indeterminisme.
+
+<p>
+Necessitem tenir en compte llavors tres elements:
+
+<UL>
+<p>
+
+<li> El grau de compatibilitat entre les claus.
+
+<li> Una tolerància quantificable sobre les variacions entre claus.
+
+<li> Un element indeterminístic que permeti resultats diferents amb les mateixes entrades.
+</UL>
+<p>
+Si les claus les representem amb dos enters de 32 bits, el grau de
+coincidència el podrem obtenir fent-ne la o exclusiva bit a bit i
+complementant el resultat. Al número obtingut l'anomenarem
+coincidència (C). El nivell de tolerància tambe pot ser un enter (T)
+que ens vindra donat i l'indeterminisme el pot introduir un altre
+enter (R) tret d'una funcio pseudo-aleatoria.
+
+<p>
+
+<H4>Opció 1</H4>
+
+<p>
+Els uns del número generat pseudo-aleatoriament (R) es 'filtren' per
+la coincidència (C) de tal forma ke nomes arribin els uns que
+estiguin en una posició on no hi havia coincidència entre claus. La
+tolerància (T) indica el número d'uns que admetem com a màxim per
+aceptar les claus com a compatibles.
+
+<p>
+<A NAME="eq:tolerancia1">
+</A>
+<centEr><table border=0 align=center><tr><td>
+<Table align=left><tr><td nowrap align=center>
+ ComptaUns(R & <font face=symbol> ~ </font
+>C)<font face=symbol> &lt; </font
+>T </td></Table>
+</td><td width=100 align=right>(5.1)</td></table></centEr>
+
+
+
+<p>
+El punt negre d'aquest mètode és l'alt cost de la funció ComptaUns,
+donat que no és una operacio nativa a la majoria de màquines i cal
+implementar-la a base de desplaçaments i enmascaraments.
+
+<p>
+La següent gràfica mostra la probabilitat de que dos claus de 32 bits
+siguin compatibles segons el bits que tinguin igual i per diferents
+valors de T. La T pot oscilar entre 0 i 32 tot i que veiem que la
+distribució no pateix variacions apreciables per valors a partir de
+24 o potser abans. Podriem molt be limitar-la entre 0 i 15 sense
+perdre gaire significat.
+
+<p>
+
+<p><A NAME="tth_fIg5.1">
+</A>     <center>        TODO: Posar la gràfica compatibilitat1
+    <A NAME="fig:compat1">
+</A>
+    
+<p>
+ <center>      Figure 5.1: Probabilitat d'encerts segon el nombre d'uns de la coincidència i el nombre d'uns tolerats segons la funció de compatibilitat número 1</center>
+</center><p>
+<p>
+La distribució sembla ideal pel que volem: Per valors de poca
+tolerància, la probabilitat és gairebé nul·la, per toleràncies molt
+grans ho deixa passar gairebe tot i per a una sèrie de valors
+intermitjos on es mantenen tres zones:
+
+<UL>
+<p>
+
+<li> Una zona de pas incondicional, per les coincidències més altes.
+
+<li> Una zona intermitja on la probabilitat de pas depen de la coincidència.
+
+<li> Una zona de tall incondicional, per les coincidències més baixes.
+</UL>
+<p>
+
+<H4>Opció 2</H4>
+
+<p>
+Una altra opció és fer servir la tolerància com una altra màscara. Un
+bit a un a la tolerància voldria dir que es tolera que aquest bit
+resulti a un després del filtratge. La condició que determina que dos
+claus són compatibles quedaria com segueix:
+
+<p>
+<A NAME="eq:tolerancia2">
+</A>
+<centEr><table border=0 align=center><tr><td>
+<Table align=left><tr><td nowrap align=center>
+ <tt>(R & <font face=symbol> ~ </font
+>C & <font face=symbol> ~ </font
+>T) =  = 0</tt> </td></Table>
+</td><td width=100 align=right>(5.2)</td></table></centEr>
+
+
+
+<p>
+Aquí sí que T agafa tota la franja dels 32 bits. Per fer la gràfica i
+obtenir un resultat comparable amb l'anterior, s'ha considerat el
+número de uns a la T en comptes del seu valor.
+
+<p>
+
+<p><A NAME="tth_fIg5.2">
+</A>     <center>    <a href="compatibilitat2">Figure</a>    <A NAME="fig:compat2">
+</A>     <center>      Figure 5.2: Probabilitat d'encerts segons el nombre d'uns presents a la coincidència i a la tolerància segons la funció de compatibilitat número 2</center>
+</center><p>
+<p>
+Observem que hem perdut les zones d'aceptació i rebuig incondicional
+a les toleràncies intermitges, però, la funció és bastant vàlida pels
+objectius donat que és una aceptació no deterministica on la
+probabilitat depen de la tolerància i de la coincidència, i, a més,
+hem optimitzat moltissim el cost d'evaluació.
+
+<p>
+Com a característica afegida, aquesta funció permet, mitjançant la
+tolerància, un control més acurat de quins bits son els que poden no
+coincidir. Aquesta peculiaritat pot donar a peu a mecanismes més
+complexes, que no pas una tolerància cega. A mès, tot i que es té en
+compte la posició dels bits, no els pondera, com les altres formules
+provades.
+
+<p>
+
+<H4>Altres opcions desestimades</H4>
+
+<p>
+Altres funcions de compatibilitat han estat provades i del tot
+desestimades pel seu alt cost i/o per la seva poca idoneitat.
+
+<p>
+Per exemple, es va provar la funció
+<A NAME="eq:tolerancia3">
+</A>
+<centEr><table border=0 align=center><tr><td>
+<Table align=left><tr><td nowrap align=center>
+ ComptaUns(R & <font face=symbol> ~ </font
+>C & <font face=symbol> ~ </font
+>T1) <font face=symbol> &lt; </font
+> (T2 & 0x5) </td></Table>
+</td><td width=100 align=right>(5.3)</td></table></centEr>
+
+
+
+<p>
+per sintetitzar en una fòrmula els dos conceptes de tolerància que
+hem vist, una tolerància que dòna significat a la posició dels uns i
+una altra que permet tolerar globalment un cert nombre d'uns
+independentment de la posició.
+
+<p>
+Degut als pocs bits (32) amb els que juga i a que hi havia dos punts on es tolera, la funció, lluny de donar tot el significat que voliem, dona molt poca variació amb els paràmetres. A més, tornem a tenir el problema de la funció ComptaUns.
+
+<p>
+<A NAME="eq:tolerancia4">
+</A>
+<centEr><table border=0 align=center><tr><td>
+<Table align=left><tr><td nowrap align=center>
+ R<font face=symbol> &gt;&gt; </font
+>(T&0x7) <font face=symbol> &lt; </font
+> (C<font face=symbol> &lt;&lt; </font
+> ( (T<font face=symbol> &gt;&gt; </font
+>3) & 0xf) ) </td></Table>
+</td><td width=100 align=right>(5.4)</td></table></centEr>
+
+
+
+<p>
+      <H3><A NAME="tth_sEc5.2.3">
+5.2.3</A>&nbsp;&nbsp;Estructures de dades adicionals</H3>
+
+<p>
+De banda a les estructures de dades implementades a les llibreries
+estàndars de C++, es necessitaven algunes estructures amb prestacions
+adicionals.
+
+<p>
+Una d'elles era una estructura de dades que permetés l'accés de dades
+amb un cost unitari però que permetés la mateixa flexibilitat de
+reordenació que una llista enllaçada.
+
+<p>
+La primera opció que es va triar es fer un mapa d'identificadors
+(numèrics?) amb els elements, però, aquesta opció, tot i que
+proporcionava un cost d'accés logaritmic, l'ordre que mantenien era
+l'ordre dels identificadors, i el que es necessitava era mantenir un
+ordre arbitrari entre els elements.
+
+<p>
+TODO: Seguir descrivint les estructures de dades adicionals
+
+<p>
+      <H3><A NAME="tth_sEc5.2.4">
+5.2.4</A>&nbsp;&nbsp;Colors ANSI</H3>
+
+<p>
+Els objectes de la classe CColors, són objectes que representen un
+color per a un terminal de text que compleixi l'estàndard ANSI. En
+ser inserits a un stream de C++, inserten la seqüència per fixar-ho.
+
+<p>
+TODO: Propietats i operacions de CColor
+
+<p>
+TODO: Convencions de cara a la utilització de CColor.
+
+<p>
+        <H2><A NAME="tth_sEc5.3">
+5.3</A>&nbsp;&nbsp;Estructura del medi</H2>
+<A NAME="sec:biotop">
+</A>
+
+<p>
+      <H3><A NAME="tth_sEc5.3.1">
+5.3.1</A>&nbsp;&nbsp;Visió general</H3>
+
+<p>
+El present apartat descriu el funcionament del medi on viuran els
+organismes i alguns detalls de disseny i d'implementació.
 De cara a permetre ampliar fàcilment el model, hem volgut fer
 un disseny del medi que permeti adaptacions a futures necessitats
 de modelatge.
 Per un costat es descriu el model genèric i, per un altre, es
-descriuen les particularitzacions que s'han implementat per a 
+descriuen les particularitzacions que s'han implementat per a
 aquest projecte.
 
 <p>
-La generalitat del model s'ha volgut limitar al conjunt de biòtops 
+La generalitat del model s'ha volgut limitar al conjunt de biòtops
 discrets. Això implica dues coses:
 
 <UL>
 <p>
 
-<li>	Les posicions dins del biòtop estan quantitzades. 
+<li>   Les posicions dins del biòtop estan quantitzades.
 No hi ha més que un nombre limitat de posicions a diferència
 de l'espai continu real.
 
-<li>	Tot i que podem considerar una posició discreta com a 
-representant d'una zona limitada del substrat, les propietats dins 
+<li>   Tot i que podem considerar una posició discreta com a
+representant d'una zona limitada del substrat, les propietats dins
 d'aquesta zona del substrat són uniformes.
 </UL>
 <p>
 Aquesta limitació juntament amb la discretització del temps és
 comuna a la majoria de sistemes artificials. L'única forma de
-limitar aquest efecte és fer que el pas de quantització sigui 
+limitar aquest efecte és fer que el pas de quantització sigui
 tan petit que el seu efecte quedi minimitzat.
 
 <p>
-El nostre model general és un model que consta de posicions discretes 
+El nostre model general és un model que consta de posicions discretes
 amb les seves corresponents propietats i que tènen relacions de
 veinatge amb les altres posicions segons una topologia.
 
@@ -1301,23 +1765,23 @@ Així doncs, tenim dos elements que podem modelar-los independentment.
 <p>
 
 <UL>
-<li>	<b>Posicions del substrat:</b> Elements discrets que indiquen 
-	les propietats d'una zona del biòtop.
+<li>   <b>Posicions del substrat:</b> Elements discrets que indiquen
+    les propietats d'una zona del biòtop.
 
-<li>	<b>Topologia:</b> Controla les relacions de veinatge i la 
-	identificació de les posicions per part de la resta del sistema.
+<li>   <b>Topologia:</b> Controla les relacions de veinatge i la
+    identificació de les posicions per part de la resta del sistema.
 </UL>
 <p>
-Combinant aquests dos elements, es pot obtindre un conjunt molt ric 
+Combinant aquests dos elements, es pot obtindre un conjunt molt ric
 de biòtops.
 
 <p>
-      <H3><A NAME="tth_sEc3.1.2">
-3.1.2</A>&nbsp;&nbsp;Topologies</H3>
+      <H3><A NAME="tth_sEc5.3.2">
+5.3.2</A>&nbsp;&nbsp;Topologies</H3>
 
 <p>
 La topologia determina les relacions de veinatge entre les cel·les.
-Si les posicions del biòtop fòssin nodes d'un graf, la topologia 
+Si les posicions del biòtop fòssin nodes d'un graf, la topologia
 representaria els vertexs que els uneixen.
 
 <p>
@@ -1330,45 +1794,53 @@ per simular medis fluids, com l'aigua o estratificats com els boscos.
 Com que el nombre de cel·les és limitat, el conjunt de cel·les formaran
 una regió limitada. La topologia ha de determinar quines són les veïnes
 de les cel·les de les vores. Com a exemple considerem una topologia 2D
-rectangular. Si féssim que les cel·les limítrofes no tinguin veïnes més 
+rectangular. Si féssim que les cel·les limítrofes no tinguin veïnes més
 enllà dels límits ens trobarem davant d'una regió limitada. Si fem que
 les cel·les d'un dels costats es conectin amb les cel·les del costat
-oposat, obtindrem una topologia de superfície cilíndrica. Si fem el 
-mateix amb tots quatre costats obtindrem una topologia de superfície 
+oposat, obtindrem una topologia de superfície cilíndrica. Si fem el
+mateix amb tots quatre costats obtindrem una topologia de superfície
 toroidal.
 
 <p>
 Per a aquest projecte, s'ha implementat una topologia toroidal perque,
 en principi es vol controlar la complexitat del sistema i, un biòtop
 amb topologia limitada n'afegiria donat que introdueix situacions a les que
-hauria de fer front l'organisme, per exemple, quan està en un límit i 
+hauria de fer front l'organisme, per exemple, quan està en un límit i
 quan no hi està. En una topologia toroidal no hi ha vores i per tant
 els organismes no s'hi han d'enfrontar a aquest element de complexitat.
 
 <p>
 Per facilitar la implementació, hem fet que la veina directa d'una posició
 a l'estrem dret sigui una posició a l'estrem esquerre però, no pas la que
-està a la mateixa línia sinó la que està una línia abaix. 
-L'única diferència que introdueix això és que anant sempre a la dreta 
+està a la mateixa línia sinó la que està una línia abaix.
+L'única diferència que introdueix això és que anant sempre a la dreta
 o a la esquerra, sense variar la direcció podem recòrrer tot el biòtop.
 
 <p>
-Cada posició té 8 cel·les veines directes. Un desplaçament a qualsevol 
-d'aquestes 8 cel·les es pot codificar amb 3 bits. 
+Cada posició té 8 cel·les veines directes. Un desplaçament a
+qualsevol d'aquestes 8 cel·les es pot codificar amb 3 bits com indica
+la figura 
 
 <p>
 
+<p><A NAME="tth_tAb5.1">
+</A> <center>
 <table border>
-<tr><td align="center">100	</td><td align="center">000	</td><td align="center">001	</td>
-<tr><td align="center">101	</td><td align="center">Origen	</td><td align="center">010	</td>
-<tr><td align="center">110	</td><td align="center">111	</td><td align="center">011	</td></td></table>
+<tr><td align="center">100 </td><td align="center">000 </td><td align="center">001 </td>
+<tr><td align="center">101 </td><td align="center">Origen  </td><td align="center">010 </td>
+<tr><td align="center">110 </td><td align="center">111 </td><td align="center">011 </td></td></table>
 
-
+    
 <p>
-La concatenació de N desplaçaments bàsics aleatoris tendeix a 
+ <center>      Table 5.1: Veïnes directes d'una posició</center>
+    <A NAME="tab:veinesDirectes">
+</A>
+</center><p>
+<p>
+La concatenació de N desplaçaments bàsics aleatoris tendeix a
 formar una distribució normal entorn al centre.
-Com els vectors de desplaçament tenen 32 bits podriem codificar fins 
-a 10 desplaçaments bàsics consecutius en un vector de desplaçament. 
+Com els vectors de desplaçament tenen 32 bits podriem codificar fins
+a 10 desplaçaments bàsics consecutius en un vector de desplaçament.
 Però, com ens serà molt útil poder activar i desactivar cada desplaçament
 bàsic, farem servir un quart bit per a cada bàsic per dir si està
 habilitat o inhibit el desplaçament, i en un vector hi caben, doncs,
@@ -1376,36 +1848,43 @@ habilitat o inhibit el desplaçament, i en un vector hi caben, doncs,
 
 <p>
 
+<p><A NAME="tth_tAb5.2">
+</A> <center>
 <table border>
 <tr><td>h0</td><td>d0</td><td>h1</td><td>d1</td><td>h2</td><td>d2</td><td>h3</td><td>d3</td><td>h4</td><td>d4</td><td>h5</td><td>d5</td><td>h6</td><td>d6</td><td>h7</td><td>d7</td>
 <tr><td>1</td><td>101</td><td>1</td><td>101</td><td>1</td><td>010</td><td>1</td><td>110</td><td>1</td><td>110</td><td>1</td><td>110</td><td>1</td><td>110</td><td>1</td><td>110</td></td></table>
 
-
+    
+<p>
+ <center>      Table 5.2: Codificació dels desplaçaments al biòtop</center>
+    <A NAME="tab:codiDesplacaments">
+</A>
+</center><p>
 <p>
 Si cal considerar cap ordre en el càlcul dels desplaçaments bàsics,
 es fa de més significatiu a menys.
 
 <p>
-La codificació dels desplaçaments bàsics s'ha fet de tal manera que, 
+La codificació dels desplaçaments bàsics s'ha fet de tal manera que,
 si invertim bit a bit un vector de desplaçament a excepció dels bits
 d'habilitació, obtenim un desplaçament invers.
-És a dir, donada la direcció <em>desp</em>, (desp XOR 0x77777777) en dòna 
-la direcció inversa, la qual cosa serà molt útil de cara a afavorir 
+És a dir, donada la direcció <em>desp</em>, (desp XOR 0x77777777) en dòna
+la direcció inversa, la qual cosa serà molt útil de cara a afavorir
 l'aparició de conductes d'evasió.
 
 <p>
-L'altre funció important de la topologia és assignar a cada cel·la un 
+L'altre funció important de la topologia és assignar a cada cel·la un
 identificador únic dins de la topologia. La resta del sistema farà
 servir aquest identificador per referenciar una posició i, en cas
-de necessitar-ho, demanarà a la topologia quin és el substrat per 
+de necessitar-ho, demanarà a la topologia quin és el substrat per
 aquesta posició.
 
 <p>
-En la present implementació s'han fet servir enters del 0 a N com a 
+En la present implementació s'han fet servir enters del 0 a N com a
 identificadors de les posicions, on N es el nombre de cel.les.
 Aquests identificadors ens permeten fer els desplaçaments de forma
 molt optima si assignem el números per ordre a les cel·les de cada fila.
-Només cal afegir (o treure), a l'identificador de la posició origen, 
+Només cal afegir (o treure), a l'identificador de la posició origen,
 un número, que depen del desplaçament, i ajustar el resultat en
 cas de sortir-se de límits, per calcular l'identificador de la
 posició destí.
@@ -1416,21 +1895,21 @@ En resum, una topologia ofereix els següents serveis als seus clients:
 <p>
 
 <UL>
-<li>	Donar l'identificador de la posició destí a partir de 
-	l'identificador d'una posició origen i d'un desplaçament.
+<li>   Donar l'identificador de la posició destí a partir de
+    l'identificador d'una posició origen i d'un desplaçament.
 
-<li>	Donar l'identificador d'una posició escollida aleatoriament.
+<li>   Donar l'identificador d'una posició escollida aleatoriament.
 
-<li>	Determinar si un identificador donat és vàlid dintre de la topologia.
+<li>   Determinar si un identificador donat és vàlid dintre de la topologia.
 
-<li>	Accedir al subtrat corresponent a un identificador de posició.
+<li>   Accedir al subtrat corresponent a un identificador de posició.
 
-<li>	Donar el desplaçament que apropa una posició d'origen donada 
-	a una posició destí per l'itinerari més curt.
+<li>   Donar el desplaçament que apropa una posició d'origen donada
+    a una posició destí per l'itinerari més curt.
 </UL>
 <p>
-      <H3><A NAME="tth_sEc3.1.3">
-3.1.3</A>&nbsp;&nbsp;Substrats</H3>
+      <H3><A NAME="tth_sEc5.3.3">
+5.3.3</A>&nbsp;&nbsp;Substrats</H3>
 
 <p>
 Un substrat particularitza les propietats del medi a una posició.
@@ -1438,7 +1917,7 @@ El substrat pot tenir diverses propietats segons la complexitat que
 desitjem per al medi.
 
 <p>
-Les dos propietats més importants del substrat són qui ocupa el 
+Les dos propietats més importants del substrat són qui ocupa el
 substrat, i quins nutrients hi han.
 
 <p>
@@ -1446,11 +1925,11 @@ substrat, i quins nutrients hi han.
 <H4>Ocupants</H4>
 
 <p>
-S'ha restringit l'ocupació de les posicions per part dels organismes 
-a un sól organisme per posició i a una sola posició per organisme. 
-La raó ha estat fer possible referenciar un organisme per la seva posició. 
+S'ha restringit l'ocupació de les posicions per part dels organismes
+a un sól organisme per posició i a una sola posició per organisme.
+La raó ha estat fer possible referenciar un organisme per la seva posició.
 Això simplificarà, a les relacions entre organismes, com referir l'altre organisme.
-Tambè, com a avantatge adicional, simplifica la interfície amb l'usuari 
+Tambè, com a avantatge adicional, simplifica la interfície amb l'usuari
 per seleccionar un organisme seleccionant la seva posició.
 
 <p>
@@ -1458,27 +1937,27 @@ per seleccionar un organisme seleccionant la seva posició.
 <H4>Nutrients</H4>
 
 <p>
-En quant els nutrients que hi pot haver en una mateixa posició del substrat, 
+En quant els nutrients que hi pot haver en una mateixa posició del substrat,
 cada posició tè un nombre de nutrients màxim definit.
 Quan s'afegeixen nutrients per damunt d'aquest nombre, els nutrients més
 antics desapareixen.
 
 <p>
-Els nutrients estan diferenciats qualitativament amb un sencer que indica 
+Els nutrients estan diferenciats qualitativament amb un sencer que indica
 el seu tipus.
 
 <p>
-La recollida de nutrients, es fa amb un patró de cerca pel tipus de 
+La recollida de nutrients, es fa amb un patró de cerca pel tipus de
 nutrient i una tolerància a nivell de bit segons la funció de compatibilitat
 estandard.
-Com s'explica a l'apartat , aquesta funció retorna cert si 
+Com s'explica a l'apartat <A href="#sec:compatibilitat">5.2.2</A>, aquesta funció
+retorna cert si
 
 <pre>
-	((Patro^Clau)&amp;Random&amp;~Tolerancia)==0 
-</pre> , 
-de tal forma que un 1 a una 
-posició de la tolerància significa que, encara que no es correspongui
-aquest bit no es tindrà en compte.
+    ((Patro^Clau)&amp;Random&amp;~Tolerancia)==0
+</pre>
+, de tal forma que un 1 a una posició de la tolerància significa que,
+encara que no es correspongui aquest bit no es tindrà en compte.
 La cerca es fa des dels més nous fins els més vells.
 
 <p>
@@ -1486,12 +1965,12 @@ La cerca es fa des dels més nous fins els més vells.
 <H4>Movilitat</H4>
 
 <p>
-        <H2><A NAME="tth_sEc3.2">
-3.2</A>&nbsp;&nbsp;Agents</H2>
+        <H2><A NAME="tth_sEc5.4">
+5.4</A>&nbsp;&nbsp;Agents</H2>
 
 <p>
-      <H3><A NAME="tth_sEc3.2.1">
-3.2.1</A>&nbsp;&nbsp;Trets generals</H3>
+      <H3><A NAME="tth_sEc5.4.1">
+5.4.1</A>&nbsp;&nbsp;Trets generals</H3>
 
 <p>
 Els agents són objectes que disparen una acció determinada quan són
@@ -1526,7 +2005,7 @@ Ho representarem així: A(B). La consulta no ha d'implicar cap
 modificació ni recàlcul d'estat en l'agent consultat.
 Això permet que no hi hagi restriccions en l'estructura de
 dependència i que puguin existir dependències creuades.
-<a href="#tthFtNtAAC" name=tthFrefAAC><sup>2</sup></a>
+<a href="#tthFtNtAAD" name=tthFrefAAD><sup>3</sup></a>
 
 <p>
 Tots els agents duen un nom assocciat que, per defecte, coincideix amb
@@ -1534,8 +2013,8 @@ un prefixe i un número de sèrie únic entre tots els agents. Aquest
 nom es pot canviar per un que sigui més mnemotècnic per a l'usuari.
 
 <p>
-      <H3><A NAME="tth_sEc3.2.2">
-3.2.2</A>&nbsp;&nbsp;Agents Subordinadors</H3>
+      <H3><A NAME="tth_sEc5.4.2">
+5.4.2</A>&nbsp;&nbsp;Agents Subordinadors</H3>
 
 <p>
 Els agents subordinadors són agents que, quan són accionats, accionen
@@ -1554,20 +2033,18 @@ agents subordinats cada cop que és accionat.
 <H4>Agents Temporitzadors</H4>
 
 <p>
-Els agents temporitzadors són agents multiples que no sempre
-que reben un accionat el propaguen cap els subordinats.
-Estableixen dos periodes, un actiu i un altre inactiu.
-Els accionats només es propagen als subordinats durant el
-periode actiu.
+Els agents temporitzadors són agents multiples que no sempre que
+reben un accionat el propaguen cap els subordinats. Estableixen dos
+períodes, un actiu i un altre inactiu. Els accionats només es
+propagen als subordinats durant el període actiu.
 
 <p>
-Els periodes es defineixen mitjançant tres paràmetres:
-El periode mínim és el número d'accionats que dura el periode
-com a mínim. Aquest mínim es pot augmentar de forma no determinística
-el resultat de sumar-li n vegades un número aleatori en l'interval [0,m]
-(els corxets indiquen que els extrems estan inclosos).
-<em>n</em> és el número de daus, i <em>m</em> és el valor màxim o magnitud
-del dau.
+Els períodes es defineixen mitjançant tres paràmetres: El període
+mínim és el número d'accionats que dura el període com a mínim.
+Aquest mínim es pot augmentar de forma no determinística el resultat
+de sumar-li n vegades un número aleatori en l'interval [0,m] (els
+corxets indiquen que els extrems estan inclosos). <em>n</em> és el
+número de daus, i <em>m</em> és el valor màxim o magnitud del dau.
 
 <p>
 D'aquesta especificació es pot deduir algunes dades, pot ser, més
@@ -1576,24 +2053,23 @@ intuitives per a l'usuari:
 <UL>
 <p>
 
-<li>   El valor màxim que pot adoptar el periode és el mínim més n*m
+<li>   El valor màxim que pot adoptar el període és el mínim més n*m
 
 <li>   Un sól dau equival a una distribució uniforme entre els límits
 
 <li>   A mesura que incrementem el nombre de daus, la distribució dels
-    periodes s'aproxima a una distribució normal entorn al centre
+    períodes s'aproxima a una distribució normal entorn al centre
     entre el valor màxim i mínim, amb un desviació típica cada vegada
     menor.
 </UL>
 <p>
 Per defecte, els paràmetres que introdueixen indeterminisme en els
-temporitzadors, com són els daus, estan ajustats de manera que el
-seu efecte sigui nul.
-Si no es toca res més que els periodes mínims, actuarà de forma determinista.
-De la mateixa manera, els periodes mínims dels cicles estan ajustats,
-per defecte, per que sempre s'estigui en un cicle actiu.
-D'aquesta forma, si no es configura res, l'efecte d'un temporitzador
-és el d'un agent múltiple ordinari.
+temporitzadors, com són els daus, estan ajustats de manera que el seu
+efecte sigui nul. Si no es toca res més que els períodes mínims,
+actuarà de forma determinista. De la mateixa manera, els períodes
+mínims dels cicles estan ajustats, per defecte, per que sempre
+s'estigui en un cicle actiu. D'aquesta forma, si no es configura res,
+l'efecte d'un temporitzador és el d'un agent múltiple ordinari.
 
 <p>
 Paràmetres per defecte i una execució:
@@ -1625,8 +2101,8 @@ Paràmetres ilustratius:
 </UL>
 <p>
 A continuació hi ha una execució dels paràmetres anteriors. Els
-guions representen accionats durant el periode inactiu i les O's
-representen accionats durant el periode actiu.
+guions representen accionats durant el període inactiu i les O's
+representen accionats durant el període actiu.
 
 <p>
 
@@ -1694,9 +2170,9 @@ multiplicar els accionats que li arriben.
 
 <p>
 Més concretament, quan un agent iterador és accionat, els seus
-subordinats, són accionats un número de vegades que es calcula
-a partir d'un mínim i uns daus com els que feiem servir per als
-periodes dels temporitzadors.
+subordinats, són accionats un número de vegades que es calcula a
+partir d'un mínim i uns daus com els que feiem servir per als
+períodes dels temporitzadors.
 
 <p>
 Per defecte, la part indeterminística (els daus) no té cap efecte,
@@ -1739,8 +2215,8 @@ EOEOEOE)(OEOEOEOEOEOE)(OEOEOEOEOE)(OEOEOEOEOE)(OEOEOEOEOE)
 on les E's representen l'execució de la segona acció subordinada.
 
 <p>
-      <H3><A NAME="tth_sEc3.2.3">
-3.2.3</A>&nbsp;&nbsp;Agents Posicionadors</H3>
+      <H3><A NAME="tth_sEc5.4.3">
+5.4.3</A>&nbsp;&nbsp;Agents Posicionadors</H3>
 
 <p>
 Els agents posicionadors controlen una posició en la topologia del biòtop.
@@ -1783,8 +2259,8 @@ A continuació es presenten exemples d'execució d'un posicionador aleatori,
 un de seqüencial i un de zonal aplicats sobre una topologia toroidal.
 
 <p>
-      <H3><A NAME="tth_sEc3.2.4">
-3.2.4</A>&nbsp;&nbsp;Agents Direccionadors</H3>
+      <H3><A NAME="tth_sEc5.4.4">
+5.4.4</A>&nbsp;&nbsp;Agents Direccionadors</H3>
 
 <p>
 Els agents direccionadors controlen una direcció per calcular
@@ -1814,8 +2290,8 @@ per que el posicionador s'accionés més que el direccionador.
 La topologia de l'exemple és toroidal.
 
 <p>
-      <H3><A NAME="tth_sEc3.2.5">
-3.2.5</A>&nbsp;&nbsp;Agents Actuadors</H3>
+      <H3><A NAME="tth_sEc5.4.5">
+5.4.5</A>&nbsp;&nbsp;Agents Actuadors</H3>
 
 <p>
 Els agents actuadors són els que finalment modifiquen el substrat.
@@ -1825,10 +2301,10 @@ cel·la que han de modificar.
 <p>
 La majoria dels agents que hem vist fins ara eren molt independents
 davant de les modificacions en la topologia i en la composició del
-substrat que es puguin fer més endavant.
-Les especialitzacions dels actuadors, en canvi, han de dependre
-per força del substrat i la seva composció, perqué actuen sobre ell.
-Segueixen sent independents, però, de la topologia.
+substrat que es puguin fer més endavant. Les especialitzacions dels
+actuadors, en canvi, han de dependre per força del substrat i la seva
+composició, perqué actuen sobre ell. Segueixen sent independents,
+però, de la topologia.
 
 <p>
 Aquí a sota, expliquem alguns actuadors vàlids pel substrat
@@ -1869,8 +2345,8 @@ un element químic que s'apropi al que s'indica o es pot especificar
 una tolerància per a certs bits.
 
 <p>
-      <H3><A NAME="tth_sEc3.2.6">
-3.2.6</A>&nbsp;&nbsp;Arxius de configuració d'agents</H3>
+      <H3><A NAME="tth_sEc5.4.6">
+5.4.6</A>&nbsp;&nbsp;Arxius de configuració d'agents</H3>
 
 <p>
 
@@ -1930,6 +2406,8 @@ Dins d'un arxiu de configuració d'agents, es reconeixen els següents tipus:
 
 <p>
 
+<p><A NAME="tth_tAb5.3">
+</A> 
 <table border>
 <tr><td><b>Nom de tipus a la memòria</b>     </td><td><b>Nom del tipus a un fitxer de configuració</b></td>
 <tr><td>Agent Subordinador Multiple     </td><td>Agent/Multiple            </td>
@@ -1945,7 +2423,12 @@ Dins d'un arxiu de configuració d'agents, es reconeixen els següents tipus:
 <tr><td>Actuador Nutridor           </td><td>Agent/Actuador/Nutridor       </td>
 <tr><td>Actuador Desnutridor            </td><td>Agent/Actuador/Nutridor/Invers    </td></td></table>
 
-
+    
+<p>
+ <center>      Table 5.3: Tipus d'agents implementats al projecte i identificadors associats</center>
+    <A NAME="tab:tipusAgent">
+</A>
+<p>
 <p>
 Es fan servir identificadors jerarquics molt semblants als que es
 fan servir a UNIX per identificar els directoris. La jerarquia
@@ -2002,8 +2485,8 @@ Al següent apartat, es detalla els paràmetres que controlen cada
 tipus d'agent.
 
 <p>
-      <H3><A NAME="tth_sEc3.2.7">
-3.2.7</A>&nbsp;&nbsp;Paràmetres configurables per a cada tipus d'agent</H3>
+      <H3><A NAME="tth_sEc5.4.7">
+5.4.7</A>&nbsp;&nbsp;Paràmetres configurables per a cada tipus d'agent</H3>
 
 <p>
 El que segueix és una especificació de com es configuren els
@@ -2066,13 +2549,13 @@ les línies de configuració.
 	<dd> Determina un agent subordinat. Es repeteix tantes vegades com subordinats tingui.
         <br>- agent: agent que es subordina (No ha de ser subordinat de cap altre)
 <dt><b>CicleActiu:</b></dt>
-	<dd> Determina quan triguen els periodes de temps actius
-        <br>- uint32: periode minim
+	<dd> Determina quan triguen els períodes de temps actius
+        <br>- uint32: període mínim
         <br>- uint32: número de daus
         <br>- uint32: magnitud dels daus (Van de zero a la magnitud)
 <dt><b>CicleInactiu:</b></dt>
-	<dd> Determina quan triguen els periodes de temps inactius
-        <br>- uint32: periode minim
+	<dd> Determina quan triguen els períodes de temps inactius
+        <br>- uint32: període mínim
         <br>- uint32: número de daus
         <br>- uint32: magnitud dels daus (Van de zero a la magnitud)
 <dt><b>AntiAccio:</b></dt>
@@ -2081,7 +2564,7 @@ les línies de configuració.
 <dt><b>CicleActual:</b></dt>
 	<dd> Valors del temporitzador quan es reemprengui la marxa
         <br>- id(Actiu/Inactiu): cicle actiu o inactiu
-        <br>- uint32: periode restant del cicle actual
+        <br>- uint32: període restant del cicle actual
 </DL>
 <p>
     Exemple de configuració texte
@@ -2378,8 +2861,8 @@ Exemple de configuració
 </pre>
 
 <p>
-      <H3><A NAME="tth_sEc3.2.8">
-3.2.8</A>&nbsp;&nbsp;Exemple complert d'arxiu de configuració d'agents</H3>
+      <H3><A NAME="tth_sEc5.4.8">
+5.4.8</A>&nbsp;&nbsp;Exemple complert d'arxiu de configuració d'agents</H3>
 
 <p>
 A continuació es presenta un exemple complert:
@@ -2430,19 +2913,16 @@ A continuació es presenta un exemple complert:
 </pre>
 
 <p>
-      <H3><A NAME="tth_sEc3.2.9">
-3.2.9</A>&nbsp;&nbsp;Disseny del abocat a disc i de la recuperació</H3>
+      <H3><A NAME="tth_sEc5.4.9">
+5.4.9</A>&nbsp;&nbsp;Disseny del abocat a disc i de la recuperació</H3>
 
 <p>
-        <H2><A NAME="tth_sEc3.3">
-3.3</A>&nbsp;&nbsp;Serveis que donen els organismes al biosistema</H2>
+        <H2><A NAME="tth_sEc5.5">
+5.5</A>&nbsp;&nbsp;Visió externa dels organismes</H2>
 
 <p>
-De cara a poder manegar
 
 <UL>
-<p>
-
 <li>L'organisme ha d'anar proveint al biosistema de instruccions que
 l'indiquin les seves accions. Com es generen les instruccions és
 qüestió dels propis individuus.
@@ -2450,19 +2930,19 @@ qüestió dels propis individuus.
 <li>
 <p>
 L'organisme proveeix al biosistema un conjunt de registres que formen
-el seu fenotip. El biosistema pot modificar-los i consultar-los.
-L'accés al fenotip no és exclusiu del biosistema sinó que el propi
-organisme i les seves estructures internes també poden accedir-hi
-paral·lelament.
+el seu fenotip. El biosistema pot modificar-los i consultar-los
+segons ho requereixin les instruccions d'aquest o d'altres
+organismes.
 
 <li>
 <p>
 L'organisme ha d'implementar unes funcions vitals que modifiquin
-l'estat intern de l'organisme als que no tingui accés el biosistema
-per altres vies. Això no inclou, per exemple, canvis de posició.
-El biosistema ha de proporcionar tots els paràmetres
-de les funcions vitals que no siguin interns que ell coneixi: el
-fenotip del propi organisme o un d'aliè.
+l'estat intern de l'organisme. Això no inclou, per exemple, canvis de
+posició, donat que les dades que no son intrínseques al propi
+organisme, sinó que són el resultat de la seva integració en el
+biosistema, les controla la Comunitat. El biosistema ha de
+proporcionar tots els paràmetres que necessitin les funcions vitals,
+inclosos els que provenen de valors del fenotip.
 
 <li>
 <p>
@@ -2470,21 +2950,215 @@ També han d'implementar operadors per tal de crear nous organismes a
 partir d'altres i organismes aleatoris.
 
 <p>
-</UL>        <H2><A NAME="tth_sEc3.4">
-3.4</A>&nbsp;&nbsp;Visió general de l'estructura interna dels organismes</H2>
+</UL>        <H2><A NAME="tth_sEc5.6">
+5.6</A>&nbsp;&nbsp;Model metabòlic dels organismes</H2>
 
 <p>
-Cariotip-&#62;Cromosoma-&#62;Base-&#62;Codo-&#62;
+
+<p><A NAME="tth_fIg5.3">
+</A> <center>
+<table>
+<tr><td align="center">.1 cm
+<table border>
+<tr><td align="center">Medi</td></td></table>
+
+    </td><td align="center">.1 cm
+<table>
+<tr><td align="center"></td>
+<tr><td align="center">excreció
+        </td>
+<tr><td align="center"><font face=symbol>¬</font
+>
+        </td>
+<tr><td align="center"><font face=symbol>®</font
+>
+        </td>
+<tr><td align="center">ingestió
+    </td></table>
 
 <p>
-        <H2><A NAME="tth_sEc3.5">
-3.5</A>&nbsp;&nbsp;El cariotip i els cromosomes</H2>
+    </td><td align="center">.1 cm
+<table border>
+<tr><td align="center">Enmagatzem</td>
+<tr><td align="center">de nutrients</td></td></table>
+
+    </td><td align="center">.1 cm
+<table>
+<tr><td align="center"></td>
+<tr><td align="center">productes
+        </td>
+<tr><td align="center"><font face=symbol>¬</font
+>
+        </td>
+<tr><td align="center"><font face=symbol>®</font
+>
+        </td>
+<tr><td align="center">reactius
+    </td></table>
+
+<p>
+    </td><td align="center">-.1 cm
+<table border>
+<tr><td align="center">Reaccions</td>
+<tr><td align="center">metabòliques</td></td></table>
+
+    </td><td align="center">.1 cm
+<table>
+<tr><td align="center"></td>
+<tr><td align="center">endotèrmiques
+        </td>
+<tr><td align="center"><font face=symbol>¬</font
+>
+        </td>
+<tr><td align="center"><font face=symbol>®</font
+>
+        </td>
+<tr><td align="center">exotèrmiques
+    </td></table>
+
+<p>
+    </td><td align="center">.1 cm
+<table border>
+<tr><td align="center">Energia</td>
+<tr><td align="center">útil</td></td></table>
+
+    </td><td align="center">.1 cm
+<table>
+<tr><td align="center"></td>
+<tr><td align="center">disipació
+        </td>
+<tr><td align="center"><font face=symbol>®</font
+>
+        </td>
+<tr><td align="center"><font face=symbol>®</font
+>
+        </td>
+<tr><td align="center">funcions
+        </td>
+<tr><td align="center">vitals
+    </td></table>
+
+<p>
+</td></table>
+     <center>      Figure 5.3: Model metabòlic dels organismes a Bioscena</center>
+    <A NAME="fig:modelMetabolic">
+</A>
+</center><p>
+<p>
+Dintre de l'organisme hi ha dos formes de tenir l'energia:
+
+<UL>
+<p>
+
+<li> En forma d'energia útil.
+
+<li> En forma de nutrients.
+</UL>
+<p>
+No podem passar d'una a l'altre, si no és mitjançant un procés
+metabòlic. Per un costat, l'energia útil és l'única que pot fer-se
+servir a la majoria de processos vitals. Per un altre, aquesta
+energia útil té una caducitat de forma que, quan passa un cert temps
+de la seva obtenció, es disipa. La figura <A href="#fig:modelMetabolic">5.3</A>
+indica els camins que poden fer els nutrients dins de l'organisme.
+
+<p>
+      <H3><A NAME="tth_sEc5.6.1">
+5.6.1</A>&nbsp;&nbsp;Presa de nutrients</H3>
+
+<p>
+Com s'ha explicat a la secció <A href="#sec:biotop">5.3</A>, els nutrients tenen
+un identificador o patró qualitatiu que indica quin tipus de nutrient
+és. Per seleccionar un nutrient dins d'un grup, només cal oferir una
+clau o patró de cerca i una tolerància respecte a aquest patró.
+
+<p>
+Per introduir un nutrient dins del seu cos, un organisme només té que
+precissar el lloc d'on vol extreure-ho (un substrat o un altre
+organisme a una posició determinada), si existeix l'element que
+compli aquest requisit i es donen totes les altres condicions
+necessàries, el nutrient és introduït al interior de l'organisme.
+
+<p>
+      <H3><A NAME="tth_sEc5.6.2">
+5.6.2</A>&nbsp;&nbsp;Metabolisme</H3>
+
+<p>
+Un cop els nutrients estan dins de l'organisme, pot metabolitzar-los,
+amb l'objectiu d'obtindre energia, un producte resultant o totes dues
+coses. Els productes resultants es poden fer servir per una altra
+reacció, per mantenir-ho de reserva, o per excretar-ho.
+
+<p>
+L'organisme pot fer ús de l'energia que s'obté de les reaccions
+durant un temps limitat, si no es consumeix dintre d'aquest temps,
+aquesta es disipa. Això es fa perquè els nutrients
+
+<p>
+Es preten que les diferents circumstàncies permetin que hi hagi un
+equilibri
+
+<p>
+Pot ser, una espècie tendeix a acomular masses nutrients. Si això
+passes, els seus depredadors tenderien a augmentar en nombre
+d'organismes i en nombre d'espècies.
+
+<p>
+      <H3><A NAME="tth_sEc5.6.3">
+5.6.3</A>&nbsp;&nbsp;Excreció</H3>
+
+<p>
+Tant els nutrients introduïts recentment, com els nutrients que són
+productes d'una reacció química poden ser excretats.
+
+<p>
+      <H3><A NAME="tth_sEc5.6.4">
+5.6.4</A>&nbsp;&nbsp;Atac i defensa</H3>
+
+<p>
+        <H2><A NAME="tth_sEc5.7">
+5.7</A>&nbsp;&nbsp;Model genètic dels organismes</H2>
+
+<p>
+      <H3><A NAME="tth_sEc5.7.1">
+5.7.1</A>&nbsp;&nbsp;Trets generals</H3>
+
+<p>
+En aquest projecte, estan diferenciats els conceptes de cariotip i
+genotip. El cariotip, simplement és un seguit de dades,
+significatives o no, organitzades en cromosomes. El genotip és la
+interpretació de la informació útil que s'hi troba al cariotip i està
+organitzada en gens.
+
+<p>
+Si els cromosomes que formen el cariotip són unitats estructurals del
+codi genètic, els gens que formen el genotip en són les seves unitats
+funcionals. Aquest divisió té les següents justificacions:
+
+<OL type="1">
+<p>
+
+<li> Permet un model multicromosómic, amb un nombre i longitud de
+cromosomes variable.
+
+<li> Permet implementar, sobre els cromosomes, operadors de
+mutació i creuament planers.
+
+<li> La traducció de cariotip a fenotip, ens permet detectar
+promotors i terminadors, proporcionar operadors, eliminar introns...
+facilitant d'aquesta forma l'implementació d'aquests fenòmens.
+
+<li> És més semblant al comportament biològic.
+</OL>
+<p>
+      <H3><A NAME="tth_sEc5.7.2">
+5.7.2</A>&nbsp;&nbsp;El cariotip i els cromosomes</H3>
 
 <p>
 Cada organisme conté un nombre variable de <b>
-cromosomes</b><a NAME="cromosoma+segons aquest projecte35">
+cromosomes</b><a NAME="cromosoma+segons aquest projecte57">
 </a> que, en conjunt,
-formen el <b>cariotip</b><a NAME="cariotip+segons aquest projecte35">
+formen el <b>cariotip</b><a NAME="cariotip+segons aquest projecte57">
 </a>. Cada
 cromosoma està format per una seqüència de bases representada
 cadascuna amb un bit o un grup de bits.
@@ -2493,9 +3167,9 @@ cadascuna amb un bit o un grup de bits.
 Tot i que la unitat bàsica del cromosoma és la base (un conjunt
 reduït de bits), a la implementació, no es considera aquesta unitat
 més que per a fer algun tipus de mutació puntual. Per a la resta de
-manipulacions, com no fa falta arribar a nivell de base i és més
-òptim accedir-hi, ho farem a nivell de codò, que en aquesta
-representació coincideix amb una paraula doble (32 bits).
+manipulacions ho farem a nivell de codó, donat que no fa falta
+arribar a nivell de base i és més òptim accedir-hi. En aquesta
+representació, un codó coincideix amb una paraula doble (32 bits).
 
 <p>
 El cromosoma, com a tal, no és una unitat d'informació sinò un medi
@@ -2504,84 +3178,147 @@ provocar mutacions. Dins d'un organisme, la tasa de mutació de cada
 cromosoma és proporcional a la seva longitud.
 
 <p>
-      <H3><A NAME="tth_sEc3.5.1">
-3.5.1</A>&nbsp;&nbsp;Els gens i el genotip</H3>
+El cariotip és el responsable de les mutacions germinals (en
+contraposició a les somàtiques, com es va comentar a la secció
+), és a dir, les mutacions que passaran a la
+descendència.
 
 <p>
-El <b>genotip</b><a NAME="genotip+segons aquest projecte35">
+Tot i que la probabilitat de mutació ha de dependre, en gran mesura,
+dels agens mutagens del medi, els organismes han de poder controlar
+genèticament la probabilitat de mutació per adaptar-la a la seva
+situació. En posar en mans de l'evolució la probabilitat de mutar
+estem confiant en que l'coevolució castigarà els organismes que no
+mutin en front dels que mutin doncs els primers no podran millorar.
+
+<p>
+Aquest control s'exerceix amb una clau que es pot adaptar a una
+d'equivalent amb el medi.
+
+<p>
+Un cop es dóna, a un organisme, la probabilitat de mutar, cal decidir
+com es fa la mutació, es a dir, amb quin operador de mutació es fa.
+Cada organisme té codificada genèticament una ponderació per a cada
+operador de mutació.
+<A NAME="eq:ponderacioOperadors">
+</A>
+<centEr><table border=0 align=center><tr><td>
+<Table align=left><tr><td nowrap align=center>
+ Probabilitat (operador<sub>i</sub>) = </td><td nowrap align=center>
+ponderacio<sub>i</sub><hr NOSHADE>
+<tabLe border=0><tr><td nowrap align=center>
+</td><td nowrap align=center>
+<font size="-1"></font> <Br><font face=symbol size="+3">å<br></font>
+<font size="-1">j</font>&nbsp;<br></td><td nowrap>
+ponderacio<sub>j</sub></td></tabLe></td><td nowrap align=center>
+</td></Table>
+</td><td width=100 align=right>(5.5)</td></table></centEr>
+
+
+
+<p>
+Una mutació és cromosòmica si afecta a diversos cromosomes alhora,
+sent llavors el cariotip el responsable d'executar-la. O bé, si la
+mutació és gènica o biomol·lecular, afectarà nomes a un sól
+cromosoma. En aquest cas el cariotip li traspassa la responsabilitat
+a un cromosoma per que muti. Com decidim en quin cromosoma aplicarem
+la mutació? Ho farem mitjançant una formula com la de la equació
+<A href="#eq:ponderacioOperadors">5</A>, pero en comptes de tenir en compte una
+ponderació codificada genèticament, tindrem en compta la longitud del
+cromosoma en front de la longitud total del cariotip. Així fem que
+sigui uniforme la densitat de mutació.
+
+<p>
+      <H3><A NAME="tth_sEc5.7.3">
+5.7.3</A>&nbsp;&nbsp;Els gens i el genotip</H3>
+
+<p>
+El <b>genotip</b><a NAME="genotip+segons aquest projecte57">
 </a> és la
 traducció del cariotip a elements significatius. Aquests elements
 significatius s'grupen en <b>gens</b><a NAME="gen+segons aquest
-projecte35">
+projecte57">
 </a>, que s'interpreten a partir dels codons del cromosoma.
 
 <p>
-      <H3><A NAME="tth_sEc3.5.2">
-3.5.2</A>&nbsp;&nbsp;El fenotip</H3>
+Cada gen té una zona operadora<a NAME="zona operadora57">
+</a> que activa o
+desactiva el gen segons certa condició que depen del fenotip o
+indirectament, mitjançant el fenotip, del món exterior.
+
+<p>
+La zona estructural (seguint de forma aproximada la nomenclatura de
+Jacob i Monod) es la que es veu controlada per la zona operadora. En
+ella
+
+<p>
+En resum, la traducció del cromosoma en gens constarà de diverses
+parts:
+
+<OL type="1">
+<p>
+
+<li> Indentificació de la zona promotora (indica l'inici d'un
+locus)
+
+<li> Indentificació de la zona terminadora corresponent (indica
+el final d'un locus)
+
+<li> Identificació (justament després de la zona promotora) i
+interpretació de la zona operadora (indicarà quan cal executar el gen
+traduït).
+
+<li> Eliminació d'introns (sequencies de codons no significatius) entre
+promotora i terminadora
+
+<li> Traducció de la zona estructural (la que porta les instruccions
+que s'executaran amb el gen)
+</OL>
+<p>
+Per raons d'optimització, aquesta traducció es fa només una vegada
+durant la vida de l'organisme, encara que en la natura, aquest procés
+es fa contínuament cada vegada que es transcriu l'ADN.
+
+<p>
+      <H3><A NAME="tth_sEc5.7.4">
+5.7.4</A>&nbsp;&nbsp;El fenotip</H3>
 
 <p>
 El que anomenem propiament <em>fenotip</em><a NAME="fenotip+segons aquest
-projecte35">
+projecte57">
 </a> és un conjunt de 32 registres de 32 bits que té cada
 organisme. Representen el cos físic de l'organisme. El fenotip es
 modifica per acció directa del genotip, però també aquestes
 modificacions depenen sovint del medi mitjançant els sensors i, al
 mateix temps, el contingut del fenotip influeix al medi mitjançant
-l'acció dels motors. A més, és un dels dos mitjans que tènen els
-organismes per reconeixer-se juntament amb la detecció de mol·lècules
-excretades.
+l'acció dels motors. Per últim, el fenotip és un dels dos mitjans que
+tènen els organismes per reconeixer-se juntament amb la detecció de
+mol·lècules excretades.
 
 <p>
 En resum, el fenotip és el mecanisme principal d'interacció que tenen
 els organismes.
 
 <p>
-      <H3><A NAME="tth_sEc3.5.3">
-3.5.3</A>&nbsp;&nbsp;Sensors i motors</H3>
+      <H3><A NAME="tth_sEc5.7.5">
+5.7.5</A>&nbsp;&nbsp;Sensors i motors</H3>
 
 <p>
-      <H3><A NAME="tth_sEc3.5.4">
-3.5.4</A>&nbsp;&nbsp;Presa de nutrients</H3>
+        <H2><A NAME="tth_sEc5.8">
+5.8</A>&nbsp;&nbsp;Eines d'analisis</H2>
 
 <p>
-      <H3><A NAME="tth_sEc3.5.5">
-3.5.5</A>&nbsp;&nbsp;Metabolisme</H3>
+      <H3><A NAME="tth_sEc5.8.1">
+5.8.1</A>&nbsp;&nbsp;Mecanismes d'especiació</H3>
 
 <p>
-Un cop els nutrients estan dins de l'organisme, pot metabolitzar-los,
-ja sigui per obtindre energia, per obtindre un producte d'excreció o
-totes dues coses.
-
-<p>
-L'organisme pot fer ús de l'energia que s'obte de les reaccions
-durant un temps limitat, si no es consumeix dintre d'aquest temps,
-aquesta es disipa.
-
-<p>
-Es preten que les diferents circumstàncies permetin que hi hagi un
-equilibri
-
-<p>
-Pot ser, una espècie tendeix a acomular masses nutrients.
-Si això passes, els seus depredadors tenderien a augmentar en
-nombre d'organismes i en nombre d'espècies.
-
-<p>
-        <H2><A NAME="tth_sEc3.6">
-3.6</A>&nbsp;&nbsp;Eines d'analisis</H2>
-
-<p>
-      <H3><A NAME="tth_sEc3.6.1">
-3.6.1</A>&nbsp;&nbsp;Mecanismes d'especiació</H3>
-
-<p>
-Per que l'usuari pugui extreure una informacio útil, cal que poguem
+Per que l'usuari pugui extreure una informació útil, cal que poguem
 agrupar els individus en espècies. És clar que a la nostra comunitat,
-al igual que a la natura, l'especiació és un fenòmen que cal que emergeixi,
-L'espècie, no és quelcom intrínsec a tot individu; és a dir, que el
-concepte d'espècie no estarà implementat al codi genetic o als mecanismes
-de funcionament comuns dels individus sinó que caldrà observar-ho en el
-seu comportament.
+al igual que a la natura, l'especiació és un fenòmen que cal que
+emergeixi, L'espècie, no és quelcom intrínsec a tot individu; és a
+dir, que el concepte d'espècie no estarà implementat al codi genètic
+o als mecanismes de funcionament comuns dels individus sinó que
+caldrà observar-ho en el seu comportament.
 
 <p>
 El concepte clàssic d'espècie considera que dos individus són de la
@@ -2620,10 +3357,10 @@ l'especiació.
 Tota aquesta conjuntura ha obligat a deixar de banda el concepte
 d'espècie cap al concepte, una mica més relaxat, de grup reproductiu
 que, tot i la relaxació, segueix proporcionant informació útil sobre
-les diferents poblacions del biosistema.
-Considerem que un grup reproductiu és un conjunt d'organismes que es
-creuen entre sí o provenen d'ancestres que s'han creuat entre sí
-dintre d'un cert perióde de temps o d'un cert nombre de generacions.
+les diferents poblacions del biosistema. Considerem que un grup
+reproductiu és un conjunt d'organismes que es creuen entre sí o
+provenen d'ancestres que s'han creuat entre sí dintre d'un cert
+període de temps o d'un cert nombre de generacions.
 
 <p>
 La política que determina els grups reproductius es basa en un marcatge
@@ -2794,20 +3531,48 @@ manté ordenats de tal forma que les cerques de grups de parentesc
 tenen un cost temporal mínim.
 
 <p>
-      <H3><A NAME="tth_sEc3.6.2">
-3.6.2</A>&nbsp;&nbsp;Estadístiques de població</H3>
+      <H3><A NAME="tth_sEc5.8.2">
+5.8.2</A>&nbsp;&nbsp;Estadístiques de població</H3>
 
 <p>
-      <H3><A NAME="tth_sEc3.6.3">
-3.6.3</A>&nbsp;&nbsp;Estadístiques inter-poblacionals</H3>
+      <H3><A NAME="tth_sEc5.8.3">
+5.8.3</A>&nbsp;&nbsp;Estadístiques inter-poblacionals</H3>
 
 <p>
-      <H1><A NAME="tth_chAp4">
-Chapter 4     </A><br>Manual del programador</H1>
+      <H1><A NAME="tth_chAp6">
+Chapter 6     </A><br>Manual d'usuari</H1>
 
 <p>
-        <H2><A NAME="tth_sEc4.1">
-4.1</A>&nbsp;&nbsp;Programació de noves topologies</H2>
+        <H2><A NAME="tth_sEc6.1">
+6.1</A>&nbsp;&nbsp;Instalació de l'entorn</H2>
+
+<p>
+        <H2><A NAME="tth_sEc6.2">
+6.2</A>&nbsp;&nbsp;Configuració</H2>
+
+<p>
+        <H2><A NAME="tth_sEc6.3">
+6.3</A>&nbsp;&nbsp;Operació normal</H2>
+
+<p>
+        <H2><A NAME="tth_sEc6.4">
+6.4</A>&nbsp;&nbsp;Interpretació de la sortida per pantalla</H2>
+
+<p>
+        <H2><A NAME="tth_sEc6.5">
+6.5</A>&nbsp;&nbsp;Interpretació dels logs i les dades de sortida</H2>
+
+<p>
+        <H2><A NAME="tth_sEc6.6">
+6.6</A>&nbsp;&nbsp;Intervenció</H2>
+
+<p>
+      <H1><A NAME="tth_chAp7">
+Chapter 7     </A><br>Manual del programador</H1>
+
+<p>
+        <H2><A NAME="tth_sEc7.1">
+7.1</A>&nbsp;&nbsp;Programació de noves topologies</H2>
 
 <p>
 Si l'usuari necessités crear un nou tipus de topologia, cal que la 
@@ -2875,8 +3640,8 @@ Pot ser molt ilustratiu, de cara a implementar noves topologies,
 fixar-se en les ja existents com CTopologiaToroidal.
 
 <p>
-        <H2><A NAME="tth_sEc4.2">
-4.2</A>&nbsp;&nbsp;Programació de nous agents</H2>
+        <H2><A NAME="tth_sEc7.2">
+7.2</A>&nbsp;&nbsp;Programació de nous agents</H2>
 
 <p>
 De cara a afegir nous agents al sistema, s'aconsella seguir els
@@ -2966,7 +3731,7 @@ següents passos:
 	Si es tracta d'un actuador, no cal redefinir aquesta sino
 	<tt>virtual void CAgentNou::operator() (CSubstrat &amp; s)</tt> on 
 	<tt>s</tt> és el substrat que hem de modificar. 
-	<a href="#tthFtNtAAD" name=tthFrefAAD><sup>3</sup></a>
+	<a href="#tthFtNtAAE" name=tthFrefAAE><sup>4</sup></a>
 
 <li>
 <p>
@@ -3062,22 +3827,26 @@ Per a la resta de coses el més pràctic es fer un cut&amp;paste dels agents
 ja implementats i retocar el mínim.
 
 <p>
-        <H2><A NAME="tth_sEc4.3">
-4.3</A>&nbsp;&nbsp;Programació de nous substrats</H2>
+        <H2><A NAME="tth_sEc7.3">
+7.3</A>&nbsp;&nbsp;Programació de nous substrats</H2>
 
 <p>
-<A NAME="TODO">
+ <A NAME="TODO">
 </A><a name="tth_sEcindex"></a>
 
 <H2> Index (showing section)</H2>
 <hr><H3>Footnotes:</H3>
 
-<p><a name=tthFtNtAAB></a><a href="#tthFrefAAB"><sup>1</sup></a> Això dòna una idea de en quin punt de l'evolució, les mitocondries
+<p><a name=tthFtNtAAB></a><a href="#tthFrefAAB"><sup>1</sup></a> La majoria de la
+bibliografia de vida artificial anomena agents al que aquí anomenem
+organismes. Cal que quedi clar que els agents, en aquest projecte, no
+són els individuus que poblen el món, sinó una eina de configuració.
+<p><a name=tthFtNtAAC></a><a href="#tthFrefAAC"><sup>2</sup></a> Això dòna una idea de en quin punt de l'evolució, les mitocondries
 passaren simbiòticament a formar part dels altres organismes
-<p><a name=tthFtNtAAC></a><a href="#tthFrefAAC"><sup>2</sup></a> 
+<p><a name=tthFtNtAAD></a><a href="#tthFrefAAD"><sup>3</sup></a> 
 Tot i així, és important preveure que l'ordre d'accionat entre
 agents interdependents podria implicar variacions en els resultats.
 
-<p><a name=tthFtNtAAD></a><a href="#tthFrefAAD"><sup>3</sup></a> Veure l'apartat  que parla del que cal fer si es redefineix el substrat
-<p><hr><small>File translated from T<sub><font size="-1">E</font></sub>X by <a href="http://hutchinson.belmont.ma.us/tth/">T<sub><font size="-1">T</font></sub>H</a>, version 2.00.<br>On 08 Sep 1999, 01:08.</small>
+<p><a name=tthFtNtAAE></a><a href="#tthFrefAAE"><sup>4</sup></a> Veure l'apartat  que parla del que cal fer si es redefineix el substrat
+<p><hr><small>File translated from T<sub><font size="-1">E</font></sub>X by <a href="http://hutchinson.belmont.ma.us/tth/">T<sub><font size="-1">T</font></sub>H</a>, version 2.00.<br>On 14 Sep 1999, 05:53.</small>
 </HTML>

@@ -45,7 +45,7 @@ Tots els agents duen un nom assocciat que, per defecte, coincideix amb
 un prefixe i un número de sèrie únic entre tots els agents. Aquest
 nom es pot canviar per un que sigui més mnemotècnic per a l'usuari.
 
-% TODO: El tema dels logs
+TODO: El tema dels logs
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Agents Subordinadors}
@@ -65,39 +65,36 @@ agents subordinats cada cop que és accionat.
 \subsubsection{Agents Temporitzadors}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Els agents temporitzadors són agents multiples que no sempre
-que reben un accionat el propaguen cap els subordinats.
-Estableixen dos periodes, un actiu i un altre inactiu.
-Els accionats només es propagen als subordinats durant el
-periode actiu.
+Els agents temporitzadors són agents multiples que no sempre que
+reben un accionat el propaguen cap els subordinats. Estableixen dos
+períodes, un actiu i un altre inactiu. Els accionats només es
+propagen als subordinats durant el període actiu.
 
-Els periodes es defineixen mitjançant tres paràmetres:
-El periode mínim és el número d'accionats que dura el periode
-com a mínim. Aquest mínim es pot augmentar de forma no determinística
-el resultat de sumar-li n vegades un número aleatori en l'interval [0,m]
-(els corxets indiquen que els extrems estan inclosos).
-{\em n} és el número de daus, i {\em m} és el valor màxim o magnitud
-del dau.
+Els períodes es defineixen mitjançant tres paràmetres: El període
+mínim és el número d'accionats que dura el període com a mínim.
+Aquest mínim es pot augmentar de forma no determinística el resultat
+de sumar-li n vegades un número aleatori en l'interval [0,m] (els
+corxets indiquen que els extrems estan inclosos). {\em n} és el
+número de daus, i {\em m} és el valor màxim o magnitud del dau.
 
 D'aquesta especificació es pot deduir algunes dades, pot ser, més
 intuitives per a l'usuari:
 \begin{itemize}
-\item   El valor màxim que pot adoptar el periode és el mínim més n*m
+\item   El valor màxim que pot adoptar el període és el mínim més n*m
 \item   Un sól dau equival a una distribució uniforme entre els límits
 \item   A mesura que incrementem el nombre de daus, la distribució dels
-    periodes s'aproxima a una distribució normal entorn al centre
+    períodes s'aproxima a una distribució normal entorn al centre
     entre el valor màxim i mínim, amb un desviació típica cada vegada
     menor.
 \end{itemize}
 
 Per defecte, els paràmetres que introdueixen indeterminisme en els
-temporitzadors, com són els daus, estan ajustats de manera que el
-seu efecte sigui nul.
-Si no es toca res més que els periodes mínims, actuarà de forma determinista.
-De la mateixa manera, els periodes mínims dels cicles estan ajustats,
-per defecte, per que sempre s'estigui en un cicle actiu.
-D'aquesta forma, si no es configura res, l'efecte d'un temporitzador
-és el d'un agent múltiple ordinari.
+temporitzadors, com són els daus, estan ajustats de manera que el seu
+efecte sigui nul. Si no es toca res més que els períodes mínims,
+actuarà de forma determinista. De la mateixa manera, els períodes
+mínims dels cicles estan ajustats, per defecte, per que sempre
+s'estigui en un cicle actiu. D'aquesta forma, si no es configura res,
+l'efecte d'un temporitzador és el d'un agent múltiple ordinari.
 
 Paràmetres per defecte i una execució:
 \begin{itemize}
@@ -116,8 +113,8 @@ Paràmetres ilustratius:
 \end{itemize}
 
 A continuació hi ha una execució dels paràmetres anteriors. Els
-guions representen accionats durant el periode inactiu i les O's
-representen accionats durant el periode actiu.
+guions representen accionats durant el període inactiu i les O's
+representen accionats durant el període actiu.
 
 {\setlinespacing{1}
 \begin{verbatim}
@@ -176,9 +173,9 @@ accionats que arriben als seus subordinats, sinó que el que fan és
 multiplicar els accionats que li arriben.
 
 Més concretament, quan un agent iterador és accionat, els seus
-subordinats, són accionats un número de vegades que es calcula
-a partir d'un mínim i uns daus com els que feiem servir per als
-periodes dels temporitzadors.
+subordinats, són accionats un número de vegades que es calcula a
+partir d'un mínim i uns daus com els que feiem servir per als
+períodes dels temporitzadors.
 
 Per defecte, la part indeterminística (els daus) no té cap efecte,
 i la part deterministica (el mínim) està posada a un valor (1) que
@@ -249,7 +246,12 @@ posició fan servir altres agents dels quals depenen.
 A continuació es presenten exemples d'execució d'un posicionador aleatori,
 un de seqüencial i un de zonal aplicats sobre una topologia toroidal.
 
-% TODO: Exemples d'execució posicionadors seqüencial, zonal i aleatori
+\begin{figure}[h]
+    \centering
+    \fbox{TODO: Exemples d'execució posicionadors seqüencial, zonal i aleatori}
+    \label{fig:exemplesPosicionadors}
+    \caption{Exemples de posicionadors: seqüencial, zonal i aleatori}
+\end{figure}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -274,7 +276,12 @@ direccional, però, no es descarten altres aplicacions futures.
 A continuació es presenten exemples d'execució d'un posicionador
 direccional, que depen de diferents tipus de direccionadors.
 
-% TODO: Exemple d'execució d'un itinerari amb els diferents direccionadors)
+\begin{figure}[h]
+    \centering
+    \fbox{TODO: Exemple d'execució d'un itinerari amb els diferents direccionadors}
+    \label{fig:exemplesDireccionadors}
+    \caption{Exemples de direccionadors (seqüencial, fixe i aleatori) controlant un posicionador direccional}
+\end{figure}
 
 Per obtindre aquests resultats ha calgut fer servir subordinadors
 per que el posicionador s'accionés més que el direccionador.
@@ -292,10 +299,10 @@ cel·la que han de modificar.
 
 La majoria dels agents que hem vist fins ara eren molt independents
 davant de les modificacions en la topologia i en la composició del
-substrat que es puguin fer més endavant.
-Les especialitzacions dels actuadors, en canvi, han de dependre
-per força del substrat i la seva composció, perqué actuen sobre ell.
-Segueixen sent independents, però, de la topologia.
+substrat que es puguin fer més endavant. Les especialitzacions dels
+actuadors, en canvi, han de dependre per força del substrat i la seva
+composició, perqué actuen sobre ell. Segueixen sent independents,
+però, de la topologia.
 
 Aquí a sota, expliquem alguns actuadors vàlids pel substrat
 implementat en aquest treball.
@@ -382,6 +389,7 @@ un espai a C (espais, tabuladors, retorns...).
 El tipus s'especifica amb un identificador propi de cada tipus d'agent.
 Dins d'un arxiu de configuració d'agents, es reconeixen els següents tipus:
 
+\begin{table}[h]
 \begin{tabular}{|l|l|}\hline
 {\bf Nom de tipus a la memòria}     & {\bf Nom del tipus a un fitxer de configuració}\\\hline
 Agent Subordinador Multiple     & Agent/Multiple            \\\hline
@@ -397,6 +405,9 @@ Direccionador Aleatori          & Agent/Direccionador/Aleatori      \\\hline
 Actuador Nutridor           & Agent/Actuador/Nutridor       \\\hline
 Actuador Desnutridor            & Agent/Actuador/Nutridor/Invers    \\\hline
 \end{tabular}
+    \caption{Tipus d'agents implementats al projecte i identificadors associats}
+    \label{tab:tipusAgent}
+\end{table}
 
 Es fan servir identificadors jerarquics molt semblants als que es
 fan servir a UNIX per identificar els directoris. La jerarquia
@@ -488,19 +499,19 @@ les línies de configuració.
 \begin{description}
 \item[Accio:] Determina un agent subordinat. Es repeteix tantes vegades com subordinats tingui.
         \\- agent: agent que es subordina (No ha de ser subordinat de cap altre)
-\item[CicleActiu:] Determina quan triguen els periodes de temps actius
-        \\- uint32: periode minim
+\item[CicleActiu:] Determina quan triguen els períodes de temps actius
+        \\- uint32: període mínim
         \\- uint32: número de daus
         \\- uint32: magnitud dels daus (Van de zero a la magnitud)
-\item[CicleInactiu:] Determina quan triguen els periodes de temps inactius
-        \\- uint32: periode minim
+\item[CicleInactiu:] Determina quan triguen els períodes de temps inactius
+        \\- uint32: període mínim
         \\- uint32: número de daus
         \\- uint32: magnitud dels daus (Van de zero a la magnitud)
 \item[AntiAccio:] Agent subordinat especial que s'acciona en el cicle inactiu (Nomes un per temporitzador i es opcional)
         \\- agent: agent que es subordina (No ha de ser subordinat de cap altre)
 \item[CicleActual:] Valors del temporitzador quan es reemprengui la marxa
         \\- id(Actiu/Inactiu): cicle actiu o inactiu
-        \\- uint32: periode restant del cicle actual
+        \\- uint32: període restant del cicle actual
 \end{description}
     Exemple de configuració texte
 \begin{verbatim}
@@ -747,6 +758,7 @@ A continuació es presenta un exemple complert:
 \subsection{Disseny del abocat a disc i de la recuperació}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%% TODO: Agents: Disseny del abocat a disc i de la recuperació
+TODO: Agents: Disseny del abocat a disc i de la recuperació
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage

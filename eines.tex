@@ -1,0 +1,188 @@
+% Time Log
+%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Eines i ajudes a la implementació}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+En aquest apartat s'expliquen algunes eines que s'han implementat per
+tal d'afavorir l'implementació de la resta del sistema.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Dispositius d'entrada i sortida portables}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+TODO: Dispositius d'entrada i sortida portables
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Funció de compatibilitat de claus}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:compatibilitat}
+
+Es tracta d'obtenir una funció que, a partir de dues claus, en
+determini si es compleix que són compatibles o no. La compatibilitat
+entre claus es fara servir, per exemple, per a la identificació
+d'organismes (amb l'objectiu de cercar preses, triar la parella,
+identificar fills i pares...), identificació de nutrients (amb
+l'objectiu d'ingerir-los, evitar-los, detectar excrecions ajenes,
+controlar els processos metabòlics interns...) i contesa (mecanismes
+de depredació i defensa). Donat que aquesta funció és una de les més
+utilitzades al sistema, ha de ser molt poc costosa.
+
+Cal que la funció no tingui en compte la ponderació dels bits que
+formen la clau i que els tracti tots de la mateixa forma perque no es
+converteixi en una optimització numèrica. A mes, és desitjable que
+aquesta funció permeti nivells de tolerància variables i un cert
+indeterminisme.
+
+Necessitem tenir en compte llavors tres elements:
+\begin{itemize}
+\item El grau de compatibilitat entre les claus.
+\item Una tolerància quantificable sobre les variacions entre claus.
+\item Un element indeterminístic que permeti resultats diferents amb les mateixes entrades.
+\end{itemize}
+
+Si les claus les representem amb dos enters de 32 bits, el grau de
+coincidència el podrem obtenir fent-ne la o exclusiva bit a bit i
+complementant el resultat. Al número obtingut l'anomenarem
+coincidència (C). El nivell de tolerància tambe pot ser un enter (T)
+que ens vindra donat i l'indeterminisme el pot introduir un altre
+enter (R) tret d'una funcio pseudo-aleatoria.
+
+\subsubsection{Opció 1}
+
+Els uns del número generat pseudo-aleatoriament (R) es 'filtren' per
+la coincidència (C) de tal forma ke nomes arribin els uns que
+estiguin en una posició on no hi havia coincidència entre claus. La
+tolerància (T) indica el número d'uns que admetem com a màxim per
+aceptar les claus com a compatibles.
+
+\begin{equation}
+    ComptaUns(R \& \sim C)<T
+    \label{eq:tolerancia1}
+\end{equation}
+
+El punt negre d'aquest mètode és l'alt cost de la funció ComptaUns,
+donat que no és una operacio nativa a la majoria de màquines i cal
+implementar-la a base de desplaçaments i enmascaraments.
+
+La següent gràfica mostra la probabilitat de que dos claus de 32 bits
+siguin compatibles segons el bits que tinguin igual i per diferents
+valors de T. La T pot oscilar entre 0 i 32 tot i que veiem que la
+distribució no pateix variacions apreciables per valors a partir de
+24 o potser abans. Podriem molt be limitar-la entre 0 i 15 sense
+perdre gaire significat.
+
+\begin{figure}[h]
+    \centering
+    %\includegraphics[width=6.1 in, keepaspectratio, draft]{compatibilitat1}
+    \framebox[6.2 in]{TODO: Posar la gràfica compatibilitat1}
+    \label{fig:compat1}
+    \caption{Probabilitat d'encerts segon el nombre d'uns de la coincidència i el nombre d'uns tolerats amb la funció de compatibilitat número 1}
+\end{figure}
+
+La distribució sembla ideal pel que volem: Per valors de poca
+tolerància, la probabilitat és gairebé nul·la, per toleràncies molt
+grans ho deixa passar gairebe tot i per a una sèrie de valors
+intermitjos on es mantenen tres zones:
+\begin{itemize}
+\item Una zona de pas incondicional, per les coincidències més altes.
+\item Una zona intermitja on la probabilitat de pas depen de la coincidència.
+\item Una zona de tall incondicional, per les coincidències més baixes.
+\end{itemize}
+
+\subsubsection{Opció 2}
+
+Una altra opció és fer servir la tolerància com una altra màscara. Un
+bit a un a la tolerància voldria dir que es tolera que aquest bit
+resulti a un després del filtratge. La condició que determina que dos
+claus són compatibles quedaria com segueix:
+
+\begin{equation}
+    {\tt(R \& \sim C \& \sim T)==0}
+    \label{eq:tolerancia2}
+\end{equation}
+
+Aquí sí que T agafa tota la franja dels 32 bits. Per fer la gràfica i
+obtenir un resultat comparable amb l'anterior, s'ha considerat el
+número de uns a la T en comptes del seu valor.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=6.1 in, keepaspectratio, draft]{compatibilitat2}
+    \label{fig:compat2}
+    \caption{Probabilitat d'encerts segons el nombre d'uns presents a la coincidència i a la tolerància amb la funció de compatibilitat número 2}
+\end{figure}
+
+Observem que hem perdut les zones d'aceptació i rebuig incondicional
+a les toleràncies intermitges, però, la funció és bastant vàlida pels
+objectius donat que és una aceptació no deterministica on la
+probabilitat depen de la tolerància i de la coincidència, i, a més,
+hem optimitzat moltissim el cost d'evaluació.
+
+Com a característica afegida, aquesta funció permet, mitjançant la
+tolerància, un control més acurat de quins bits son els que poden no
+coincidir. Aquesta peculiaritat pot donar a peu a mecanismes més
+complexes, que no pas una tolerància cega. A mès, tot i que es té en
+compte la posició dels bits, no els pondera, com les altres formules
+provades.
+
+\subsubsection{Altres opcions desestimades}
+
+Altres funcions de compatibilitat han estat provades i del tot
+desestimades pel seu alt cost i/o per la seva poca idoneitat.
+
+Per exemple, es va provar la funció
+\begin{equation}
+    ComptaUns(R \& \sim C \& \sim T1) < (T2 \& 0x5)
+    \label{eq:tolerancia3}
+\end{equation}
+
+per sintetitzar en una fòrmula els dos conceptes de tolerància que
+hem vist, una tolerància que dòna significat a la posició dels uns i
+una altra que permet tolerar globalment un cert nombre d'uns
+independentment de la posició.
+
+Degut als pocs bits (32) amb els que juga i a que hi havia dos punts on es tolera, la funció, lluny de donar tot el significat que voliem, dona molt poca variació amb els paràmetres. A més, tornem a tenir el problema de la funció ComptaUns.
+
+\begin{equation}
+    R>>(T\&0x7) < (C<< ( (T>>3) \& 0xf) )
+    \label{eq:tolerancia4}
+\end{equation}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Estructures de dades adicionals}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+De banda a les estructures de dades implementades a la biblioteca
+estàndard de C++, es necessitaven algunes estructures amb prestacions
+adicionals.
+
+Una d'elles era una estructura de dades que permetés l'accés de dades
+amb un cost unitari però que permetés la mateixa flexibilitat de
+reordenació que una llista enllaçada.
+
+La primera opció que es va triar es fer un mapa d'identificadors
+(numèrics?) amb els elements, però, aquesta opció, tot i que
+proporcionava un cost d'accés logaritmic, l'ordre que mantenien era
+l'ordre dels identificadors, i el que es necessitava era mantenir un
+ordre arbitrari entre els elements.
+
+TODO: Seguir descrivint les estructures de dades adicionals
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Colors ANSI}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Els objectes de la classe CColors, són objectes que representen un
+color per a un terminal de text que compleixi l'estàndard ANSI. En
+ser inserits a un stream de C++, inserten la seqüència per fixar-ho.
+
+TODO: Propietats i operacions de CColor
+
+TODO: Convencions de cara a la utilització de CColor.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
