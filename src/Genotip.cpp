@@ -35,7 +35,7 @@ CGenotip::~CGenotip()
 // Operacions
 //////////////////////////////////////////////////////////////////////
 
-uint32 CGenotip::seguentInstruccio(uint32 * fenotip)
+uint32 CGenotip::seguentInstruccio(const uint32 * fenotip)
 {
 	// Si no hi ha gens, ke hi farem
 	if (!m_gens.size())
@@ -64,7 +64,7 @@ uint32 CGenotip::seguentInstruccio(uint32 * fenotip)
 	return instr;
 }
 
-bool CGenotip::init(CCariotip & car)
+bool CGenotip::init(const CCariotip & car)
 {
 	for (uint32 crm=car.tamany(); crm--;) {
 		if (!car[crm]) continue;
