@@ -3,6 +3,8 @@
 //////////////////////////////////////////////////////////////////////
 // Change Log:
 // 19990914 VoK - Creat a imatge i semblant de CMutacioGenica
+// 19991126 VoK - Fix: No esborraven el material genetic residual
+//                a les Mutacions per Fusio
 //////////////////////////////////////////////////////////////////////
 
 #include <algorithm>
@@ -49,8 +51,10 @@ void CMutacioPerFusio::muta(CCariotip & car)
 	CCariotip::t_cromosoma crm1 = car[idxOrigen];
 	CCariotip::t_cromosoma crm2 = car[idxDesti];
 	crm2->fusiona(*crm1);
-	if (idxDesti!=idxOrigen)
-		car.extreu(idxOrigen);
+	if (idxDesti!=idxOrigen) {
+		crm1 = car.extreu(idxOrigen);
+		if (crm1) delete crm1;
+	}
 }
 
 void CMutacioPerEscisio::muta(CCariotip & car)

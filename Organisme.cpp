@@ -73,7 +73,7 @@ COrganisme::COrganisme(CCariotip &c) :
 
 COrganisme::~COrganisme()
 {
-
+	if (m_fenotip) delete[] m_fenotip;
 }
 
 //////////////////////////////////////////////////////////////////////

@@ -93,6 +93,7 @@ void CMutacioDesplacament::muta(CCromosoma & c)
 	if (!tmp) {
 		error << "CCromosoma: Error de memoria mutant per desplacament" << endl;
 		cin.get();
+		return;
 	}
 	//if (!tmp) return *this; // Sortida rapida si hi ha falta de memoria
 	uint32 idxDesti, idxOrigen, cont;

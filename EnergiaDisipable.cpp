@@ -25,7 +25,7 @@ CEnergiaDisipable::CEnergiaDisipable(uint32 slots)
 
 CEnergiaDisipable::~CEnergiaDisipable()
 {
-
+	if (m_slots) delete [] m_slots;
 }
 
 //////////////////////////////////////////////////////////////////////

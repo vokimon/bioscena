@@ -6,49 +6,18 @@ Project's tools are:
 			"32-bit C/C++ Compiler for 80x86" with flags "/nologo /MLd /W3 /Gm /GX /Zi /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR"Debug/" /Fp"Debug/Bioscena.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /c "
 			"Win32 Resource Compiler" with flags "/l 0x403 /d "_DEBUG" "
 			"Browser Database Maker" with flags "/nologo /o"Debug/Bioscena.bsc" "
-			"COFF Linker for 80x86" with flags "kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /verbose /incremental:yes /pdb:"Debug/Bioscena.pdb" /debug /machine:I386 /out:"Debug/Bioscena.exe" /pdbtype:sept "
+			"COFF Linker for 80x86" with flags "kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /verbose /incremental:no /pdb:"Debug/Bioscena.pdb" /debug /machine:I386 /out:"Debug/Bioscena.exe" /pdbtype:sept "
 			"Custom Build" with flags ""
 			"<Component 0xa>" with flags ""
 
-Creating temp file "C:\WINDOWS\TEMP\RSP1185.TMP" with contents </nologo /MLd /W3 /Gm /GX /Zi /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR"Debug/" /Fp"Debug/Bioscena.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /c 
-"D:\Bioscena\Bioscena\Actuador.cpp"
-"D:\Bioscena\Bioscena\Actuadors.cpp"
-"D:\Bioscena\Bioscena\Agent.cpp"
-"D:\Bioscena\Bioscena\Aleaturitzador.cpp"
+Creating temp file "C:\WINDOWS\TEMP\RSP71F0.TMP" with contents </nologo /MLd /W3 /Gm /GX /Zi /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR"Debug/" /Fp"Debug/Bioscena.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /c 
 "D:\Bioscena\Bioscena\AppInfo.cpp"
-"D:\Bioscena\Bioscena\Biosistema.cpp"
-"D:\Bioscena\Bioscena\Cariotip.cpp"
-"D:\Bioscena\Bioscena\Color.cpp"
 "D:\Bioscena\Bioscena\Compatibilitat.cpp"
-"D:\Bioscena\Bioscena\Comunitat.cpp"
-"D:\Bioscena\Bioscena\Configuracio.cpp"
-"D:\Bioscena\Bioscena\Cromosoma.cpp"
-"D:\Bioscena\Bioscena\Detector.cpp"
-"D:\Bioscena\Bioscena\EnergiaDisipable.cpp"
-"D:\Bioscena\Bioscena\FuncioAgent.cpp"
-"D:\Bioscena\Bioscena\Gen.cpp"
 "D:\Bioscena\Bioscena\GeneradorMascares.cpp"
-"D:\Bioscena\Bioscena\Genotip.cpp"
-"D:\Bioscena\Bioscena\InfoOrganisme.cpp"
-"D:\Bioscena\Bioscena\Iterador.cpp"
-"D:\Bioscena\Bioscena\Itineraris.cpp"
-"D:\Bioscena\Bioscena\MainBio1.cpp"
-"D:\Bioscena\Bioscena\Missatger.cpp"
-"D:\Bioscena\Bioscena\MultiAgent.cpp"
-"D:\Bioscena\Bioscena\MutacioCariotip.cpp"
-"D:\Bioscena\Bioscena\MutacioGenica.cpp"
-"D:\Bioscena\Bioscena\Organisme.cpp"
-"D:\Bioscena\Bioscena\Outputer.cpp"
-"D:\Bioscena\Bioscena\Posicionador.cpp"
-"D:\Bioscena\Bioscena\Probabilitat.cpp"
-"D:\Bioscena\Bioscena\RandomStream.cpp"
 "D:\Bioscena\Bioscena\Substrat.cpp"
-"D:\Bioscena\Bioscena\Temporitzador.cpp"
-"D:\Bioscena\Bioscena\Topologia.cpp"
-"D:\Bioscena\Bioscena\TopologiaToroidal.cpp"
 >
-Creating command line "cl.exe @C:\WINDOWS\TEMP\RSP1185.TMP" 
-Creating temp file "C:\WINDOWS\TEMP\RSP1186.TMP" with contents <kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /verbose /incremental:yes /pdb:"Debug/Bioscena.pdb" /debug /machine:I386 /out:"Debug/Bioscena.exe" /pdbtype:sept 
+Creating command line "cl.exe @C:\WINDOWS\TEMP\RSP71F0.TMP" 
+Creating temp file "C:\WINDOWS\TEMP\RSP71F1.TMP" with contents <kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /verbose /incremental:no /pdb:"Debug/Bioscena.pdb" /debug /machine:I386 /out:"Debug/Bioscena.exe" /pdbtype:sept 
 .\Debug\Actuador.obj
 .\Debug\Actuadors.obj
 .\Debug\Agent.obj
@@ -62,11 +31,13 @@ Creating temp file "C:\WINDOWS\TEMP\RSP1186.TMP" with contents <kernel32.lib use
 .\Debug\Configuracio.obj
 .\Debug\Cromosoma.obj
 .\Debug\Detector.obj
+.\Debug\Distribucio.obj
 .\Debug\EnergiaDisipable.obj
 .\Debug\FuncioAgent.obj
 .\Debug\Gen.obj
 .\Debug\GeneradorMascares.obj
 .\Debug\Genotip.obj
+.\Debug\Grafic.obj
 .\Debug\InfoOrganisme.obj
 .\Debug\Iterador.obj
 .\Debug\Itineraris.obj
@@ -84,7 +55,2397 @@ Creating temp file "C:\WINDOWS\TEMP\RSP1186.TMP" with contents <kernel32.lib use
 .\Debug\Temporitzador.obj
 .\Debug\Topologia.obj
 .\Debug\TopologiaToroidal.obj>
-Creating command line "link.exe @C:\WINDOWS\TEMP\RSP1186.TMP" 
+Creating command line "link.exe @C:\WINDOWS\TEMP\RSP71F1.TMP" 
 Compiling...
-Actuador.cpp
+GeneradorMascares.cpp
+Compatibilitat.cpp
+Substrat.cpp
+AppInfo.cpp
+Linking...
 
+Start Pass1
+Processed /DEFAULTLIB:libcpd
+Processed /DEFAULTLIB:LIBCD
+Processed /DEFAULTLIB:OLDNAMES
+
+Searching Libraries
+    Searching C:\Archivos de programa\Programacio\DevStudio\VC\LIB\kernel32.lib:
+      Found __imp__SetConsoleScreenBufferSize@8
+        Referenced in MainBio1.obj
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__GetStdHandle@4
+        Referenced in MainBio1.obj
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __IMPORT_DESCRIPTOR_KERNEL32
+        Referenced in kernel32.lib(KERNEL32.dll)
+        Referenced in kernel32.lib(KERNEL32.dll)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __NULL_IMPORT_DESCRIPTOR
+        Referenced in kernel32.lib(KERNEL32.dll)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found KERNEL32_NULL_THUNK_DATA
+        Referenced in kernel32.lib(KERNEL32.dll)
+        Loaded kernel32.lib(KERNEL32.dll)
+    Searching C:\Archivos de programa\Programacio\DevStudio\VC\LIB\user32.lib:
+      Found __imp__MessageBoxA@16
+        Referenced in Missatger.obj
+        Loaded user32.lib(USER32.dll)
+      Found __IMPORT_DESCRIPTOR_USER32
+        Referenced in user32.lib(USER32.dll)
+        Loaded user32.lib(USER32.dll)
+      Found USER32_NULL_THUNK_DATA
+        Referenced in user32.lib(USER32.dll)
+        Loaded user32.lib(USER32.dll)
+    Searching C:\Archivos de programa\Programacio\DevStudio\VC\LIB\gdi32.lib:
+    Searching C:\Archivos de programa\Programacio\DevStudio\VC\LIB\winspool.lib:
+    Searching C:\Archivos de programa\Programacio\DevStudio\VC\LIB\comdlg32.lib:
+    Searching C:\Archivos de programa\Programacio\DevStudio\VC\LIB\advapi32.lib:
+    Searching C:\Archivos de programa\Programacio\DevStudio\VC\LIB\shell32.lib:
+    Searching C:\Archivos de programa\Programacio\DevStudio\VC\LIB\ole32.lib:
+    Searching C:\Archivos de programa\Programacio\DevStudio\VC\LIB\oleaut32.lib:
+    Searching C:\Archivos de programa\Programacio\DevStudio\VC\LIB\uuid.lib:
+    Searching C:\Archivos de programa\Programacio\DevStudio\VC\LIB\odbc32.lib:
+    Searching C:\Archivos de programa\Programacio\DevStudio\VC\LIB\odbccp32.lib:
+    Searching C:\Archivos de programa\Programacio\DevStudio\VC\LIB\libcpd.lib:
+      Found ??3@YAXPAX@Z
+        Referenced in Temporitzador.obj
+        Referenced in Posicionador.obj
+        Referenced in Probabilitat.obj
+        Referenced in RandomStream.obj
+        Referenced in Substrat.obj
+        Referenced in MutacioCariotip.obj
+        Referenced in MutacioGenica.obj
+        Referenced in Organisme.obj
+        Referenced in Outputer.obj
+        Referenced in Itineraris.obj
+        Referenced in MainBio1.obj
+        Referenced in Missatger.obj
+        Referenced in MultiAgent.obj
+        Referenced in Genotip.obj
+        Referenced in Grafic.obj
+        Referenced in InfoOrganisme.obj
+        Referenced in Iterador.obj
+        Referenced in Detector.obj
+        Referenced in EnergiaDisipable.obj
+        Referenced in FuncioAgent.obj
+        Referenced in Gen.obj
+        Referenced in Compatibilitat.obj
+        Referenced in Comunitat.obj
+        Referenced in Configuracio.obj
+        Referenced in Cromosoma.obj
+        Referenced in AppInfo.obj
+        Referenced in Biosistema.obj
+        Referenced in Cariotip.obj
+        Referenced in Color.obj
+        Referenced in Actuador.obj
+        Referenced in Actuadors.obj
+        Referenced in Agent.obj
+        Referenced in Aleaturitzador.obj
+        Loaded libcpd.lib(delop.obj)
+      Found ?_Xlen@std@@YAXXZ
+        Referenced in RandomStream.obj
+        Referenced in Substrat.obj
+        Referenced in Temporitzador.obj
+        Referenced in MutacioGenica.obj
+        Referenced in Organisme.obj
+        Referenced in Outputer.obj
+        Referenced in Posicionador.obj
+        Referenced in MainBio1.obj
+        Referenced in Missatger.obj
+        Referenced in MultiAgent.obj
+        Referenced in MutacioCariotip.obj
+        Referenced in Grafic.obj
+        Referenced in InfoOrganisme.obj
+        Referenced in Iterador.obj
+        Referenced in Itineraris.obj
+        Referenced in EnergiaDisipable.obj
+        Referenced in FuncioAgent.obj
+        Referenced in Gen.obj
+        Referenced in Genotip.obj
+        Referenced in Compatibilitat.obj
+        Referenced in Comunitat.obj
+        Referenced in Configuracio.obj
+        Referenced in Cromosoma.obj
+        Referenced in AppInfo.obj
+        Referenced in Biosistema.obj
+        Referenced in Cariotip.obj
+        Referenced in Color.obj
+        Referenced in Actuador.obj
+        Referenced in Actuadors.obj
+        Referenced in Agent.obj
+        Referenced in Aleaturitzador.obj
+        Loaded libcpd.lib(string.obj)
+      Found ?_Iscloc@locale@std@@QBE_NXZ
+        Referenced in Substrat.obj
+        Referenced in Temporitzador.obj
+        Referenced in Organisme.obj
+        Referenced in Outputer.obj
+        Referenced in Posicionador.obj
+        Referenced in RandomStream.obj
+        Referenced in Missatger.obj
+        Referenced in MultiAgent.obj
+        Referenced in MutacioCariotip.obj
+        Referenced in MutacioGenica.obj
+        Referenced in Grafic.obj
+        Referenced in Iterador.obj
+        Referenced in Itineraris.obj
+        Referenced in MainBio1.obj
+        Referenced in EnergiaDisipable.obj
+        Referenced in FuncioAgent.obj
+        Referenced in Gen.obj
+        Referenced in Genotip.obj
+        Referenced in Compatibilitat.obj
+        Referenced in Comunitat.obj
+        Referenced in Configuracio.obj
+        Referenced in Cromosoma.obj
+        Referenced in AppInfo.obj
+        Referenced in Biosistema.obj
+        Referenced in Cariotip.obj
+        Referenced in Color.obj
+        Referenced in Actuador.obj
+        Referenced in Actuadors.obj
+        Referenced in Agent.obj
+        Referenced in Aleaturitzador.obj
+        Loaded libcpd.lib(locale0.obj)
+      Found ?id@?$ctype@D@std@@2V0locale@2@A
+        Referenced in Substrat.obj
+        Referenced in Temporitzador.obj
+        Referenced in MutacioGenica.obj
+        Referenced in Organisme.obj
+        Referenced in Posicionador.obj
+        Referenced in RandomStream.obj
+        Referenced in Iterador.obj
+        Referenced in Itineraris.obj
+        Referenced in MultiAgent.obj
+        Referenced in MutacioCariotip.obj
+        Referenced in Cromosoma.obj
+        Referenced in EnergiaDisipable.obj
+        Referenced in FuncioAgent.obj
+        Referenced in Grafic.obj
+        Referenced in Biosistema.obj
+        Referenced in Cariotip.obj
+        Referenced in Comunitat.obj
+        Referenced in Configuracio.obj
+        Referenced in Actuador.obj
+        Referenced in Actuadors.obj
+        Referenced in Agent.obj
+        Referenced in Aleaturitzador.obj
+        Loaded libcpd.lib(locale.obj)
+      Found __Getctype
+        Referenced in Substrat.obj
+        Referenced in Temporitzador.obj
+        Referenced in libcpd.lib(locale.obj)
+        Referenced in MutacioGenica.obj
+        Referenced in Organisme.obj
+        Referenced in Posicionador.obj
+        Referenced in RandomStream.obj
+        Referenced in Iterador.obj
+        Referenced in Itineraris.obj
+        Referenced in MultiAgent.obj
+        Referenced in MutacioCariotip.obj
+        Referenced in Cromosoma.obj
+        Referenced in EnergiaDisipable.obj
+        Referenced in FuncioAgent.obj
+        Referenced in Grafic.obj
+        Referenced in Biosistema.obj
+        Referenced in Cariotip.obj
+        Referenced in Comunitat.obj
+        Referenced in Configuracio.obj
+        Referenced in Actuador.obj
+        Referenced in Actuadors.obj
+        Referenced in Agent.obj
+        Referenced in Aleaturitzador.obj
+        Loaded libcpd.lib(_tolower.obj)
+      Found __Toupper
+        Referenced in Substrat.obj
+        Referenced in Temporitzador.obj
+        Referenced in libcpd.lib(locale.obj)
+        Referenced in MutacioGenica.obj
+        Referenced in Organisme.obj
+        Referenced in Posicionador.obj
+        Referenced in RandomStream.obj
+        Referenced in Iterador.obj
+        Referenced in Itineraris.obj
+        Referenced in MultiAgent.obj
+        Referenced in MutacioCariotip.obj
+        Referenced in Cromosoma.obj
+        Referenced in EnergiaDisipable.obj
+        Referenced in FuncioAgent.obj
+        Referenced in Grafic.obj
+        Referenced in Biosistema.obj
+        Referenced in Cariotip.obj
+        Referenced in Comunitat.obj
+        Referenced in Configuracio.obj
+        Referenced in Actuador.obj
+        Referenced in Actuadors.obj
+        Referenced in Agent.obj
+        Referenced in Aleaturitzador.obj
+        Loaded libcpd.lib(_toupper.obj)
+      Found ?clear@ios_base@std@@QAEXH_N@Z
+        Referenced in Substrat.obj
+        Referenced in Temporitzador.obj
+        Referenced in Organisme.obj
+        Referenced in Outputer.obj
+        Referenced in Posicionador.obj
+        Referenced in RandomStream.obj
+        Referenced in Missatger.obj
+        Referenced in MultiAgent.obj
+        Referenced in MutacioCariotip.obj
+        Referenced in MutacioGenica.obj
+        Referenced in Grafic.obj
+        Referenced in Iterador.obj
+        Referenced in Itineraris.obj
+        Referenced in MainBio1.obj
+        Referenced in EnergiaDisipable.obj
+        Referenced in FuncioAgent.obj
+        Referenced in Gen.obj
+        Referenced in Genotip.obj
+        Referenced in Compatibilitat.obj
+        Referenced in Comunitat.obj
+        Referenced in Configuracio.obj
+        Referenced in Cromosoma.obj
+        Referenced in AppInfo.obj
+        Referenced in Biosistema.obj
+        Referenced in Cariotip.obj
+        Referenced in Color.obj
+        Referenced in Actuador.obj
+        Referenced in Actuadors.obj
+        Referenced in Agent.obj
+        Referenced in Aleaturitzador.obj
+        Loaded libcpd.lib(ios.obj)
+      Found ?uncaught_exception@std@@YA_NXZ
+        Referenced in Substrat.obj
+        Referenced in Temporitzador.obj
+        Referenced in Organisme.obj
+        Referenced in Outputer.obj
+        Referenced in Posicionador.obj
+        Referenced in RandomStream.obj
+        Referenced in Missatger.obj
+        Referenced in MultiAgent.obj
+        Referenced in MutacioCariotip.obj
+        Referenced in MutacioGenica.obj
+        Referenced in Grafic.obj
+        Referenced in Iterador.obj
+        Referenced in Itineraris.obj
+        Referenced in MainBio1.obj
+        Referenced in EnergiaDisipable.obj
+        Referenced in FuncioAgent.obj
+        Referenced in Gen.obj
+        Referenced in Genotip.obj
+        Referenced in Compatibilitat.obj
+        Referenced in Comunitat.obj
+        Referenced in Configuracio.obj
+        Referenced in Cromosoma.obj
+        Referenced in AppInfo.obj
+        Referenced in Biosistema.obj
+        Referenced in Cariotip.obj
+        Referenced in Color.obj
+        Referenced in Actuador.obj
+        Referenced in Actuadors.obj
+        Referenced in Agent.obj
+        Referenced in Aleaturitzador.obj
+        Loaded libcpd.lib(uncaught.obj)
+      Found ??0Init@ios_base@std@@QAE@XZ
+        Referenced in TopologiaToroidal.obj
+        Referenced in RandomStream.obj
+        Referenced in Substrat.obj
+        Referenced in Temporitzador.obj
+        Referenced in Topologia.obj
+        Referenced in Organisme.obj
+        Referenced in Outputer.obj
+        Referenced in Posicionador.obj
+        Referenced in Probabilitat.obj
+        Referenced in Missatger.obj
+        Referenced in MultiAgent.obj
+        Referenced in MutacioCariotip.obj
+        Referenced in MutacioGenica.obj
+        Referenced in InfoOrganisme.obj
+        Referenced in Iterador.obj
+        Referenced in Itineraris.obj
+        Referenced in MainBio1.obj
+        Referenced in Gen.obj
+        Referenced in GeneradorMascares.obj
+        Referenced in Genotip.obj
+        Referenced in Grafic.obj
+        Referenced in Detector.obj
+        Referenced in Distribucio.obj
+        Referenced in EnergiaDisipable.obj
+        Referenced in FuncioAgent.obj
+        Referenced in Compatibilitat.obj
+        Referenced in Comunitat.obj
+        Referenced in Configuracio.obj
+        Referenced in Cromosoma.obj
+        Referenced in AppInfo.obj
+        Referenced in Biosistema.obj
+        Referenced in Cariotip.obj
+        Referenced in Color.obj
+        Referenced in Actuador.obj
+        Referenced in Actuadors.obj
+        Referenced in Agent.obj
+        Referenced in Aleaturitzador.obj
+        Loaded libcpd.lib(iostream.obj)
+      Found ??0_Winit@std@@QAE@XZ
+        Referenced in TopologiaToroidal.obj
+        Referenced in RandomStream.obj
+        Referenced in Substrat.obj
+        Referenced in Temporitzador.obj
+        Referenced in Topologia.obj
+        Referenced in Organisme.obj
+        Referenced in Outputer.obj
+        Referenced in Posicionador.obj
+        Referenced in Probabilitat.obj
+        Referenced in Missatger.obj
+        Referenced in MultiAgent.obj
+        Referenced in MutacioCariotip.obj
+        Referenced in MutacioGenica.obj
+        Referenced in InfoOrganisme.obj
+        Referenced in Iterador.obj
+        Referenced in Itineraris.obj
+        Referenced in MainBio1.obj
+        Referenced in Gen.obj
+        Referenced in GeneradorMascares.obj
+        Referenced in Genotip.obj
+        Referenced in Grafic.obj
+        Referenced in Detector.obj
+        Referenced in Distribucio.obj
+        Referenced in EnergiaDisipable.obj
+        Referenced in FuncioAgent.obj
+        Referenced in Compatibilitat.obj
+        Referenced in Comunitat.obj
+        Referenced in Configuracio.obj
+        Referenced in Cromosoma.obj
+        Referenced in AppInfo.obj
+        Referenced in Biosistema.obj
+        Referenced in Cariotip.obj
+        Referenced in Color.obj
+        Referenced in Actuador.obj
+        Referenced in Actuadors.obj
+        Referenced in Agent.obj
+        Referenced in Aleaturitzador.obj
+        Loaded libcpd.lib(wiostrea.obj)
+      Found ?setw@std@@YA?AU?$_Smanip@H@1@H@Z
+        Referenced in Organisme.obj
+        Referenced in RandomStream.obj
+        Referenced in Comunitat.obj
+        Referenced in Cromosoma.obj
+        Referenced in Itineraris.obj
+        Referenced in MultiAgent.obj
+        Referenced in Actuadors.obj
+        Referenced in Agent.obj
+        Referenced in AppInfo.obj
+        Referenced in Biosistema.obj
+        Loaded libcpd.lib(iomanip.obj)
+      Found __Stof
+        Referenced in Temporitzador.obj
+        Referenced in libcpd.lib(locale.obj)
+        Referenced in Itineraris.obj
+        Referenced in MutacioCariotip.obj
+        Referenced in MutacioGenica.obj
+        Referenced in Posicionador.obj
+        Referenced in Actuadors.obj
+        Referenced in Aleaturitzador.obj
+        Referenced in Configuracio.obj
+        Referenced in Iterador.obj
+        Loaded libcpd.lib(xstod.obj)
+      Found ?_Fiopen@?$basic_filebuf@DU?$char_traits@D@std@@@std@@CAPAU_iobuf@@PBDH@Z
+        Referenced in MultiAgent.obj
+        Referenced in Agent.obj
+        Referenced in Biosistema.obj
+        Referenced in Compatibilitat.obj
+        Referenced in Configuracio.obj
+        Loaded libcpd.lib(fiopen.obj)
+      Found __Getcvt
+        Referenced in MultiAgent.obj
+        Referenced in libcpd.lib(locale.obj)
+        Referenced in Agent.obj
+        Referenced in Biosistema.obj
+        Referenced in Compatibilitat.obj
+        Referenced in Configuracio.obj
+        Loaded libcpd.lib(xwctomb.obj)
+      Found ?seekpos@strstreambuf@std@@MAE?AV?$fpos@H@2@V32@H@Z
+        Referenced in Agent.obj
+        Referenced in Comunitat.obj
+        Referenced in Missatger.obj
+        Loaded libcpd.lib(strstrea.obj)
+      Found ?_Makewloc@_Locimp@locale@std@@CAXABV_Locinfo@3@HPAV123@PBV23@@Z
+        Referenced in libcpd.lib(locale.obj)
+        Loaded libcpd.lib(wlocale.obj)
+      Found ?_Makexloc@_Locimp@locale@std@@CAXABV_Locinfo@3@HPAV123@PBV23@@Z
+        Referenced in libcpd.lib(locale.obj)
+        Loaded libcpd.lib(xlocale.obj)
+      Found ?_Nomemory@std@@YAXXZ
+        Referenced in libcpd.lib(locale.obj)
+        Referenced in libcpd.lib(ios.obj)
+        Loaded libcpd.lib(nomemory.obj)
+      Found _btowc
+        Referenced in libcpd.lib(wiostrea.obj)
+        Referenced in libcpd.lib(wlocale.obj)
+        Loaded libcpd.lib(xmbtowc.obj)
+      Found __Getcoll
+        Referenced in libcpd.lib(wlocale.obj)
+        Referenced in libcpd.lib(xlocale.obj)
+        Loaded libcpd.lib(xstrcoll.obj)
+    Searching C:\Archivos de programa\Programacio\DevStudio\VC\LIB\LIBCD.lib:
+      Found __purecall
+        Referenced in Missatger.obj
+        Referenced in MultiAgent.obj
+        Referenced in MutacioCariotip.obj
+        Referenced in MutacioGenica.obj
+        Referenced in Actuador.obj
+        Referenced in Agent.obj
+        Referenced in Biosistema.obj
+        Referenced in Grafic.obj
+        Loaded LIBCD.lib(purevirt.obj)
+      Found ___CxxFrameHandler
+        Referenced in libcpd.lib(xlocale.obj)
+        Referenced in libcpd.lib(iostream.obj)
+        Referenced in libcpd.lib(wiostrea.obj)
+        Referenced in libcpd.lib(strstrea.obj)
+        Referenced in libcpd.lib(wlocale.obj)
+        Referenced in libcpd.lib(string.obj)
+        Referenced in libcpd.lib(locale0.obj)
+        Referenced in libcpd.lib(locale.obj)
+        Referenced in libcpd.lib(ios.obj)
+        Referenced in Posicionador.obj
+        Referenced in RandomStream.obj
+        Referenced in Substrat.obj
+        Referenced in Temporitzador.obj
+        Referenced in MutacioCariotip.obj
+        Referenced in MutacioGenica.obj
+        Referenced in Organisme.obj
+        Referenced in Outputer.obj
+        Referenced in Itineraris.obj
+        Referenced in MainBio1.obj
+        Referenced in Missatger.obj
+        Referenced in MultiAgent.obj
+        Referenced in Genotip.obj
+        Referenced in Grafic.obj
+        Referenced in InfoOrganisme.obj
+        Referenced in Iterador.obj
+        Referenced in Detector.obj
+        Referenced in EnergiaDisipable.obj
+        Referenced in FuncioAgent.obj
+        Referenced in Gen.obj
+        Referenced in Compatibilitat.obj
+        Referenced in Comunitat.obj
+        Referenced in Configuracio.obj
+        Referenced in Cromosoma.obj
+        Referenced in AppInfo.obj
+        Referenced in Biosistema.obj
+        Referenced in Cariotip.obj
+        Referenced in Color.obj
+        Referenced in Actuador.obj
+        Referenced in Actuadors.obj
+        Referenced in Agent.obj
+        Referenced in Aleaturitzador.obj
+        Loaded LIBCD.lib(trnsctrl.obj)
+      Found __except_list
+        Referenced in libcpd.lib(xlocale.obj)
+        Referenced in libcpd.lib(iostream.obj)
+        Referenced in libcpd.lib(wiostrea.obj)
+        Referenced in libcpd.lib(strstrea.obj)
+        Referenced in libcpd.lib(wlocale.obj)
+        Referenced in libcpd.lib(string.obj)
+        Referenced in libcpd.lib(locale0.obj)
+        Referenced in libcpd.lib(locale.obj)
+        Referenced in libcpd.lib(ios.obj)
+        Referenced in Posicionador.obj
+        Referenced in RandomStream.obj
+        Referenced in Substrat.obj
+        Referenced in Temporitzador.obj
+        Referenced in MutacioCariotip.obj
+        Referenced in MutacioGenica.obj
+        Referenced in Organisme.obj
+        Referenced in Outputer.obj
+        Referenced in Itineraris.obj
+        Referenced in MainBio1.obj
+        Referenced in Missatger.obj
+        Referenced in MultiAgent.obj
+        Referenced in Genotip.obj
+        Referenced in Grafic.obj
+        Referenced in InfoOrganisme.obj
+        Referenced in Iterador.obj
+        Referenced in Detector.obj
+        Referenced in EnergiaDisipable.obj
+        Referenced in FuncioAgent.obj
+        Referenced in Gen.obj
+        Referenced in Compatibilitat.obj
+        Referenced in Comunitat.obj
+        Referenced in Configuracio.obj
+        Referenced in Cromosoma.obj
+        Referenced in AppInfo.obj
+        Referenced in Biosistema.obj
+        Referenced in Cariotip.obj
+        Referenced in Color.obj
+        Referenced in Actuador.obj
+        Referenced in Actuadors.obj
+        Referenced in Agent.obj
+        Referenced in Aleaturitzador.obj
+        Loaded LIBCD.lib(exsup.obj)
+      Found _strlen
+        Referenced in libcpd.lib(wiostrea.obj)
+        Referenced in libcpd.lib(strstrea.obj)
+        Referenced in libcpd.lib(wlocale.obj)
+        Referenced in libcpd.lib(xlocale.obj)
+        Referenced in libcpd.lib(locale0.obj)
+        Referenced in libcpd.lib(locale.obj)
+        Referenced in libcpd.lib(ios.obj)
+        Referenced in libcpd.lib(iostream.obj)
+        Referenced in RandomStream.obj
+        Referenced in Substrat.obj
+        Referenced in Temporitzador.obj
+        Referenced in libcpd.lib(string.obj)
+        Referenced in MutacioGenica.obj
+        Referenced in Organisme.obj
+        Referenced in Outputer.obj
+        Referenced in Posicionador.obj
+        Referenced in MainBio1.obj
+        Referenced in Missatger.obj
+        Referenced in MultiAgent.obj
+        Referenced in MutacioCariotip.obj
+        Referenced in Grafic.obj
+        Referenced in InfoOrganisme.obj
+        Referenced in Iterador.obj
+        Referenced in Itineraris.obj
+        Referenced in EnergiaDisipable.obj
+        Referenced in FuncioAgent.obj
+        Referenced in Gen.obj
+        Referenced in Genotip.obj
+        Referenced in Compatibilitat.obj
+        Referenced in Comunitat.obj
+        Referenced in Configuracio.obj
+        Referenced in Cromosoma.obj
+        Referenced in AppInfo.obj
+        Referenced in Biosistema.obj
+        Referenced in Cariotip.obj
+        Referenced in Color.obj
+        Referenced in Actuador.obj
+        Referenced in Actuadors.obj
+        Referenced in Agent.obj
+        Referenced in Aleaturitzador.obj
+        Loaded LIBCD.lib(strlen.obj)
+      Found _memcpy
+        Referenced in libcpd.lib(wlocale.obj)
+        Referenced in libcpd.lib(xlocale.obj)
+        Referenced in libcpd.lib(iostream.obj)
+        Referenced in libcpd.lib(wiostrea.obj)
+        Referenced in libcpd.lib(xwctomb.obj)
+        Referenced in libcpd.lib(strstrea.obj)
+        Referenced in libcpd.lib(locale0.obj)
+        Referenced in libcpd.lib(locale.obj)
+        Referenced in libcpd.lib(_tolower.obj)
+        Referenced in libcpd.lib(ios.obj)
+        Referenced in RandomStream.obj
+        Referenced in Substrat.obj
+        Referenced in Temporitzador.obj
+        Referenced in libcpd.lib(string.obj)
+        Referenced in MutacioGenica.obj
+        Referenced in Organisme.obj
+        Referenced in Outputer.obj
+        Referenced in Posicionador.obj
+        Referenced in MainBio1.obj
+        Referenced in Missatger.obj
+        Referenced in MultiAgent.obj
+        Referenced in MutacioCariotip.obj
+        Referenced in Grafic.obj
+        Referenced in InfoOrganisme.obj
+        Referenced in Iterador.obj
+        Referenced in Itineraris.obj
+        Referenced in EnergiaDisipable.obj
+        Referenced in FuncioAgent.obj
+        Referenced in Gen.obj
+        Referenced in Genotip.obj
+        Referenced in Compatibilitat.obj
+        Referenced in Comunitat.obj
+        Referenced in Configuracio.obj
+        Referenced in Cromosoma.obj
+        Referenced in AppInfo.obj
+        Referenced in Biosistema.obj
+        Referenced in Cariotip.obj
+        Referenced in Color.obj
+        Referenced in Actuador.obj
+        Referenced in Actuadors.obj
+        Referenced in Agent.obj
+        Referenced in Aleaturitzador.obj
+        Loaded LIBCD.lib(memcpy.obj)
+      Found _memmove
+        Referenced in libcpd.lib(wlocale.obj)
+        Referenced in libcpd.lib(xlocale.obj)
+        Referenced in libcpd.lib(locale.obj)
+        Referenced in libcpd.lib(ios.obj)
+        Referenced in libcpd.lib(iostream.obj)
+        Referenced in libcpd.lib(wiostrea.obj)
+        Referenced in Substrat.obj
+        Referenced in Temporitzador.obj
+        Referenced in libcpd.lib(string.obj)
+        Referenced in libcpd.lib(locale0.obj)
+        Referenced in Organisme.obj
+        Referenced in Outputer.obj
+        Referenced in Posicionador.obj
+        Referenced in RandomStream.obj
+        Referenced in Missatger.obj
+        Referenced in MultiAgent.obj
+        Referenced in MutacioCariotip.obj
+        Referenced in MutacioGenica.obj
+        Referenced in Grafic.obj
+        Referenced in Iterador.obj
+        Referenced in Itineraris.obj
+        Referenced in MainBio1.obj
+        Referenced in EnergiaDisipable.obj
+        Referenced in FuncioAgent.obj
+        Referenced in Gen.obj
+        Referenced in Genotip.obj
+        Referenced in Compatibilitat.obj
+        Referenced in Comunitat.obj
+        Referenced in Configuracio.obj
+        Referenced in Cromosoma.obj
+        Referenced in AppInfo.obj
+        Referenced in Biosistema.obj
+        Referenced in Cariotip.obj
+        Referenced in Color.obj
+        Referenced in Actuador.obj
+        Referenced in Actuadors.obj
+        Referenced in Agent.obj
+        Referenced in Aleaturitzador.obj
+        Loaded LIBCD.lib(memmove.obj)
+      Found ??0exception@@QAE@ABV0@@Z
+        Referenced in libcpd.lib(ios.obj)
+        Referenced in libcpd.lib(wlocale.obj)
+        Referenced in libcpd.lib(xlocale.obj)
+        Referenced in libcpd.lib(nomemory.obj)
+        Referenced in Substrat.obj
+        Referenced in Temporitzador.obj
+        Referenced in libcpd.lib(string.obj)
+        Referenced in libcpd.lib(locale.obj)
+        Referenced in Organisme.obj
+        Referenced in Outputer.obj
+        Referenced in Posicionador.obj
+        Referenced in RandomStream.obj
+        Referenced in Missatger.obj
+        Referenced in MultiAgent.obj
+        Referenced in MutacioCariotip.obj
+        Referenced in MutacioGenica.obj
+        Referenced in Grafic.obj
+        Referenced in Iterador.obj
+        Referenced in Itineraris.obj
+        Referenced in MainBio1.obj
+        Referenced in EnergiaDisipable.obj
+        Referenced in FuncioAgent.obj
+        Referenced in Gen.obj
+        Referenced in Genotip.obj
+        Referenced in Compatibilitat.obj
+        Referenced in Comunitat.obj
+        Referenced in Configuracio.obj
+        Referenced in Cromosoma.obj
+        Referenced in AppInfo.obj
+        Referenced in Biosistema.obj
+        Referenced in Cariotip.obj
+        Referenced in Color.obj
+        Referenced in Actuador.obj
+        Referenced in Actuadors.obj
+        Referenced in Agent.obj
+        Referenced in Aleaturitzador.obj
+        Loaded LIBCD.lib(stdexcpt.obj)
+      Found ??_7type_info@@6B@
+        Referenced in LIBCD.lib(stdexcpt.obj)
+        Referenced in libcpd.lib(strstrea.obj)
+        Referenced in libcpd.lib(wlocale.obj)
+        Referenced in libcpd.lib(xlocale.obj)
+        Referenced in libcpd.lib(nomemory.obj)
+        Referenced in libcpd.lib(locale.obj)
+        Referenced in libcpd.lib(ios.obj)
+        Referenced in libcpd.lib(iostream.obj)
+        Referenced in libcpd.lib(wiostrea.obj)
+        Referenced in Substrat.obj
+        Referenced in Temporitzador.obj
+        Referenced in libcpd.lib(string.obj)
+        Referenced in libcpd.lib(locale0.obj)
+        Referenced in Organisme.obj
+        Referenced in Outputer.obj
+        Referenced in Posicionador.obj
+        Referenced in RandomStream.obj
+        Referenced in Missatger.obj
+        Referenced in MultiAgent.obj
+        Referenced in MutacioCariotip.obj
+        Referenced in MutacioGenica.obj
+        Referenced in Grafic.obj
+        Referenced in Iterador.obj
+        Referenced in Itineraris.obj
+        Referenced in MainBio1.obj
+        Referenced in EnergiaDisipable.obj
+        Referenced in FuncioAgent.obj
+        Referenced in Gen.obj
+        Referenced in Genotip.obj
+        Referenced in Compatibilitat.obj
+        Referenced in Comunitat.obj
+        Referenced in Configuracio.obj
+        Referenced in Cromosoma.obj
+        Referenced in AppInfo.obj
+        Referenced in Biosistema.obj
+        Referenced in Cariotip.obj
+        Referenced in Color.obj
+        Referenced in Actuador.obj
+        Referenced in Actuadors.obj
+        Referenced in Agent.obj
+        Referenced in Aleaturitzador.obj
+        Loaded LIBCD.lib(typinfo.obj)
+      Found ??2@YAPAXI@Z
+        Referenced in libcpd.lib(xlocale.obj)
+        Referenced in LIBCD.lib(stdexcpt.obj)
+        Referenced in libcpd.lib(iostream.obj)
+        Referenced in libcpd.lib(wiostrea.obj)
+        Referenced in libcpd.lib(strstrea.obj)
+        Referenced in libcpd.lib(wlocale.obj)
+        Referenced in libcpd.lib(string.obj)
+        Referenced in libcpd.lib(locale0.obj)
+        Referenced in libcpd.lib(locale.obj)
+        Referenced in libcpd.lib(ios.obj)
+        Referenced in Posicionador.obj
+        Referenced in RandomStream.obj
+        Referenced in Substrat.obj
+        Referenced in Temporitzador.obj
+        Referenced in MutacioCariotip.obj
+        Referenced in MutacioGenica.obj
+        Referenced in Organisme.obj
+        Referenced in Outputer.obj
+        Referenced in Itineraris.obj
+        Referenced in MainBio1.obj
+        Referenced in Missatger.obj
+        Referenced in MultiAgent.obj
+        Referenced in Genotip.obj
+        Referenced in Grafic.obj
+        Referenced in InfoOrganisme.obj
+        Referenced in Iterador.obj
+        Referenced in Detector.obj
+        Referenced in EnergiaDisipable.obj
+        Referenced in FuncioAgent.obj
+        Referenced in Gen.obj
+        Referenced in Compatibilitat.obj
+        Referenced in Comunitat.obj
+        Referenced in Configuracio.obj
+        Referenced in Cromosoma.obj
+        Referenced in AppInfo.obj
+        Referenced in Biosistema.obj
+        Referenced in Cariotip.obj
+        Referenced in Color.obj
+        Referenced in Actuador.obj
+        Referenced in Actuadors.obj
+        Referenced in Agent.obj
+        Referenced in Aleaturitzador.obj
+        Loaded LIBCD.lib(new.obj)
+      Found __CxxThrowException@8
+        Referenced in libcpd.lib(ios.obj)
+        Referenced in libcpd.lib(wlocale.obj)
+        Referenced in libcpd.lib(xlocale.obj)
+        Referenced in libcpd.lib(nomemory.obj)
+        Referenced in Substrat.obj
+        Referenced in Temporitzador.obj
+        Referenced in libcpd.lib(string.obj)
+        Referenced in libcpd.lib(locale.obj)
+        Referenced in Organisme.obj
+        Referenced in Outputer.obj
+        Referenced in Posicionador.obj
+        Referenced in RandomStream.obj
+        Referenced in Missatger.obj
+        Referenced in MultiAgent.obj
+        Referenced in MutacioCariotip.obj
+        Referenced in MutacioGenica.obj
+        Referenced in Grafic.obj
+        Referenced in Iterador.obj
+        Referenced in Itineraris.obj
+        Referenced in MainBio1.obj
+        Referenced in EnergiaDisipable.obj
+        Referenced in FuncioAgent.obj
+        Referenced in Gen.obj
+        Referenced in Genotip.obj
+        Referenced in Compatibilitat.obj
+        Referenced in Comunitat.obj
+        Referenced in Configuracio.obj
+        Referenced in Cromosoma.obj
+        Referenced in AppInfo.obj
+        Referenced in Biosistema.obj
+        Referenced in Cariotip.obj
+        Referenced in Color.obj
+        Referenced in Actuador.obj
+        Referenced in Actuadors.obj
+        Referenced in Agent.obj
+        Referenced in Aleaturitzador.obj
+        Loaded LIBCD.lib(throw.obj)
+      Found _memset
+        Referenced in libcpd.lib(wiostrea.obj)
+        Referenced in libcpd.lib(wlocale.obj)
+        Referenced in libcpd.lib(xlocale.obj)
+        Referenced in Substrat.obj
+        Referenced in Temporitzador.obj
+        Referenced in libcpd.lib(locale.obj)
+        Referenced in libcpd.lib(iostream.obj)
+        Referenced in Organisme.obj
+        Referenced in Outputer.obj
+        Referenced in Posicionador.obj
+        Referenced in RandomStream.obj
+        Referenced in Missatger.obj
+        Referenced in MultiAgent.obj
+        Referenced in MutacioCariotip.obj
+        Referenced in MutacioGenica.obj
+        Referenced in Grafic.obj
+        Referenced in Iterador.obj
+        Referenced in Itineraris.obj
+        Referenced in MainBio1.obj
+        Referenced in EnergiaDisipable.obj
+        Referenced in FuncioAgent.obj
+        Referenced in Gen.obj
+        Referenced in Genotip.obj
+        Referenced in Compatibilitat.obj
+        Referenced in Comunitat.obj
+        Referenced in Configuracio.obj
+        Referenced in Cromosoma.obj
+        Referenced in AppInfo.obj
+        Referenced in Biosistema.obj
+        Referenced in Cariotip.obj
+        Referenced in Color.obj
+        Referenced in Actuador.obj
+        Referenced in Actuadors.obj
+        Referenced in Agent.obj
+        Referenced in Aleaturitzador.obj
+        Loaded LIBCD.lib(memset.obj)
+      Found _atexit
+        Referenced in libcpd.lib(strstrea.obj)
+        Referenced in libcpd.lib(wlocale.obj)
+        Referenced in libcpd.lib(xlocale.obj)
+        Referenced in libcpd.lib(nomemory.obj)
+        Referenced in libcpd.lib(iostream.obj)
+        Referenced in libcpd.lib(wiostrea.obj)
+        Referenced in libcpd.lib(iomanip.obj)
+        Referenced in libcpd.lib(fiopen.obj)
+        Referenced in TopologiaToroidal.obj
+        Referenced in libcpd.lib(string.obj)
+        Referenced in libcpd.lib(locale0.obj)
+        Referenced in libcpd.lib(locale.obj)
+        Referenced in RandomStream.obj
+        Referenced in Substrat.obj
+        Referenced in Temporitzador.obj
+        Referenced in Topologia.obj
+        Referenced in Organisme.obj
+        Referenced in Outputer.obj
+        Referenced in Posicionador.obj
+        Referenced in Probabilitat.obj
+        Referenced in Missatger.obj
+        Referenced in MultiAgent.obj
+        Referenced in MutacioCariotip.obj
+        Referenced in MutacioGenica.obj
+        Referenced in InfoOrganisme.obj
+        Referenced in Iterador.obj
+        Referenced in Itineraris.obj
+        Referenced in MainBio1.obj
+        Referenced in Gen.obj
+        Referenced in GeneradorMascares.obj
+        Referenced in Genotip.obj
+        Referenced in Grafic.obj
+        Referenced in Detector.obj
+        Referenced in Distribucio.obj
+        Referenced in EnergiaDisipable.obj
+        Referenced in FuncioAgent.obj
+        Referenced in Compatibilitat.obj
+        Referenced in Comunitat.obj
+        Referenced in Configuracio.obj
+        Referenced in Cromosoma.obj
+        Referenced in AppInfo.obj
+        Referenced in Biosistema.obj
+        Referenced in Cariotip.obj
+        Referenced in Color.obj
+        Referenced in Actuador.obj
+        Referenced in Actuadors.obj
+        Referenced in Agent.obj
+        Referenced in Aleaturitzador.obj
+        Loaded LIBCD.lib(onexit.obj)
+      Found _memcmp
+        Referenced in libcpd.lib(locale0.obj)
+        Referenced in libcpd.lib(locale.obj)
+        Referenced in libcpd.lib(xstrcoll.obj)
+        Referenced in Organisme.obj
+        Referenced in Posicionador.obj
+        Referenced in Substrat.obj
+        Referenced in Temporitzador.obj
+        Referenced in Itineraris.obj
+        Referenced in MultiAgent.obj
+        Referenced in MutacioCariotip.obj
+        Referenced in MutacioGenica.obj
+        Referenced in Biosistema.obj
+        Referenced in Cariotip.obj
+        Referenced in Configuracio.obj
+        Referenced in Iterador.obj
+        Referenced in Actuador.obj
+        Referenced in Actuadors.obj
+        Referenced in Agent.obj
+        Referenced in Aleaturitzador.obj
+        Loaded LIBCD.lib(memcmp.obj)
+      Found _free
+        Referenced in libcpd.lib(locale.obj)
+        Referenced in libcpd.lib(wlocale.obj)
+        Referenced in libcpd.lib(xlocale.obj)
+        Referenced in Substrat.obj
+        Referenced in Temporitzador.obj
+        Referenced in libcpd.lib(delop.obj)
+        Referenced in libcpd.lib(locale0.obj)
+        Referenced in MutacioGenica.obj
+        Referenced in Organisme.obj
+        Referenced in Posicionador.obj
+        Referenced in RandomStream.obj
+        Referenced in Iterador.obj
+        Referenced in Itineraris.obj
+        Referenced in MultiAgent.obj
+        Referenced in MutacioCariotip.obj
+        Referenced in Cromosoma.obj
+        Referenced in EnergiaDisipable.obj
+        Referenced in FuncioAgent.obj
+        Referenced in Grafic.obj
+        Referenced in Biosistema.obj
+        Referenced in Cariotip.obj
+        Referenced in Comunitat.obj
+        Referenced in Configuracio.obj
+        Referenced in Actuador.obj
+        Referenced in Actuadors.obj
+        Referenced in Agent.obj
+        Referenced in Aleaturitzador.obj
+        Loaded LIBCD.lib(dbgheap.obj)
+      Found ??_L@YGXPAXIHP6EX0@Z1@Z
+        Referenced in MultiAgent.obj
+        Referenced in Actuadors.obj
+        Referenced in Agent.obj
+        Referenced in Biosistema.obj
+        Referenced in Itineraris.obj
+        Loaded LIBCD.lib(ehvecctr.obj)
+      Found ??_M@YGXPAXIHP6EX0@Z@Z
+        Referenced in Itineraris.obj
+        Referenced in MultiAgent.obj
+        Referenced in Posicionador.obj
+        Referenced in Actuadors.obj
+        Referenced in Agent.obj
+        Referenced in Biosistema.obj
+        Referenced in Grafic.obj
+        Loaded LIBCD.lib(ehvecdtr.obj)
+      Found _sprintf
+        Referenced in LIBCD.lib(dbgheap.obj)
+        Referenced in Temporitzador.obj
+        Referenced in libcpd.lib(locale.obj)
+        Referenced in libcpd.lib(wlocale.obj)
+        Referenced in libcpd.lib(xlocale.obj)
+        Referenced in Outputer.obj
+        Referenced in Posicionador.obj
+        Referenced in RandomStream.obj
+        Referenced in Substrat.obj
+        Referenced in MultiAgent.obj
+        Referenced in MutacioCariotip.obj
+        Referenced in MutacioGenica.obj
+        Referenced in Organisme.obj
+        Referenced in Iterador.obj
+        Referenced in Itineraris.obj
+        Referenced in MainBio1.obj
+        Referenced in Missatger.obj
+        Referenced in FuncioAgent.obj
+        Referenced in Gen.obj
+        Referenced in Genotip.obj
+        Referenced in Grafic.obj
+        Referenced in Comunitat.obj
+        Referenced in Configuracio.obj
+        Referenced in Cromosoma.obj
+        Referenced in EnergiaDisipable.obj
+        Referenced in Biosistema.obj
+        Referenced in Cariotip.obj
+        Referenced in Color.obj
+        Referenced in Compatibilitat.obj
+        Referenced in Actuadors.obj
+        Referenced in Agent.obj
+        Referenced in Aleaturitzador.obj
+        Referenced in AppInfo.obj
+        Loaded LIBCD.lib(sprintf.obj)
+      Found __fltused
+        Referenced in libcpd.lib(xlocale.obj)
+        Referenced in Temporitzador.obj
+        Referenced in libcpd.lib(locale.obj)
+        Referenced in libcpd.lib(xstod.obj)
+        Referenced in libcpd.lib(wlocale.obj)
+        Referenced in Outputer.obj
+        Referenced in Posicionador.obj
+        Referenced in RandomStream.obj
+        Referenced in Substrat.obj
+        Referenced in MultiAgent.obj
+        Referenced in MutacioCariotip.obj
+        Referenced in MutacioGenica.obj
+        Referenced in Organisme.obj
+        Referenced in Iterador.obj
+        Referenced in Itineraris.obj
+        Referenced in MainBio1.obj
+        Referenced in Missatger.obj
+        Referenced in FuncioAgent.obj
+        Referenced in Gen.obj
+        Referenced in Genotip.obj
+        Referenced in Grafic.obj
+        Referenced in Comunitat.obj
+        Referenced in Configuracio.obj
+        Referenced in Cromosoma.obj
+        Referenced in EnergiaDisipable.obj
+        Referenced in Biosistema.obj
+        Referenced in Cariotip.obj
+        Referenced in Color.obj
+        Referenced in Compatibilitat.obj
+        Referenced in Actuadors.obj
+        Referenced in Agent.obj
+        Referenced in Aleaturitzador.obj
+        Referenced in AppInfo.obj
+        Loaded LIBCD.lib(fpinit.obj)
+      Found _memchr
+        Referenced in Temporitzador.obj
+        Referenced in libcpd.lib(locale.obj)
+        Referenced in libcpd.lib(wlocale.obj)
+        Referenced in Outputer.obj
+        Referenced in Posicionador.obj
+        Referenced in RandomStream.obj
+        Referenced in Substrat.obj
+        Referenced in MultiAgent.obj
+        Referenced in MutacioCariotip.obj
+        Referenced in MutacioGenica.obj
+        Referenced in Organisme.obj
+        Referenced in Iterador.obj
+        Referenced in Itineraris.obj
+        Referenced in MainBio1.obj
+        Referenced in Missatger.obj
+        Referenced in FuncioAgent.obj
+        Referenced in Gen.obj
+        Referenced in Genotip.obj
+        Referenced in Grafic.obj
+        Referenced in Comunitat.obj
+        Referenced in Configuracio.obj
+        Referenced in Cromosoma.obj
+        Referenced in EnergiaDisipable.obj
+        Referenced in Biosistema.obj
+        Referenced in Cariotip.obj
+        Referenced in Color.obj
+        Referenced in Compatibilitat.obj
+        Referenced in Actuadors.obj
+        Referenced in Agent.obj
+        Referenced in Aleaturitzador.obj
+        Referenced in AppInfo.obj
+        Loaded LIBCD.lib(memchr.obj)
+      Found _localeconv
+        Referenced in Temporitzador.obj
+        Referenced in libcpd.lib(locale.obj)
+        Referenced in libcpd.lib(wlocale.obj)
+        Referenced in libcpd.lib(xlocale.obj)
+        Referenced in Outputer.obj
+        Referenced in Posicionador.obj
+        Referenced in RandomStream.obj
+        Referenced in Substrat.obj
+        Referenced in MultiAgent.obj
+        Referenced in MutacioCariotip.obj
+        Referenced in MutacioGenica.obj
+        Referenced in Organisme.obj
+        Referenced in Iterador.obj
+        Referenced in Itineraris.obj
+        Referenced in MainBio1.obj
+        Referenced in Missatger.obj
+        Referenced in FuncioAgent.obj
+        Referenced in Gen.obj
+        Referenced in Genotip.obj
+        Referenced in Grafic.obj
+        Referenced in Comunitat.obj
+        Referenced in Configuracio.obj
+        Referenced in Cromosoma.obj
+        Referenced in EnergiaDisipable.obj
+        Referenced in Biosistema.obj
+        Referenced in Cariotip.obj
+        Referenced in Color.obj
+        Referenced in Compatibilitat.obj
+        Referenced in Actuadors.obj
+        Referenced in Agent.obj
+        Referenced in Aleaturitzador.obj
+        Referenced in AppInfo.obj
+        Loaded LIBCD.lib(lconv.obj)
+      Found _strcspn
+        Referenced in Temporitzador.obj
+        Referenced in libcpd.lib(locale.obj)
+        Referenced in libcpd.lib(wlocale.obj)
+        Referenced in Outputer.obj
+        Referenced in Posicionador.obj
+        Referenced in RandomStream.obj
+        Referenced in Substrat.obj
+        Referenced in MultiAgent.obj
+        Referenced in MutacioCariotip.obj
+        Referenced in MutacioGenica.obj
+        Referenced in Organisme.obj
+        Referenced in Iterador.obj
+        Referenced in Itineraris.obj
+        Referenced in MainBio1.obj
+        Referenced in Missatger.obj
+        Referenced in FuncioAgent.obj
+        Referenced in Gen.obj
+        Referenced in Genotip.obj
+        Referenced in Grafic.obj
+        Referenced in Comunitat.obj
+        Referenced in Configuracio.obj
+        Referenced in Cromosoma.obj
+        Referenced in EnergiaDisipable.obj
+        Referenced in Biosistema.obj
+        Referenced in Cariotip.obj
+        Referenced in Color.obj
+        Referenced in Compatibilitat.obj
+        Referenced in Actuadors.obj
+        Referenced in Agent.obj
+        Referenced in Aleaturitzador.obj
+        Referenced in AppInfo.obj
+        Loaded LIBCD.lib(strcspn.obj)
+      Found _strtoul
+        Referenced in Temporitzador.obj
+        Referenced in libcpd.lib(locale.obj)
+        Referenced in libcpd.lib(wlocale.obj)
+        Referenced in Itineraris.obj
+        Referenced in MutacioCariotip.obj
+        Referenced in MutacioGenica.obj
+        Referenced in Posicionador.obj
+        Referenced in Actuadors.obj
+        Referenced in Aleaturitzador.obj
+        Referenced in Configuracio.obj
+        Referenced in Iterador.obj
+        Loaded LIBCD.lib(strtol.obj)
+      Found _errno
+        Referenced in libcpd.lib(xlocale.obj)
+        Referenced in libcpd.lib(xmbtowc.obj)
+        Referenced in libcpd.lib(xstrcoll.obj)
+        Referenced in LIBCD.lib(strtol.obj)
+        Referenced in Temporitzador.obj
+        Referenced in libcpd.lib(locale.obj)
+        Referenced in libcpd.lib(xwctomb.obj)
+        Referenced in libcpd.lib(wlocale.obj)
+        Referenced in Itineraris.obj
+        Referenced in MutacioCariotip.obj
+        Referenced in MutacioGenica.obj
+        Referenced in Posicionador.obj
+        Referenced in Actuadors.obj
+        Referenced in Aleaturitzador.obj
+        Referenced in Configuracio.obj
+        Referenced in Iterador.obj
+        Loaded LIBCD.lib(crt0dat.obj)
+      Found _isdigit
+        Referenced in Temporitzador.obj
+        Referenced in libcpd.lib(locale.obj)
+        Referenced in libcpd.lib(wlocale.obj)
+        Referenced in Itineraris.obj
+        Referenced in MutacioCariotip.obj
+        Referenced in MutacioGenica.obj
+        Referenced in Posicionador.obj
+        Referenced in Actuadors.obj
+        Referenced in Aleaturitzador.obj
+        Referenced in Configuracio.obj
+        Referenced in Iterador.obj
+        Loaded LIBCD.lib(_ctype.obj)
+      Found _rand
+        Referenced in Posicionador.obj
+        Referenced in RandomStream.obj
+        Referenced in Substrat.obj
+        Referenced in Temporitzador.obj
+        Referenced in MultiAgent.obj
+        Referenced in MutacioCariotip.obj
+        Referenced in MutacioGenica.obj
+        Referenced in Organisme.obj
+        Referenced in Gen.obj
+        Referenced in Genotip.obj
+        Referenced in Iterador.obj
+        Referenced in Itineraris.obj
+        Referenced in Cariotip.obj
+        Referenced in Compatibilitat.obj
+        Referenced in Comunitat.obj
+        Referenced in Cromosoma.obj
+        Referenced in Actuadors.obj
+        Referenced in Agent.obj
+        Referenced in Aleaturitzador.obj
+        Referenced in Biosistema.obj
+        Loaded LIBCD.lib(rand.obj)
+      Found _time
+        Referenced in MultiAgent.obj
+        Referenced in RandomStream.obj
+        Referenced in Actuadors.obj
+        Referenced in Agent.obj
+        Referenced in Biosistema.obj
+        Referenced in Itineraris.obj
+        Loaded LIBCD.lib(time.obj)
+      Found _fclose
+        Referenced in MultiAgent.obj
+        Referenced in libcpd.lib(iostream.obj)
+        Referenced in libcpd.lib(wiostrea.obj)
+        Referenced in libcpd.lib(fiopen.obj)
+        Referenced in Agent.obj
+        Referenced in Biosistema.obj
+        Referenced in Compatibilitat.obj
+        Referenced in Configuracio.obj
+        Loaded LIBCD.lib(fclose.obj)
+      Found _fwrite
+        Referenced in MultiAgent.obj
+        Referenced in libcpd.lib(iostream.obj)
+        Referenced in libcpd.lib(wiostrea.obj)
+        Referenced in Agent.obj
+        Referenced in Biosistema.obj
+        Referenced in Compatibilitat.obj
+        Referenced in Configuracio.obj
+        Loaded LIBCD.lib(fwrite.obj)
+      Found _fgetc
+        Referenced in MultiAgent.obj
+        Referenced in libcpd.lib(iostream.obj)
+        Referenced in libcpd.lib(wiostrea.obj)
+        Referenced in Agent.obj
+        Referenced in Biosistema.obj
+        Referenced in Compatibilitat.obj
+        Referenced in Configuracio.obj
+        Loaded LIBCD.lib(fgetc.obj)
+      Found _fgetpos
+        Referenced in MultiAgent.obj
+        Referenced in libcpd.lib(iostream.obj)
+        Referenced in libcpd.lib(wiostrea.obj)
+        Referenced in Agent.obj
+        Referenced in Biosistema.obj
+        Referenced in Compatibilitat.obj
+        Referenced in Configuracio.obj
+        Loaded LIBCD.lib(fgetpos.obj)
+      Found _fseek
+        Referenced in MultiAgent.obj
+        Referenced in libcpd.lib(iostream.obj)
+        Referenced in libcpd.lib(wiostrea.obj)
+        Referenced in libcpd.lib(fiopen.obj)
+        Referenced in Agent.obj
+        Referenced in Biosistema.obj
+        Referenced in Compatibilitat.obj
+        Referenced in Configuracio.obj
+        Loaded LIBCD.lib(fseek.obj)
+      Found _fsetpos
+        Referenced in MultiAgent.obj
+        Referenced in libcpd.lib(iostream.obj)
+        Referenced in libcpd.lib(wiostrea.obj)
+        Referenced in Agent.obj
+        Referenced in Biosistema.obj
+        Referenced in Compatibilitat.obj
+        Referenced in Configuracio.obj
+        Loaded LIBCD.lib(fsetpos.obj)
+      Found _setvbuf
+        Referenced in MultiAgent.obj
+        Referenced in libcpd.lib(iostream.obj)
+        Referenced in libcpd.lib(wiostrea.obj)
+        Referenced in Agent.obj
+        Referenced in Biosistema.obj
+        Referenced in Compatibilitat.obj
+        Referenced in Configuracio.obj
+        Loaded LIBCD.lib(setvbuf.obj)
+      Found _fflush
+        Referenced in MultiAgent.obj
+        Referenced in libcpd.lib(iostream.obj)
+        Referenced in libcpd.lib(wiostrea.obj)
+        Referenced in Agent.obj
+        Referenced in Biosistema.obj
+        Referenced in Compatibilitat.obj
+        Referenced in Configuracio.obj
+        Loaded LIBCD.lib(fflush.obj)
+      Found _ungetc
+        Referenced in MultiAgent.obj
+        Referenced in libcpd.lib(iostream.obj)
+        Referenced in libcpd.lib(wiostrea.obj)
+        Referenced in Agent.obj
+        Referenced in Biosistema.obj
+        Referenced in Compatibilitat.obj
+        Referenced in Configuracio.obj
+        Loaded LIBCD.lib(ungetc.obj)
+      Found _fputc
+        Referenced in MultiAgent.obj
+        Referenced in libcpd.lib(iostream.obj)
+        Referenced in Agent.obj
+        Referenced in Biosistema.obj
+        Referenced in Compatibilitat.obj
+        Referenced in Configuracio.obj
+        Loaded LIBCD.lib(fputc.obj)
+      Found __kbhit
+        Referenced in Biosistema.obj
+        Loaded LIBCD.lib(getch.obj)
+      Found _strcpy
+        Referenced in Missatger.obj
+        Referenced in LIBCD.lib(stdexcpt.obj)
+        Loaded LIBCD.lib(strcat.obj)
+      Found _mainCRTStartup
+        Loaded LIBCD.lib(crt0.obj)
+      Found _setlocale
+        Referenced in libcpd.lib(locale.obj)
+        Loaded LIBCD.lib(setlocal.obj)
+      Found ___crtLCMapStringA
+        Referenced in libcpd.lib(_tolower.obj)
+        Referenced in libcpd.lib(_toupper.obj)
+        Loaded LIBCD.lib(aw_map.obj)
+      Found __pctype
+        Referenced in LIBCD.lib(strtol.obj)
+        Referenced in LIBCD.lib(_ctype.obj)
+        Referenced in libcpd.lib(_tolower.obj)
+        Referenced in libcpd.lib(_toupper.obj)
+        Referenced in libcpd.lib(xmbtowc.obj)
+        Referenced in LIBCD.lib(dbgheap.obj)
+        Loaded LIBCD.lib(ctype.obj)
+      Found __isctype
+        Referenced in LIBCD.lib(_ctype.obj)
+        Referenced in libcpd.lib(_tolower.obj)
+        Referenced in libcpd.lib(_toupper.obj)
+        Referenced in LIBCD.lib(dbgheap.obj)
+        Referenced in LIBCD.lib(strtol.obj)
+        Loaded LIBCD.lib(isctype.obj)
+      Found ___mb_cur_max
+        Referenced in libcpd.lib(xmbtowc.obj)
+        Referenced in LIBCD.lib(dbgheap.obj)
+        Referenced in LIBCD.lib(strtol.obj)
+        Referenced in LIBCD.lib(_ctype.obj)
+        Referenced in libcpd.lib(_tolower.obj)
+        Referenced in libcpd.lib(_toupper.obj)
+        Referenced in libcpd.lib(xwctomb.obj)
+        Referenced in libcpd.lib(wlocale.obj)
+        Loaded LIBCD.lib(nlsdata1.obj)
+      Found ___lc_codepage
+        Referenced in libcpd.lib(xstrcoll.obj)
+        Referenced in LIBCD.lib(setlocal.obj)
+        Referenced in LIBCD.lib(aw_map.obj)
+        Referenced in libcpd.lib(_tolower.obj)
+        Referenced in libcpd.lib(_toupper.obj)
+        Referenced in libcpd.lib(xwctomb.obj)
+        Referenced in libcpd.lib(xmbtowc.obj)
+        Loaded LIBCD.lib(nlsdata2.obj)
+      Found __iob
+        Referenced in libcpd.lib(iostream.obj)
+        Referenced in libcpd.lib(wiostrea.obj)
+        Loaded LIBCD.lib(_file.obj)
+      Found _fputwc
+        Referenced in libcpd.lib(wiostrea.obj)
+        Loaded LIBCD.lib(fputwc.obj)
+      Found _ungetwc
+        Referenced in libcpd.lib(wiostrea.obj)
+        Loaded LIBCD.lib(ungetwc.obj)
+      Found _fgetwc
+        Referenced in libcpd.lib(wiostrea.obj)
+        Loaded LIBCD.lib(fgetwc.obj)
+      Found _strtod
+        Referenced in libcpd.lib(xstod.obj)
+        Loaded LIBCD.lib(strtod.obj)
+      Found _fopen
+        Referenced in libcpd.lib(fiopen.obj)
+        Loaded LIBCD.lib(fopen.obj)
+      Found _wcslen
+        Referenced in libcpd.lib(wlocale.obj)
+        Loaded LIBCD.lib(wcslen.obj)
+      Found __Getdays
+        Referenced in libcpd.lib(wlocale.obj)
+        Referenced in libcpd.lib(xlocale.obj)
+        Loaded LIBCD.lib(strftime.obj)
+      Found __CrtDbgReport
+        Referenced in LIBCD.lib(fputc.obj)
+        Referenced in LIBCD.lib(ungetwc.obj)
+        Referenced in LIBCD.lib(fopen.obj)
+        Referenced in LIBCD.lib(fgetc.obj)
+        Referenced in LIBCD.lib(fseek.obj)
+        Referenced in LIBCD.lib(setvbuf.obj)
+        Referenced in LIBCD.lib(ungetc.obj)
+        Referenced in libcpd.lib(xmbtowc.obj)
+        Referenced in LIBCD.lib(dbgheap.obj)
+        Referenced in LIBCD.lib(sprintf.obj)
+        Referenced in LIBCD.lib(fclose.obj)
+        Loaded LIBCD.lib(dbgrpt.obj)
+      Found ___crtCompareStringA
+        Referenced in libcpd.lib(xstrcoll.obj)
+        Loaded LIBCD.lib(aw_cmp.obj)
+      Found _wcstol
+        Referenced in libcpd.lib(xstrcoll.obj)
+        Loaded LIBCD.lib(wcstol.obj)
+      Found ___crtGetLocaleInfoW
+        Referenced in libcpd.lib(xstrcoll.obj)
+        Loaded LIBCD.lib(aw_loc.obj)
+      Found ___InternalCxxFrameHandler
+        Referenced in LIBCD.lib(trnsctrl.obj)
+        Loaded LIBCD.lib(frame.obj)
+      Found __CallSettingFrame@12
+        Referenced in LIBCD.lib(trnsctrl.obj)
+        Referenced in LIBCD.lib(frame.obj)
+        Loaded LIBCD.lib(lowhelpr.obj)
+      Found ?__pSETranslator@@3P6AXIPAU_EXCEPTION_POINTERS@@@ZA
+        Referenced in LIBCD.lib(trnsctrl.obj)
+        Referenced in LIBCD.lib(frame.obj)
+        Loaded LIBCD.lib(hooks.obj)
+      Found __free_base
+        Referenced in LIBCD.lib(typinfo.obj)
+        Referenced in LIBCD.lib(dbgheap.obj)
+        Loaded LIBCD.lib(free.obj)
+      Found _strcmp
+        Referenced in LIBCD.lib(typinfo.obj)
+        Referenced in LIBCD.lib(setlocal.obj)
+        Referenced in LIBCD.lib(frame.obj)
+        Loaded LIBCD.lib(strcmp.obj)
+      Found ?__CxxUnhandledExceptionFilter@@YGJPAU_EXCEPTION_POINTERS@@@Z
+        Referenced in LIBCD.lib(throw.obj)
+        Referenced in LIBCD.lib(frame.obj)
+        Loaded LIBCD.lib(unhandld.obj)
+      Found __newmode
+        Referenced in LIBCD.lib(dbgheap.obj)
+        Loaded LIBCD.lib(_newmode.obj)
+      Found __callnewh
+        Referenced in LIBCD.lib(dbgheap.obj)
+        Loaded LIBCD.lib(handler.obj)
+      Found __heap_alloc_base
+        Referenced in LIBCD.lib(dbgheap.obj)
+        Loaded LIBCD.lib(malloc.obj)
+      Found __pfnAllocHook
+        Referenced in LIBCD.lib(dbgheap.obj)
+        Loaded LIBCD.lib(dbghook.obj)
+      Found __expand_base
+        Referenced in LIBCD.lib(dbgheap.obj)
+        Loaded LIBCD.lib(expand.obj)
+      Found __realloc_base
+        Referenced in LIBCD.lib(dbgheap.obj)
+        Loaded LIBCD.lib(realloc.obj)
+      Found __heapchk
+        Referenced in LIBCD.lib(dbgheap.obj)
+        Loaded LIBCD.lib(heapchk.obj)
+      Found __crtheap
+        Referenced in LIBCD.lib(realloc.obj)
+        Referenced in LIBCD.lib(heapchk.obj)
+        Referenced in LIBCD.lib(dbgheap.obj)
+        Referenced in LIBCD.lib(free.obj)
+        Referenced in LIBCD.lib(malloc.obj)
+        Referenced in LIBCD.lib(expand.obj)
+        Loaded LIBCD.lib(heapinit.obj)
+      Found ___sbh_find_block
+        Referenced in LIBCD.lib(dbgheap.obj)
+        Referenced in LIBCD.lib(free.obj)
+        Referenced in LIBCD.lib(expand.obj)
+        Referenced in LIBCD.lib(realloc.obj)
+        Loaded LIBCD.lib(sbheap.obj)
+      Found __except_handler3
+        Referenced in LIBCD.lib(hooks.obj)
+        Referenced in LIBCD.lib(ehvecctr.obj)
+        Referenced in LIBCD.lib(ehvecdtr.obj)
+        Referenced in LIBCD.lib(crt0.obj)
+        Referenced in LIBCD.lib(frame.obj)
+        Loaded LIBCD.lib(exsup3.obj)
+      Found __flsbuf
+        Referenced in LIBCD.lib(sprintf.obj)
+        Referenced in LIBCD.lib(fwrite.obj)
+        Referenced in LIBCD.lib(fputc.obj)
+        Referenced in LIBCD.lib(fputwc.obj)
+        Loaded LIBCD.lib(_flsbuf.obj)
+      Found __output
+        Referenced in LIBCD.lib(sprintf.obj)
+        Loaded LIBCD.lib(output.obj)
+      Found __setdefaultprecision
+        Referenced in LIBCD.lib(fpinit.obj)
+        Loaded LIBCD.lib(fp8.obj)
+      Found __ms_p5_mp_test_fdiv
+        Referenced in LIBCD.lib(fpinit.obj)
+        Loaded LIBCD.lib(testfdiv.obj)
+      Found __positive
+        Referenced in LIBCD.lib(fpinit.obj)
+        Loaded LIBCD.lib(cvt.obj)
+      Found __cfltcvt_tab
+        Referenced in LIBCD.lib(fpinit.obj)
+        Referenced in LIBCD.lib(output.obj)
+        Loaded LIBCD.lib(cmiscdat.obj)
+      Found _toupper
+        Referenced in LIBCD.lib(strtol.obj)
+        Loaded LIBCD.lib(toupper.obj)
+      Found ___xc_a
+        Referenced in LIBCD.lib(crt0dat.obj)
+        Loaded LIBCD.lib(crt0init.obj)
+Processed /DEFAULTLIB:kernel32.lib
+ Processed /DISALLOWLIB:libc.lib
+ Processed /DISALLOWLIB:libcmt.lib
+ Processed /DISALLOWLIB:libcmtd.lib
+ Processed /DISALLOWLIB:msvcrt.lib
+ Processed /DISALLOWLIB:msvcrtd.lib
+      Found ___loctotime_t
+        Referenced in LIBCD.lib(time.obj)
+        Loaded LIBCD.lib(dtoxtime.obj)
+      Found __close
+        Referenced in LIBCD.lib(fclose.obj)
+        Loaded LIBCD.lib(close.obj)
+      Found __freebuf
+        Referenced in LIBCD.lib(fclose.obj)
+        Referenced in LIBCD.lib(setvbuf.obj)
+        Loaded LIBCD.lib(_freebuf.obj)
+      Found __write
+        Referenced in LIBCD.lib(fwrite.obj)
+        Referenced in LIBCD.lib(fflush.obj)
+        Referenced in LIBCD.lib(_flsbuf.obj)
+        Loaded LIBCD.lib(write.obj)
+      Found __filbuf
+        Referenced in LIBCD.lib(fgetc.obj)
+        Referenced in LIBCD.lib(fgetwc.obj)
+        Loaded LIBCD.lib(_filbuf.obj)
+      Found __ftelli64
+        Referenced in LIBCD.lib(fgetpos.obj)
+        Loaded LIBCD.lib(ftelli64.obj)
+      Found __lseek
+        Referenced in LIBCD.lib(fseek.obj)
+        Referenced in LIBCD.lib(_flsbuf.obj)
+        Referenced in LIBCD.lib(write.obj)
+        Loaded LIBCD.lib(lseek.obj)
+      Found _ftell
+        Referenced in LIBCD.lib(fseek.obj)
+        Loaded LIBCD.lib(ftell.obj)
+      Found __fseeki64
+        Referenced in LIBCD.lib(fsetpos.obj)
+        Loaded LIBCD.lib(fseeki64.obj)
+      Found __commit
+        Referenced in LIBCD.lib(fflush.obj)
+        Loaded LIBCD.lib(commit.obj)
+      Found __getbuf
+        Referenced in LIBCD.lib(ungetc.obj)
+        Referenced in LIBCD.lib(ungetwc.obj)
+        Referenced in LIBCD.lib(_flsbuf.obj)
+        Referenced in LIBCD.lib(_filbuf.obj)
+        Loaded LIBCD.lib(_getbuf.obj)
+      Found ___initconin
+        Referenced in LIBCD.lib(getch.obj)
+        Loaded LIBCD.lib(initcon.obj)
+      Found __putch
+        Referenced in LIBCD.lib(getch.obj)
+        Loaded LIBCD.lib(putch.obj)
+      Found __alloca_probe
+        Referenced in LIBCD.lib(getch.obj)
+        Loaded LIBCD.lib(chkstk.obj)
+      Found __XcptFilter
+        Referenced in LIBCD.lib(crt0.obj)
+        Loaded LIBCD.lib(winxfltr.obj)
+      Found __setenvp
+        Referenced in LIBCD.lib(crt0.obj)
+        Loaded LIBCD.lib(stdenvp.obj)
+      Found __setargv
+        Referenced in LIBCD.lib(crt0.obj)
+        Loaded LIBCD.lib(stdargv.obj)
+      Found ___crtGetEnvironmentStringsA
+        Referenced in LIBCD.lib(crt0.obj)
+        Loaded LIBCD.lib(aw_env.obj)
+      Found ___initmbctable
+        Referenced in LIBCD.lib(crt0.obj)
+        Loaded LIBCD.lib(mbctype.obj)
+      Found __ioinit
+        Referenced in LIBCD.lib(crt0.obj)
+        Loaded LIBCD.lib(ioinit.obj)
+      Found __NMSG_WRITE
+        Referenced in LIBCD.lib(crt0.obj)
+        Loaded LIBCD.lib(crt0msg.obj)
+      Found ___init_time
+        Referenced in LIBCD.lib(setlocal.obj)
+        Loaded LIBCD.lib(inittime.obj)
+      Found ___init_numeric
+        Referenced in LIBCD.lib(setlocal.obj)
+        Loaded LIBCD.lib(initnum.obj)
+      Found ___init_monetary
+        Referenced in LIBCD.lib(setlocal.obj)
+        Loaded LIBCD.lib(initmon.obj)
+      Found ___init_ctype
+        Referenced in LIBCD.lib(setlocal.obj)
+        Loaded LIBCD.lib(initctyp.obj)
+      Found ___init_collate
+        Referenced in LIBCD.lib(setlocal.obj)
+        Loaded LIBCD.lib(initcoll.obj)
+      Found _strncpy
+        Referenced in LIBCD.lib(setlocal.obj)
+        Referenced in LIBCD.lib(aw_map.obj)
+        Referenced in LIBCD.lib(dbgrpt.obj)
+        Referenced in LIBCD.lib(crt0msg.obj)
+        Loaded LIBCD.lib(strncpy.obj)
+      Found _strncmp
+        Referenced in LIBCD.lib(setlocal.obj)
+        Loaded LIBCD.lib(strncmp.obj)
+      Found _strpbrk
+        Referenced in LIBCD.lib(setlocal.obj)
+        Loaded LIBCD.lib(strpbrk.obj)
+      Found ___lc_id
+        Referenced in LIBCD.lib(initctyp.obj)
+        Referenced in LIBCD.lib(setlocal.obj)
+        Referenced in LIBCD.lib(inittime.obj)
+        Referenced in LIBCD.lib(initnum.obj)
+        Referenced in LIBCD.lib(initmon.obj)
+        Loaded LIBCD.lib(nlsdata3.obj)
+      Found ___get_qualified_locale
+        Referenced in LIBCD.lib(setlocal.obj)
+        Loaded LIBCD.lib(getqloc.obj)
+      Found ___crtGetStringTypeA
+        Referenced in LIBCD.lib(isctype.obj)
+        Referenced in LIBCD.lib(initctyp.obj)
+        Loaded LIBCD.lib(aw_str.obj)
+      Found __fcloseall
+        Referenced in LIBCD.lib(_file.obj)
+        Loaded LIBCD.lib(closeall.obj)
+      Found __flswbuf
+        Referenced in LIBCD.lib(fputwc.obj)
+        Loaded LIBCD.lib(_flswbuf.obj)
+      Found _wctomb
+        Referenced in LIBCD.lib(fputwc.obj)
+        Referenced in LIBCD.lib(ungetwc.obj)
+        Referenced in LIBCD.lib(output.obj)
+        Loaded LIBCD.lib(wctomb.obj)
+      Found __filwbuf
+        Referenced in LIBCD.lib(fgetwc.obj)
+        Loaded LIBCD.lib(_filwbuf.obj)
+      Found _mbtowc
+        Referenced in LIBCD.lib(fgetwc.obj)
+        Loaded LIBCD.lib(mbtowc.obj)
+      Found __HUGE
+        Referenced in LIBCD.lib(strtod.obj)
+        Loaded LIBCD.lib(huge.obj)
+      Found __fltin
+        Referenced in LIBCD.lib(strtod.obj)
+        Loaded LIBCD.lib(cfin.obj)
+      Found __openfile
+        Referenced in LIBCD.lib(fopen.obj)
+        Loaded LIBCD.lib(_open.obj)
+      Found __getstream
+        Referenced in LIBCD.lib(fopen.obj)
+        Loaded LIBCD.lib(stream.obj)
+      Found __tzname
+        Referenced in LIBCD.lib(strftime.obj)
+        Loaded LIBCD.lib(timeset.obj)
+      Found ___tzset
+        Referenced in LIBCD.lib(strftime.obj)
+        Referenced in LIBCD.lib(dtoxtime.obj)
+        Loaded LIBCD.lib(tzset.obj)
+      Found __stricmp
+        Referenced in LIBCD.lib(strftime.obj)
+        Referenced in LIBCD.lib(getqloc.obj)
+        Loaded LIBCD.lib(stricmp.obj)
+      Found __itoa
+        Referenced in LIBCD.lib(dbgrpt.obj)
+        Referenced in LIBCD.lib(getqloc.obj)
+        Loaded LIBCD.lib(xtoa.obj)
+      Found __snprintf
+        Referenced in LIBCD.lib(dbgrpt.obj)
+        Loaded LIBCD.lib(snprintf.obj)
+      Found __vsnprintf
+        Referenced in LIBCD.lib(dbgrpt.obj)
+        Loaded LIBCD.lib(vsnprint.obj)
+      Found _raise
+        Referenced in LIBCD.lib(dbgrpt.obj)
+        Loaded LIBCD.lib(winsig.obj)
+      Found ___crtMessageBoxA
+        Referenced in LIBCD.lib(dbgrpt.obj)
+        Referenced in LIBCD.lib(crt0msg.obj)
+        Loaded LIBCD.lib(crtmbox.obj)
+      Found _towupper
+        Referenced in LIBCD.lib(wcstol.obj)
+        Loaded LIBCD.lib(towupper.obj)
+      Found _iswctype
+        Referenced in LIBCD.lib(wcstol.obj)
+        Referenced in LIBCD.lib(towupper.obj)
+        Loaded LIBCD.lib(iswctype.obj)
+      Found ?_ValidateRead@@YAHPBXI@Z
+        Referenced in LIBCD.lib(frame.obj)
+        Loaded LIBCD.lib(validate.obj)
+      Found _abort
+        Referenced in LIBCD.lib(hooks.obj)
+        Loaded LIBCD.lib(abort.obj)
+      Found __isatty
+        Referenced in LIBCD.lib(_flsbuf.obj)
+        Referenced in LIBCD.lib(_flswbuf.obj)
+        Loaded LIBCD.lib(isatty.obj)
+      Found __aulldiv
+        Referenced in LIBCD.lib(output.obj)
+        Referenced in LIBCD.lib(xtoa.obj)
+        Loaded LIBCD.lib(ulldiv.obj)
+      Found __aullrem
+        Referenced in LIBCD.lib(output.obj)
+        Referenced in LIBCD.lib(xtoa.obj)
+        Loaded LIBCD.lib(ullrem.obj)
+      Found __controlfp
+        Referenced in LIBCD.lib(fp8.obj)
+        Loaded LIBCD.lib(ieee87.obj)
+      Found _tolower
+        Referenced in LIBCD.lib(cvt.obj)
+        Referenced in LIBCD.lib(stricmp.obj)
+        Loaded LIBCD.lib(tolower.obj)
+      Found __atoflt
+        Referenced in LIBCD.lib(cvt.obj)
+        Loaded LIBCD.lib(intrncvt.obj)
+      Found __fptostr
+        Referenced in LIBCD.lib(cvt.obj)
+        Loaded LIBCD.lib(_fptostr.obj)
+      Found __fltout
+        Referenced in LIBCD.lib(cvt.obj)
+        Loaded LIBCD.lib(cfout.obj)
+      Found __fptrap
+        Referenced in LIBCD.lib(cmiscdat.obj)
+        Loaded LIBCD.lib(crt0fp.obj)
+      Found __days
+        Referenced in LIBCD.lib(dtoxtime.obj)
+        Referenced in LIBCD.lib(tzset.obj)
+        Loaded LIBCD.lib(days.obj)
+      Found __dosmaperr
+        Referenced in LIBCD.lib(close.obj)
+        Referenced in LIBCD.lib(write.obj)
+        Referenced in LIBCD.lib(lseek.obj)
+        Loaded LIBCD.lib(dosmap.obj)
+      Found __free_osfhnd
+        Referenced in LIBCD.lib(close.obj)
+        Loaded LIBCD.lib(osfinfo.obj)
+      Found __read
+        Referenced in LIBCD.lib(_filbuf.obj)
+        Referenced in LIBCD.lib(_filwbuf.obj)
+        Loaded LIBCD.lib(read.obj)
+      Found __lseeki64
+        Referenced in LIBCD.lib(ftelli64.obj)
+        Referenced in LIBCD.lib(fseeki64.obj)
+        Loaded LIBCD.lib(lseeki64.obj)
+      Found ___getlocaleinfo
+        Referenced in LIBCD.lib(inittime.obj)
+        Referenced in LIBCD.lib(initnum.obj)
+        Referenced in LIBCD.lib(initmon.obj)
+        Referenced in LIBCD.lib(initctyp.obj)
+        Loaded LIBCD.lib(inithelp.obj)
+      Found _atoi
+        Referenced in LIBCD.lib(getqloc.obj)
+        Loaded LIBCD.lib(atox.obj)
+      Found ___strgtold12
+        Referenced in LIBCD.lib(cfin.obj)
+        Referenced in LIBCD.lib(intrncvt.obj)
+        Loaded LIBCD.lib(strgtold.obj)
+      Found __sopen
+        Referenced in LIBCD.lib(_open.obj)
+        Loaded LIBCD.lib(open.obj)
+      Found __commode
+        Referenced in LIBCD.lib(_open.obj)
+        Loaded LIBCD.lib(ncommode.obj)
+      Found _wcstombs
+        Referenced in LIBCD.lib(tzset.obj)
+        Loaded LIBCD.lib(wcstombs.obj)
+      Found _getenv
+        Referenced in LIBCD.lib(tzset.obj)
+        Loaded LIBCD.lib(getenv.obj)
+      Found ___addl
+        Referenced in LIBCD.lib(intrncvt.obj)
+        Loaded LIBCD.lib(mantold.obj)
+      Found _$I10_OUTPUT
+        Referenced in LIBCD.lib(cfout.obj)
+        Loaded LIBCD.lib(x10fout.obj)
+      Found __allmul
+        Referenced in LIBCD.lib(atox.obj)
+        Loaded LIBCD.lib(llmul.obj)
+      Found ___multtenpow12
+        Referenced in LIBCD.lib(strgtold.obj)
+        Referenced in LIBCD.lib(x10fout.obj)
+        Loaded LIBCD.lib(tenpow.obj)
+      Found __chsize
+        Referenced in LIBCD.lib(open.obj)
+        Loaded LIBCD.lib(chsize.obj)
+      Found __fmode
+        Referenced in LIBCD.lib(open.obj)
+        Loaded LIBCD.lib(txtmode.obj)
+      Found __mbsnbicoll
+        Referenced in LIBCD.lib(getenv.obj)
+        Loaded LIBCD.lib(mbsnbico.obj)
+      Found ___wtomb_environ
+        Referenced in LIBCD.lib(getenv.obj)
+        Loaded LIBCD.lib(wtombenv.obj)
+      Found __pow10neg
+        Referenced in LIBCD.lib(tenpow.obj)
+        Loaded LIBCD.lib(constpow.obj)
+      Found __setmode
+        Referenced in LIBCD.lib(chsize.obj)
+        Loaded LIBCD.lib(setmode.obj)
+      Found ___crtsetenv
+        Referenced in LIBCD.lib(wtombenv.obj)
+        Loaded LIBCD.lib(setenv.obj)
+      Found __mbschr
+        Referenced in LIBCD.lib(setenv.obj)
+        Loaded LIBCD.lib(mbschr.obj)
+      Found _strchr
+        Referenced in LIBCD.lib(mbschr.obj)
+        Loaded LIBCD.lib(strchr.obj)
+    Searching C:\Archivos de programa\Programacio\DevStudio\VC\LIB\OLDNAMES.lib:
+    Searching C:\Archivos de programa\Programacio\DevStudio\VC\LIB\kernel32.lib:
+      Found __imp__WideCharToMultiByte@32
+        Referenced in LIBCD.lib(wtombenv.obj)
+        Referenced in LIBCD.lib(aw_env.obj)
+        Referenced in LIBCD.lib(aw_str.obj)
+        Referenced in LIBCD.lib(wctomb.obj)
+        Referenced in LIBCD.lib(wcstombs.obj)
+        Referenced in libcpd.lib(xwctomb.obj)
+        Referenced in LIBCD.lib(aw_map.obj)
+        Referenced in LIBCD.lib(aw_cmp.obj)
+        Referenced in LIBCD.lib(aw_loc.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__MultiByteToWideChar@24
+        Referenced in LIBCD.lib(aw_env.obj)
+        Referenced in LIBCD.lib(aw_str.obj)
+        Referenced in LIBCD.lib(mbtowc.obj)
+        Referenced in libcpd.lib(xmbtowc.obj)
+        Referenced in LIBCD.lib(aw_map.obj)
+        Referenced in LIBCD.lib(aw_cmp.obj)
+        Referenced in LIBCD.lib(aw_loc.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found _RtlUnwind@16
+        Referenced in LIBCD.lib(trnsctrl.obj)
+        Referenced in LIBCD.lib(exsup.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__RaiseException@16
+        Referenced in LIBCD.lib(throw.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__IsBadWritePtr@8
+        Referenced in LIBCD.lib(dbgheap.obj)
+        Referenced in LIBCD.lib(validate.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__IsBadReadPtr@8
+        Referenced in LIBCD.lib(dbgheap.obj)
+        Referenced in LIBCD.lib(validate.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__HeapValidate@12
+        Referenced in LIBCD.lib(dbgheap.obj)
+        Referenced in LIBCD.lib(heapchk.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__ExitProcess@4
+        Referenced in LIBCD.lib(crt0dat.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__TerminateProcess@8
+        Referenced in LIBCD.lib(crt0dat.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__GetCurrentProcess@0
+        Referenced in LIBCD.lib(crt0dat.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__GetTimeZoneInformation@4
+        Referenced in LIBCD.lib(time.obj)
+        Referenced in LIBCD.lib(tzset.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__GetSystemTime@4
+        Referenced in LIBCD.lib(time.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__GetLocalTime@4
+        Referenced in LIBCD.lib(time.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__ReadConsoleInputA@16
+        Referenced in LIBCD.lib(getch.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__SetConsoleMode@8
+        Referenced in LIBCD.lib(getch.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__GetConsoleMode@8
+        Referenced in LIBCD.lib(getch.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__PeekConsoleInputA@16
+        Referenced in LIBCD.lib(getch.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__GetNumberOfConsoleInputEvents@8
+        Referenced in LIBCD.lib(getch.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__GetCommandLineA@0
+        Referenced in LIBCD.lib(crt0.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__GetVersion@0
+        Referenced in LIBCD.lib(crt0.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__LCMapStringA@24
+        Referenced in LIBCD.lib(aw_map.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__LCMapStringW@24
+        Referenced in LIBCD.lib(aw_map.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__DebugBreak@0
+        Referenced in LIBCD.lib(dbgrpt.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__WriteFile@20
+        Referenced in LIBCD.lib(dbgrpt.obj)
+        Referenced in LIBCD.lib(write.obj)
+        Referenced in LIBCD.lib(crt0msg.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__InterlockedDecrement@4
+        Referenced in LIBCD.lib(dbgrpt.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__OutputDebugStringA@4
+        Referenced in LIBCD.lib(dbgrpt.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__GetProcAddress@8
+        Referenced in LIBCD.lib(dbgrpt.obj)
+        Referenced in LIBCD.lib(testfdiv.obj)
+        Referenced in LIBCD.lib(crtmbox.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__LoadLibraryA@4
+        Referenced in LIBCD.lib(dbgrpt.obj)
+        Referenced in LIBCD.lib(crtmbox.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__InterlockedIncrement@4
+        Referenced in LIBCD.lib(dbgrpt.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__GetModuleFileNameA@12
+        Referenced in LIBCD.lib(dbgrpt.obj)
+        Referenced in LIBCD.lib(stdargv.obj)
+        Referenced in LIBCD.lib(crt0msg.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__CompareStringA@24
+        Referenced in LIBCD.lib(aw_cmp.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__CompareStringW@24
+        Referenced in LIBCD.lib(aw_cmp.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__GetCPInfo@8
+        Referenced in LIBCD.lib(aw_cmp.obj)
+        Referenced in LIBCD.lib(mbctype.obj)
+        Referenced in LIBCD.lib(initctyp.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__GetLocaleInfoA@16
+        Referenced in LIBCD.lib(aw_loc.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__GetLocaleInfoW@16
+        Referenced in LIBCD.lib(aw_loc.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__HeapFree@12
+        Referenced in LIBCD.lib(free.obj)
+        Referenced in LIBCD.lib(sbheap.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__SetUnhandledExceptionFilter@4
+        Referenced in LIBCD.lib(unhandld.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__HeapAlloc@12
+        Referenced in LIBCD.lib(malloc.obj)
+        Referenced in LIBCD.lib(realloc.obj)
+        Referenced in LIBCD.lib(sbheap.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__HeapReAlloc@16
+        Referenced in LIBCD.lib(expand.obj)
+        Referenced in LIBCD.lib(realloc.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__GetLastError@0
+        Referenced in LIBCD.lib(chsize.obj)
+        Referenced in LIBCD.lib(lseeki64.obj)
+        Referenced in LIBCD.lib(inithelp.obj)
+        Referenced in LIBCD.lib(open.obj)
+        Referenced in LIBCD.lib(wcstombs.obj)
+        Referenced in LIBCD.lib(commit.obj)
+        Referenced in LIBCD.lib(winsig.obj)
+        Referenced in LIBCD.lib(osfinfo.obj)
+        Referenced in LIBCD.lib(read.obj)
+        Referenced in LIBCD.lib(heapchk.obj)
+        Referenced in LIBCD.lib(close.obj)
+        Referenced in LIBCD.lib(write.obj)
+        Referenced in LIBCD.lib(lseek.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__HeapDestroy@4
+        Referenced in LIBCD.lib(heapinit.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__HeapCreate@12
+        Referenced in LIBCD.lib(heapinit.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__VirtualFree@12
+        Referenced in LIBCD.lib(heapinit.obj)
+        Referenced in LIBCD.lib(sbheap.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__VirtualAlloc@16
+        Referenced in LIBCD.lib(sbheap.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__GetModuleHandleA@4
+        Referenced in LIBCD.lib(testfdiv.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__CloseHandle@4
+        Referenced in LIBCD.lib(close.obj)
+        Referenced in LIBCD.lib(initcon.obj)
+        Referenced in LIBCD.lib(open.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__SetFilePointer@16
+        Referenced in LIBCD.lib(lseek.obj)
+        Referenced in LIBCD.lib(lseeki64.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__FlushFileBuffers@4
+        Referenced in LIBCD.lib(commit.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__CreateFileA@28
+        Referenced in LIBCD.lib(initcon.obj)
+        Referenced in LIBCD.lib(open.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__WriteConsoleA@20
+        Referenced in LIBCD.lib(putch.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__UnhandledExceptionFilter@4
+        Referenced in LIBCD.lib(winxfltr.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__FreeEnvironmentStringsA@4
+        Referenced in LIBCD.lib(aw_env.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__FreeEnvironmentStringsW@4
+        Referenced in LIBCD.lib(aw_env.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__GetEnvironmentStrings@0
+        Referenced in LIBCD.lib(aw_env.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__GetEnvironmentStringsW@0
+        Referenced in LIBCD.lib(aw_env.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__GetACP@0
+        Referenced in LIBCD.lib(mbctype.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__GetOEMCP@0
+        Referenced in LIBCD.lib(mbctype.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__SetHandleCount@4
+        Referenced in LIBCD.lib(ioinit.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__GetFileType@4
+        Referenced in LIBCD.lib(ioinit.obj)
+        Referenced in LIBCD.lib(osfinfo.obj)
+        Referenced in LIBCD.lib(open.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__GetStartupInfoA@4
+        Referenced in LIBCD.lib(ioinit.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__IsValidLocale@8
+        Referenced in LIBCD.lib(getqloc.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__IsValidCodePage@4
+        Referenced in LIBCD.lib(getqloc.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__GetUserDefaultLCID@0
+        Referenced in LIBCD.lib(getqloc.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__GetStringTypeA@20
+        Referenced in LIBCD.lib(aw_str.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__GetStringTypeW@16
+        Referenced in LIBCD.lib(aw_str.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__SetConsoleCtrlHandler@8
+        Referenced in LIBCD.lib(winsig.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__IsBadCodePtr@4
+        Referenced in LIBCD.lib(validate.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__SetStdHandle@8
+        Referenced in LIBCD.lib(osfinfo.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__ReadFile@20
+        Referenced in LIBCD.lib(read.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__SetEndOfFile@4
+        Referenced in LIBCD.lib(chsize.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+      Found __imp__SetEnvironmentVariableA@8
+        Referenced in LIBCD.lib(setenv.obj)
+        Loaded kernel32.lib(KERNEL32.dll)
+    Searching C:\Archivos de programa\Programacio\DevStudio\VC\LIB\user32.lib:
+    Searching C:\Archivos de programa\Programacio\DevStudio\VC\LIB\gdi32.lib:
+    Searching C:\Archivos de programa\Programacio\DevStudio\VC\LIB\winspool.lib:
+    Searching C:\Archivos de programa\Programacio\DevStudio\VC\LIB\comdlg32.lib:
+    Searching C:\Archivos de programa\Programacio\DevStudio\VC\LIB\advapi32.lib:
+    Searching C:\Archivos de programa\Programacio\DevStudio\VC\LIB\shell32.lib:
+    Searching C:\Archivos de programa\Programacio\DevStudio\VC\LIB\ole32.lib:
+    Searching C:\Archivos de programa\Programacio\DevStudio\VC\LIB\oleaut32.lib:
+    Searching C:\Archivos de programa\Programacio\DevStudio\VC\LIB\uuid.lib:
+    Searching C:\Archivos de programa\Programacio\DevStudio\VC\LIB\odbc32.lib:
+    Searching C:\Archivos de programa\Programacio\DevStudio\VC\LIB\odbccp32.lib:
+    Searching C:\Archivos de programa\Programacio\DevStudio\VC\LIB\libcpd.lib:
+
+Done Searching Libraries
+
+End Pass1
+
+Start Pass2
+     TopologiaToroidal.obj
+     Topologia.obj
+     Temporitzador.obj
+     Substrat.obj
+     RandomStream.obj
+     Probabilitat.obj
+     Posicionador.obj
+     Outputer.obj
+     Organisme.obj
+     MutacioGenica.obj
+     MutacioCariotip.obj
+     MultiAgent.obj
+     Missatger.obj
+     MainBio1.obj
+     Itineraris.obj
+     Iterador.obj
+     InfoOrganisme.obj
+     Grafic.obj
+     Genotip.obj
+     GeneradorMascares.obj
+     Gen.obj
+     FuncioAgent.obj
+     EnergiaDisipable.obj
+     Distribucio.obj
+     Detector.obj
+     Cromosoma.obj
+     Configuracio.obj
+     Comunitat.obj
+     Compatibilitat.obj
+     Color.obj
+     Cariotip.obj
+     Biosistema.obj
+     AppInfo.obj
+     Aleaturitzador.obj
+     Agent.obj
+     Actuadors.obj
+     Actuador.obj
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     kernel32.lib(KERNEL32.dll)
+     user32.lib(USER32.dll)
+     user32.lib(USER32.dll)
+     user32.lib(USER32.dll)
+     libcpd.lib(xstrcoll.obj)
+     libcpd.lib(xmbtowc.obj)
+     libcpd.lib(nomemory.obj)
+     libcpd.lib(xlocale.obj)
+     libcpd.lib(wlocale.obj)
+     libcpd.lib(strstrea.obj)
+     libcpd.lib(xwctomb.obj)
+     libcpd.lib(fiopen.obj)
+     libcpd.lib(xstod.obj)
+     libcpd.lib(iomanip.obj)
+     libcpd.lib(wiostrea.obj)
+     libcpd.lib(iostream.obj)
+     libcpd.lib(uncaught.obj)
+     libcpd.lib(ios.obj)
+     libcpd.lib(_toupper.obj)
+     libcpd.lib(_tolower.obj)
+     libcpd.lib(locale.obj)
+     libcpd.lib(locale0.obj)
+     libcpd.lib(string.obj)
+     libcpd.lib(delop.obj)
+     LIBCD.lib(strchr.obj)
+     LIBCD.lib(mbschr.obj)
+     LIBCD.lib(setenv.obj)
+     LIBCD.lib(setmode.obj)
+     LIBCD.lib(constpow.obj)
+     LIBCD.lib(wtombenv.obj)
+     LIBCD.lib(mbsnbico.obj)
+     LIBCD.lib(txtmode.obj)
+     LIBCD.lib(chsize.obj)
+     LIBCD.lib(tenpow.obj)
+     LIBCD.lib(llmul.obj)
+     LIBCD.lib(x10fout.obj)
+     LIBCD.lib(mantold.obj)
+     LIBCD.lib(getenv.obj)
+     LIBCD.lib(wcstombs.obj)
+     LIBCD.lib(ncommode.obj)
+     LIBCD.lib(open.obj)
+     LIBCD.lib(strgtold.obj)
+     LIBCD.lib(atox.obj)
+     LIBCD.lib(inithelp.obj)
+     LIBCD.lib(lseeki64.obj)
+     LIBCD.lib(read.obj)
+     LIBCD.lib(osfinfo.obj)
+     LIBCD.lib(dosmap.obj)
+     LIBCD.lib(days.obj)
+     LIBCD.lib(crt0fp.obj)
+     LIBCD.lib(cfout.obj)
+     LIBCD.lib(_fptostr.obj)
+     LIBCD.lib(intrncvt.obj)
+     LIBCD.lib(tolower.obj)
+     LIBCD.lib(ieee87.obj)
+     LIBCD.lib(ullrem.obj)
+     LIBCD.lib(ulldiv.obj)
+     LIBCD.lib(isatty.obj)
+     LIBCD.lib(abort.obj)
+     LIBCD.lib(validate.obj)
+     LIBCD.lib(iswctype.obj)
+     LIBCD.lib(towupper.obj)
+     LIBCD.lib(crtmbox.obj)
+     LIBCD.lib(winsig.obj)
+     LIBCD.lib(vsnprint.obj)
+     LIBCD.lib(snprintf.obj)
+     LIBCD.lib(xtoa.obj)
+     LIBCD.lib(stricmp.obj)
+     LIBCD.lib(tzset.obj)
+     LIBCD.lib(timeset.obj)
+     LIBCD.lib(stream.obj)
+     LIBCD.lib(_open.obj)
+     LIBCD.lib(cfin.obj)
+     LIBCD.lib(huge.obj)
+     LIBCD.lib(mbtowc.obj)
+     LIBCD.lib(_filwbuf.obj)
+     LIBCD.lib(wctomb.obj)
+     LIBCD.lib(_flswbuf.obj)
+     LIBCD.lib(closeall.obj)
+     LIBCD.lib(aw_str.obj)
+     LIBCD.lib(getqloc.obj)
+     LIBCD.lib(nlsdata3.obj)
+     LIBCD.lib(strpbrk.obj)
+     LIBCD.lib(strncmp.obj)
+     LIBCD.lib(strncpy.obj)
+     LIBCD.lib(initcoll.obj)
+     LIBCD.lib(initctyp.obj)
+     LIBCD.lib(initmon.obj)
+     LIBCD.lib(initnum.obj)
+     LIBCD.lib(inittime.obj)
+     LIBCD.lib(crt0msg.obj)
+     LIBCD.lib(ioinit.obj)
+     LIBCD.lib(mbctype.obj)
+     LIBCD.lib(aw_env.obj)
+     LIBCD.lib(stdargv.obj)
+     LIBCD.lib(stdenvp.obj)
+     LIBCD.lib(winxfltr.obj)
+     LIBCD.lib(chkstk.obj)
+     LIBCD.lib(putch.obj)
+     LIBCD.lib(initcon.obj)
+     LIBCD.lib(_getbuf.obj)
+     LIBCD.lib(commit.obj)
+     LIBCD.lib(fseeki64.obj)
+     LIBCD.lib(ftell.obj)
+     LIBCD.lib(lseek.obj)
+     LIBCD.lib(ftelli64.obj)
+     LIBCD.lib(_filbuf.obj)
+     LIBCD.lib(write.obj)
+     LIBCD.lib(_freebuf.obj)
+     LIBCD.lib(close.obj)
+     LIBCD.lib(dtoxtime.obj)
+     LIBCD.lib(crt0init.obj)
+     LIBCD.lib(toupper.obj)
+     LIBCD.lib(cmiscdat.obj)
+     LIBCD.lib(cvt.obj)
+     LIBCD.lib(testfdiv.obj)
+     LIBCD.lib(fp8.obj)
+     LIBCD.lib(output.obj)
+     LIBCD.lib(_flsbuf.obj)
+     LIBCD.lib(exsup3.obj)
+     LIBCD.lib(sbheap.obj)
+     LIBCD.lib(heapinit.obj)
+     LIBCD.lib(heapchk.obj)
+     LIBCD.lib(realloc.obj)
+     LIBCD.lib(expand.obj)
+     LIBCD.lib(dbghook.obj)
+     LIBCD.lib(malloc.obj)
+     LIBCD.lib(handler.obj)
+     LIBCD.lib(_newmode.obj)
+     LIBCD.lib(unhandld.obj)
+     LIBCD.lib(strcmp.obj)
+     LIBCD.lib(free.obj)
+     LIBCD.lib(hooks.obj)
+     LIBCD.lib(lowhelpr.obj)
+     LIBCD.lib(frame.obj)
+     LIBCD.lib(aw_loc.obj)
+     LIBCD.lib(wcstol.obj)
+     LIBCD.lib(aw_cmp.obj)
+     LIBCD.lib(dbgrpt.obj)
+     LIBCD.lib(strftime.obj)
+     LIBCD.lib(wcslen.obj)
+     LIBCD.lib(fopen.obj)
+     LIBCD.lib(strtod.obj)
+     LIBCD.lib(fgetwc.obj)
+     LIBCD.lib(ungetwc.obj)
+     LIBCD.lib(fputwc.obj)
+     LIBCD.lib(_file.obj)
+     LIBCD.lib(nlsdata2.obj)
+     LIBCD.lib(nlsdata1.obj)
+     LIBCD.lib(isctype.obj)
+     LIBCD.lib(ctype.obj)
+     LIBCD.lib(aw_map.obj)
+     LIBCD.lib(setlocal.obj)
+     LIBCD.lib(crt0.obj)
+     LIBCD.lib(strcat.obj)
+     LIBCD.lib(getch.obj)
+     LIBCD.lib(fputc.obj)
+     LIBCD.lib(ungetc.obj)
+     LIBCD.lib(fflush.obj)
+     LIBCD.lib(setvbuf.obj)
+     LIBCD.lib(fsetpos.obj)
+     LIBCD.lib(fseek.obj)
+     LIBCD.lib(fgetpos.obj)
+     LIBCD.lib(fgetc.obj)
+     LIBCD.lib(fwrite.obj)
+     LIBCD.lib(fclose.obj)
+     LIBCD.lib(time.obj)
+     LIBCD.lib(rand.obj)
+     LIBCD.lib(_ctype.obj)
+     LIBCD.lib(crt0dat.obj)
+     LIBCD.lib(strtol.obj)
+     LIBCD.lib(strcspn.obj)
+     LIBCD.lib(lconv.obj)
+     LIBCD.lib(memchr.obj)
+     LIBCD.lib(fpinit.obj)
+     LIBCD.lib(sprintf.obj)
+     LIBCD.lib(ehvecdtr.obj)
+     LIBCD.lib(ehvecctr.obj)
+     LIBCD.lib(dbgheap.obj)
+     LIBCD.lib(memcmp.obj)
+     LIBCD.lib(onexit.obj)
+     LIBCD.lib(memset.obj)
+     LIBCD.lib(throw.obj)
+     LIBCD.lib(new.obj)
+     LIBCD.lib(typinfo.obj)
+     LIBCD.lib(stdexcpt.obj)
+     LIBCD.lib(memmove.obj)
+     LIBCD.lib(memcpy.obj)
+     LIBCD.lib(strlen.obj)
+     LIBCD.lib(exsup.obj)
+     LIBCD.lib(trnsctrl.obj)
+     LIBCD.lib(purevirt.obj)
+End Pass2
+
+
+
+Bioscena.exe - 0 error(s), 0 warning(s)

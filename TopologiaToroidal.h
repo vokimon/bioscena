@@ -35,7 +35,12 @@ public:
 // Contruccio/Destruccio
 public: 
 	CTopologiaToroidal (uint32 XMax, uint32 YMax);
+// Operacions
+public: 
+	uint32 amplada() {return m_xMax;}
+	uint32 altura() {return m_yMax;}
 // Redefinibles
+public: 
 	virtual t_posicio desplacament (t_posicio origen, t_desplacament movimentRelatiu);
 	virtual bool unio (t_posicio posOrigen, t_posicio posDesti, t_desplacament & desp);
 // Atributs

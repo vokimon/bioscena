@@ -11,7 +11,16 @@
 //////////////////////////////////////////////////////////////////////
 
 #include <fstream>
+
+#ifdef _MSC_VER
+namespace ops {
+	#include <conio.h>
+	}
+#define kbhit ops::_kbhit
+#else
 #include <pc.h>
+#endif
+
 #include "Biosistema.h"
 #include "Agent.h"
 #include "TopologiaToroidal.h"
@@ -404,59 +413,125 @@ bool CBiosistema::organismeCreaSensor(uint32 sensor, uint32 vector)
 // Proves
 //////////////////////////////////////////////////////////////////////
 
+
 void CBiosistema::ProvaClasse()
 {
 	out << clrscr;
 	out << blanc.brillant() << "Provant Biosistema" << blanc.fosc() << endl;
+
+	Config.parsejaArxiu("Bioscena.ini", error);
 	CBiosistema biosistema;
 	biosistema.biotop(new CTopologiaToroidal<CBiosistema::t_substrat>(Config.get("Biotop/CassellesAltitud"),Config.get("Biotop/CassellesAmplitud")));
 	biosistema.agents(CAgent::ParsejaArxiu("Agents2.ini", *(biosistema.biotop()), error));
 	biosistema.comunitat(new CComunitat);
+	enum {Blanc, Mapa, MapaOrganismes, Organismes} mode = MapaOrganismes;
+	bool modeCanviat=true;
 	CComparativaOrganismes graf1(biosistema.comunitat());
-	graf1.tamany(41,2,40,8);
-	graf1.primerOrganisme(1);
 	CComparativaOrganismes graf2(biosistema.comunitat());
-	graf2.tamany(41,12,40,8);
-	graf2.primerOrganisme(40);
 	CComparativaOrganismes graf3(biosistema.comunitat());
-	graf3.tamany(41,22,40,8);
-	graf3.primerOrganisme(80);
 	CComparativaOrganismes graf4(biosistema.comunitat());
-	graf4.tamany(41,32,40,8);
-	graf4.primerOrganisme(120);
+	CComparativaOrganismes graf5(biosistema.comunitat());
+	CMapa mapa1(&biosistema);
 
 	cin.get();
-	out << clrscr;
-	out << blanc.brillant() << "Provant Biosistema" << blanc.fosc() << endl;
-	char a;
-	uint32 maxim=30;
-	biosistema.biotop()->debugPresenta(out);
-//	while (true || cin.get(a)&&a!='q') {
-	while (true || maxim) {
-		if (!biosistema.temps()) {
-			out << "\033[H";
-			biosistema.biotop()->debugPresenta(out);
-			maxim--;
+	mapa1.primeraPosicio(0);
+	while (true) {
+		if (modeCanviat) {
+			out << clrscr;
+			switch (mode) {
+			case Mapa:
+			default:
+				mapa1.tamany(1,2,80,45); 
+				break;
+			case MapaOrganismes:
+				mapa1.tamany(1,2,40,40);
+				graf1.tamany(41,1,40,8);
+				graf1.primerOrganisme(0);
+				graf2.tamany(41,11,40,8);
+				graf2.primerOrganisme(40);
+				graf3.tamany(41,21,40,8);
+				graf3.primerOrganisme(80);
+				graf4.tamany(41,31,40,8);
+				graf4.primerOrganisme(120);
+				graf5.tamany(41,41,40,8);
+				graf5.primerOrganisme(160);
+				break;
+			case Organismes:
+				graf1.tamany(1,1,80,8);
+				graf1.primerOrganisme(0);
+				graf2.tamany(1,11,80,8);
+				graf2.primerOrganisme(80);
+				graf3.tamany(1,21,80,8);
+				graf3.primerOrganisme(160);
+				graf4.tamany(1,31,80,8);
+				graf4.primerOrganisme(240);
+				graf5.tamany(1,41,80,8);
+				graf5.primerOrganisme(320);
+			}
+			modeCanviat=false;
 		}
+
 		biosistema();
 		if (!biosistema.temps()) {
-			graf1.visualitza(out);
-			graf2.visualitza(out);
-			graf3.visualitza(out);
-			graf4.visualitza(out);
-			out << gotoxy(1,41) << "Poblacio: " << setw(6) << biosistema.comunitat()->tamany() << endl;
-			out << gotoxy(1,66) << "Temps: " << setw(8) << biosistema.m_temps << endl;
-			cin.rdbuf()->sync();
+			if (mode==Mapa||mode==MapaOrganismes)
+				mapa1.visualitza(out);
+			if (mode==MapaOrganismes||mode==Organismes) {
+				graf1.visualitza(out);
+				graf2.visualitza(out);
+				graf3.visualitza(out);
+				graf4.visualitza(out);
+				graf5.visualitza(out);
+			}
+			out << gotoxy(1, 1) << "Poblacio: " << setw(6) << biosistema.comunitat()->tamany() << endl;
+			out << gotoxy(1,26) << "Temps: " << setw(8) << biosistema.m_temps << endl;
+			cout << gotoxy(48,20) << flush;
+//			cin.rdbuf()->sync();
 			if (kbhit() || cin.rdbuf()->in_avail()) 
 			{
-				if ((a=cin.get())) 
-					out << gotoxy(44,1) << "Tecla: " << '\'' << (a?a:'#') << '\''<< endl;
-				else
-					out << gotoxy(44,1) << "Error Teclat" << endl;
+				char a=cin.get();
+				if (cin) {
+					switch (a) 
+					{
+					case 'D': mapa1.scrollPageRight(1); break;
+					case 'd': mapa1.scrollRight(1); break;
+					case 'A': mapa1.scrollPageLeft(1); break;
+					case 'a': mapa1.scrollLeft(1); break;
+					case 'W': mapa1.scrollPageUp(1); break;
+					case 'w': mapa1.scrollUp(1); break;
+					case 'S': mapa1.scrollPageDown(1); break;
+					case 's': mapa1.scrollDown(1); break;
+					case 'M': 
+						modeCanviat = true;
+						if (mode==MapaOrganismes) mode=Organismes;
+						else if (mode==Mapa) mode=Blanc;
+						else modeCanviat = false;
+						break;
+					case 'm': 
+						modeCanviat = true;
+						if (mode==Organismes) mode=MapaOrganismes;
+						else if (mode==Blanc) mode=Mapa;
+						else modeCanviat = false;
+						break;
+					case 'O': 
+						modeCanviat = true;
+						if (mode==MapaOrganismes) mode=Mapa;
+						else if (mode==Organismes) mode=Blanc;
+						else modeCanviat = false;
+						break;
+					case 'o': 
+						modeCanviat = true;
+						if (mode==Mapa) mode=MapaOrganismes;
+						else if (mode==Blanc) mode=Organismes;
+						else modeCanviat = false;
+						break;
+					case 'Q': 
+					case 'q': return;
+					case 'R': 
+					case 'r': /*TODO: Reset Biosistema */ break;
+					}
+					out << gotoxy(48,1) << "Tecla: " << '\'' << (a?a:'#') << '\''<< endl;
+				}
 			}
-//			else
-//				out << gotoxy(44,1) << "Tecla: " << "'" << a << "` eof" << endl;
-
 		}
 	}
 }

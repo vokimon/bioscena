@@ -66,6 +66,15 @@ bool CMultiAgent::configura(string parametre, istream & valor, t_diccionariAgent
 			accio(it->second);
 		return true; // Parametre interceptat
 	}
+	if (parametre=="ArxiuSubordinat") {
+		string nomArxiuSubordinat;
+		CAgent * accioArxiu=NULL;
+		if (!(valor>>nomArxiuSubordinat))
+			errors << "Format invalid per a l'especificacio de un fitxer subordinat de '" << nom() << "'" << endl;
+		else if (!(accioArxiu/*=CAgent::ParsejaArxiu(nomArxiuSubordinat, m_biotop, errors)*/))
+			errors << "El fitxer '" << nomArxiuSubordinat << "' no conte una estructura d'agents minimament valida per subordinar-ho a '" << nom() << "'" << endl;
+		else accio(accioArxiu);
+	}
 	// Li deixem a la superclasse que l'intercepti si vol
 	return inherited::configura(parametre, valor, diccionari, errors);
 }

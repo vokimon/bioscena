@@ -247,7 +247,6 @@ CLEAN :
 	-@erase "$(INTDIR)\vc50.pdb"
 	-@erase "$(OUTDIR)\Bioscena.bsc"
 	-@erase "$(OUTDIR)\Bioscena.exe"
-	-@erase "$(OUTDIR)\Bioscena.ilk"
 	-@erase "$(OUTDIR)\Bioscena.pdb"
 
 "$(OUTDIR)" :
@@ -307,7 +306,7 @@ BSC32_SBRS= \
 LINK32=link.exe
 LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib\
  advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib\
- odbccp32.lib /nologo /subsystem:console /verbose /incremental:yes\
+ odbccp32.lib /nologo /subsystem:console /verbose /incremental:no\
  /pdb:"$(OUTDIR)\Bioscena.pdb" /debug /machine:I386\
  /out:"$(OUTDIR)\Bioscena.exe" /pdbtype:sept 
 LINK32_OBJS= \
@@ -532,6 +531,7 @@ DEP_CPP_AGENT=\
 	".\Outputer.h"\
 	".\Portable.h"\
 	".\Posicionador.h"\
+	".\Probabilitat.h"\
 	".\RandomStream.h"\
 	".\Substrat.h"\
 	".\Temporitzador.h"\
@@ -580,6 +580,7 @@ DEP_CPP_ALEAT=\
 	".\MultiAgent.h"\
 	".\Outputer.h"\
 	".\Portable.h"\
+	".\Probabilitat.h"\
 	".\RandomStream.h"\
 	".\Substrat.h"\
 	".\Topologia.h"\
@@ -666,6 +667,7 @@ DEP_CPP_BIOSI=\
 	".\EnergiaDisipable.h"\
 	".\Gen.h"\
 	".\Genotip.h"\
+	".\Grafic.h"\
 	".\InfoOrganisme.h"\
 	".\Missatger.h"\
 	".\Organisme.h"\
@@ -944,6 +946,9 @@ DEP_CPP_DETEC=\
 !ENDIF 
 
 SOURCE=.\Distribucio.cpp
+
+!IF  "$(CFG)" == "Bioscena - Win32 Release"
+
 DEP_CPP_DISTR=\
 	".\BioIncludes.h"\
 	".\Distribucio.h"\
@@ -953,14 +958,19 @@ DEP_CPP_DISTR=\
 	".\RandomStream.h"\
 	
 
-!IF  "$(CFG)" == "Bioscena - Win32 Release"
-
-
 "$(INTDIR)\Distribucio.obj" : $(SOURCE) $(DEP_CPP_DISTR) "$(INTDIR)"
 
 
 !ELSEIF  "$(CFG)" == "Bioscena - Win32 Debug"
 
+DEP_CPP_DISTR=\
+	".\BioIncludes.h"\
+	".\Distribucio.h"\
+	".\Missatger.h"\
+	".\Outputer.h"\
+	".\Portable.h"\
+	".\RandomStream.h"\
+	
 
 "$(INTDIR)\Distribucio.obj"	"$(INTDIR)\Distribucio.sbr" : $(SOURCE)\
  $(DEP_CPP_DISTR) "$(INTDIR)"
@@ -1148,8 +1158,13 @@ DEP_CPP_GENOT=\
 !ENDIF 
 
 SOURCE=.\Grafic.cpp
+
+!IF  "$(CFG)" == "Bioscena - Win32 Release"
+
 DEP_CPP_GRAFI=\
+	".\Agent.h"\
 	".\BioIncludes.h"\
+	".\Biosistema.h"\
 	".\Cariotip.h"\
 	".\Color.h"\
 	".\Comunitat.h"\
@@ -1163,16 +1178,41 @@ DEP_CPP_GRAFI=\
 	".\Organisme.h"\
 	".\Outputer.h"\
 	".\Portable.h"\
+	".\Probabilitat.h"\
+	".\RandomStream.h"\
+	".\Substrat.h"\
+	".\Topologia.h"\
+	".\TopologiaToroidal.h"\
 	
-
-!IF  "$(CFG)" == "Bioscena - Win32 Release"
-
 
 "$(INTDIR)\Grafic.obj" : $(SOURCE) $(DEP_CPP_GRAFI) "$(INTDIR)"
 
 
 !ELSEIF  "$(CFG)" == "Bioscena - Win32 Debug"
 
+DEP_CPP_GRAFI=\
+	".\Agent.h"\
+	".\BioIncludes.h"\
+	".\Biosistema.h"\
+	".\Cariotip.h"\
+	".\Color.h"\
+	".\Comunitat.h"\
+	".\Cromosoma.h"\
+	".\EnergiaDisipable.h"\
+	".\Gen.h"\
+	".\Genotip.h"\
+	".\Grafic.h"\
+	".\InfoOrganisme.h"\
+	".\Missatger.h"\
+	".\Organisme.h"\
+	".\Outputer.h"\
+	".\Portable.h"\
+	".\Probabilitat.h"\
+	".\RandomStream.h"\
+	".\Substrat.h"\
+	".\Topologia.h"\
+	".\TopologiaToroidal.h"\
+	
 
 "$(INTDIR)\Grafic.obj"	"$(INTDIR)\Grafic.sbr" : $(SOURCE) $(DEP_CPP_GRAFI)\
  "$(INTDIR)"
@@ -1313,6 +1353,7 @@ DEP_CPP_ITINE=\
 	".\Outputer.h"\
 	".\Portable.h"\
 	".\Posicionador.h"\
+	".\Probabilitat.h"\
 	".\RandomStream.h"\
 	".\Substrat.h"\
 	".\Temporitzador.h"\
