@@ -5,6 +5,8 @@
 #if !defined(__KKEP_GEN_H_INCLUDED)
 #define __KKEP_GEN_H_INCLUDED
 
+#include "BioIncludes.h"
+
 class CGen  
 {
 // Construction/Destruction
@@ -15,8 +17,10 @@ public:
 public:
 // Operacions
 public:
-	uint32 seguentInstruccio();
-	uint32 seguentInstruccio(uin32 patro);
+	bool seguentInstruccio(uint32 & ip, uint32 & valor);
+	bool seguentInstruccio(uint32 & ip, uint32 & valor, uint32 patro);
+	bool parametres(uint32 & ip, uint32 & valor);
+	bool traduible(uint32 * fenotip, uint32 & ip);
 // Atributs
 public:
 // Proves

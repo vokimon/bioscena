@@ -22,7 +22,7 @@ public:
 	static CDetector * nouDetector(uint32 tipus);
 };
 
-class CDetectorQuimic
+class CDetectorQuimic: public CDetector
 {
 // Operacions
 public:
@@ -41,11 +41,11 @@ public:
 
 
 // TODO: Fer aquest sensor
-class CDetectorPresencia
+class CDetectorPresencia: public CDetector
 {
 // Operacions
 public:
-	virtual bool analitza(CSubstrat & s);
+	virtual bool analitza(CSubstrat & s) {return true;};
 // Atributs
 public:
 };
