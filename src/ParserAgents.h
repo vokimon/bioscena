@@ -2,15 +2,21 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_PARSERAGENTS_H__FD37CCE1_57EB_11D3_A880_2CDF02C10000__INCLUDED_)
-#define AFX_PARSERAGENTS_H__FD37CCE1_57EB_11D3_A880_2CDF02C10000__INCLUDED_
+#if !defined(__KKEP_PARSERAGENTS_H_INCLUDED)
+#define __KKEP_PARSERAGENTS_H_INCLUDED
+
+#include "Agent.h"
+#include "Topologia.h"
+#include "Substrat.h"
 
 class CParserAgents  
 {
 public:
+	static CAgent * CreaAgent(string tipus, CTopologia<CSubstrat>& biotop);
+	static void ProvaClasse();
 	CParserAgents();
 	virtual ~CParserAgents();
-
+	static CAgent * ParsejaArxiuAgents(char * nomArxiu, CTopologia<CSubstrat> & biotop, list<string> & errors);
 };
 
-#endif // !defined(AFX_PARSERAGENTS_H__FD37CCE1_57EB_11D3_A880_2CDF02C10000__INCLUDED_)
+#endif // !defined(__KKEP_PARSERAGENTS_H_INCLUDED)

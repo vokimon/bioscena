@@ -1,47 +1,63 @@
+* Agent_0000 Agent/Multiple
+* Agent_0002 Agent/Multiple/Temporitzador
+* Agent_0001 Agent/Direccionador/Aleatori
+* Agent_0003 Agent/Posicionador/Direccional
+* Agent_0005 Agent/Multiple/Iterador
+* Agent_0004 Agent/Actuador/Nutridor
+* Agent_0006 Agent/Posicionador
+* Agent_0007 Agent/Posicionador/Zonal
+* Agent_0008 Agent/Multiple/Iterador
+* Agent_0009 Agent/Posicionador/Zonal
+* Agent_0010 Agent/Actuador/Nutridor/Invers
 
-Agent-0001
-	Tipus(Agent/Direccionador/Aleatori)
++ Agent_0001
+- Direccio: 3049603231
 
-Agent-0002
-	Tipus(Agent/Multiple/Temporitzador)
-	CicleActiu(1, 0, 1)
-	CicleInactiu(5, 0, 1)
-	Probabilitat(1 de 1)
++ Agent_0002
+- Accio: Agent_0001
+- CicleActiu: 1 0 1
+- CicleInactiu: 5 0 1
+- CicleActual: Inactiu 2
 
-Agent-0003
-	Tipus(Agent/Posicionador/Direccional)
++ Agent_0003
+- Posicio: 1096
+- Radi: 1
+- Direccionador: Agent_0001
 
-Agent-0004
-	Tipus(Agent/Actuador/Nutridor)
++ Agent_0004
+- Posicionador: Agent_0003
+- Composicio: 31 0
 
-Agent-0005
-	Tipus(Agent/Multiple/Iterador)
-	Accio(Agent-0004)
-	Iteracions(14, 0, 0)
++ Agent_0005
+- Accio: Agent_0004
+- Iteracions: 6 0 0
 
-Agent-0006
-	Tipus(Agent/Posicionador)
++ Agent_0006
+- Posicio: 1085
 
-Agent-0007
-	Tipus(Agent/Posicionador/Zonal)
++ Agent_0007
+- Posicio: 1020
+- Radi: 10
+- Posicionador: Agent_0006
 
-Agent-0009
-	Tipus(Agent/Posicionador/Zonal)
++ Agent_0009
+- Posicio: 1019
+- Radi: 1
+- Posicionador: Agent_0007
 
-Agent-0010
-	Tipus(Agent/Actuador/Nutridor/Invers)
++ Agent_0010
+- Posicionador: Agent_0009
+- Composicio: 31 0
 
-Agent-0008
-	Tipus(Agent/Multiple/Iterador)
-	Accio(Agent-0009)
-	Accio(Agent-0010)
-	Iteracions(10, 2, 10)
++ Agent_0008
+- Accio: Agent_0009
+- Accio: Agent_0010
+- Iteracions: 10 2 10
 
-Agent-0000
-	Tipus(Agent/Multiple)
-	Accio(Agent-0002)
-	Accio(Agent-0003)
-	Accio(Agent-0005)
-	Accio(Agent-0006)
-	Accio(Agent-0007)
-	Accio(Agent-0008)
++ Agent_0000
+- Accio: Agent_0002
+- Accio: Agent_0003
+- Accio: Agent_0005
+- Accio: Agent_0006
+- Accio: Agent_0007
+- Accio: Agent_0008

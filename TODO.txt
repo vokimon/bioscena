@@ -20,7 +20,8 @@ Eines de analisis
 	Interaccions entre organismes
 Generar una interficie de visualitzacio
 Entorn d'edició i analisis d'organismes
-Direccionador i Posicionador sequencial
+Direccionador i Posicionador sequencials
+
 
 
 

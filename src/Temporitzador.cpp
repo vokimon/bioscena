@@ -3,7 +3,7 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "Temporitzador.h"
-#include "Missatger.h"
+#include "Color.h"
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -11,6 +11,7 @@
 
 CTemporitzador::CTemporitzador()
 {
+	m_tipus+="/Temporitzador";
 	m_cicleActiu.m_periodeMinim=1;
 	m_cicleActiu.m_nombreDaus=0;
 	m_cicleActiu.m_magnitudDau=1;
@@ -19,12 +20,55 @@ CTemporitzador::CTemporitzador()
 	m_cicleInactiu.m_magnitudDau=1;
 	m_antiAccio = NULL;
 	m_actiu = true;
-	m_tipus+="/Temporitzador";
+	recalculaActual();
 }
 
 CTemporitzador::~CTemporitzador()
 {
 	if (m_antiAccio) delete m_antiAccio;
+}
+
+//////////////////////////////////////////////////////////////////////
+// Virtuals redefinibles a les subclasses
+//////////////////////////////////////////////////////////////////////
+
+void CTemporitzador::operator()(void)
+{
+	if (!m_periodeActual) {
+		// S'acabat el periode actual, canviem a l'altre
+		m_actiu = !m_actiu;
+		recalculaActual();
+	}
+	if (m_actiu) 
+	{
+		CMultiAgent::operator()();
+	}
+	else if (m_antiAccio)
+		(*m_antiAccio)();
+	m_periodeActual--;
+}
+
+void CTemporitzador::dump(CMissatger & msg)
+{
+	CMultiAgent::dump(msg);
+	msg << "- CicleActiu: " 
+		<< m_cicleActiu.m_periodeMinim << " "
+		<< m_cicleActiu.m_nombreDaus << " "
+		<< m_cicleActiu.m_magnitudDau << endl;
+	msg << "- CicleInactiu: " 
+		<< m_cicleInactiu.m_periodeMinim << " "
+		<< m_cicleInactiu.m_nombreDaus << " "
+		<< m_cicleInactiu.m_magnitudDau << endl;
+	msg << "- CicleActual: " 
+		<< (m_actiu? "Actiu":"Inactiu") << " "
+		<< m_periodeActual << endl;
+	if (m_antiAccio) msg << "- AntiAccio: " << m_antiAccio->nom() << endl; 
+}
+
+list<CAgent*> CTemporitzador::subordinats() {
+	list<CAgent*> l=CMultiAgent::subordinats();
+	if (m_antiAccio) l.push_back(m_antiAccio);
+	return l;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -47,67 +91,35 @@ void CTemporitzador::cicleInactiu(uint32 periode, uint32 margeDau, uint32 nombre
 	recalculaActual();
 }
 
-void CTemporitzador::antiAccio(t_accio * a)
-{
-	m_antiAccio=a;
-}
-
-list<CAgent*> CTemporitzador::subordinats() {
-	list<CAgent*> l=CMultiAgent::subordinats();
-	if (m_antiAccio) l.push_back(m_antiAccio);
-	return l;
-}
-
-void CTemporitzador::modificaCicleActual(bool actiu, uint32 restantPeriode)
+void CTemporitzador::cicleActual(bool actiu, uint32 restantPeriode)
 {
 	m_actiu=actiu;
 	m_periodeActual=restantPeriode;
 }
 
-void CTemporitzador::modificaCicleActual(uint32 restantPeriode)
+void CTemporitzador::cicleActual(uint32 restantPeriode)
 {
 	m_periodeActual=restantPeriode;
 }
 
-void CTemporitzador::dump(CMissatger & msg)
+void CTemporitzador::antiAccio(t_accio * a)
 {
-	CAgent::dump(msg);
-	msg << "\tCicleActiu(" 
-		<< m_cicleActiu.m_periodeMinim << ", "
-		<< m_cicleActiu.m_nombreDaus <<   ", "
-		<< m_cicleActiu.m_magnitudDau <<   ")" << endl;
-	msg << "\tCicleInactiu(" 
-		<< m_cicleInactiu.m_periodeMinim << ", "
-		<< m_cicleInactiu.m_nombreDaus <<   ", "
-		<< m_cicleInactiu.m_magnitudDau <<   ")" << endl;
-	if (m_antiAccio) msg << "\tAntiAccio(" << m_antiAccio->nom() << ")" << endl; 
-}
-
-void CTemporitzador::operator()(void)
-{
-	if (!m_periodeActual) {
-		// S'acabat el periode actual, canviem a l'altre
-		m_actiu = !m_actiu;
-		recalculaActual();
-	}
-	if (m_actiu) 
-	{
-		CMultiAgent::operator()();
-	}
-	else if (m_antiAccio)
-		(*m_antiAccio)();
-	m_periodeActual--;
+	m_antiAccio=a;
+	if (a&&!a->subordinant(this))
+		warning << "Subordinant l'agent '" << a->nom() << "' a un segon subordinant" << endl;
 }
 
 //////////////////////////////////////////////////////////////////////
 // Proves
 //////////////////////////////////////////////////////////////////////
 
-static void Ko () {out << "K";}
+static void Ko () {out << "-";}
 static void Ok () {out << "O";}
 
 void CTemporitzador::ProvaClasse()
 {
+	out << "\033[J";// Un clrscr xapuser pero standard (ANSI)
+	out << blanc.brillant() << "Provant Agent Temporitzador" << blanc.fosc() << endl;
 	int exits=0;
 	int intents=0;
 	CTemporitzador timer;
@@ -125,6 +137,8 @@ void CTemporitzador::ProvaClasse()
 		}
 	}
 	out << endl << "Han estat actius " << exits << " cicles dels " << intents << " totals" << endl;
+	timer.dumpAll(out);
+	cin.get();
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -132,12 +146,14 @@ void CTemporitzador::ProvaClasse()
 //////////////////////////////////////////////////////////////////////
 
 void CTemporitzador::recalculaActual()
+// Restaura el periode actual (indicat per m_actiu) al valor de periode inicial
+// Si es un cicle actiu i te un periode zero es torna a posar un cicle inactiu
 {
 	t_cicle & nouCicle = m_actiu?m_cicleActiu:m_cicleInactiu;
 	m_periodeActual=nouCicle.periode();
 	if (m_actiu&&!m_periodeActual) 
 	{
-		m_actiu=!m_actiu;
+		m_actiu=false;
 		recalculaActual();
 	}
 }
