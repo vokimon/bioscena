@@ -17,7 +17,7 @@ class CTopologia
 {
 // Tipus propis
 public:
-	typedef uint32 t_idCella;
+	typedef uint32 t_posicio;
 	typedef uint32 t_desplacament;
 	typedef Cella t_cella;
 // Atributs
@@ -29,9 +29,35 @@ public:
 	CTopologia();
 	CTopologia(uint32 tamany);
 	virtual ~CTopologia();
+
+// Virtuals redefinibles a les subclasses
+public:
+	virtual t_posicio desplacament (t_posicio origen, t_desplacament movimentRelatiu)
+		// Retorna la posicio resultant de fer el desplacament des de l'origen
+	{
+		// TODO: Per defecte aillades o indeterministic
+		return cassellaAlAtzar();
+//		return origen;
+	}
+	virtual bool esValidaCassella(t_posicio cassella) 
+	{
+		return (cassella<m_totalCasselles)&&(cassella>=0);
+	}
+	virtual bool unio (t_posicio posOrigen, t_posicio posDesti, t_desplacament & desp)
+		// Retorna cert si es posible unir-les amb un sol desplacament, a desp hi es
+		// el desplacament per unir-les o apropar-les
+	{
+		rnd >> desp;
+		return false;
+	}
+	virtual t_posicio cassellaAlAtzar() 
+	{
+		CRandomStream rnd;
+		return rnd.get(0,m_totalCasselles-1);
+	}
 // Operacions
 public:
-	t_cella &operator [] (uint32 index) 
+	t_cella &operator [] (t_posicio index) 
 	{
 		if ((index>=m_totalCasselles)||(index<0)) {
 			error<<"Accedint a una cella del Topologia no existent"<< endl;
@@ -39,15 +65,8 @@ public:
 		}
 		return m_casselles[index];
 	}
-	bool esValidaCassella(t_idCella cassella) {return (cassella<m_totalCasselles)||(cassella>=0);};
-	t_idCella cassellaAlAtzar() {
-		CRandomStream rnd;
-		return rnd.get(0,m_totalCasselles-1);
-	}
-	virtual t_idCella desplacament (t_idCella origen, t_desplacament movimentRelatiu);
-	template <class t_predicat> 
-		t_desplacament explora (t_idCella origen, t_desplacament direccio, 
-			uint32 radi, t_predicat pred)
+	template <class t_predicat> t_desplacament explora 
+		(t_posicio origen, t_desplacament direccio, uint32 radi, t_predicat pred)
 	{
 		uint32 base=desplacament(origen, desplacament);
 		for (uint32 i=10; i--;) {
@@ -72,14 +91,14 @@ public:
 	static void ProvaClasse(void) {
 		uint32 i;
 		int escala[]={7,6,4,4,12,14,15,9};
-		CTopologia<Cella> topologia(400);
-		uint32 cuc[7]={130,130,130,130,130,130,130};
+		CTopologia<t_cella> topologia(400);
+		t_posicio cuc[7]={130,130,130,130,130,130,130};
 		while (cuc[0]!=8) {
 			for (i=7;i--;) topologia[cuc[i]]=escala[6-i];
 			topologia[topologia.cassellaAlAtzar()]=9;
 			topologia.debugPresenta(out);
 			CRandomStream rnd;
-			uint32 direccio;
+			t_desplacament direccio;
 			rnd>>direccio;
 			for (i=6;i--;) cuc[i+1]=cuc[i];
 			cuc[0]=topologia.desplacament(cuc[0],direccio);
@@ -110,6 +129,11 @@ template<class Cella> CTopologia<Cella>::~CTopologia()
 {
 
 }
+
+//////////////////////////////////////////////////////////////////////
+// Implementacio
+//////////////////////////////////////////////////////////////////////
+
 template<class Cella> void CTopologia<Cella>::reservaCasselles(uint32 tamany) {
 	if (m_casselles) {
 		warning << "Tornant a definir les celles de la topologia." <<endl;
@@ -124,15 +148,6 @@ template<class Cella> void CTopologia<Cella>::reservaCasselles(uint32 tamany) {
 		m_totalCasselles = 0;
 		error << "No hi ha suficient memoria per les celles de la topologia."<<endl;
 	}
-}
-
-template<class Cella> 
-CTopologia<Cella>::t_idCella CTopologia<Cella>::desplacament (t_idCella origen, t_desplacament movimentRelatiu)
-// Aquesta funcio es la que determina la proximitat de les celles
-// per omisio totes les celles estan aillades.
-{
-	return cassellaAlAtzar();
-//	return origen;
 }
 
 

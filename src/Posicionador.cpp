@@ -29,14 +29,41 @@ CDireccionador::CDireccionador(tipus_biotop& biotop)
 void CPosicionador::dump(CMissatger & msg)
 {
 	CAgent::dump(msg);
-	msg << "- Posicio: " << m_pos << endl;
+	msg << "- Posicio " << m_pos << endl;
 }
 
+bool CPosicionador::configura(string parametre, istream & valor, t_diccionariAgents & diccionari, CMissatger & errors)
+{
+	if (parametre=="Posicio") {
+		uint32 posicio;
+		if (!(valor>>posicio))
+			errors << "Format invalid per la posicio radi de '" << nom() << "'" << endl;
+		else 
+			pos(posicio);
+		return true;
+	}
+	// Li deixem a la superclasse que l'intercepti si vol
+	return CAgent::configura(parametre, valor, diccionari, errors);
+}
 
 void CDireccionador::dump(CMissatger & msg)
 {
 	CAgent::dump(msg);
-	msg << "- Direccio: " << m_dir << endl;
+	msg << "- Direccio " << m_dir << endl;
+}
+
+bool CDireccionador::configura(string parametre, istream & valor, t_diccionariAgents & diccionari, CMissatger & errors)
+{
+	if (parametre=="Direccio") {
+		uint32 direccio;
+		if (!(valor>>direccio))
+			errors << "Format invalid per la direccio radi de '" << nom() << "'" << endl;
+		else 
+			dir(direccio);
+		return true;
+	}
+	// Li deixem a la superclasse que l'intercepti si vol
+	return CAgent::configura(parametre, valor, diccionari, errors);
 }
 
 //////////////////////////////////////////////////////////////////////

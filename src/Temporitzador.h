@@ -8,6 +8,8 @@
 // 19990822 VoK - Escindides les funcionalitats ara son a CAleaturitzador
 // 19990822 VoK - Funcions de dump
 // 19990823 VoK - Reordenat els fitxers i netejades les proves
+// 19990824 VoK - dump ja no posa ':' despres de nom del parametre
+// 19990824 VoK - Funcions de configuracio amb parametres
 //////////////////////////////////////////////////////////////////////
 
 #if !defined(__KKEP_TEMPORITZADOR_H_INCLUDED)
@@ -46,6 +48,7 @@ public:
 public:
 	virtual void operator() (void);
 	virtual void dump(CMissatger & msg);
+	bool configura(string parametre, istream & valor, t_diccionariAgents & diccionari, CMissatger & errors);
 	virtual list<CAgent*> subordinats (void);
 // Operacions
 public:

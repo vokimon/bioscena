@@ -61,10 +61,11 @@ void main ()
 //	CNutridor::ProvaClasse(); //OK
 //	CDesnutridor::ProvaClasse(); //OK
 //	CPosicionadorAleatori::ProvaClasse(); //OK
+	CItinerari::ProvaClasse(); //OK
 //	CDireccionadorAleatori::ProvaClasse(); //OK
 //	CPosicionadorZonal::ProvaClasse(); //OK
-	CMultiAgent::ProvaClasse(); //OK
-	CParserAgents::ProvaClasse();
+//	CMultiAgent::ProvaClasse(); //OK
+//	CAgent::ProvaClasse(); //OK
 
 // Proves Comunitat
 //	CEnergiaDisipable::ProvaClasse();

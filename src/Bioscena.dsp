@@ -80,6 +80,18 @@ LINK32=link.exe
 
 # Name "Bioscena - Win32 Release"
 # Name "Bioscena - Win32 Debug"
+# Begin Group "Documentacio"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\AgentConfig.txt
+# End Source File
+# Begin Source File
+
+SOURCE=.\TODO.txt
+# End Source File
+# End Group
 # Begin Source File
 
 SOURCE=.\Actuador.cpp
@@ -103,10 +115,6 @@ SOURCE=.\Agent.cpp
 # Begin Source File
 
 SOURCE=.\Agent.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\AgentConfig.txt
 # End Source File
 # Begin Source File
 
@@ -266,14 +274,6 @@ SOURCE=.\Outputer.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\ParserAgents.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\ParserAgents.h
-# End Source File
-# Begin Source File
-
 SOURCE=.\Portable.h
 # End Source File
 # Begin Source File
@@ -323,10 +323,6 @@ SOURCE=.\Temporitzador.cpp
 # Begin Source File
 
 SOURCE=.\Temporitzador.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\TODO.txt
 # End Source File
 # Begin Source File
 

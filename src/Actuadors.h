@@ -3,6 +3,10 @@
 //////////////////////////////////////////////////////////////////////
 // Change Log:
 // 19990820 VoK - Creat (a partir de l'antic Cumulador)
+// 19990822 VoK - Funcions de dump
+// 19990823 VoK - Reordenat els fitxers
+// 19990824 VoK - dump ja no posa ':' despres de nom del parametre
+// 19990824 VoK - Funcions de configuracio amb parametres
 //////////////////////////////////////////////////////////////////////
 
 
@@ -24,6 +28,7 @@ public:
 		s.deposita(mol);
 	}
 	virtual void dump (CMissatger & msg);
+	virtual bool configura(string parametre, istream & nom, t_diccionariAgents & diccionari, CMissatger & errors);
 // Operadors
 public:
 	void composicio(uint32 element, uint32 variabilitat=0);

@@ -5,8 +5,12 @@
 // de CPosicionador i CDireccionador
 //////////////////////////////////////////////////////////////////////
 // Change Log:
+// 19990822 VoK - Funcions de dump
+// 19990823 VoK - Reordenat els fitxers i netejades les proves
 // 19990823 VoK - Eliminadas funciones inline que passan al cpp
 // 19990823 VoK - Completadas las funcionalidades estandard de CPosicionadorZonal
+// 19990824 VoK - dump ja no posa ':' despres de nom del parametre
+// 19990824 VoK - Funcions de configuracio amb parametres
 //////////////////////////////////////////////////////////////////////
 // TODO: Fer Direccionadors i Posicionadors segons una sequencia.
 
@@ -30,6 +34,7 @@ public:
 public:
 	virtual void operator() (void);
 	virtual void dump(CMissatger & msg);
+	virtual bool configura(string parametre, istream & nom, t_diccionariAgents & diccionari, CMissatger & errors);
 	virtual list<CAgent*> dependencies();
 // Operacions
 public:
@@ -41,6 +46,9 @@ public:
 protected:
 	CDireccionador * m_direccionador;
 	uint32 m_radi;
+// Proves
+public:
+	static void ProvaClasse();
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -56,6 +64,7 @@ public:
 public:
 	virtual void operator() (void);
 	virtual void dump(CMissatger & msg);
+	virtual bool configura(string parametre, istream & nom, t_diccionariAgents & diccionari, CMissatger & errors);
 	virtual list<CAgent*> dependencies();
 // Operacions
 public:
