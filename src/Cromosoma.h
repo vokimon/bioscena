@@ -14,8 +14,6 @@ class CCromosoma
 // Tipus propis
 public:
 	typedef uint32 t_codo;
-// Algunes amigues
-	friend class CMutacioCromosomica;
 // Construccio/Destruccio
 public:
 	CCromosoma();
@@ -36,7 +34,8 @@ public:
 	uint32 tamany(void) const;
 	void fusiona(CCromosoma const &c);
 	void parteix(CCromosoma &c, uint32 centromer);
-	void treuCodons(uint32 primer, uint32 longitud);
+	bool treuCodons(uint32 primer, uint32 longitud);
+	bool afegeixCodons(uint32 primer, uint32 longitud);
 // Atributs
 protected:
 	t_codo * m_codons;

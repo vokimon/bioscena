@@ -12,6 +12,8 @@
 
 #include <vector>
 #include "Cromosoma.h"
+// Forwarding
+class CMutacioCariotip;
 
 class CCariotip  
 {
@@ -48,11 +50,10 @@ protected:
 // Proves
 public:
 	uint32 tamanyCodons();
-	bool muta();
+	bool muta(CMutacioCariotip * mutacio=NULL);
 	static void ProvaClasse(void);	
 // Implementacio
 private:
-	bool initCromosomes(void);
 	bool ocupaCromosomes(uint32 nCromosomes);
 	void alliberaCromosomes(void);
 

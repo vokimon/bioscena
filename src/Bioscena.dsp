@@ -192,6 +192,18 @@ SOURCE=.\Biosistema.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\BiosistemaProves.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Biotop.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Biotop.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\build.h
 # End Source File
 # Begin Source File
@@ -425,6 +437,14 @@ SOURCE=.\Substrat.cpp
 # Begin Source File
 
 SOURCE=.\Substrat.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Taxonomista.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Taxonomista.h
 # End Source File
 # Begin Source File
 

@@ -61,6 +61,7 @@ public:
 	bool consumeixEnergia(uint32 energia);
 	void guanyaEnergia(uint32 energia);
 	uint32 energia();
+	uint32 carrega();
 	uint32 edat();
 	// 
 // Proves

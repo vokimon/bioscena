@@ -10,6 +10,8 @@
 // 19990911 VoK - Mutacions a fora!
 // 19990917 VoK - Mutacions a dins pero deterministes (parteix, 
 //                fusiona, treuCodons
+// 20000526 VoK - Implementat afegeixCodons
+// 20000527 VoK - afegeixCodons i treuCodons retornen codi d'error
 //////////////////////////////////////////////////////////////////////
 // Invariant: 
 // - El contingut de codons pot ser valid o invalid
@@ -240,12 +242,12 @@ void CCromosoma::ompleCodonsSequencialment(uint32 primer)
 		m_codons[nCodons]=nCodons+primer;
 }
 
-void CCromosoma::treuCodons(uint32 primer, uint32 longitud)
+bool CCromosoma::treuCodons(uint32 primer, uint32 longitud)
 {
 	uint32 *tmp= new uint32[m_nCodons-longitud];
-	if (!tmp) return; // Fugida discreta
+	if (!tmp) return false; // Fugida discreta
 	uint32 idxDesti=0;
-	if (m_nCodons-primer<=longitud)
+	if (primer+longitud>m_nCodons)
 	{
 		uint32 idxOrigen=longitud-(m_nCodons-primer);
 		while (idxOrigen<primer)
@@ -263,6 +265,33 @@ void CCromosoma::treuCodons(uint32 primer, uint32 longitud)
 	delete [] m_codons;
 	m_codons = tmp;
 	m_nCodons-=longitud;
+	return true;
+}
+
+bool CCromosoma::afegeixCodons(uint32 primer, uint32 longitud)
+{
+	// TODO: Provar afegeixCodons
+	uint32 *tmp= new uint32[m_nCodons+longitud];
+	if (!tmp) return false; // Fugida discreta
+	uint32 idxDesti=0;
+	uint32 idxOrigen=0;
+	if (primer<m_nCodons)
+	{
+		while (idxOrigen<primer)
+			tmp[idxDesti++]=m_codons[idxOrigen++];
+		idxDesti+=longitud;
+		while (idxOrigen<m_nCodons)
+			tmp[idxDesti++]=m_codons[idxOrigen++];
+	}
+	else 
+	{
+		while (idxOrigen<m_nCodons)
+			tmp[idxDesti++]=m_codons[idxOrigen++];
+	}
+	delete [] m_codons;
+	m_codons = tmp;
+	m_nCodons+=longitud;
+	return true;
 }
 
 //////////////////////////////////////////////////////////////////////
