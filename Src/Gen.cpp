@@ -77,7 +77,7 @@ bool CGen::finalitzat()
 	return !(m_ip<m_instruccions.size());
 }
 
-bool CGen::traduible(uint32 * fenotip)
+bool CGen::traduible(const uint32 * fenotip)
 // Si la zona d'operador es compleix reseteja l'ip i retorna true
 {
 	// Comportament amb zona operadora
@@ -160,7 +160,7 @@ bool CGen::esOperadora()
 	return false; // La versio simple (Sense zona operadora)
 }
 
-bool CGen::condicioOperadora(uint32 * fenotip)
+bool CGen::condicioOperadora(const uint32 * fenotip)
 // PRE: fenotip apunta a una array de 32 elements
 {
 	uint32 instr = m_instruccions[m_ip];

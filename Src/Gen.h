@@ -34,13 +34,13 @@ public:
 	t_instruccio traduccio(uint32 codo);
 // Operacions expresio
 public:
-	bool traduible(uint32 * fenotip);
+	bool traduible(const uint32 * fenotip);
 	bool seguentInstruccio(uint32 & t_instruccio);
 	bool parametres(uint32 & valor);
 	bool finalitzat();
 	void reset();
 	bool esOperadora();
-	bool condicioOperadora(uint32 * fenotip);
+	bool condicioOperadora(const uint32 * fenotip);
 // Operacions expresio
 public:
 	uint32 tamany();
