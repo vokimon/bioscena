@@ -122,7 +122,9 @@ Com sabem si la accio sensomotriu ha tingut exit?
 
 Els sensors/motors són d'un tipus fixe o son configurables?
 
-
+		ENTRADA sensor(4) 
+		SORTIDA motor(4)
+        AVANCA desp(R) modificador(R) energia(5)
  1 15 * BIPARTEIX base(R) tol(R) desp(R)
  1 20 * ATACA base(R) tol(R) desp(R) key(R)
  1 15 * ENGOLIR base(R) tol(R) desp(R)
@@ -138,10 +140,10 @@ Els sensors/motors són d'un tipus fixe o son configurables?
  2 11 - UOP operacio(OU) desti(R) op(R)  (NOT OPOS)
  1 37 - LOAD desti(R) valor(I)
  4 44 - BOPI operacio(OB) desti(R) op1(R) valor(I) 
- 2 38 - UOPI operacio(OU) desti(R) valor(I) (NOT OPOS)
- 4 17 - SHIFT orientacio(1) carrega(1) desti(R) op(R) deplacament(5)
+ 2 36 - UOPI (operacio(OU)) desti(R) valor(I) (NOT OPOS)
+ 4 15 - SHIFT (orientacio(1) carrega(1)) desti(R) op(R) deplacament(5)
 
-NOP
+INTRON
 PROMOTOR
 TERMINATOR
 
@@ -149,7 +151,7 @@ TERMINATOR
 42
 
 ----####----####----####----####
-@@@@DDDDTTTTIIIIIIII7777788888JF
+@@@DDDTTTJFIIIIII777778888899999
 ----####----####----####----####
 111112222233333444445555566666
 

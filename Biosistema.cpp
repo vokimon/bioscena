@@ -146,7 +146,7 @@ bool CBiosistema::organismeAtaca(uint32 desp, uint32 elementBase, uint32 toleran
 	uint32 idOrganismeAtacat = substratDesti.ocupant();
 
 	uint32 element;
-	if ((*m_comunitat)[m_idOrganismeActiu].m_organisme->defensa(clauAtac^))
+	if ((*m_comunitat)[m_idOrganismeActiu].m_organisme->defensa(element, energia, clauAtac^))
 
 
 	// TODO: Logs

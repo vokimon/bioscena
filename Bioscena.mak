@@ -59,9 +59,11 @@ CLEAN :
 	-@erase "$(INTDIR)\Compatibilitat.obj"
 	-@erase "$(INTDIR)\Comunitat.obj"
 	-@erase "$(INTDIR)\Configuracio.obj"
+	-@erase "$(INTDIR)\Cromosoma.obj"
 	-@erase "$(INTDIR)\Detector.obj"
 	-@erase "$(INTDIR)\EnergiaDisipable.obj"
 	-@erase "$(INTDIR)\FuncioAgent.obj"
+	-@erase "$(INTDIR)\Gen.obj"
 	-@erase "$(INTDIR)\GeneradorMascares.obj"
 	-@erase "$(INTDIR)\InfoOrganisme.obj"
 	-@erase "$(INTDIR)\Iterador.obj"
@@ -110,9 +112,11 @@ LINK32_OBJS= \
 	"$(INTDIR)\Compatibilitat.obj" \
 	"$(INTDIR)\Comunitat.obj" \
 	"$(INTDIR)\Configuracio.obj" \
+	"$(INTDIR)\Cromosoma.obj" \
 	"$(INTDIR)\Detector.obj" \
 	"$(INTDIR)\EnergiaDisipable.obj" \
 	"$(INTDIR)\FuncioAgent.obj" \
+	"$(INTDIR)\Gen.obj" \
 	"$(INTDIR)\GeneradorMascares.obj" \
 	"$(INTDIR)\InfoOrganisme.obj" \
 	"$(INTDIR)\Iterador.obj" \
@@ -165,9 +169,11 @@ CLEAN :
 	-@erase "$(INTDIR)\Compatibilitat.obj"
 	-@erase "$(INTDIR)\Comunitat.obj"
 	-@erase "$(INTDIR)\Configuracio.obj"
+	-@erase "$(INTDIR)\Cromosoma.obj"
 	-@erase "$(INTDIR)\Detector.obj"
 	-@erase "$(INTDIR)\EnergiaDisipable.obj"
 	-@erase "$(INTDIR)\FuncioAgent.obj"
+	-@erase "$(INTDIR)\Gen.obj"
 	-@erase "$(INTDIR)\GeneradorMascares.obj"
 	-@erase "$(INTDIR)\InfoOrganisme.obj"
 	-@erase "$(INTDIR)\Iterador.obj"
@@ -220,9 +226,11 @@ LINK32_OBJS= \
 	"$(INTDIR)\Compatibilitat.obj" \
 	"$(INTDIR)\Comunitat.obj" \
 	"$(INTDIR)\Configuracio.obj" \
+	"$(INTDIR)\Cromosoma.obj" \
 	"$(INTDIR)\Detector.obj" \
 	"$(INTDIR)\EnergiaDisipable.obj" \
 	"$(INTDIR)\FuncioAgent.obj" \
+	"$(INTDIR)\Gen.obj" \
 	"$(INTDIR)\GeneradorMascares.obj" \
 	"$(INTDIR)\InfoOrganisme.obj" \
 	"$(INTDIR)\Iterador.obj" \
@@ -511,12 +519,12 @@ DEP_CPP_BIOSI=\
 	".\Agent.h"\
 	".\BioIncludes.h"\
 	".\Biosistema.h"\
+	".\Color.h"\
 	".\Comunitat.h"\
 	".\EnergiaDisipable.h"\
 	".\InfoOrganisme.h"\
 	".\LlistaEstatica.h"\
 	".\Missatger.h"\
-	".\MultiAgent.h"\
 	".\Organisme.h"\
 	".\Outputer.h"\
 	".\Portable.h"\
@@ -525,6 +533,7 @@ DEP_CPP_BIOSI=\
 	".\Taxo.h"\
 	".\Taxonomista.h"\
 	".\Topologia.h"\
+	".\TopologiaToroidal.h"\
 	
 
 "$(INTDIR)\Biosistema.obj" : $(SOURCE) $(DEP_CPP_BIOSI) "$(INTDIR)"
@@ -697,6 +706,38 @@ DEP_CPP_CONFI=\
 
 !ENDIF 
 
+SOURCE=.\Cromosoma.cpp
+
+!IF  "$(CFG)" == "Bioscena - Win32 Release"
+
+DEP_CPP_CROMO=\
+	".\BioIncludes.h"\
+	".\Cromosoma.h"\
+	".\Missatger.h"\
+	".\Outputer.h"\
+	".\Portable.h"\
+	".\RandomStream.h"\
+	
+
+"$(INTDIR)\Cromosoma.obj" : $(SOURCE) $(DEP_CPP_CROMO) "$(INTDIR)"
+
+
+!ELSEIF  "$(CFG)" == "Bioscena - Win32 Debug"
+
+DEP_CPP_CROMO=\
+	".\BioIncludes.h"\
+	".\Cromosoma.h"\
+	".\Missatger.h"\
+	".\Outputer.h"\
+	".\Portable.h"\
+	".\RandomStream.h"\
+	
+
+"$(INTDIR)\Cromosoma.obj" : $(SOURCE) $(DEP_CPP_CROMO) "$(INTDIR)"
+
+
+!ENDIF 
+
 SOURCE=.\Detector.cpp
 
 !IF  "$(CFG)" == "Bioscena - Win32 Release"
@@ -795,6 +836,25 @@ DEP_CPP_FUNCI=\
 	
 
 "$(INTDIR)\FuncioAgent.obj" : $(SOURCE) $(DEP_CPP_FUNCI) "$(INTDIR)"
+
+
+!ENDIF 
+
+SOURCE=.\Gen.cpp
+
+!IF  "$(CFG)" == "Bioscena - Win32 Release"
+
+DEP_CPP_GEN_C=\
+	".\Gen.h"\
+	
+
+"$(INTDIR)\Gen.obj" : $(SOURCE) $(DEP_CPP_GEN_C) "$(INTDIR)"
+
+
+!ELSEIF  "$(CFG)" == "Bioscena - Win32 Debug"
+
+
+"$(INTDIR)\Gen.obj" : $(SOURCE) "$(INTDIR)"
 
 
 !ENDIF 
@@ -1004,11 +1064,14 @@ DEP_CPP_MAINB=\
 	".\Aleaturitzador.h"\
 	".\AppInfo.h"\
 	".\BioIncludes.h"\
+	".\Biosistema.h"\
 	".\Color.h"\
 	".\Compatibilitat.h"\
+	".\Comunitat.h"\
 	".\EnergiaDisipable.h"\
 	".\FuncioAgent.h"\
 	".\GeneradorMascares.h"\
+	".\InfoOrganisme.h"\
 	".\Iterador.h"\
 	".\Itineraris.h"\
 	".\LlistaEstatica.h"\
@@ -1039,11 +1102,14 @@ DEP_CPP_MAINB=\
 	".\Aleaturitzador.h"\
 	".\AppInfo.h"\
 	".\BioIncludes.h"\
+	".\Biosistema.h"\
 	".\Color.h"\
 	".\Compatibilitat.h"\
+	".\Comunitat.h"\
 	".\EnergiaDisipable.h"\
 	".\FuncioAgent.h"\
 	".\GeneradorMascares.h"\
+	".\InfoOrganisme.h"\
 	".\Iterador.h"\
 	".\Itineraris.h"\
 	".\LlistaEstatica.h"\
@@ -1260,7 +1326,7 @@ SOURCE=.\Substrat.cpp
 DEP_CPP_SUBST=\
 	".\BioIncludes.h"\
 	".\Color.h"\
-	".\Encaix.h"\
+	".\encaix.h"\
 	".\GeneradorMascares.h"\
 	".\Missatger.h"\
 	".\Outputer.h"\
@@ -1277,7 +1343,7 @@ DEP_CPP_SUBST=\
 DEP_CPP_SUBST=\
 	".\BioIncludes.h"\
 	".\Color.h"\
-	".\Encaix.h"\
+	".\encaix.h"\
 	".\GeneradorMascares.h"\
 	".\Missatger.h"\
 	".\Outputer.h"\
