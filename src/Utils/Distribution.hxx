@@ -6,7 +6,7 @@
 #define __KKEP_DISTRIBUTION_H_INCLUDED
 
 #include "BioIncludes.h"
-#include "RandomStream.h"
+#include "RandomStream.hxx"
 
 namespace Bioscena {
 
