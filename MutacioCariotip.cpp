@@ -44,9 +44,9 @@ void CMutacioPerFusio::muta(CCariotip & car)
 	uint32 idxOrigen=car.cromosomaAleatori();
 	uint32 idxDesti=car.cromosomaAleatori();
 	if (traceMutacions)
-		out << "Mutacio per Fusio: "
-			<< " Cromosoma Origen: " << idxOrigen
-			<< " Cromosoma Desti: " << idxDesti
+		out << tipus()
+			<< " Cromosoma Origen: " << idxOrigen << "(" << car[idxOrigen]->tamany() << ")"
+			<< " Cromosoma Desti: " << idxDesti << "(" << car[idxDesti]->tamany() << ")"
 			<< endl;
 	CCariotip::t_cromosoma crm1 = car[idxOrigen];
 	CCariotip::t_cromosoma crm2 = car[idxDesti];
@@ -71,9 +71,9 @@ void CMutacioPerEscisio::muta(CCariotip & car)
 	uint32 idxCentromer = rnd.get(1,crm1->tamany()-1);
 
 	if (traceMutacions)
-		out << "Mutacio per Escisio: " 
-			<< " Escindit: " << idxOrigen
-			<< " Desti: " << idxDesti
+		out << tipus() 
+			<< " Escindit: " << idxOrigen << "(" << car[idxOrigen]->tamany() << ")"
+			<< " Desti: " << idxDesti 
 			<< " Centromer: " << idxCentromer
 		    << endl;
 	CCariotip::t_cromosoma crm2 = new CCromosoma;
@@ -92,9 +92,9 @@ void CAneuploidiaPositiva::muta(CCariotip & car)
 	uint32 cromosomaDuplicat = car.cromosomaAleatori();
 	uint32 posicioFinal = rnd.get(0,car.tamany());
 	if (traceMutacions)
-		out << "Mutacio per Duplicacio Aneuplodica: "
-			<< " Duplicat: " << cromosomaDuplicat
-			<< " Posicio: " << posicioFinal
+		out << tipus()
+			<< " Duplicat: " << cromosomaDuplicat << "(" << car[cromosomaDuplicat]->tamany() << ")"
+			<< " Posicio: " << posicioFinal 
 			<< endl;
 	if (!car.tamany())
 		return;
@@ -116,8 +116,8 @@ void CAneuploidiaNegativa::muta(CCariotip & car)
 	if (car.tamany()<2)	return; // Fugida Discreta
 	uint32 cromosomaEliminat = car.cromosomaAleatori();
 	if (traceMutacions)
-		out << "Mutacio per Eliminacio Aneuplodica: "
-			<< " Eliminat: " << cromosomaEliminat
+		out << tipus()
+			<< " Eliminat: " << cromosomaEliminat << "(" << car[cromosomaEliminat]->tamany() << ")"
 			<< endl;
 	CCariotip::t_cromosoma crm1 = car.extreu(cromosomaEliminat);
 	if (crm1) delete crm1;
@@ -128,7 +128,7 @@ void CEuploidiaPositiva::muta(CCariotip & car)
 // (Granularitat Cariotip)
 {
 	if (traceMutacions)
-		out << "Mutacio per Duplicacio Euplodica: "
+		out << tipus()
 			<< endl;
 	if (!car.tamany()) return;
 	uint32 ultim=car.tamany()-1;

@@ -10,24 +10,15 @@ Project's tools are:
 			"Custom Build" with flags ""
 			"<Component 0xa>" with flags ""
 
-Creating temp file "C:\WINDOWS\TEMP\RSP8133.TMP" with contents </nologo /G6 /MLd /W3 /Gm /GX /Zi /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR"Debug/" /Fp"Debug/Bioscena.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /c 
-"D:\Bioscena\Bioscena\AppInfo.cpp"
-"D:\Bioscena\Bioscena\Biosistema.cpp"
+Creating temp file "C:\WINDOWS\TEMP\RSP2042.TMP" with contents </nologo /G6 /MLd /W3 /Gm /GX /Zi /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR"Debug/" /Fp"Debug/Bioscena.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /c 
 "D:\Bioscena\Bioscena\Cariotip.cpp"
-"D:\Bioscena\Bioscena\Comunitat.cpp"
-"D:\Bioscena\Bioscena\Cromosoma.cpp"
-"D:\Bioscena\Bioscena\Gen.cpp"
-"D:\Bioscena\Bioscena\Genotip.cpp"
-"D:\Bioscena\Bioscena\Grafic.cpp"
-"D:\Bioscena\Bioscena\InfoOrganisme.cpp"
 "D:\Bioscena\Bioscena\MainBio1.cpp"
 "D:\Bioscena\Bioscena\MutacioCariotip.cpp"
-"D:\Bioscena\Bioscena\MutacioGenica.cpp"
-"D:\Bioscena\Bioscena\Organisme.cpp"
 "D:\Bioscena\Bioscena\MutacioCromosomica.cpp"
+"D:\Bioscena\Bioscena\MutacioGenica.cpp"
 >
-Creating command line "cl.exe @C:\WINDOWS\TEMP\RSP8133.TMP" 
-Creating temp file "C:\WINDOWS\TEMP\RSP8134.TMP" with contents <kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /version:0.7 /subsystem:console /incremental:no /pdb:"Debug/Bioscena.pdb" /debug /machine:I386 /out:"Debug/Bioscena.exe" /pdbtype:sept 
+Creating command line "cl.exe @C:\WINDOWS\TEMP\RSP2042.TMP" 
+Creating temp file "C:\WINDOWS\TEMP\RSP2043.TMP" with contents <kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /version:0.7 /subsystem:console /incremental:no /pdb:"Debug/Bioscena.pdb" /debug /machine:I386 /out:"Debug/Bioscena.exe" /pdbtype:sept 
 .\Debug\Actuador.obj
 .\Debug\Actuadors.obj
 .\Debug\Agent.obj
@@ -54,6 +45,7 @@ Creating temp file "C:\WINDOWS\TEMP\RSP8134.TMP" with contents <kernel32.lib use
 .\Debug\Missatger.obj
 .\Debug\MultiAgent.obj
 .\Debug\MutacioCariotip.obj
+.\Debug\MutacioCromosomica.obj
 .\Debug\MutacioGenica.obj
 .\Debug\Organisme.obj
 .\Debug\Outputer.obj
@@ -63,29 +55,16 @@ Creating temp file "C:\WINDOWS\TEMP\RSP8134.TMP" with contents <kernel32.lib use
 .\Debug\Substrat.obj
 .\Debug\Temporitzador.obj
 .\Debug\Topologia.obj
-.\Debug\TopologiaToroidal.obj
-.\Debug\MutacioCromosomica.obj>
-Creating command line "link.exe @C:\WINDOWS\TEMP\RSP8134.TMP" 
+.\Debug\TopologiaToroidal.obj>
+Creating command line "link.exe @C:\WINDOWS\TEMP\RSP2043.TMP" 
 Compiling...
 Cariotip.cpp
-D:\Bioscena\Bioscena\MutacioGenica.h(14) : error C2248: 't_codo' : cannot access private typedef declared in class 'CCromosoma'
-Cromosoma.cpp
-MutacioCariotip.cpp
-MutacioGenica.cpp
-D:\Bioscena\Bioscena\MutacioGenica.h(14) : error C2248: 't_codo' : cannot access private typedef declared in class 'CCromosoma'
-MutacioCromosomica.cpp
-Biosistema.cpp
-Comunitat.cpp
-Gen.cpp
-Genotip.cpp
-Grafic.cpp
-InfoOrganisme.cpp
 MainBio1.cpp
-D:\Bioscena\Bioscena\MutacioGenica.h(14) : error C2248: 't_codo' : cannot access private typedef declared in class 'CCromosoma'
-Organisme.cpp
-AppInfo.cpp
-Error executing cl.exe.
+MutacioCariotip.cpp
+MutacioCromosomica.cpp
+MutacioGenica.cpp
+Linking...
 
 
 
-Bioscena.exe - 3 error(s), 0 warning(s)
+Bioscena.exe - 0 error(s), 0 warning(s)

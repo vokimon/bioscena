@@ -53,6 +53,7 @@ protected:
 	uint32 m_bitsCodiOperacio;
 	uint32 m_nCodisOperacio;
 	uint32 m_mascaraCodis;
+	bool m_calEspeciar;
 private:
 	uint32 m_instruccionsUtilsRestants;
 	uint32 m_instruccionsRestants;
@@ -103,6 +104,7 @@ public:
 	bool organismeCarrega(uint32 parametres);
 	bool organismeIdentifica(uint32 parametres);
 	bool organismeLocalitza(uint32 parametres);
+	bool organismeLocalitzaOrganisme(uint32 parametres);
 
 	bool organismeCreua(uint32 parametres);
 	bool organismeCreaSensor(uint32 parametres);

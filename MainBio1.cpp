@@ -93,11 +93,11 @@ int main (int argc, char**argv)
 //	CTaxonomista::ProvaClasse();
 //	CCromosoma::ProvaClasse(); // OK
 //	CMutacioGenica::ProvaClasse(); // OK
-	CCariotip::ProvaClasse();
+//	CCariotip::ProvaClasse();
 //	CMutacioCariotip::ProvaClasse();
 //	CGenotip::ProvaClasse(); // OK 19991202
 //	CComunitat::ProvaClasse(); // OK
-//	CBiosistema::ProvaClasse();
+	CBiosistema::ProvaClasse();
 
 //	cout << ">> Final de proves. Pulsa la tecla de retorn...";
 //	cin.get();

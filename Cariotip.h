@@ -45,6 +45,7 @@ protected:
 	t_cromosomes m_cromosomes;
 // Proves
 public:
+	uint32 tamanyCodons();
 	bool muta();
 	static void ProvaClasse(void);	
 // Implementacio

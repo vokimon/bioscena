@@ -21,7 +21,7 @@ using namespace AnsiCodes;
 // Variables estatiques
 //////////////////////////////////////////////////////////////////////
 
-static bool traceMutacions=true;
+static bool traceMutacions=false;
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -44,9 +44,9 @@ void CMutacioCromosomica::muta(CCariotip & ca)
 {
 	uint32 cromosoma = ca.cromosomaAleatori();
 //	ca[cromosoma]->dump(out);
-	out << cromosoma << "/";
 	if (ca.tamany())
 		muta(*(ca[cromosoma]));
+//	ca[cromosoma]->dump(out);
 }
 
 void CMutacioDesplacament::muta(CCromosoma & c)
@@ -54,25 +54,24 @@ void CMutacioDesplacament::muta(CCromosoma & c)
 // (Granularitat Cromosoma) (Anellat) (Longitud Variable)
 {
 	agafaInformacio(c);
-	if (!m_nCodons) return;
+	if (m_nCodons<2) return; // Un desplacament no te sentit amb menys de 2 codons
 	uint32 inici = rnd.get(0,m_nCodons-1);
-	uint32 longitud = rnd.get(1,m_nCodons);
-	uint32 desplacament = rnd.get(1,m_nCodons-longitud+1);
+	uint32 longitud = rnd.get(1,m_nCodons-1);
+	uint32 desplacament = rnd.get(1,m_nCodons-longitud);
+//  Nota de manteniment: Si es vol permetre un desplacament de m_nCodons cal revisar l'algorisme
 	if (traceMutacions)
-		out << "Mutacio per desplacament: "
-			<< "Codons:" << m_nCodons
+		out << tipus()
+			<< " Codons:" << m_nCodons
 			<< " Primer:" << inici
-			<< " Total a moure:" << longitud 
-			<< " Posicions a moure:" << desplacament 
+			<< " Longitud:" << longitud 
+			<< " Desplacament:" << desplacament 
 			<< endl;
-
 	uint32 * tmp = new uint32[longitud];
 	if (!tmp) {
 		error << "CCromosoma: Error de memoria mutant per desplacament" << endl;
 		cin.get();
 		return;
 	}
-	//if (!tmp) return *this; // Sortida rapida si hi ha falta de memoria
 	uint32 idxDesti, idxOrigen, cont;
 	// Primer copiem el tros desplacat
 	idxDesti=0;
@@ -109,8 +108,8 @@ void CMutacioDeleccio::muta(CCromosoma & c)
 	uint32 inici = rnd.get(0,nCodons-1);
 	uint32 longitud = rnd.get(1,nCodons-1);
 	if (traceMutacions)
-		out << "Mutacio per Deleccio: "
-			<< "Codons:" << nCodons
+		out << tipus()
+			<< " Codons:" << nCodons
 			<< " Primer:" << inici
 			<< " Total a esborrar:" << longitud 
 			<< endl;
@@ -132,7 +131,7 @@ void CMutacioInsercioAleatoria::muta(CCromosoma & c)
 		cin.get();
 	}
 	if (traceMutacions)
-		out << "Mutacio per Insercio aleatoria:" 
+		out << tipus()
 			<< " Codons:" << m_nCodons
 			<< " Inici Insercio:" << iInsercio
 			<< " Longitud:" << longitud 
@@ -166,7 +165,7 @@ void CMutacioInsercioReplicada::muta(CCromosoma & c)
 		cin.get();
 	}
 	if (traceMutacions)
-		out << "Mutacio per Insercio replicada:" 
+		out << tipus()
 			<< " Codons:" << m_nCodons
 			<< " Inici Insercio:" << iInsercio
 			<< " Inici Replica:" << iReplica
@@ -201,7 +200,7 @@ void CMutacioInversio::muta(CCromosoma & c)
 	uint32 inici = rnd.get(0,m_nCodons-1);
 	uint32 longitud = rnd.get(1,m_nCodons);
 	if (traceMutacions)
-		out << "Mutacio per Inversio:" 
+		out << tipus()
 			<< " Codons:" << m_nCodons
 			<< " Primer:" << inici
 			<< " Total a invertir:" << longitud 
@@ -289,11 +288,11 @@ CMutacioCromosomica * CMutacioCromosomica::Nova(uint32 n)
 {
 	switch (n)
 	{
-	case 1: return new CMutacioDesplacament;
-	case 2: return new CMutacioInversio;
-	case 3: return new CMutacioDeleccio;
-	case 4: return new CMutacioInsercioAleatoria;
-	case 5: return new CMutacioInsercioReplicada;
+	case 0: return new CMutacioDesplacament;
+	case 1: return new CMutacioInversio;
+	case 2: return new CMutacioDeleccio;
+	case 3: return new CMutacioInsercioAleatoria;
+	case 4: return new CMutacioInsercioReplicada;
 	default: return NULL;
 	}
 }

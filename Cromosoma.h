@@ -12,6 +12,7 @@ class CMutacioCromosomica;
 class CCromosoma  
 {
 // Tipus propis
+public:
 	typedef uint32 t_codo;
 // Algunes amigues
 	friend class CMutacioCromosomica;
@@ -39,7 +40,7 @@ protected:
 	t_codo * m_codons;
 	uint32 m_nCodons;
 public: //TODO: No public, eh?
-	bool m_enSocPropietari;
+//	bool m_enSocPropietari;
 // Proves
 public:
 	static void ProvaClasse(void);	

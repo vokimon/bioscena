@@ -622,15 +622,13 @@ DEP_CPP_APPIN=\
 !ENDIF 
 
 SOURCE=.\Biosistema.cpp
-
-!IF  "$(CFG)" == "Bioscena - Win32 Release"
-
 DEP_CPP_BIOSI=\
 	".\Agent.h"\
 	".\BioIncludes.h"\
 	".\Biosistema.h"\
 	".\Cariotip.h"\
 	".\Color.h"\
+	".\Compatibilitat.h"\
 	".\Comunitat.h"\
 	".\Configuracio.h"\
 	".\Cromosoma.h"\
@@ -649,36 +647,15 @@ DEP_CPP_BIOSI=\
 	".\Topologia.h"\
 	".\TopologiaToroidal.h"\
 	
+
+!IF  "$(CFG)" == "Bioscena - Win32 Release"
+
 
 "$(INTDIR)\Biosistema.obj" : $(SOURCE) $(DEP_CPP_BIOSI) "$(INTDIR)"
 
 
 !ELSEIF  "$(CFG)" == "Bioscena - Win32 Debug"
 
-DEP_CPP_BIOSI=\
-	".\Agent.h"\
-	".\BioIncludes.h"\
-	".\Biosistema.h"\
-	".\Cariotip.h"\
-	".\Color.h"\
-	".\Comunitat.h"\
-	".\Configuracio.h"\
-	".\Cromosoma.h"\
-	".\EnergiaDisipable.h"\
-	".\Gen.h"\
-	".\Genotip.h"\
-	".\Grafic.h"\
-	".\InfoOrganisme.h"\
-	".\Missatger.h"\
-	".\Organisme.h"\
-	".\Outputer.h"\
-	".\Portable.h"\
-	".\Probabilitat.h"\
-	".\RandomStream.h"\
-	".\Substrat.h"\
-	".\Topologia.h"\
-	".\TopologiaToroidal.h"\
-	
 
 "$(INTDIR)\Biosistema.obj"	"$(INTDIR)\Biosistema.sbr" : $(SOURCE)\
  $(DEP_CPP_BIOSI) "$(INTDIR)"
@@ -719,6 +696,7 @@ DEP_CPP_CARIO=\
 	".\Cromosoma.h"\
 	".\Missatger.h"\
 	".\MutacioCariotip.h"\
+	".\MutacioCromosomica.h"\
 	".\MutacioGenica.h"\
 	".\Outputer.h"\
 	".\Portable.h"\
@@ -1414,6 +1392,7 @@ DEP_CPP_MAINB=\
 	".\Missatger.h"\
 	".\MultiAgent.h"\
 	".\MutacioCariotip.h"\
+	".\MutacioCromosomica.h"\
 	".\MutacioGenica.h"\
 	".\Organisme.h"\
 	".\Outputer.h"\
@@ -1614,9 +1593,12 @@ DEP_CPP_MUTACIO=\
 
 DEP_CPP_MUTACIO=\
 	".\BioIncludes.h"\
+	".\Cariotip.h"\
 	".\Color.h"\
 	".\Cromosoma.h"\
 	".\Missatger.h"\
+	".\MutacioCariotip.h"\
+	".\MutacioCromosomica.h"\
 	".\MutacioGenica.h"\
 	".\Outputer.h"\
 	".\Portable.h"\
