@@ -190,6 +190,14 @@ SOURCE=.\Configuracio.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\Cromosoma.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Cromosoma.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\Detector.cpp
 # End Source File
 # Begin Source File
@@ -211,6 +219,14 @@ SOURCE=.\FuncioAgent.cpp
 # Begin Source File
 
 SOURCE=.\FuncioAgent.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Gen.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Gen.h
 # End Source File
 # Begin Source File
 
