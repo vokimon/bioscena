@@ -15,7 +15,7 @@ namespace Bioscena {
 * value is proportional to the size of the roulette sector you assign to it.
 * So the greater a sector is, the more likely to get it choosed.
 * @todo Implement and use it
-* @see CDistribucio
+* @see Distribution
 * @see Probability
 * @see sonCompatibles
 */
