@@ -67,8 +67,8 @@ int main (int argc, char**argv)
 //	CConfiguracio::ProvaClasse();
 
 // Proves Biotop
-//	CTopologia::ProvaClasse(); //OK 20000220 TODO: Integrar unio en les proves
-//	CTopologiaToroidal::ProvaClasse(); // OK 20000220 TODO: Integrar unio en les proves
+//	Topology::ProvaClasse(); //OK 20000220 TODO: Integrar unio en les proves
+//	Torus::ProvaClasse(); // OK 20000220 TODO: Integrar unio en les proves
 //	CSubstrat::ProvaClasse();  //OK 20000220
 //	CBiotop<CSubstrat>::ProvaClasse(); //OK 20000221
 

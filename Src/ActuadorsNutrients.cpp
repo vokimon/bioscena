@@ -107,7 +107,7 @@ void CNutridor::ProvaClasse()
 	out << clrscr;
 	out << blanc.brillant() << "Provant Agent Nutridor" << endl;
 	
-	CTopologiaToroidal topo(70,22);
+	Torus topo(70,22);
 	CBiotop<CSubstrat> biotop(&topo);
 
 	CMultiAgent agents;
@@ -157,7 +157,7 @@ void CDesnutridor::ProvaClasse()
 	out << clrscr;
 	out << blanc.brillant() << "Provant Agent Desnutridor" << endl;
 
-	CTopologiaToroidal topo(70,22);
+	Torus topo(70,22);
 	CBiotop<CSubstrat> biotop(&topo);
 
 	CMultiAgent agents;

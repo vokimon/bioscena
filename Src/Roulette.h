@@ -61,18 +61,20 @@ public:
 		// TODO
 	}
 	/// Increase the sector size an amount
+	/// @returns the resulting size for the sector
 	/// @todo Not yet implemented
 	uint32 increase(uint32 value, uint32 amount) {
 		// TODO
 	}
 	/// Decrease the sector size an amount
+	/// @returns the resulting size for the sector
 	/// @todo Not yet implemented
 	uint32 decrease(uint32 value, uint32 amount) {
 		// TODO
 	}
 	/// Gets the sector size for a value
 	/// @todo Not yet implemented
-	uint32 sector(uint32 value) {
+	uint32 sector(uint32 value) const {
 		// TODO
 	}
 /// @}

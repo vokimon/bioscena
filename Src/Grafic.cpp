@@ -22,7 +22,6 @@
 #include "Grafic.h"
 #include "Color.h"
 #include "Comunitat.h"
-#include "TopologiaToroidal.h"
 
 //////////////////////////////////////////////////////////////////////
 // (CGrafic) Construction/Destruction

@@ -23,7 +23,7 @@
 
 /**
 * The CTopogogiaToroidal class is an optimized implementation 
-* of CTopologia interface that represents a toroidal topology. 
+* of Topology interface that represents a toroidal topology. 
 * That is a 2D mesh of cells so that when you reach the border
 * you get in the oposite border.
 * <p>
@@ -34,13 +34,13 @@
 *
 * TODO: Document how the displacement works here
 *
-* @see CTopologia
+* @see Topology
 */
-class CTopologiaToroidal : public CTopologia
+class Torus : public Topology
 {
 // Tipus interns
 public:
-	typedef CTopologia inherited;
+	typedef Topology inherited;
 	typedef inherited::t_posicio t_posicio;
 	typedef inherited::t_desplacament t_desplacament;
 	enum t_DireccionsBasiques 
@@ -56,7 +56,7 @@ public:
 	};
 // Contruccio/Destruccio
 public: 
-	CTopologiaToroidal (uint32 XMax, uint32 YMax);
+	Torus (uint32 XMax, uint32 YMax);
 // Operacions
 public: 
 	uint32 amplada() const {return m_xMax;}
@@ -82,7 +82,7 @@ public:
 // Redefinibles
 //////////////////////////////////////////////////////////////////////
 
-CTopologiaToroidal::t_posicio CTopologiaToroidal::desplacament(t_posicio origen, t_desplacament movimentRelatiu) const
+Torus::t_posicio Torus::desplacament(t_posicio origen, t_desplacament movimentRelatiu) const
 {
 	// Descomentar la seguent linia perque el 4art bit del nibble
 	// indiqui la seva inibicio i no la seva activacio 
@@ -110,7 +110,7 @@ CTopologiaToroidal::t_posicio CTopologiaToroidal::desplacament(t_posicio origen,
 		}
 }
 
-bool CTopologiaToroidal::unio (t_posicio posOrigen, t_posicio posDesti, t_desplacament & desplacament) const
+bool Torus::unio (t_posicio posOrigen, t_posicio posDesti, t_desplacament & desplacament) const
 {
 	uint32 x1 = posOrigen % m_xMax;
 	uint32 y1 = posOrigen / m_xMax;
@@ -180,7 +180,7 @@ bool CTopologiaToroidal::unio (t_posicio posOrigen, t_posicio posDesti, t_despla
 	return !(dx || dy);
 }
 
-CTopologiaToroidal::t_posicio CTopologiaToroidal::desplacamentAleatori (t_posicio posOrigen, uint32 radi) const
+Torus::t_posicio Torus::desplacamentAleatori (t_posicio posOrigen, uint32 radi) const
 {
 	// El radi esta expressat en desplacaments basics (4 bits) -> en un vector de 
 	// desplacament (32 bits) hi han 8 de basics.
@@ -195,11 +195,11 @@ CTopologiaToroidal::t_posicio CTopologiaToroidal::desplacamentAleatori (t_posici
 	return posDesti;
 }
 
-CTopologiaToroidal::t_desplacament CTopologiaToroidal::invers(t_desplacament desp) const {
+Torus::t_desplacament Torus::invers(t_desplacament desp) const {
 	return desp ^ 0x77777777;
 }
 
-CTopologiaToroidal::t_desplacament CTopologiaToroidal::desplacamentNul() const {
+Torus::t_desplacament Torus::desplacamentNul() const {
 	return 0;
 }
 

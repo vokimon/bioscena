@@ -36,6 +36,7 @@
 #include "Biosistema.h"
 #include "Configuracio.h"
 #include "Grafic.h"
+#include "TopologiaToroidal.h"
 
 using namespace AnsiCodes;
 
@@ -215,7 +216,7 @@ void CBiosistema::ProvaClasse()
 	CBiosistema biosistema;
 	biosistema.carregaOpCodes("Opcodes.ini", error);
 	out << "Inicialitzant Biotop..." << endl;
-	CTopologia * topologia = new CTopologiaToroidal(Config.get("Biotop/CasellesAmplitud"),Config.get("Biotop/CasellesAltitud"));
+	Topology * topologia = new Torus(Config.get("Biotop/CasellesAmplitud"),Config.get("Biotop/CasellesAltitud"));
 	biosistema.biotop(new CBiotop<CBiosistema::t_substrat>(topologia));
 	biosistema.comunitat(new CComunitat);
 	biosistema.taxonomista(new CTaxonomista);
