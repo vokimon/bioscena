@@ -5,17 +5,316 @@
 \chapter{Tecnologia emprada}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Orientació a objectes}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Aquest capítol explica breument els conceptes tecnològics que han 
+estat objecte de consideració, de cara a implementar l'eina.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Tecniques de disseny}
+\section{Llenguatges orientats a objectes}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+Vaig escollir el paradigma de programació orientada a objectes degut
+als següents motius:
+\begin{itemize}
+\item S'ajusten molt bé a les aplicacions de simulació donat que 
+existeixen objectes molt identificables.
+\item S'ajusta molt bé als conceptes de modularitat i testabilitat
+que es donen al llarg de la carrera.
+\item Volia poder aplicar algunes tècniques de disseny molt útils que
+havia estat estudiant aquest anys i que es basen en la programació 
+orientada a objectes. Les explico més endavant.
+\end{itemize}
+
+En considerar el llenguatge de programació a utilitzar, em vaig 
+plantejar quin dels llenguatges de programació orientada a objectes
+fer servir. Vaig preferir escollir un llenguatge que coneixés a 
+fons i en el que tingués experiència per reduïr els imprevistos que 
+em pogues trobar a causa de no conèixer a fons els seus mecanismes. 
+Això deixava com a opcions més dessitjables el C++ i l'Smalltalk.
+
+Smalltalk era el llenguatge que més bé s'adaptava a les tècniques 
+que volia aplicar, permetia un desenvolupament ràpid i evitava molta
+reescriptura de codi. A més, molts conceptes de orientació a 
+objectes no són directament aplicables a C++ sinó que requereixen
+alguns recargolaments per fer coses que són directes a Smalltalk i 
+altres llenguatges dissenyat des del principi amb una mentalitat
+orientada a objectes.
+
+Tot i així, vaig optar per fer-ho en C++ perquè:
+\begin{itemize}
+\item L'eina ha de poder ser modificada per tercers. Tot i que
+Smalltalk és prou fàcil d'apendre, el fet d'estar implementada
+en un llenguatge no massa extés, pot disuadir a gent de provar-ho.
+\item El codi en Smalltalk no és tan eficient com pot arribar
+a ser-ho en C++.
+\item Hi ha entorns C++ per a més plataformes.
+\item Els últims drafts de l'estàndard C++ inclouen algunes 
+biblioteques que implementen d'una forma estàndard part de la 
+funcionalitat de la extensa biblioteca de classes d'Smalltalk.
+\item Vaig trobar alguns mecanismes fixos que apropaven la forma
+de treballar C++ a la pròpia d'Smalltalk.
+\end{itemize}
+
+Així doncs, per poder apropar el C++ a la forma de programar 
+d'Smalltalk, es van haver d'implementar alguns mecanismes interns
+d'Smalltalk que queden ocults al programador. També es fa un ús
+intensiu dels membres estàtics.
+
+
+Algunes de les tècniques aplicades impliquen polimorfisme. C++ permet 
+que dos funcions membre s'anomenin igual però el polimorfisme complert, 
+el que permet que 
+intercanviem un objecte d'un tipus per un altre, implica l'ús de
+{\em mètodes virtuals} i fer servir punters o referències, que en
+C++ implica, bé inseguretat (els punters no tènen perquè apuntar a un
+objecte vàlid), bé constància (l'objecte apuntat per la referència no 
+es pot modificar).
+
+Aquests impediments s'han resolt programant explícitament part dels 
+mecanismes que implicitament fa servir Smalltalk per mantenir segures 
+les referències.
+
+Altres impliquen l'us massiu de membres (funcions i objectes) estàtics 
+a les classes. No és que C++ no suporti aquest tipus de membres, el
+que passa és, al contrari de que passa amb Smalltalk, c++ no en fa un 
+ús generalitzat i està molt mal documentat en la bibliografia C++.
+Alguns aspectes, com ara la inicialització de objectes membres estàtics
+els hem hagut d'extreure directament del draft de l'estàndard.
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Llibreria estàndard de C++}
+\section{Biblioteca estàndard de C++}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Al projecte, es fan servir de forma intensiva les llibreries estàndard 
+de C++. L'ús que se'n fa normalment es limita a les classes d'entrada
+i sortida, però, un estudi més a fons del que s'ofereix pot donar molt 
+de sí.
+
+Entre les funcionalitats utilitzades al projecte en destaquem les
+següents:
+\begin{description}
+\item [Classes contenidores:] Implementen estructures de dades d'ús 
+comú: Llistes, cues, piles, vectors dinàmics, estructures d'accés 
+per contingut...
+Aquestes estructures de dades es poden fer servir per contenir 
+qualsevol tipus d'objectes mitjançant l'ús de templates suplint, en
+part, la funcionalitat de les {\em Collections} d'Smalltalk.
+\item [Cadenes de caracters:] D'una forma estandaritzada s'encapsula
+un objecte per contindre text amb operacions consistents.
+\item [Objectes funcionals:] Permeten manegar funcions com a objectes,
+operar amb elles (enmagatzemar, combinar, assignar paràmetres)
+i aplicar-les quan convé. És a dir, permeten la codificació dinàmica 
+suplint de forma molt rudimentària els blocs de codi d'Smalltalk tot 
+i que són molt més potents que els simples punters a funció de C.
+\item [Mecanismes de passivació:] Encapsulen els receptors de dades en 
+forma serialitzada. De banda de l'entrada/sortida comuna, es pot 
+aprofitar el protocol per obtindre unes altres funcionalitats.
+Per exemple, en l'eina un objecte que fa servir el mateix protocol
+que {\tt iostream} per visualitzar text en caixes de diàleg o de
+forma diferida en qualsevol altre lloc fent servir en el entremig
+una estructura de dades que ho memoritza.
+\end{description}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Entorn de programació}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+S'han fet servir dos entorns de programació en diferent proporció
+durant el temps que ha estat desenvolupant-se l'eina.
+
+Al començament el desenvolupament es feia de forma integra en el
+Microsoft Developer v5.0. El programa ens oferia ajuda ràpida sobre
+el lleguatge i la llibreria i ens permetia organitzar la multitud
+de classes en una estructura jeràrquica l'{\tt Infoviewer}.
+
+Tot i així la compilació era molt lenta per la qual cosa es va 
+començar a fer servir el GCC i les altres utilitats GNU en la seva 
+versió per a DOS, el DJGPP.
+
+Tot i així, es va estar fent servir el MSD5 com editor, debugger i
+ajuda, fins al final del projecte on la necessitat d'ajuda era molt
+ocasional. Llavors es va començar a fer servir l'editor VIM, un
+clònic millorat de l'editor VI de UNIX amb moltes més funcionalitats 
+d'ajut a la programació i que té una versió GUI per a Windows.
+
+Cal senyalar que ens hem trobat alguns problemes amb les 
+característiques avançades del futur estandard C++. Les primeres 
+versions de GCC provades i la versió 5 de MSVC++ no implementaven
+molt correctament algunes d'aquestes característiques. Sobretot
+els templates, els punters a funcions membre i la biblioteca 
+estàndard.
+
+Les últimes versions del GCC, ja implementent tot el necessari
+per que compili l'eina.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Tècniques de disseny}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+A continucació s'expliquen algunes tèniques de disseny que s'han aplicat.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Inicialització mandrosa}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+La inicialització mandrosa consisteix en no inicialitzar una dada
+fins que no es necessita. És molt útil quan aquesta inicialització
+és molt costosa i no sempre sigui necessària.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Double Dispatch}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+La natura polimòrfica dels llenguatges orientats a objectes ens dóna 
+problemes quan cal saber el tipus d'un paràmetre que arriba a un mètode, 
+per poder processar-ho.
+
+Hi han molts casos en que ens és molt ineficient preguntar per 
+tots els tipus de paràmetres que hi podem passar. Dona un codi, molt
+feixuc i cada cop que afegim un tipus de paràmetre cal modificar el 
+codi del mètode.
+
+La tècnica del Double Dispatch el que fa és simplement passar-li la
+pilota al paràmetre. Cridem a un mètode secundari al que tota classe 
+succeptible de ser passada com a paràmetre ha de respondre.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Mètodes Constants}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Si, dintre d'una classe, en comptes de fer servir una constant, 
+cridem un mètode de la classe que ens la retorna, a les subclasses
+podrem redefinir aquest mètode per que en retorni un altre valor.
+Així no cal reescriure l'algorisme que la fa servir.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Policy Classes}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Les policy classes (classes de polítiques) són aquelles que encapsulen 
+algorismes sense dades. En comptes de posar l'algorisme a dintre
+d'un mètode de classe, el posem com a mètode de la seva propia classe,
+rebent els paràmetres oportuns. D'aquesta manera aquest algorisme:
+\begin{enumerate}
+\item Es pot reaprofitar, cridant-lo en altres contextos.
+\item Es pot intercanviar facilment per un altre amb el mateix protocol.
+\item Permet modificar el comportament d'un objecte a nivell d'instància
+	sense fer una subclasse, simplement modificant l'objecte policy.
+\end{enumerate}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Classes singulars}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Una classe singular (Singleton class) és una classe que permet una
+sola instància.
+
+Per definir un Singleton definim una variable de classe que contindrà
+aquesta instància única i un mètode de classe per accedir-hi que sol 
+ser {\em current}. El mateix mètode pot servir per inicialitzar
+mandrosament el Singleton.
+
+La inicialització de Current també es pot realitzar mitjançant un
+missatge d'inicialització de classe.
+
+A vegades, es pot fer servir un mecanisme similar als singletons per
+mantenir una instància com a instància distingida o per omisió, tot 
+i deixant que es puguin crear tantes instàncies com es vulgui. 
+El procediment és pràcticament idèntic. Només que els mètodes de creació no 
+s'invaliden i que, en comptes de fer servir la variable {\em Current},
+per convenció, fem servir la variable {\em Default} i els noms dels 
+mètodes d'accés canvien en conseqüència.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Classes adaptadores}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Si una classe s'adapta funcionalment a les nostres necessitats, però,
+la interficie no és la desitjada, podem arreglar-ho mitjançant una
+classe adaptadora. Aquesta classe contindrà, com a variable 
+d'instància, una instància de la classe adaptada a la qual traduirà 
+tots els missatges que li arribin suplint-li les possibles carències.
+
+Les classes adaptadores serveixen per reutilitzar una classe en un 
+entorn per el qual no estava dissenyada.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Classes representants}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Una classe representant és un cas semblant al de una classe 
+adaptadora. Ara, però, no provem d'adaptar els protocols sinó que la 
+classe representant es fa servir com si fós la classe representada
+amb el mateix protocol. De fet, interesa que el client de la classe
+no noti diferències substancials entre una i altra i la classe
+representada no té perquè estar inclosa dintre de la representant.
+
+La representació pot tenir tot un seguit de objectius i 
+funcionalitats:
+
+\begin{itemize}
+\item {\bf Control d'accés:} La classe representant controla
+	l'accés a la classe representada, per exemple, per fer una
+	comprovació de permisos, per evitar que certs missatges 
+	arribin, o per fer comprovacions previes com ara exclusions 
+	mutues.
+\item {\bf Representació remota:} La classe representada no està
+	present físicament. Per això, la classe representant es fa
+	passar per la classe representada de cara al client, mentres
+	que, per un altre costat, prova de fer arribar els missatges
+	a la instància de la classe representada (via xarxa o similar).
+\item {\bf Simulació:} La classe representant simula el comportament
+	de la classe representada. Molt utilitzat en desenvolupament
+	per fer les proves.
+\item {\bf Representació mandrosa:} L'objecte representat no 
+	existeix de fet fins que el representant el crea mandrosament
+        quan es requereix i s'intercanvia amb el missatge {\em become: 
+	anObject}.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Classes abstractes i classes concretes}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Si dos classes tenen en comu característiques però
+no es pot dir que una sigui subclasse de l'altre perquè totes dues
+tenen coses diferents, el més elegant és crear una classe que contingui 
+tot allò que és comú a les dues classes: Representació (variables), 
+Comportament (contingut de les funcions) i Protocol (capceleres de funció). 
+Aquesta clase
+se'n diu classe abstracta degut a que no està dissenyada per generar
+instàncies si no que és un nexe conceptual entre les seves subclasses.
+
+En contraposició, anomenarem classes concretes a les classes 
+dissenyades per generar instàncies.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Classes abstractes factoria}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Una classe abstracta factoria és un tipus especial de classe abstracta
+que implementa mètodes factoria per a les seves subclasses concretes. 
+L'elecció de la subclasse de la qual es genera la instància pot 
+dependre del contigut del missatge de creació o del entorn.
+
+Si el protocol de la classe abstracte es manté a les classes 
+concretes, el client de la classe abstracte factoria obtindrà 
+indistintament instàncies d'una classe o d'una altre a les que
+podrà accedir tot de forma transparent.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Classes per portabilitat}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Si el nostre codi ha de conviure amb diversos sistemes, per reduir 
+l'impacte de les parts no portables a la nostra aplicació,
+convé encapsular-les en objectes que ofereixin una interfície
+uniforme a la resta de l'aplicació.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

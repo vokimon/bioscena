@@ -39,7 +39,7 @@ tan petit que el seu efecte quedi minimitzat.
 %% TODO: Raons per les que no agafem un entorn continu
 
 El nostre model general és un model que consta de posicions discretes
-amb les seves corresponents propietats i que tènen relacions de
+amb les seves corresponents propietats i que ténen relacions de
 veinatge amb les altres posicions segons una topologia.
 
 Així doncs, tenim dos elements que podem modelar independentment.
@@ -80,7 +80,7 @@ toroidal.
 
 %% TODO: Una grafiqueta no estaria malament
 
-Per a aquest projecte, s'ha implementat una topologia toroidal perque,
+Per a aquest projecte, s'ha implementat una topologia toroidal perquè,
 en principi es vol controlar la complexitat del sistema i, un biòtop
 amb topologia limitada n'afegiria donat que introdueix situacions a les que
 hauria de fer front l'organisme, per exemple, quan està en un límit i
@@ -98,7 +98,7 @@ qualsevol d'aquestes 8 cel·les es pot codificar amb 3 bits com indica
 la figura \ref{tab:veinesDirectes}
 
 
-\begin{table}[h]
+\begin{table}[ht]
 \centering
 \begin{tabular}{|c|c|c|}
 \hline
@@ -122,7 +122,7 @@ bàsic, farem servir un quart bit per a cada bàsic per dir si està
 habilitat o inhibit el desplaçament, i en un vector hi caben, doncs,
 8 desplaçaments bàsics.
 
-\begin{table}[h]
+\begin{table}[ht]
 \centering
 \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|}
 \hline
@@ -154,7 +154,7 @@ aquesta posició.
 En la present implementació s'han fet servir enters del 0 a N-1 com a
 identificadors de les posicions, on N es el nombre de cel.les.
 Aquests identificadors ens permeten fer els desplaçaments de forma
-molt optima si assignem el números per ordre a les cel·les de cada fila.
+molt òptima si assignem el números per ordre a les cel·les de cada fila.
 Només cal afegir (o treure), a l'identificador de la posició origen,
 un número, que depèn del desplaçament, i ajustar el resultat en
 cas de sortir-se de límits, per calcular l'identificador de la

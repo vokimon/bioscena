@@ -46,8 +46,6 @@ Tots els agents duen un nom assocciat que, per defecte, coincideix amb
 un prefixe i un número de sèrie únic entre tots els agents. Aquest
 nom es pot canviar per un que sigui més mnemotècnic per a l'usuari.
 
-TODO: El tema dels logs
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Agents Subordinadors}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -93,7 +91,7 @@ Per defecte, els paràmetres que introdueixen indeterminisme en els
 temporitzadors, com són els daus, estan ajustats de manera que el seu
 efecte sigui nul. Si no es toca res més que els períodes mínims,
 actuarà de forma determinista. De la mateixa manera, els períodes
-mínims dels cicles estan ajustats, per defecte, per que sempre
+mínims dels cicles estan ajustats, per defecte, perquè sempre
 s'estigui en un cicle actiu. D'aquesta forma, si no es configura res,
 l'efecte d'un temporitzador és el d'un agent múltiple ordinari.
 
@@ -179,7 +177,7 @@ partir d'un mínim i uns daus com els que feiem servir per als
 períodes dels temporitzadors.
 
 Per defecte, la part indeterminística (els daus) no té cap efecte,
-i la part deterministica (el mínim) està posada a un valor (1) que
+i la part determinística (el mínim) està posada a un valor (1) que
 el fa equivalent a un agent múltiple ordinari.
 
 Paràmetres ilustratius:
@@ -244,15 +242,15 @@ posició fan servir altres agents dels quals depenen.
     Els agents direccionadors s'expliquen al següent apartat.
 \end{description}
 
-A continuació es presenten exemples d'execució d'un posicionador aleatori,
-un de seqüencial i un de zonal aplicats sobre una topologia toroidal.
-
-\begin{figure}[h]
-    \centering
-    \fbox{TODO: Exemples d'execució posicionadors seqüencial, zonal i aleatori}
-    \label{fig:exemplesPosicionadors}
-    \caption{Exemples de posicionadors: seqüencial, zonal i aleatori}
-\end{figure}
+%A continuació es presenten exemples d'execució d'un posicionador aleatori,
+%un de seqüencial i un de zonal aplicats sobre una topologia toroidal.
+%
+%\begin{figure}[ht]
+%    \centering
+%    \fbox{TODO: Exemples d'execució posicionadors seqüencial, zonal i aleatori}
+%    \label{fig:exemplesPosicionadors}
+%    \caption{Exemples de posicionadors: seqüencial, zonal i aleatori}
+%\end{figure}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -274,18 +272,18 @@ direccional, però, no es descarten altres aplicacions futures.
     dependència del direccionador seqüencial.
 \end{description}
 
-A continuació es presenten exemples d'execució d'un posicionador
-direccional, que depèn de diferents tipus de direccionadors.
+%A continuació es presenten exemples d'execució d'un posicionador
+%direccional, que depèn de diferents tipus de direccionadors.
 
-\begin{figure}[h]
-    \centering
-    \fbox{TODO: Exemple d'execució d'un itinerari amb els diferents direccionadors}
-    \label{fig:exemplesDireccionadors}
-    \caption{Exemples de direccionadors (seqüencial, fixe i aleatori) controlant un posicionador direccional}
-\end{figure}
+%\begin{figure}[ht]
+%    \centering
+%    \fbox{TODO: Exemple d'execució d'un itinerari amb els diferents direccionadors}
+%    \label{fig:exemplesDireccionadors}
+%    \caption{Exemples de direccionadors (seqüencial, fixe i aleatori) controlant un posicionador direccional}
+%\end{figure}
 
 Per obtindre aquests resultats ha calgut fer servir subordinadors
-per que el posicionador s'accionés més que el direccionador.
+perquè el posicionador s'accionés més que el direccionador.
 La topologia de l'exemple és toroidal.
 
 
@@ -302,7 +300,7 @@ La majoria dels agents que hem vist fins ara eren molt independents
 davant de les modificacions en la topologia i en la composició del
 substrat que es puguin fer més endavant. Les especialitzacions dels
 actuadors, en canvi, han de dependre per força del substrat i la seva
-composició, perqué actuen sobre ell. Segueixen sent independents,
+composició, per que actuen sobre ell. Segueixen sent independents,
 però, de la topologia.
 
 Aquí a sota, expliquem alguns actuadors vàlids pel substrat
@@ -390,7 +388,7 @@ un espai a C (espais, tabuladors, retorns...).
 El tipus s'especifica amb un identificador propi de cada tipus d'agent.
 Dins d'un arxiu de configuració d'agents, es reconeixen els següents tipus:
 
-\begin{table}[h]
+\begin{table}[ht]
 \begin{tabular}{|l|l|}\hline
 {\bf Nom de tipus a la memòria}     & {\bf Nom del tipus a un fitxer de configuració}\\\hline
 Agent Subordinador Multiple     & Agent/Multiple            \\\hline
@@ -492,7 +490,7 @@ les línies de configuració.
 \item[Accio:] Determina un agent subordinat. Es repeteix tantes vegades com subordinats tingui.
         \\- agent: agent que es subordina (No ha de ser subordinat de cap altre)
 \end{description}
-    Exemple de configuració texte
+    Exemple de configuració
 {\setlinespacing{1}
 \begin{verbatim}
         + AgentMultiple1:
@@ -520,7 +518,7 @@ les línies de configuració.
         \\- id(Actiu/Inactiu): cicle actiu o inactiu
         \\- uint32: període restant del cicle actual
 \end{description}
-    Exemple de configuració texte
+    Exemple de configuració
 {\setlinespacing{1}
 \begin{verbatim}
         + Temporitzador1
@@ -792,7 +790,50 @@ A continuació es presenta un exemple complert:
 \subsection{Disseny del abocat a disc i de la recuperació}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-TODO: Agents: Disseny del abocat a disc i de la recuperació
+Per abocar a disc i per recuperar un agent, tota la feina bruta la fa
+la classe abstracta factoria {\tt CAgent}.
+
+En l'abocat, {\tt CAgent} engega primer un recorregut en arbre per 
+abocar les noms i els tipus dels agents. Després, en fa un altre per
+fer el mateix amb els paràmetres.
+
+En la recuperació, la classe {\tt CAgent} llegeix els noms i els tipus. 
+Amb el tipus, crea l'objecte corresponent i després l'introdueix en un
+diccionari que relaciona els noms del fitxer amb el punter a memòria.
+
+Tot agent té un nom únic al sistema. En un arxiu, aquest nom serveix
+per fer-ne referència. En memòria les referències es fan directament 
+amb punters i el nom només serveix per quan ho grabem.
+
+Però, quan llegim un arxiu d'agents, és possible que un nom dels que 
+es fan servir al fitxer ja es trobi a memòria i caldrà renombrar-ho. 
+Per això, es mantenen les els noms de referència del fitxer, mitjançant 
+un diccionari.
+
+Posteriorment, per a cada secció de paràmetres, la classe factoria
+{\tt CAgent} determina a quin agent pertany la secció i li va enviant
+noms de paràmetres i les restes de la línia corresponent per que el
+agent es configuri.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Els paràmetres}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Donat que hi ha diversos nivells de subclasses als agents i cadascuna
+té els seus paràmetres a configurar, es segueix la mateixa estratègia
+que segueix el pas de missatges amb el que Smalltalk implementa 
+l'herència.
+
+Cada subclasse de {\tt CAgent} té uns paràmetres que reconeix, i que 
+pot configurar. Si un objecte agent rep un nom de parametre i un 
+stream amb el valor, mira si el parèmetre és un dels que reconeix,
+si sí ho és, parseja l'stream com li interesi.
+Si no és un paràmetre seu, ho deixa a la subclasse.
+Si arriba a {\tt CAgent} i no ha estat configurat es dóna un error.
+
+Per abocar, simplement cada subclasse aboca els seus paràmetres i
+indica a la seva superclasse que faci el mateix amb els seus.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage

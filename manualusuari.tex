@@ -72,7 +72,7 @@ DEVICE=$WINNT$\SYSTEM32\ANSI.SYS
 \end{itemize}
 
 Per canviar el nombre de linies de la pantalla, si ho fem al mateix lloc
-ke ho feiem a Windows 95, no en fa cas. Cal seguir les següents passes:
+que cal fer-ho a Windows 95, no en fa cas. Cal seguir les següents passes:
 \begin{itemize}
 \item Executar el programa
 \item Accedir a l'opcio propietats del menu de sistema de la finestra.
@@ -91,9 +91,10 @@ Windows NT.
 \subsection{Terminal ANSI de 50 linies sota Linux}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-A linux ja hi ha ANSI per defecte tant a terminals texte com a X-terms.
+A linux ja hi ha ANSI per defecte tant a terminals en mode text com a X-terms.
 
 Per obtindre un terminal 80x50 aquí hi han unes solucions.
+
 \begin{tabular}{lp{5in}}
 Xterms & Simplement, cal augmentar el tamany de la finestra fins que hi
 capiguen 80x50 linies. \\
@@ -118,7 +119,109 @@ A continuació s'expliquen en detall.
 \subsection{Arxiu {\tt bioscena.ini}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-TODO: Explicacio del bioscena.ini
+Aquest arxiu defineix una sèrie de paràmetres numèrics que es fan servir
+per configurar el biosistema. Consta d'un seguit de línies on cadascuna
+defineix un paràmetre i tè una estructura semblant a aquesta:
+
+\begin{verbatim}
+* Apartat/SubApartat/../NomDelParàmetre 4
+\end{verbatim}
+
+A continuació s'expliquen els paràmetres més importants. Entre parèntesis
+es posa el valor que l'eina adopta per omisió.
+
+\begin{description}
+\item[Biosistema/Energia/FixeInstruccio]	(1)
+Cost que, com a mínim, té una instrucció pel fet d'executar-se.
+\item[Biosistema/Energia/AdicionalInutil]	(1)
+Cost adicional que té una instrucció motora, si falla la seva execució.
+\item[Biosistema/Energia/Engolir]	(6)
+Guany que rep un organisme pel fet d'engolir un nutrient.
+\item[Biosistema/Energia/Excretar]	(3)
+Cost adicional d'excretar un nutrient
+\item[Biosistema/Energia/Extraccio]	(6)
+Guany per cada nutrient extret per agressio a una victima (i cost per la victima)
+\item[Biosistema/Energia/InicialExpontani]	(10)
+Energia amb la que comença un organisme aleatori
+\item[Biosistema/Energia/Mitosi/Cedida]	(15)
+Energia que es cedeix al fill en la mitosi
+\item[Biosistema/Energia/Mitosi/Factor]      (2)
+Factor pel que es multiplica l'energia que es cedeix al fill per obtindre el cost de la Mitosi
+\item[Biosistema/Energia/Mitosi/Minima]      (20)
+Mínima energia requerida per entrar a fer la mitosi (no es consumeix)
+\item[Biosistema/Energia/Mitosi/CostNoMinima]        (2)
+Cost d'haver entrat a fer la mitosi sense l'energia mínima
+\item[Biosistema/Energia/Moviment]   (0)
+Cost adicional per instruccions de moviment
+\item[Biosistema/Metabolisme/BitsSignificatius]      (7)
+Màscara amb els bits significatius de les claus dels nutrients
+\item[Biosistema/OpCodes/BitsOperacio]       (5)
+El bits del bytecode que són significatius
+\item[Biosistema/Quantum/Maxim]	(4)
+Màxim nombre d'instruccions que s'executen de cop (El primer quantum que s'acabi mana)
+\item[Biosistema/Quantum/Utils]	(2)
+Màxim nombre d'instruccions útils que s'executen de cop (El primer quantum que s'acabi mana)
+\item[Biotop/CasellesAltitud]	(30)
+Posicions que tè el biòtop d'altura
+\item[Biotop/CasellesAmplitud]	(30)
+Posicions que tè el biòtop d'amplitud
+\item[Biotop/Substrat/MaximInicial]  (7)
+Maxims nutrients que pot contenir una sola posició del biòtop
+\item[Biotop/Substrat/MolleculesInicials/Numero]     (2)
+Nombre de nutrients amb els que s'omple cada casella del biòtop en iniciar l'execució
+\item[Biotop/Substrat/MolleculesInicials/Element]    (0)
+Element base que es fa servir per omplir cada casella del biòtop en iniciar l'execució
+\item[Biotop/Substrat/MolleculesInicials/Tolerancia] (3)
+Tolerancia sobre l'element base per omplir cada casella del biòtop en iniciar l'execució
+\item[Comunitat/TamanyRegeneracio]   (27)
+Tamany de la població per sota del qual el biosistema sempre genera organismes aleatoris.
+\item[Comunitat/ProbabilitatGeneracioExpontanea/Encerts]     (1)
+Probabilitat de que es generi un organisme aleatori independentment del tamany de regeneració (Numerador)
+\item[Comunitat/ProbabilitatGeneracioExpontanea/Mostra]      (50)
+Probabilitat de que es generi un organisme aleatori independentment del tamany de regeneració (Denominador)
+\item[Organisme/Cromosoma/LongitudMaxima]    (10)
+Nombre màxim de codons d'un cromosoma d'un organismes aleatori
+\item[Organisme/Cromosoma/LongitudMinima]    (1)
+Nombre mínim de codons d'un cromosoma d'un organismes aleatori
+\item[Organisme/Cariotip/LongitudMaxima]     (10)
+Nombre màxim de cromosomes d'un organismes aleatori
+\item[Organisme/Cariotip/LongitudMinima]     (3)
+Nombre mínim de cromosomes d'un organismes aleatori
+\item[Organisme/Cariotip/PenalitzacioLlarg/BitsTamanyMaxim]  (8)
+Bits que es shifta a la dreta el tamany en codons del cariotip per penalitzar els cariotips massa llargs
+\item[Organisme/Cariotip/PenalitzacioLlarg/Factor]   (6)
+Factor per el que es multiplica el tamany del cariotip shiftat per obtindre el cost adicional pels cariotips massa llargs
+\item[Organisme/Energia/CaducitatCompartiments]      (20)
+El nombre d'instruccions que triga en caducar el compartiment d'energia més vell.
+\item[Organisme/Energia/Compartiments]       (8)
+Nombre de compartiments d'energia que té l'organisme.
+\item[Organisme/Fenotip/Longitud]    (16)
+Nombre de registres que formen el fenotip.
+\item[Organisme/Genotip/Intro/Mascara]       0
+La màscara que determina si un codó és un intró
+\item[Organisme/Genotip/Promotor/Mascara]    1048576
+La màscara que determina si un codó és un promotor
+\item[Organisme/Genotip/Terminador/Mascara]  1048576
+La màscara que determina si un codó és un terminador
+\item[Organisme/Genotip/Traduibilitat/Intents]       5
+El nombre de gens que es miren si són traduïbles abans de refusar traduir-ne cap.
+\item[Organisme/Genotip/ZonaOperadora/Mascara]       (65536)
+La màscara que determina si un codó pertany encara a la zona operadora
+\item[Organisme/Pap/Capacitat]       (10)
+Nombre de nutrients que pot contenir l'organismes
+\item[Organisme/ProbabilitatMutacio/Encerts] (1)
+Determina la probabilitat de que es doni una mutació (Numerador).
+\item[Organisme/ProbabilitatMutacio/Mostra]  (15)
+Determina la probabilitat de que es doni una mutació (Denominador).
+\item[Sensor/Intern/Intents]	(10)
+Les vegades que un organismes prova trobar un nutrient en el pap quan vol detectar-ho.
+\item[Sensor/Presencia/Intents]	(30)
+El nombre de posicions en les que es prova mirar si hi ha algú que compleix les condicions de presència.
+\item[Sensor/Quimic/Intents]	(10)
+El nombre de posicions en les que es prova mirar si hi ha nutrients amb les condicions especificades.
+
+\end{description}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Arxiu {\tt opcodes.ini}}
@@ -160,7 +263,7 @@ elements de cada línia, va un espai o tabulador.
 
 La taula \ref{tab:mnemonics} es citen tots els mnemònics implementats:
 
-\begin{table}[h]
+\begin{table}[ht]
 \centering
 \begin{tabular}{|cccc|}
 \multicolumn{4}{c}{Instruccions Motores}\\
@@ -200,16 +303,152 @@ detall a l'apartat \ref{sec:agentsExterns} de la memòria.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Interpretació de la sortida per pantalla}
+\subsection{La pantalla}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Interpretació dels logs i les dades de sortida}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Quan executem el programa, un cop carregats els fitxers de configuració,
+s'ens presenta una pantalla d'ajuda a la que podem tornar sempre que
+volguem prement 'H' i return. Aquesta pantalleta explica breument les
+comandes que hi ha. Per començar a executar la simulació premem return.
+
+El que es pot veure es una pantalla semblant a la de la figura 
+\ref{fig:pantalla1}. El de la esquerra és un mapa del món, el de la
+dreta és un gràfic comparatiu dels organismes que hi ha vius en cada 
+moment. De banda d'aquests dos elements, hi ha un indicadors del tamany
+de la població, el temps transcorregut i les coordenades on es troba
+la cantonada superior esquerra del mapa.
+
+\begin{figure}[ht]
+\fbox{\pdfimage width 6in {pantalla1.png}}
+\label{fig:pantalla1}
+\caption{Pantalla Mapa/Comparativa}
+\end{figure}
+
+Per entrar qualsevol comanda, podem entrar una tecla, en aquest moment
+ens sortirar un prompt {\tt Comanda:} que ens permet visualitzar i
+corregir la nostra entrada. Un cop feta premem return i s'executarà.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Intervenció}
+\subsection{El mapa del món}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+El mapa representa dues coses:
+
+\begin{itemize}
+\item Els organismes, representats per números de colors. Un número i
+un color diferencien cada grup reproductiu.
+\item La quantitat de nutrients en cada posició, representada per un 
+punt de color. Per ordre de magnitud, els colors són: negre(0), vermell(1),
+verd(2), taronja(3), blau fosc(4), lila(5), cyan(6) i blanc fosc(7).
+\end{itemize}
+
+Si el món representat és més petit que la zona del mapa, aquest es
+repetirà en forma de mosaic, la qual cosa ajuda a veure les conexions
+de la superfície toroidal.
+Si és més gran, podem fer servir el teclat per veure les altres zones
+en direcció nord(W), sud (S), est(D) i oest(A). La lletra en minúscula
+avança una posició, en majúscula avança una pantalla sencera.
+
+L'indicador de coordenades ajuda a saber on som.
+
+Per desactivar el mapa i deixar més espai pels altres elements gràfics
+cap premer a la 'M' majúscula i retorn. Per tornar-ho a activar es prem
+la 'm' minúscula.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{El gràfic comparatiu}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+En quant al grafic conparatiu, representa per a cada organisme
+\begin{itemize}
+\item l'energia (amb el símbol '\verb"*"'), 
+\item l'edat (el símbol '\verb"-"'), i 
+\item el grup reproductiu, amb la mateixa codificació que el mapa
+\end{itemize}
+
+L'escala que es fa servir per l'energia i l'edat es logarítmica o 
+linial segons s'hagi configurat. Per defecte, és logarítmica per 
+tots dos valors.
+
+El factor d'escala de les gràfiques és dinàmic, això vol dir que
+canvia a mesura que el valor màxim creix o decreix.
+Per tenir una referència, la banda de color verda que apareix al
+gràfic representa el valor 255 per la edat i, la taronja, 65535.
+
+Cada organisme té durant la seva vida un lloc fixe al gràfic, que
+es correspon amb un número en base octal que l'identifica. 
+El numero que es trova a la primera filera de números és el digit
+octal de menys pes, el color indica el segon. Podem veure un
+organisme per dins prement la 'v' i escrivint el seu codi octal.
+
+Quan un lloc en la gràfica ja no està ocupat per cap organisme, 
+s'indica amb una {\tt X}.
+
+Per desactivar la comparativa d'organismes i deixar més espai pels
+altres elements gràfics cap premer a la 'O' majúscula i retorn. 
+Per tornar-ho a activar es prem la 'o' minúscula.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Detall de les accions}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Per veure un log amb el detall de les accions que es produeixen al 
+biosistema, cal prèmer la tecla 'l' minúscula. Per treure el log,
+cal prèmer la 'L' majúscula.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Pas de visualtització}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+La visualizació enlenteix molt el sistema, si es vol anar més ràpid
+es pot saltar un nombre de intervals de temps determinats. Per indicar
+un pas de visualització més relaxat cal prèmer la 'j' i després el 
+número de passos que ens volem saltar entre visualització i 
+visualització.
+
+A les proves, s'ha pogut comprovar que, en un Pentium II, un pas de 10 
+fa que els moviments dels organismes semblin més naturals. Un pas de 
+100 no et permet veure en detall qué és el que passa però, és suficient
+per advertir a temps els canvis bruscos que es donen sovint en la 
+població.
+
+Cal recordar que les unitats de temps que es calculen són les de 
+simulació, i poden durar més o menys segons el tamany de la població.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Modificant la configuració durant la simulació}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+A vegades, és complex programar una configuració d'agents per fer que 
+variï al llarg de molt temps. Pot resultar més fàcil modificar-ho
+quan ho necessitem, carregant l'arxiu de configuració d'agents amb un
+contingut diferent. També seria útil
+
+La tecla {\tt r} recarrega el fitxer de configuració d'agents 
+{\tt bioscena.ini} i {\tt R}, en majúscules, carrega el fitxer de 
+configuració d'agents que s'indiqui a continuació.
+Si no s'especifica cap o un d'erroni, donarà un error i es continuarà
+sense cap agent que actui sobre el biosistema. Això és molt útil per
+simular un cataclisme o una crisis, doncs desapareixen tots els agents 
+que diposisten nutrients.
+
+La forma d'actuar recomanada es tenir un arxiu {\tt bioscena.ini} amb
+una situació normal, i diversos arxius amb configuracions d'agents 
+que implementin situacións excepcionals.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Altres comandes}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{tabular}{lp{6in}}
+p & Congela el biosistema, permetent fer altres operacions sense que
+    la situació canviï \\
+P & Descongela el biosistema \\
+e & Fa que els taxons de pare i fill siguin diferents en fer una mutació \\
+E & Fa que els taxons de pare i fill siguin iguals encara que hi hagi una mutació \\
+H/h & Presenta la pantalla d'ajut \\
+Q/q & Surt del programa \\
+\end{tabular}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
