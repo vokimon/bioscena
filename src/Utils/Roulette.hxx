@@ -51,7 +51,7 @@ public:
 	operator t_value()
 	{
 		// Throw the needle
-		t_size neddle=rnd.get(0,m_maximum-1);
+		t_size neddle=Random::Get(0,m_maximum-1);
 		return spin(neddle);
 	}
 	/**
