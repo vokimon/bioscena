@@ -35,15 +35,16 @@ void CRandomStream::ProvaClasse(void)
 		if (i>max) max=i;
 		else if (i<min) min=i;
 		else continue;
-		std::cout << "Num: "
-			<< hex << setw(8) << setiosflags(ios::internal) << setfill('0')
-			<< j << "  max:" 
-			<< hex << setw(8) << setiosflags(ios::internal) << setfill('0')
-			<< max << "  random:" 
-			<< hex << setw(8) << setiosflags(ios::internal) << setfill('0')
-			<< i << "  min:" 
-			<< hex << setw(8) << setiosflags(ios::internal) << setfill('0')
-			<< min <<endl;
+		std::cout 
+			<< "Num: " 
+			<< hex << setw(8) << setiosflags(ios::internal) << setfill('0') << j
+			<< "  max:" 
+			<< hex << setw(8) << setiosflags(ios::internal) << setfill('0') << max 
+			<< "  random:" 
+			<< hex << setw(8) << setiosflags(ios::internal) << setfill('0') << i 
+			<< "  min:" 
+			<< hex << setw(8) << setiosflags(ios::internal) << setfill('0') << min
+			<< endl;
 	}
 	std::cout << dec << setfill(' ');
 }
