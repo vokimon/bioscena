@@ -23,8 +23,8 @@ class CBiotop: public Topology
 // Tipus propis
 public:
 	typedef Topology inherited;
-	typedef inherited::t_posicio t_posicio;
-	typedef inherited::t_desplacament t_desplacament;
+	typedef inherited::t_position t_position;
+	typedef inherited::t_displacement t_displacement;
 	typedef Cella t_cella;
 // Atributs
 protected:
@@ -59,28 +59,28 @@ public:
 		}			
 		return str;
 	}
-	virtual t_posicio desplacament (t_posicio origen, t_desplacament movimentRelatiu)
+	virtual t_position desplacament (t_position origen, t_displacement movimentRelatiu)
 	// Retorna la posicio resultant de fer el desplacament des de l'origen
 	{
 		return m_topologia->desplacament(origen, movimentRelatiu);
 	}
-	virtual t_posicio desplacamentAleatori (t_posicio origen, uint32 radi)
+	virtual t_position desplacamentAleatori (t_position origen, uint32 radi)
 	// Retorna la posicio resultant de tants desplacaments aleatoris des de l'origen com indiqui el radi
 	{
 		return m_topologia->desplacamentAleatori(origen, radi);
 	}
-	virtual bool esPosicioValida(t_posicio cassella) 
+	virtual bool esPosicioValida(t_position cassella) 
 	// Indica si la posicio es valida
 	{
 		return m_topologia->esPosicioValida(cassella);
 	}
-	virtual bool unio (t_posicio posOrigen, t_posicio posDesti, t_desplacament & desp)
+	virtual bool unio (t_position posOrigen, t_position posDesti, t_displacement & desp)
 	// Retorna cert si es posible unir-les amb un sol desplacament, a desp hi es
 	// el desplacament per unir-les o apropar-les
 	{
 		return m_topologia->unio(posOrigen, posDesti, desp);
 	}
-	virtual t_posicio posicioAleatoria() 
+	virtual t_position posicioAleatoria() 
 	// Retorna una posicio aleatoria
 	{
 		return m_topologia->posicioAleatoria();
@@ -93,7 +93,7 @@ public:
 // Operacions
 public:
 	Topology * topologia() const {return m_topologia;}
-	t_cella &operator [] (t_posicio index) 
+	t_cella &operator [] (t_position index) 
 	{
 		if ((index>=tamany())||(index<0)) {
 			error << "Accedint a una cella de la Topologia no existent" << endl;

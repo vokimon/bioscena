@@ -15,7 +15,7 @@ template <> void CBiotop<CSubstrat>::ProvaClasse(void)
 	int escala[]={7,6,4,4,12,14,15,9};
 	Topology topologia(400);
 	CBiotop biotop(&topologia);
-	t_posicio cuc[7]={130,130,130,130,130,130,130};
+	t_position cuc[7]={130,130,130,130,130,130,130};
 	while (cuc[0]!=8) {
 		for (i=7;i--;) biotop[cuc[i]].ocupa(escala[6-i]);
 		biotop[cuc[6]].desocupa();
@@ -26,7 +26,7 @@ template <> void CBiotop<CSubstrat>::ProvaClasse(void)
 			out << setw(1) << CColor(s.numeroMollecules()) << (s.ocupant()?'.':char('A'+s.ocupant()));
 		}
 		out << dec << endl;
-		t_desplacament direccio;
+		t_displacement direccio;
 		rnd >> direccio;
 		for (i=6;i--;) cuc[i+1]=cuc[i];
 		cuc[0]=topologia.desplacament(cuc[0],direccio);

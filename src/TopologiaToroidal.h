@@ -41,8 +41,8 @@ class Torus : public Topology
 // Tipus interns
 public:
 	typedef Topology inherited;
-	typedef inherited::t_posicio t_posicio;
-	typedef inherited::t_desplacament t_desplacament;
+	typedef inherited::t_position t_position;
+	typedef inherited::t_displacement t_displacement;
 	enum t_DireccionsBasiques 
 	{
 		UP        = 0x00,
@@ -63,11 +63,11 @@ public:
 	uint32 alcada() const {return m_yMax;}
 // Redefinibles
 public: 
-	virtual inline t_posicio desplacament (t_posicio origen, t_desplacament movimentRelatiu) const;
-	virtual inline bool unio (t_posicio posOrigen, t_posicio posDesti, t_desplacament & desp) const;
-	virtual inline t_posicio desplacamentAleatori (t_posicio posOrigen, uint32 radi) const;
-	virtual inline t_desplacament invers(t_desplacament desp) const;
-	virtual inline t_desplacament desplacamentNul() const;
+	virtual inline t_position desplacament (t_position origen, t_displacement movimentRelatiu) const;
+	virtual inline bool unio (t_position posOrigen, t_position posDesti, t_displacement & desp) const;
+	virtual inline t_position desplacamentAleatori (t_position posOrigen, uint32 radi) const;
+	virtual inline t_displacement invers(t_displacement desp) const;
+	virtual inline t_displacement desplacamentNul() const;
 // Atributs
 protected:
 	uint32 m_xMax;
@@ -82,7 +82,7 @@ public:
 // Redefinibles
 //////////////////////////////////////////////////////////////////////
 
-Torus::t_posicio Torus::desplacament(t_posicio origen, t_desplacament movimentRelatiu) const
+Torus::t_position Torus::desplacament(t_position origen, t_displacement movimentRelatiu) const
 {
 	// Descomentar la seguent linia perque el 4art bit del nibble
 	// indiqui la seva inibicio i no la seva activacio 
@@ -110,7 +110,7 @@ Torus::t_posicio Torus::desplacament(t_posicio origen, t_desplacament movimentRe
 		}
 }
 
-bool Torus::unio (t_posicio posOrigen, t_posicio posDesti, t_desplacament & desplacament) const
+bool Torus::unio (t_position posOrigen, t_position posDesti, t_displacement & desplacament) const
 {
 	uint32 x1 = posOrigen % m_xMax;
 	uint32 y1 = posOrigen / m_xMax;
@@ -180,7 +180,7 @@ bool Torus::unio (t_posicio posOrigen, t_posicio posDesti, t_desplacament & desp
 	return !(dx || dy);
 }
 
-Torus::t_posicio Torus::desplacamentAleatori (t_posicio posOrigen, uint32 radi) const
+Torus::t_position Torus::desplacamentAleatori (t_position posOrigen, uint32 radi) const
 {
 	// El radi esta expressat en desplacaments basics (4 bits) -> en un vector de 
 	// desplacament (32 bits) hi han 8 de basics.
@@ -195,11 +195,11 @@ Torus::t_posicio Torus::desplacamentAleatori (t_posicio posOrigen, uint32 radi) 
 	return posDesti;
 }
 
-Torus::t_desplacament Torus::invers(t_desplacament desp) const {
+Torus::t_displacement Torus::invers(t_displacement desp) const {
 	return desp ^ 0x77777777;
 }
 
-Torus::t_desplacament Torus::desplacamentNul() const {
+Torus::t_displacement Torus::desplacamentNul() const {
 	return 0;
 }
 
