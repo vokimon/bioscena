@@ -133,7 +133,7 @@ void CCromosoma::fusiona(CCromosoma const & c)
 	copy(c.m_codons, c.m_codons+c.tamany(), tmp+tamany());
 	alliberaCodons();
 	copiaCodonsSuperficialment(tmp, tamanyFinal);
-	m_enSocPropietari=true;	
+//	m_enSocPropietari=true;	
 }
 
 void CCromosoma::parteix(CCromosoma & c, uint32 centromer)
@@ -158,7 +158,7 @@ void CCromosoma::initCodons(void)
 		out << "CCromosoma: Initant les variables relatives als codons" << endl;
 	m_codons=NULL;
 	m_nCodons=0;
-	m_enSocPropietari=false;
+//	m_enSocPropietari=false;
 }
 	
 bool CCromosoma::ocupaCodons(uint32 nCodons)
@@ -173,7 +173,7 @@ bool CCromosoma::ocupaCodons(uint32 nCodons)
 		return false;
 	m_codons=codons;
 	m_nCodons=nCodons;
-	m_enSocPropietari=true;
+//	m_enSocPropietari=true;
 	return true;
 }
 
@@ -184,14 +184,14 @@ void CCromosoma::copiaCodonsSuperficialment(uint32 * codons, uint32 nCodons)
 		out << "CCromosoma: Referenciant a un altre cromosoma" << endl;
 	m_codons=codons;
 	m_nCodons=nCodons;
-	m_enSocPropietari=false;
+//	m_enSocPropietari=false;
 }
 
 void CCromosoma::alliberaCodons(void)
 {
 	if (tracePrivate)
 		out << "CCromosoma: Alliberant els codons" << endl;
-	if (m_codons&&m_enSocPropietari)
+	if (m_codons/*&&m_enSocPropietari*/)
 		delete[] m_codons;
 	initCodons();
 }

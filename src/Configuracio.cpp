@@ -66,6 +66,7 @@ CConfiguracio::CConfiguracio()
 	set("Biosistema/OpCodes/BitsOperacio",5);
 	set("Sensors/Localitzacio/Intents",10);
 	set("Sensors/Identificacio/Intents",10);
+	set("Biosistema/Energia/MitosiFactor",6);
 }
 
 CConfiguracio::~CConfiguracio()
