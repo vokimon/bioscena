@@ -156,15 +156,15 @@ void CSubstrat::ProvaClasse ()
 
 ostream & operator<< (ostream & stream, CSubstrat s) 
 {
-	stream 
-		<< CColor(1+s.numeroMollecules()) << "o";
-/*	if (s.esOcupat()) {
+//	stream 
+//		<< CColor(1+s.numeroMollecules()) << "o";
+	if (s.esOcupat()) {
 		stream 
-			<< blanc.fons(groc) << char('A'+(s.ocupant()&0x1F)); 
+			<< CColor(1+s.numeroMollecules()) << char('0'+(s.ocupant()&0xF)); 
 	}
 	else 
-		stream << blanc << "_";
-*/
+		stream << CColor(1+s.numeroMollecules())  << "-";
+
  
 	return stream;
 }

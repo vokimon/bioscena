@@ -101,7 +101,7 @@ void CMultiAgent::ProvaClasse()
 {
 	out << "\033[J";// Un clrscr xapuser pero standard (ANSI)
 	out << blanc.brillant() << "Provant MultiAgent" << blanc.fosc() << endl;
-	CTopologiaToroidal<CSubstrat> biotop(70,24);
+	CTopologiaToroidal<CSubstrat> biotop(40,20);//(70,24);
 
 	CMultiAgent agents;
 
@@ -129,12 +129,12 @@ void CMultiAgent::ProvaClasse()
 
 	// Posicionador
 	CPosicionador* posicioCentral = new CPosicionador(biotop);
-	posicioCentral->pos(1085);
+	posicioCentral->pos(685);
 	agents.accio(posicioCentral);
 
 	CPosicionador* posicio2 = new CPosicionadorZonal(biotop);
 	((CPosicionadorZonal*)posicio2)->posicionador(posicioCentral);
-	((CPosicionadorZonal*)posicio2)->radi(10);
+	((CPosicionadorZonal*)posicio2)->radi(3);
 	agents.accio(posicio2);
 
 	CIterador * iterador2 = new CIterador;

@@ -57,7 +57,7 @@ void CComunitat::dumpDisponibles(CMissatger & msg)
 // Operacions
 //////////////////////////////////////////////////////////////////////
 
-uint32 CComunitat::introdueix(COrganisme* org, uint32 taxo, uint32 posicio)
+uint32 CComunitat::introdueix(COrganisme* org, uint32 posicio, uint32 taxo)
 	// PRE: org és un punter vàlid
 {
 	uint32 index;
