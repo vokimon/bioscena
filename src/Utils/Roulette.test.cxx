@@ -16,6 +16,19 @@ using Bioscena::Roulette;
 
 namespace BioscenaTest {
 
+class RouletteConstructionTest;
+CPPUNIT_TEST_SUITE_REGISTRATION(RouletteConstructionTest);
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( RouletteConstructionTest, "RouletteTests");
+
+class RouletteOperationTest;
+CPPUNIT_TEST_SUITE_REGISTRATION(RouletteOperationTest);
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( RouletteOperationTest, "RouletteTests");
+
+class RouletteDistributionTest;
+CPPUNIT_TEST_SUITE_REGISTRATION(RouletteDistributionTest);
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( RouletteDistributionTest, "RouletteTests");
+
+
 class RouletteConstructionTest : public CppUnit::TestCase {
 	typedef CppUnit::TestCase super;
 	CPPUNIT_TEST_SUITE( RouletteConstructionTest );
@@ -101,8 +114,10 @@ protected:
 			_uniformRoulette->spin(10);
 			CPPUNIT_FAIL("Extra spinned roulette, did not throw an exception");
 		}
-		catch (Bioscena::ErrAssertionFailed) {
-			//TODO: Check that the assertion is ok
+		catch (Bioscena::ErrAssertionFailed & e) {
+			CPPUNIT_ASSERT_EQUAL(
+				std::string("Out of bounds of the roulette"),
+				std::string(e.what()));
 		}
 	}
 };
@@ -133,39 +148,43 @@ public:
 		delete _uniformRoulette;
 	}
 protected:
-	bool assertDistributionErrorAcceptable(double * ) {
-		return false;
+	void assertDistributionErrorAcceptable(
+			uint32 *histogram, 
+			uint32 niterations,
+			uint32 nbins) {
+		std::stringstream log("Histogram mismatch:\n");
+		uint32 tolerance=niterations/100;
+		bool allMatch = true;
+		for (uint32 i = 10; i--;) {
+			uint32 difference = 
+				std::abs(int32(histogram[i]*10-niterations));
+			if (difference < tolerance) continue;
+			log << "Bin" << 10+i << ": " << histogram[i] 
+				<< " Expected: " << niterations/nbins
+				<< std::endl;
+			allMatch = false;
+		}
+		CPPUNIT_ASSERT_MESSAGE(log.str().c_str(),allMatch);
 	}
 protected:
 	void testUniformSectors() {
 		const uint32 niterations = 0xfffff;
-		uint32 histograma[10] = {};
-		time_t t= time(NULL);
+		const uint32 nbins = 10;
+		const uint32 offset = 10;
+		uint32 histograma[nbins] = {};
+//		time_t t= time(NULL);
 		for (int i = niterations; i--;) {
 			uint32 value=(*_uniformRoulette);
-			CPPUNIT_ASSERT(value>=10 && value <20);
-			histograma[value-10]++;
+			CPPUNIT_ASSERT(value>=offset && value <offset+nbins);
+			histograma[value-offset]++;
 		}
-/*
-		std::cout << "Elapsed preallocated object: " << (time(NULL)-t) << std::endl;
-		for (int i = 10; i--;) {
-			std::cout << (double)histograma[i]/niterations << std::endl;;
-		}
-*/
+
+//		std::cout << "Elapsed preallocated object: " << (time(NULL)-t) << std::endl;
+		assertDistributionErrorAcceptable(histograma,niterations,nbins);
+
 	}
 };
 
-CPPUNIT_TEST_SUITE_REGISTRATION(RouletteConstructionTest);
-CPPUNIT_TEST_SUITE_REGISTRATION(RouletteOperationTest);
-CPPUNIT_TEST_SUITE_REGISTRATION(RouletteDistributionTest);
-CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( RouletteConstructionTest, "RouletteTests");
-CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( RouletteOperationTest, "RouletteTests");
-CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( RouletteDistributionTest, "RouletteTests");
-
 }
-/*
-CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ExceptionTest,
-	CppUnitTest::coreSuiteName() );
-*/
 
 
