@@ -107,7 +107,7 @@ de la seva obtenció, es disipa. La figura \ref{fig:modelMetabolic}
 indica els camins que poden fer els nutrients dins de l'organisme.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Presa de nutrients}
+\subsubsection{Ingestió}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Com s'ha explicat a la secció \ref{sec:biotop}, els nutrients tenen
@@ -118,8 +118,17 @@ clau o patró de cerca i una tolerància respecte a aquest patró.
 Per introduir un nutrient dins del seu cos, un organisme només té que
 precissar el lloc d'on vol extreure-ho (un substrat o un altre
 organisme a una posició determinada), si existeix l'element que
-compli aquest requisit i es donen totes les altres condicions
-necessàries, el nutrient és introduït al interior de l'organisme.
+compleixi aquest requisit i es donen totes les altres condicions
+necessàries, el nutrient és introduït a l'interior de l'organisme.
+
+Es possible configurar el sistema perque el fet d'engolir un nutrient
+comporti un guany energètic sense necessitat de processar-ho. 
+
+També seria possible configurar un nombre màxim de elements que
+es mantenen al pap. Això és molt aconsellat si, per les característiques
+del biosistema els organismes tendeixen a acomular excessius nutrients
+amb la conseqüent ocupació de memòria.
+Al igual que al substrat, si en sobren s'eliminen els més antics.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Metabolisme}
@@ -132,10 +141,9 @@ reacció, per mantenir-ho de reserva, o per excretar-ho.
 
 L'organisme pot fer ús de l'energia que s'obté de les reaccions
 durant un temps limitat, si no es consumeix dintre d'aquest temps,
-aquesta es disipa. Això es fa perquè els nutrients
-
+aquesta es disipa.
 Es preten que les diferents circumstàncies permetin que hi hagi un
-equilibri
+equilibri entre els nutrients acomulats i l'energia processada.
 
 Pot ser, una espècie tendeix a acomular masses nutrients. Si això
 passes, els seus depredadors tenderien a augmentar en nombre
@@ -166,11 +174,28 @@ Els nutrients excretats s'indiquen amb un element bàsic i una
 tolerància. Es fa una cerca, amb la funció de compatibilitat, dins
 dels nutrients que hi ha a l'interior de l'organisme.
 
+TODO: Balanç energètic de l'excreció
+TODO: Elements configurables de l'excreció
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Atac i defensa}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+Un organisme, de banda d'obtindre nutrients del medi, tambè els pot 
+obtindre d'altres organismes. Per fer-ho, només cal indicar una 
+posició on suposadament hi ha un altre organisme, un element base
+i una tolerància, i una clau d'atac. Aquesta clau d'atac, en 
+enfrentar-la a la clau de defensa de la victima en resulta la força
+final de l'atac. Aquesta força indica el nombre de vegades que es 
+provarà d'extreure un nutrient del pap de la victima segons l'element
+base i la tolerància.
+
+Com es pot deduir, d'un atac es poden obtindre molts nutrients al
+mateix temps. Això prova de compensar els desavantatges de 
+desenvolupar una conducta depredadora.
+
+TODO: Balanç energètic de l'atac
+TODO: Elements configurables de l'atac
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -274,7 +299,7 @@ significatius s'agrupen en {\bf gens}\index{gen!segons aquest
 projecte}, que s'interpreten a partir dels codons del cromosoma.
 
 Cada gen té una zona operadora\index{zona operadora} que activa o
-desactiva el gen segons certa condició que depen del fenotip o
+desactiva el gen segons certa condició que depèn del fenotip o
 indirectament, mitjançant el fenotip, del món exterior.
 
 La zona estructural (seguint de forma aproximada la nomenclatura de
@@ -301,9 +326,9 @@ que s'executaran amb el gen)
 Per raons d'optimització, aquesta transcripció es fa només una vegada
 durant la vida de l'organisme, encara que, a la natura, la
 transcripció de l'ADN es fa contínuament. Això no té implicacions
-massa importants, donat que ens guardem el significat de la zona
-operadora que ens serveix per simular el comportament temporal de la
-transcripció.
+massa importants, donat que ens guardem amb el gen el significat de 
+la seva zona operadora que ens serveix per simular el comportament 
+temporal de la transcripció.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -311,7 +336,7 @@ transcripció.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 El que anomenem propiament {\em fenotip}\index{fenotip!segons aquest
-projecte} és un conjunt de 32 registres de 32 bits que té cada
+projecte} és un conjunt de 16 registres de 32 bits que té cada
 organisme. Representen el cos físic de l'organisme.
 
 El fenotip es modifica per acció directa del genotip. Sovint, si es
@@ -344,7 +369,7 @@ En resum, el fenotip és el mecanisme principal d'interacció que tenen
 els organismes.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\subsubsection{Sensors i motors}
+%\subsubsection{Sensors}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -7,10 +7,10 @@ Aquest projecte planteja la simulació d'un sistema biològic
 natural evolutiu amb interacció entre els organismes dins
 d'un medi de variabilitat controlada.
 Es tracta de reproduir comportaments naturals o lògics en
-individuus mitjançant el procés evolutiu.
+individuus no cognitius mitjançant el procés evolutiu.
 Es vol estudiar si el fet d'acostar un algorisme genètic al
 procés real natural tenint més en compte aspectes biològics i
-naturals dona una major adaptabilitat a un medi variable.
+naturals dóna una major adaptabilitat a un medi variable.
 
 La part pràctica consisteix en la implementació d'un prototip que
 permeti a l'usuari veure les relacions que s'estableixen entre els
@@ -23,30 +23,35 @@ individuus al llarg del procés evolutiu.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 L'objectiu del present treball de fi de carrera és implementar una
-eina d'estudi ampliable, d'aplicació als camps de la biologia i la
-vida artificial que permeti a un usuari configurar, analitzar e
-intervindre en la dinàmica d'un sistema biològic evolutiu simulat amb
-interacció entre organismes i entre cada organisme i el medi
-variable.
+eina ampliable d'experimentació pels camps de la biologia i la
+vida artificial. Aquesta eina simularà un sistema biològic evolutiu 
+amb interacció entre organismes i entre cada organisme i el medi. 
+Ha de permetre a un usuari configurar el sistema, intervindre en la 
+seva dinàmica i oferir eines d'anàlisis per obtenir conclusions.
+
+Tot i que s'intentarà fer un sistema obert que pugui, en el futur,
+adaptar-se a molts tipus de sistemes, en aquest primer prototip hem
+implementat els organismes amb un sistema de control que simula
+els mecanismes de control sobre l'expressió gènica que es donen a la 
+natura.
 
 Per això, primer s'estudiaran els processos naturals (evolutius,
-etològics i ecològics), i es triaran aquells que siguin més
-susceptibles de èsser implementats i que afegeixin més realisme i
-generalitat al model. Hi haurà processos que s'implementaran
-directament al model, d'altres que s'espera que emergeixin. Tot i
-així, cal que considerem també els processos emergents de cara a fer
-el model per fer possible que els organismes els adoptin i detectar
-quan i com ho fan.
+etològics i ecològics) prou interessants per introduir-los en el 
+sistema. Es triaran dos tipus de processos: aquells que, 
+d'implementar-los, afegirien realisme al model, i, aquells que 
+s'expera observar en el comportament del biosistema de cara a fer
+un primer anàlisis.
 
 L'aplicació proveirà eines de configuració i intervenció perque
 l'usuari pugui controlar la forma en que varia el medi i, així, poder
 contrastar-ho amb els resultats obtinguts.
 
 També s'implementaran eines d'anàlisis per tal de que es puguin
-detectar els fenòmens que en l'estudi previ dels processos naturals
-es considerin interesants.
+detectar els fenòmens que es considerin interesants en l'estudi previ 
+dels processos naturals.
 
 El sistema ha de ser prou flexible per permetre l'experimentació amb
 configuracions prou variades. A més, cal donar a l'usuari programador
 l'espai necessari per modificar algun aspecte concret del model o
 ampliar les opcions donades, tot modificant el codi font.
+

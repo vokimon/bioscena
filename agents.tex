@@ -2,26 +2,26 @@
 % 19990804 23:00 - 23:45
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Agents}
+\section{Agents externs}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Trets generals}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Els agents són objectes que disparen una acció determinada quan són
-cridats. La majoria d'accions es produeixen sobre el biòtop, sobre
-la configuració d'altres agents o sobre paràmetres globals de
+Els agents externs són objectes que disparen una acció determinada 
+quan són cridats. La majoria d'accions es produeixen sobre el biòtop, 
+sobre l'estat d'altres agents externs o sobre paràmetres globals de
 configuració.
 
-El paper dels agents a dins del sistema és permetre a l'usuari
-controlar com evolucionarà l'entorn on es mouran els organismes
-de cara a obtindre resultats que s'hi puguin contrastar.
+El paper dels agents externs a dins del sistema és permetre a 
+l'usuari controlar com evolucionarà l'entorn on es mouran els 
+organismes de cara a obtindre resultats que s'hi puguin contrastar.
 Per sí mateix, el conjunt d'agents implementats permet configuracions
 molt complexes, però, a més, ofereix un seguit d'eines molt útils
 per que l'usuari-programador pugui ampliar aquests agents.
 
-Quan un agent es requerit per realitzar la seva acció, es diu que
+Quan un agent es cridat per realitzar la seva acció, es diu que
 l'agent ha sigut {\bf accionat}. Quan algú requereix un valor contingut
 en l'estat de l'agent es diu que l'agent ha sigut {\bf consultat}.
 
@@ -227,7 +227,7 @@ posició fan servir altres agents dels quals depenen.
 \item[{\bf Posicionador Zonal:}] Cada cop que és accionat pren una posició
     aleatoria dintre d'una zona.
     La zona es defineix per una posició central, determinada per un altre
-    posicionador de qual depen, i un radi, que no és més que el nombre de
+    posicionador de qual depèn, i un radi, que no és més que el nombre de
     desplaçaments aleatoris que es fan a partir d'aquesta posició central
     per trobar la posició final.
     Les posicions tendeixen a adoptar una distribució normal en l'entorn
@@ -274,7 +274,7 @@ direccional, però, no es descarten altres aplicacions futures.
 \end{description}
 
 A continuació es presenten exemples d'execució d'un posicionador
-direccional, que depen de diferents tipus de direccionadors.
+direccional, que depèn de diferents tipus de direccionadors.
 
 \begin{figure}[h]
     \centering

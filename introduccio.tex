@@ -11,7 +11,7 @@ entorn artificial.
 Aquesta disciplina va sorgir de cara a la biologia com a camp de
 proves alternatiu a la vida real, però, les aplicacions van
 extenent-se, per exemple, aportant noves perspectives a l'analisis,
-simulació i predicció de sistemes complexos no biològics i a
+simulació i predicció de sistemes complexos no biològics o a
 algorismes per la resolució de problemes als sistemes informàtics.
 
 Les aplicacions de la vida artificial tenen un seguit de
@@ -20,19 +20,18 @@ característiques més o menys comunes. Les principals són:
 \begin{description}
 \item[Mètode sintètic:]
 En comptes d'analitzar la vida, sintetitzem artificialment sistemes
-amb un comportament similar partint de premises que obtingudes de
-l'analisis dels sistemes reals.
+amb un comportament similar partint de premises que han sigut 
+obtingudes de l'analisis dels sistemes reals.
 
 \item[Construccio Botton-Up:]
 Es parteix de unitats petites, definint les interaccions locals, en
-comptes de partir del compontament global desitjat i anar perfilant
+comptes de partir del comportament global desitjat i anar perfilant
 com han de ser els components. El comportament global del sistema és
 un comportament que no estava explícitament dissenyat.
 
 \item[Emergència:]
-El fet de que apareixin aquests comportaments globals no dissenyats
-explícitament a partir d'un entramat complex d'interacions simples
-s'anomena emergència.
+És el fet de que apareixin aquests comportaments globals no dissenyats
+explícitament a partir de l'entramat complex d'interacions simples.
 
 \item[No lligat als sistemes reals:]
 Donat el seu caracter sintètic la vida no es limita a la vida
@@ -40,7 +39,7 @@ coneguda sinó que prova de extreure propietats generals per a
 qualsevol forma de vida possible.
 
 \item[Paral·lelisme implícit:]
-La complexitat dels sistemes vius es deguda, en part, a que els
+La complexitat dels sistemes vius és deguda, en part, a que els
 diferents processos es donen en paral·lel. Per fer això en els
 sistemes de vida artificial, tot i que no sempre sigui possible
 dedicar un processador a cada procés, sí que caldria fer servir
@@ -52,13 +51,6 @@ processos donin la impressió d'executar-se paral·lelament.
 
 
 \section{Antecedents}
-
-Concretament, l'objectiu del present treball de fi de carrera és
-implementar una eina d'estudi i experimentació amb aplicació als
-camps de la biologia i la vida artificial que permeti a un usuari
-configurar, analitzar e intervindre en la dinàmica d'un sistema
-biològic evolutiu simulat amb interaccions organisme-organisme i
-organisme-medi.
 
 Dels treballs que s'han fet sobre vida artificial, cal destacar,
 com a precedents, per la seva relació amb aquest projecte, els
@@ -79,9 +71,10 @@ controla amb la complexitat d'un model metabòlic: Per obtenir energia
 útil, a l'organisme no li basta amb introduir els nutrients dins seu,
 sinó que li cal juntar-los amb altres nutrients que produiran
 mitjançant una reacció, un balanç energètic, positiu o negatiu, i uns
-productes segons a una taula de reaccions. Bioscena partirà d'aquesta
-idea de l'entorn metabòlic de complexitat controlada i en farà
-algunes petites modificacions. La figura \ref{fig:modelMetabolicLEE}
+productes segons s'indica a una taula de reaccions. 
+
+Bioscena partirà d'aquesta idea de l'entorn metabòlic de complexitat 
+controlada. La figura \ref{fig:modelMetabolicLEE}
 mostra esquemàticament el sistema metabòlic implementat a LEE. La
 comparativa es pot fer amb la figura \ref{fig:modelMetabolic} que
 representa el model metabòlic implementat finalment en aquest
@@ -128,7 +121,7 @@ projecte.
         \end{tabular}
         &
         \begin{tabular}{|c|}
-             \hline Medi \\\hline
+            \hline Medi \\\hline
         \end{tabular}
     \end{tabular}
 \end{tabular}
@@ -136,26 +129,28 @@ projecte.
 \end{figure}
 
 %% TODO: Referència al Plasticity de LEE
-La plasticitat\index{plasticitat}, segons Beleg i Menezer, és la
-capacitat que té l'organisme de modificar el seu fenotip durant la
+La plasticitat\index{plasticitat}, segons Beleg i Menezer
+\cite{LEEPlasticity1994}, 
+és la capacitat que té l'organisme de modificar el seu fenotip durant la
 seva vida. Als LEE aquesta plasticitat els hi dona la xarxa neuronal,
 un sistema cognitiu. Però, trobem a la natura, que la resta
 d'organismes que no estan provistos d'un sistema cognitiu
 d'aprenentatge també presenten una plasticitat equivalent que els hi
 permet adaptar-se a tot un seguit de canvis.
 
-El que ens interesa comprovar és si els sistemes control sobre
-l'expressió gènica que es donen a natura poden ocupar el paper de les
-xarxes neuronals en el sentit de donar plasticitat als organismes no
-cognitius. La funció d'aquest control sobre l'expressió gènica és
-decidir, en cada moment, quin gens s'expressen i quins no, tot tenint
-en compte factors del medi i de l'estat intern.
+El que es vol comprovar com a primera experiència amb el sistema és 
+si els sistemes control sobre l'expressió gènica que es donen a 
+natura poden ocupar el paper de les xarxes neuronals en el sentit de 
+donar plasticitat als organismes no cognitius. La funció d'aquest 
+control sobre l'expressió gènica és decidir, en cada moment, quin 
+gens s'expressen i quins no, tot tenint en compte factors del medi i 
+de l'estat intern.
 
 A la natura, aquest control sobre l'expressió gènica, prové d'una
 certa complexitat en els mecanismes genètics. S'intentaràn
 implementar els màxims d'aquests mecanismes per tal de determinar
-l'influxe de cadascun sobre la plasticitat de l'organisme, activant
-uns i desactivant altres.
+l'influència de cadascun sobre la plasticitat de l'organisme, 
+activant uns i desactivant altres.
 
 \subsection{Projecte `Tierra'}
 
@@ -176,15 +171,17 @@ simbiosis, curses de braços, comportaments sexuals....
 
 A `Tierra', el genoma estava composat per un seguit d'instruccions
 que s'executaven cíclicament. Per modelar el comportament dels
-organismes de Bioscena, es fan servir, també, rafagues d'instruccions
+organismes de Bioscena, es fan servir, també, ràfegues d'instruccions
 que formen el genotip de forma semblant a com funcionava `Tierra'.
+
 Però, a `Tierra' el propòsit dels fragments de codi era el de
 replicar-se el més eficientment possible dintre d'un medi que estava
 composat només pels fragments de codi en competència. Aquí, en canvi,
 les instruccions hauran d'implementar funcions per interaccionar amb
-un medi que li és aliè. Per això, es farà sevir una estructura que
-farà de pont entre el medi i el codi genètic. D'ara en endavant,
-aquesta estructura serà la que anomenarem fenotip\index{fenotip}, tot
+un medi que simularà a un de natural, aliè a la seva estructura 
+interna. Per això, es farà sevir una estructura que farà de pont 
+entre el medi i el codi genètic. D'ara en endavant, aquesta 
+estructura serà la que anomenarem fenotip\index{fenotip}, tot
 i tenir present que el fenotip no el forma només aquesta estructura
 sinó que també hi forma part el comportament global observat i les
 altres variables d'estat internes de l'organisme. Simplement el diem
@@ -213,6 +210,19 @@ executada, però, sovint, la modificació també depen de:
     \label{fig:introFenotip}
     \caption{Graf de dependències entre el fenotip i els altres elements de l'organisme.}
 \end{figure}
+
+La introducció del fenotip, juntament amb els mecanismes de control 
+de l'expressió génica, marquen una altra diferència amb el model 
+`Tierra' que té a veure amb el control de fluxe.
+
+A `Tierra' el genotip és un conjunt d'instruccions que s'executen
+seqüencialment de forma cíclica. Té un control de fluxe basat en
+salts a patrons que supleix la debilitat davant de les mutacions
+que tindria un sistema de salts basats en adreces.
+
+A Bioscena el genotip està composat per diversos conjunts 
+d'instruccions. Un conjunt d'instruccions (gen) necessita que es 
+donin certes condicions al fenotip per poder ser executat.
 
 \section{Objectius del projecte}
 
@@ -246,8 +256,8 @@ El model tindrà diversos elements principals:
 \item El biòtop, que és el medi on viuran els organismes. Cal que
 permeti configuracions molt diverses per donar possibilitats
 d'experimentació. Per modificar el biòtop farem servir, sobretot, els
-agents, que són modificadors del biòtop dels quals es pot programar
-el seu efecte al llarg de temps. \footnote{La majoria de la
+agents externs, que són modificadors del biòtop dels quals es pot 
+programar el seu efecte al llarg de temps. \footnote{La majoria de la
 bibliografia de vida artificial anomena agents al que aquí anomenem
 organismes. Cal que quedi clar que els agents, en aquest projecte, no
 són els individuus que poblen el món, sinó una eina de configuració.}
@@ -291,13 +301,13 @@ el sistema per fer una modificació puntual.
 \end{enumerate}
 
 Els organismes de la simulació han de fer front a un medi variable,
-amb canvis caòtics o periòdics que es poden produir freqüentment al
-llarg de la vida d'un organisme o de forma progressiva en el decurs
-de diverses generacions. Amb la finalitat de que la comunitat tingui
-capacitat de reaccionar davant de tots aquests canvis, s'incorporen,
-als mecanismes evolutius que intervenen en la simulació, algunes
-característiques que es donen en els entorns evolutius naturals i
-que, clàssicament, no s'incorporen en els entorns evolutius
+amb canvis caòtics o periòdics que es poden produir de dos formes:
+freqüentment al llarg de la vida d'un organisme o de forma progressiva 
+en el decurs de diverses generacions. Amb la finalitat de que la 
+comunitat tingui capacitat de reaccionar davant de tots aquests canvis, 
+s'incorporen, als mecanismes evolutius que intervenen en la simulació, 
+algunes característiques que es donen en els entorns evolutius naturals 
+i que, clàssicament, no s'incorporen en els entorns evolutius
 computacionals.
 
 Les característiques naturals que s'estudiarà introduïr a l'entorn
@@ -324,7 +334,9 @@ concreta.
 
 \item[Cariotip multicromosòmic:] Divideix la dotació gènica en
 subunitats d'alt nivell que permeten traspasar de cop divers material
-genètic entre organismes i possibilita les mutacions cromosòmiques.
+genètic entre organismes i possibilita les mutacions cariotípiques
+\footnote{Per diferenciant-les de les gèniques o cromosòmiques. Els
+tipus de mutacions possibles es van comentant més endavant en la memòria.}.
 Amdues coses poden emergir en un creuament.
 %% TODO: Revisa esto ultimo que es una fantochada
 
