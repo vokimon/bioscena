@@ -15,7 +15,7 @@
 #include "RandomStream.h"
 #include "Color.h"
 
-using namespace AnsiCodes;
+namespace Bioscena {
 
 template<class Cella> 
 class CBiotop: public Topology  
@@ -59,15 +59,15 @@ public:
 		}			
 		return str;
 	}
-	virtual t_position desplacament (t_position origen, t_displacement movimentRelatiu)
-	// Retorna la posicio resultant de fer el desplacament des de l'origen
+	virtual t_position displace (t_position origen, t_displacement movimentRelatiu)
+	// Retorna la posicio resultant de fer el displacement des de l'origen
 	{
-		return m_topologia->desplacament(origen, movimentRelatiu);
+		return m_topologia->displace(origen, movimentRelatiu);
 	}
-	virtual t_position desplacamentAleatori (t_position origen, uint32 radi)
-	// Retorna la posicio resultant de tants desplacaments aleatoris des de l'origen com indiqui el radi
+	virtual t_position displaceRandomly (t_position origen, uint32 radi)
+	// Retorna la posicio resultant de tants displacements aleatoris des de l'origen com indiqui el radi
 	{
-		return m_topologia->desplacamentAleatori(origen, radi);
+		return m_topologia->displaceRandomly(origen, radi);
 	}
 	virtual bool esPosicioValida(t_position cassella) 
 	// Indica si la posicio es valida
@@ -75,8 +75,8 @@ public:
 		return m_topologia->esPosicioValida(cassella);
 	}
 	virtual bool unio (t_position posOrigen, t_position posDesti, t_displacement & desp)
-	// Retorna cert si es posible unir-les amb un sol desplacament, a desp hi es
-	// el desplacament per unir-les o apropar-les
+	// Retorna cert si es posible unir-les amb un sol displacement, a desp hi es
+	// el displacement per unir-les o apropar-les
 	{
 		return m_topologia->unio(posOrigen, posDesti, desp);
 	}
@@ -156,6 +156,8 @@ template<class Cella> void CBiotop<Cella>::reservaCasselles(uint32 tamany) {
 		}
 }
 
+
+}
 
 
 #endif // !defined(__KKEP_BIOTOP_H_INCLUDED)

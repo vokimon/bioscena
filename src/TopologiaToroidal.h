@@ -1,16 +1,6 @@
 // BiotopToroidal.h: interface for the CBiotopToroidal class.
 //
 //////////////////////////////////////////////////////////////////////
-// Change Log
-// 19990722 VoK - Fa servir templates per a les cel·les
-// 19990722 VoK - La superclasse reserva les casselles
-// 19990723 VoK - Rebautizat: BiotopToroidal -> TopologiaToroidal
-// 19991130 VoK - Adaptada desplacament aleatori per radis en desp. basics
-// 20000112 VoK - Fix: desp.aleat: el pic el calculava al reves
-// 20000120 VoK - Ja no es un template
-// 20000120 VoK - Fix lexic: Altura -> alcada
-// 20000708 VoK - esValidaCassella -> esPosicioValida
-//////////////////////////////////////////////////////////////////////
 
 #ifndef __KKEP_TOPOLOGIATOROIDAL_H_INCLUDED
 #define __KKEP_TOPOLOGIATOROIDAL_H_INCLUDED
@@ -45,7 +35,7 @@ public:
 	typedef inherited::t_position t_position;
 	typedef inherited::t_displacement t_displacement;
 	/** 
-	 * The building block for a displacement vector.
+	 * The building block for a displacement vectors.
 	 * Note that oposed directions are complementaries 
 	 * in order to speed up the oposite calculation.
 	 */
@@ -71,9 +61,9 @@ public:
 	uint32 width() const {return m_xMax;}
 // Redefinibles
 public: 
-	virtual inline t_position desplacament (t_position origen, t_displacement movimentRelatiu) const;
+	virtual inline t_position displace (t_position origen, t_displacement movimentRelatiu) const;
 	virtual inline bool unio (t_position posOrigen, t_position posDesti, t_displacement & desp) const;
-	virtual inline t_position desplacamentAleatori (t_position posOrigen, uint32 radi) const;
+	virtual inline t_position displaceRandomly (t_position posOrigen, uint32 radi) const;
 	virtual inline t_displacement invers(t_displacement desp) const;
 	virtual inline t_displacement nilDisplacement() const;
 // Atributs
@@ -90,7 +80,7 @@ public:
 // Redefinibles
 //////////////////////////////////////////////////////////////////////
 
-Torus::t_position Torus::desplacament(t_position origen, t_displacement movimentRelatiu) const
+Torus::t_position Torus::displace(t_position origen, t_displacement movimentRelatiu) const
 {
 	// Descomentar la seguent linia perque el 4art bit del nibble
 	// indiqui la seva inibicio i no la seva activacio 
@@ -118,7 +108,7 @@ Torus::t_position Torus::desplacament(t_position origen, t_displacement moviment
 		}
 }
 
-bool Torus::unio (t_position posOrigen, t_position posDesti, t_displacement & desplacament) const
+bool Torus::unio (t_position posOrigen, t_position posDesti, t_displacement & displacement) const
 {
 	uint32 x1 = posOrigen % m_xMax;
 	uint32 y1 = posOrigen / m_xMax;
@@ -167,14 +157,14 @@ bool Torus::unio (t_position posOrigen, t_position posDesti, t_displacement & de
 //	out << "dx: " << dx << (esquerra?"L":"R")<< " dy: " << dy << (adalt?"U":"D") << endl;
 
 	uint32 nBasics=8;
-	desplacament=0x00000000;
+	displacement=0x00000000;
 	basic = esquerra?(adalt?UP_LEFT:DOWN_LEFT):(adalt?UP_RIGHT:DOWN_RIGHT);
 	basic|=0x8;
 	while (dx&&dy&&nBasics) {
 		dx--;
 		dy--;
 		nBasics--;
-		desplacament|=basic<<(nBasics<<2);
+		displacement|=basic<<(nBasics<<2);
 	}
 	basic = dx?(esquerra?LEFT:RIGHT):(adalt?UP:DOWN);
 	basic|=0x8;
@@ -182,24 +172,24 @@ bool Torus::unio (t_position posOrigen, t_position posDesti, t_displacement & de
 		if (dx) dx--;
 		if (dy) dy--;
 		nBasics--;
-		desplacament|=basic<<(nBasics<<2);
+		displacement|=basic<<(nBasics<<2);
 	}
 
 	return !(dx || dy);
 }
 
-Torus::t_position Torus::desplacamentAleatori (t_position posOrigen, uint32 radi) const
+Torus::t_position Torus::displaceRandomly (t_position posOrigen, uint32 radi) const
 {
-	// El radi esta expressat en desplacaments basics (4 bits) -> en un vector de 
-	// desplacament (32 bits) hi han 8 de basics.
+	// El radi esta expressat en displacements basics (4 bits) -> en un vector de 
+	// displacement (32 bits) hi han 8 de basics.
 	// pe. Si tenim radi=45 -> 5 vectors * 8 basics/vector + 5 basics
 	// Recorda que el bit de mes pes de cada basic es un 'enabled'.
 
 	// Primer calculem els basics que en sobren
-	uint32 posDesti = desplacament(posOrigen, (rnd.get()|0x88888888) & ~(0xFFFFFFFF>>((radi&7)<<2)));
+	uint32 posDesti = displace(posOrigen, (rnd.get()|0x88888888) & ~(0xFFFFFFFF>>((radi&7)<<2)));
 	// Despres calculem vectors sencers amb 8 basics cadascun 
 	for (radi>>=3; radi--;)
-		posDesti = desplacament(posDesti,rnd.get()|0x88888888);
+		posDesti = displace(posDesti,rnd.get()|0x88888888);
 	return posDesti;
 }
 
