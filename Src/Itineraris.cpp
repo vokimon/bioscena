@@ -11,6 +11,7 @@
 #include "Biotop.h"
 #include "Color.h"
 
+using namespace Bioscena;
 using namespace AnsiCodes;
 
 //////////////////////////////////////////////////////////////////////
@@ -55,7 +56,7 @@ void CItinerari::operator() (void)
 		warning << "CItinerari " << nom() << " accionat sense posicionador" << endl;
 	else 
 		for (int i=m_radi; i--;)
-			m_pos = m_biotop.desplacament(m_pos, m_direccionador->dir());
+			m_pos = m_biotop.displace(m_pos, m_direccionador->dir());
 }
 
 void CItinerari::dump(CMissatger & msg)
@@ -113,12 +114,12 @@ void CPosicionadorZonal::operator() (void)
 		warning << "PosicionadorZonal sense Posicionador central" << endl;
 		return;
 	}
-	m_pos = m_biotop.desplacamentAleatori(m_posicionador->pos(),m_radi);
+	m_pos = m_biotop.displaceRandomly(m_posicionador->pos(),m_radi);
 	/* 
 	// Veure el ChangeLog 19991130.VoK Aixo es el que hi havia abans
 	m_pos=m_posicionador->pos();
 	for (int i=m_radi; i--;)
-		m_pos = m_biotop.desplacament(m_pos, rnd.get());
+		m_pos = m_biotop.displace(m_pos, rnd.get());
 	*/
 }
 
