@@ -59,6 +59,28 @@ public:
 	static string Tipus();
 };
 
+class CMutacioPerTranslocacio: public CMutacioCariotip
+{
+// Redefinibles
+public:
+	virtual void muta (CCariotip & c);
+	virtual string tipus();
+// Funcions estatiques
+public:
+	static string Tipus();
+};
+
+class CMutacioPerTranslocacioReciproca: public CMutacioCariotip
+{
+// Redefinibles
+public:
+	virtual void muta (CCariotip & c);
+	virtual string tipus();
+// Funcions estatiques
+public:
+	static string Tipus();
+};
+
 class CEuploidiaPositiva: public CMutacioCariotip
 {
 // Redefinibles
