@@ -2,6 +2,7 @@
 //
 //////////////////////////////////////////////////////////////////////
 
+#include <fstream>
 #include "BioIncludes.h"
 #include "Taxonomista.h"
 
@@ -24,8 +25,47 @@ CTaxonomista::~CTaxonomista()
 	map<uint32,CInfoTaxo>::iterator it = m_taxons.begin();
 	for (; it!=m_taxons.end(); ++it) {
 		// TODO: Destrosar el que calgui
-//		it->cos(NULL);
 		}
+}
+
+//////////////////////////////////////////////////////////////////////
+// Redefinibles
+//////////////////////////////////////////////////////////////////////
+
+istream & CTaxonomista::load(istream & str)
+{
+	str.read((char*)&(m_ultimTaxo),sizeof(uint32));
+	str.read((char*)&(m_calEspeciar),sizeof(uint32));
+	uint32 nTaxons;
+	str.read((char*)&(nTaxons),sizeof(uint32));
+	for (uint32 i=nTaxons; i<nTaxons; i++) {
+		uint32 taxo, primigeni, predecesor, cens;
+		str.read((char*)&(taxo),sizeof(uint32));
+		str.read((char*)&(cens),sizeof(uint32));
+		str.read((char*)&(primigeni),sizeof(uint32));
+		str.read((char*)&(predecesor),sizeof(uint32));
+		CInfoTaxo info(primigeni,predecesor);
+		m_taxons.insert(make_pair(taxo,info));
+		}
+	return str;
+}
+
+ostream & CTaxonomista::store(ostream & str)
+{
+	str.write((char*)&(m_ultimTaxo),sizeof(uint32));
+	str.write((char*)&(m_calEspeciar),sizeof(uint32));
+	uint32 nTaxons = m_taxons.size();
+	str.write((char*)&(nTaxons),sizeof(uint32));
+	map<uint32,CInfoTaxo>::iterator it = m_taxons.begin();
+	for (; it!=m_taxons.end(); ++it) {
+		uint32 taxo = it->first;
+		CInfoTaxo & info = it->second;
+		str.write((char*)&(taxo),sizeof(uint32));
+		str.write((char*)&(info.cens),sizeof(uint32));
+		str.write((char*)&(info.primigeni),sizeof(uint32));
+		str.write((char*)&(info.predecesor),sizeof(uint32));
+		}
+	return str;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -113,6 +153,7 @@ CMissatger & CTaxonomista::dump(CMissatger & msg)
 
 void CTaxonomista::ProvaClasse(void)
 {
+	// TODO: Proves unitaries de CTaxonomista
 /*
 	CTaxonomista txmist(30,20);
 	uint32 taxons[20];

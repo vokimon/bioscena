@@ -8,6 +8,7 @@
 #include "Temporitzador.h"
 #include "Iterador.h"
 #include "TopologiaToroidal.h"
+#include "Biotop.h"
 #include "Color.h"
 
 using namespace AnsiCodes;
@@ -16,7 +17,7 @@ using namespace AnsiCodes;
 // Construccio/Destruccio
 //////////////////////////////////////////////////////////////////////
 
-CItinerari::CItinerari(tipus_biotop & biotop)
+CItinerari::CItinerari(t_biotop & biotop)
 	:CPosicionador(biotop)
 {
 	m_tipus+="/Direccional";
@@ -24,7 +25,7 @@ CItinerari::CItinerari(tipus_biotop & biotop)
 	m_radi=1;
 }
 
-CPosicionadorZonal::CPosicionadorZonal(tipus_biotop & biotop)
+CPosicionadorZonal::CPosicionadorZonal(t_biotop & biotop)
 	:CPosicionador(biotop)
 {
 	m_tipus+="/Zonal";
@@ -32,13 +33,13 @@ CPosicionadorZonal::CPosicionadorZonal(tipus_biotop & biotop)
 	m_radi=1;
 }
 
-CPosicionadorAleatori::CPosicionadorAleatori(tipus_biotop & biotop)
+CPosicionadorAleatori::CPosicionadorAleatori(t_biotop & biotop)
 	:CPosicionador(biotop) 
 {
 	m_tipus+="/Aleatori";
 }
 
-CDireccionadorAleatori::CDireccionadorAleatori(tipus_biotop & biotop)
+CDireccionadorAleatori::CDireccionadorAleatori(t_biotop & biotop)
 	:CDireccionador(biotop) 
 {
 	m_tipus+="/Aleatori";
@@ -237,7 +238,8 @@ void CItinerari::ProvaClasse()
 {
 	out << clrscr;
 	out << blanc.brillant() << "Provant Itinerari" << endl;
-	CTopologiaToroidal<CSubstrat> biotop(70,21);
+	CTopologiaToroidal topo(70,21);
+	CBiotop<CSubstrat> biotop(&topo);
 /*
 	CDireccionador* direccio = new CDireccionador(biotop);
 //	direccio->dir(000177777777L);
@@ -271,19 +273,19 @@ void CItinerari::ProvaClasse()
 	posicio->pos(300);
 	((CItinerari*)posicio)->direccionador(direccio);
 
-	CActuador * nutridor = new CNutridor;
+	CActuador * nutridor = new CNutridor(biotop);
 	((CNutridor*)nutridor)->composicio (31, 0);
 	((CNutridor*)nutridor)->posicionador(posicio);
 
-	CActuador * desnutridor = new CDesnutridor;
+	CActuador * desnutridor = new CDesnutridor(biotop);
 	((CNutridor*)desnutridor)->composicio (31, ~0);
 	((CNutridor*)desnutridor)->posicionador(posicio);
 
-	CActuador * nutridorRef = new CNutridor;
+	CActuador * nutridorRef = new CNutridor(biotop);
 	((CNutridor*)nutridorRef)->composicio (0, 0);
 	((CNutridor*)nutridorRef)->posicionador(posicioRef);
 
-	CActuador * desnutridorRef = new CDesnutridor;
+	CActuador * desnutridorRef = new CDesnutridor(biotop);
 	((CNutridor*)desnutridorRef)->composicio (0, ~0);
 	((CNutridor*)desnutridorRef)->posicionador(posicioRef);
 
@@ -334,13 +336,14 @@ void CPosicionadorZonal::ProvaClasse()
 {
 	out << clrscr;
 	out << blanc.brillant() << "Provant Posicionador Zonal" << endl;
-	CTopologiaToroidal<CSubstrat> biotop(70,35);
+	CTopologiaToroidal topo(70,35);
+	CBiotop<CSubstrat> biotop(&topo);
 	CPosicionador* posicioCentral = new CPosicionador(biotop);
 	CPosicionador* posicio = new CPosicionadorZonal(biotop);
 	posicioCentral->pos(1085);
 	((CPosicionadorZonal*)posicio)->posicionador(posicioCentral);
 	((CPosicionadorZonal*)posicio)->radi(20);
-	CActuador * nutridor = new CNutridor;
+	CActuador * nutridor = new CNutridor(biotop);
 	((CNutridor*)nutridor)->posicionador(posicio);
 //	nutridor.distribucio (5, 1);
 	((CNutridor*)nutridor)->composicio (31, 0);
@@ -362,14 +365,15 @@ void CDireccionadorAleatori::ProvaClasse()
 {
 	out << clrscr;
 	out << blanc.brillant() << "Provant Direccionador Aleatori" << endl;
-	CTopologiaToroidal<CSubstrat> biotop(70,22);
+	CTopologiaToroidal topo(70,22);
+	CBiotop<CSubstrat> biotop(&topo);
 
 	CDireccionador* direccio = new CDireccionadorAleatori(biotop);
 
 	CPosicionador* posicio = new CItinerari(biotop);
 	((CItinerari*)posicio)->direccionador(direccio);
 
-	CActuador * nutridor = new CNutridor;
+	CActuador * nutridor = new CNutridor(biotop);
 	((CNutridor*)nutridor)->composicio (31, 0);
 	((CNutridor*)nutridor)->posicionador(posicio);
 
@@ -398,9 +402,10 @@ void CPosicionadorAleatori::ProvaClasse()
 {
 	out << clrscr;
 	out << blanc.brillant() << "Provant Posicionador Aleatori" << blanc.fosc() << endl;
-	CTopologiaToroidal<CSubstrat> biotop(70,22);
+	CTopologiaToroidal topo(70,22);
+	CBiotop<CSubstrat> biotop(&topo);
 	CPosicionador* posicio = new CPosicionadorAleatori(biotop);
-	CNutridor *nutridor = new CNutridor;
+	CNutridor *nutridor = new CNutridor(biotop);
 	nutridor->posicionador(posicio);
 	nutridor->composicio (31, 0);
 	CTemporitzador timer1;

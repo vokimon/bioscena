@@ -1,8 +1,14 @@
 // Comunitat.cpp: implementation of the CComunitat class.
 //
 //////////////////////////////////////////////////////////////////////
+// Change Log: 
+// 19990918 VoK - Recreat
+// 20000221 VoK - Serialitzacio
+//////////////////////////////////////////////////////////////////////
+// TODO: Serialitzacio cooperativa amb InfoOrganisme
 
 #include <algorithm>
+#include <fstream>
 //#include <functional>
 #include "Comunitat.h"
 #include "Configuracio.h"
@@ -22,7 +28,6 @@ static bool tracaBaixes=false;
 //////////////////////////////////////////////////////////////////////
 
 CComunitat::CComunitat()
-//	: m_txmist(Config.get("Comunitat/NumeroMarquesPerTaxo"))
 {
 	m_nOrganismes=0;
 }
@@ -37,6 +42,75 @@ CComunitat::~CComunitat()
 //////////////////////////////////////////////////////////////////////
 // Redefinibles
 //////////////////////////////////////////////////////////////////////
+
+ostream & CComunitat::store(ostream & str) 
+{
+	// TODO: Fer els store cooperativament amb InfoOrganisme
+	uint32 valor;
+	valor = m_organismes.size();
+	str.write((char*)&valor,sizeof(uint32));
+	valor -= m_disponibles.size();
+	str.write((char*)&valor,sizeof(uint32));
+	vector<CInfoOrganisme>::iterator it = m_organismes.begin();
+	for (uint32 index=0; it!=m_organismes.end(); ++it, ++index) {
+		if (it->cos()) {
+			str.write((char*)&index,sizeof(uint32));
+			valor = it->posicio();
+			str.write((char*)&valor,sizeof(uint32));
+			valor = it->taxo();
+			str.write((char*)&valor,sizeof(uint32));
+			it->cos()->store(str);
+			}
+		}
+	return str;
+}
+
+istream & CComunitat::load(istream & str) 
+{
+	// TODO: Fer els loads cooperativament amb InfoOrganisme
+	vector<CInfoOrganisme>::iterator it = m_organismes.begin();
+	for (; it!=m_organismes.end(); ++it)
+		it->cos(NULL);
+	m_disponibles.clear();
+	m_nOrganismes=0;
+	uint32 tamany, nOrganismes, valor, index;
+	str.read((char*)&tamany,sizeof(uint32));
+	str.read((char*)&nOrganismes,sizeof(uint32));
+	uint32 fillIndex=0;
+	for (uint32 i=0; i<nOrganismes; i++, fillIndex++) {
+		uint32 posicio, taxo;
+		str.read((char*)&index,sizeof(uint32));
+		for ( ;fillIndex<index; fillIndex++) {
+			m_disponibles.push_back(fillIndex);
+			push_heap(m_disponibles.begin(), m_disponibles.end(), greater<uint32>());
+			}
+		while (index>=m_organismes.size()) 
+			m_organismes.push_back(CInfoOrganisme());
+		str.read((char*)&posicio,sizeof(uint32));
+		str.read((char*)&taxo,sizeof(uint32));
+		COrganisme * org = new COrganisme;
+		if (org) {
+			org->load(str);
+			CInfoOrganisme & nouOrganisme = m_organismes[index];
+			nouOrganisme.taxo(taxo);
+			nouOrganisme.posicio(posicio);
+			nouOrganisme.cos(org);
+			ostrstream fluxe;
+			fluxe
+				<< setfill('0') 
+				<< oct << (index>>6) << dec << CColor((index>>3)&07).brillant() << (index&07) << blanc.fosc() << "-" 
+				<< setw(3) << nouOrganisme.subidentificador() << "-" 
+				<< (taxo>>6) << (taxo&070?negre.fons((taxo&070)>>3):blanc) << (taxo&7) << blanc.fosc() << " "
+				<< setfill(' ') 
+				<< ends; // El fluxe no afegeix un /0 sino ho fem nosaltres
+			nouOrganisme.descripcio(fluxe.str());
+			fluxe.freeze(false);
+			++m_nOrganismes;
+			}
+		}
+	return str;
+}
+
 
 void CComunitat::dump(CMissatger & msg)
 {
@@ -53,111 +127,17 @@ void CComunitat::dump(CMissatger & msg)
 //			it->cos()->dump(msg);
 //		}
 	}
+	msg << "Disponibles: ";
 	dumpDisponibles(msg);
 }
 
 void CComunitat::dumpDisponibles(CMissatger & msg)
 {
-
 	vector<uint32>::iterator it = m_disponibles.begin();
 	for (uint32 index=0; it!=m_disponibles.end(); ++it, ++index)
 		msg << *it << "-";
-
 	msg << endl;
 }
-
-void CComunitat::dumpEnergies(CMissatger & msg)
-{
-/*
-	static CDominiGrafica dominiEnergia (true);
-	static CDominiGrafica dominiEdat (true);
-	static uint32 altura = 22;
-	static uint32 amplada = 050;
-	static uint32 margeSup = 0;
-	static uint32 margeInf = 2;
-	static uint32 posX = 41; // 1;
-	static uint32 posY = 22;
-	static uint32 tope = altura-margeInf-margeSup;
-	static uint32 primerOrg = 0100;
-
-	dominiEdat.fixaFactor(tope);
-	dominiEnergia.fixaFactor(tope);
-
-	using AnsiCodes::gotoxy;
-	using AnsiCodes::clrlin;
-
-	uint32 col, fil;
-	uint32 idOrg;
-
-	// Esborrem el fons
-	for (fil=posY; fil<posY+tope+margeInf; ++fil)
-	{
-		msg << gotoxy(posX,fil) << blanc.fons(blanc) << clrlin;
-	}
-
-	// Coloquem les guies
-	if (dominiEdat.premapeja(15)<tope) {
-		msg << gotoxy(posX, posY+tope-dominiEdat.mapeja(15)) << blanc.fons(groc) << clrlin;
-		msg << blanc.fons(blanc);
-	}
-	if (dominiEdat.premapeja(7)<tope) {
-		msg << gotoxy(posX, posY+tope-dominiEdat.mapeja(7)) << blanc.fons(verd) << clrlin;
-		msg << blanc.fons(blanc);
-	}
-	if (dominiEdat.premapeja(31)<tope) {
-		msg << gotoxy(posX, posY+tope-dominiEdat.mapeja(31)) << blanc.fons(vermell) << clrlin;
-		msg << blanc.fons(blanc);
-	}
-
-	// Imprimim el contingut
-
-	for (idOrg=primerOrg,col=posX; col<posX+amplada && idOrg<m_organismes.size(); col++,idOrg++)
-	{
-		// Color identificador
-		msg << CColor(1+(idOrg>>3)&7).brillant();
-		COrganisme * org = m_organismes[idOrg].cos();
-		if (org) 
-		{
-			// Posem l'energia
-			uint32 energia = org->energia();
-			energia = dominiEnergia.mapeja(energia);
-			if (energia>tope)
-				msg << gotoxy(col, posY) << '?';
-			else
-				msg << gotoxy(col, posY+tope-energia) << '*';
-
-			// Posem l'edat
-			uint32 edat    = org->edat();
-			edat    = dominiEdat.mapeja(edat);
-			if (edat>tope)
-				msg << gotoxy(col, posY) << '!';
-			else
-				msg << gotoxy(col, posY+tope-edat) << '-';
-		}
-		else {
-			msg << gotoxy(col, posY+tope) << 'X';
-		}
-		// Numero identificador
-		msg << gotoxy(col, posY+tope+1) << (idOrg&7);
-	}
-
-	// Afegim els ids dels taxons
-	msg << gotoxy(posX, posY+tope+2);
-	for (idOrg=primerOrg,col=posX; col<posX+amplada && idOrg<m_organismes.size(); col++,idOrg++)
-	{
-		if ((*this)[idOrg].cos()) {
-			msg << negre.fons((m_organismes[idOrg].taxo()>>3)&7)
-				<< (m_organismes[idOrg].taxo()&7);
-		}
-		else
-			msg << blanc.fons(negre) << " ";
-	}
-
-	// Restaurem els colors
-	msg << blanc.fosc();
-*/
-}
-
 
 //////////////////////////////////////////////////////////////////////
 // Operacions
@@ -165,7 +145,7 @@ void CComunitat::dumpEnergies(CMissatger & msg)
 
 CInfoOrganisme & CComunitat::operator[](uint32 index) {
 	if (index>=m_organismes.size()) {
-		cout << "Accediendo a un organisme no existent!" << endl;
+		cout << "Accedint a un organisme no existent!" << endl;
 		cin.get();
 	}
 	return m_organismes[index];
@@ -174,6 +154,7 @@ CInfoOrganisme & CComunitat::operator[](uint32 index) {
 uint32 CComunitat::introdueix(COrganisme* org, uint32 posicio, uint32 taxo)
 	// PRE: org és un punter vàlid
 {
+	// Canvis en aquest codi poden afectar a 'load'!
 	uint32 index;
 	if (m_disponibles.size()) {
 		index = m_disponibles.front();
@@ -239,8 +220,10 @@ uint32 CComunitat::organismeAleatori()
 
 void CComunitat::ProvaClasse (void)
 {
+	out << "Provant inicialitzacio" << endl;
 	CComunitat com;
 	com.dump(out); cin.get();
+	out << "Provant Introduccio successiva de 9 organismes" << endl;
 	COrganisme * org;
 	org = new COrganisme();
 	com.introdueix(org,1,11);
@@ -255,29 +238,36 @@ void CComunitat::ProvaClasse (void)
 	com.introdueix(org,4,14);
 	com.dump(out); cin.get();
 	org = new COrganisme();
-	com.introdueix(org,2,12);
+	com.introdueix(org,5,15);
 	org = new COrganisme();
-	com.introdueix(org,2,12);
+	com.introdueix(org,6,16);
 	org = new COrganisme();
-	com.introdueix(org,2,12);
+	com.introdueix(org,7,17);
 	org = new COrganisme();
-	com.introdueix(org,2,12);
+	com.introdueix(org,8,18);
 	org = new COrganisme();
-	com.introdueix(org,2,12);
+	com.introdueix(org,9,19);
+	com.dump(out); cin.get();
+	out << "Provant Extraccio d'organismes aleatoris" << endl;
+	com.extreu(com.organismeAleatori());
 	com.dump(out); cin.get();
 	com.extreu(com.organismeAleatori());
 	com.dump(out); cin.get();
 	com.extreu(com.organismeAleatori());
+	com.extreu(com.organismeAleatori());
+	com.extreu(com.organismeAleatori());
+	com.extreu(com.organismeAleatori());
+	com.extreu(com.organismeAleatori());
+	com.extreu(com.organismeAleatori());
+	com.extreu(com.organismeAleatori());
 	com.dump(out); cin.get();
-	com.extreu(com.organismeAleatori());
-	com.extreu(com.organismeAleatori());
-	com.extreu(com.organismeAleatori());
-	com.extreu(com.organismeAleatori());
-	com.extreu(com.organismeAleatori());
-	com.extreu(com.organismeAleatori());
-	com.extreu(com.organismeAleatori());
-//	com.extreu(com.organismeAleatori());
-	com.dump(out); cin.get();
+	out << "Comunitat buida, prem 's' i return si vols veure que passa si extreus un altre" << endl;
+	if (cin.get()=='y') {
+		com.extreu(com.organismeAleatori());
+		com.dump(out); cin.get();
+		}
+	out << "Provant serialitzacio" << endl;
+	out << " Torno a omplir la comunitat..." << endl;
 	org = new COrganisme();
 	com.introdueix(org,5,15);
 	com.dump(out); cin.get();
@@ -285,8 +275,21 @@ void CComunitat::ProvaClasse (void)
 	com.introdueix(org,6,16);
 	com.dump(out); cin.get();
 	org = new COrganisme();
+	out << " Extrec un per deixar un espai en blanc..." << endl;
 	com.introdueix(org,7,17);
 	com.dump(out); cin.get();
+	com.extreu(com.organismeAleatori());
+	out << " Passivitzant..." << endl;
+	com.dump(out); cin.get();
+	ofstream ofile("Borrame", ios::out|ios::binary);
+	com.store(ofile);
+	ofile.close();
+	out << " Activant..." << endl;
+	CComunitat com2;
+	ifstream ifile("Borrame", ios::in|ios::binary);
+	com2.load(ifile);
+	ifile.close();
+	com2.dump(out); cin.get();
 }
 
 

@@ -17,6 +17,8 @@
 // 19990823 VoK - Reordenat els fitxers
 // 19990824 VoK - dump ja no posa ':' despres de nom del parametre
 // 19990824 VoK - Funcions de configuracio amb parametres
+// 20000220 VoK - Adaptat topologia sense templates
+// 20000220 VoK - Canviat el nom dels tipus interns tipus_X -> t_X
 //////////////////////////////////////////////////////////////////////
 
 #if !defined(__KKEP_POSICIONADOR_H_INCLUDED)
@@ -35,13 +37,12 @@ class CPosicionador : public CAgent
 // Tipus interns
 public:
 	typedef CAgent inherited;
-	typedef CSubstrat tipus_substrat;
-	typedef CTopologia<tipus_substrat> tipus_biotop;
-	typedef uint32 tipus_posicio;
-	typedef uint32 tipus_direccio;
+	typedef CTopologia t_biotop;
+	typedef CTopologia::t_posicio t_posicio;
+	typedef CTopologia::t_desplacament t_direccio;
 // Construccio/Destruccio
 public:
-	CPosicionador(tipus_biotop& biotop);
+	CPosicionador(t_biotop& biotop);
 	virtual ~CPosicionador() {};
 // Redefinibles
 public:
@@ -50,14 +51,13 @@ public:
 	virtual bool configura(string parametre, istream & nom, t_diccionariAgents & diccionari, CMissatger & errors);
 // Operacions
 public:
-	tipus_posicio pos() {return m_pos;};;
-	void pos(tipus_posicio nova);
-	CPosicionador & operator = (tipus_posicio nova) {m_pos=nova; return *this;};
-	CSubstrat & substrat();
+	t_posicio pos() {return m_pos;};;
+	void pos(t_posicio nova);
+	CPosicionador & operator = (t_posicio nova) {m_pos=nova; return *this;};
 // Atributs
 protected:
-	tipus_posicio m_pos;
-	tipus_biotop & m_biotop;
+	t_posicio m_pos;
+	t_biotop & m_biotop;
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -69,13 +69,12 @@ class CDireccionador : public CAgent
 // Tipus interns
 public:
 	typedef CAgent inherited;
-	typedef CSubstrat tipus_substrat;
-	typedef CTopologia<tipus_substrat> tipus_biotop;
-	typedef uint32 tipus_posicio;
-	typedef uint32 tipus_direccio;
+	typedef CTopologia t_biotop;
+	typedef CTopologia::t_posicio t_posicio;
+	typedef CTopologia::t_desplacament t_direccio;
 // Construccio/Destruccio
 public:
-	CDireccionador(tipus_biotop& biotop);
+	CDireccionador(t_biotop& biotop);
 	virtual ~CDireccionador() {};
 // Redefinibles
 public:
@@ -84,13 +83,13 @@ public:
 	virtual bool configura(string parametre, istream & nom, t_diccionariAgents & diccionari, CMissatger & errors);
 // Operacions
 public:
-	tipus_direccio dir() {return m_dir;};
-	void dir(tipus_direccio nova) {m_dir=nova;};
-	CDireccionador & operator = (tipus_direccio nova) {m_dir=nova; return *this;};
+	t_direccio dir() {return m_dir;};
+	void dir(t_direccio nova) {m_dir=nova;};
+	CDireccionador & operator = (t_direccio nova) {m_dir=nova; return *this;};
 // Atributs
 protected:
-	tipus_posicio m_dir;
-	tipus_biotop & m_biotop;
+	t_direccio m_dir;
+	t_biotop & m_biotop;
 // Proves
 public:
 	static void ProvaClasse();

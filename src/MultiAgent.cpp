@@ -7,6 +7,7 @@
 #include "MultiAgent.h"
 #include "Missatger.h"
 #include "TopologiaToroidal.h"
+#include "Biotop.h"
 #include "Substrat.h"
 #include "Itineraris.h"
 #include "Actuadors.h"
@@ -113,7 +114,8 @@ void CMultiAgent::ProvaClasse()
 {
 	out << clrscr;
 	out << blanc.brillant() << "Provant MultiAgent" << blanc.fosc() << endl;
-	CTopologiaToroidal<CSubstrat> biotop(40,20);//(70,24);
+	CTopologiaToroidal topo(40,20);//(70,24);
+	CBiotop<CSubstrat> biotop(&topo);
 
 	CMultiAgent agents;
 
@@ -130,7 +132,7 @@ void CMultiAgent::ProvaClasse()
 	((CItinerari*)posicio1)->direccionador(direccio1);
 	agents.accio(posicio1);
 	// L'actuador 1 es un Nutridor que afegeix nutrients
-	CActuador *actuador1 = new CNutridor;
+	CActuador *actuador1 = new CNutridor(biotop);
 	actuador1->posicionador(posicio1);
 	((CNutridor*)actuador1)->composicio (31, 0);
 	// L'iterador diu quantes vegades actua per accionat
@@ -158,7 +160,7 @@ void CMultiAgent::ProvaClasse()
 	((CPosicionadorZonal*)distribucio2)->radi(1);
 	iterador2->accio(distribucio2);
 
-	CActuador *actuador2 = new CDesnutridor;
+	CActuador *actuador2 = new CDesnutridor(biotop);
 	actuador2->posicionador(distribucio2);
 	((CNutridor*)actuador2)->composicio (31, 0	);
 	iterador2->accio(actuador2);

@@ -31,13 +31,13 @@
 
 #include <fstream>
 
-#include "turbioconio.h"
+//#include "turbioconio.h"
 #include "Biosistema.h"
-#include "Agent.h"
-#include "TopologiaToroidal.h"
+//#include "Agent.h"
+//#include "TopologiaToroidal.h"
 #include "Missatger.h"
 #include "Configuracio.h"
-#include "Grafic.h"
+//#include "Grafic.h"
 #include "Compatibilitat.h"
 
 using namespace AnsiCodes;
@@ -125,6 +125,26 @@ CBiosistema::~CBiosistema()
 	if (m_agents) delete m_agents;
 	if (m_taxonomista) delete m_taxonomista;
 	if (m_opcodes==NULL) delete [] m_opcodes;
+}
+
+//////////////////////////////////////////////////////////////////////
+// Activacio/Pasivacio
+//////////////////////////////////////////////////////////////////////
+
+istream & CBiosistema::load(istream & str)
+{
+	m_biotop->load(str);
+	m_comunitat->load(str);
+	m_taxonomista->load(str);
+	return str;
+}
+
+ostream & CBiosistema::store(ostream & str)
+{
+	m_biotop->store(str);
+	m_comunitat->store(str);
+	m_taxonomista->store(str);
+	return str;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -357,7 +377,7 @@ bool CBiosistema::organismeExpontani()
 	uint32 pos = m_biotop->posicioAleatoria();
 	if ((*m_biotop)[pos].esOcupat()) return false;
 	// Creem un taxo per l'ancestre
-	uint32 taxo = m_taxonomista ? m_taxonomista->nouTaxoIndependent(): -1;
+	uint32 taxo = m_taxonomista ? m_taxonomista->nouTaxoIndependent(): ~uint32(0);
 	// 
 	COrganisme * org = new COrganisme;
 	if (!org) {
@@ -403,7 +423,7 @@ bool CBiosistema::introdueix(COrganisme * org)
 	uint32 pos = m_biotop->posicioAleatoria();
 	if ((*m_biotop)[pos].esOcupat()) return false;
 	// Creem un taxo per l'ancestre
-	uint32 taxo = m_taxonomista ? m_taxonomista->nouTaxoIndependent(): -1;
+	uint32 taxo = m_taxonomista ? m_taxonomista->nouTaxoIndependent(): ~uint32(0);
 	// Ho introduim en societat (a la comunitat i al biotop)
 	uint32 id = m_comunitat->introdueix(org, pos, taxo);
 	(*m_biotop)[pos].ocupa(id);
@@ -462,7 +482,7 @@ bool CBiosistema::organismeMitosi(uint32 parametres)
 		return false;
 	}
 	// L'inscribim al registre de naixements (taxonomista)
-	uint32 taxo = m_taxonomista ? m_taxonomista->naixement(m_infoOrganismeActiu->taxo(),nouOrganisme->m_mutat) : -1;
+	uint32 taxo = m_taxonomista ? m_taxonomista->naixement(m_infoOrganismeActiu->taxo(),nouOrganisme->m_mutat) : ~uint32(0);
 	
 	// Omplim el nado amb energia i nutrients
 	nouOrganisme->guanyaEnergia(energia); // Config.get("Biosistema/Energia/Mitosi/Cedida")

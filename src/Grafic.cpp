@@ -561,9 +561,9 @@ void CMapa::biosistema(CBiosistema * biosistema)
 		m_biotop = NULL;
 		return;
 	}
-	m_biotop = (CTopologiaToroidal<CSubstrat>*) m_biosistema->biotop();
-	m_ampladaZona = m_biotop->amplada();
-	m_alturaZona = m_biotop->altura();
+	m_biotop = m_biosistema->biotop();
+	m_ampladaZona =((CTopologiaToroidal*)m_biotop->topologia())->amplada();
+	m_alturaZona = ((CTopologiaToroidal*)m_biotop->topologia())->alcada();
 	m_totalCelles = m_alturaZona * m_ampladaZona;
 	m_primeraPosicio = 0;
 }

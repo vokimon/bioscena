@@ -12,6 +12,7 @@
 #include "Missatger.h"
 #include "Comunitat.h"
 #include "Biosistema.h"
+#include "Biotop.h"
 #include "TopologiaToroidal.h"
 
 class CDominiGrafica {
@@ -159,7 +160,7 @@ private:
 // Atributs
 private:
 	CBiosistema * m_biosistema;
-	CTopologiaToroidal<CSubstrat> * m_biotop;
+	CBiotop<CSubstrat> * m_biotop;
 	uint32 m_primeraPosicio;
 	uint32 m_ampladaZona;
 	uint32 m_alturaZona;

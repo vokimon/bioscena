@@ -7,11 +7,11 @@
 // 19990306 VoK - Adaptat 'taxoAmbIndex' per les modificacions que es
 //          VoK - van fer 'CLlistaEstatica'
 // 20000113 VoK - Adaptat per un taxonomista simplificat
-// 20000214 VoK - 
+// 20000221 VoK - Serialitzacio
 //////////////////////////////////////////////////////////////////////
-// Pendent Log:
-// 19990306 VoK - Fer que la llista de taxons sigui un membre i no 
-//          una classe base
+// TODO Log:
+// TODO: Implementar-ho amb una llista indexada
+// TODO: Independitzar el modul d'acces per part del biosistema de la implementacio
 //////////////////////////////////////////////////////////////////////
 
 #if !defined(__KKEP_TAXONOMISTA_H_INCLUDED)
@@ -19,7 +19,8 @@
 
 #include <map>
 
-class CInfoTaxo // TODO: Posar-ho en un fitxer independent
+// TODO: Posar InfoTaxo en un fitxer independent
+class CInfoTaxo 
 {
 public:
 	CInfoTaxo(uint32 primi=0, uint32 pred=0) {
@@ -40,6 +41,10 @@ class CTaxonomista
 public:
 	CTaxonomista();
 	virtual ~CTaxonomista();
+// Redefinibles
+public:
+	virtual istream & load(istream & str);
+	virtual ostream & store(ostream & str);
 // Operacions (protocol amb Biosistema)
 public:
 	virtual bool defuncio (uint32 tx);

@@ -22,7 +22,7 @@ public:
 	typedef CActuador inherited;
 // Construccio/Destruccio
 public:
-	CNutridor();
+	CNutridor(t_biotop & biotop);
 	virtual ~CNutridor();
 // Redefinibles
 public:
@@ -51,7 +51,7 @@ public:
 	typedef CNutridor inherited;
 // Construccio/Destruccio
 public:
-	CDesnutridor();
+	CDesnutridor(t_biotop & biotop);
 // Redefinibles
 public:
 	virtual void operator() (CSubstrat & s) {
@@ -70,7 +70,7 @@ public:
 	typedef CActuador inherited;
 // Construccio/Destruccio
 public:
-	CInoculador();
+	CInoculador(t_biotop & biotop);
 	virtual ~CInoculador();
 // Redefinibles
 public:
