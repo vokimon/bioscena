@@ -1,7 +1,7 @@
 // Color.h: interface for the CColor class.
 //
 //////////////////////////////////////////////////////////////////////
-#if !defined(_KKEP_COLOR_H_INCLUDED)
+#ifndef _KKEP_COLOR_H_INCLUDED
 #define _KKEP_COLOR_H_INCLUDED
 
 
@@ -24,20 +24,21 @@ private:
 inline ostream& operator << (ostream& stream, CColor c)
 {
 	if (c&0x80) {
-		char *ansiseq = "\033[0;30;40m";
+		char ansiseq[] = "\033[0;30;40m";
 		ansiseq[2]=(c&0x08)?'1':'0';
 		ansiseq[5]='0'+(c&0x07);
 		ansiseq[8]='0'+((c>>4)&0x07);
 		stream << ansiseq;
 		}
 	else {
-		char *ansiseq = "\033[0;30m";
+		char ansiseq[] = "\033[0;30m";
 		ansiseq[2]=(c&0x08)?'1':'0';
 		ansiseq[5]='0'+(c&0x07);
 		stream << ansiseq;
 	}
 	return stream;
 }
+
 extern const CColor negre, vermell, verd, groc, blau, magenta, cyan, blanc;
 
 namespace AnsiCodes {

@@ -73,13 +73,13 @@ llençar els bitxos sense problemes.
 
 - Ja hi ha ANSI per defecte tant a terminals texte com a X-terms
 - Xterms: Cal augmentar el tamany de la finestra fins que no faci cap scroll.
-- Kterms: NPI de kom es fa per tenir un terminal a 80x50. S'agraeixen ideies.
+- Kterms: En el fitxer de configuracio del lilo es pot escollir el mode vga 
+  de les consoles
 
 3. PENDENT
 
-80x50 en consoles de texte de Linux
-80x50 en executables DOS sense que haguem de especificar-ho des de Windows
-Si les llibreries estandars del MSVC6 o superior no necessiten parxos o no
+80x50 en executables DOS sense que haguem de especificar-ho des de Windows.
+Si les llibreries estandars del MSVC6 o superior no necessiten parxos o no.
 Que kony li passa amb els punters a funcions membres al MSVC5.
 
 

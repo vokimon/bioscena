@@ -10,9 +10,7 @@ CONFIGURACIO:
 	Considerar on cal consultar cada parametre de la configuracio 
 		(Optimitzar + Consistencia en recarregues)
 
-EXECUCIO D'INSTRUCCIONS:
-	Millorar operacions per sentir presencia
-	Operacions per sentir estat intern
+INSTRUCCIONS:
 	Complicar les logiques de moviment, atac
 	Claus internes i instruccions per modificar-les
 	Afegir metabolisme (transformacio dels principis inmediats) (Ubicacio Biosistema)
@@ -30,14 +28,18 @@ ORGANISMES:
 	Inicialitzar el fenotip d'una altra manera mes rica potser
 	Millorar la visualitzacio d'organismes
 	Opcio per guardar i carregar organismes a fitxer.
+	Serialitzacio generica (per a tot control)
 
-CONTROL (CARIOTIP/GENOTIP):
+CONTROL:
 	Donar-li mes cos a les zones operadores
-	Considerar quines de Gen Cromosoma Cariotip Genotip cal posar com a base virtual
+	Predicats
+	Controls alternatius: Neuronals
+
+HERENCIA:
 	Control genetic sobre les mutacions
 	Fer que l'escisio centrica esborri els escisionats
 	Considerar si separar mutacions estructurals i puntuals
-	Analisi de limits i que les operacions de mutacio en siguin valides amb ells
+	Documentar: Analisi de limits i que les operacions de mutacio en siguin valides amb ells
 
 GENERICS:
 	Sistema de Logging/Analisis
@@ -90,11 +92,5 @@ MISSATGERS:
 	COutputer per curses
 	COutputer per una llista d'strings
 	Constructor rapid de un CMissatger a un fitxer
-	Probar d'unificar els missatgers i tal amb els iostreams
 	Refer el modul AnsiCodes
-
-ALTERNATIVES:
-	Considerar si fer alimentació autòtrofa
-	Considerar si fer una funcio de desplacament fisic 
-		(cada desplacament intermig ha de ser possible)
 

@@ -12,14 +12,6 @@
 // de anar modificant la posició (per defecte es mante igual)
 // 
 //////////////////////////////////////////////////////////////////////
-// Change Log:
-// 19990822 VoK - Funcions de dump
-// 19990823 VoK - Reordenat els fitxers
-// 19990824 VoK - dump ja no posa ':' despres de nom del parametre
-// 19990824 VoK - Funcions de configuracio amb parametres
-// 20000220 VoK - Adaptat topologia sense templates
-// 20000220 VoK - Canviat el nom dels tipus interns tipus_X -> t_X
-//////////////////////////////////////////////////////////////////////
 
 #if !defined(__KKEP_POSICIONADOR_H_INCLUDED)
 #define __KKEP_POSICIONADOR_H_INCLUDED
@@ -27,6 +19,7 @@
 #include "Agent.h"
 #include "Topologia.h"
 #include "Substrat.h"
+#include "RandomStream.h"
 
 //////////////////////////////////////////////////////////////////////
 // CPosicionador: Controla una posicio (per defecte fixa)

@@ -12,8 +12,8 @@
 // Pendent Log:
 //////////////////////////////////////////////////////////////////////
 
-#if !defined(KKEP_COMPATIBILITAT_H_INCLUDED_)
-#define KKEP_COMPATIBILITAT_H_INCLUDED_
+#if !defined(__KKEP_COMPATIBILITAT_H_INCLUDED)
+#define __KKEP_COMPATIBILITAT_H_INCLUDED
 
 //#include <time.h>
 //#include <stdlib.h>
@@ -107,4 +107,4 @@ void ProvaCompatibilitat ();
 
 
 
-#endif // !defined(KKEP_COMPATIBILITAT_H_INCLUDED_)
+#endif // !defined(__KKEP_COMPATIBILITAT_H_INCLUDED)

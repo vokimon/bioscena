@@ -11,18 +11,18 @@
 
 {\tt Bioscena} es distribueix en una arxiu comprimit. Cal 
 descomprimir-ho mantenint la estructura de directoris que conté.
-Hi ha diversos directoris:
+Els arxius estan distribuïts en diversos directoris:
 \begin{description}
 \item[\tt Bin/] Conté l'executable per a MS-DOS generat amb DJGPP i 
 els arxius de configuració.
-També hi ha alguns arxius de configuració alternatius d'exemple.
-\item[\tt Docs/] Conté alguna documentació útil pel manteniment com
-ara l'arxiu {\tt TODO.txt}.
+També hi ha alguns exemples d'arxius de configuració alternatius.
+\item[\tt Docs/] Conté documentació útil pel desenvolupament i 
+manteniment, com ara l'arxiu {\tt TODO.txt}.
 \item[\tt Src/] Conté el codi font i els arxius necessaris per
 compilar en diferents entorns.
 \item[\tt Manual/] Conté aquest manual i els arxius necessaris per
 generar-ho.
-\item[\tt Utils/] Conté aplicacions complementàries.
+\item[\tt Utils/] Conté algunes aplicacions complementàries.
 \end{description}
 
 
@@ -40,13 +40,13 @@ de l'executable.
 escollida. Es pot generar tot seguint les instruccions de compilació
 de l'apartat \ref{sec:Compilacio}.
 
-{\bf L'executable necessita una consola de text de 80x50 que interpreti
-correctament seqüències de terminal ANSI.}
+{\bf L'executable necessita una consola de text de 80x50 (o més) que 
+interpreti correctament seqüències de terminal ANSI.}
 
 Els següents apartats expliquen com fer-ho a diferents sistemes.
 Si, a la plataforma destí, no és possible treballar amb un terminal 
 80x50, encara seria possible canviar les coordenades dels objectes 
-gràfics a l'arxiu font {\tt BiosistemaProves.cpp}.
+gràfics a l'arxiu font {\tt BiosistemaProves.cpp} i recompilar.
 
 % TODO: Aixo fins que posi quelcom per configurar-ho
 
@@ -65,7 +65,7 @@ Per posar la pantalla a 80x50, si és un executable de DOS (DJGPP),
 cal crear un acces directe i, a les seves propietats, al separador 
 'Pantalla' especificar 50 linies.
 
-% TODO: Insertar grafic configurant 80X50 Windows95
+% TODO: Insertar pantalla configurant 80X50 Windows95
 
 Si és un executable Win32 per a consola (compilat amb Microsoft Visual C++), 
 automaticament es posa a 80x50.
@@ -123,3 +123,4 @@ Terminals ordinaris & Cal especificar al programa d'arranc {\tt lilo} el mode gr
 \end{tabular}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+

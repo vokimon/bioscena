@@ -3,8 +3,10 @@
 //////////////////////////////////////////////////////////////////////
 // Change Log
 // 20000218 VoK - Creat
+// 20000708 VoK - esValidaCassella -> esPosicioValida
+// 20000708 VoK - Modificacions als tipus propis
 
-#if !defined(__KKEP_BIOTOP_H_INCLUDED)
+#ifndef __KKEP_BIOTOP_H_INCLUDED
 #define __KKEP_BIOTOP_H_INCLUDED
 
 #include <iomanip>
@@ -21,8 +23,8 @@ class CBiotop: public CTopologia
 // Tipus propis
 public:
 	typedef CTopologia inherited;
-	typedef CTopologia::t_posicio t_posicio;
-	typedef CTopologia::t_desplacament t_desplacament;
+	typedef inherited::t_posicio t_posicio;
+	typedef inherited::t_desplacament t_desplacament;
 	typedef Cella t_cella;
 // Atributs
 protected:
@@ -67,10 +69,10 @@ public:
 	{
 		return m_topologia->desplacamentAleatori(origen, radi);
 	}
-	virtual bool esValidaCassella(t_posicio cassella) 
+	virtual bool esPosicioValida(t_posicio cassella) 
 	// Indica si la posicio es valida
 	{
-		return m_topologia->esValidaCassella(cassella);
+		return m_topologia->esPosicioValida(cassella);
 	}
 	virtual bool unio (t_posicio posOrigen, t_posicio posDesti, t_desplacament & desp)
 	// Retorna cert si es posible unir-les amb un sol desplacament, a desp hi es

@@ -31,7 +31,7 @@ static CMissatger tracaOrganisme ("Organisme");
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-COrganisme::COrganisme() : 
+COrganisme::COrganisme(string tipus) : 
 	m_energia(Config.get("Organisme/Energia/Compartiments"))
 {
 	// Desactivem o on el traceig
@@ -40,8 +40,10 @@ COrganisme::COrganisme() :
 	m_cariotip.init(rnd.get(
 		Config.get("Organisme/Cariotip/LongitudMinima"),
 		Config.get("Organisme/Cariotip/LongitudMaxima")));
-	m_mutat = false; 
-	m_genotip.init(m_cariotip);
+	m_mutat = false;
+	// Generem el sistema de control
+	m_genotip = CControlOrganisme::Crea(tipus);
+	m_genotip->init(m_cariotip);
 	// Inicialitzem el fenotip
 	m_fenotip = new uint32[Config.get("Organisme/Fenotip/Longitud")];
 	if (!m_fenotip) {
@@ -49,7 +51,7 @@ COrganisme::COrganisme() :
 		cin.get();
 	}
 	for (int i=Config.get("Organisme/Fenotip/Longitud"); i--;)
-		rnd >> m_fenotip[i];
+		m_fenotip[i] = rnd.get() & ~0x88888888; // (bit <<=1);
 	// Tot individu comenca amb 
 	m_nutrients.clear();
 	m_edat=0;
@@ -59,7 +61,7 @@ COrganisme::COrganisme() :
 	m_tempsDisipacioRestant=m_tempsDisipacio;
 }
 
-COrganisme::COrganisme(CCariotip &c) : 
+COrganisme::COrganisme(string tipus, CCariotip &c) : 
 	m_energia(Config.get("Organisme/Energia/Compartiments"))
 {
 	// Desactivem o on el traceig
@@ -67,11 +69,12 @@ COrganisme::COrganisme(CCariotip &c) :
 	// Inicialitzem el material genetic
 	m_cariotip.init(c);
 	m_mutat = m_cariotip.muta(); 
-	m_genotip.init(m_cariotip);
+	// Generem el sistema de control
+	m_genotip = CControlOrganisme::Crea(tipus);
+	m_genotip->init(m_cariotip);
 	// Inicialitzem el fenotip
 	m_fenotip = new uint32[Config.get("Organisme/Fenotip/Longitud")];
-	if (!m_fenotip) 
-	{
+	if (!m_fenotip) {
 		error << "Error demanant fenotip" << endl;
 		cin.get();
 	}
@@ -90,6 +93,7 @@ COrganisme::COrganisme(CCariotip &c) :
 COrganisme::~COrganisme()
 {
 	if (m_fenotip) delete[] m_fenotip;
+	if (m_genotip) delete m_genotip;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -133,8 +137,8 @@ istream & COrganisme::load(istream & str) {
 		if (str) m_nutrients.push_back(valor);
 		}
 	m_cariotip.load(str);
-	m_genotip.clear();
-	m_genotip.init(m_cariotip);
+	m_genotip->clear();
+	m_genotip->init(m_cariotip);
 	m_energia.load(str);
 	// TODO: Load: Pap
 	return str;
@@ -145,7 +149,7 @@ void COrganisme::dump(CMissatger & msgr)
 //	debugPresentaNutrients(msgr);
 	debugPresentaFenotip(msgr);
 	m_cariotip.dump(msgr);
-	m_genotip.dump(msgr);
+	m_genotip->dump(msgr);
 	m_energia.dump(msgr);
 }
 
@@ -237,7 +241,7 @@ void COrganisme::ProvaClasse()
 {
 	log1 << "Provant organismes: "<< endl;
 	tracaOrganisme << hex << setfill('0');
-	COrganisme pepe;
+	COrganisme pepe("ControlOrganisme/ExpressioGenica");
 //	pepe.debugPresentaFenotip(log1);
 	pepe.engoleix(0x0000FF00);
 	pepe.engoleix(0x0000FFF0);
@@ -266,7 +270,7 @@ void COrganisme::ProvaClasse()
 	pepe.store(ofile);
 	ofile.close();
 
-	COrganisme pepet;
+	COrganisme pepet("ControlOrganisme/ExpressioGenica");
 	ifstream ifile("borrame.hex", ios::binary|ios::in);
 	if (!ifile) error << "Abriendo fichero" << endl;
 	pepet.load(ifile);
@@ -277,8 +281,8 @@ void COrganisme::ProvaClasse()
 	pepet.debugPresentaNutrients(out); cin.get();
 	pepe.m_cariotip.dump(out); cin.get();
 	pepet.m_cariotip.dump(out); cin.get();
-	pepe.m_genotip.dump(out); cin.get();
-	pepet.m_genotip.dump(out); cin.get();
+	pepe.m_genotip->dump(out); cin.get();
+	pepet.m_genotip->dump(out); cin.get();
 	pepe.m_energia.dump(out); cin.get();
 	pepet.m_energia.dump(out); cin.get();
 }
@@ -316,7 +320,7 @@ COrganisme::t_instruccio COrganisme::seguentInstruccio()
 			m_tempsDisipacioRestant = m_tempsDisipacio;
 		}
 	}
-	return m_genotip.seguentInstruccio(m_fenotip);
+	return m_genotip->seguentInstruccio(m_fenotip);
 }
 
 bool COrganisme::consumeixEnergia(uint32 energia)

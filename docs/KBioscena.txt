@@ -1,0 +1,42 @@
+PASOS PARA GENERAR LA APLICACION
+
+Generar KDE-MDI
+Incluir en el proyecto los ficheros que hagan falta para linkar los agentes.
+(Necesita renombrar la global 'warning')
+Incluir el header Agentes.h en el header de la classe documento.
+Crear en el documento una variable puntero a CAgent.
+Crear un booleano que diga si la memoria es nuestra.
+Incluir MultiAgent en el doc.cpp
+Construccion
+	agents=NULL;
+	agentsOwned=false;
+Destruccion
+	if (agents && agentsOwned) delete agents;
+Creacion
+	if (agents && agentsOwned) delete agents;
+	agents=new CMultiAgent;
+	agentsOwned=true;
+OpenDocument
+	if (agents && agentsOwned) delete agents;
+	// TODO: Exceptions
+	agents=CAgent::ParsejaArxiu();
+	agentsOwned=true;
+	return agents!==NULL;
+SaveDocument
+	???
+
+Cambiar clase base de la vista principal QWidget -> QListView (include, public y constructor)
+
+
+	
+
+
+
+CAMBIOS A CONSIDERAR EN BIOSCENA
+
+Compilacion opcional de los tests.
+Mejor configuracion de los Outputers.
+
+
+
+

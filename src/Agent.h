@@ -12,15 +12,15 @@
 #include <iomanip>
 #include "BioIncludes.h"
 #include "Missatger.h"
-#include "Substrat.h"
-#include "Biotop.h"
-#include "Topologia.h"
 
 using namespace std;
+
+class CBiosistema;
 
 class CAgent 
 {
 // Tipus Propis
+public:
 	typedef map<string, CAgent*> t_diccionariAgents;
 // Algunes amigues
 	friend ostream& operator<< (ostream& str, CAgent& ag);
@@ -61,9 +61,9 @@ public:
 public:
 	static void DumpDiccionari(CMissatger& msg);
 	static CAgent * CercaDiccionari(string s);
-	static CAgent * ParsejaArxiu(char * nomArxiu, CBiotop<CSubstrat> & biotop, CMissatger & errors);
+	static CAgent * ParsejaArxiu(char * nomArxiu, CBiosistema & biosistema, CMissatger & errors);
 private:
-	static CAgent * CreaAgent(string tipus, CBiotop<CSubstrat> & biotop);
+	static CAgent * CreaAgent(string tipus, CBiosistema & biosistema);
 // Proves
 public:
 	static void ProvaClasse();

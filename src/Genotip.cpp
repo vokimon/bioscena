@@ -6,6 +6,7 @@
 // 19991202 VoK - Fix: Inicialitzacions
 // 19991202 VoK - Fix: Mecanisme d'expressio (seguentInstruccio...)
 // 20000218 VoK - Afegit el membre 'clear'
+// 20000708 VoK - Tipus de control (per la funcio CControlOrg::tipus)
 //////////////////////////////////////////////////////////////////////
 
 #include <iomanip>
@@ -21,6 +22,7 @@
 
 CGenotip::CGenotip()
 {
+	m_tipus+="/ExpressioGenica";
 	m_genActual=0;
 }
 

@@ -2,8 +2,8 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#if !defined(KKEP_MISSATGER_H_INCLUDED_)
-#define KKEP_MISSATGER_H_INCLUDED_
+#if !defined(__KKEP_MISSATGER_H_INCLUDED)
+#define __KKEP_MISSATGER_H_INCLUDED
 
 #include <strstream>
 #include <iostream>
@@ -63,4 +63,4 @@ public:
 // Missatgers de la aplicació
 extern CMissatger error,warning,out,log,log1,log2,log3,log4,mem;
 
-#endif // !defined(KKEP_MISSATGER_H_INCLUDED_)
+#endif // !defined(__KKEP_MISSATGER_H_INCLUDED)

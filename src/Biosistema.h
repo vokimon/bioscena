@@ -91,7 +91,7 @@ public:
 	bool organismeExpontani();
 	bool eliminaOrganismeActiu();
 	void canviaOrganismeActiu();
-	bool introdueix(COrganisme * org);
+	bool introdueix(COrganisme * org, uint32 pos = ~uint32(0));
 	void activaLog(bool actiu);
 // Operacions (Instruccions)
 public:

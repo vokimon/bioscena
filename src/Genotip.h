@@ -19,10 +19,10 @@ public:
 	virtual ~CGenotip();
 // Operacions
 public:
-	bool init(CCariotip& c);
-	void clear();
-	uint32 seguentInstruccio(uint32 * fenotip);
-	void dump(CMissatger & msg);
+	virtual bool init(CCariotip& c);
+	virtual void clear();
+	virtual uint32 seguentInstruccio(uint32 * fenotip);
+	virtual void dump(CMissatger & msg);
 // Atributs
 public:
 	uint32 m_genActual;

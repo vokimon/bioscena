@@ -21,6 +21,7 @@
 // 20000104 VoK - Impronta: el pare modifica un registre de fenotip del fill
 // 20000215 VoK - La feina de taxonomista es fa amb l'objecte extern
 // 20000527 VoK - Factor de carrega pel moviment
+// 20000708 VoK - Es pot introduir un organisme a una posicio concreta
 //////////////////////////////////////////////////////////////////////
 // Notes de manteniment:
 // - m_infoOrganisme apunta a un element d'un vector. Com a tal es pot
@@ -32,14 +33,9 @@
 //////////////////////////////////////////////////////////////////////
 
 #include <fstream>
-
-//#include "turbioconio.h"
 #include "Biosistema.h"
-//#include "Agent.h"
-//#include "TopologiaToroidal.h"
 #include "Missatger.h"
 #include "Configuracio.h"
-//#include "Grafic.h"
 #include "Compatibilitat.h"
 
 using namespace AnsiCodes;
@@ -108,8 +104,8 @@ CBiosistema::CBiosistema()
 	m_temps=0;
 
 	m_probabilitatGeneracioExpontanea.fixa(
-		Config.get("Comunitat/ProbabilitatGeneracioExpontanea/Mostra"),
-		Config.get("Comunitat/ProbabilitatGeneracioExpontanea/Encerts")
+		Config.get("Comunitat/ProbabilitatGeneracioExpontanea/Encerts"),
+		Config.get("Comunitat/ProbabilitatGeneracioExpontanea/Mostra")
 		);
 
 	m_bitsCodiOperacio=Config.get("Biosistema/OpCodes/BitsOperacio");
@@ -381,7 +377,7 @@ bool CBiosistema::organismeExpontani()
 	// Creem un taxo per l'ancestre
 	uint32 taxo = m_taxonomista ? m_taxonomista->nouTaxoIndependent(): ~uint32(0);
 	// 
-	COrganisme * org = new COrganisme;
+	COrganisme * org = new COrganisme("ControlOrganisme/ExpressioGenica");
 	if (!org) {
 		error << "CBiosistema: Fallo la memoria ocupando un organismo expontaneo" << endl;
 		cin.get();
@@ -418,12 +414,17 @@ bool CBiosistema::eliminaOrganismeActiu()
 	return true;
 }
 
-bool CBiosistema::introdueix(COrganisme * org)
+bool CBiosistema::introdueix(COrganisme * org, uint32 pos /* =-1 */)
 // Pre: org es un punter vàlid
 {
+	if (!m_biotop->esPosicioValida(pos)) {
+		pos = m_biotop->posicioAleatoria();
+		}
 	// Escollim una posicio aleatoria, si esta lliure continuem
-	uint32 pos = m_biotop->posicioAleatoria();
-	if ((*m_biotop)[pos].esOcupat()) return false;
+	if ((*m_biotop)[pos].esOcupat()) {
+		delete org;
+		return false;
+		}
 	// Creem un taxo per l'ancestre
 	uint32 taxo = m_taxonomista ? m_taxonomista->nouTaxoIndependent(): ~uint32(0);
 	// Ho introduim en societat (a la comunitat i al biotop)
@@ -467,7 +468,7 @@ bool CBiosistema::organismeMitosi(uint32 parametres)
 		return false;
 		}
 	// Mirem si encara tenim energia per fer la mitosi
-	if (!m_organismeActiu->consumeixEnergia(energia/*Config.get("Biosistema/Energia/Mitosi/Cedida")*/*Config.get("Biosistema/Energia/Mitosi/Factor"))) {
+	if (!m_organismeActiu->consumeixEnergia(energia/*Config.get("Biosistema/Energia/Mitosi/Cedida")*/ *Config.get("Biosistema/Energia/Mitosi/Factor"))) {
 		logAccio << vermell << "No tinc energia" << blanc.fosc() << endl;
 		return false;
 		}
@@ -477,7 +478,7 @@ bool CBiosistema::organismeMitosi(uint32 parametres)
 		return false; // Error: Ja hi ha penya a la posicio, no la podem ocupar
 	}
 	// Benvingut al mon!!!
-	COrganisme * nouOrganisme = new COrganisme(m_organismeActiu->m_cariotip);
+	COrganisme * nouOrganisme = new COrganisme(m_organismeActiu->m_genotip->tipus(), m_organismeActiu->m_cariotip);
 	if (!nouOrganisme) {
 		logAccio << vermell.brillant() << "Falta memoria" << blanc.fosc() << endl;
 		cin.get();

@@ -18,8 +18,8 @@ public:
 	typedef uint32 t_instruccio;
 // Construcció/Destruccio
 public:
-	COrganisme();
-	COrganisme(CCariotip &c);
+	COrganisme(string tipus);
+	COrganisme(string tipus, CCariotip &c);
 	virtual ~COrganisme();
 // Redefinibles
 public:
@@ -37,7 +37,7 @@ public:
 	uint32 m_tempsDisipacioRestant;
 	// Control
 	CCariotip m_cariotip;
-	CGenotip m_genotip;
+	CControlOrganisme * m_genotip;
 	// Dades tontes
 	uint32 m_edat;
 public:

@@ -55,7 +55,7 @@ todo: copirrait
 
 copirrait:
 	@echo --- KKEPerians UNLTD LaTeX makefile file --------------
-	buildnum
+#	buildnum
 
 $(PDF): $(TEXSOURCES)
 	@echo

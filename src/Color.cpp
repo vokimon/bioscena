@@ -8,6 +8,8 @@
 // 199908?? VoK - Creats els AnsiCodes
 // 19991214 VoK - Optimitzat el serialitzat dels CColor
 // 19991214 VoK - Afegides: colorbgfg & co. cursor_on/off i key_on/off
+// 20010130 VoK - Fix: No podiem modificar a les casselles de un char* 
+//                inicialitzat pero si dun char[] (operator << )
 //////////////////////////////////////////////////////////////////////
 // TODO: Intermitencies colors de fons i xorrades d'aquestes que sempre
 //       estas a temps de fer
@@ -19,12 +21,11 @@
 const CColor negre(0), vermell(1), verd(2), groc(3), 
 	blau(4), magenta(5), cyan(6), blanc(7);
 
-
 namespace AnsiCodes {
 	// Si el buffer a on els ostrstreams fan el format no el proveim
 	// nosaltres, en cridar al 'str' congelem el buffer dinamic intern
 	// i el destructor no l'allibera creant lagunes de memoria
-	static char myBuffer[16];
+	static char myBuffer[160];
 
 	string set_mode(int mode) // Setmode
 	{

@@ -5,8 +5,8 @@
 // 19990619 VoK - Creat i provat unitariament
 // 19990719 VoK - Implemetat CColorStreamOutputer a partir d'una meitat de l'antic Missatger
 
-#if !defined(KKEP_OUTPUTER_H_INCLUDED_)
-#define KKEP_OUTPUTER_H_INCLUDED_
+#if !defined(__KKEP_OUTPUTER_H_INCLUDED)
+#define __KKEP_OUTPUTER_H_INCLUDED
 
 #ifdef  _MSC_VER
 	#pragma warning(disable:4786)
@@ -169,4 +169,4 @@ typedef CColorOutputer COutputer;
 
 extern KKEP_DEFAULT_OUTPUTER(defaultOut);
 
-#endif // !defined(KKEP_OUTPUTER_H_INCLUDED_)
+#endif // !defined(__KKEP_OUTPUTER_H_INCLUDED)

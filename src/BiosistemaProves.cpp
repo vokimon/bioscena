@@ -48,7 +48,7 @@ static void importaOrganisme(CBiosistema & biosistema)
 		return;
 	}
 	out << "Important l'organisme del fitxer '" << filename << '\'' << endl;
-	COrganisme * org = new COrganisme;
+	COrganisme * org = new COrganisme("Control/ExpressioGenica");
 	if (!org) {
 		error << "Error de memoria" << endl;
 		cin.get();
@@ -219,7 +219,7 @@ void CBiosistema::ProvaClasse()
 	biosistema.biotop(new CBiotop<CBiosistema::t_substrat>(topologia));
 	biosistema.comunitat(new CComunitat);
 	biosistema.taxonomista(new CTaxonomista);
-	biosistema.agents(CAgent::ParsejaArxiu("Agents.ini", *(biosistema.biotop()), error));
+	biosistema.agents(CAgent::ParsejaArxiu("Agents.ini", biosistema, error));
 
 	uint32 pasVisualitzacio=0;
 	uint32 pas=pasVisualitzacio;
@@ -450,7 +450,7 @@ void CBiosistema::ProvaClasse()
 					}
 					out << clrscr << endl;
 					biosistema.deleteAgents();
-					biosistema.agents(CAgent::ParsejaArxiu(filename, *(biosistema.biotop()), error));
+					biosistema.agents(CAgent::ParsejaArxiu(filename, biosistema, error));
 					// TODO: Recarregar configuracio 
 					out << "Prem una tecla" << endl;
 					cin.get();
@@ -459,7 +459,7 @@ void CBiosistema::ProvaClasse()
 				case 'r': 
 					out << clrscr << endl;
 					biosistema.deleteAgents();
-					biosistema.agents(CAgent::ParsejaArxiu("Agents.ini", *(biosistema.biotop()), error));
+					biosistema.agents(CAgent::ParsejaArxiu("Agents.ini", biosistema, error));
 					// TODO: Recarregar configuracio 
 					out << "Prem una tecla" << endl;
 					cin.get();

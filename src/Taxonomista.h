@@ -28,6 +28,7 @@ public:
 class CTaxonomista 
 {
 // Tipus propis
+public:
 	typedef map<uint32,CInfoTaxo> t_taxons;
 // Construccio/Destruccio
 public:

@@ -1,5 +1,14 @@
-// Actuadors.cpp: implementation of the CActuador subclasses.
+// ActuadorsNutrients.cpp: implementation of some CActuador subclasses.
 //
+//////////////////////////////////////////////////////////////////////
+// Change Log:
+// 19990820 VoK - Creat (a partir de l'antic Cumulador)
+// 19990822 VoK - Funcions de dump
+// 19990823 VoK - Reordenat els fitxers
+// 19990824 VoK - dump ja no posa ':' despres de nom del parametre
+// 19990824 VoK - Funcions de configuracio amb parametres
+// 20000708 VoK - Nutridor inicialitza el biotop i no Actuador
+// 20000708 VoK - Ja no fem servir la intermitja operator()(CSubstrat)
 //////////////////////////////////////////////////////////////////////
 
 #include "Actuadors.h"
@@ -10,6 +19,7 @@
 #include "Biotop.h"
 #include "MultiAgent.h"
 #include "Color.h"
+#include "Organisme.h"
 
 using namespace AnsiCodes;
 
@@ -18,7 +28,7 @@ using namespace AnsiCodes;
 //////////////////////////////////////////////////////////////////////
 
 CNutridor::CNutridor(t_biotop & biotop)
-	: CActuador(biotop)
+	: m_biotop(biotop)
 {
 	m_tipus+="/Nutridor";
 	m_variabilitat=0;
@@ -40,9 +50,17 @@ CDesnutridor::CDesnutridor(t_biotop & biotop)
 // Redefinibles
 //////////////////////////////////////////////////////////////////////
 
+void CNutridor::operator () () {
+	if (!m_posicionador)
+		warning << "CActuador " << nom() << " accionat sense posicionador" << endl;
+	CSubstrat & s = m_biotop[m_posicionador->pos()];
+	uint32 nutrient = m_element^(m_variabilitat&rnd.get());
+	s.deposita(nutrient);
+}
+
 void CNutridor::dump(CMissatger & msg)
 {
-	CActuador::dump(msg);
+	inherited::dump(msg);
 	msg << "- Composicio " << m_element << " " << m_variabilitat << endl;
 }
 
@@ -60,6 +78,13 @@ bool CNutridor::configura(string parametre, istream & valor, t_diccionariAgents 
 	}
 	// Li deixem a la superclasse que l'intercepti si vol
 	return inherited::configura(parametre, valor, diccionari, errors);
+}
+void CDesnutridor::operator() () {
+	if (!m_posicionador)
+		warning << "CActuador " << nom() << " accionat sense posicionador" << endl;
+	CSubstrat & s = m_biotop[m_posicionador->pos()];
+	uint32 nutrient;
+	s.extreu(nutrient, m_element, m_variabilitat);
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -186,4 +211,5 @@ void CDesnutridor::ProvaClasse()
 	agents.dumpAll(out);
 	cin.get();
 }
+
 

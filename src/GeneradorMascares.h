@@ -11,8 +11,8 @@
 // Pendent Log:
 //////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_GENERADORMASCARES_H__487D83E2_D4FF_11D2_A87F_2CDF02C10000__INCLUDED_)
-#define AFX_GENERADORMASCARES_H__487D83E2_D4FF_11D2_A87F_2CDF02C10000__INCLUDED_
+#if !defined(__KKEP_GENERADORMASCARES_H_INCLUDED)
+#define __KKEP_GENERADORMASCARES_H_INCLUDED
 
 #ifdef  _MSC_VER
 	#pragma warning(disable:4786)
@@ -67,4 +67,4 @@ public:
 };
 
 
-#endif // !defined(AFX_GENERADORMASCARES_H__487D83E2_D4FF_11D2_A87F_2CDF02C10000__INCLUDED_)
+#endif // !defined(__KKEP_GENERADORMASCARES_H_INCLUDED)

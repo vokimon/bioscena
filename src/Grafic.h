@@ -2,8 +2,8 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#if !defined(_KKEP_GRAFIC_H_INCLUDED)
-#define _KKEP_GRAFIC_H_INCLUDED
+#if !defined(__KKEP_GRAFIC_H_INCLUDED)
+#define __KKEP_GRAFIC_H_INCLUDED
 
 #include <functional>
 #include <list>
@@ -224,5 +224,5 @@ private:
 	uint32 m_totalCelles;
 };
 
-#endif // !defined(_KKEP_GRAFIC_H_INCLUDED)
+#endif // !defined(__KKEP_GRAFIC_H_INCLUDED)
 

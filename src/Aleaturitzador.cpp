@@ -15,7 +15,6 @@ using namespace AnsiCodes;
 CAleaturitzador::CAleaturitzador()
 {
 	m_tipus+="/Aleaturitzador";
-	m_probabilitat.fixa(1,1);
 	m_reAccio = NULL;
 	m_accionat = false;
 }
@@ -91,10 +90,10 @@ list<CAgent*> CAleaturitzador::subordinats() {
 //////////////////////////////////////////////////////////////////////
 // Operacions
 //////////////////////////////////////////////////////////////////////
-
+// TODO: Change the order of the parameters to match the CProbabilitat criteria
 void CAleaturitzador::probabilitat(uint32 mostra, uint32 encerts)
 {
-	m_probabilitat.fixa(mostra,encerts);
+	m_probabilitat.fixa(encerts,mostra);
 }
 
 void CAleaturitzador::reAccio(t_accio * a)

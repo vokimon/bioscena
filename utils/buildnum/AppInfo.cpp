@@ -1,16 +1,15 @@
 #include <iomanip>
 #include "AppInfo.h"
-#include "Missatger.h"
 
 #ifndef _KKEP_BUSCANT_DEPENDENCIES
 #include "build.h"
 #endif
 
 /////////////////////////////////////////////////////////////////////
-// Construcctor
+// Constructor
 /////////////////////////////////////////////////////////////////////
 CAppInfo::CAppInfo(char *name, unsigned int major, unsigned int minor, 
-	char *designer, char *enterprise, 
+	char* cpyear, char *designer, char *enterprise, 
 	unsigned int buildNumber, char *buildDate)
 {
 	m_name=name;
@@ -20,7 +19,8 @@ CAppInfo::CAppInfo(char *name, unsigned int major, unsigned int minor,
 	m_enterprise=enterprise;
 	m_buildDate=buildDate;
 	m_buildNumber=buildNumber;
-	out << *this;
+	m_copyrightyear=cpyear;
+	cout << *this;
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -32,7 +32,7 @@ ostream &operator<<(ostream& stream, CAppInfo &info)
 	stream << " Build 0x" << setfill('0') << setw(4) << hex;
 	stream << info.m_buildNumber <<" - " << info.m_buildDate <<endl;
 	stream << setfill('0') << setw(0) << dec;
-	stream << "Copyright (c) 1998 "<<info.m_designer<<"/"<<info.m_enterprise<<endl;
+	stream << "Copyright (c) " << info.m_copyrightyear << " " <<info.m_designer<<"/"<<info.m_enterprise<<endl;
 	return stream;
 }
 
@@ -40,5 +40,7 @@ ostream &operator<<(ostream& stream, CAppInfo &info)
 // Inicialitzem l'informacio de la nostra aplicacio 
 // (Modifiqueu-la com convingui)
 /////////////////////////////////////////////////////////////////////
-CAppInfo CAppInfo::MyAppInfo("Bioscena",1,1,"Vokimon","KKEPerians UNLTD",BuildNumber,BuildDate);
+CAppInfo CAppInfo::MyAppInfo("Build Number Generator",1,4,
+		"1998-2001","Vokimon","KKEPerians UNLTD",
+		BuildNumber,BuildDate);
 

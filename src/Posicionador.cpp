@@ -1,6 +1,15 @@
 // Posicionador.cpp: implementation of the CPosicionador class.
 //
 //////////////////////////////////////////////////////////////////////
+// Change Log:
+// 19990822 VoK - Funcions de dump
+// 19990823 VoK - Reordenat els fitxers
+// 19990824 VoK - dump ja no posa ':' despres de nom del parametre
+// 19990824 VoK - Funcions de configuracio amb parametres
+// 20000220 VoK - Adaptat topologia sense templates
+// 20000220 VoK - Canviat el nom dels tipus interns tipus_X -> t_X
+// 20000708 VoK - CTopologia::esValidaCassella -> CTopologia::esPosicioValida
+//////////////////////////////////////////////////////////////////////
 
 #include "Posicionador.h"
 
@@ -74,7 +83,7 @@ bool CDireccionador::configura(string parametre, istream & valor, t_diccionariAg
 
 void CPosicionador::pos(t_posicio nova) 
 {
-	if (m_biotop.esValidaCassella(nova))
+	if (m_biotop.esPosicioValida(nova))
 		m_pos=nova;
 	else {
 		warning << "Posicionador '" << nom() << "' fixat a la posicio " << nova << ", invalida pel biotop" << endl;

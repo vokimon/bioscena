@@ -20,7 +20,7 @@
 #ifndef _MSC_VER
 */
 
-#ifdef UNIX
+#ifndef WINDOWS
 
 #include <stdio.h>
 #include <unistd.h>
@@ -69,7 +69,6 @@ char getch(void)
 	return ch;
 }
 
-
 int kbhit(void)
 {
 	struct timeval timeout = { 0, 0 };
@@ -81,7 +80,7 @@ int kbhit(void)
 	return desc;
 }
 
-#endif /* UNIX */
+#endif /* ! MSVC */
 /*
 #endif // _MSC_VER
 #endif // __DJGPP__

@@ -1,23 +1,31 @@
 //////////////////////////////////////////////////////////////////////
-// Build Number Generator v1.3
+// Build Number Generator v1.4
 // Coded by Vokimon (vokimon@jet.es)
-// Compile it with any standard C++ compiler
 //////////////////////////////////////////////////////////////////////
 
 What is this?
 
 Buildnum is a simple utility that mantains up to date a build number
-of your C programing projects. Simply you must execute it while you 
+in your C programing projects. Simply you must execute it while you 
 build the project.
 
 Features:
 
+- Available as bash script or as ISO-C++ compilable code
 - It's multiplatform (executable works for DOS and Win but the code
 is fully portable)
 - Every build number has an associated time-stamp
-- Build number and timestamp are available from the C program
+- Build number and timestamp are available from a C program
 - It mantains a history file, "buildlog.txt" with all your builds
 listed.
+
+Files:
+- Readme.txt   - This file
+- buildnum     - Script version
+- buildnum.cpp - Source code for the compilable version
+- AppInfo.*    - Simple singleton wrapper class for buildnum
+- Makefile     - A generic makefile that uses buildnum (and also
+                 can be used as is to compile buildnum.cpp)
 
 Its execution generates two files:
 

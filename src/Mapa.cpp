@@ -8,12 +8,8 @@
 // 20000217 VoK - Fix: ScrollDown no definia be els limits
 //////////////////////////////////////////////////////////////////////
 // TODO:
-// Fer mes prima l'escala logaritmica
-// Fer programable el que visualitzen les comparatives d'organismes
 // Fer programable el que visualitzen els mapes
-// Implementar Grafic Evolutiu/Temporal
 // Muntar un conjunt de visualitzadors des d'un fitxer
-// Implementar Comparativa Taxons
 
 #include "Grafic.h"
 #include "Color.h"

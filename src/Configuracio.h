@@ -12,6 +12,10 @@
 
 static CMissatger errorConfiguracio("Error Configuracio");
 
+
+/**
+* A container for configuration parameters.
+*/
 class CConfiguracio  
 {
 // Tipus propis

@@ -94,11 +94,10 @@ si cal, és:
     de desplaçament a una posició origen.
     CTopologia, la defineix, per defecte, de tal forma que el 
 	resultat és una posició destí aleatòria vàlida.
-\item   {\tt bool CTopologia::esValid(t\_posicio id)}:
-    Una funció per saber si un identificador és vàlid. Només cal
-    redefinir-ho si es modifica la correspondència directa entre
-    identificador de posició i index de casella en l'array de
-    substrats reservada per CTopologia::CTopologia
+\item   {\tt bool CTopologia::esPosicioValida(t\_posicio id)}:
+    Una funció per saber si un identificador de posició és vàlid. 
+	Per defecte, els identificadors vàlids van de $0$ a $N-1$ on N és
+	el nombre de posicions.
 \item   {\tt t\_posicio CTopologia::posicioAleatoria ()}:
     Una funció per obtindre aleatòriament una posició vàlida de la
     topologia. La funció general que no caldria redefinir seria
@@ -341,7 +340,7 @@ Un cop creats els objectes {\tt CAgent}, cal modificar els paràmetres
 per defecte. La classe factoria {\tt CAgent} determina a quin agent 
 del diccionari pertany cada conjunt de línies de configuració i 
 va enviant els noms de paràmetres que troba i els valors
-perqué l'agent els faci servir per configurar-se.
+perquè l'agent els faci servir per configurar-se.
 
 Donat que hi ha diversos nivells de subclasses als agents i cadascuna
 té els seus paràmetres a configurar, es segueix la mateixa estratègia
@@ -379,7 +378,7 @@ class CControlOrganisme
 public:
     CControlOrganisme() {}
     virtual ~CControlOrganisme() {}
-// Operacions
+// Operacions Redefinibles
 public:
     // Construeix l'estructura de control a partir d'un cariotip
     virtual bool init(CCariotip& c)=0;
@@ -387,6 +386,12 @@ public:
     virtual uint32 seguentInstruccio(uint32 * fenotip)=0;
     // Representa al CMissatger l'estructura de control (Estat actual?)
     virtual void dump(CMissatger & msg)=0;
+// Operacions No Redefinibles
+public:
+	string tipus();
+// Atributs
+public:
+	string m_tipus;
 // Factoria
 public:
     // retorna el nombre de tipus de sistemes de control implementats
@@ -408,7 +413,11 @@ passes:
 
 \begin{enumerate}
 \item Definir una classe derivada de {\tt CControlOrganisme}, que 
-anomenarem per entendre'ns {\tt CNouControl}.
+anomenarem aquí, per entendre'ns, {\tt CNouControl}.
+\item Crear un constructor per fer inicialitzacions d'atributs 
+independents de la informació genètica i on s'agregui a 
+l'identificador de tipus {\tt m\_tipus} la porció de nom del 
+tipus que correspon a la subclasse.
 \item Definir per a {\tt CNouControl}, les tres operacions bàsiques:
 \begin{itemize}
 \item {\tt init}: Construeix l'estructura interna del sistema de control a partir d'un cariotip.
@@ -426,6 +435,7 @@ classe abstracta.
 \end{enumerate}
 \end{enumerate}
 
+% TODO: Com incorporar el tipus de control al biosistema
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Modificar del sistema de control actual}

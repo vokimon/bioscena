@@ -9,9 +9,10 @@
 // 20000112 VoK - Fix: desp.aleat: el pic el calculava al reves
 // 20000120 VoK - Ja no es un template
 // 20000120 VoK - Fix lexic: Altura -> alcada
+// 20000708 VoK - esValidaCassella -> esPosicioValida
 //////////////////////////////////////////////////////////////////////
 
-#if !defined(__KKEP_TOPOLOGIATOROIDAL_H_INCLUDED)
+#ifndef __KKEP_TOPOLOGIATOROIDAL_H_INCLUDED
 #define __KKEP_TOPOLOGIATOROIDAL_H_INCLUDED
 
 #include "BioIncludes.h"
@@ -19,26 +20,40 @@
 #include "RandomStream.h"
 #include "Missatger.h"
 
-enum DireccionsBasiques 
-{
-	UP		  = 0x00,
-	UP_RIGHT  = 0x01,
-	RIGHT     = 0x02,
-	DOWN_RIGHT= 0x03,
-	DOWN	  = 0x07,
-	DOWN_LEFT = 0x06,
-	LEFT      = 0x05,
-	UP_LEFT   = 0x04
-};
 
-
+/**
+* The CTopogogiaToroidal class is an optimized implementation 
+* of CTopologia interface that represents a toroidal topology. 
+* That is a 2D mesh of cells so that when you reach the border
+* you get in the oposite border.
+* <p>
+* It has the particularity that when you reach the end of a
+* row of cells you get the next row like it were a twisted
+* string of cells. So if you move step by step in one cardinal
+* direction, you will visit every position on the topology.
+*
+* TODO: Document how the displacement works here
+*
+* @see CTopologia
+*/
 class CTopologiaToroidal : public CTopologia
 {
 // Tipus interns
 public:
 	typedef CTopologia inherited;
-	typedef CTopologia::t_posicio t_posicio;
-	typedef CTopologia::t_desplacament t_desplacament;
+	typedef inherited::t_posicio t_posicio;
+	typedef inherited::t_desplacament t_desplacament;
+	enum t_DireccionsBasiques 
+	{
+		UP        = 0x00,
+		UP_RIGHT  = 0x01,
+		RIGHT     = 0x02,
+		DOWN_RIGHT= 0x03,
+		DOWN	  = 0x07,
+		DOWN_LEFT = 0x06,
+		LEFT      = 0x05,
+		UP_LEFT   = 0x04
+	};
 // Contruccio/Destruccio
 public: 
 	CTopologiaToroidal (uint32 XMax, uint32 YMax);
@@ -51,6 +66,8 @@ public:
 	virtual inline t_posicio desplacament (t_posicio origen, t_desplacament movimentRelatiu) const;
 	virtual inline bool unio (t_posicio posOrigen, t_posicio posDesti, t_desplacament & desp) const;
 	virtual inline t_posicio desplacamentAleatori (t_posicio posOrigen, uint32 radi) const;
+	virtual inline t_desplacament invers(t_desplacament desp) const;
+	virtual inline t_desplacament desplacamentNul() const;
 // Atributs
 protected:
 	uint32 m_xMax;
@@ -176,6 +193,14 @@ CTopologiaToroidal::t_posicio CTopologiaToroidal::desplacamentAleatori (t_posici
 	for (radi>>=3; radi--;)
 		posDesti = desplacament(posDesti,rnd.get()|0x88888888);
 	return posDesti;
+}
+
+CTopologiaToroidal::t_desplacament CTopologiaToroidal::invers(t_desplacament desp) const {
+	return desp ^ 0x77777777;
+}
+
+CTopologiaToroidal::t_desplacament CTopologiaToroidal::desplacamentNul() const {
+	return 0;
 }
 
 #endif // !defined(__KKEP_TOPOLOGIATOROIDAL_H_INCLUDED)

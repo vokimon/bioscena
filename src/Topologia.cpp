@@ -5,6 +5,7 @@
 // 19990722 VoK - Fa servir templates per a les cel·les
 // 19990723 VoK - Rebautizat: BiotopToroidal -> TopologiaToroidal
 // 20000220 VoK - Ja no es un template, independitzat de les cel·les
+// 20000708 VoK - esValidaCassella -> esPosicioValida
 
 #include <iomanip>
 #include "Topologia.h"
@@ -30,11 +31,21 @@ CTopologia::~CTopologia()
 // Redefinibles
 //////////////////////////////////////////////////////////////////////
 
+uint32 CTopologia::tamany() const
+{
+	return m_totalCasselles;
+}
+
+bool CTopologia::esPosicioValida(t_posicio pos) const
+{
+	return (pos<m_totalCasselles)&&(pos>=0);
+}
+
 CTopologia::t_posicio CTopologia::desplacament (t_posicio origen, t_desplacament movimentRelatiu) const
 // Retorna la posicio resultant de fer el desplacament des de l'origen
 {
 	// TODO: Per defecte aillades o indeterministic?
-	return posicioAleatoria();
+	return movimentRelatiu ? posicioAleatoria() : origen;
 //	return origen;
 }
 
@@ -45,9 +56,20 @@ CTopologia::t_posicio CTopologia::desplacamentAleatori (t_posicio origen, uint32
 	return origen;
 }
 
-bool CTopologia::esValidaCassella(t_posicio pos) const
+CTopologia::t_desplacament CTopologia::invers (t_desplacament desp) const
+// Retorna un desplacament invers al desplacament
 {
-	return (pos<m_totalCasselles)&&(pos>=0);
+	// TODO: Per defecte aillades o indeterministic?
+	t_desplacament inverse_displacement;
+	rnd >> inverse_displacement;
+	return inverse_displacement;
+}
+
+CTopologia::t_desplacament CTopologia::desplacamentNul () const
+// Retorna un desplacament que aplicat a una posicio, retorna la posicio
+{
+	// TODO: Per defecte aillades o indeterministic?
+	return 0;
 }
 
 bool CTopologia::unio (t_posicio posOrigen, t_posicio posDesti, t_desplacament & desp) const
@@ -62,11 +84,6 @@ CTopologia::t_posicio CTopologia::posicioAleatoria() const
 {
 	CRandomStream rnd;
 	return rnd.get(0,m_totalCasselles-1);
-}
-
-uint32 CTopologia::tamany() const
-{
-	return m_totalCasselles;
 }
 
 //////////////////////////////////////////////////////////////////////
