@@ -1,7 +1,7 @@
 #include <cppunit/extensions/TestFactoryRegistry.h>
 #include <cppunit/CompilerOutputter.h>
 
-//#define GUI_ENABLED
+#define GUI_ENABLED
 
 #ifdef GUI_ENABLED
 #	include <cppunit/ui/qt/TestRunner.h>
@@ -31,7 +31,8 @@ int main( int argc, char* argv[] )
 	CppUnit::TestFactoryRegistry &registry = CppUnit::TestFactoryRegistry::getRegistry();
 	runner.addTest( registry.makeTest() );
 	// Run the test.
-	return !runner.run();
+	runner.run("");
+	return 0;
 
 }
 
