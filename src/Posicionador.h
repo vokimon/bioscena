@@ -13,8 +13,8 @@
 // 
 //////////////////////////////////////////////////////////////////////
 
-#if !defined(__KKEP_ITINERARI_H_INCLUDED)
-#define __KKEP_ITINERARI_H_INCLUDED
+#if !defined(__KKEP_POSICIONADOR_H_INCLUDED)
+#define __KKEP_POSICIONADOR_H_INCLUDED
 
 #include "Agent.h"
 #include "Topologia.h"
@@ -33,13 +33,14 @@ class CPosicionador : public CAgent
 	typedef uint32 tipus_direccio;
 // Construccio/Destruccio
 public:
-	CPosicionador(tipus_biotop& biotop):m_biotop(biotop){m_pos=0;};
-	virtual ~CPosicionador() {};
+	CPosicionador(tipus_biotop& biotop);
+	virtual ~CPosicionador();
 // Operacions
 public:
 	tipus_posicio pos() {return m_pos;};;
-	void pos(tipus_posicio nova) {m_pos=nova;};
+	void pos(tipus_posicio nova);
 	CPosicionador & operator = (tipus_posicio nova) {m_pos=nova; return *this;};
+	CSubstrat & substrat();
 // Virtuals redefinibles a les subclasses
 public:
 	virtual void operator() (void) {};
@@ -62,7 +63,11 @@ class CDireccionador : public CAgent
 	typedef uint32 tipus_direccio;
 // Construccio/Destruccio
 public:
-	CDireccionador(tipus_biotop& biotop):m_biotop(biotop){m_dir=0;};
+	CDireccionador(tipus_biotop& biotop):m_biotop(biotop)
+	{
+		m_dir=0;
+		m_tipus+="/Direccionador";
+	};
 	virtual ~CDireccionador() {};
 // Operacions
 public:
@@ -79,4 +84,4 @@ protected:
 };
 
 
-#endif // !defined(__KKEP_ITINERARI_H_INCLUDED)
+#endif // !defined(__KKEP_POSICIONADOR_H_INCLUDED)

@@ -1,11 +1,10 @@
-// ItinerarisConcrets.h: interface for the CItinerari subclasses.
+// Itineraris.h: Interface for subclasses of CPosicionador & CDireccionador
 //
 //////////////////////////////////////////////////////////////////////
 // Aquesta capcelera descriu els prototips per a les especialitzacions
 // de CPosicionador i CDireccionador
 //////////////////////////////////////////////////////////////////////
 // TODO: Fer Direccionadors i Posicionadors segons una sequencia.
-// TODO: Fer Posicionadors en l'entorn d'una posicio
 
 #if !defined(__KKEP_ITINERARIS_H_INCLUDED)
 #define __KKEP_ITINERARIS_H_INCLUDED
@@ -15,16 +14,19 @@
 
 //////////////////////////////////////////////////////////////////////
 // CItinerari: Varia la posicio respecte la posició anterior, segons 
-// un direccionador.
+// un direccionador (del qual depen).
 //////////////////////////////////////////////////////////////////////
 
 class CItinerari : public CPosicionador
 {
+// Tipus Propis
+	typedef CPosicionador super;
 // Construccio/Destruccio
 public:
-	CItinerari(tipus_biotop & biotop, CDireccionador* dir):CPosicionador(biotop)
+	CItinerari(tipus_biotop & biotop):CPosicionador(biotop)
 	{
-		m_direccionador=dir;
+		m_tipus+="/Direccional";
+		m_direccionador=NULL;
 		m_radi=1;
 	};
 // Operacions
@@ -35,12 +37,22 @@ public:
 	CDireccionador * direccionador() {
 		return m_direccionador;
 	}
+	uint32 radi() {return m_radi;}
+	void radi(uint32 rad) {m_radi=rad;}
 // Virtuals redefinibles a les subclasses
 public:
+	virtual list<CAgent*> dependencies() {
+		list<CAgent*> l=super::dependencies();
+		if (m_direccionador) l.push_back(m_direccionador); 
+		return l;
+	};
 	virtual void operator() (void) 
 	{
-		for (int i=m_radi; i--;)
-			m_pos = m_biotop.desplacament(m_pos, m_direccionador->dir());
+		if (!m_direccionador)
+			warning << "CItinerari " << nom() << " accionat sense posicionador" << endl;
+		else 
+			for (int i=m_radi; i--;)
+				m_pos = m_biotop.desplacament(m_pos, m_direccionador->dir());
 	}
 // Atributs
 protected:
@@ -56,10 +68,11 @@ class CPosicionadorZonal : public CPosicionador
 {
 // Construccio/Destruccio
 public:
-	CPosicionadorZonal(tipus_biotop & biotop, CPosicionador* pos):CPosicionador(biotop)
+	CPosicionadorZonal(tipus_biotop & biotop):CPosicionador(biotop)
 	{
-		m_posicionador=pos;
+		m_posicionador=NULL;
 		m_radi=1;
+		m_tipus+="/Zonal";
 	};
 // Operacions
 public:
@@ -76,6 +89,11 @@ public:
 public:
 	virtual void operator() (void) 
 	{
+		if (!m_posicionador) 
+		{
+			warning << "PosicionadorZonal sense Posicionador central" << endl;
+			return;
+		}
 		m_pos=m_posicionador->pos();
 		for (int i=m_radi; i--;)
 			m_pos = m_biotop.desplacament(m_pos, rnd.get());
@@ -97,8 +115,9 @@ class CPosicionadorAleatori : public CPosicionador
 {
 // Construccio/Destruccio
 public:
-	CPosicionadorAleatori(tipus_biotop & biotop):CPosicionador(biotop)
-		{};
+	CPosicionadorAleatori(tipus_biotop & biotop):CPosicionador(biotop) {
+		m_tipus+="/Aleatori";
+	};
 // Operacions
 // Virtuals redefinibles a les subclasses
 public:
@@ -120,7 +139,10 @@ class CDireccionadorAleatori : public CDireccionador
 // Construccio/Destruccio
 public:
 	CDireccionadorAleatori::CDireccionadorAleatori(tipus_biotop & biotop)
-		:CDireccionador(biotop) {};
+		:CDireccionador(biotop) 
+	{
+		m_tipus+="/Aleatori";
+	};
 // Virtuals redefinibles a les subclasses
 public:
 	virtual void operator() (void) 
@@ -131,6 +153,5 @@ public:
 public:
 	static void ProvaClasse();
 };
-
 
 #endif // !defined(__KKEP_ITINERARIS_H_INCLUDED)

@@ -82,11 +82,39 @@ LINK32=link.exe
 # Name "Bioscena - Win32 Debug"
 # Begin Source File
 
+SOURCE=.\Actuador.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Actuador.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Actuadors.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Actuadors.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\Agent.cpp
 # End Source File
 # Begin Source File
 
 SOURCE=.\Agent.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\AgentConfig.txt
+# End Source File
+# Begin Source File
+
+SOURCE=.\Aleaturitzador.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Aleaturitzador.h
 # End Source File
 # Begin Source File
 
@@ -99,6 +127,14 @@ SOURCE=.\AppInfo.h
 # Begin Source File
 
 SOURCE=.\BioIncludes.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Biosistema.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Biosistema.h
 # End Source File
 # Begin Source File
 
@@ -122,11 +158,35 @@ SOURCE=.\Compatibilitat.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\Cumulador.cpp
+SOURCE=.\Comunitat.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\Cumulador.h
+SOURCE=.\Comunitat.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Configuracio.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Configuracio.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Detector.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Detector.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\EnergiaDisipable.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\EnergiaDisipable.h
 # End Source File
 # Begin Source File
 
@@ -138,11 +198,35 @@ SOURCE=.\GeneradorMascares.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\InfoOrganisme.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\InfoOrganisme.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Iterador.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Iterador.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\Itineraris.cpp
 # End Source File
 # Begin Source File
 
 SOURCE=.\Itineraris.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\LlistaEstatica.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\LlistaEstatica.h
 # End Source File
 # Begin Source File
 
@@ -155,6 +239,22 @@ SOURCE=.\Missatger.cpp
 # Begin Source File
 
 SOURCE=.\Missatger.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\MultiAgent.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\MultiAgent.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Organisme.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Organisme.h
 # End Source File
 # Begin Source File
 
@@ -190,11 +290,31 @@ SOURCE=.\Substrat.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\Taxo.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Taxo.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Taxonomista.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Taxonomista.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\Temporitzador.cpp
 # End Source File
 # Begin Source File
 
 SOURCE=.\Temporitzador.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\TODO.txt
 # End Source File
 # Begin Source File
 

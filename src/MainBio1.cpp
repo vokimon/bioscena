@@ -14,13 +14,18 @@
 #include "Substrat.h"
 #include "Agent.h"
 #include "Itineraris.h"
-#include "Cumulador.h"
+#include "Actuadors.h"
 #include "Temporitzador.h"
+#include "MultiAgent.h"
+#include "Aleaturitzador.h"
 
-//#include "Biosistema.h"
+#include "Taxo.h"
+#include "Taxonomista.h"
+#include "LlistaEstatica.h"
+#include "EnergiaDisipable.h"
+#include "Organisme.h"
 //#include "Comunitat.h"
-//#include "Taxonomista.h"
-//#include "LlistaEstatica.h"
+//#include "Biosistema.h"
 //#include "LlistaDinamica.h"
 //#include "Cromosoma.h"
 
@@ -31,30 +36,34 @@ void main ()
 	out << cyan.brillant() << CAppInfo::MyAppInfo << blanc << endl;
 
 // Proves eines d'implementacio
-//	CMissatger::ProvaClasse();
+//	CMissatger::ProvaClasse(); //Ok
 //	ProvaTemplateCompatibilitat<uint32>(); // OK
 //	CEncaix<uint32>::ProvaClasse();
 //	CRandomStream::ProvaClasse(); // OK
-//	CLlistaEstatica<int>::ProvaClasse(); // Ei aixo no rula :-)
+//	CLlistaEstatica<int>::ProvaClasse();
 //	CLlistaDinamica<int>::ProvaClasse();
 //	CGeneradorMascares<uint32>::ProvaClasse();
 
 // Proves Biotop
-//	CTopologia<CColor>::ProvaClasse(); //OK
+//	CTopologia<CColor>::ProvaClasse(); //OK TODO: Provar tipus propis i scan
 //	CTopologiaToroidal<CColor>::ProvaClasse(); //OK
-//	CSubstrat::ProvaClasse(); //OK
+//	CSubstrat::ProvaClasse(); //
 //	CTopologiaToroidal<CSubstrat>::ProvaClasse(); //OK
 
 // Proves Agents diversos
-//	CAgentEnmascarador<void *()>::ProvaClasse(); //OK
+//	CFuncioAgent::ProvaClasse(); //OK
+//	CAleaturitzador::ProvaClasse(); //Ok
 //	CTemporitzador::ProvaClasse(); //OK
-//	CCumulador::ProvaClasse();//OK
-//	CClarejador::ProvaClasse();//Ok
+//	CNutridor::ProvaClasse();//OK
+//	CDesnutridor::ProvaClasse();//Ok
 //	CPosicionadorAleatori::ProvaClasse(); //OK
-//	CDireccionadorAleatori::ProvaClasse(); //OK
+	CDireccionadorAleatori::ProvaClasse(); //OK
 //	CPosicionadorZonal::ProvaClasse(); //OK
-	CMultiAgent::ProvaClasse();
+//	CMultiAgent::ProvaClasse(); //Ok
 
+// Proves Comunitat
+//	CEnergiaDisipable::ProvaClasse();
+//	COrganisme::ProvaClasse();
 //	CTaxo::ProvaClasse();
 //	CTaxonomista::ProvaClasse();
 //	CCromosoma::ProvaClasse();

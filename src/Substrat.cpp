@@ -13,6 +13,7 @@
 CSubstrat::CSubstrat()
 {
 	m_ocupat=false;
+	m_limitMollecules=32;
 }
 
 CSubstrat::~CSubstrat()
@@ -49,17 +50,25 @@ uint32 CSubstrat::ocupant()
 // Operacions (Quimica)
 //////////////////////////////////////////////////////////////////////
 
-void CSubstrat::afegeixMollecula(t_mol n)
+void CSubstrat::deposita(t_mol n)
 {
-	m_nutrients.push_back(n);
+	m_nutrients.push_front(n);
+	if (m_nutrients.size()>m_limitMollecules)
+		m_nutrients.pop_back();
 }
 
-void CSubstrat::limitaMollecules(uint32 n)
+uint32 CSubstrat::limitMollecules()
 {
+	return m_limitMollecules;
+}
+
+void CSubstrat::limitMollecules(uint32 n)
+{
+	m_limitMollecules=n;
 	if (n<m_nutrients.size()) {
 		list<t_mol>::iterator it;
 		for (it=m_nutrients.begin(); n--; it++);
-		m_nutrients.erase(m_nutrients.begin(), it);
+		m_nutrients.erase(it, m_nutrients.end());
 	}
 	// TODO: Optimizar el caso en que hay mas que se quedan que no que se van
 }
@@ -69,13 +78,24 @@ uint32 CSubstrat::numeroMollecules()
 	return m_nutrients.size();
 }
 
-bool CSubstrat::agafaMollecula(uint32 &n, uint32 clau, uint32 tolerancia)
+bool CSubstrat::extreu(uint32 &n, uint32 clau, uint32 tolerancia)
 {
 	list<uint32>::iterator it;
 	for (it=m_nutrients.begin(); it!=m_nutrients.end(); it++) {
 		if (compat2(clau,*it,tolerancia)) {
 			n=*it;
 			m_nutrients.erase(it);
+			return true;
+		}
+	}
+	return false;
+}
+
+bool CSubstrat::rastreja(uint32 clau, uint32 tolerancia)
+{
+	list<uint32>::iterator it;
+	for (it=m_nutrients.begin(); it!=m_nutrients.end(); it++) {
+		if (compat2(clau,*it,tolerancia)) {
 			return true;
 		}
 	}
@@ -89,32 +109,45 @@ bool CSubstrat::agafaMollecula(uint32 &n, uint32 clau, uint32 tolerancia)
 void CSubstrat::ProvaClasse () 
 {
 	CSubstrat s;
-	out << s << endl;
+	s.dump(out);
 	s.ocupa(4);
-	out << s << endl;
+	s.dump(out);
 	s.desocupa();
-	out << s << endl;
-	s.afegeixMollecula(3);
-	s.afegeixMollecula(23);
-	s.afegeixMollecula(43);
-	s.afegeixMollecula(234);
-	s.afegeixMollecula(234);
-	s.afegeixMollecula(0xFFF1);
-	out << s << endl;
-	s.afegeixMollecula(2);
-	out << s << endl;
+	s.dump(out);
+	s.deposita(0x0003);
+	s.deposita(0x0023);
+	s.deposita(0x0043);
+	s.deposita(0x0234);
+	s.deposita(0x0234); 
+	s.deposita(0xFFF1);
+	s.dump(out);
+	s.deposita(2); s.dump(out);
 	uint32 estomac=0;
-	for (int i=100; i--;) {
+	for (int i=4; i--;) {
 		uint32 n;
-		if (s.agafaMollecula(n,0x0,0x0)) {
-			out << "Hum, Menjar!!"<<endl;
+		if (s.extreu(n,0x0,0xFFFF00F0)) {
+			out << "Hum, Menjar!! "<<n<<endl;
 			estomac++;
 			}
 		}
 	out << "M'he menjat "<< estomac << " coses!" << endl;
-	out << s << endl;
-	s.limitaMollecules(4);
-	out << s << endl;
+	s.dump(out);
+	s.deposita(0x0003);
+	s.deposita(0x0023);
+	s.deposita(0x0043);
+	s.deposita(0x0234);
+	s.dump(out);
+	out<< "Limitant a 5 mollecules" << endl;
+	s.limitMollecules(5); s.dump(out);
+	s.deposita(0x20); s.dump(out);
+	s.deposita(0x21); s.dump(out);
+	s.deposita(0x22); s.dump(out);
+	s.deposita(0x23); s.dump(out);
+	s.deposita(0x24); s.dump(out);
+	s.deposita(0x25); s.dump(out);
+	uint32 cercat=0x11111125;
+	out << "Cercant quelcom semblant a 0x" << hex << cercat << dec 
+		<< (s.rastreja(cercat,0x100100FF)?" Ok":" Ko") << endl;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -123,7 +156,6 @@ void CSubstrat::ProvaClasse ()
 
 ostream & operator<< (ostream & stream, CSubstrat s) 
 {
-	char representacio;
 	stream 
 		<< CColor(1+s.numeroMollecules()) << "o";
 /*	if (s.esOcupat()) {
@@ -133,16 +165,21 @@ ostream & operator<< (ostream & stream, CSubstrat s)
 	else 
 		stream << blanc << "_";
 */
- /*
-	if (!s.esOcupat())
-		stream << "Lliure; ";
-	else
-		stream << "Ocupant: "<<s.ocupant()<<"; ";
-	stream << "Nutrients: ";
-	list<uint32>::iterator it;
-	for (it=s.m_nutrients.begin(); it!=s.m_nutrients.end();it++)
-		stream <<"("<<*it<<")";
-	if (it==s.m_nutrients.begin()) stream << "Erma";
-*/
+ 
 	return stream;
 }
+
+void CSubstrat::dump(CMissatger & stream)
+{
+	if (!esOcupat())
+		stream << "Lliure; ";
+	else
+		stream << "Ocupant: "<<ocupant()<<"; ";
+	stream << "Nutrients: ";
+	list<uint32>::iterator it;
+	for (it=m_nutrients.begin(); it!=m_nutrients.end();it++)
+		stream <<"("<<*it<<")";
+	if (it==m_nutrients.begin()) stream << "Erma";
+	stream << endl;
+}
+

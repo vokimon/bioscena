@@ -1,0 +1,86 @@
+Agent
+	- Nom
+
+MultiAgent
+	- string: Nom
+	- list<CAgent*>: Llista ordenada d'agents subordinats
+	- Exemple de configuracio texte
+
+		Agents2: 
+			Tipus(Agent/Multiple) 
+			Agent(Posicionador1)
+			Agent(Posicionador2)
+			Agent(Direccionador1);
+
+Temporitzador
+	- string: Nom
+	- Cicle Actiu: Determina quan triguen els periodes de temps actius
+		- uint32: Periode minim
+		- uint32: Numero de daus
+		- uint32: Magnitud dels daus (Van de zero a la magnitud)
+	- Cicle Inactiu: Determina quan triguen els periodes de temps inactius
+		- uint32: Periode minim
+		- uint32: Numero de daus
+		- uint32: Magnitud dels daus (Van de zero a la magnitud)
+	- Probabilitat d'activacio en cicle actiu
+		- uint32: Numero de intents o mostra
+		- uint32: Numero d'encerts que segons la probabilitat tenderien a donar-se
+	- Agents subordinats
+		- CAgent*: Agent d'accio (S'execute en cicle actiu si es dona la probabilitat)
+		- CAgent*: Agent de reaccio (S'execute en cicle actiu si no es dona la probabilitat)
+		- CAgent*: Agent de antiaccio (S'execute en cicle inactiu)
+	- Cicle actual (Valors del temporitzador quan es reemprengui la marxa)
+		- bool: Cicle actiu o inactiu
+		- uint32: Periode restant del cicle actual
+	- Exemple de configuracio texte
+
+		Temporitzador1
+			Tipus(Agent/Temporitzador)
+			CicleActiu(34,2,5) 
+			CicleInactiu()
+			Agent(Posicionador3);
+
+Posicionador
+	- string: Nom
+	- Posicio
+		* Ha d'existir a la topologia
+
+PosicionadorAleatori
+	- string: Nom
+	- Posicio
+		* Ha d'existir a la topologia
+
+PosicionadorSequencial
+	- string: Nom
+	- uint32: Posicio actual
+		* Ha d'existir a la topologia
+	- list<uint32>: Llista de posicions
+		* Han d'existir a la topologia
+
+PosicionadorZonal
+	- string: Nom
+	- uint32: Posicio actual
+		* Han d'existir a la topologia
+	- CPosicionador*: Agent Posicionador central (dependencia)
+	- uint32: Radi (Desplacaments entorn al centre que pot fer la posicio)
+	
+Itenerari
+	- string: Nom
+	- uint32: Posicio actual
+		* Ha d'existir a la topologia
+	- CDireccionador*: Agent Direccionador (dependencia)
+	- uint32: Radi (Desplacaments entorn al centre que pot fer la posicio)
+
+Direccionador
+	- string: Nom
+	- uint32: Direccio
+
+DireccionadorAleatori
+	- string: Nom
+	- uint32: Direccio
+
+DireccionadorSequencial
+	- string: Nom
+	- uint32: Direccio actual
+	- list<uint32>: Llista de direccions
+
