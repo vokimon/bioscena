@@ -31,10 +31,10 @@ public:
 	uint32 consumeix(uint32 energia);
 	void afegeix(uint32 energia);
 	void disipa (void);
-	operator uint32();
+	operator uint32() const;
+	uint32 total() const;
 // Proves
 public:
-	uint32 total();
 	static void ProvaClasse();
 };
 

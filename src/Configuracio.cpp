@@ -72,8 +72,8 @@ CConfiguracio::CConfiguracio()
 	set("Biosistema/Energia/Engolir",6);
 	set("Biosistema/Energia/Excretar",3);
 	set("Biosistema/Energia/Moviment/Fixe",0);
-	set("Biosistema/Energia/Moviment/UnitatDeCarrega",16);
-	set("Biosistema/Energia/Moviment/CostUnitatDeCarrega",3);
+	set("Biosistema/Energia/Moviment/UnitatDeCarrega",8);
+	set("Biosistema/Energia/Moviment/CostUnitatDeCarrega",20);
 	set("Biosistema/Energia/Extraccio",6);
 	set("Biosistema/OpCodes/BitsOperacio",5);
 	set("Sensor/Quimic/Intents",10);

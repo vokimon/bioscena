@@ -72,18 +72,21 @@ istream & CComunitat::load(istream & str)
 	for (; it!=m_organismes.end(); ++it)
 		it->cos(NULL);
 	m_disponibles.clear();
+	m_organismes.clear();
 	m_nOrganismes=0;
-	uint32 tamany, nOrganismes, valor, index;
+	uint32 tamany, nOrganismes, index;
 	str.read((char*)&tamany,sizeof(uint32));
 	str.read((char*)&nOrganismes,sizeof(uint32));
 	uint32 fillIndex=0;
 	for (uint32 i=0; i<nOrganismes; i++, fillIndex++) {
 		uint32 posicio, taxo;
 		str.read((char*)&index,sizeof(uint32));
+		// fica com a disponibles els indexos que es salta
 		for ( ;fillIndex<index; fillIndex++) {
 			m_disponibles.push_back(fillIndex);
 			push_heap(m_disponibles.begin(), m_disponibles.end(), greater<uint32>());
 			}
+		// Crea les caselles al vector d'organismes (estiguin disponibles o no)
 		while (index>=m_organismes.size()) 
 			m_organismes.push_back(CInfoOrganisme());
 		str.read((char*)&posicio,sizeof(uint32));

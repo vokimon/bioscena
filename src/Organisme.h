@@ -47,22 +47,24 @@ public:
 	bool m_mutat; // TODO: Treure aixo
 // Operacions
 public:
-	void operator () (void);
+//	void operator () (void);
+	// Control
 	t_instruccio seguentInstruccio();
 	// Fenotip
 	void fenotip(uint32 index, uint32 valor);
 	uint32 fenotip(uint32);
 	uint32 & operator[](uint32);
-	// Nutricio
+	// Metabolisme
 	bool detecta(uint32 & clauDetectada, uint32 patro, uint32 tolerancia);
 	bool excreta(t_mollecula & excretada, uint32 patro, uint32 tolerancia);
 	void engoleix(t_mollecula mol);
 	bool defensa(list<t_mollecula> &fluxeQuimic, uint32 patroAtac, uint32 patroNutrient, uint32 toleranciaNutrient);
 	bool consumeixEnergia(uint32 energia);
 	void guanyaEnergia(uint32 energia);
-	uint32 energia();
-	uint32 carrega();
-	uint32 edat();
+	// Consulta
+	uint32 energia() const;
+	uint32 carrega() const;
+	uint32 edat() const;
 	// 
 // Proves
 public:

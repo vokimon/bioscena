@@ -13,6 +13,8 @@
 // 20000217 VoK - Serialitzacio
 // 20000406 VoK - Adaptat als canvis de disipacio energia
 // 20000527 VoK - Funcio per coneixer la carrega de l'organisme
+// 20000528 VoK - Les consultores son funcions constants
+// 20000528 VoK - Fix: La disipacio d'energia no s'arribaba a fer mai
 //////////////////////////////////////////////////////////////////////
 
 #include <iomanip>
@@ -144,6 +146,7 @@ void COrganisme::dump(CMissatger & msgr)
 	debugPresentaFenotip(msgr);
 	m_cariotip.dump(msgr);
 	m_genotip.dump(msgr);
+	m_energia.dump(msgr);
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -167,7 +170,7 @@ uint32 & COrganisme::operator[](uint32 index)
 	return m_fenotip[index];
 }
 
-// Nutricio
+// Metabolisme
 
 void COrganisme::engoleix(t_mollecula element)
 {
@@ -176,7 +179,7 @@ void COrganisme::engoleix(t_mollecula element)
 	if (maximNutrients && m_nutrients.size()>maximNutrients)
 		m_nutrients.pop_front();
 }
-	
+
 bool COrganisme::excreta(t_mollecula & excretada, uint32 patro, uint32 tolerancia)
 {
 	list<t_mollecula>::iterator it;
@@ -304,18 +307,16 @@ void COrganisme::debugPresentaFenotip(CMissatger & msgr)
 	msgr << dec << setfill(' ');
 }
 
-
 COrganisme::t_instruccio COrganisme::seguentInstruccio()
 {
 	m_edat++;
-	return m_genotip.seguentInstruccio(m_fenotip);
 	if (m_tempsDisipacio) {
-		m_tempsDisipacioRestant--;
-		if (!m_tempsDisipacioRestant) {
+		if (!m_tempsDisipacioRestant--) {
 			m_energia.disipa();
 			m_tempsDisipacioRestant = m_tempsDisipacio;
 		}
 	}
+	return m_genotip.seguentInstruccio(m_fenotip);
 }
 
 bool COrganisme::consumeixEnergia(uint32 energia)
@@ -328,17 +329,18 @@ void COrganisme::guanyaEnergia(uint32 energia)
 	m_energia.afegeix(energia);
 }
 
-uint32 COrganisme::energia()
+uint32 COrganisme::energia() const
 {
-	return m_energia.total();
+	return m_energia;
 }
 
-uint32 COrganisme::carrega()
+uint32 COrganisme::carrega() const
 {
 	return m_nutrients.size();
 }
 
-uint32 COrganisme::edat()
+uint32 COrganisme::edat() const
 {
 	return m_edat;
 }
+
