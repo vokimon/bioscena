@@ -11,6 +11,8 @@
 \usepackage{layout} % Per visualitzar marges
 \usepackage{graphicx}
 %[dvips][pdftex,dvips]
+\usepackage{makeidx}
+\usepackage{verbatim}
 \usepackage{amssymb}
 \usepackage{hyperref}
 \hypersetup{backref,hyperindex,colorlinks}
@@ -37,6 +39,8 @@
 
 \def\baselinestretch{1}
 \setlinespacing{1.5}
+
+\makeindex
 
 \begin{document}
 
@@ -71,6 +75,7 @@ David Garcia\\
 \input{biologia}
 %\input{alive}
 \part{Part pràctica}
+\index{Pràctica|boldindex}
 \chapter{Disseny de l'aplicatiu}
 \input{biotop}
 \input{agents}
@@ -80,8 +85,10 @@ David Garcia\\
 \input{bibliografia}
 \label{TODO}
 \appendix
+\printindex
+\printtitle
 
-
+\maketableofcontents
 
 %% TODO: Treure aixo dels links
 %\hyperlink{kaja}{Origen}
