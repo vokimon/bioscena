@@ -44,17 +44,17 @@ Un organisme es composa, doncs, de quatre parts principals:
 
 Les interrelacions entre els diferents mòduls es descriuen a la 
 figura \ref{fig:execucioInstruccions}. 
-\begin{figure}[h]
+\begin{figure}[ht]
 \centering
-%    \includegraphics[width=6.1 in, keepaspectratio, draft]{compatibilitat2}
-    \framebox[6.2 in]{TODO: Posar la gràfica del funcionament que hi ha a la presentació Power Point}
-    \caption{Model d'execució d'instruccións}
-    \label{fig:execucioInstruccions}
+%	\includegraphics[width=6.1 in, keepaspectratio]{execucio}
+	\fbox{\pdfimage{execucio.png}}
+	\caption{Model d'execució d'instruccións}
+	\label{fig:execucioInstruccions}
 \end{figure}
 
 A grans trets, el funcionament és el següent:
 \begin{enumerate}
-\item Quan un organisme neix, es genera un sistema de control a partir del cariotip i s'inicialitzen el fenotip i el sistema metabòlic.
+\item Quan un organisme neix, es genera el sistema de control a partir del cariotip i s'inicialitzen de forma genèrica el fenotip i el sistema metabòlic.
 \item Un cop introduït l'organisme dins de la comunitat, el biosistema pot demanar-li instruccions al sistema de control.
 \item El sistema de control consulta el fenotip i decideix quina instrucció cal executar.
 \item El sistema de control retorna al biosistema la instrucció en qüestió.
@@ -71,7 +71,7 @@ A grans trets, el funcionament és el següent:
 \subsection{Model metabòlic dels organismes}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{figure}[h]
+\begin{figure}[ht]
 \centering
 \begin{tabular}{@{\extracolsep{.1 cm}}c@{\extracolsep{.1 cm}}c@{\extracolsep{.1 cm}}c@{\extracolsep{.1 cm}}c@{\extracolsep{-.1 cm}}c@{\extracolsep{.1 cm}}c@{\extracolsep{.1 cm}}c@{\extracolsep{.1 cm}}c@{\extracolsep{.1 cm}}}
     \begin{tabular}{|c|}
@@ -145,8 +145,8 @@ un identificador o patró qualitatiu que indica quin tipus de nutrient
 és. Per seleccionar un nutrient dins d'un grup, només cal oferir una
 clau o patró de cerca i una tolerància respecte a aquest patró.
 Cal recordar que la funció de compatibilitat entre claus no és 
-determinista (apartat \ref{TODO}) i l'execució d'una mateixa cerca
-pot donar resultats diferents.
+determinista (apartat \ref{sec:compatibilitat}) i l'execució d'una 
+mateixa cerca pot donar resultats diferents.
 
 Un organisme pot introduir un nutrient en el seu cos des del medi
 per ingestió o des d'un altre organisme en atacar-lo.
@@ -189,7 +189,7 @@ Es pot configurar el cost associat a cada funció vital. Equilibrar
 els costos i guanys energètics de les diferents operacions és crucial 
 per obtindre comportaments complexos en els organismes. Cal forçar-los
 a que desenvolupin estratègies complexes i que tinguin flexibilitat
-de maniobra per evolucionar estrategies no optimes. 
+de maniobra per evolucionar estrategies no òptimes. 
 
 La disipació de l'energia s'implementa amb un seguit de contenidors
 cadascun dels quals té una caducitat. L'energia obtinguda es fica en
@@ -198,11 +198,11 @@ dels contenidors més vells. Quan el contenidor més vell caduca,
 l'energia que hi conté es perd (es disipa) i s'afegeix un contenidor
 nou buit. 
 
-\begin{figure}[h]
+\begin{figure}[ht]
 \centering
-%    \includegraphics[width=6.1 in, keepaspectratio, draft]{disipable}
-    \framebox[6.2 in]{TODO: Esquema dels contenidors d'energia}
-    \caption{Disipació de l'energia}
+%    \includegraphics[width=6.1 in, keepaspectratio, draft]{disipacio}
+    \fbox{\pdfimage{disipacio.png}}
+    \caption{Disipació de l'energia obtinguda per l'organisme}
     \label{fig:disipacio}
 \end{figure}
 
@@ -268,7 +268,7 @@ cromosoma és proporcional a la seva longitud.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 El cariotip és el responsable de les mutacions que passaran a la
-descendència (mutacions germinals, veure l'apartat \ref{mutacioMolecular}).
+descendència (mutacions germinals, veure la pàgina \pageref{mutacioMolecular}).
 
 % TODO: Ei, que al final no evoluciones la mutació
 
@@ -398,7 +398,7 @@ organisme. Representen el cos físic de l'organisme.
 El fenotip es modifica per acció directa del genotip. Sovint, si es
 tracta d'operacions sensorials, aquestes modificacions depenen del
 medi o de l'estat intern. Les operacions també poden ser motores, i
-en aquest cas el contingut del fenotip és qui afecta al medi i/o a
+en aquest cas el contingut del fenotip és qui afecta el medi i/o 
 l'estat intern modificant les instruccions expedides per l'organisme. 
 
 Per últim, cal remarcar que el fenotip és un dels dos mitjans que

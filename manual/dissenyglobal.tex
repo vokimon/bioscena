@@ -3,11 +3,6 @@
 %
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Metodologia de disseny}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Metodologia d'implementació i estil de programació}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -15,7 +10,7 @@
 \subsection{Registre de canvis}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Cada arxiu d'implementació, porta al inici un registre dels canvis
+Cada arxiu d'implementació, porta a l'inici un registre dels canvis
 que s'anat fent al fitxer (Change Log). Cada entrada d'aquest 
 registre porta la data, un indicador de l'autor de la modificació i
 una breu explicació d'una o dos línies, suficient per deduir en què
@@ -38,7 +33,7 @@ un comentari d'una sola línia que comença amb:
 \begin{verbatim}
   // TODO:
 \end{verbatim}
-El text del comentari ha de ser suficientment explicatiu, perque no 
+El text del comentari ha de ser suficientment explicatiu, perquè no 
 es necessiti veure'l en el seu context per entendre'l. Tot això es
 fa així perquè es pugui obtindre un extracte de totes les 
 modificacions pendents d'aquest tipus només executant la comanda:
@@ -62,7 +57,7 @@ diversos mòduls o a mòduls que encara no s'han construït.
 Cada cop que es compila, es genera de forma automatitzada una 
 entrada a un log de compilacions amb la data i el número de 
 compilació. Al mateix temps es modifica un arxiu font per tal
-de que aquest número de compilació i la data estiguin disponibles
+que aquest número de compilació i la data estiguin disponibles
 per al programa.
 
 Això ens permetrà saber, donat un executable, fins a quin punt està
@@ -90,7 +85,7 @@ de prototipus de cara a que els seus clients el puguin incloure sense
 que interfereixi l'existència de les subclasses. La resta s'ha agrupat
 en un o més.
 
-Generalment el fitxer de la classe abstracta te el nom de la classe
+Generalment el fitxer de la classe abstracta té el nom de la classe
 en singular i el de les classes derivades en plural. Fent servir
 un exemple típic, el fitxer {\tt Persona.h} contindria el prototipus 
 de la classe abstracta {\tt CPersona}, i el fitxer {\tt Persones.h} 
@@ -137,8 +132,8 @@ la classe, per, en cas de modificacions, tornar-les a passar.
 
 Els mòduls que no estiguin encapsulats en classes també tindran una
 funció similar. Generalment per ortogonalitat i per no interferir
-en l'espai de noms, la funció de proves del mòdul es fica a dins
-d'un {\tt namespace} sinò hi està ficat ja tot el mòdul.
+en l'espai de noms, la funció de proves del mòdul es posa a dins
+d'un {\tt namespace} sinò hi està posat ja tot el mòdul.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -162,7 +157,7 @@ comunes són: Inicialització de variables estàtiques,
 Construcció/destrucció, Mètodes redefinibles a les subclasses, 
 Operacions (de diferents tipus), Proves...
 Es distingeixen visualment per estar envoltats per un parell de
-línies adalt i abaix com el següent exemple:
+línies a dalt i a baix com el següent exemple:
 
 {\setlinespacing{1}
 \begin{verbatim}
@@ -173,8 +168,8 @@ línies adalt i abaix com el següent exemple:
 }
 \item [Comentaris d'encapçalament:] Es troben just després de 
 l'encapçalament d'una funció o mètode i just abans de que s'obrin
-els claudàtors del seu cos. Aquests comentaris van adreçats a
-explicar als usuaris potencials de la funció que és el que fa, 
+els claudàtors del seu cos. Aquests comentaris van adreçats als 
+usuaris potencials de la funció i explica qué és el que fa 
 evitant qualsevol menció als detalls d'implementació. Si cal indicar, 
 precondicions o postcondicions es farà aquí, dedicant, a cadascuna, 
 una linia que vindrà precedida de les partícules {\tt Pre:} o 
@@ -210,12 +205,9 @@ L'aplicatiu que es vol dissenyar consta de diversos elements
 principals, cadascun, amb funcions determinades dintre del sistema.
 
 \unitlength 1mm
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
-    \fbox{TODO: Esquemeta del disseny modular global}
-%    \begin{picture}(200,30)
-%    \put(0,0){\circle*{4}}
-%    \end{picture}
+    \fbox{\pdfimage{moduls.png}}
 \caption{Esquema conceptual del sistema}
 \label{fig:EsquemaConceptual}
 \end{figure}
@@ -266,7 +258,8 @@ temps. Les seves aplicacions són:
 \begin{enumerate}
 \item Afegir o eliminar nutrients lliures dins del medi.
 \item Modificar els paràmetres del substrat.
-\item Generar expontàneament organismes.
+\item Generar expontàniament organismes.
+\item Mutar els organismes depenent de la posició
 %% TODO: Posar altres funcions dels Agents si apareixen
 %% TODO: Considerar les que hi ha perque t'has lluit
 \end{enumerate}
@@ -284,7 +277,7 @@ tant a la informació externa com al propi organisme.
 %TODO: Posar altres funcions de la Comunitat si apareixen
 \end{enumerate}
 
-\item[Organismes:] Representen als individuus que viuen al
+\item[Organismes:] Representen als individus que viuen al
 biosistema. Contenen la informació genètica i les estructures
 internes que els fan anar.
 \begin{enumerate}
@@ -296,14 +289,14 @@ internes que els fan anar.
 \end{enumerate}
 
 \item[Taxonomista:] Reuneix un conjunt d'eines que permeten fer un
-anàlisis de l'evolució d'un grup reproductiu (població) i de les
+anàlisi de l'evolució d'un grup reproductiu (població) i de les
 interaccions amb els altres grups. Aquest seguiment requereix que el
-taxonomista estigui intimament lligat al funcionament del biosistema.
+taxonomista estigui íntimament lligat al funcionament del biosistema.
 \begin{enumerate}
 \item Mantenir informació històrica sobre l'aparició de grups
 reproductius.
 \item Mantenir un cens per edats de la població de cada grup
-reproductiu i a cada edat.
+reproductiu.
 \item Mantenir un llistat sobre la dieta de cada grup reproductiu.
 \item Mantenir un llistat dels agressors de cada grup reproductiu.
 %TODO: Posar altres funcions del Taxonomista si apareixen

@@ -28,7 +28,7 @@ s'hi fan al {\tt makefile} o als fitxers de projecte.
 
 Aquest compilador i, sobretot, la seva versió per a DOS, el DJGPP, ha 
 sigut el més testejat. De cara a compilar cal una versió superior a la 
-TODO i, per fer-ho sense problemes cal la TODO.
+2.7 i, per fer-ho sense problemes cal la 2.95.
 
 Per aquest compilador, es proveeix un fitxer {\tt makefile}. Cal 
 assegurar-se que estan instalades les llibreries de 
@@ -45,14 +45,15 @@ dels executables al sistema on es compila:
 \end{description}
 \item Si cal, comenta les crides a 'buildnum' que es fan als makefiles
 \item Si es vol optimitzar per una maquina en concret, cal afegir '-march=ix86' a la variable CFLAGS del makefile; on x={3,4,5,6}
-\item Escriure- 'make' i ale.
+\item Executar la comanda 'make'
 \end{enumerate}
 
 Posibles problemes:
 \begin{itemize}
-\item Si teniu una versió del compilador inferior a la TODO, dona 
-problemes a la linia 170 de Cariotip.cpp.
-A sota de la mateixa linia hi ha un fragment de codi substitutori
+\item Si teniu una versió del compilador o de les llibreries de C++
+inferior a la 2.8, dóna problemes al voltant de la línia 170 de 
+Cariotip.cpp.
+A sota de la mateixa línia hi ha un fragment de codi substitutori
 per a la línia del error, amb indicacions de com arreglar-ho.
 \end{itemize}
 
@@ -100,69 +101,12 @@ genera un assembler no massa correcte i dóna errors d'execució.
 Per compilar amb altres compiladors, es requereix com a mínim un 
 compilador que suporti templates i punters a funcions membres i que
 tingui implementada de forma suficientment amplia la llibreria 
-estàndar C++ segons s'especifica en l'estàndard ISO/ANSI \ref{TODO}. 
+estàndar C++ segons s'especifica en l'estàndard ISO/ANSI \cite{ISOCPP}. 
 Concretament es fan servir les capçaleres estàndard 
 {\tt <algorithm>}, {\tt <functional>}, 
 {\tt <list>}, {\tt <vector>}, {\tt <map>}, {\tt <deque>}, {\tt <string>}, 
 {\tt <iostream>}, {\tt <fstream>}, {\tt <iomanip>} i {\tt <strstream>}.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Programació de noves topologies per els biòtops}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-Si l'usuari necessités crear un nou tipus de topologia, cal que la
-faci heretar de CTopologia, que és la classe que defineix el mínim per
-reservar memoria pel substrat de cada posició. CTopologia també
-estableix el protocol que han de seguir les subclasses, perqué la
-resta del sistema l'acepti sense haver de canviar-ho.
-
-El secret està en el fet de que tot el sistema manega identificadors
-de posicions que són enters sense signe de 32 bits. Tot el significat
-que poden tenir aquests identificadors el manega la topologia
-internament.
-
-Quan es deriva de CTopologia, el principal que caldria redefinir,
-si cal, és:
-\begin{itemize}
-\item   Un {\bf constructor} significatiu per a la topologia. Per exemple, en
-    una topologia rectangular és significatiu indicar l'altura i l'amplada.
-    El constructor de CTopologia simplement reserva espai per N casselles.
-    Caldria calcular aquesta N per passar-se-la.
-\item   {\tt t\_posicio CTopologia::desplacament (t\_posicio origen, t\_desplacament desplacament)}:
-    Una funció per averiguar la posició destí en aplicar-li un vector
-    de desplaçament a una posició origen.
-    CTopologia, la defineix de tal forma que el resultat és una posició
-    destí aleatòria.
-\item   {\tt bool CTopologia::esValid(t\_posicio id)}:
-    Una funció per saber si un identificador és vàlid. Només cal
-    redefinir-ho si es modifica la correspondència directa entre
-    identificador de posició i index de cassella en l'array de
-    substrats reservada per CTopologia::CTopologia
-\item   {\tt t\_posicio CTopologia::posicioAleatoria ()}:
-    Una funció per obtindre aleatòriament una posició vàlida de la
-    topologia. La funció general que no caldria redefinir seria
-    \begin{verbatim}
-        {
-            uint32 pos;
-            do {pos=rnd.get();} while (!esValid(pos));
-            return pos
-        }
-    \end{verbatim}
-    però, CTopologia no fa servir aquest algorisme donat que
-    optimitza agafant un número aleatori entre 0 i N. Aquesta
-    optimització funciona mentre es mantingui la correspondència
-    entre identificador i index abans comentada.
-    Si la subclasse la trenca, es quan cal redefinir la funció.
-\item   {\tt bool CTopologia::unio (t\_posicio origen, t\_posicio desti, t\_desplacament \& desp)}:
-    Una funció per calcular el primer d'un conjunt de desplacaments
-    que cal fer per anar de l'origen al destí.
-    Retorna cert si el desplacament és suficient per arribar a la posició destí.
-    CTopologia, la defineix de tal forma que el resultat és un desplaçament
-    aleatori i retorna sempre fals (mai hi arriba).
-\end{itemize}
-
-Pot ser molt ilustratiu, de cara a implementar noves topologies,
-fixar-se en les ja existents com CTopologiaToroidal.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Programació de nous agents}
@@ -233,12 +177,12 @@ següents passos:
     Si es tracta d'un actuador, no cal redefinir aquesta sino
     {\tt virtual void CAgentNou::operator() (CSubstrat \& s)} on
     {\tt s} és el substrat que hem de modificar.
-    \footnote{Veure l'apartat \ref{TODO} que parla del que cal fer si es redefineix el substrat}
 \item
     Redefinir la funció {\tt virtual void CAgentNou::dump(CMissatger \& msg)}
     per que cridi a la funció corresponent de la superclasse
     (CAgentVell a l'exemple) i, després, inserti en el CMissatger
     les noves línies de configuració dels paràmetres que afegeix l'agent:
+    {\setlinespacing{1}
     \begin{verbatim}
     void CAgentNou::dump(CMissatger & msg)
     {
@@ -247,6 +191,7 @@ següents passos:
         msg << "- UnAltreParametreNou " << m_valor3 << endl;
     }
     \end{verbatim}
+    }
 \item
     Redefinir la funció {\tt virtual bool CAgentNou::configura(string parametre, istream \& valors, t\_diccionariAgents \& diccionari, CMissatger \& errors)}
     per mirar si el {\tt parametre} és un dels que ha afegit CAgentNou.
@@ -263,6 +208,7 @@ següents passos:
     Libraries de C++.
     La estructura general de la funció configura quedarà com això:
 
+    {\setlinespacing{1}
     \begin{verbatim}
     bool CAgentNou::configura(string parametre, istream & valors,
     t_diccionariAgents & diccionari, CMissatger & errors)
@@ -279,9 +225,11 @@ següents passos:
         return CAgentVell::configura(parametre, valors, diccionari, errors);
     }
     \end{verbatim}
+    }
 \item
     Si cap dels atributs (m\_dependencia a l'exemple) és una
     dependència amb altre agent, cal redefinir la següent funció com segueix:
+    {\setlinespacing{1}
     \begin{verbatim}
     list<CAgent*> CAgentNou::dependencies() {
         list<CAgent*> l=CAgentVell::dependencies();
@@ -289,9 +237,11 @@ següents passos:
         return l;
     }
     \end{verbatim}
+    }
 \item
     Si cap dels atributs (m\_subordinat a l'exemple) és un
     agent subordinat, cal redefinir la següent funció com segueix:
+    {\setlinespacing{1}
     \begin{verbatim}
     list<CAgent*> CAgentNou::subordinats() {
         list<CAgent*> l=CAgentVell::subordinats();
@@ -299,6 +249,7 @@ següents passos:
         return l;
     }
     \end{verbatim}
+    }
 \item
     Afegir a l'arxiu {\tt Agent.cpp} un include a {\tt AgentNou.h}
     i, a la funció estàtica CAgent::CreaAgent(...) una línia com
@@ -314,8 +265,66 @@ i el mètode d'accionament (o d'actuació en el cas dels actuadors).
 Per a la resta de coses el més pràctic es fer un cut\&paste dels agents
 ja implementats i retocar el mínim.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Programació de noves topologies per els biòtops}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%% TODO: Programació de nous substrats
+Si l'usuari necessités crear un nou tipus de topologia, cal que la
+faci heretar de CTopologia, que és la classe que defineix el mínim per
+reservar memoria pel substrat de cada posició. CTopologia també
+estableix el protocol que han de seguir les subclasses, perquè la
+resta del sistema l'acepti sense haver de canviar-ho.
+
+El secret està en el fet de que tot el sistema manega identificadors
+de posicions que són enters sense signe de 32 bits. Tot el significat
+que poden tenir aquests identificadors el manega la topologia
+internament.
+
+Quan es deriva de CTopologia, el principal que caldria redefinir,
+si cal, és:
+\begin{itemize}
+\item   Un {\bf constructor} significatiu per a la topologia. Per exemple, en
+    una topologia rectangular és significatiu indicar l'altura i l'amplada.
+    El constructor de CTopologia simplement reserva espai per N caselles.
+    Caldria calcular aquesta N per passar-se-la.
+\item   {\tt t\_posicio CTopologia::desplacament (t\_posicio origen, t\_desplacament desplacament)}:
+    Una funció per averiguar la posició destí en aplicar-li un vector
+    de desplaçament a una posició origen.
+    CTopologia, la defineix de tal forma que el resultat és una posició
+    destí aleatòria.
+\item   {\tt bool CTopologia::esValid(t\_posicio id)}:
+    Una funció per saber si un identificador és vàlid. Només cal
+    redefinir-ho si es modifica la correspondència directa entre
+    identificador de posició i index de casella en l'array de
+    substrats reservada per CTopologia::CTopologia
+\item   {\tt t\_posicio CTopologia::posicioAleatoria ()}:
+    Una funció per obtindre aleatòriament una posició vàlida de la
+    topologia. La funció general que no caldria redefinir seria
+    {\setlinespacing{1}
+    \begin{verbatim}
+        {
+            uint32 pos;
+            do {pos=rnd.get();} while (!esValid(pos));
+            return pos
+        }
+    \end{verbatim}
+    }
+    però, CTopologia no fa servir aquest algorisme donat que
+    optimitza agafant un número aleatori entre 0 i N. Aquesta
+    optimització funciona mentre es mantingui la correspondència
+    entre identificador i index abans comentada.
+    Si la subclasse la trenca, es quan cal redefinir la funció.
+\item   {\tt bool CTopologia::unio (t\_posicio origen, t\_posicio desti, t\_desplacament \& desp)}:
+    Una funció per calcular el primer d'un conjunt de desplacaments
+    que cal fer per anar de l'origen al destí.
+    Retorna cert si el desplacament és suficient per arribar a la posició destí.
+    CTopologia, la defineix de tal forma que el resultat és un desplaçament
+    aleatori i retorna sempre fals (mai hi arriba).
+\end{itemize}
+
+Pot ser molt ilustratiu, de cara a implementar noves topologies,
+fixar-se en les ja existents com CTopologiaToroidal.
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

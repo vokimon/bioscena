@@ -1,6 +1,7 @@
 # Opciones
 # all ps pdf html
 RM=rm
+PAGER=less
 MAINBASE:=bioscena
 MAINTEX:=$(MAINBASE).tex
 POSTSCRIPT=$(MAINBASE).ps
@@ -44,7 +45,7 @@ cleannoout: copirrait
 todo: copirrait 
 	@echo
 	@echo --- Llistant feines pendents --------------------------
-	grep -n TODO $(TEXSOURCES) $(BIBSOURCES) | more
+	grep -n TODO $(TEXSOURCES) $(BIBSOURCES) | $(PAGER)
 
 copirrait:
 	@echo --- KKEPerians UNLTD LaTeX makefile file --------------

@@ -7,23 +7,12 @@
 En aquest apartat de la memòria es recullen les conclusions a les que
 s'han arribat en aquest projecte.
 
-Primer, es fa una breu valoració de l'estudi realitzat sobre els 
-mecanismes biològics i la seva aplicació als sistemes evolutius i 
-sistemes complexos.
-
-Segon, faig una valoració del que ha estat el desenvolupament de l'eina.
+Primer, faig una valoració del que ha estat el desenvolupament de l'eina.
 
 Seguidament, comentaré els resultats que han donant en les experiències
 els mecanismes d'expressió gènica i el model implementat.
 
 Finalment, s'inclou com un resum dels seus costos econòmics.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Conclusions de l'estudi dels processos naturals}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -34,7 +23,8 @@ Finalment, s'inclou com un resum dels seus costos econòmics.
 \subsubsection{Metodologia de treball}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-La metodologia d'implementació
+La metodologia d'implementació i les estratègies de disseny han ajudat
+molt a fer més efectiu el desenvolupament de l'eina. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{La interfície}
@@ -46,7 +36,7 @@ i la qualitat de la informació representable i també resta
 interactivitat amb l'usuari.
 
 Aquests dos inconvenients s'han compensat, per un costat, amb 
-l'incorporació de seqüencies d'escapament ANSI per augmentar la
+l'incorporació de seqüències d'escapament ANSI per augmentar la
 capacitat de representació del terminal, i, per un altre, la
 possibilitat de carregar fitxers de configuració en calent amb 
 comandes ràpides del teclat.
@@ -156,7 +146,7 @@ energia però no fer-los pagar.
 Per acabar amb els comentaris sobre el model, caldria dir que el model
 original, preveia comportaments sexuals no lligats directament a la 
 reproducció (intercanvi de fragments cromosòmics com fan els bacteris).
-No es va fer perquè el model ja era prou complexe com per afegir un
+No es va fer perquè el model ja era prou complex com per afegir un
 element més però, crec que hagués millorat molt la capacitat d'adaptació
 del sistema.
 
@@ -174,21 +164,25 @@ De cara a evaluar el temps invertit en la realització del projecte,
 el dividirem en diverses parts. En aquesta taula es representa en
 hores.
 
+\begin{table}[ht]
+\centering
 \begin{tabular}{|l|r|r|r|}
 \hline
 Part		& {\centering 1998.05 - 1999.06} & {\centering 1999.07 - 2000.01} & Total \\
 \hline
-Documentació	& & & \\
-Eines i entorn	& & & \\
-Disseny		& & & \\
-Implementació	& & & \\
-Proves		& & & \\
-Experimentació	& 0 & & \\
-Memòria		& & & \\
+Documentació	& 120 &  10 & 130 \\
+Eines i entorn	&  35 &   8 &  38 \\
+Disseny		&  50 &   5 &  55 \\
+Implementació	& 110 & 490 & 600 \\
+Proves		&  30 &  10 &  40 \\
+Experimentació	&   0 &  80 &  80 \\
+Memòria		&  25 & 150 & 175 \\
 \hline
-Total		& & & \\
+Total		& 370 & 753 & 1123\\
 \hline
 \end{tabular}
+\caption{Hores destinades al projecte}
+\end{table}
 
 La documentació del projecte va començar al Maig de 1998. El temps
 invertit en el projecte en cada part fins al Juny de 1999 és estimat. 
