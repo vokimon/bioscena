@@ -67,7 +67,7 @@ public:
 	virtual inline bool unio (t_position posOrigen, t_position posDesti, t_displacement & desp) const;
 	virtual inline t_position desplacamentAleatori (t_position posOrigen, uint32 radi) const;
 	virtual inline t_displacement invers(t_displacement desp) const;
-	virtual inline t_displacement desplacamentNul() const;
+	virtual inline t_displacement nilDisplacement() const;
 // Atributs
 protected:
 	uint32 m_xMax;
@@ -199,7 +199,7 @@ Torus::t_displacement Torus::invers(t_displacement desp) const {
 	return desp ^ 0x77777777;
 }
 
-Torus::t_displacement Torus::desplacamentNul() const {
+Torus::t_displacement Torus::nilDisplacement() const {
 	return 0;
 }
 
