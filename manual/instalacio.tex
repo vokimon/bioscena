@@ -1,0 +1,108 @@
+% Time Log
+%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Instalació i execució de l'eina}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Contingut de l'arxiu comprimit}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% TODO: Comentar millor el contingut del zip
+
+A l'arxiu comprimit s'inclouen els fonts, la documentació, l'executable
+per a MS-DOS i els fitxers de configuració.
+
+Per a l'execució del programa, només són necessaris l'executable i
+els tres arixius de configuració {\tt bioscena.ini}, {\tt agents.ini}
+i {\tt opcodes.ini}.
+Han d'estar tots quatre al mateix directori en el moment de l'execució.
+
+És possible que no estigui disponible l'executable per la plataforma
+escollida. Es pot generar tot seguint les instruccions de compilació
+de l'apartat \label{sec:Compilacio}.
+
+{\bf L'executable necessita una consola de text de 80x50 i seqüències de 
+terminal ANSI.} Els següents apartats expliquen com fer-ho a diferents
+sistemes.
+
+Si, al sistema destí, no és possible treballar amb un terminal 80x50
+es poden canviar fàcilment el codi font les coordenades dels objectes
+gràfics.
+
+% TODO: Aixo fins que posi quelcom per configurar-ho
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Terminal ANSI de 50 linies sota Windows 95}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Per suportar les seqüències de control ANSI, cal haver iniciat l'ordinador
+o una sessió MSDOS amb la línia 
+\begin{verbatim}
+DEVICE=C:\WINDOWS\COMMAND\ANSI.SYS
+\end{verbatim}
+dintre del config.sys.
+
+Per posar la pantalla a 80x50, si és un executable de DOS (DJGPP), 
+cal crear un acces directe i, a les seves propietats, al separador 
+'Pantalla' especificar 50 linies.
+
+% TODO: Insertar grafic configurant 80X50 Windows95
+
+Si és un executable Win32 per a consola (compilat amb Microsoft Visual C++), 
+automaticament es posa a 80x50.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Terminal ANSI de 50 linies sota Windows-NT}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Per fer servir les seqüències ANSI amb l'executable MS-DOS, cal 
+seguir les següents passes:
+\begin{itemize}
+\item Si ja existeix l'arxiu {\tt config.nt} al comprimit, cal 
+copiar-lo al directori del executable, i saltar-se els dos següents 
+passos.
+\item Copiem l'arxiu \verb"c:\WINNT\SYSTEM32\config.nt" al directori de l'executable.
+\item L'editem i afegim la línia:
+\begin{verbatim}
+DEVICE=$WINNT$\SYSTEM32\ANSI.SYS
+\end{verbatim}
+\item Obrim les propietats de l'executable DOS
+\item Premem el botó 'Avanzada' del separador 'Programa'
+\item A la capsa pel {\tt config.nt} posem l'encaminament del personalitzat.
+\end{itemize}
+
+Per canviar el nombre de linies de la pantalla, si ho fem al mateix lloc
+que cal fer-ho a Windows 95, no en fa cas. Cal seguir les següents passes:
+\begin{itemize}
+\item Executar el programa
+\item Accedir a l'opcio propietats del menu de sistema de la finestra.
+Surtirà un diàleg de propietats diferent que el de Windows 95. 
+\item Cal canviar a una lletra suficient petita, si no, ignorarà la resta de canvis. 
+\item Augmentar el tamany del buffer de sortida i de l'àrea de pantalla fins a 50 línies com a mínim.
+\item En aceptar, posar que guardi les opcions per a proximes execucions.
+\end{itemize}
+Si tot va bé, la proxima vegada que ho executem, sortirà bé.
+
+Un executable Win32 es posarà automaticament a 80x50, però, no s'ha 
+provat encara com fer funcionar l'ANSI.SYS amb un executable Win32 sota 
+Windows NT.
+
+% TODO: Insertar grafic configurant 80X50 WindowsNT
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Terminal ANSI de 50 linies sota Linux}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+A linux ja hi ha ANSI per defecte tant a terminals en mode text com a X-terms.
+
+Per obtindre un terminal 80x50 aquí hi han unes solucions.
+
+\begin{tabular}{lp{5in}}
+Xterms & Simplement, cal augmentar el tamany de la finestra fins que hi
+capiguen 80x50 linies. \\
+Terminals ordinaris & Cal especificar al programa d'arranc {\tt lilo} el mode gràfic que fan servir els terminals. Consulta el manual.
+\end{tabular}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -2,10 +2,9 @@
 %  Aixo es una plantilla basica de latex on es vol tenir
 %   el format principal d'un document i totes aquelles coses
 %   que normalment utilitzo en latex.
-
 %  Data inici creacio: 19-11-97
 %----------------------------------------------------------
-\documentclass[11pt,titlepage]{report}
+\documentclass[12pt,titlepage]{report}
 \usepackage[latin1]{inputenc}
 \usepackage[catalan]{babel}
 \usepackage{layout} % Per visualitzar marges
@@ -38,10 +37,11 @@
 \textheight 8 in
 \textwidth 6.4 in
 \footskip 2 cm
-\parskip 2 mm
+\parskip 4 mm
+\parindent 0 mm
 \columnsep 1 cm
 
-\hyphenation{}
+%\hyphenation{}
 
 \def\baselinestretch{1}
 \setlinespacing{1.5}
@@ -55,7 +55,7 @@
 %-----------------------------------------------------
 %    Titol del document
 %-----------------------------------------------------
-\title{Bioscena\\Simulació d'un sistema biològic evolutiu amb interacció entre els individuus}
+\title{Manual d'usuari i de manteniment\\Bioscena: Simulador d'entorns biològics evolutius}
 \author{
 David Garcia\\
 \href{mailto:vokimon@jet.es}{vokimon@jet.es}\\
@@ -84,11 +84,12 @@ David Garcia\\
 \input{resums}
 %\part{Introducció}
 \input{introduccio}
-%\part{Part teòrica}
-\input{biologia}
+\input{instalacio}
+\input{operacio}
+\input{compilacio}
+\input{configuracio}
 \input{tecnologia}
 %\part{Part pràctica}
-\chapter{Disseny de l'aplicatiu}
 \input{dissenyglobal}
 \input{eines}
 \input{biotop}
@@ -104,8 +105,6 @@ David Garcia\\
 \input{conclusions}
 \input{todo}
 \appendix
-\input{manualusuari}
-\input{manualprogramador}
 \addcontentsline{toc}{chapter}{Bibliografia}
 \input{bibliografia}
 \addcontentsline{toc}{chapter}{Índex Alfabètic}

@@ -1,0 +1,205 @@
+% Time Log
+%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Configuració}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Existeixen tres arxius de configuració:
+
+\begin{tabular}{lp{6in}}
+bioscena.ini	& Paràmetres del biosistema\\
+agents.ini	& Agents externs\\
+opcodes.ini	& Correspondència entre codis i intruccions
+\end{tabular}
+
+A continuació s'expliquen en detall.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Arxiu {\tt bioscena.ini}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Aquest arxiu defineix una sèrie de paràmetres numèrics que es fan servir
+per configurar el biosistema. Consta d'un seguit de línies on cadascuna
+defineix un paràmetre i tè una estructura semblant a aquesta:
+
+\begin{verbatim}
+* Apartat/SubApartat/../NomDelParàmetre 4
+\end{verbatim}
+
+A continuació s'expliquen els paràmetres més importants. Entre parèntesis
+es posa el valor que l'eina adopta per omisió.
+
+\begin{description}
+\item[Biosistema/Energia/FixeInstruccio]	(1)
+Cost que, com a mínim, té una instrucció pel fet d'executar-se.
+\item[Biosistema/Energia/AdicionalInutil]	(1)
+Cost adicional que té una instrucció motora, si falla la seva execució.
+\item[Biosistema/Energia/Engolir]	(6)
+Guany que rep un organisme pel fet d'engolir un nutrient.
+\item[Biosistema/Energia/Excretar]	(3)
+Cost adicional d'excretar un nutrient
+\item[Biosistema/Energia/Extraccio]	(6)
+Guany per cada nutrient extret per agressio a una victima (i cost per la victima)
+\item[Biosistema/Energia/InicialExpontani]	(100)
+Energia amb la que comença un organisme aleatori
+\item[Biosistema/Energia/Mitosi/Cedida]	(15)
+Energia que es cedeix al fill en la mitosi
+\item[Biosistema/Energia/Mitosi/Factor]      (2)
+Factor pel que es multiplica l'energia que es cedeix al fill per obtindre el cost de la Mitosi
+\item[Biosistema/Energia/Mitosi/Minima]      (20)
+Mínima energia requerida per entrar a fer la mitosi (no es consumeix)
+\item[Biosistema/Energia/Mitosi/CostNoMinima]        (2)
+Cost d'haver entrat a fer la mitosi sense l'energia mínima
+\item[Biosistema/Energia/Moviment/Fixe]   (0)
+Cost adicional per instruccions de moviment
+\item[Biosistema/Energia/Moviment/UnitatDeCarrega]   (16)
+Nombre de nutrients que calen per omplir una unitat de carrega.
+\item[Biosistema/Energia/Moviment/CostUnitatDeCarrega]   (16)
+Increment per cada unitat de carrega en el cost energetic de moure's.
+\item[Biosistema/Metabolisme/BitsSignificatius]      (7)
+Màscara amb els bits significatius de les claus dels nutrients
+\item[Biosistema/OpCodes/BitsOperacio]       (5)
+El bits del bytecode que són significatius
+\item[Biosistema/Quantum/Maxim]	(4)
+Màxim nombre d'instruccions que s'executen de cop (El primer quantum que s'acabi mana)
+\item[Biosistema/Quantum/Utils]	(2)
+Màxim nombre d'instruccions útils que s'executen de cop (El primer quantum que s'acabi mana)
+\item[Biotop/CasellesAltitud]	(30)
+Posicions que tè el biòtop d'altura
+\item[Biotop/CasellesAmplitud]	(30)
+Posicions que tè el biòtop d'amplitud
+\item[Biotop/Substrat/MaximInicial]  (7)
+Maxims nutrients que pot contenir una sola posició del biòtop
+\item[Biotop/Substrat/MolleculesInicials/Numero]     (2)
+Nombre de nutrients amb els que s'omple cada casella del biòtop en iniciar l'execució
+\item[Biotop/Substrat/MolleculesInicials/Element]    (0)
+Element base que es fa servir per omplir cada casella del biòtop en iniciar l'execució
+\item[Biotop/Substrat/MolleculesInicials/Tolerancia] (3)
+Tolerancia sobre l'element base per omplir cada casella del biòtop en iniciar l'execució
+\item[Comunitat/TamanyRegeneracio]   (27)
+Tamany de la població per sota del qual el biosistema sempre genera organismes aleatoris.
+\item[Comunitat/ProbabilitatGeneracioExpontanea/Encerts]     (1)
+Probabilitat de que es generi un organisme aleatori independentment del tamany de regeneració (Numerador)
+\item[Comunitat/ProbabilitatGeneracioExpontanea/Mostra]      (50)
+Probabilitat de que es generi un organisme aleatori independentment del tamany de regeneració (Denominador)
+\item[Organisme/Cromosoma/LongitudMaxima]    (10)
+Nombre màxim de codons d'un cromosoma d'un organismes aleatori
+\item[Organisme/Cromosoma/LongitudMinima]    (1)
+Nombre mínim de codons d'un cromosoma d'un organismes aleatori
+\item[Organisme/Cariotip/LongitudMaxima]     (10)
+Nombre màxim de cromosomes d'un organismes aleatori
+\item[Organisme/Cariotip/LongitudMinima]     (3)
+Nombre mínim de cromosomes d'un organismes aleatori
+\item[Organisme/Cariotip/PenalitzacioLlarg/BitsTamanyMaxim]  (8)
+Bits que es shifta a la dreta el tamany en codons del cariotip per penalitzar els cariotips massa llargs
+\item[Organisme/Cariotip/PenalitzacioLlarg/Factor]   (6)
+Factor per el que es multiplica el tamany del cariotip shiftat per obtindre el cost adicional pels cariotips massa llargs
+\item[Organisme/Energia/CaducitatCompartiments]      (20)
+El nombre d'instruccions que triga en caducar el compartiment d'energia més vell.
+\item[Organisme/Energia/Compartiments]       (8)
+Nombre de compartiments d'energia que té l'organisme.
+\item[Organisme/Fenotip/Longitud]    (16)
+Nombre de registres que formen el fenotip.
+\item[Organisme/Genotip/Intro/Mascara]       0
+La màscara que determina si un codó és un intró
+\item[Organisme/Genotip/Promotor/Mascara]    1048576
+La màscara que determina si un codó és un promotor
+\item[Organisme/Genotip/Terminador/Mascara]  1048576
+La màscara que determina si un codó és un terminador
+\item[Organisme/Genotip/Traduibilitat/Intents]       5
+El nombre de gens que es miren si són traduïbles abans de refusar traduir-ne cap.
+\item[Organisme/Genotip/ZonaOperadora/Mascara]       (65536)
+La màscara que determina si un codó pertany encara a la zona operadora
+\item[Organisme/Pap/Capacitat]       (10)
+Nombre de nutrients que pot contenir l'organismes (Un valor de zero vol dir que no es limita)
+\item[Organisme/ProbabilitatMutacio/Encerts] (1)
+Determina la probabilitat de que es doni una mutació (Numerador).
+\item[Organisme/ProbabilitatMutacio/Mostra]  (15)
+Determina la probabilitat de que es doni una mutació (Denominador).
+\item[Sensor/Intern/Intents]	(10)
+Les vegades que un organismes prova de trobar un nutrient en el pap quan vol detectar-ho.
+\item[Sensor/Presencia/Intents]	(30)
+El nombre de posicions en les que es prova de mirar si hi ha algú que compleix les condicions de presència.
+\item[Sensor/Quimic/Intents]	(10)
+El nombre de posicions en les que es prova de mirar si hi ha nutrients amb les condicions especificades.
+
+\end{description}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Arxiu {\tt opcodes.ini}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Aquest arxiu simplement configura la correspondència entre els opcodes
+i les instruccions que s'executen.
+
+Amb la variable {\tt Biosistema/OpCodes/BitsOperacio} de l'arxiu 
+{\tt bioscena.ini} es pot limitar els bits útils d'aquest byte 
+escollint els n menys significatius. 
+Així no cal generar les 256 entrades.
+
+El següent arxiu serviria per a 5 bits significatius. 
+{\setlinespacing{1}
+\begin{verbatim}
+* 00 NoOperacio
+* 01 Mitosi
+* 02 Anabol
+* 03 Engoleix
+* 04 Excreta
+* 05 Ataca
+* 06 Avanca
+* 07 SensorI
+* 08 SensorP
+* 09 SensorQ
+* 0A Random
+* 0B Carrega
+* 0C And
+* 0D Xor
+* 0E Oposa
+* 0F ShiftR
+\end{verbatim}
+}
+
+El números que es fan servir per l'opcode estan codificats en hexadecimal.
+Cada línia ha d'anar precedida d'un signe {\tt *} i separant els tres
+elements de cada línia, va un espai o tabulador.
+
+La taula \ref{tab:mnemonics} es citen tots els mnemònics implementats:
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{|cccc|}
+\multicolumn{4}{c}{Instruccions Motores}\\
+\hline
+ NoOperacio	& Mitosi 	& Avanca	& Catabol	\\
+ Engoleix	& Excreta	& Ataca		& Anabol	\\
+\hline
+\multicolumn{4}{c}{}\\
+\multicolumn{4}{c}{Instruccions Fenotip}\\
+\hline
+ And		& Or		& Xor		& Carrega	\\
+ Copia		& Not		& Oposa		& Random	\\
+ ShiftR		& ShiftL	&		&		\\
+\hline
+\multicolumn{4}{c}{}\\
+\multicolumn{4}{c}{Instruccions Sensorials}\\
+\hline
+ SensorI	& SensorP	& SensorQ	& 		\\
+\hline
+\end{tabular}
+\caption{Mnemònics implementats}
+\label{tab:mnemonics}
+\end{table}
+
+Si cap opcode queda està sense assignar-li un mnemònic, es donarà
+un missatge d'advertiment i se li asignara {\tt NoOperacio}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Arxiu {\tt agents.ini}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+El funcionament d'aquest fitxer de configuració s'explica en més 
+detall a l'apartat \ref{sec:agentsExterns} de la memòria.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

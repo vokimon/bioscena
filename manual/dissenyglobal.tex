@@ -3,11 +3,16 @@
 %
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Metodologia d'implementació i estil de programació}
+\chapter{Metodologia d'implementació i estil de programació}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+Aquest capítol està orientat a les persones que vulguin fer 
+modificacions del sistema. Descriu la metodologia d'implementacio i 
+l'estil de programació. És molt aconsellable seguir aquestes
+directrius.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Registre de canvis}
+\section{Registre de canvis}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Cada arxiu d'implementació, porta a l'inici un registre dels canvis
@@ -17,7 +22,7 @@ una breu explicació d'una o dos línies, suficient per deduir en què
 consisteix i a quins llocs afecta.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Registre de coses pendents}
+\section{Registre de coses pendents}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 El control de les coses pendents (informalment, {\em TODO's}) 
@@ -51,7 +56,7 @@ diversos mòduls o a mòduls que encara no s'han construït.
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Control de versions}
+\section{Control de versions}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Cada cop que es compila, es genera de forma automatitzada una 
@@ -65,9 +70,21 @@ actualitzat, i amb els {\em Change Logs} quines característiques
 inclou. El registre de compilacions facilitarà, a més, una millor
 aproximació del temps d'implementació.
 
+El registre de compilacions el manté el programa {\tt buildnum}
+el codi font del qual està disponible al comprimit. Cal cridar-lo
+cada cop que intentem compilar el programa.
+
+El programa modifica els fitxers {\tt build.h} i {\tt buildlog.txt}.
+El primer és la informació que s'inclou al programa. El segon fitxer
+és el registre de compilacions.
+
+Per accedir a la informació de l'aplicació, inclosa la que hi ha al
+{\tt build.h}, és aconsellable la utilització de la classe {\tt CAppInfo}.
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Fitxers}
+\section{Fitxers}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Tot i que la intenció inicial era mantenir per a cada classe un 
@@ -94,7 +111,7 @@ podria contenir les especialitzacions de la classe {\tt CClient} i
 adicionals al protocol públic de {\tt CPersona}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Criteris de nomenclatura d'identificadors}
+\section{Criteris de nomenclatura d'identificadors}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 En molts, casos s'han adoptat alguns criteris que es fan servir en 
@@ -123,7 +140,7 @@ windows. Per exemple:
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Proves unitàries de classe}
+\section{Proves unitàries de classe}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Cada classe té una funció membre estàtica anomenada {\tt ProvaClasse}
@@ -137,7 +154,7 @@ d'un {\tt namespace} sinò hi està posat ja tot el mòdul.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Funcions dels comentaris al codi}
+\section{Funcions dels comentaris al codi}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Els comentaris dels fitxers estan tipificats segons la seva 
@@ -192,14 +209,9 @@ detalls d'implementació i estan adreçats als mantenidors.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Trets generals del disseny}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Disseny modular}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Trets generals del disseny modular}
 \label{sec:moduls}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 L'aplicatiu que es vol dissenyar consta de diversos elements
 principals, cadascun, amb funcions determinades dintre del sistema.
