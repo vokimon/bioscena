@@ -27,6 +27,11 @@ public:
 	uint32 m_slotActual;
 // Operacions
 public:
+	virtual void dump(CMissatger & msg);
+	virtual istream & load(istream & str);
+	virtual ostream & store(ostream & str);
+// Operacions
+public:
 	uint32 consumeix(uint32 energia);
 	void afegeix(uint32 energia);
 	void operator () (void);

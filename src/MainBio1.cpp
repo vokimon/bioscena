@@ -87,8 +87,8 @@ int main (int argc, char**argv)
 //	CAgent::ProvaClasse(); //OK
 
 // Proves Comunitat
-//	CEnergiaDisipable::ProvaClasse();
-//	COrganisme::ProvaClasse();
+//	CEnergiaDisipable::ProvaClasse(); // OK 20000218
+//	COrganisme::ProvaClasse(); // OK 20000218
 //	CTaxo::ProvaClasse();
 //	CTaxonomista::ProvaClasse();
 //	CCromosoma::ProvaClasse(); // OK
