@@ -258,19 +258,21 @@ void CCariotip::ProvaClasse(void)
 
 bool CCariotip::muta()
 {
-	if (rnd.get(0,15))
+	if (rnd.get(Config.get("Organisme/ProbabilitatMutacio/Encerts"), Config.get("Organisme/ProbabilitatMutacio/Mostra")))
 		return false;	
 	switch (rnd.get(0,1))
 	{
 	case 0:
 		{
 			CMutacioGenica * mutacio = CMutacioGenica::Nova(rnd.get(1,CMutacioGenica::Nombre())-1);
+			if (!mutacio) return false;
 			mutacio->muta(*(m_cromosomes[cromosomaAleatori()]));
 			delete mutacio;
 		} break;
 	case 1:
 		{
 			CMutacioCariotip * mutacio = CMutacioCariotip::Nova(rnd.get(1,CMutacioCariotip::Nombre())-1);
+			if (!mutacio) return false;
 			mutacio->muta(*this);
 			delete mutacio;
 		} break;

@@ -73,6 +73,10 @@ void CMutacioPerEscisio::muta(CCariotip & car)
 			<< " Centromer: " << idxCentromer
 		    << endl;
 	CCariotip::t_cromosoma crm2 = new CCromosoma;
+	if (!crm2) {
+		error << "Mutant per Escisio: Error de memoria" << endl;
+		cin.get();
+	}
 	crm1->parteix(*crm2,idxCentromer);
 	car.afegeix(crm2,idxDesti);
 }
@@ -92,6 +96,11 @@ void CAneuploidiaPositiva::muta(CCariotip & car)
 		return;
 	CCariotip::t_cromosoma crm1 = car[cromosomaDuplicat];
 	CCariotip::t_cromosoma crm2 = new CCromosoma;
+	if (!crm2) {
+		error << "Mutant AneuploidiaPositiva: Error de memoria" << endl;
+		cin.get();
+	}
+
 	crm2->init(*crm1);
 	car.afegeix(crm2,posicioFinal);
 }
@@ -123,6 +132,10 @@ void CEuploidiaPositiva::muta(CCariotip & car)
 	while(restants--) {
 		CCariotip::t_cromosoma crm1 = car[ultim];
 		CCariotip::t_cromosoma crm2 = new CCromosoma;
+		if (!crm2) {
+			error << "Mutant EuploidiaPositiva: Error de memoria" << endl;
+			cin.get();
+		}
 		crm2->init(*crm1);
 		car.afegeix(crm2,0);
 	}

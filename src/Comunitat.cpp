@@ -8,6 +8,7 @@
 #include "Configuracio.h"
 #include "RandomStream.h"
 #include "Color.h"
+//#include "Grafic.h"
 
 //////////////////////////////////////////////////////////////////////
 // Variables estatiques
@@ -57,111 +58,104 @@ void CComunitat::dump(CMissatger & msg)
 
 void CComunitat::dumpDisponibles(CMissatger & msg)
 {
-/*
+
 	vector<uint32>::iterator it = m_disponibles.begin();
 	for (uint32 index=0; it!=m_disponibles.end(); ++it, ++index)
 		msg << *it << "-";
-*/
+
 	msg << endl;
 }
 
-class CDominiGrafica {
-private:
-	uint32 m_maxim;
-	uint32 m_minim;
-	uint32 m_factor;
-	uint32 m_esDinamic;
-	bool m_esLogaritmic;
-public:
-	CDominiGrafica ()
-	{
-		m_maxim = 0; // El minimo que se quiere representar
-//		m_minim = 0; // El minimo que se quiere representar
-		m_factor = 0; 
-		m_esDinamic = false;
-		m_esLogaritmic = true;
-	}
-	void fixaFactor (uint32 tope) 
-	// Si el factor es dinamic, es fixa per que el maxim sigui representable
-	{
-		if (!m_esDinamic) return;
-		if (m_esLogaritmic) {
-			uint32 valorLog=0;
-			while (m_maxim) {
-				valorLog++;
-				m_maxim>>=1;
-			}
-			m_maxim=valorLog;
-			}
-		uint32 factor=0;
-		while ((m_maxim>>=1)>tope) factor++;
-		m_factor = (m_factor>factor) ? (m_factor-1): factor;
-		m_maxim=0;
-	}
-	uint32 mapeja (uint32 valor) 
-	{
-		m_maxim=(m_maxim<valor)?valor:m_maxim;
-		// Calcul del valor
-		if (m_esLogaritmic) {
-			uint32 valorLog=0;
-			while (valor>>=1) valorLog++;
-			valor=valorLog;
-			}
-		return valor>>m_factor;
-	}
-};
-
 void CComunitat::dumpEnergies(CMissatger & msg)
 {
-	static uint32 tope = 10;
-	static CDominiGrafica dominiEnergia;
-	static CDominiGrafica dominiEdat;
+/*
+	static CDominiGrafica dominiEnergia (true);
+	static CDominiGrafica dominiEdat (true);
+	static uint32 altura = 22;
+	static uint32 amplada = 050;
+	static uint32 margeSup = 0;
+	static uint32 margeInf = 2;
+	static uint32 posX = 41; // 1;
+	static uint32 posY = 22;
+	static uint32 tope = altura-margeInf-margeSup;
+	static uint32 primerOrg = 0100;
 
 	dominiEdat.fixaFactor(tope);
 	dominiEnergia.fixaFactor(tope);
 
 	using AnsiCodes::gotoxy;
 	using AnsiCodes::clrlin;
-	uint32 col;
-	for (uint32 fil=32; fil<44; ++fil)
+
+	uint32 col, fil;
+	uint32 idOrg;
+
+	// Esborrem el fons
+	for (fil=posY; fil<posY+tope+margeInf; ++fil)
 	{
-		msg << gotoxy(fil,1) << blanc.fons(blanc) << clrlin;
+		msg << gotoxy(fil, posX) << blanc.fons(blanc) << clrlin;
 	}
-	for (col=0; col<79 && col<m_organismes.size(); col++)
+
+	// Coloquem les guies
+	if (dominiEdat.premapeja(15)<tope) {
+		msg << gotoxy(posY+tope-dominiEdat.mapeja(15), posX) << blanc.fons(groc) << clrlin;
+		msg << blanc.fons(blanc);
+	}
+	if (dominiEdat.premapeja(7)<tope) {
+		msg << gotoxy(posY+tope-dominiEdat.mapeja(7), posX) << blanc.fons(verd) << clrlin;
+		msg << blanc.fons(blanc);
+	}
+	if (dominiEdat.premapeja(31)<tope) {
+		msg << gotoxy(posY+tope-dominiEdat.mapeja(31), posX) << blanc.fons(vermell) << clrlin;
+		msg << blanc.fons(blanc);
+	}
+
+	// Imprimim el contingut
+
+	for (idOrg=primerOrg,col=posX; col<posX+amplada && idOrg<m_organismes.size(); col++,idOrg++)
 	{
-		msg << CColor(1+(col>>3)&7).brillant();
-		if ((*this)[col].cos()) 
+		// Color identificador
+		msg << CColor(1+(idOrg>>3)&7).brillant();
+		COrganisme * org = m_organismes[idOrg].cos();
+		if (org) 
 		{
-			uint32 energia = m_organismes[col].cos()->energia();
+			// Posem l'energia
+			uint32 energia = org->energia();
 			energia = dominiEnergia.mapeja(energia);
 			if (energia>tope)
-				msg << gotoxy(32, col+1) << '?';
+				msg << gotoxy(posY, col) << '?';
 			else
-				msg << gotoxy(42-energia, col+1) << '*';
+				msg << gotoxy(posY+tope-energia, col) << '*';
 
-			uint32 edat    = m_organismes[col].cos()->edat();
+			// Posem l'edat
+			uint32 edat    = org->edat();
 			edat    = dominiEdat.mapeja(edat);
 			if (edat>tope)
-				msg << gotoxy(32, col+1) << '?';
+				msg << gotoxy(posY, col) << '!';
 			else
-				msg << gotoxy(42-edat   , col+1) << '-';
+				msg << gotoxy(posY+tope-edat   , col) << '-';
 		}
-		else 
-			msg << gotoxy(42, col+1) << 'X';
-		msg << gotoxy(43, col+1) << (col&7);
+		else {
+			msg << gotoxy(posY+tope, col) << 'X';
+		}
+		// Numero identificador
+		msg << gotoxy(posY+tope+1, col) << (idOrg&7);
 	}
-	for (col=0; col<79 && col<m_organismes.size(); col++)
+
+	// Afegim els ids dels taxons
+	msg << gotoxy(posY+tope+2, posX);
+	for (idOrg=primerOrg,col=posX; col<posX+amplada && idOrg<m_organismes.size(); col++,idOrg++)
 	{
-		if ((*this)[col].cos()) {
-			msg << negre.fons((m_organismes[col].taxo()>>3)&7)
-				<< gotoxy(44, col+1) 
-				<< (m_organismes[col].taxo()&7);
+		if ((*this)[idOrg].cos()) {
+			msg << negre.fons((m_organismes[idOrg].taxo()>>3)&7)
+				<< (m_organismes[idOrg].taxo()&7);
 		}
 		else
-			msg << blanc.fons(negre)
-			    << gotoxy(44, col+1) << " ";
+			msg << blanc.fons(negre) << " ";
 	}
+
+	// Restaurem els colors
 	msg << blanc.fosc();
+*/
 }
 
 
@@ -216,9 +210,9 @@ void CComunitat::extreu (uint32 index)
 {
 	if (tracaBaixes)
 		out << "Extreient organisme " << index << endl;
-	CInfoOrganisme & vellOrganisme = m_organismes[index];
+//	CInfoOrganisme & vellOrganisme = m_organismes[index];
 	// Eliminem l'organisme, si encara esta
-	vellOrganisme.cos(NULL);
+	m_organismes[index].cos(NULL);
 	// Posem el node 'index' disponible
 	m_disponibles.push_back(index);
 	push_heap(m_disponibles.begin(), m_disponibles.end(), greater<uint32>());

@@ -164,7 +164,7 @@ ostream & operator<< (ostream & stream, CSubstrat s)
 {
 	CColor colorFons(s.numeroMollecules());
 	if (s.esOcupat()) {
-		stream << CColor(1+(s.ocupant()>>3)).brillant().fons(colorFons) << char('0'+(s.ocupant()&07)); 
+		stream << CColor((s.ocupant()>>3)&07).brillant().fons(colorFons) << char('0'+(s.ocupant()&07)); 
 	}
 	else {
 		stream << blanc.fons(colorFons);

@@ -15,8 +15,7 @@ using namespace AnsiCodes;
 CAleaturitzador::CAleaturitzador()
 {
 	m_tipus+="/Aleaturitzador";
-	m_probabilitat.m_encerts=1;
-	m_probabilitat.m_mostra=1;
+	m_probabilitat.fixa(1,1);
 	m_reAccio = NULL;
 	m_accionat = false;
 }
@@ -47,8 +46,8 @@ void CAleaturitzador::dump(CMissatger & msg)
 {
 	CMultiAgent::dump(msg);
 	msg << "- Probabilitat " 
-		<< m_probabilitat.m_encerts << " "
-		<< m_probabilitat.m_mostra << endl;
+		<< m_probabilitat.encerts() << " "
+		<< m_probabilitat.mostra() << endl;
 	if (m_reAccio) msg << "- ReAccio " << m_reAccio->nom() << endl; 
 }
 
@@ -95,8 +94,7 @@ list<CAgent*> CAleaturitzador::subordinats() {
 
 void CAleaturitzador::probabilitat(uint32 mostra, uint32 encerts)
 {
-	m_probabilitat.m_mostra=mostra;
-	m_probabilitat.m_encerts=encerts;
+	m_probabilitat.fixa(mostra,encerts);
 }
 
 void CAleaturitzador::reAccio(t_accio * a)
