@@ -12,7 +12,6 @@
 
 #include "BioIncludes.h"
 #include "Missatger.h"
-#include "Gen.h"
 #include "Cariotip.h"
 
 /**
@@ -69,18 +68,50 @@ public:
 	* Gives the string representing the Control type
 	* @returns A string that identifies the concrete Control type
 	*/
-	const string & tipus() {return m_tipus;};
+	const std::string & tipus() {return m_tipus;};
 // Atributs
 protected:
-	string m_tipus;
+	std::string m_tipus;
 // Factoria
 public:
+	/**
+	* Gives the number of classes that the factory can generate.
+	* The numeric version of Crea can accept as parameter any number
+	* from 0 to N-1 where N is the number obtained from this function.
+	* @return The number of classes
+	* @see #Crea
+	*/
 	static uint32 Nombre(void);
+	/**
+	* Factory method that returns instances of CControlOrganisme subclasses
+	* specified by a numeric type identifier.
+	* Is faster to use numeric identifiers than string identifiers.
+	* @todo Documentate mappings
+	* @param The subclass numeric identifier
+	* @returns A caller owned pointer to a new object of the specified 
+	* subclass. 
+	* If the identifier is incorrect or allocation failed this pointer 
+	* is NULL.
+	*/
 	static CControlOrganisme * Crea(uint32 n);
-	static CControlOrganisme * Crea(const string&  tipus);
+	/**
+	* Factory method that returns instances of CControlOrganisme subclasses
+	* specified by a string type identifier.
+	* Is faster to use numeric identifiers than string identifiers.
+	* @todo Documentate mappings
+	* @param The subclass numeric identifier
+	* @returns A caller owned pointer to a new object of the specified 
+	* subclass. 
+	* If the identifier is incorrect or allocation failed this pointer 
+	* is NULL.
+	*/
+	static CControlOrganisme * Crea(const std::string &  tipus);
 // Proves
 public:
-	//* No es pot fer virtual pura pero caldria fer-la en totes les subclasses
+	/**
+	* Test the class. Mainly the factory methods and the common interface from 
+	* all factory generated subclasses.
+	*/
 	static void ProvaClasse();
 };
 
