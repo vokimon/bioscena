@@ -30,10 +30,13 @@ CConfiguracio::CConfiguracio()
 */
 // Configuracio per organismes deterministics no reactius
 	set("Organisme/Energia/Inicial",10);
-	set("Organisme/Energia/Caducitat",1);
+	set("Organisme/Energia/CaducitatCompartiments",20);
+	set("Organisme/Energia/Compartiments",8);
 	set("Organisme/Fenotip/Longitud",32);
-	set("Organisme/Cariotip/CromosomaLlarg/FactorPenalitzacio",6);
-	set("Organisme/Cariotip/CromosomaLlarg/BitsTamanyMaxim",6);
+	// Bits que no conten a l'hora de penalitzar per llargaria de cariotip
+	set("Organisme/Cariotip/PenalitzacioLlarg/BitsTamanyMaxim",8);
+	// Factor pel que es multiplica el cost adicional per al pare per cromosoma llarg
+	set("Organisme/Cariotip/PenalitzacioLlarg/Factor",6);
 	set("Organisme/Cariotip/LongitudMinima",3);
 	set("Organisme/Cariotip/LongitudMaxima",10);
 	set("Organisme/Cromosoma/LongitudMinima",1);
@@ -66,6 +69,7 @@ CConfiguracio::CConfiguracio()
 	set("Biosistema/Energia/Engolir",6);
 	set("Biosistema/Energia/Excretar",3);
 	set("Biosistema/Energia/Moviment",0);
+	set("Biosistema/Energia/Extraccio",6);
 	set("Biosistema/Energia/FactorDescendencia",2);
 	set("Biosistema/OpCodes/BitsOperacio",5);
 	set("Sensors/Localitzacio/Intents",10);
