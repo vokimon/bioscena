@@ -58,9 +58,9 @@ protected:
 		for (int i = 0xffffff; i--;) {
 			histograma[Distribution(0,10,5)()]++;
 		}
-		out << "Elapsed: " << (time(NULL)-t) << std::endl;
+		std::cout << "Elapsed: " << (time(NULL)-t) << std::endl;
 		for (int i = 50; i--;) {
-			out << (double)histograma[i]/0xffffff << std::endl;;
+			std::cout << (double)histograma[i]/0xffffff << std::endl;;
 		}
 	}
 	void testSomething_BehavesThisOtherWayInThisCase()
@@ -71,9 +71,9 @@ protected:
 		for (int i = 0xffffff; i--;) {
 			histograma[d()]++;
 		}
-		out << "Elapsed: " << (time(NULL)-t) << std::endl;
+		std::cout << "Elapsed: " << (time(NULL)-t) << std::endl;
 		for (int i = 50; i--;) {
-			out << (double)histograma[i]/0xffffff << std::endl;;
+			std::cout << (double)histograma[i]/0xffffff << std::endl;;
 		}
 	}
 };
