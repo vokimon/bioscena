@@ -14,7 +14,7 @@ EXECUCIO D'INSTRUCCIONS:
 	Millorar operacions per sentir presencia
 	Operacions per sentir estat intern
 	Complicar les logiques de moviment, atac
-	Instruccions per modificar claus internes
+	Claus internes i instruccions per modificar-les
 	Afegir metabolisme (transformacio dels principis inmediats) (Ubicacio Biosistema)
 
 OPCODES:

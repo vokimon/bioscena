@@ -3,16 +3,7 @@
 //////////////////////////////////////////////////////////////////////
 
 #include <iomanip>
-#ifdef _MSC_VER
-// El namespace es per solucionar un conflicte amb el gotoxy de AnsiCodes.h
-namespace ops {
-	#include <conio.h>
-	}
-#define kbhit ops::_kbhit
-#else
-#include <pc.h>
-#endif
-
+#include "turbioconio.h" 
 #include "Genotip.h"
 #include "RandomStream.h"
 #include "Configuracio.h"

@@ -43,6 +43,7 @@ CConfiguracio::CConfiguracio()
 	set("Organisme/Genotip/Terminador/Mascara",   0x00100000);
 	set("Organisme/Genotip/Intro/Mascara",        0x00000000);
 	set("Organisme/Genotip/Traduibilitat/Intents",5);
+	set("Organisme/Pap/Capacitat",0);
 	set("Organisme/ProbabilitatMutacio/Encerts",1);
 	set("Organisme/ProbabilitatMutacio/Mostra",15);
 	set("Comunitat/NumeroOrganismes",0x00000200);

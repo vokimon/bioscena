@@ -185,6 +185,9 @@ void COrganisme::engoleix(t_mollecula element)
 		<<"\tElement: "<<setw(8)<<element<<endl
 		<< dec << setfill(' ');
 	m_nutrients.push_back(element);
+	uint32 maximNutrients = Config.get("Organisme/Pap/Capacitat"); 
+	if (maximNutrients && m_nutrients.size()>maximNutrients)
+		m_nutrients.pop_front();
 }
 	
 bool COrganisme::excreta(t_mollecula & excreccio, uint32 patro, uint32 tolerancia)
@@ -212,11 +215,9 @@ bool COrganisme::excreta(t_mollecula & excreccio, uint32 patro, uint32 toleranci
 	return true;
 }
 
-bool COrganisme::defensa(list<t_mollecula> &fluxeQuimic, uint32 patroAtac, uint32 patroNutrient, uint32 toleranciaNutrient)
+bool COrganisme::defensa(list<t_mollecula> &fluxeQuimic, uint32 forcaAtac, uint32 patroNutrient, uint32 toleranciaNutrient)
 {
 	// TODO: Treure el random i posar quelcom amb sentit per la defensa
-//	uint32 forcaAtac=comptaUns(patroAtac^rnd.get()); 
-	uint32 forcaAtac=5;
 /*	out << "Forca Atac: " << forcaAtac 
 		<< " Patro Nutrient: " << patroNutrient 
 		<< " Tolerancia: " << toleranciaNutrient 

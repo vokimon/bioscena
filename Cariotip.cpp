@@ -12,15 +12,7 @@
 // - 
 // - 
 
-#ifdef _MSC_VER
-// El namespace es per solucionar un conflicte amb el gotoxy de AnsiCodes.h
-namespace ops {
-	#include <conio.h>
-	}
-#define kbhit ops::_kbhit
-#else
-#include <pc.h>
-#endif
+#include "turbioconio.h"
 #include "Cariotip.h"
 #include "Configuracio.h"
 #include "Color.h"
