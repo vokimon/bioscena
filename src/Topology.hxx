@@ -14,18 +14,15 @@ namespace Bioscena {
 * 
 * You can specialize this interface in order to describe your own
 * geometry for the biotop (the inert media in which life beings live).
-* <p>
+* 
 * A topology defines:
-* <ul>
-* <li>A position domain (Possible values and its meaning)</li>
-* <li>A displacement domain (Possible values and its meaning)</li>
-* <li>The relation between them based on two functions:
-* <ul>
-* <li>Given a position and a displacement calculate the resulting position.</li>
-* <li>Given two positions calculate the displacement to reach one from the other.</li>
-* </ul>
-* </ul>
-* <p>
+* 
+* - A position domain (Possible values and its meaning)
+* - A displacement domain (Possible values and its meaning)
+* - The relation between them based on two functions:
+*    - Given a position and a displacement calculate the resulting position.
+*    - Given two positions calculate the displacement to reach one from the other.
+* 
 * This class also implements a dummy default implementation: 
 * N cells so that they are ramdomly interconected.
 * @see Torus A reference implementation for a concrete Topology
