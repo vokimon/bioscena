@@ -32,14 +32,16 @@ CConfiguracio::CConfiguracio()
 	set("Organisme/Energia/Inicial",10);
 	set("Organisme/Energia/Caducitat",1);
 	set("Organisme/Fenotip/Longitud",32);
+	set("Organisme/Cariotip/CromosomaLlarg/FactorPenalitzacio",6);
+	set("Organisme/Cariotip/CromosomaLlarg/BitsTamanyMaxim",6);
 	set("Organisme/Cariotip/LongitudMinima",3);
 	set("Organisme/Cariotip/LongitudMaxima",10);
 	set("Organisme/Cromosoma/LongitudMinima",1);
 	set("Organisme/Cromosoma/LongitudMaxima",10);
-	set("Organisme/Genotip/ZonaOperadora/Mascara",0x00000001);
-	set("Organisme/Genotip/Promotor/Mascara",     0x00000010);
-	set("Organisme/Genotip/Terminador/Mascara",   0x00000100);
-	set("Organisme/Genotip/Intro/Mascara",        0x00001000);
+	set("Organisme/Genotip/ZonaOperadora/Mascara",0x00010000);
+	set("Organisme/Genotip/Promotor/Mascara",     0x00100000);
+	set("Organisme/Genotip/Terminador/Mascara",   0x00100000);
+	set("Organisme/Genotip/Intro/Mascara",        0x00000000);
 	set("Organisme/Genotip/Traduibilitat/Intents",5);
 	set("Organisme/ProbabilitatMutacio/Encerts",1);
 	set("Organisme/ProbabilitatMutacio/Mostra",15);
@@ -63,10 +65,10 @@ CConfiguracio::CConfiguracio()
 	set("Biosistema/Energia/Engolir",6);
 	set("Biosistema/Energia/Excretar",3);
 	set("Biosistema/Energia/Moviment",0);
+	set("Biosistema/Energia/FactorDescendencia",2);
 	set("Biosistema/OpCodes/BitsOperacio",5);
 	set("Sensors/Localitzacio/Intents",10);
 	set("Sensors/Identificacio/Intents",10);
-	set("Biosistema/Energia/MitosiFactor",6);
 }
 
 CConfiguracio::~CConfiguracio()

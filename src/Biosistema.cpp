@@ -287,13 +287,13 @@ void CBiosistema::operator ( )()
 	
 	// Fetch i Execucio
 	uint32 instr = m_organismeActiu->seguentInstruccio();
-	bool bUtil = m_opcodes && (this->*m_opcodes[instr&m_mascaraCodis] )(instr>>m_bitsCodiOperacio);
+	bool bUtil = m_opcodes && (this->*m_opcodes[(instr>>24)&m_mascaraCodis] )(instr);
 
 	// Actualitzacio del quantum i l'energia (l'energia tb es modifica en altres llocs)
 	if (bUtil) m_instruccionsUtilsRestants--;
-	else m_organismeActiu->consumeix(Config.get("Biosistema/Energia/AdicionalInutil"));
+	else m_organismeActiu->consumeixEnergia(Config.get("Biosistema/Energia/AdicionalInutil"));
 	m_instruccionsRestants--;
-	m_organismeActiu->consumeix(Config.get("Biosistema/Energia/FixeInstruccio"));
+	m_organismeActiu->consumeixEnergia(Config.get("Biosistema/Energia/FixeInstruccio"));
 
 	// TODO: Treure modificacio del foo. 
 	// Es per asegurar-nos de que la memoria de l'organisme es nostra. Si no ho es, casca.
@@ -301,7 +301,7 @@ void CBiosistema::operator ( )()
 }
 
 void CBiosistema::canviaOrganismeActiu()
-// Post: Agafa un organisme valid com a actiu. (Si no n'hi ha el crea)
+// Post: Agafa un organisme valid com a actiu. (Si no n'hi ha, el crea)
 {
 	// Repoblacio
 	if (m_comunitat->tamany()<Config.get("Comunitat/TamanyRegeneracio")) {
@@ -334,11 +334,13 @@ bool CBiosistema::organismeExpontani()
 		cin.get();
 		return false;
 	}
+	// Li posem l'energia inicial
+	org->guanyaEnergia(Config.get("Organisme/Energia/Inicial"));
 	// Ho introduim en societat (a la comunitat i al biotop)
 	uint32 id = m_comunitat->introdueix(org, pos, taxo);
 	(*m_biotop)[pos].ocupa(id);
 	// Logging
-	logAccio << verd.brillant() << "Generat expontaneament" << blanc.fosc() << endl;
+	logAccio << verd.brillant() << "Generat expontaneament" << blanc.fosc() << (*m_comunitat)[id].descripcio() << endl;
 	// Registrem el nou 'primigeni'
 /*	ofstream logCromo("poolgen.txt",ios::out|ios::app);
 	CColorOutputer unaSortida(logCromo);
@@ -373,25 +375,28 @@ bool CBiosistema::eliminaOrganismeActiu()
 bool CBiosistema::organismeMitosi(uint32 parametres)
 {
 	// Extreiem els parametres del codi d'operacio i el fenotip de l'organisme
-	uint32 desp =    (*m_organismeActiu)[(parametres>>0)&31];
-	uint32 energia = (*m_organismeActiu)[(parametres>>5)&31];
+	uint32 desp =    (*m_organismeActiu)[(parametres>>0)&15];
+	uint32 energia = (*m_organismeActiu)[(parametres>>4)&15];
 	// Precalculem tot el que utilitzem mutliples vegades
 	uint32 posOrigen = m_infoOrganismeActiu->posicio();
 	uint32 posDesti  = m_biotop->desplacament(posOrigen, desp);
 	CSubstrat & substratOrigen=(*m_biotop)[posOrigen];
 	CSubstrat & substratDesti=(*m_biotop)[posDesti];
 
-	m_organismeActiu->consumeix(m_organismeActiu->m_cariotip.tamanyCodons()>>Config.get("Biosistema/Energia/MitosiFactor"));
-	if (!m_organismeActiu->consumeix(Config.get("Biosistema/Energia/Mitosi"))) return false;
+	m_organismeActiu->consumeixEnergia((m_organismeActiu->m_cariotip.tamanyCodons()>>Config.get("Organisme/Cariotip/CromosomaLlarg/BitsTamanyMaxim"))*Config.get("Organisme/Cariotip/CromosomaLlarg/FactorPenalitzacio"));
+	if (!m_organismeActiu->consumeixEnergia(Config.get("Biosistema/Energia/Mitosi")*Config.get("Biosistema/Energia/FactorDescendencia"))) {
+		logAccio << m_infoOrganismeActiu->descripcio() << "Mitosi " << hex << ((parametres>>0)&15) << ":" << setw(8) << desp << dec << ": " << vermell << "No tinc prouta energia" << blanc.fosc() << endl;
+		return false;
+		}
 
-	logAccio << m_infoOrganismeActiu->descripcio() << "Mitosi " << setw(2) << ((parametres>>0)&31) << ":" << hex << setw(8) << desp << dec << ": ";
+	logAccio << m_infoOrganismeActiu->descripcio() << "Mitosi " << hex << ((parametres>>0)&15) << ":" << setw(8) << desp << dec << ": ";
 	if (substratDesti.esOcupat()) {
 		logAccio << vermell.brillant() << "Ocupat " << blanc.fosc() << (*m_comunitat)[substratDesti.ocupant()].descripcio() << endl;
 		return false; // Error: Ja hi ha penya a la posicio, no la podem ocupar
 	}
 	COrganisme * nouOrganisme = new COrganisme(m_organismeActiu->m_cariotip);
 	if (!nouOrganisme) {
-		logAccio << verd.brillant() << "Falta memoria" << blanc.fosc() << endl;
+		logAccio << vermell.brillant() << "Falta memoria" << blanc.fosc() << endl;
 		cin.get();
 		return false;
 	}
@@ -405,6 +410,7 @@ bool CBiosistema::organismeMitosi(uint32 parametres)
 	else 
 		taxo = m_infoOrganismeActiu->taxo();
 
+	nouOrganisme->guanyaEnergia(Config.get("Biosistema/Energia/Mitosi"));
 	uint32 id = m_comunitat->introdueix(nouOrganisme, posDesti, taxo);
 	substratDesti.ocupa(id);
 
@@ -412,7 +418,7 @@ bool CBiosistema::organismeMitosi(uint32 parametres)
 	m_infoOrganismeActiu = &((*m_comunitat)[m_idOrganismeActiu]);
 
 	// Logging
-	logAccio << verd.brillant() << "Nascut " << blanc.fosc() << setw(2) << (*m_comunitat)[id].descripcio() << endl;
+	logAccio << verd.brillant() << "Nascut " << blanc.fosc() << (*m_comunitat)[id].descripcio() << endl;
 	if (taxo!=m_infoOrganismeActiu->taxo()) {
 		logAccio << "Eps! Mutacio " /*<< m_infoOrganismeActiu->taxo() << "->" << taxo*/ << endl;
 	}
@@ -423,13 +429,13 @@ bool CBiosistema::organismeMitosi(uint32 parametres)
 bool CBiosistema::organismeAvanca(uint32 parametres)
 {
 	// Extreiem els parametres del codi d'operacio i el fenotip de l'organisme
-	uint32 desp =         (*m_organismeActiu)[(parametres>> 0)&31];
-	uint32 energia =      (*m_organismeActiu)[(parametres>> 5)&31];
-	uint32 clauMoviment = (*m_organismeActiu)[(parametres>>10)&31];
+	uint32 desp =         (*m_organismeActiu)[(parametres>> 0)&15];
+	uint32 energia =      (*m_organismeActiu)[(parametres>> 4)&15];
+	uint32 clauMoviment = (*m_organismeActiu)[(parametres>> 8)&15];
 	// Precalculem tot el que utilitzem mutliples vegades
 	uint32 posOrigen = m_infoOrganismeActiu->posicio();
 	uint32 posDesti  = m_biotop->desplacament(posOrigen, desp);
-	logAccio << m_infoOrganismeActiu->descripcio() << "Em moc " << setw(2) << ((parametres>>0)&31) << ":" << hex << setw(8) << desp << dec << ": ";
+	logAccio << m_infoOrganismeActiu->descripcio() << "Em moc " << hex << ((parametres>>0)&15) << ":" << setw(8) << desp << dec << ": ";
 	CSubstrat & substratOrigen=(*m_biotop)[posOrigen];
 	CSubstrat & substratDesti=(*m_biotop)[posDesti];
 	if (substratDesti.esOcupat()) {
@@ -439,7 +445,7 @@ bool CBiosistema::organismeAvanca(uint32 parametres)
 	// Logica de moviment
 	substratOrigen.desocupa();
 	substratDesti.ocupa(m_idOrganismeActiu);
-	m_organismeActiu->consumeix(Config.get("Biosistema/Energia/Moviment"));
+	m_organismeActiu->consumeixEnergia(Config.get("Biosistema/Energia/Moviment"));
 	(*m_comunitat)[m_idOrganismeActiu].posicio(posDesti);
 	logAccio << groc.brillant() << "Desti " << setw(4) << posDesti << " Ok" << blanc.fosc() << endl;
 	// TODO: Complicar la logica: Cost de desplacament, camí lliure, corrents...
@@ -451,15 +457,15 @@ bool CBiosistema::organismeAvanca(uint32 parametres)
 bool CBiosistema::organismeAtaca(uint32 parametres)
 {
 	// Extreiem els parametres del codi d'operacio i el fenotip de l'organisme
-	uint32 desp=       (*m_organismeActiu)[(parametres>> 0)&31];
-	uint32 elementBase=(*m_organismeActiu)[(parametres>> 5)&31]&3;
-	uint32 tolerancia= (*m_organismeActiu)[(parametres>>10)&31]&3;
-	uint32 energia=    (*m_organismeActiu)[(parametres>>15)&31]&7;
-	uint32 clauAtac=   (*m_organismeActiu)[(parametres>>20)&31];
+	uint32 desp=       (*m_organismeActiu)[(parametres>> 0)&15];
+	uint32 elementBase=(*m_organismeActiu)[(parametres>> 4)&15]&5;
+	uint32 tolerancia= (*m_organismeActiu)[(parametres>> 8)&15]&5;
+	uint32 energia=    (*m_organismeActiu)[(parametres>>12)&15]&7;
+	uint32 clauAtac=   (*m_organismeActiu)[(parametres>>16)&15];
 	// Precalculem tot el que utilitzem mutliples vegades
 	uint32 posOrigen = m_infoOrganismeActiu->posicio();
 	uint32 posDesti = m_biotop->desplacament(posOrigen, desp);
-	logAccio << m_infoOrganismeActiu->descripcio() << "Ataco " << setw(2) << ((parametres>>0)&31) << ":" << hex << setw(8) << desp << dec /*<< setw(4) << posDesti*/ << ": ";
+	logAccio << m_infoOrganismeActiu->descripcio() << "Ataco " << hex << ((parametres>>0)&15) << ":" << setw(8) << desp << dec << ": ";
 	if (posDesti==posOrigen) {
 		logAccio << vermell.brillant() << "Autoagressio! " << blanc.fosc() << endl;
 		return false;
@@ -477,46 +483,50 @@ bool CBiosistema::organismeAtaca(uint32 parametres)
 		logAccio << (*m_comunitat)[idOrganismeAtacat].descripcio() << vermell.brillant() << " no te " << hex << elementBase << "(" << tolerancia << ")" << dec << blanc.fosc() << endl;
 		return false;
 	}
-	logAccio << groc.brillant() << "N'extrec " << elements.size() << " a " << blanc.fosc() << (*m_comunitat)[idOrganismeAtacat].descripcio() << endl;
-	// TODO: Logs
+	uint32 agarrapinyats = elements.size();
+	logAccio << groc.brillant() << "N'extrec " << agarrapinyats << " a " << blanc.fosc() << (*m_comunitat)[idOrganismeAtacat].descripcio() << endl;
+	m_organismeActiu->guanyaEnergia(Config.get("Biosistema/Energia/Engolir")*agarrapinyats);
+	(*m_comunitat)[idOrganismeAtacat].cos()->consumeixEnergia(Config.get("Biosistema/Energia/Excretar")*agarrapinyats);
 	while (elements.size()) {
 		m_organismeActiu->engoleix(elements.front());
 		elements.pop_front();
 	}
+	// TODO: Logs
 	return true;
 }
 
 bool CBiosistema::organismeEngoleix(uint32 parametres)
 {
 	// Extreiem els parametres del codi d'operacio i el fenotip de l'organisme
-	uint32 desp=	   (*m_organismeActiu)[(parametres>> 0)&31];
-	uint32 elementBase=(parametres>> 5)&3;
-	uint32 tolerancia= (parametres>>10)&3;
+	uint32 desp=	   (*m_organismeActiu)[(parametres>> 0)&15];
+	uint32 elementBase=(*m_organismeActiu)[(parametres>> 4)&15]&5;
+	uint32 tolerancia= (*m_organismeActiu)[(parametres>> 8)&15]&5;
 	// Precalculem tot el que utilitzem mutliples vegades
 	uint32 posOrigen = m_infoOrganismeActiu->posicio();
 	uint32 posDesti = m_biotop->desplacament(posOrigen, desp);
-	logAccio << m_infoOrganismeActiu->descripcio() << "Engolo " << setw(2) << ((parametres>>0)&31) << ":" << hex << setw(8) << desp << dec /*<< setw(4) << posDesti*/ << ": ";
+	logAccio << m_infoOrganismeActiu->descripcio() << "Engolo " << hex << ((parametres>>0)&15) << ":" << setw(8) << desp << dec << ": ";
 	CSubstrat & substratDesti = (*m_biotop)[posDesti];
 	uint32 element;
 	if (!substratDesti.extreu(element, elementBase, tolerancia)) {
 		logAccio << vermell.brillant() << "No hi ha " << hex << elementBase << "(" << tolerancia << ")" << dec << blanc.fosc() << endl;
 		return false; // Error: No hi ha res que engolir
 	}
-	logAccio << groc.brillant() << "Em menjo un " << element << blanc.fosc() << endl;
+	logAccio << groc.brillant() << "Em menjo un " << hex << element << dec << blanc.fosc() << endl;
 	(*m_comunitat)[m_idOrganismeActiu].cos()->engoleix(element);
+	m_organismeActiu->guanyaEnergia(Config.get("Biosistema/Energia/Engolir"));
 	return true;
 }	
 
 bool CBiosistema::organismeExcreta(uint32 parametres)
 {
 	// Extreiem els parametres del codi d'operacio i el fenotip de l'organisme
-	uint32 desp=	   (*m_organismeActiu)[(parametres>> 0)&31];
-	uint32 elementBase=(*m_organismeActiu)[(parametres>> 5)&31]&3;
-	uint32 tolerancia= (*m_organismeActiu)[(parametres>>10)&31]&3;
+	uint32 desp=	   (*m_organismeActiu)[(parametres>> 0)&15];
+	uint32 elementBase=(*m_organismeActiu)[(parametres>> 4)&15]&5;
+	uint32 tolerancia= (*m_organismeActiu)[(parametres>> 8)&15]&5;
 	// Precalculem tot el que utilitzem mutliples vegades
 	uint32 posOrigen = m_infoOrganismeActiu->posicio();
 	uint32 posDesti = m_biotop->desplacament(posOrigen, desp);
-	logAccio << m_infoOrganismeActiu->descripcio() << "Excreto " << setw(2) << ((parametres>>0)&31) << ":" << hex << setw(8) << desp << dec /*<< setw(4) << posDesti*/ << ": ";
+	logAccio << m_infoOrganismeActiu->descripcio() << "Excreto " << hex << ((parametres>>0)&15) << ":" << setw(8) << desp << dec << ": ";
 	CSubstrat & substratDesti = (*m_biotop)[posDesti];
 	uint32 element;
 	if (!(*m_comunitat)[m_idOrganismeActiu].cos()->excreta(element, elementBase, tolerancia)) {
@@ -525,80 +535,80 @@ bool CBiosistema::organismeExcreta(uint32 parametres)
 	}
 	logAccio << groc.brillant() << "Deposito un " << element << blanc.fosc() << endl;
 	substratDesti.deposita(element);
-//	logAccio << "Ja he excretat" << endl;
+	m_organismeActiu->consumeixEnergia(Config.get("Biosistema/Energia/Excretar"));
 	return true;
 }	
 
 bool CBiosistema::organismeAnd(uint32 parametres)
 {
-	(*m_organismeActiu)[(parametres>> 0)&31] =
-	(*m_organismeActiu)[(parametres>> 5)&31] &
-	(*m_organismeActiu)[(parametres>>10)&31] ;
-	logAccio << m_infoOrganismeActiu->descripcio() << "And    " << setw(2) << ((parametres>> 0)&31) << "=" << hex << setw(8) << (*m_organismeActiu)[(parametres>> 0)&31] << dec << endl;
+	(*m_organismeActiu)[(parametres>> 0)&15] =
+	(*m_organismeActiu)[(parametres>> 4)&15] &
+	(*m_organismeActiu)[(parametres>> 8)&15] ;
+	logAccio << m_infoOrganismeActiu->descripcio() << "And    " << hex << ((parametres>> 0)&15) << "=" << setw(8) << (*m_organismeActiu)[(parametres>> 0)&15] << " " << ((parametres>> 4)&15) << "&" << ((parametres>> 8)&15) << dec << endl;
 	return true;
 }
 
 bool CBiosistema::organismeOr(uint32 parametres)
 {
-	(*m_organismeActiu)[(parametres>> 0)&31] =
-	(*m_organismeActiu)[(parametres>> 5)&31] |
-	(*m_organismeActiu)[(parametres>>10)&31] ;
-	logAccio << m_infoOrganismeActiu->descripcio() << "Or     " << setw(2) << ((parametres>> 0)&31) << "=" << hex << setw(8) << (*m_organismeActiu)[(parametres>> 0)&31] << dec << endl;
+	(*m_organismeActiu)[(parametres>> 0)&15] =
+	(*m_organismeActiu)[(parametres>> 4)&15] |
+	(*m_organismeActiu)[(parametres>> 8)&15] ;
+	logAccio << m_infoOrganismeActiu->descripcio() << "Or     " << hex << ((parametres>> 0)&15) << "=" << setw(8) << (*m_organismeActiu)[(parametres>> 0)&15] << " " << ((parametres>> 4)&15) << "|" << ((parametres>> 8)&15) << dec << endl;
 	return true;
 }
 
 bool CBiosistema::organismeXor(uint32 parametres)
 {
-	(*m_organismeActiu)[(parametres>> 0)&31] =
-	(*m_organismeActiu)[(parametres>> 5)&31] ^
-	(*m_organismeActiu)[(parametres>>10)&31] ;
-	logAccio << m_infoOrganismeActiu->descripcio() << "Xor    " << setw(2) << ((parametres>> 0)&31) << "=" << hex << setw(8) << (*m_organismeActiu)[(parametres>> 0)&31] << dec << endl;
+	(*m_organismeActiu)[(parametres>> 0)&15] =
+	(*m_organismeActiu)[(parametres>> 4)&15] ^
+	(*m_organismeActiu)[(parametres>> 8)&15] ;
+	logAccio << m_infoOrganismeActiu->descripcio() << "Xor    " << hex << ((parametres>> 0)&15) << "=" << setw(8) << (*m_organismeActiu)[(parametres>> 0)&15] << " " << ((parametres>> 4)&15) << "^" << ((parametres>> 8)&15) << dec << endl;
 	return true;
 }
 
 bool CBiosistema::organismeNot(uint32 parametres)
 {
-	uint32 & registre = (*m_organismeActiu)[(parametres>> 0)&31];
-	registre = !registre;
-	logAccio << m_infoOrganismeActiu->descripcio() << "Negat  " << setw(2) << ((parametres>> 0)&31) << "=" << hex << setw(8) << (*m_organismeActiu)[(parametres>> 0)&31] << dec << endl;
+	uint32 & registre = (*m_organismeActiu)[(parametres>> 0)&15];
+	registre = ~registre;
+	logAccio << m_infoOrganismeActiu->descripcio() << "Negat  " << hex << ((parametres>> 0)&15) << "=" << setw(8) << (*m_organismeActiu)[(parametres>> 0)&15] << dec << endl;
 	return true;
 }
 
 bool CBiosistema::organismeOposa(uint32 parametres)
 // Serveix per obtenir la direccio oposada
 {
-	uint32 & registre = (*m_organismeActiu)[(parametres>> 0)&31];
+	uint32 & registre = (*m_organismeActiu)[(parametres>> 0)&15];
 	registre ^= 0x77777777;
-	logAccio << m_infoOrganismeActiu->descripcio() << "Oposa  " << setw(2) << ((parametres>> 0)&31) << "=" << hex << setw(8) << (*m_organismeActiu)[(parametres>> 0)&31] << dec << endl;
+	logAccio << m_infoOrganismeActiu->descripcio() << "Oposa  " << hex << ((parametres>> 0)&15) << "=" << setw(8) << (*m_organismeActiu)[(parametres>> 0)&15] << dec << endl;
 	return true;
 }
 
 bool CBiosistema::organismeRandom(uint32 parametres)
 {
-	(*m_organismeActiu)[(parametres>> 0)&31] = rnd.get();
-	logAccio << m_infoOrganismeActiu->descripcio() << "Random " << setw(2) << ((parametres>> 0)&31) << "=" << hex << setw(8) << (*m_organismeActiu)[(parametres>> 0)&31] << dec << endl;
+	(*m_organismeActiu)[(parametres>> 0)&15] = rnd.get();
+	logAccio << m_infoOrganismeActiu->descripcio() << "Random " << hex << ((parametres>> 0)&15) << "=" << setw(8) << (*m_organismeActiu)[(parametres>> 0)&15] << dec << endl;
 	return true;
 }
 
 bool CBiosistema::organismeCopia(uint32 parametres)
 {
-	(*m_organismeActiu)[(parametres>> 0)&31] =
-	(*m_organismeActiu)[(parametres>> 5)&31];
-	logAccio << m_infoOrganismeActiu->descripcio() << "Copy   " << setw(2) << ((parametres>> 0)&31) << "=" << hex << setw(8) << (*m_organismeActiu)[(parametres>> 0)&31] << dec << endl;
+	(*m_organismeActiu)[(parametres>> 0)&15] =
+	(*m_organismeActiu)[(parametres>> 4)&15];
+	logAccio << m_infoOrganismeActiu->descripcio() << "Copy   " << hex << ((parametres>> 0)&15) << "=" << setw(8) << (*m_organismeActiu)[(parametres>> 0)&15] << " " << ((parametres>> 4)&15) << dec << endl;
 	return true;
 }
 
 bool CBiosistema::organismeCarrega(uint32 parametres)
 {
-	(*m_organismeActiu)[(parametres>> 0)&31] =
+	(*m_organismeActiu)[(parametres>> 0)&15] =
 	m_organismeActiu->seguentInstruccio();
-	logAccio << m_infoOrganismeActiu->descripcio() << "Load   " << setw(2) << ((parametres>> 0)&31) << "=" << hex << setw(8) << (*m_organismeActiu)[(parametres>> 0)&31] << dec << endl;
+	logAccio << m_infoOrganismeActiu->descripcio() << "Load   " << hex << ((parametres>> 0)&15) << "=" << setw(8) << (*m_organismeActiu)[(parametres>> 0)&15] << dec << endl;
 	return true;
 }
 
 bool CBiosistema::organismeNoOperacio(uint32 parametres)
 {
-	logAccio << m_infoOrganismeActiu->descripcio() << "No Operacio ..." << endl;
+	logAccio << m_infoOrganismeActiu->descripcio() << "NoOper NOP NOP NOP ..." << endl;
 //	error << "Eps, accio no valida!!" << endl;
 //	cin.get();
 	return false;
@@ -607,11 +617,11 @@ bool CBiosistema::organismeNoOperacio(uint32 parametres)
 bool CBiosistema::organismeLocalitza(uint32 parametres)
 {
 	// Extreiem els parametres del codi d'operacio i el fenotip de l'organisme
-	uint32 direccio        = (*m_organismeActiu)[(parametres>> 0)&31];
-	uint32 radi            = (*m_organismeActiu)[(parametres>> 5)&31]&31;
-	uint32 clauElement     = (*m_organismeActiu)[(parametres>>10)&31]&3;
-	uint32 tolerancia      = (*m_organismeActiu)[(parametres>>15)&31]&3;
-	uint32 & registreDesti = (*m_organismeActiu)[(parametres>>20)&31];
+	uint32 direccio        = (*m_organismeActiu)[(parametres>> 0)&15];
+	uint32 radi            = (*m_organismeActiu)[(parametres>> 4)&15]&31;
+	uint32 clauElement     = (*m_organismeActiu)[(parametres>> 8)&15]&3;
+	uint32 tolerancia      = (*m_organismeActiu)[(parametres>>12)&15]&3;
+	uint32 & registreDesti = (*m_organismeActiu)[(parametres>>16)&15];
 	// Precalculem tot el que utilitzem mutliples vegades
 	uint32 posOrigen = m_infoOrganismeActiu->posicio();
 	uint32 posBase = m_biotop->desplacament(posOrigen, direccio);
@@ -622,10 +632,11 @@ bool CBiosistema::organismeLocalitza(uint32 parametres)
 		if ((*m_biotop)[posDesti].rastreja(elementTrobat, clauElement, tolerancia)) {
 			// TODO: Aixo retorna si hi arribes nomes amb el desplacament
 			m_biotop->unio(posOrigen,posDesti,registreDesti);
-			logAccio << m_infoOrganismeActiu->descripcio() << "LocalM " << setw(2) << ((parametres>>20)&31) << "=" << hex << setw(8) << registreDesti << dec << " " << clauElement << "(" << tolerancia << ")" << " a " << setw(2) << ((parametres>> 0)&31) << ":" << setw(8) << direccio << dec << endl;
+			logAccio << m_infoOrganismeActiu->descripcio() << "LocalM " << hex << ((parametres>>16)&15) << "=" << setw(8) << registreDesti << " " << clauElement << "(" << tolerancia << ") a " << ((parametres>> 0)&15) << ":" << setw(8) << direccio << dec << endl;
 			return true;
 		}
 	}
+	logAccio << m_infoOrganismeActiu->descripcio() << "LocalM " << hex << ((parametres>>16)&15) << ":???????? " << " " << clauElement << "(" << tolerancia << ") a " << ((parametres>> 0)&15) << ":" << setw(8) << direccio << dec << endl;
 	// TODO: Be, com sempre aixo hauria de tenir un significat
 	return true;
 }
@@ -633,11 +644,11 @@ bool CBiosistema::organismeLocalitza(uint32 parametres)
 bool CBiosistema::organismeIdentifica(uint32 parametres)
 {
 	// Extreiem els parametres del codi d'operacio i el fenotip de l'organisme
-	uint32 direccio        = (*m_organismeActiu)[(parametres>> 0)&31];
-	uint32 radi            = (*m_organismeActiu)[(parametres>> 5)&31]&31;
-	uint32 clauElement     = (*m_organismeActiu)[(parametres>>10)&31]&3;
-	uint32 tolerancia      = (*m_organismeActiu)[(parametres>>15)&31]&3;
-	uint32 & registreDesti = (*m_organismeActiu)[(parametres>>20)&31];
+	uint32 direccio        = (*m_organismeActiu)[(parametres>> 0)&15];
+	uint32 radi            = (*m_organismeActiu)[(parametres>> 4)&15]&31;
+	uint32 clauElement     = (*m_organismeActiu)[(parametres>> 8)&15]&5;
+	uint32 tolerancia      = (*m_organismeActiu)[(parametres>>12)&15]&5;
+	uint32 & registreDesti = (*m_organismeActiu)[(parametres>>16)&15];
 	// Precalculem tot el que utilitzem mutliples vegades
 	uint32 posOrigen = m_infoOrganismeActiu->posicio();
 	uint32 posBase = m_biotop->desplacament(posOrigen, direccio);
@@ -645,22 +656,23 @@ bool CBiosistema::organismeIdentifica(uint32 parametres)
 	for (uint32 i=Config.get("Sensors/Identificacio/Intents")/*10*/; i--;) {
 		uint32 posDesti = m_biotop->desplacamentAleatori (posBase, radi);
 		if ((*m_biotop)[posDesti].rastreja(registreDesti, clauElement, tolerancia)) {
-			logAccio << m_infoOrganismeActiu->descripcio() << "IdentM " << setw(2) << ((parametres>>20)&31) << "=" << hex << setw(8) << registreDesti << " a " << setw(2) << ((parametres>> 0)&31) << ":" << setw(8) << direccio << dec << endl;
+			logAccio << m_infoOrganismeActiu->descripcio() << "IdentM " << hex << ((parametres>>16)&15) << "=" << setw(8) << registreDesti << " a " << ((parametres>> 0)&15) << ":" << setw(8) << direccio << dec << endl;
 			return true;
 		}
 	}
-	return false;
+	logAccio << m_infoOrganismeActiu->descripcio() << "IdentM " << hex << ((parametres>>16)&15) << ":???????? " << dec << clauElement << "(" << tolerancia << ")  a " << ((parametres>> 0)&15) << ":" << setw(8) << direccio << dec << endl;
+	return true;
 }
 
 bool CBiosistema::organismeLocalitzaOrganisme(uint32 parametres)
 {
 	// Extreiem els parametres del codi d'operacio i el fenotip de l'organisme
-	uint32 direccio        = (*m_organismeActiu)[(parametres>> 0)&31];
-	uint32 radi            = (*m_organismeActiu)[(parametres>> 5)&31]&31;
-	uint32 clauElement     = (*m_organismeActiu)[(parametres>>10)&31]&3;
-	uint32 tolerancia      = (*m_organismeActiu)[(parametres>>15)&31]&3;
-	uint32 & registreDesti = (*m_organismeActiu)[(parametres>>20)&31];
-	uint32 registre        = (parametres>>25)&31;
+	uint32 direccio        = (*m_organismeActiu)[(parametres>> 0)&15];
+	uint32 radi            = (*m_organismeActiu)[(parametres>> 4)&15]&31;
+	uint32 clauElement     = (*m_organismeActiu)[(parametres>> 8)&15];
+	uint32 tolerancia      = (*m_organismeActiu)[(parametres>>12)&15];
+	uint32 & registreDesti = (*m_organismeActiu)[(parametres>>16)&15];
+	uint32 registre        = (parametres>>20)&15;
 	// Precalculem tot el que utilitzem mutliples vegades
 	uint32 posOrigen = m_infoOrganismeActiu->posicio();
 	uint32 posBase = m_biotop->desplacament(posOrigen, direccio);
@@ -673,11 +685,13 @@ bool CBiosistema::organismeLocalitzaOrganisme(uint32 parametres)
 			if (sonCompatibles((*(*m_comunitat)[ocupant].cos())[registre],clauElement,tolerancia)) {
 				// TODO: Aixo retorna si hi arribes nomes amb el desplacament
 				m_biotop->unio(posOrigen,posDesti,registreDesti);
-				logAccio << m_infoOrganismeActiu->descripcio() << "LocalO " << setw(2) << ((parametres>>20)&31) << "=" << hex << setw(8) << registreDesti << dec << " " << registre << "(" << tolerancia << ")" << " a " << setw(2) << ((parametres>> 0)&31) << ":" << setw(8) << direccio << dec << endl;
+				logAccio << m_infoOrganismeActiu->descripcio() << "LocalO " << hex << ((parametres>>16)&15) << "=" << setw(8) << registreDesti << " a " << ((parametres>> 0)&15) << ":" << setw(8) << direccio << " tq " << registre << ":" << clauElement << "(" << tolerancia << ")" << dec << endl;
 				return true;
 			}
 		}
 	}
+	logAccio << m_infoOrganismeActiu->descripcio() << "LocalO " << hex << ((parametres>>16)&15) << "=" << "???????? a " << ((parametres>> 0)&15) << ":" << setw(8) << direccio << " tq " << ((parametres>>20)&15) << "==R" << ((parametres>>8)&15) << "(R" << ((parametres>>12)&15) << ")" << dec << endl;
+
 	// TODO: Be, com sempre aixo hauria de tenir un significat
 	return true;
 }
@@ -699,7 +713,7 @@ void CBiosistema::ProvaClasse()
 	out << "Inicialitzant Biotop..." << endl;
 	biosistema.biotop(new CTopologiaToroidal<CBiosistema::t_substrat>(Config.get("Biotop/CassellesAmplitud"),Config.get("Biotop/CassellesAltitud")));
 	biosistema.comunitat(new CComunitat);
-	biosistema.agents(CAgent::ParsejaArxiu("Agents2.ini", *(biosistema.biotop()), error));
+	biosistema.agents(CAgent::ParsejaArxiu("Agents.ini", *(biosistema.biotop()), error));
 
 	uint32 pasVisualitzacio=0;
 	uint32 pas=pasVisualitzacio;
@@ -787,20 +801,20 @@ void CBiosistema::ProvaClasse()
 			{
 			case Blanc:
 			case Mapa:
-				out << gotoxy(1,42) 
+				out << gotoxy(42,1) 
 					<< "Coords: " << setw(3) << pos%Config.get("Biotop/CassellesAmplitud") 
 					<< '@' << setw(3) << pos/Config.get("Biotop/CassellesAmplitud") 
 					;
 				break;
 			case MapaOrganismes:
-				out << gotoxy(42,1) 
+				out << gotoxy(1,42) 
 					<< "Coords: " << setw(3) << pos%Config.get("Biotop/CassellesAmplitud") 
 					<< '@' << setw(3) << pos/Config.get("Biotop/CassellesAmplitud") 
 					;
 				break;
 			}
 			out << gotoxy(1, 1) << "Poblacio: " << setw(6) << biosistema.comunitat()->tamany();
-			out << gotoxy(1,26) << "Temps: " << setw(8) << biosistema.m_temps;
+			out << gotoxy(26,1) << "Temps: " << setw(8) << biosistema.m_temps;
 			out << setfill(' ') << endl;
 		}
 
@@ -808,7 +822,7 @@ void CBiosistema::ProvaClasse()
 //		cin.rdbuf()->sync();
 		if (kbhit())// || cin.rdbuf()->in_avail()) 
 		{
-			cout << gotoxy(48,1) << clrlin << "Comanda: " << flush;
+			cout << gotoxy(1,48) << clrlin << "Comanda: " << flush;
 			bool sortir=false;
 			while (!sortir)
 			{
@@ -857,7 +871,7 @@ void CBiosistema::ProvaClasse()
 				case 'R': 
 				case 'r': 
 					biosistema.deleteAgents();
-					biosistema.agents(CAgent::ParsejaArxiu("Agents2.ini", *(biosistema.biotop()), error));
+					biosistema.agents(CAgent::ParsejaArxiu("Agents.ini", *(biosistema.biotop()), error));
 					// TODO: Recarregar configuracio 
 					break;
 				case 'e': biosistema.m_calEspeciar=true; break;
@@ -882,7 +896,7 @@ void CBiosistema::ProvaClasse()
 				case '\n': sortir=true;
 					break;
 				}
-				// out << gotoxy(48,20) << "Tecla: " << '\'' << (a?a:'#') << '\''<< endl;
+				// out << gotoxy(20,48) << "Tecla: " << '\'' << (a?a:'#') << '\''<< endl;
 			}
 		}
 		if (helpWanted) {

@@ -38,13 +38,13 @@ bool CGen::init(CCromosoma & crm, uint32 & pos)
 		pos++;
 	if (pos>=crm.tamany()) 
 		return false;
-	while (pos<crm.tamany()) {
+	while (pos<crm.tamany() && !esTerminador(crm[pos])) {
 		if (!esIntro(crm[pos]))
 			m_instruccions.push_back (traduccio(crm[pos]));
 		pos++;
 	}
-	m_ip=m_instruccions.size();
-	return tamany()!=0;
+	m_ip=tamany();
+	return m_ip!=0;
 }
 
 uint32 CGen::tamany()
@@ -149,10 +149,10 @@ bool CGen::condicioOperadora(uint32 * fenotip)
 // PRE: fenotip apunta a una array de 32 elements
 {
 	uint32 instr = m_instruccions[m_ip];
-	uint32 param1 = fenotip[(instr&0x0000001F)>> 0];
-	uint32 param2 = fenotip[(instr&0x000003E0)>> 5];
-	uint32 param3 = fenotip[(instr&0x00007C00)>>10];
-	uint32 param4 = fenotip[(instr&0x000F8000)>>15];
+	uint32 param1 = fenotip[(instr&0x0000000F)>> 0];
+	uint32 param2 = fenotip[(instr&0x000000F0)>> 4];
+	uint32 param3 = fenotip[(instr&0x00000F00)>> 8];
+	uint32 param4 = fenotip[(instr&0x0000F000)>>12];
 	return (param1 ^ param2) && param2 && param4;
 }
 
