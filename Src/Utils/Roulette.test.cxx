@@ -56,12 +56,6 @@ protected:
 		CPPUNIT_ASSERT_EQUAL(uint32(0),_roulette0->sector(3));
 		CPPUNIT_ASSERT(_roulette0->checkInvariant());
 	}
-	void test() {
-		_roulette0->sector(3,5);
-		_roulette0->sector(3,0);
-		CPPUNIT_ASSERT_EQUAL(uint32(0),_roulette0->sector(3));
-		CPPUNIT_ASSERT(_roulette0->checkInvariant());
-	}
 };
 
 class RouletteOperationTest : public CppUnit::TestCase {
