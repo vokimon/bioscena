@@ -95,13 +95,13 @@ namespace Bioscena {
 		
 		/// Returns a displacement value that applied to one position it gives the same position.
 		/// @returns A null displacement
-		virtual t_displacement desplacamentNul() const;
+		virtual t_displacement nilDisplacement() const;
 		
 		/// Returns the number of displacements to reach one position from another.
-		/// @param posOrigen The original position
-		/// @param posDesti The final position
+		/// @param origin The original position
+		/// @param destination The final position
 		/// @returns The number of displacements
-		virtual uint32 distancia(t_position posOrigen, t_position posDesti) const;
+		virtual uint32 distance(t_position origin, t_position destination) const;
 		
 	//@}	
 	// Funcions estatiques
