@@ -227,19 +227,24 @@ caldria limitar a alguns casos de baix nivell.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Els estudis de Morgan et al. varen demostrar que els gens no eren 
-quelcom independent sinó que estaven en una estructura superior 
+quelcom independent sinó que estaven en estructures superiors 
 formant els {\bf cromosomes}. 
 
+El gens es troben localitzats en un punt concret del cromosoma 
+({\bf locus}). Quan reconvinem el material genètic de dos
+progenitors, els gens a locus més propers dins d'un cromosoma
+tenen molta més probabilitat d'heredar-se conjuntament.
 Això implica, els gens que controlen cada caràcter no s'hereden de
 forma tan independent com formula la tercera llei de Mendel.
-El gens es troben localitzats en un punt concret del cromosoma 
-({\bf locus}) i, quan reconvinem el material genètic, els gens més 
-propers tenen molta més probabilitat d'heredar-se conjuntament.
+La tercera llei de Mendel diu que els caracters s'hereden
+de forma independent. Aixó és veritat, no en els caracters sinó en
+els gens i sempre que els gens tinguin un locus suficientment
+allunyats o en cromosomes diferents.
 
 Anomenem {\bf cariotip} al conjunt de cromosomes que té una espècie 
 (en quant a nombre i morfologia).
 
-Els cromosomes que diem que són homòlegs tènen la mateixa morfologia
+Els cromosomes són homòlegs si tènen la mateixa morfologia
 i contènen gens homòlegs als mateixos {\em locus}.
 
 Un cariotip és {\bf diplont} si està format per n parelles de
@@ -314,8 +319,8 @@ i, així com les mutacions gèniques explicaven l'origen dels diferents
 genotips, les mutacion cromosòmiques expliquen l'origen dels diferents 
 cariotips per cada espècie.
 
-Les {\bf mutacions cromosòmiques estructurals} són les no intervenen cromosomes
-integres sino fragments d'aquests.
+Les {\bf mutacions cromosòmiques estructurals} són aquelles en les que
+no intervenen cromosomes integres sino fragments d'aquests.
 
 \begin{itemize}
 \item	Es produeix una {\bf deficiència o delecció} quan un cromosoma en perd un segment.
@@ -334,7 +339,7 @@ d'una seqüència gènica.
 	Si un organisme es reprodueix sexualment, sovint, la translocació 
 	causa, en els descendents, duplicació o deficiencia del gen translocat.
 
-\item	La {\bf inversió} consisteix en el canvi de sentit d'un
+\item	La {\bf inversió} consisteix en el canvi de sentit d'un segment de cromosoma.
 
 \end{itemize}
 
@@ -357,12 +362,25 @@ de cromosomes}. La causa del canvi en el nombre de cromosomes pot ser:
 \subsection{Sumari de conceptes aplicables al projecte}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+La influència del locus de cada gen en el fet de que dos gens tendeixin
+a heretar-se junts, és un efecte que, als algorismes genètics clàssics
+i amb segons quins problemes, resulta negatiu. A la natura és un efecte 
+positiu per que la posició dels gens no es fixa sino que evoluciona
+juntament amb els individuus i, si dos gens són bons si s'hereden junts, 
+l'evolució tendirà a posar-los junts en el cariotip, i, si fós bo que
+es recombinin de forma equitativa, l'evolució tendirà a posar-los separats.
+
+A la simulació, de cara a deixar via oberta a diversos comportaments 
+sexuals o a organismes asexuals, farem servir la separació entre els 
+conceptes de sexualitat i reproducció.
+%% TODO: Perque la farem servir?
 
 %% TODO: Referències a implementacions diplonts dels GA
 
-La introducció d'organismes diplonts o poliplonts suposaria implementar un mecanisme
-de resolució del fenotip heterozigòtic als gens homòlegs. També sorgirien alguns 
-altres problemes, relacionats amb el creuament, que es comenten en el següent apartat.
+La introducció d'organismes diplonts o poliplonts suposaria implementar 
+un mecanisme de resolució del fenotip heterozigòtic als gens homòlegs. 
+També sorgirien alguns altres problemes, relacionats amb el creuament, 
+que es comenten en el següent apartat.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -609,7 +627,7 @@ deguda a l'inestabilitat química del propi ADN o a agents externs.
 \item	No es donen, de forma natural, les mutacions directes entre bases complementaris.
 \end{itemize}
 
-%% TODO: Contrastar l'afirmació anterior amb un expert
+%% TODO: Contrastar l'afirmació anterior amb un expert (Pepi)
 %% TODO: Figura amb el quadre de mutacions de base
 
 Tant la transició com la transversió, es donen per la modificació 
@@ -626,11 +644,13 @@ faci efectiva a la descendència:
 \item	En duplicar-se la cadena, per una divisió cel·lular, si encara no s'ha 'corregit´ 
 	la mutació, la meitat de la descendència durà la mutació complerta i l'altra meitat
 	el genoma primitiu.
-\item	Tant si es repara com si es queda la mutació sense reparar, 50\% la probabilitat de traspasar-la a un descendent.
+\item	Tant si es repara com si es queda la mutació sense reparar, la probabilitat de 
+	traspasar-la a un descendent és del 50\%.
 \item	La mutació es pot produir a un segment d'ADN no codificant (introns i zones intermitges)
 \item	Els codons sinònims fan que alguns canvis en les bases no impliquin canvi de pèptid.
 %% TODO: Calcular el tant percent, quan tinguis una estona
 \item	Alguns canvis de pèptids als extrons tampoc no són significatius pel fenotip.
+%% TODO: Referència a Kimura
 \item	En organismes pluricel·lulars, cal que sigui una mutació al teixit germinal
 	que dona lloc als nous individuus. Si es dona al teixit somàtic, només afecta
 	a les cèl·lules filles al mateix organisme.
@@ -675,7 +695,7 @@ durant la fase de maduració.
 %% Algunes mutacions directes no permeses
 %% Possible codificació de les mutacións bàsiques
 %% Mutacions a segments no codificants
-
+%% No codificadores com a separador de locus pel crossover (3a Mendel)
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
