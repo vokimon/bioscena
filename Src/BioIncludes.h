@@ -13,9 +13,6 @@
 //#define KKEPAssert(expr, msg)
 //#endif // 
 
-// Esto a ver donde se pone!!!
-//#define NMem 10
-
 // Para quitar el warning de que hay nombres de simbolos demasiado grandes
 #ifdef  _MSC_VER
 	#pragma warning(disable:4786)
