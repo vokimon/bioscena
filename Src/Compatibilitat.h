@@ -40,13 +40,13 @@ inline uint32 nibble(uint32 numero, uint32 valor)
 }
 
 
-//////////////////////////////////////////////////////////////////////
-// Funcio de compatibilitat de claus no 1
-//    Tolerancia al numero d'uns
-//    Rendiment: un 'rand' i un ComptaUns
-//    Funcio: ??
-//    Comentari: ??
-//////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+/// Funcio de compatibilitat de claus no 1
+///    Tolerancia al numero d'uns
+///    Rendiment: un 'rand' i un ComptaUns
+///    Funcio: ??
+///    Comentari: ??
+///////////////////////////////////////////////////////////////////////
 
 inline bool compat1 (t_clau k1, t_clau k2, uint32 tolerancia) {
 //	t_clau ruleta = (rand()>>10);
@@ -57,11 +57,11 @@ inline bool compat1 (t_clau k1, t_clau k2, uint32 tolerancia) {
 	}
 
 //////////////////////////////////////////////////////////////////////
-// Funcio de compatibilitat no 2
-//    Tolerancia a la posicio dels uns
-//    Rendiment: dos 'rand'
-//    Funcio: Massa restrictiva i poc color
-//    Comentari: Per lo optima que es no esta gens malament.
+/// Funcio de compatibilitat no 2
+///    Tolerancia a la posicio dels uns
+///    Rendiment: dos 'rand'
+///    Funcio: Massa restrictiva i poc color
+///    Comentari: Per lo optima que es no esta gens malament.
 //////////////////////////////////////////////////////////////////////
 
 inline bool compat2 (t_clau k1, t_clau k2, t_clau tolerancia) {
@@ -69,24 +69,24 @@ inline bool compat2 (t_clau k1, t_clau k2, t_clau tolerancia) {
 	return (ruleta&(k1^k2)&~tolerancia) == 0;
 	}
 
-//////////////////////////////////////////////////////////////////////
-// Funcio de compatibilitat 3
-//    Tolerancia a la quantitat dels uns
-//    Rendiment: un 'ComptaUns' i dos 'rand'
-//    Comentari: La coincidencia i la tolerancia no son simetriques
-//////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+/// Funcio de compatibilitat 3
+///    Tolerancia a la quantitat dels uns
+///    Rendiment: un 'ComptaUns' i dos 'rand'
+///    Comentari: La coincidencia i la tolerancia no son simetriques
+///////////////////////////////////////////////////////////////////////
 
 inline bool compat3 (t_clau k1, t_clau k2, uint32 tolerancia) {
 	t_clau ruleta = rnd.get();
 	return comptaUns(ruleta&(k1^k2))<tolerancia;
 	}
 
-//////////////////////////////////////////////////////////////////////
-// Funcio de compatibilitat no 4
-//    Tolerancia a la posicio dels uns
-//    Rendiment: un 'ComptaUns' i tres 'rand'
-//    Comentari: Modifica la 2 per ser menys restrictiva a la zona 
-//////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+/// Funcio de compatibilitat no 4
+///    Tolerancia a la posicio dels uns
+///    Rendiment: un 'ComptaUns' i tres 'rand'
+///    Comentari: Modifica la 2 per ser menys restrictiva a la zona 
+///////////////////////////////////////////////////////////////////////
 
 inline bool compat4 (t_clau k1, t_clau k2, t_clau tolerancia) {
 	t_clau ruleta = rnd.get();
@@ -97,8 +97,9 @@ inline bool compat4 (t_clau k1, t_clau k2, t_clau tolerancia) {
 //////////////////////////////////////////////////////////////////////
 // Em quedo de moment amb la 2
 //////////////////////////////////////////////////////////////////////
-#define sonCompatibles compat2
-
+inline bool sonCompatibles (t_clau k1, t_clau k2, t_clau tolerancia) {
+	return compat2(k1,k2,tolerancia);
+}
 
 //////////////////////////////////////////////////////////////////////
 // Proves
