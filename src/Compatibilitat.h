@@ -1,4 +1,4 @@
-// Encaix.h: interface for the CEncaix template class.
+// Compatibilitat.h: interface for the Compatibilitat templates.
 //
 //////////////////////////////////////////////////////////////////////
 // Change Log: 
@@ -12,14 +12,27 @@
 // Pendent Log:
 //////////////////////////////////////////////////////////////////////
 
-#if !defined(KKEP_ENCAIX_H__FC0FCE01_D41D_11D2_A87F_2CDF02C10000__INCLUDED_)
-#define KKEP_ENCAIX_H__FC0FCE01_D41D_11D2_A87F_2CDF02C10000__INCLUDED_
+#if !defined(KKEP_COMPATIBILITAT_H_INCLUDED_)
+#define KKEP_COMPATIBILITAT_H_INCLUDED_
 
-#include <time.h>
-#include <stdlib.h>
+//#include <time.h>
+//#include <stdlib.h>
 #include <fstream>
 #include "GeneradorMascares.h"
 #include "RandomStream.h"
+
+//////////////////////////////////////////////////////////////////////
+// Estatiques
+//////////////////////////////////////////////////////////////////////
+
+template <class KeyType> 
+unsigned comptaUns (KeyType n)
+{
+	int res;
+	for (res=0; n; n>>=1) 
+		if (n&1) res++;
+	return res;
+};
 
 //////////////////////////////////////////////////////////////////////
 // Funcio de compatibilitat de claus no 1
@@ -30,13 +43,14 @@
 //////////////////////////////////////////////////////////////////////
 
 template <class KeyType> 
-inline bool compat1 (KeyType k1, KeyType k2, uint32 tolerancia=0) {
+inline bool compat1 (KeyType k1, KeyType k2, uint32 tolerancia) {
 //	KeyType ruleta = (rand()>>10);
 	KeyType ruleta = rnd.get();
 	KeyType coincidencia = comptaUns( ~(k1 ^ k2));
 //	return (ruleta>>tolerancia)<(coincidencia);
 	return ruleta>>(tolerancia&0x7) < (coincidencia<<((tolerancia>>3)&0xf));
 	}
+
 //////////////////////////////////////////////////////////////////////
 // Funcio de compatibilitat no 2
 //    Tolerancia a la posicio dels uns
@@ -46,10 +60,9 @@ inline bool compat1 (KeyType k1, KeyType k2, uint32 tolerancia=0) {
 //////////////////////////////////////////////////////////////////////
 
 template <class KeyType> 
-inline bool compat2 (KeyType k1, KeyType k2, KeyType tolerancia=0) {
-//	KeyType ruleta = (rand()<<16)^rand();
+inline bool compat2 (KeyType k1, KeyType k2, KeyType tolerancia) {
 	KeyType ruleta = rnd.get();
-	return (ruleta & (k1^k2) & ~tolerancia) == 0;
+	return (ruleta&(k1^k2)&~tolerancia) == 0;
 	}
 
 //////////////////////////////////////////////////////////////////////
@@ -75,41 +88,9 @@ inline bool compat3 (KeyType k1, KeyType k2, uint32 tolerancia) {
 template <class KeyType> 
 inline bool compat4 (KeyType k1, KeyType k2, KeyType tolerancia) {
 	KeyType ruleta = rnd.get();
-	KeyType ruleta2 = rnd.get(0,3);
+	KeyType ruleta2 = rnd.get(0,6);
 	return comptaUns(ruleta&(k1^k2)&~tolerancia) <= ruleta2;
 	}
-
-
-/*
-template <class KeyType> class CEncaix  
-{
-	KeyType m_mask, m_key, m_masked;
-public:
-	CEncaix (KeyType i=0, KeyType m=0) {m_key=i;m_mask=m;m_masked = m_key ^ m_mask;};;
-	virtual ~CEncaix() {};
-	KeyType key () {return m_key;};
-	KeyType mask () {return m_mask;};
-	KeyType masked () {return m_masked;};
-	void key (KeyType key) {m_key=key; m_masked = m_key ^ m_mask;};
-	void mask (KeyType mask) {m_mask=mask; m_masked = m_key ^ m_mask;};
-	void unmask (void) {m_mask=0;};
-	inline bool compatibleAmb (CEncaix &k2, KeyType tolerancia=~0) {return compat1(*this,k2,tolerancia);};
-	static void ProvaClasse ();
-	operator int() {return masked();};
-};
-*/
-//////////////////////////////////////////////////////////////////////
-// Estatiques
-//////////////////////////////////////////////////////////////////////
-
-template <class KeyType> 
-unsigned comptaUns (KeyType n)
-{
-	int res;
-	for (res=0; n; n>>=1) 
-		if (n&1) res++;
-	return res;
-};
 
 /*
 template <class KeyType> 
@@ -141,9 +122,9 @@ void CEncaix<KeyType>::ProvaClasse () {
 */
 
 template <class KeyType> 
-void /*CEncaix<KeyType>::*/ProvaClasse () {
+void ProvaTemplateCompatibilitat () {
 
-	cout << "\n>>>> Proves per a CEncaix" << endl;
+	cout << "\n>>>> Proves per als templates de Compatibilitat" << endl;
 	cout << "---- Generant fitxer amb les estadistiques..." << endl;
 	cout << "---- Fitxer de sortida: Estadisticas.xls" << endl;
 
@@ -177,5 +158,7 @@ void /*CEncaix<KeyType>::*/ProvaClasse () {
 	cout << "---- Mitja d'encerts: " << (mitja>>10) << endl;
 }
 
+// Em quedo de moment amb la 2
+#define sonCompatibles compat2
 
-#endif // !defined(KKEP_ENCAIX_H__FC0FCE01_D41D_11D2_A87F_2CDF02C10000__INCLUDED_)
+#endif // !defined(KKEP_COMPATIBILITAT_H_INCLUDED_)

@@ -1,0 +1,6 @@
+// Compatibilitat.cpp: implementation of the Compatibilitat templates.
+//
+//////////////////////////////////////////////////////////////////////
+
+#include "Compatibilitat.h"
+

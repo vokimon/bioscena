@@ -6,7 +6,7 @@ CPPSOURCES:= $(wildcard *.cpp)
 CSOURCES:=$(wildcard *.c)
 OBJSCPP:=$(CPPSOURCES:.cpp=.o)
 OBJSC:=$(CSOURCES:.c=.o)
-CFLAGS= -g
+CFLAGS= -g -Wall
 LDLIBS=-lm 
 
 default: copirrait ${EXEC}
@@ -16,7 +16,7 @@ copirrait:
 
 dep: copirrait 
 	@echo --- Generant dependencies
-	$(CPPC) -MM $(CPPSOURCES) $(CSOURCES) -d_KKEP_BUSCANT_DEPENDENCIES > .depend
+	$(CPPC) -MM $(CPPSOURCES) $(CSOURCES) -D_KKEP_BUSCANT_DEPENDENCIES > .depend
 
 clean: copirrait 
 	@echo --- Eliminant arxius intermedis

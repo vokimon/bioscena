@@ -65,4 +65,6 @@ uint32 CRandomStream::get(uint32 limitInferior, uint32 limitSuperior)
 	return limitInferior + (escollit&~mascara);
 }
 
+extern CRandomStream rnd;
+
 #endif // !defined(__KKEP_RANDOMSTREAM_H_INCLUDED)
