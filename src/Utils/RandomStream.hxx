@@ -66,4 +66,31 @@ uint32 CRandomStream::get(uint32 limitInferior, uint32 limitSuperior)
 
 extern CRandomStream rnd;
 
+namespace Bioscena {
+	
+class Random
+{
+public:
+	/**
+	 * Returns an integer number inside the interval
+	 * [lowerBound,upperBound] (both bounds are included).
+	 */
+	static uint32 Get(uint32 lowerBound, uint32 upperBound)
+	{
+		KKEP_ASSERT(lowerBound <= upperBound, 
+			"Random: Upperbound can't be higher than lowerbound.");
+		CRandomStream & randomObject = GetGenerator();
+		return randomObject.get(lowerBound,upperBound);
+	}
+private:
+	static CRandomStream & GetGenerator()
+	{
+		static CRandomStream randomObject;
+		return randomObject;
+	}
+};
+
+}
+
+
 #endif // !defined(__KKEP_RANDOMSTREAM_H_INCLUDED)
