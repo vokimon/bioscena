@@ -9,6 +9,8 @@
 
 class CCromosoma  
 {
+// Algunes amigues
+	friend class CMutacioGenica;
 // Construccio/Destruccio
 public:
 	CCromosoma();
@@ -21,20 +23,13 @@ public:
 	bool init(CCromosoma & c);
 	bool init(uint32 nCodons);
 	bool init(uint32 primer, uint32 ultim);
+	CCromosoma & operator= (CCromosoma & c);
 	uint32 & operator [ ](uint32 n);
-	uint32 codoAleatori(void);
-	uint32 tamany(void);
-// Operadors Unaris (Mutacions)
-public:
-	CCromosoma & mutacioPuntualBinariaGaussiana(void);
-	CCromosoma & mutacioPuntualBinaria(void);
-	CCromosoma & mutacioPuntualDrastica(void);
-	CCromosoma & mutacioDesplacament (void);
-	CCromosoma & mutacioInversio (void);
-	CCromosoma & mutacioInsercioReplicada(void);
-	CCromosoma & mutacioInsercioAleatoria(void);
-	CCromosoma & mutacioDeleccio(void);
-	CCromosoma & randomize (void);
+	uint32 codoAleatori(void) const;
+	uint32 tamany(void) const;
+	void fusiona(CCromosoma const &c);
+	void parteix(CCromosoma &c, uint32 centromer);
+	void treuCodons(uint32 primer, uint32 longitud);
 // Atributs
 protected:
 	uint32 * m_codons;
@@ -52,7 +47,6 @@ private:
 	void ompleCodonsCopiant(uint32 * codons);
 	void ompleCodonsAleatoriament();
 	void ompleCodonsSequencialment(uint32 primer);
-
 };
 
 #endif // !defined(__KKEP_CROMOSOMA_H_INCLUDED)

@@ -3,10 +3,9 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "LlistaEstatica.h"
-/*
+
 int main ()
 {
 	CLlistaEstatica<int>::ProvaClasse();
 	return 0;
 }
-*/

@@ -14,6 +14,7 @@ default: copirrait ${EXEC}
 
 copirrait:
 	@echo KKEPerians UNLTD generic makefile file 
+	buildnum
 
 dep: copirrait 
 	@echo --- Generant dependencies
@@ -29,7 +30,6 @@ include .depend
 ${EXEC}: $(OBJSCPP) $(OBJSC)
 	@echo --- Linkant $@
 	${CPPC} $(LDFLAGS) $(OBJSCPP) $(OBJSC) ${LDLIBS} -o ${EXEC} 
-	buildnum
 
 $(OBJSC) %.o: %.c
 	@echo --- Compilant $<

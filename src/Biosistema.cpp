@@ -27,7 +27,7 @@ CBiosistema::CBiosistema()
 	m_biotop = NULL;
 	m_comunitat = NULL;
 	m_agents = NULL;
-	m_taxonomista = NULL;
+//	m_taxonomista = NULL;
 	tracaAnomalies.activa();
 }
 
@@ -36,7 +36,7 @@ CBiosistema::~CBiosistema()
 	if (m_biotop) delete m_biotop;
 	if (m_comunitat) delete m_comunitat;
 	if (m_agents) delete m_agents;
-	if (m_taxonomista) delete m_taxonomista;
+//	if (m_taxonomista) delete m_taxonomista;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -51,14 +51,23 @@ void CBiosistema::operator ( )()
 	// Execucio d'una instrucció 
 	bool bUtil;
 	if (!m_instruccionsUtilsRestants || !m_instruccionsRestants)
-	{
-		m_idOrganismeActiu = m_comunitat->organismeAleatori();
-		m_instruccionsUtilsRestants = m_maxInstruccionsUtils;
-		m_instruccionsRestants = m_maxInstruccions;
-	}
-	(*m_comunitat)[m_idOrganismeActiu].m_organisme->seguentInstruccio();
+		canviaOrganismeActiu();
+	(*m_comunitat)[m_idOrganismeActiu].cos()->seguentInstruccio();
 	if (bUtil) m_instruccionsUtilsRestants--;
 	m_instruccionsRestants--;
+}
+
+void CBiosistema::canviaOrganismeActiu()
+{
+	if (!m_comunitat->tamany()) {
+		m_comunitat->introdueix(new COrganisme, m_biotop->posicioAleatoria(), 0);
+		m_comunitat->introdueix(new COrganisme, m_biotop->posicioAleatoria(), 0);
+		m_comunitat->introdueix(new COrganisme, m_biotop->posicioAleatoria(), 0);
+		m_comunitat->introdueix(new COrganisme, m_biotop->posicioAleatoria(), 0);
+	}
+	m_idOrganismeActiu = m_comunitat->organismeAleatori();
+	m_instruccionsUtilsRestants = m_maxInstruccionsUtils;
+	m_instruccionsRestants = m_maxInstruccions;
 }
 
 CBiosistema::t_biotop * CBiosistema::biotop()
@@ -152,8 +161,8 @@ bool CBiosistema::organismeAtaca(uint32 desp, uint32 elementBase, uint32 toleran
 	// Logica de contesa
 	uint32 idOrganismeAtacat = substratDesti.ocupant();
 
-	uint32 element;
-	if ((*m_comunitat)[m_idOrganismeActiu].m_organisme);//->defensa(element, energia, clauAtac^))
+//	uint32 element;
+	if ((*m_comunitat)[m_idOrganismeActiu].cos());//->defensa(element, energia, clauAtac^))
 
 
 	// TODO: Logs
@@ -168,7 +177,7 @@ bool CBiosistema::organismeEngoleix(uint32 desp, uint32 elementBase, uint32 tole
 	uint32 element;
 	if (!substratDesti.extreu(element, elementBase, tolerancia))
 		return false; // Error: No hi ha res que engolir
-	(*m_comunitat)[m_idOrganismeActiu].m_organisme->engoleix(element);
+	(*m_comunitat)[m_idOrganismeActiu].cos()->engoleix(element);
 	return true;
 }	
 
@@ -178,7 +187,7 @@ bool CBiosistema::organismeExcreta(uint32 desp, uint32 elementBase, uint32 toler
 	uint32 posDesti = m_biotop->desplacament(posOrigen, desp);
 	CSubstrat & substratDesti = (*m_biotop)[posDesti];
 	uint32 element;
-	if (!(*m_comunitat)[m_idOrganismeActiu].m_organisme->excreta(element, elementBase, tolerancia))
+	if (!(*m_comunitat)[m_idOrganismeActiu].cos()->excreta(element, elementBase, tolerancia))
 		return false; // Error: No hi ha res que excretar
 	substratDesti.deposita(element);
 	return true;
@@ -200,9 +209,17 @@ bool CBiosistema::organismeCreaSensor(uint32 sensor, uint32 vector)
 void CBiosistema::ProvaClasse()
 {
 	CBiosistema biosistema;
-	CBiosistema::t_biotop * biotop = new CTopologiaToroidal<CBiosistema::t_substrat>(20,70);
+	biosistema.biotop(new CTopologiaToroidal<CBiosistema::t_substrat>(70,20));
+	CBiosistema::t_biotop * biotop = biosistema.biotop();
 	biosistema.agents(CAgent::ParsejaArxiu("Agents.ini", *biotop, error));
-	biosistema();
+	biosistema.comunitat(new CComunitat);
+	biosistema.comunitat()->introdueix(new COrganisme,1,1);
+	biosistema.comunitat()->introdueix(new COrganisme,2,2);
+	biosistema.comunitat()->introdueix(new COrganisme,3,3);
+	while (cin.get()!=9) {
+		biosistema();
+		biosistema.biotop()->debugPresenta(out);
+	}
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -211,7 +228,9 @@ void CBiosistema::ProvaClasse()
 
 uint32 reparteixRegistres (uint32 vector, uint32 bits, uint32 & remanent, uint32 & p1, uint32 &p2, uint32 &p3, uint32 &p4, uint32 &p5)
 {
-	for (uint32 i=bits, mascara = 0; i--; mascara<<=1, mascara++); 
+	uint32 i;
+	uint32 mascara;
+	for (i=bits, mascara = 0; i--; mascara<<=1, mascara++); 
 	p1=vector&mascara;
 	vector>>=bits;
 	p2=vector&mascara;

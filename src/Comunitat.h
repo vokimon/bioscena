@@ -1,52 +1,46 @@
 // Comunitat.h: interface for the CComunitat class.
 //
-// CComunitat gestiona els aspectes que tenen a veure amb els
 //////////////////////////////////////////////////////////////////////
 // Change Log: 
-// 19990306 VoK - Ja no hereda de CLlistaEstatica
-// 19990306 VoK - Afegit membre 'CLlistaEstatica<CComunitatNode> nodes>
-// 19990306 VoK - Afegit membre 'CTaxonomista txmist'
-// 19990307 VoK - Esboçats els operadors per afegir, creuar, matar...
-// 19990321 VoK - Arreglat una 
-//////////////////////////////////////////////////////////////////////
-// TODO:
+// 199909181 VoK - Recreat
 //////////////////////////////////////////////////////////////////////
 
 #if !defined(__KKEP_COMUNITAT_H_INCLUDED)
 #define __KKEP_COMUNITAT_H_INCLUDED
 
-#include "LlistaEstatica.h"
+#include <algorithm>
+#include <functional>
+#include <vector>
+#include "Missatger.h"
 #include "InfoOrganisme.h"
-#include "Taxonomista.h"
 
 class CComunitat  
 {
 // Construccio/Destruccio
 public:
-	CComunitat(uint32 maxOrganismes);
+	CComunitat();
 	virtual ~CComunitat();
-// Operacions (Acces)
+// Redefinibles
+public:
+	void dump(CMissatger & msg);
+	void dumpDisponibles(CMissatger & msg);
+// Operacions
 public:
 	CInfoOrganisme & operator[](uint32 index) {
 		return m_organismes[index];
 	}
-// Operacions
-public:
-	bool creua(uint32 ind1, uint32 ind2);
-	void envelleixTaxons();
-	void defuncio (uint32);
-	uint32 mitosi (uint32 ind);
-	uint32 introdueix(COrganisme* ind);
+	uint32 introdueix(COrganisme* org, uint32 taxo, uint32 posicio);
+	void extreu (uint32 index);
+	uint32 organismeAleatori();
 // Atributs
 public:
-	CLlistaEstatica<CInfoOrganisme> m_organismes;
-	CTaxonomista m_txmist;
-	uint32 m_maxOrganismes;
+	vector<CInfoOrganisme> m_organismes;
+	vector<uint32> m_disponibles;
+	uint32 m_nOrganismes;
 // Proves
 public:
-	uint32 organismeAleatori();
+	uint32 tamany();
 	static void ProvaClasse (void);
-	ostream & dump(ostream & stream);
 };
 
 #endif // !defined(__KKEP_COMUNITAT_H_INCLUDED)

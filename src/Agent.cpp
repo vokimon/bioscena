@@ -66,8 +66,9 @@ bool CAgent::nom(string unNom)
 	if (m_nomDefinit) s_DiccionariAgents.erase(m_nom); 
 	replace(unNom.begin(), unNom.end(), ' ', '_');
 //	replace(unNom.begin(), unNom.end(), '\"', '\'');
-	// Si ja existia no fem 
-	if (!s_DiccionariAgents.insert(make_pair(unNom,this)).second) 
+	// Si ja existia no fem pair
+	t_diccionariAgents::value_type unParell(unNom,this);
+	if (!(s_DiccionariAgents.insert(unParell)).second) 
 		return false;
 	m_nomDefinit=true;
 	m_nom=unNom;
