@@ -30,9 +30,9 @@ class CPosicionador : public CAgent
 // Tipus interns
 public:
 	typedef CAgent inherited;
-	typedef CTopologia t_biotop;
-	typedef CTopologia::t_posicio t_posicio;
-	typedef CTopologia::t_desplacament t_direccio;
+	typedef Topology t_biotop;
+	typedef Topology::t_posicio t_posicio;
+	typedef Topology::t_desplacament t_direccio;
 // Construccio/Destruccio
 public:
 	CPosicionador(t_biotop& biotop);
@@ -62,9 +62,9 @@ class CDireccionador : public CAgent
 // Tipus interns
 public:
 	typedef CAgent inherited;
-	typedef CTopologia t_biotop;
-	typedef CTopologia::t_posicio t_posicio;
-	typedef CTopologia::t_desplacament t_direccio;
+	typedef Topology t_biotop;
+	typedef Topology::t_posicio t_posicio;
+	typedef Topology::t_desplacament t_direccio;
 // Construccio/Destruccio
 public:
 	CDireccionador(t_biotop& biotop);

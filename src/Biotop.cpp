@@ -13,7 +13,7 @@ template <> void CBiotop<CSubstrat>::ProvaClasse(void)
 	uint32 i;
 	uint32 nut=0;
 	int escala[]={7,6,4,4,12,14,15,9};
-	CTopologia topologia(400);
+	Topology topologia(400);
 	CBiotop biotop(&topologia);
 	t_posicio cuc[7]={130,130,130,130,130,130,130};
 	while (cuc[0]!=8) {

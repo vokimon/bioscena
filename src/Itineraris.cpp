@@ -238,7 +238,7 @@ void CItinerari::ProvaClasse()
 {
 	out << clrscr;
 	out << blanc.brillant() << "Provant Itinerari" << endl;
-	CTopologiaToroidal topo(70,21);
+	Torus topo(70,21);
 	CBiotop<CSubstrat> biotop(&topo);
 /*
 	CDireccionador* direccio = new CDireccionador(biotop);
@@ -336,7 +336,7 @@ void CPosicionadorZonal::ProvaClasse()
 {
 	out << clrscr;
 	out << blanc.brillant() << "Provant Posicionador Zonal" << endl;
-	CTopologiaToroidal topo(70,35);
+	Torus topo(70,35);
 	CBiotop<CSubstrat> biotop(&topo);
 	CPosicionador* posicioCentral = new CPosicionador(biotop);
 	CPosicionador* posicio = new CPosicionadorZonal(biotop);
@@ -365,7 +365,7 @@ void CDireccionadorAleatori::ProvaClasse()
 {
 	out << clrscr;
 	out << blanc.brillant() << "Provant Direccionador Aleatori" << endl;
-	CTopologiaToroidal topo(70,22);
+	Torus topo(70,22);
 	CBiotop<CSubstrat> biotop(&topo);
 
 	CDireccionador* direccio = new CDireccionadorAleatori(biotop);
@@ -402,7 +402,7 @@ void CPosicionadorAleatori::ProvaClasse()
 {
 	out << clrscr;
 	out << blanc.brillant() << "Provant Posicionador Aleatori" << blanc.fosc() << endl;
-	CTopologiaToroidal topo(70,22);
+	Torus topo(70,22);
 	CBiotop<CSubstrat> biotop(&topo);
 	CPosicionador* posicio = new CPosicionadorAleatori(biotop);
 	CNutridor *nutridor = new CNutridor(biotop);

@@ -18,11 +18,11 @@
 using namespace AnsiCodes;
 
 template<class Cella> 
-class CBiotop: public CTopologia  
+class CBiotop: public Topology  
 {
 // Tipus propis
 public:
-	typedef CTopologia inherited;
+	typedef Topology inherited;
 	typedef inherited::t_posicio t_posicio;
 	typedef inherited::t_desplacament t_desplacament;
 	typedef Cella t_cella;
@@ -30,10 +30,10 @@ public:
 protected:
 	uint32 m_nPosicions;
 	t_cella *m_casselles;
-	CTopologia * m_topologia;
+	Topology * m_topologia;
 // Construccio/Destruccio
 public:
-	CBiotop(CTopologia * topologia);
+	CBiotop(Topology * topologia);
 	virtual ~CBiotop();
 
 // Redefinibles
@@ -92,7 +92,7 @@ public:
 	}
 // Operacions
 public:
-	CTopologia * topologia() const {return m_topologia;}
+	Topology * topologia() const {return m_topologia;}
 	t_cella &operator [] (t_posicio index) 
 	{
 		if ((index>=tamany())||(index<0)) {
@@ -121,7 +121,7 @@ public:
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-template<class Cella> CBiotop<Cella>::CBiotop(CTopologia * topologia)
+template<class Cella> CBiotop<Cella>::CBiotop(Topology * topologia)
 {
 	m_casselles=NULL;
 	m_nPosicions=0;
