@@ -5,6 +5,7 @@
 #include "Substrat.h"
 #include "Color.h"
 #include "Encaix.h"
+#include "Configuracio.h"
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -13,7 +14,12 @@
 CSubstrat::CSubstrat()
 {
 	m_ocupat=false;
-	m_limitMollecules=32;
+	m_limitMollecules=Config.get("Biotop/Substrat/MaximInicial");
+	uint32 n=Config.get("Biotop/Substrat/MolleculesInicials/Numero");
+	uint32 e=Config.get("Biotop/Substrat/MolleculesInicials/Element");
+	uint32 t=Config.get("Biotop/Substrat/MolleculesInicials/Tolerancia");
+	while (n--)
+		deposita((rnd.get()&t)^e);
 }
 
 CSubstrat::~CSubstrat()
@@ -156,15 +162,14 @@ void CSubstrat::ProvaClasse ()
 
 ostream & operator<< (ostream & stream, CSubstrat s) 
 {
-//	stream 
-//		<< CColor(1+s.numeroMollecules()) << "o";
+	CColor colorFons(s.numeroMollecules());
 	if (s.esOcupat()) {
-		stream 
-			<< CColor(1+s.numeroMollecules()) << char('0'+(s.ocupant()&0xF)); 
+		stream << CColor(1+(s.ocupant()>>3)).brillant().fons(colorFons) << char('0'+(s.ocupant()&07)); 
 	}
-	else 
-		stream << CColor(1+s.numeroMollecules())  << "-";
-
+	else {
+		stream << blanc.fons(colorFons);
+		stream << " ";
+	}
  
 	return stream;
 }

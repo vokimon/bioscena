@@ -27,6 +27,10 @@ enum DireccionsBasiques
 template <class Cella>
 class CTopologiaToroidal : public CTopologia<Cella>
 {
+// Tipus interns
+public:
+	typedef CTopologia<Cella>::t_posicio t_posicio;
+	typedef CTopologia<Cella>::t_desplacament t_desplacament;
 // Contruccio/Destruccio
 public: 
 	CTopologiaToroidal (uint32 XMax, uint32 YMax);
@@ -41,7 +45,7 @@ protected:
 // Proves
 public:
 	void debugPresenta(CMissatger & stream) {
-		stream << "\033[2;1H";// Un gotoxy xapuser pero estandard (ANSI)
+		stream << gotoxy(2,1);
 		uint32 nCella=0;
 		for (uint32 j=0;j<m_yMax;j++) {
 			for (uint32 i=0;i<m_xMax;i++)

@@ -1,22 +1,30 @@
 // Biosistema.cpp: implementation of the CBiosistema class.
 //
 //////////////////////////////////////////////////////////////////////
+// TODO:
+//////////////////////////////////////////////////////////////////////
 
 #include "Biosistema.h"
 #include "Agent.h"
 #include "TopologiaToroidal.h"
+#include "Missatger.h"
+#include "Configuracio.h"
+
+using namespace AnsiCodes;
 
 //////////////////////////////////////////////////////////////////////
 // Variables estatiques
 //////////////////////////////////////////////////////////////////////
 
-static CMissatger tracaAnomalies;
+static CMemoryOutputer unLog(clog, 26);
+//static CColorOutputer unLog(clog);
+static CMissatger logAccio("Accions realitzades", NULL, unLog);
 
 //////////////////////////////////////////////////////////////////////
 // Predefinicions
 //////////////////////////////////////////////////////////////////////
 
-static uint32 reparteixRegistres (uint32 vector, uint32 bits, uint32 & remanent, uint32 & p1, uint32 &p2, uint32 &p3, uint32 &p4, uint32 &p5);
+//static uint32 reparteixRegistres (uint32 vector, uint32 bits, uint32 & remanent, uint32 & p1, uint32 &p2, uint32 &p3, uint32 &p4, uint32 &p5);
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -28,12 +36,15 @@ CBiosistema::CBiosistema()
 	m_comunitat = NULL;
 	m_agents = NULL;
 //	m_taxonomista = NULL;
-	tracaAnomalies.activa();
+	logAccio.activa();
 
 	m_instruccionsUtilsRestants=0;
-	m_maxInstruccionsUtils=5;
+	m_maxInstruccionsUtils=2;
 	m_instruccionsRestants=0;
 	m_maxInstruccions=4;
+	m_organismeActiu=NULL;
+	m_tempsPerAccionarAgents=0;
+	m_temps=0;
 }
 
 CBiosistema::~CBiosistema()
@@ -52,46 +63,78 @@ void CBiosistema::operator ( )()
 // Cicle basic d'un biosistema
 {
 	// Execucio dels agents
-	if (m_agents) (*m_agents)();
+	if (!m_tempsPerAccionarAgents--) {
+		m_tempsPerAccionarAgents=m_comunitat->tamany();
+		if (m_agents) {
+			(*m_agents)();
+			logAccio << magenta.brillant() << 'T' << m_temps++ << " Accionant agents" << blanc.fosc() << endl;
+		}
+	}
 	// Execucio d'una instrucció 
 	bool bUtil;
-	if (!m_instruccionsUtilsRestants || !m_instruccionsRestants)
+	if (!m_instruccionsUtilsRestants || !m_instruccionsRestants) {
 		canviaOrganismeActiu();
-	out << "Organisme " << m_idOrganismeActiu << endl;
-	(*m_comunitat)[m_idOrganismeActiu].cos()->seguentInstruccio();
-	switch (rnd.get(1,6)) {
+	}
+	// Defuncions
+	if (!(*m_comunitat)[m_idOrganismeActiu].cos()->energia()) {
+		eliminaOrganismeActiu();
+		canviaOrganismeActiu();
+	}
+//	out << blanc.fosc() << "Actual " << oct << m_idOrganismeActiu << "      " << endl;
+	uint32 instr = (*m_comunitat)[m_idOrganismeActiu].cos()->seguentInstruccio() & 0xF;
+	logAccio << oct << setfill('0') << setw(3) << m_idOrganismeActiu << "." << dec << setw(3) << (*m_comunitat)[m_idOrganismeActiu].subidentificador() << setfill('0') << ".";
+	switch (instr) {
 	case 1:
 	case 5:
-	case 6:
 		bUtil = organismeAvanca(rnd.get(), rnd.get(), rnd.get());
 		break;
-	case 2:
-		bUtil = organismeAtaca(rnd.get(), rnd.get(), rnd.get(), rnd.get(), rnd.get());
-		break;
 	case 3:
-		bUtil = organismeEngoleix(rnd.get(), rnd.get(), ~0L);
+	case 9:
+	case 6:
+	case 11:
+	case 12:
+	case 13:
+	case 14:
+		bUtil = organismeEngoleix(rnd.get(), rnd.get(0,3), rnd.get(0,3));
 		break;
+	case 8:
 	case 4:
-		bUtil = organismeExcreta(rnd.get(), rnd.get(), rnd.get());
+//		bUtil = organismeExcreta(rnd.get(), rnd.get(0,3), rnd.get(0,3));
+//		break;
+	case 10:
+	case 2:
+	case 15:
+		bUtil = organismeAtaca(rnd.get(), rnd.get(0,3), rnd.get(0,3),  rnd.get(0,6), rnd.get());
+		break;
+	case 7:
+	case 0:
+		bUtil = organismeMitosi(rnd.get(), rnd.get());
 		break;
 	default:
+		error << "Eps, accio no valida!!" << endl;
 		break;
 	}
 	if (bUtil) m_instruccionsUtilsRestants--;
+	else m_organismeActiu->consumeix(1);
 	m_instruccionsRestants--;
+	m_organismeActiu->consumeix(1);
+	m_comunitat->dumpEnergies(out);
 }
 
 void CBiosistema::canviaOrganismeActiu()
 {
-	if (!m_comunitat->tamany()) {
-		out << "M'he quedat sense individuus: Regenerant poblacio" << endl;
-		cin.get();
-		uint32 repeticionsMinimes=4;
-		while (!organismeExpontani()||repeticionsMinimes--);
+	// Repoblacio
+	if (m_comunitat->tamany()<Config.get("Comunitat/TamanyRegeneracio")) {
+		logAccio << "Pocs individuus: Regenerant poblacio" << endl;
+		while (!organismeExpontani()||!m_comunitat->tamany());
 	}
 	m_idOrganismeActiu = m_comunitat->organismeAleatori();
+	m_infoOrganismeActiu = &((*m_comunitat)[m_idOrganismeActiu]);
+	m_organismeActiu = m_infoOrganismeActiu->cos();
 	m_instruccionsUtilsRestants = m_maxInstruccionsUtils;
 	m_instruccionsRestants = m_maxInstruccions;
+	logAccio << cyan.fosc() << "Organisme actual "<< oct << m_idOrganismeActiu << "." << dec << setw(2) << (*m_comunitat)[m_idOrganismeActiu].subidentificador() << blanc.fosc() << endl;
+//	cin.get();
 }
 
 bool CBiosistema::organismeExpontani()
@@ -99,8 +142,26 @@ bool CBiosistema::organismeExpontani()
 	uint32 pos = m_biotop->posicioAleatoria();
 	if ((*m_biotop)[pos].esOcupat()) return false;
 	uint32 taxo = rnd.get(1,9); // TODO: Cal canviar aixo, quan tinguem taxonomista
-	uint32 id = m_comunitat->introdueix(new COrganisme, pos, taxo);
+	COrganisme * org = new COrganisme;
+	if (!org) {
+		error << "Fallo la memoria ocupando un organismo";
+		cin.get();
+		return false;
+	}
+	uint32 id = m_comunitat->introdueix(org, pos, taxo);
 	(*m_biotop)[pos].ocupa(id);
+	logAccio << verd.brillant() << "Generat expontaneament: " << oct << id << dec << blanc.fosc() << endl;
+	return true;
+}
+
+bool CBiosistema::eliminaOrganismeActiu()
+{
+	uint32 pos = m_infoOrganismeActiu->posicio();
+	uint32 taxo = m_infoOrganismeActiu->taxo();
+	// TODO: Cal eliminar el taxo
+	(*m_biotop)[pos].desocupa();
+	m_comunitat->extreu(m_idOrganismeActiu);
+	logAccio << blau.brillant() << "Defuncio de l'organisme " << oct << m_idOrganismeActiu << dec << blanc.fosc() << endl;
 	return true;
 }
 
@@ -162,20 +223,49 @@ void CBiosistema::deleteAgents()
 // Operacions (Execucio d'intruccions)
 //////////////////////////////////////////////////////////////////////
 
-bool CBiosistema::organismeAvanca(uint32 desp, uint32 energia, uint32 clauMoviment)
+bool CBiosistema::organismeMitosi(uint32 desp, uint32 energia)
 {
-	uint32 posOrigen = (*m_comunitat)[m_idOrganismeActiu].posicio();
+	uint32 posOrigen = m_infoOrganismeActiu->posicio();
 	uint32 posDesti  = m_biotop->desplacament(posOrigen, desp);
-	out << "Movent des de " << posOrigen << " fin a " << posDesti << endl;
+	logAccio << "Mitosi " << setw(4) << posDesti << ": ";
 	CSubstrat & substratOrigen=(*m_biotop)[posOrigen];
 	CSubstrat & substratDesti=(*m_biotop)[posDesti];
 	if (substratDesti.esOcupat()) {
-		out << "Fallada: La posició " << posDesti << " ja esta ocupada per " << substratDesti.ocupant() << endl;
+		logAccio << vermell.brillant() << "Ocupat per " << oct << substratDesti.ocupant() << dec << blanc.fosc() << endl;
+		return false; // Error: Ja hi ha penya a la posicio, no la podem ocupar
+	}
+	// TODO: Cridar al constructor de 'copia' o mitosi millor dit
+	COrganisme * nouOrganisme = new COrganisme;
+	if (!nouOrganisme) {
+		logAccio << verd.brillant() << "Falta memoria" << blanc.fosc() << endl;
+		cin.get();
+		return false;
+	}
+	// TODO: Cal canviar aixo, quan tinguem taxonomista
+	uint32 taxo = m_infoOrganismeActiu->taxo(); 
+	uint32 id = m_comunitat->introdueix(nouOrganisme, posDesti, taxo);
+	substratDesti.ocupa(id);
+	m_organismeActiu->consumeix(15);
+	logAccio << verd.brillant() << "Nascut " << oct << id << dec << blanc.fosc() << endl;
+	// TODO: Logs
+	return true;
+}
+
+bool CBiosistema::organismeAvanca(uint32 desp, uint32 energia, uint32 clauMoviment)
+{
+	uint32 posOrigen = m_infoOrganismeActiu->posicio();
+	uint32 posDesti  = m_biotop->desplacament(posOrigen, desp);
+	logAccio << "Em moc " << setw(3) << posOrigen << ": ";
+	CSubstrat & substratOrigen=(*m_biotop)[posOrigen];
+	CSubstrat & substratDesti=(*m_biotop)[posDesti];
+	if (substratDesti.esOcupat()) {
+		logAccio << vermell.brillant() << "Ocupat per " << oct << substratDesti.ocupant() << dec << blanc.fosc() << endl;
 		return false; // Error: Ja hi ha penya a la posicio, no la podem ocupar
 	}
 	// Logica de moviment
 	substratOrigen.desocupa();
 	substratDesti.ocupa(m_idOrganismeActiu);
+	logAccio << groc.brillant() << "Desti " << setw(4) << posDesti << " Ok" << blanc.fosc() << endl;
 	(*m_comunitat)[m_idOrganismeActiu].posicio(posDesti);
 	// TODO: Complicar la logica: Cost de desplacament, camí lliure, corrents...
 	// TODO: Logs
@@ -185,51 +275,65 @@ bool CBiosistema::organismeAvanca(uint32 desp, uint32 energia, uint32 clauMovime
 
 bool CBiosistema::organismeAtaca(uint32 desp, uint32 elementBase, uint32 tolerancia, uint32 energia, uint32 clauAtac)
 {
-	uint32 posOrigen = (*m_comunitat)[m_idOrganismeActiu].m_posicio;
+	uint32 posOrigen = m_infoOrganismeActiu->posicio();
 	uint32 posDesti = m_biotop->desplacament(posOrigen, desp);
-	out << "Atacant la posició " << posDesti << endl;
-	if (posDesti==posOrigen)
-		tracaAnomalies << "Autoagressions de l'organisme " << m_idOrganismeActiu << endl;
+	logAccio << "Ataco " << setw(4) << posDesti << ": ";
+	if (posDesti==posOrigen) {
+		logAccio << vermell.brillant() << "Autoagressio! " << oct << m_idOrganismeActiu << dec << blanc.fosc() << endl;
+		return false;
+	}
 	CSubstrat & substratDesti = (*m_biotop)[posDesti];
 	if (!substratDesti.esOcupat()) {
-		out << "Fallada: A la posició " << posDesti << " no hi ha ningu a qui atacar" << endl;
-		return false; // Error: No hi ha ningú per atacar
+		logAccio << vermell.brillant() << "Posicio buida" << blanc.fosc() << endl;
+		return false;
 	}
 	// Logica de contesa
 	uint32 idOrganismeAtacat = substratDesti.ocupant();
 
 	list<uint32> elements;
-	return ((*m_comunitat)[idOrganismeAtacat].cos())->defensa(elements, rnd.get(), rnd.get(), rnd.get());
+	if (!((*m_comunitat)[idOrganismeAtacat].cos())->defensa(elements, /*Patro atac*/rnd.get(), elementBase, tolerancia)) {
+		logAccio << vermell.brillant() << oct << idOrganismeAtacat << dec << " no te " << hex << elementBase << "(" << tolerancia << ")" << dec << blanc.fosc() << endl;
+		return false;
+	}
+	logAccio << groc.brillant() << "Extrec " << elements.size() << " nutrients a " << idOrganismeAtacat << blanc.fosc() << endl;
 	// TODO: Logs
+	while (elements.size()) {
+		m_organismeActiu->engoleix(elements.front());
+		elements.pop_front();
+	}
+	return true;
 }
 
 bool CBiosistema::organismeEngoleix(uint32 desp, uint32 elementBase, uint32 tolerancia)
 {
-	uint32 posOrigen = (*m_comunitat)[m_idOrganismeActiu].m_posicio;
+	uint32 posOrigen = m_infoOrganismeActiu->posicio();
 	uint32 posDesti = m_biotop->desplacament(posOrigen, desp);
-	out << "Engolint a la posició " << posDesti << endl;
+	logAccio << "Engolo " << setw(4) << posDesti << ": ";
 	CSubstrat & substratDesti = (*m_biotop)[posDesti];
 	uint32 element;
 	if (!substratDesti.extreu(element, elementBase, tolerancia)) {
-		out << "Fallada: A la posició " << posDesti << " no hi ha res així per engolir" << endl;
+		logAccio << vermell.brillant() << "No hi ha " << hex << elementBase << "(" << tolerancia << ")" << dec << blanc.fosc() << endl;
 		return false; // Error: No hi ha res que engolir
 	}
+	logAccio << groc.brillant() << "Em menjo un " << element << blanc.fosc() << endl;
 	(*m_comunitat)[m_idOrganismeActiu].cos()->engoleix(element);
 	return true;
 }	
 
 bool CBiosistema::organismeExcreta(uint32 desp, uint32 elementBase, uint32 tolerancia)
 {
-	uint32 posOrigen = (*m_comunitat)[m_idOrganismeActiu].m_posicio;
+	uint32 posOrigen = m_infoOrganismeActiu->posicio();
 	uint32 posDesti = m_biotop->desplacament(posOrigen, desp);
-	out << "Excretant cap a la posició " << posDesti << endl;
+	logAccio << "Excreto " << posDesti << ": ";
 	CSubstrat & substratDesti = (*m_biotop)[posDesti];
 	uint32 element;
 	if (!(*m_comunitat)[m_idOrganismeActiu].cos()->excreta(element, elementBase, tolerancia)) {
-		out << "Fallada: No he trobat al meu protoplasma res que s'hi assembli per excretar" << endl;
+		logAccio << vermell.brillant() << "No tinc " << hex << elementBase << "(" << tolerancia << ")" << dec << blanc.fosc() << endl;
 		return false; // Error: No hi ha res que excretar
 	}
+	logAccio << groc.brillant() << "Deposito un " << element << blanc.fosc() << endl;
 	substratDesti.deposita(element);
+	logAccio << "Ja he excretat" << endl;
 	return true;
 }	
 
@@ -237,7 +341,7 @@ bool CBiosistema::organismeCreaSensor(uint32 sensor, uint32 vector)
 {
 	// TODO: if (esta ocupat(sensor)) return false;
 	uint32 p[5];
-	reparteixRegistres(vector, 5, vector, p[0], p[1], p[2], p[3], p[4]);
+//	reparteixRegistres(vector, 5, vector, p[0], p[1], p[2], p[3], p[4]);
 	return true;
 }
 
@@ -248,33 +352,30 @@ bool CBiosistema::organismeCreaSensor(uint32 sensor, uint32 vector)
 
 void CBiosistema::ProvaClasse()
 {
-	out << "\033[J";// Un clrscr xapuser pero standard (ANSI)
+	out << clrscr;
 	out << blanc.brillant() << "Provant Biosistema" << blanc.fosc() << endl;
 	CBiosistema biosistema;
-	biosistema.biotop(new CTopologiaToroidal<CBiosistema::t_substrat>(40,20));
+	biosistema.biotop(new CTopologiaToroidal<CBiosistema::t_substrat>(30,30));
 	CBiosistema::t_biotop * biotop = biosistema.biotop();
 	biosistema.agents(CAgent::ParsejaArxiu("Agents2.ini", *biotop, error));
 	biosistema.comunitat(new CComunitat);
-	biosistema.organismeExpontani();
-	biosistema.organismeExpontani();
-	biosistema.organismeExpontani();
-	biosistema.organismeExpontani();
-	biosistema.organismeExpontani();
-	biosistema.organismeExpontani();
+	cin.get();
+	out << clrscr;
+	out << blanc.brillant() << "Provant Biosistema" << blanc.fosc() << endl;
 	biosistema.biotop()->debugPresenta(out);
 	char a;
 	biosistema.biotop()->debugPresenta(out);
-	while (cin.get(a)&&a!='q') {
+	while (true ||cin.get(a)&&a!='q') {
 		biosistema.biotop()->debugPresenta(out);
 		biosistema();
-		out << "\033[J";// Un clrscr xapuser pero standard (ANSI)
+		out << "\033[H";
 	}
 }
 
 //////////////////////////////////////////////////////////////////////
 // Implementacio
 //////////////////////////////////////////////////////////////////////
-
+/*
 uint32 reparteixRegistres (uint32 vector, uint32 bits, uint32 & remanent, uint32 & p1, uint32 &p2, uint32 &p3, uint32 &p4, uint32 &p5)
 {
 	uint32 i;
@@ -293,4 +394,5 @@ uint32 reparteixRegistres (uint32 vector, uint32 bits, uint32 & remanent, uint32
 	return remanent=vector;
 }
 
+*/
 

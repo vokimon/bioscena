@@ -5,6 +5,8 @@
 #include "Gen.h"
 #include "Color.h"
 
+using namespace AnsiCodes;
+
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -54,7 +56,7 @@ bool CGen::seguentInstruccio(uint32 & ip, uint32 & valor, uint32 patro)
 
 void CGen::ProvaClasse(void)
 {
-	out << "\033[J";// Un clrscr xapuser pero standard (ANSI)
+	out << clrscr;
 	out << blanc.brillant() << "Provant Gens" << blanc.fosc() << endl;
 	CGen gen;
 }

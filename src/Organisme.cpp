@@ -7,6 +7,7 @@
 #include "Missatger.h"
 #include "Color.h"
 #include "RandomStream.h"
+#include "Configuracio.h"
 
 static CMissatger tracaOrganisme ("Organisme");
 
@@ -15,20 +16,45 @@ static CMissatger tracaOrganisme ("Organisme");
 //////////////////////////////////////////////////////////////////////
 
 COrganisme::COrganisme() : 
-	m_energia(OrganismeCaducitatEnergia)
+	m_energia(Config.get("Organisme/Energia/Caducitat"))
 {
 	// Desactivem o on el traceig
-	tracaOrganisme.activa();
+	tracaOrganisme.desactiva();
+	// Inicialitzem el material genetic
+	m_cariotip.init(4);
+	m_genotip.init(m_cariotip);
 	// En principi cap registre del fenotip es diferit
 	m_lecturaDiferida=0L;
 	// Inicialitzem el fenotip
-	m_fenotip = new uint32[OrganismeLongitudFenotip];
-	if (!m_fenotip) tracaOrganisme("Error demanant fenotip");
-	for (int i=OrganismeLongitudFenotip; i--;)
+	m_fenotip = new uint32[Config.get("Organisme/Fenotip/Longitud")];
+	if (!m_fenotip) error << "Error demanant fenotip";
+	for (int i=Config.get("Organisme/Fenotip/Longitud"); i--;)
 		rnd >> m_fenotip[i];
 	// Tot individu comenca amb 
-	m_energia.afegeix(OrganismeEnergiaMinima);
+	m_energia.afegeix(Config.get("Organisme/Energia/Inicial"));
 	m_nutrients.clear();
+	m_edat=0;
+}
+
+COrganisme::COrganisme(CCariotip &c) : 
+	m_energia(Config.get("Organisme/Energia/Caducitat"))
+{
+	// Desactivem o on el traceig
+	tracaOrganisme.desactiva();
+	// Inicialitzem el material genetic
+	m_cariotip.init(c);
+	m_genotip.init(m_cariotip);
+	// Inicialitzem el fenotip
+	m_fenotip = new uint32[Config.get("Organisme/Fenotip/Longitud")];
+	if (!m_fenotip) error << "Error demanant fenotip";
+	for (int i=Config.get("Organisme/Fenotip/Longitud"); i--;)
+		rnd >> m_fenotip[i];
+	// En principi cap registre del fenotip es diferit
+	m_lecturaDiferida=0L;
+	// Tot individu comenca amb 
+	m_energia.afegeix(Config.get("Organisme/Energia/Inicial"));
+	m_nutrients.clear();
+	m_edat=0;
 }
 
 COrganisme::~COrganisme()
@@ -140,17 +166,20 @@ bool COrganisme::catabolitza(uint32 & energia, uint32 A, uint32 toleranciaA, uin
 
 void COrganisme::engoleix(t_mollecula element)
 {
+	// TODO: Treure aixo
+	m_energia.afegeix(4);
 	tracaOrganisme 
 		<<"Engolint: "
 		<< hex << setfill('0')
 		<<"\tElement: "<<setw(8)<<element<<endl
 		<< dec << setfill(' ');
-
 	m_nutrients.push_back(element);
 }
 
 bool COrganisme::excreta(t_mollecula & excreccio, uint32 patro, uint32 tolerancia)
 {
+	// TODO: Treure aixo
+	m_energia.consumeix(3);
 	tracaOrganisme 
 		<<"Excretant: "<< endl
 		<< hex << setfill('0')
@@ -177,9 +206,15 @@ bool COrganisme::excreta(t_mollecula & excreccio, uint32 patro, uint32 toleranci
 bool COrganisme::defensa(list<t_mollecula> &fluxeQuimic, uint32 patroAtac, uint32 patroNutrient, uint32 toleranciaNutrient)
 {
 	// TODO: Treure el random i posar quelcom amb sentit per la defensa
-	uint32 forcaAtac=comptaUns(patroAtac^rnd.get()); 
-	// Aixo es per si un dia volem fem comportaments d'inoculacio
-	while (fluxeQuimic.empty()&&forcaAtac)
+//	uint32 forcaAtac=comptaUns(patroAtac^rnd.get()); 
+	uint32 forcaAtac=5;
+/*	out << "Forca Atac: " << forcaAtac 
+		<< " Patro Nutrient: " << patroNutrient 
+		<< " Tolerancia: " << toleranciaNutrient 
+		<< endl;
+	debugPresentaNutrients(out);
+*/	// Aixo es per si un dia volem fem comportaments d'inoculacio
+	while (!fluxeQuimic.empty()&&forcaAtac)
 	{
 		engoleix(fluxeQuimic.back());
 		forcaAtac--;
@@ -196,7 +231,7 @@ bool COrganisme::defensa(list<t_mollecula> &fluxeQuimic, uint32 patroAtac, uint3
 			fluxeQuimic.push_back(mol);
 		forcaAtac--;
 	}
-	return true;
+	return fluxeQuimic.size()!=0;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -252,7 +287,7 @@ void COrganisme::debugPresentaFenotip(CMissatger & msgr)
 {
 	uint32 i;
 	msgr << "Contingut dels registres:"<< endl << hex << setfill('0');
-	for (i=0; i<OrganismeLongitudFenotip; i++)
+	for (i=0; i<Config.get("Organisme/Fenotip/Longitud"); i++)
 	{
 		msgr << "\t" << setw(2) << i << " " << setw(8)<< m_fenotip[i] << " ";
 		if (!((i+1)%4)) msgr<< endl;
@@ -264,9 +299,26 @@ void COrganisme::debugPresentaFenotip(CMissatger & msgr)
 
 COrganisme::t_instruccio COrganisme::seguentInstruccio()
 {
+	m_edat++;
 	return rnd.get();
+	// TODO: Ei, les instruccions han de venir d'un lloc coherent!
 /*
 	m_genotip();
 	return m_genotip.seguentGen();
 */
+}
+
+bool COrganisme::consumeix(uint32 energia)
+{
+	return m_energia.consumeix(energia)==0;
+}
+
+uint32 COrganisme::energia()
+{
+	return m_energia.total();
+}
+
+uint32 COrganisme::edat()
+{
+	return m_edat;
 }

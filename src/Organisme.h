@@ -12,10 +12,7 @@
 #include <list>
 #include "EnergiaDisipable.h"
 #include "Cariotip.h"
-
-#define OrganismeCaducitatEnergia	10
-#define OrganismeLongitudFenotip	32
-#define OrganismeEnergiaMinima		30
+#include "Genotip.h"
 
 class COrganisme  
 {
@@ -26,6 +23,7 @@ public:
 // Construcció/Destruccio
 public:
 	COrganisme();
+	COrganisme(CCariotip &c);
 	virtual ~COrganisme();
 // Atributs
 public:
@@ -36,7 +34,9 @@ public:
 	CEnergiaDisipable m_energia;
 	// Control
 	CCariotip m_cariotip;
+	CGenotip m_genotip;
 	uint32 m_lecturaDiferida;
+	uint32 m_edat;
 // Operacions
 public:
 	void operator () (void);
@@ -50,6 +50,9 @@ public:
 	bool excreta(t_mollecula & excrecio, uint32 patro, uint32 tolerancia);
 	void engoleix(t_mollecula mol);
 	bool defensa(list<t_mollecula> &fluxeQuimic, uint32 patroAtac, uint32 patroNutrient, uint32 toleranciaNutrient);
+	bool consumeix(uint32 energia);
+	uint32 energia();
+	uint32 edat();
 	// 
 // Proves
 public:
