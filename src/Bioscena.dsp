@@ -158,6 +158,14 @@ SOURCE=.\build.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\Cariotip.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Cariotip.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\Color.cpp
 # End Source File
 # Begin Source File

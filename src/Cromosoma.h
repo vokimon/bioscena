@@ -36,7 +36,7 @@ public:
 	CCromosoma & mutacioDeleccio(void);
 	CCromosoma & randomize (void);
 // Atributs
-public:
+protected:
 	uint32 * m_codons;
 	uint32 m_nCodons;
 	bool m_enSocPropietari;

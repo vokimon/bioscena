@@ -26,7 +26,7 @@ CGen::~CGen()
 // Operacions
 //////////////////////////////////////////////////////////////////////
 
-bool CGen::traduible(uint32 * fenotip, uin32 & ip)
+bool CGen::traduible(uint32 * fenotip, uint32 & ip)
 {
 //	return SonCompatibles(fenotip[m_gens], );
 	return true;
@@ -34,25 +34,27 @@ bool CGen::traduible(uint32 * fenotip, uin32 & ip)
 
 bool CGen::seguentInstruccio(uint32 & ip, uint32 & valor)
 {
-
+	return false;
 }
 
 bool CGen::parametres(uint32 & ip, uint32 & valor)
 {
-
+	return false;
 }
 
-uint32 CGen::seguentInstruccio(uint32 & ip, uint32 & valor, uint32 patro)
+bool CGen::seguentInstruccio(uint32 & ip, uint32 & valor, uint32 patro)
 {
-
+	return false;
 }
 
 //////////////////////////////////////////////////////////////////////
 // Proves
 //////////////////////////////////////////////////////////////////////
 
-void ProvaClasse(void)
+void CGen::ProvaClasse(void)
 {
+	out << "\033[J";// Un clrscr xapuser pero standard (ANSI)
+	out << blanc.brillant() << "Provant Gens" << blanc.fosc() << endl;
 	CGen gen;
 }
 

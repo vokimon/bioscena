@@ -20,6 +20,7 @@
 #include <iomanip>
 #include "Cromosoma.h"
 #include "RandomStream.h"
+#include "Color.h"
 
 //////////////////////////////////////////////////////////////////////
 // Variables estatiques
@@ -153,7 +154,7 @@ CCromosoma& CCromosoma::mutacioDesplacament(void)
 	if (m_nCodons<=1) return *this;
 	uint32 inici = rnd.get(0,m_nCodons-1);
 	uint32 longitud = rnd.get(1,m_nCodons-1);
-	uint32 desplacament = rnd.get(1,m_nCodons-longitud-1);
+	uint32 desplacament = rnd.get(0,m_nCodons-longitud-1);
 	if (traceMutacions)
 		out << "Mutacio per desplacament: "
 			<< "Codons:" << m_nCodons
@@ -407,6 +408,8 @@ void CCromosoma::ompleCodonsSequencialment(uint32 primer)
 
 void CCromosoma::ProvaClasse(void)
 {
+	out << "\033[J";// Un clrscr xapuser pero standard (ANSI)
+	out << blanc.brillant() << "Provant Cromosomes" << blanc.fosc() << endl;
 	CCromosoma c;
 	c.dump(out);
 	c.init(5);
@@ -422,7 +425,7 @@ void CCromosoma::ProvaClasse(void)
 	out << "3: "; crm3.dump(out);
 	out << "4: "; crm4.dump(out);
 	out << "Entra q per acabar o return per veure una mutacio" << endl;
-
+	// TODO: Provar d'una vegada que tots els operators funcionen!!!
 	typedef CCromosoma & (CCromosoma::*memberFunc) (void);
 	memberFunc f[8] = {
 		&mutacioPuntualBinariaGaussiana,
@@ -448,9 +451,10 @@ void CCromosoma::ProvaClasse(void)
 	}
 }
 
+/*
 int main (void)
 {
 	CCromosoma::ProvaClasse();
 	return 0;
 }
-
+*/

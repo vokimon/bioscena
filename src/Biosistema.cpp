@@ -7,10 +7,16 @@
 #include "TopologiaToroidal.h"
 
 //////////////////////////////////////////////////////////////////////
+// Variables estatiques
+//////////////////////////////////////////////////////////////////////
+
+static CMissatger tracaAnomalies;
+
+//////////////////////////////////////////////////////////////////////
 // Predefinicions
 //////////////////////////////////////////////////////////////////////
 
-static uint32 reparteixRegistres (uint32 vector, uint32 bits, uint32 & remanent, uint32 & p1, uint32 &p2, uint32 &p3, uint32 &p4 uint32 &p5);
+static uint32 reparteixRegistres (uint32 vector, uint32 bits, uint32 & remanent, uint32 & p1, uint32 &p2, uint32 &p3, uint32 &p4, uint32 &p5);
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -22,6 +28,7 @@ CBiosistema::CBiosistema()
 	m_comunitat = NULL;
 	m_agents = NULL;
 	m_taxonomista = NULL;
+	tracaAnomalies.activa();
 }
 
 CBiosistema::~CBiosistema()
@@ -137,7 +144,7 @@ bool CBiosistema::organismeAtaca(uint32 desp, uint32 elementBase, uint32 toleran
 	uint32 posOrigen = (*m_comunitat)[m_idOrganismeActiu].m_posicio;
 	uint32 posDesti = m_biotop->desplacament(posOrigen, desp);
 	if (posDesti==posOrigen)
-		traceOrganismes << "Autoagressions de l'organisme " << m_idOrganismeActiu << endl;
+		tracaAnomalies << "Autoagressions de l'organisme " << m_idOrganismeActiu << endl;
 	CSubstrat & substratDesti = (*m_biotop)[posDesti];
 	if (!substratDesti.esOcupat())
 		return false; // Error: No hi ha ningú per atacar
@@ -146,7 +153,7 @@ bool CBiosistema::organismeAtaca(uint32 desp, uint32 elementBase, uint32 toleran
 	uint32 idOrganismeAtacat = substratDesti.ocupant();
 
 	uint32 element;
-	if ((*m_comunitat)[m_idOrganismeActiu].m_organisme->defensa(element, energia, clauAtac^))
+	if ((*m_comunitat)[m_idOrganismeActiu].m_organisme);//->defensa(element, energia, clauAtac^))
 
 
 	// TODO: Logs
@@ -181,7 +188,8 @@ bool CBiosistema::organismeCreaSensor(uint32 sensor, uint32 vector)
 {
 	// TODO: if (esta ocupat(sensor)) return false;
 	uint32 p[5];
-	reparteixRegistres(vector, 5, vector, p[0]. p[1]. p[2]. p[3]. p[4]);
+	reparteixRegistres(vector, 5, vector, p[0], p[1], p[2], p[3], p[4]);
+	return true;
 }
 
 
@@ -201,7 +209,7 @@ void CBiosistema::ProvaClasse()
 // Implementacio
 //////////////////////////////////////////////////////////////////////
 
-uint32 reparteixRegistres (uint32 vector, uint32 bits, uint32 & remanent, uint32 & p1, uint32 &p2, uint32 &p3, uint32 &p4 uint32 &p5)
+uint32 reparteixRegistres (uint32 vector, uint32 bits, uint32 & remanent, uint32 & p1, uint32 &p2, uint32 &p3, uint32 &p4, uint32 &p5)
 {
 	for (uint32 i=bits, mascara = 0; i--; mascara<<=1, mascara++); 
 	p1=vector&mascara;
@@ -214,6 +222,6 @@ uint32 reparteixRegistres (uint32 vector, uint32 bits, uint32 & remanent, uint32
 	vector>>=bits;
 	p5=vector&mascara;
 	vector>>=bits;
-	remanent=vector;
+	return remanent=vector;
 }
 
