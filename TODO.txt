@@ -28,7 +28,8 @@ ORGANISMES:
 	Aillar la signatura general de qualsevol organimse a COrganismeBasic
 	Fer de COrganismeBasic una classe factoria
 	Inicialitzar el fenotip d'una altra manera mes rica potser
-	Considerar nomes fer 16 registres de fenotip
+	Millorar la visualitzacio d'organismes
+	Opcio per guardar i carregar organismes a fitxer.
 
 CONTROL (CARIOTIP/GENOTIP):
 	Donar-li mes cos a les zones operadores
@@ -69,11 +70,12 @@ ANALISIS:
 	Determinar com manegar l'historic de les poblacions
 
 GRAFICS I VISTES
+	Proves unitaries dels dominis dinanics de les grafiques.
 	Fer mes prima l'escala logaritmica
 	Fer programable el que visualitzen les comparatives d'organismes
 	Fer programable el que visualitzen els mapes
-	Protegir visualitzacio interna organisme si es fora de domini del vector comunitat
 	Muntar un conjunt de visualitzadors des d'un fitxer
+	Muntar un array de grafiques
 	Implementar Grafic Evolutiu/Temporal
 	Implementar Comparativa Taxons
 	Intentar generalitzar per un model OpenGL

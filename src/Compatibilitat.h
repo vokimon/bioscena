@@ -34,6 +34,12 @@ inline unsigned comptaUns (t_clau n)
 	return res;
 };
 
+inline uint32 nibble(uint32 numero, uint32 valor) 
+{
+	return (valor >> (numero<<2)) & 0x0000000F;
+}
+
+
 //////////////////////////////////////////////////////////////////////
 // Funcio de compatibilitat de claus no 1
 //    Tolerancia al numero d'uns

@@ -236,6 +236,14 @@ SOURCE=.\Configuracio.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\ControlOrganisme.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\ControlOrganisme.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\Cromosoma.cpp
 # End Source File
 # Begin Source File
@@ -441,6 +449,14 @@ SOURCE=.\TopologiaToroidal.cpp
 # Begin Source File
 
 SOURCE=.\TopologiaToroidal.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\turbioconio.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\turbioconio.h
 # End Source File
 # End Target
 # End Project

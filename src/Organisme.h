@@ -1,12 +1,6 @@
 // Organisme.h: interface for the COrganisme class.
 //
 //////////////////////////////////////////////////////////////////////
-// Change Log:
-// 19990902 VoK - 
-// 19991124 VoK - Comencada a fer la estructura jerarquica per 
-//                permetre barreja d'organismes de diferents tipus.
-// 19991126 VoK - Fix: No feiem delete del fenotip al destructor
-//////////////////////////////////////////////////////////////////////
 
 #if !defined(__KKEP_ORGANISME_H_INCLUDED)
 #define __KKEP_ORGANISME_H_INCLUDED
@@ -34,10 +28,11 @@ public:
 	// Nutricio
 	list<t_mollecula> m_nutrients;
 	CEnergiaDisipable m_energia;
+	uint32 m_tempsDisipacio;
+	uint32 m_tempsDisipacioRestant;
 	// Control
 	CCariotip m_cariotip;
 	CGenotip m_genotip;
-	uint32 m_lecturaDiferida;
 	// Dades tontes
 	uint32 m_edat;
 public:

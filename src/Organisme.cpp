@@ -1,6 +1,15 @@
 // Organisme.cpp: implementation of the COrganisme class.
 //
 //////////////////////////////////////////////////////////////////////
+// Change Log:
+// 19990902 VoK - 
+// 19991124 VoK - Comencada a fer la estructura jerarquica per 
+//                permetre barreja d'organismes de diferents tipus.
+// 19991126 VoK - Fix: No feiem delete del fenotip al destructor
+// 19991214 VoK - Capacitat del pap limitat (Ocupava massa memoria)
+// 19991215 VoK - L'energia es disipa
+//////////////////////////////////////////////////////////////////////
+
 #include <iomanip>
 #include "Organisme.h"
 #include "Compatibilitat.h"
@@ -16,16 +25,16 @@ static CMissatger tracaOrganisme ("Organisme");
 //////////////////////////////////////////////////////////////////////
 
 COrganisme::COrganisme() : 
-	m_energia(Config.get("Organisme/Energia/Caducitat"))
+	m_energia(Config.get("Organisme/Energia/Compartiments"))
 {
 	// Desactivem o on el traceig
 	tracaOrganisme.desactiva();
 	// Inicialitzem el material genetic
-	m_cariotip.init(rnd.get(Config.get("Organisme/Cariotip/LongitudMinima"),Config.get("Organisme/Cariotip/LongitudMaxima")));
+	m_cariotip.init(rnd.get(
+		Config.get("Organisme/Cariotip/LongitudMinima"),
+		Config.get("Organisme/Cariotip/LongitudMaxima")));
 	m_mutat = false; 
 	m_genotip.init(m_cariotip);
-	// En principi cap registre del fenotip es diferit
-	m_lecturaDiferida=0L;
 	// Inicialitzem el fenotip
 	m_fenotip = new uint32[Config.get("Organisme/Fenotip/Longitud")];
 	if (!m_fenotip) {
@@ -39,10 +48,12 @@ COrganisme::COrganisme() :
 	m_edat=0;
 	m_foo=0;
 	m_primigeni=true;
+	m_tempsDisipacio=Config.get("Organisme/Energia/CaducitatCompartiments");
+	m_tempsDisipacioRestant=m_tempsDisipacio;
 }
 
 COrganisme::COrganisme(CCariotip &c) : 
-	m_energia(Config.get("Organisme/Energia/Caducitat"))
+	m_energia(Config.get("Organisme/Energia/Compartiments"))
 {
 	// Desactivem o on el traceig
 	tracaOrganisme.desactiva();
@@ -60,14 +71,14 @@ COrganisme::COrganisme(CCariotip &c) :
 	for (uint32 i=Config.get("Organisme/Fenotip/Longitud"), bit=1; i--;)
 		m_fenotip[i] = rnd.get() & ~0x88888888; // (bit <<=1);
 //		rnd >> m_fenotip[i];
-	// En principi cap registre del fenotip es diferit
-	m_lecturaDiferida=0L;
 	// Tot individu comenca amb 
 	m_energia.afegeix(Config.get("Organisme/Energia/Inicial"));
 	m_nutrients.clear();
 	m_edat=0;
 	m_foo=0;
 	m_primigeni=false;
+	m_tempsDisipacio=Config.get("Organisme/Energia/CaducitatCompartiments");
+	m_tempsDisipacioRestant=m_tempsDisipacio;
 }
 
 COrganisme::~COrganisme()
@@ -312,9 +323,14 @@ void COrganisme::debugPresentaFenotip(CMissatger & msgr)
 COrganisme::t_instruccio COrganisme::seguentInstruccio()
 {
 	m_edat++;
-	// TODO: Ei, les instruccions han de venir d'un lloc coherent!
 	return m_genotip.seguentInstruccio(m_fenotip);
-//	return rnd.get();
+	if (m_tempsDisipacio) {
+		m_tempsDisipacioRestant--;
+		if (!m_tempsDisipacioRestant) {
+			m_energia();
+			m_tempsDisipacioRestant = m_tempsDisipacio;
+		}
+	}
 }
 
 bool COrganisme::consumeixEnergia(uint32 energia)

@@ -1,18 +1,6 @@
 // Gen.h: interface for the CGen class.
 //
 //////////////////////////////////////////////////////////////////////
-// Change Log:
-// 19991201 VoK - Fix: Errors calculant la condicio operadora
-// 19991201 VoK - Es pot especificar la mascara de la regio operadora
-//                des del fitxer de configuracio
-// 19991202 VoK - Procediment de proves. Dumping
-// 19991202 VoK - Fix: Inicialitzacions
-// 19991202 VoK - Fix: Mecanismes d'expressio en general
-// 19991202 VoK - Fix: Mecanismes de traduccio
-// 19991202 VoK - Mascares per Promotors i Introns configurables
-// 19991202 VoK - Implementats els Terminadors
-// 19991212 VoK - Canvi condicioOperadora: Fenotips 32 -> 16 bits
-//////////////////////////////////////////////////////////////////////
 
 #if !defined(__KKEP_GEN_H_INCLUDED)
 #define __KKEP_GEN_H_INCLUDED
@@ -45,6 +33,7 @@ public:
 	bool seguentInstruccio(uint32 & t_instruccio);
 	bool parametres(uint32 & valor);
 	bool finalitzat();
+	void reset();
 	bool esIntro(uint32 codo);
 	bool esPromotor(uint32 codo);
 	bool esTerminador(uint32 codo);

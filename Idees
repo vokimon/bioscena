@@ -1,103 +1,10 @@
-Seg F: 
-
-alliberaCodons
 
 
-
-
-
-* Objectes que es creen amb new
-
-D:\Bioscena\Bioscena\Biosistema.cpp(193): COrganisme * org = new COrganisme;
-D:\Bioscena\Bioscena\Biosistema.cpp(298): COrganisme * nouOrganisme = new COrganisme(m_organismeActiu->m_cariotip);
-
-D:\Bioscena\Bioscena\Cariotip.cpp(190):   m_cromosomes[nCromosomes] = new CCromosoma;
-D:\Bioscena\Bioscena\Cariotip.cpp(204):   m_cromosomes[nCromosomes] = new CCromosoma;
-D:\Bioscena\Bioscena\Cariotip.cpp(220):   crm = new CCromosoma;
-
-D:\Bioscena\Bioscena\Cromosoma.cpp(126): uint32 * tmp = new uint32[tamanyFinal];
-D:\Bioscena\Bioscena\Cromosoma.cpp(171): uint32 * codons=new uint32[nCodons];
-D:\Bioscena\Bioscena\Cromosoma.cpp(224): uint32 *tmp= new uint32[m_nCodons-longitud];
-
-D:\Bioscena\Bioscena\EnergiaDisipable.cpp(15): m_slots=new uint32[m_nSlots];
-
-D:\Bioscena\Bioscena\MutacioCariotip.cpp(75): CCariotip::t_cromosoma crm2 = new CCromosoma;
-D:\Bioscena\Bioscena\MutacioCariotip.cpp(98): CCariotip::t_cromosoma crm2 = new CCromosoma;
-D:\Bioscena\Bioscena\MutacioCariotip.cpp(134):  CCariotip::t_cromosoma crm2 = new CCromosoma;
-CMutacioCariotip::Nova
-
-D:\Bioscena\Bioscena\MutacioGenica.cpp(92): uint32 * tmp = new uint32[longitud];
-D:\Bioscena\Bioscena\MutacioGenica.cpp(151): uint32 *tmp= new uint32[m_nCodons+longitud];
-D:\Bioscena\Bioscena\MutacioGenica.cpp(185): uint32 *tmp= new uint32[m_nCodons+longitud];
-CMutacioGenica::Nova
-
-D:\Bioscena\Bioscena\Organisme.cpp(30): m_fenotip = new uint32[Config.get("Organisme/Fenotip/Longitud")];
-D:\Bioscena\Bioscena\Organisme.cpp(55): m_fenotip = new uint32[Config.get("Organisme/Fenotip/Longitud")];
-
-D:\Bioscena\Bioscena\Topologia.h(145):  m_casselles = new Cella [m_totalCasselles=tamany];
-
-D:\Bioscena\Bioscena\Detector.cpp(37): case 0: return new CDetectorQuimic;
-D:\Bioscena\Bioscena\Detector.cpp(38): case 1: return new CDetectorPresencia;
-
-D:\Bioscena\Bioscena\GeneradorMascares.h(36):  bit = new T[uns];
-
-
-* Objectes deletejats
-
-D:\Bioscena\Bioscena\Cariotip.cpp(43):			delete *it;
-D:\Bioscena\Bioscena\Cariotip.cpp(180):		if (*it) delete (*it);
-D:\Bioscena\Bioscena\Cariotip.cpp(275):			delete mutacio;
-D:\Bioscena\Bioscena\Cariotip.cpp(282):			delete mutacio;
-D:\Bioscena\Bioscena\Cromosoma.cpp(195):		delete[] m_codons;
-D:\Bioscena\Bioscena\Cromosoma.cpp(242):	delete [] m_codons;
-D:\Bioscena\Bioscena\InfoOrganisme.h(45):		if (m_cos) delete m_cos;
-D:\Bioscena\Bioscena\MutacioCariotip.cpp(119):	if (crm1) delete crm1;
-D:\Bioscena\Bioscena\MutacioCariotip.cpp(258):		delete mutacio;
-D:\Bioscena\Bioscena\MutacioCariotip.cpp(260):	delete car;
-D:\Bioscena\Bioscena\MutacioGenica.cpp(122):	delete[] tmp;
-D:\Bioscena\Bioscena\MutacioGenica.cpp(169):	delete [] m_codons;
-D:\Bioscena\Bioscena\MutacioGenica.cpp(207):	delete [] m_codons;
-D:\Bioscena\Bioscena\MutacioGenica.cpp(401):		delete crm5;
-D:\Bioscena\Bioscena\MutacioGenica.cpp(402):		delete mutacio;
-
-D:\Bioscena\Bioscena\Biosistema.cpp(76):	if (m_biotop) delete m_biotop;
-D:\Bioscena\Bioscena\Biosistema.cpp(77):	if (m_comunitat) delete m_comunitat;
-D:\Bioscena\Bioscena\Biosistema.cpp(78):	if (m_agents) delete m_agents;
-D:\Bioscena\Bioscena\Biosistema.cpp(79)://	if (m_taxonomista) delete m_taxonomista;
-D:\Bioscena\Bioscena\Biosistema.cpp(239):void CBiosistema::deleteBiotop()
-D:\Bioscena\Bioscena\Biosistema.cpp(242):		delete m_biotop;
-D:\Bioscena\Bioscena\Biosistema.cpp(257):void CBiosistema::deleteComunitat()
-D:\Bioscena\Bioscena\Biosistema.cpp(260):		delete m_comunitat;
-D:\Bioscena\Bioscena\Biosistema.cpp(275):void CBiosistema::deleteAgents()
-D:\Bioscena\Bioscena\Biosistema.cpp(278):		delete m_agents;
-D:\Bioscena\Bioscena\Biosistema.h(56):	void deleteBiotop();
-D:\Bioscena\Bioscena\Biosistema.h(59):	void deleteComunitat();
-D:\Bioscena\Bioscena\Biosistema.h(62):	void deleteAgents();
-
-
-
-Agent::CreaAgent
-D:\Bioscena\Bioscena\Agent.cpp(236): if (tipus=="Agent/Multiple") return new CMultiAgent;
-D:\Bioscena\Bioscena\Agent.cpp(237): if (tipus=="Agent/Multiple/Temporitzador") return new CTemporitzador;
-D:\Bioscena\Bioscena\Agent.cpp(238): if (tipus=="Agent/Multiple/Iterador") return new CIterador;
-D:\Bioscena\Bioscena\Agent.cpp(239): if (tipus=="Agent/Multiple/Aleaturitzador") return new CAleaturitzador;
-D:\Bioscena\Bioscena\Agent.cpp(240): if (tipus=="Agent/Posicionador") return new CPosicionador(biotop);
-D:\Bioscena\Bioscena\Agent.cpp(241): if (tipus=="Agent/Posicionador/Aleatori") return new CPosicionadorAleatori(biotop);
-D:\Bioscena\Bioscena\Agent.cpp(242): if (tipus=="Agent/Posicionador/Zonal") return new CPosicionadorZonal(biotop);
-D:\Bioscena\Bioscena\Agent.cpp(243): if (tipus=="Agent/Posicionador/Direccional") return new CItinerari(biotop);
-D:\Bioscena\Bioscena\Agent.cpp(244): if (tipus=="Agent/Direccionador") return new CDireccionador(biotop);
-D:\Bioscena\Bioscena\Agent.cpp(245): if (tipus=="Agent/Direccionador/Aleatori") return new CDireccionadorAleatori(biotop);
-D:\Bioscena\Bioscena\Agent.cpp(246): if (tipus=="Agent/Actuador/Nutridor") return new CNutridor;
-D:\Bioscena\Bioscena\Agent.cpp(247): if (tipus=="Agent/Actuador/Nutridor/Invers") return new CDesnutridor;
-
-D:\Bioscena\Bioscena\Topologia.h(142):		delete[] m_casselles;
-
-D:\Bioscena\Bioscena\Aleaturitzador.cpp(25):	if (m_reAccio) delete m_reAccio;
-D:\Bioscena\Bioscena\Iterador.cpp(29):	if (m_preAccio) delete m_preAccio;
-D:\Bioscena\Bioscena\Iterador.cpp(30):	if (m_postAccio) delete m_postAccio;
-D:\Bioscena\Bioscena\MultiAgent.cpp(31):		delete (*(m_agents.begin()));
-D:\Bioscena\Bioscena\Temporitzador.cpp(31):	if (m_antiAccio) delete m_antiAccio;
-
+Punter a la funcio membre
+Mnemonic
+Parametre 1
+...
+Parametre 8
 
 
 

@@ -17,7 +17,7 @@ static unsigned int col=20, fil=2;
 using namespace AnsiCodes;
 
 void CMemoryOutputer::print(char *msg, char *caption) {
-	m_llista.push_back(msg);
+/*	m_llista.push_back(msg);
 	if (m_llista.size()>m_longitud)
 		m_llista.pop_front();
 	m_stream << push_cursor << blanc.fosc();
@@ -32,6 +32,18 @@ void CMemoryOutputer::print(char *msg, char *caption) {
 	}
 	m_stream << pop_cursor;
 //	m_stream.flush();
+*/
+	static unsigned int pos=0;
+	m_llista.push_back(msg);
+	if (m_llista.size()>m_longitud)
+		m_llista.pop_front();
+	m_stream << push_cursor << blanc.fosc();
+	m_stream << gotoxy(col,fil+pos) << clrlin << msg << endl;
+	pos++; pos%=m_longitud;
+	m_stream << gotoxy(col,fil+pos) << clrlin << endl;
+	m_stream << pop_cursor;
+//	m_stream.flush();
+
 }
 
 

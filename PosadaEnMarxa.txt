@@ -1,5 +1,5 @@
-Espero que aquesta informació sigui suficient perque pogueu, al menys
-llenxar els bitxos sense problemes.
+Espero que aquesta informació sigui suficient perque pogueu, al menys,
+llençar els bitxos sense problemes.
 
 1. COMPILACIÓ
 
