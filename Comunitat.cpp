@@ -174,7 +174,6 @@ CInfoOrganisme & CComunitat::operator[](uint32 index) {
 uint32 CComunitat::introdueix(COrganisme* org, uint32 posicio, uint32 taxo)
 	// PRE: org és un punter vàlid
 {
-	static char buffer[50]; // TODO: Reconsiderar la longitud o posar-la als limits d'implementacio
 	uint32 index;
 	if (m_disponibles.size()) {
 		index = m_disponibles.front();
@@ -191,7 +190,7 @@ uint32 CComunitat::introdueix(COrganisme* org, uint32 posicio, uint32 taxo)
 	nouOrganisme.taxo(taxo);
 	nouOrganisme.posicio(posicio);
 	nouOrganisme.cos(org);
-	ostrstream fluxe; //(buffer,48);
+	ostrstream fluxe;
 	fluxe
 		<< setfill('0') 
 		<< (index>>6) << CColor(1+((index&070)>>3)).brillant() << (index&07) << blanc.fosc() << "-" 

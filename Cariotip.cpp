@@ -12,11 +12,21 @@
 // - 
 // - 
 
+#ifdef _MSC_VER
+// El namespace es per solucionar un conflicte amb el gotoxy de AnsiCodes.h
+namespace ops {
+	#include <conio.h>
+	}
+#define kbhit ops::_kbhit
+#else
+#include <pc.h>
+#endif
 #include "Cariotip.h"
 #include "Configuracio.h"
 #include "Color.h"
-#include "RandomStream.h"
+#include "Probabilitat.h"
 #include "MutacioCariotip.h"
+#include "MutacioCromosomica.h"
 #include "MutacioGenica.h"
 
 using namespace AnsiCodes;
@@ -258,6 +268,13 @@ void CCariotip::ProvaClasse(void)
 	car3.init(8);
 	out << "\nCariotip #3" << endl;
 	car3.dump(out);
+	cin.get();
+
+	out << "Provant mutacio masiva de cariotips fins que premis una tecla" << endl;
+	while (!kbhit()) {
+		car3.muta();
+//		car3.dump(out);
+	}
 }
 
 
@@ -265,28 +282,31 @@ void CCariotip::ProvaClasse(void)
 
 bool CCariotip::muta()
 {
-	if (rnd.get(Config.get("Organisme/ProbabilitatMutacio/Encerts"), Config.get("Organisme/ProbabilitatMutacio/Mostra")))
+	if (!CProbabilitat::EsDona(Config.get("Organisme/ProbabilitatMutacio/Encerts"),Config.get("Organisme/ProbabilitatMutacio/Mostra")))
 		return false;	
-	switch (rnd.get(0,1))
+	CMutacioCariotip * mutacio;
+	switch (rnd.get(1,1))
 	{
 	case 0:
-		{
-			CMutacioGenica * mutacio = CMutacioGenica::Nova(rnd.get(1,CMutacioGenica::Nombre())-1);
-			if (!mutacio) return false;
-			mutacio->muta(*(m_cromosomes[cromosomaAleatori()]));
-			delete mutacio;
-		} break;
+		mutacio = CMutacioGenica::Nova(rnd.get(1,CMutacioGenica::Nombre())-1);
+		break;
 	case 1:
-		{
-			CMutacioCariotip * mutacio = CMutacioCariotip::Nova(rnd.get(1,CMutacioCariotip::Nombre())-1);
-			if (!mutacio) return false;
-			mutacio->muta(*this);
-			delete mutacio;
-		} break;
+		mutacio = CMutacioCromosomica::Nova(rnd.get(1,CMutacioCromosomica::Nombre())-1);
+		break;
+	case 2:
+		mutacio = CMutacioCariotip::Nova(rnd.get(1,CMutacioCariotip::Nombre())-1);
+		break;
 	default:
 		error << "ops!!! Cas no previst a " << __FILE__ << ":" << __LINE__ << endl;
 		cin.get();
+		return false;
 	}
+
+	if (!mutacio) return false;
+//	out << mutacio->tipus() << endl;
+	mutacio->muta(*this);
+	if (!mutacio) out << "copon!" << endl;
+	delete mutacio;
 	
 	return true;
 }

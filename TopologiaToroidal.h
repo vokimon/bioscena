@@ -161,7 +161,7 @@ bool CTopologiaToroidal<Cella>::unio (t_posicio posOrigen, t_posicio posDesti, t
 	uint32 y1 = posOrigen / m_xMax;
 	uint32 x2 = posDesti % m_xMax;
 	uint32 y2 = posDesti / m_xMax;
-	out << "Origen: " << x1 << "@" << y1 << " Desti: " << x2 << "@" << y2 << endl;
+//	out << "Origen: " << x1 << "@" << y1 << " Desti: " << x2 << "@" << y2 << endl;
 	bool adalt, esquerra;
 	uint32 dx, dy;
 	uint32 inner, outer;
@@ -201,7 +201,7 @@ bool CTopologiaToroidal<Cella>::unio (t_posicio posOrigen, t_posicio posDesti, t
 	}
 
 	uint32 basic;
-	out << "dx: " << dx << (esquerra?"L":"R")<< " dy: " << dy << (adalt?"U":"D") << endl;
+//	out << "dx: " << dx << (esquerra?"L":"R")<< " dy: " << dy << (adalt?"U":"D") << endl;
 
 	uint32 nBasics=8;
 	desplacament=0x00000000;

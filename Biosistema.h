@@ -96,6 +96,8 @@ public:
 	bool organismeAnd(uint32 parametres);
 	bool organismeOr(uint32 parametres);
 	bool organismeXor(uint32 parametres);
+	bool organismeNot(uint32 parametres);
+	bool organismeOposa(uint32 parametres);
 	bool organismeRandom(uint32 parametres);
 	bool organismeCopia(uint32 parametres);
 	bool organismeCarrega(uint32 parametres);

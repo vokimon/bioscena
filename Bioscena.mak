@@ -75,6 +75,7 @@ CLEAN :
 	-@erase "$(INTDIR)\Missatger.obj"
 	-@erase "$(INTDIR)\MultiAgent.obj"
 	-@erase "$(INTDIR)\MutacioCariotip.obj"
+	-@erase "$(INTDIR)\MutacioCromosomica.obj"
 	-@erase "$(INTDIR)\MutacioGenica.obj"
 	-@erase "$(INTDIR)\Organisme.obj"
 	-@erase "$(INTDIR)\Outputer.obj"
@@ -132,6 +133,7 @@ LINK32_OBJS= \
 	"$(INTDIR)\Missatger.obj" \
 	"$(INTDIR)\MultiAgent.obj" \
 	"$(INTDIR)\MutacioCariotip.obj" \
+	"$(INTDIR)\MutacioCromosomica.obj" \
 	"$(INTDIR)\MutacioGenica.obj" \
 	"$(INTDIR)\Organisme.obj" \
 	"$(INTDIR)\Outputer.obj" \
@@ -219,6 +221,8 @@ CLEAN :
 	-@erase "$(INTDIR)\MultiAgent.sbr"
 	-@erase "$(INTDIR)\MutacioCariotip.obj"
 	-@erase "$(INTDIR)\MutacioCariotip.sbr"
+	-@erase "$(INTDIR)\MutacioCromosomica.obj"
+	-@erase "$(INTDIR)\MutacioCromosomica.sbr"
 	-@erase "$(INTDIR)\MutacioGenica.obj"
 	-@erase "$(INTDIR)\MutacioGenica.sbr"
 	-@erase "$(INTDIR)\Organisme.obj"
@@ -248,9 +252,9 @@ CLEAN :
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
-CPP_PROJ=/nologo /MLd /W3 /Gm /GX /Zi /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE"\
- /D "_MBCS" /FR"$(INTDIR)\\" /Fp"$(INTDIR)\Bioscena.pch" /YX /Fo"$(INTDIR)\\"\
- /Fd"$(INTDIR)\\" /FD /c 
+CPP_PROJ=/nologo /G6 /MLd /W3 /Gm /GX /Zi /Od /D "WIN32" /D "_DEBUG" /D\
+ "_CONSOLE" /D "_MBCS" /FR"$(INTDIR)\\" /Fp"$(INTDIR)\Bioscena.pch" /YX\
+ /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
 CPP_OBJS=.\Debug/
 CPP_SBRS=.\Debug/
 BSC32=bscmake.exe
@@ -282,6 +286,7 @@ BSC32_SBRS= \
 	"$(INTDIR)\Missatger.sbr" \
 	"$(INTDIR)\MultiAgent.sbr" \
 	"$(INTDIR)\MutacioCariotip.sbr" \
+	"$(INTDIR)\MutacioCromosomica.sbr" \
 	"$(INTDIR)\MutacioGenica.sbr" \
 	"$(INTDIR)\Organisme.sbr" \
 	"$(INTDIR)\Outputer.sbr" \
@@ -301,7 +306,7 @@ BSC32_SBRS= \
 LINK32=link.exe
 LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib\
  advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib\
- odbccp32.lib /nologo /subsystem:console /verbose /incremental:no\
+ odbccp32.lib /nologo /version:0.7 /subsystem:console /incremental:no\
  /pdb:"$(OUTDIR)\Bioscena.pdb" /debug /machine:I386\
  /out:"$(OUTDIR)\Bioscena.exe" /pdbtype:sept 
 LINK32_OBJS= \
@@ -331,6 +336,7 @@ LINK32_OBJS= \
 	"$(INTDIR)\Missatger.obj" \
 	"$(INTDIR)\MultiAgent.obj" \
 	"$(INTDIR)\MutacioCariotip.obj" \
+	"$(INTDIR)\MutacioCromosomica.obj" \
 	"$(INTDIR)\MutacioGenica.obj" \
 	"$(INTDIR)\Organisme.obj" \
 	"$(INTDIR)\Outputer.obj" \
@@ -692,9 +698,11 @@ DEP_CPP_CARIO=\
 	".\Cromosoma.h"\
 	".\Missatger.h"\
 	".\MutacioCariotip.h"\
+	".\MutacioCromosomica.h"\
 	".\MutacioGenica.h"\
 	".\Outputer.h"\
 	".\Portable.h"\
+	".\Probabilitat.h"\
 	".\RandomStream.h"\
 	
 
@@ -714,6 +722,7 @@ DEP_CPP_CARIO=\
 	".\MutacioGenica.h"\
 	".\Outputer.h"\
 	".\Portable.h"\
+	".\Probabilitat.h"\
 	".\RandomStream.h"\
 	
 
@@ -1018,6 +1027,7 @@ SOURCE=.\Gen.cpp
 DEP_CPP_GEN_C=\
 	".\BioIncludes.h"\
 	".\Color.h"\
+	".\Configuracio.h"\
 	".\Cromosoma.h"\
 	".\Gen.h"\
 	".\Missatger.h"\
@@ -1034,6 +1044,7 @@ DEP_CPP_GEN_C=\
 DEP_CPP_GEN_C=\
 	".\BioIncludes.h"\
 	".\Color.h"\
+	".\Configuracio.h"\
 	".\Cromosoma.h"\
 	".\Gen.h"\
 	".\Missatger.h"\
@@ -1086,6 +1097,8 @@ SOURCE=.\Genotip.cpp
 DEP_CPP_GENOT=\
 	".\BioIncludes.h"\
 	".\Cariotip.h"\
+	".\Color.h"\
+	".\Configuracio.h"\
 	".\Cromosoma.h"\
 	".\Gen.h"\
 	".\Genotip.h"\
@@ -1103,6 +1116,8 @@ DEP_CPP_GENOT=\
 DEP_CPP_GENOT=\
 	".\BioIncludes.h"\
 	".\Cariotip.h"\
+	".\Color.h"\
+	".\Configuracio.h"\
 	".\Cromosoma.h"\
 	".\Gen.h"\
 	".\Genotip.h"\
@@ -1356,6 +1371,7 @@ DEP_CPP_MAINB=\
 	".\Missatger.h"\
 	".\MultiAgent.h"\
 	".\MutacioCariotip.h"\
+	".\MutacioCromosomica.h"\
 	".\MutacioGenica.h"\
 	".\Organisme.h"\
 	".\Outputer.h"\
@@ -1418,23 +1434,19 @@ DEP_CPP_MAINB=\
 !ENDIF 
 
 SOURCE=.\Missatger.cpp
-
-!IF  "$(CFG)" == "Bioscena - Win32 Release"
-
 DEP_CPP_MISSA=\
 	".\Missatger.h"\
 	".\Outputer.h"\
 	
+
+!IF  "$(CFG)" == "Bioscena - Win32 Release"
+
 
 "$(INTDIR)\Missatger.obj" : $(SOURCE) $(DEP_CPP_MISSA) "$(INTDIR)"
 
 
 !ELSEIF  "$(CFG)" == "Bioscena - Win32 Debug"
 
-DEP_CPP_MISSA=\
-	".\Missatger.h"\
-	".\Outputer.h"\
-	
 
 "$(INTDIR)\Missatger.obj"	"$(INTDIR)\Missatger.sbr" : $(SOURCE)\
  $(DEP_CPP_MISSA) "$(INTDIR)"
@@ -1536,27 +1548,71 @@ DEP_CPP_MUTAC=\
 
 !ENDIF 
 
-SOURCE=.\MutacioGenica.cpp
+SOURCE=.\MutacioCromosomica.cpp
 
 !IF  "$(CFG)" == "Bioscena - Win32 Release"
 
 DEP_CPP_MUTACI=\
 	".\BioIncludes.h"\
+	".\Cariotip.h"\
 	".\Color.h"\
 	".\Cromosoma.h"\
 	".\Missatger.h"\
+	".\MutacioCariotip.h"\
+	".\MutacioCromosomica.h"\
+	".\Outputer.h"\
+	".\Portable.h"\
+	".\RandomStream.h"\
+	
+
+"$(INTDIR)\MutacioCromosomica.obj" : $(SOURCE) $(DEP_CPP_MUTACI) "$(INTDIR)"
+
+
+!ELSEIF  "$(CFG)" == "Bioscena - Win32 Debug"
+
+DEP_CPP_MUTACI=\
+	".\BioIncludes.h"\
+	".\Cariotip.h"\
+	".\Color.h"\
+	".\Cromosoma.h"\
+	".\Missatger.h"\
+	".\MutacioCariotip.h"\
+	".\MutacioCromosomica.h"\
+	".\Outputer.h"\
+	".\Portable.h"\
+	".\RandomStream.h"\
+	
+
+"$(INTDIR)\MutacioCromosomica.obj"	"$(INTDIR)\MutacioCromosomica.sbr" : \
+$(SOURCE) $(DEP_CPP_MUTACI) "$(INTDIR)"
+
+
+!ENDIF 
+
+SOURCE=.\MutacioGenica.cpp
+
+!IF  "$(CFG)" == "Bioscena - Win32 Release"
+
+DEP_CPP_MUTACIO=\
+	".\BioIncludes.h"\
+	".\Cariotip.h"\
+	".\Color.h"\
+	".\Cromosoma.h"\
+	".\Missatger.h"\
+	".\MutacioCariotip.h"\
+	".\MutacioCromosomica.h"\
 	".\MutacioGenica.h"\
 	".\Outputer.h"\
 	".\Portable.h"\
 	".\RandomStream.h"\
 	
 
-"$(INTDIR)\MutacioGenica.obj" : $(SOURCE) $(DEP_CPP_MUTACI) "$(INTDIR)"
+"$(INTDIR)\MutacioGenica.obj" : $(SOURCE) $(DEP_CPP_MUTACIO) "$(INTDIR)"
 
 
 !ELSEIF  "$(CFG)" == "Bioscena - Win32 Debug"
 
-DEP_CPP_MUTACI=\
+DEP_CPP_MUTACIO=\
 	".\BioIncludes.h"\
 	".\Color.h"\
 	".\Cromosoma.h"\
@@ -1568,7 +1624,7 @@ DEP_CPP_MUTACI=\
 	
 
 "$(INTDIR)\MutacioGenica.obj"	"$(INTDIR)\MutacioGenica.sbr" : $(SOURCE)\
- $(DEP_CPP_MUTACI) "$(INTDIR)"
+ $(DEP_CPP_MUTACIO) "$(INTDIR)"
 
 
 !ENDIF 

@@ -36,6 +36,11 @@ CConfiguracio::CConfiguracio()
 	set("Organisme/Cariotip/LongitudMaxima",10);
 	set("Organisme/Cromosoma/LongitudMinima",1);
 	set("Organisme/Cromosoma/LongitudMaxima",10);
+	set("Organisme/Genotip/ZonaOperadora/Mascara",0x00000001);
+	set("Organisme/Genotip/Promotor/Mascara",     0x00000010);
+	set("Organisme/Genotip/Terminador/Mascara",   0x00000100);
+	set("Organisme/Genotip/Intro/Mascara",        0x00001000);
+	set("Organisme/Genotip/Traduibilitat/Intents",5);
 	set("Organisme/ProbabilitatMutacio/Encerts",1);
 	set("Organisme/ProbabilitatMutacio/Mostra",15);
 	set("Comunitat/NumeroOrganismes",0x00000200);

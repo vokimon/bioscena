@@ -1,44 +1,84 @@
-TODO:
+************** TODO ***************
 
-GENERAL:
-	Generar una interficie de visualitzacio
+APLICACIONS EXTERNES:
 	Entorn d'edició i analisis d'organismes
 	Eina de configuracio i simulacio d'agents externs
-	Recopilar dades de configuracio i establir el format i el mecanismes de configuracio
-	Eines de analisis
-		Taxonomista
-		Poblacions
-		Interaccions entre organismes
 
-AGENTS:
-	Considerar el radi com a nombre de desplacaments basics
-	Direccionador i Posicionador sequencials
-	InjectorPosicional
+CONFIGURACIO:
+	Opcions de linia comandes per posar traces dels fitxers de configuracio.
+	Comanda per recarregar els arxius de configuracio
+	Considerar l'us de diversos objectes configuradors
+	Considerar on cal consultar cada parametre de la configuracio 
+		(Optimitzar + Consistencia en recarregues)
+
+EXECUCIO D'INSTRUCCIONS:
+	Operacions per sentir presencia
+	Operacions per sentir estat intern
+	Complicar les logiques de moviment, atac
+	Instruccions per modificar claus internes
+	Afegir metabolisme (transformacio dels principis inmediats) (Ubicacio Biosistema)
+	Treure tots els canvis d'energia de l'organisme al Biosistema
+
+OPCODES:
+	Considerar fer configurable els parametres de les instruccions
+	Cal fer alguna comprovacio extra del fitxer de configuracio dels opcodes
+	Que no s'esborrin els opcodes vells fins que no s'hagin llegit correctament els nous
 
 ORGANISMES:
-	Operacions amb els registres dels organismes
-	Considerar el format de les instruccions
+	Considerar una forma empaquetada de enmagatzemar els cariotips primigenis
+	Aillar la signatura general de qualsevol organimse a COrganismeBasic
+	Fer de COrganismeBasic una classe factoria
+	Inicialitzar el fenotip d'una altra manera mes rica potser
 
-CARIOTIP:
+CONTROL (CARIOTIP/GENOTIP):
+	Donar-li mes cos a la traduccio i a l'expressio!!!
+	Considerar quines de Gen Cromosoma Cariotip Genotip cal posar com a base virtual
+	Control genetic sobre les mutacions
 	Fer que l'escisio centrica esborri els escisionats
 	Considerar si separar mutacions estructurals i puntuals
+	Analisi de limits i que les operacions de mutacio en siguin valides amb ells
 
-RELACIO:
-	Dissenyar el mecanisme d'atac-defensa
-	Dissenyar el funcionament generic dels sensors
-		Particular per quimic
-		Particular per organismes
-		Particular per intern
-		Particular per ambient
-	Dissenyar el funcionament generic dels motors
-	Situar les claus
+GENERICS:
+	Sistema de Logging/Analisis
+	Alliberar un xic del vector de comunitat (taxo?) quan hi hagi molt de lliure
+	Unificar la forma de fer les traces per moduls
 
+GRAFICS I VISTES
+	Fer mes prima l'escala logaritmica
+	Fer programable el que visualitzen les comparatives d'organismes
+	Fer programable el que visualitzen els mapes
+	Muntar un conjunt de visualitzadors des d'un fitxer
+	Implementar Grafic Evolutiu/Temporal
+	Implementar Comparativa Taxons
+	Intentar generalitzar per un model OpenGL
 
+ANALISIS:
+	TOT!!!
+	Determinar el fluxe d'informacio d'analisis
+	Determinar els criteris de discriminacio de poblacions (sexuals, asexuals...)
+	Determinar les dades que guardem de cada poblacio i com ho fem
+	Determinar com manegar l'historic de les poblacions
 
-EINES:
+AGENTS EXTERNS:
+	Direccionador i Posicionador sequencials
+	Agent extern injector d'organismes segons un posicionador
+	Comprovar l'estructura d'arbre d'un fitxer i recuperar-se
+	Definir un KindOf
+	Verificar els tipus requerits a les dependencies
+	Solucionar els conflictes si els noms per defecte estan agafats
+	Guardar-se el pare en l'estructura
+	Funcio de validacio de l'invariant
+	Guardar el contingut dels comentaris dels fitxers de configuracio
+	Permetre comentaris en altres llocs
+	Definir be i fer servir CDistribucioNormal o com li vulguis dir (daus)
+
+MISSATGERS:
+	Testejar el COutputer per a CEdits de MFC's
 	COutputer per curses
 	COutputer per una llista d'strings
 	Constructor rapid de un CMissatger a un fitxer
+	Probar d'unificar els missatgers i tal amb els iostreams
+	Refer el modul AnsiCodes
 
 ALTERNATIVES:
 	Considerar si fer alimentació autòtrofa

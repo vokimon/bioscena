@@ -111,16 +111,16 @@ void CComparativaOrganismes::visualitza(CMissatger & msg)
 	CComunitat & comunitat = *m_comunitat;
 
 	// Coloquem les guies
-	if (m_dominiEdat.premapeja(3)<m_tope) {
-		msg << gotoxy(m_posY+m_tope-m_dominiEdat.mapeja(3), m_posX) << blanc.fons(verd) << clrlin;
+	if (m_dominiEdat.premapeja(0xFF)<m_tope) {
+		msg << gotoxy(m_posY+m_tope-m_dominiEdat.mapeja(0xFF), m_posX) << blanc.fons(verd) << clrlin;
 		msg << blanc.fons(blanc);
 	}
-	if (m_dominiEdat.premapeja(15)<m_tope) {
-		msg << gotoxy(m_posY+m_tope-m_dominiEdat.mapeja(15), m_posX) << blanc.fons(groc) << clrlin;
+	if (m_dominiEdat.premapeja(0xFFFF)<m_tope) {
+		msg << gotoxy(m_posY+m_tope-m_dominiEdat.mapeja(0xFFFF), m_posX) << blanc.fons(groc) << clrlin;
 		msg << blanc.fons(blanc);
 	}
-	if (m_dominiEdat.premapeja(63)<m_tope) {
-		msg << gotoxy(m_posY+m_tope-m_dominiEdat.mapeja(63), m_posX) << blanc.fons(vermell) << clrlin;
+	if (m_dominiEdat.premapeja(0xFFFFFFFF)<m_tope) {
+		msg << gotoxy(m_posY+m_tope-m_dominiEdat.mapeja(0xFFFFFFFF), m_posX) << blanc.fons(vermell) << clrlin;
 		msg << blanc.fons(blanc);
 	}
 
@@ -531,6 +531,11 @@ void CMapa::primeraPosicio(uint32 pos)
 {
 	if (pos<m_totalCelles)
 		m_primeraPosicio=pos;
+}
+
+uint32 CMapa::primeraPosicio()
+{
+	return m_primeraPosicio;
 }
 
 void CMapa::biosistema(CBiosistema * biosistema)

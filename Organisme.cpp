@@ -59,7 +59,7 @@ COrganisme::COrganisme(CCariotip &c) :
 		cin.get();
 	}
 	for (uint32 i=Config.get("Organisme/Fenotip/Longitud"), bit=1; i--;)
-		m_fenotip[i] = (bit <<=1);
+		m_fenotip[i] = rnd.get() & ~0x88888888; // (bit <<=1);
 //		rnd >> m_fenotip[i];
 	// En principi cap registre del fenotip es diferit
 	m_lecturaDiferida=0L;
@@ -282,8 +282,10 @@ void COrganisme::ProvaClasse()
 
 void COrganisme::dump(CMissatger & msgr)
 {
-	debugPresentaNutrients(msgr);
+//	debugPresentaNutrients(msgr);
 	debugPresentaFenotip(msgr);
+	m_cariotip.dump(msgr);
+	m_genotip.dump(msgr);
 }
 
 void COrganisme::debugPresentaNutrients(CMissatger & msgr)

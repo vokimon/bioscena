@@ -159,6 +159,7 @@ public:
 	void biosistema(CBiosistema * biosistema);
 	CBiosistema * biosistema(void);
 	void primeraPosicio(uint32 pos);
+	uint32 primeraPosicio();
 	virtual void visualitza(CMissatger & msg);
 	void scrollUp(uint32 steps);
 	void scrollDown(uint32 steps);

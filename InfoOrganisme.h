@@ -48,9 +48,6 @@ public:
 	}
 	inline COrganisme* cos() {/*m_propietari=true;*/ return m_cos;};
 	inline uint32 subidentificador () {return m_subIdentificador;};
-	// TODO: Borrar esto si no hace falta
-//	bool operator< (const COrganisme & o) const {return false;};
-//	bool operator< (const COrganisme & o) {return false;};
 };
 
 #endif // !defined(__KKEP_INFOORGANISME_H_INCLUDED)

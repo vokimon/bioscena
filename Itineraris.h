@@ -14,6 +14,7 @@
 // 19990824 VoK - Funcions de configuracio amb parametres
 // 19991130 VoK - CPosicionador Zonal adaptat per fer servir la funcio
 //                'desplacamentAleatori' de biotop especificant radi
+//                en desplacaments basics i no en vectors de despl.
 //////////////////////////////////////////////////////////////////////
 // TODO: Fer Direccionadors i Posicionadors segons una sequencia.
 //////////////////////////////////////////////////////////////////////
