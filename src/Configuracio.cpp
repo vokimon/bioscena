@@ -21,15 +21,14 @@ CConfiguracio::CConfiguracio()
 	set("Comunitat/TamanyRegeneracio",27);
 	set("Comunitat/NumeroTaxons",0x00000200);
 	set("Comunitat/NumeroMarquesPerTaxo",030);
-	set("Biotop/CassellesAmplitud",80);
-	set("Biotop/CassellesAltitud",20);
+	set("Biotop/CasellesAmplitud",80);
+	set("Biotop/CasellesAltitud",20);
 	set("Biotop/Substrat/MaximInicial",6);
 	set("Biotop/Substrat/MolleculesInicials/Numero",4);
 	set("Biotop/Substrat/MolleculesInicials/Element",0);
 	set("Biotop/Substrat/MolleculesInicials/Tolerancia",3);
 */
 // Configuracio per organismes deterministics no reactius
-	set("Organisme/Energia/Inicial",10);
 	set("Organisme/Energia/CaducitatCompartiments",20);
 	set("Organisme/Energia/Compartiments",8);
 	set("Organisme/Fenotip/Longitud",32);
@@ -55,27 +54,30 @@ CConfiguracio::CConfiguracio()
 	set("Comunitat/NumeroMarquesPerTaxo",030);
 	set("Comunitat/ProbabilitatGeneracioExpontanea/Mostra",50);
 	set("Comunitat/ProbabilitatGeneracioExpontanea/Encerts",1);
-	set("Biotop/CassellesAmplitud",30);
-	set("Biotop/CassellesAltitud",30);
+	set("Biotop/CasellesAmplitud",30);
+	set("Biotop/CasellesAltitud",30);
 	set("Biotop/Substrat/MaximInicial",7);
 	set("Biotop/Substrat/MolleculesInicials/Numero",2);
 	set("Biotop/Substrat/MolleculesInicials/Element",0);
 	set("Biotop/Substrat/MolleculesInicials/Tolerancia",3);
 	set("Biosistema/Quantum/Utils",2);
 	set("Biosistema/Quantum/Maxim",4);
+	set("Biosistema/Energia/InicialExpontani",10);
 	set("Biosistema/Energia/FixeInstruccio",1);
 	set("Biosistema/Energia/AdicionalInutil",1);
-	set("Biosistema/Energia/Mitosi",15);
+	set("Biosistema/Energia/Mitosi/Cedida",15);
+	set("Biosistema/Energia/Mitosi/Factor",2);
+	set("Biosistema/Energia/Mitosi/Minima",20);
+	set("Biosistema/Energia/Mitosi/CostNoMinima",2);
 	set("Biosistema/Energia/Engolir",6);
 	set("Biosistema/Energia/Excretar",3);
 	set("Biosistema/Energia/Moviment",0);
 	set("Biosistema/Energia/Extraccio",6);
-	set("Biosistema/Energia/FactorDescendencia",2);
 	set("Biosistema/OpCodes/BitsOperacio",5);
 	set("Sensor/Quimic/Intents",10);
-	set("Sensor/Presencia/Intents",20);
+	set("Sensor/Presencia/Intents",30);
 	set("Sensor/Intern/Intents",10);
-	set("Biosistema/Metabolisme/BitsSignificatius",0x00000005);
+	set("Biosistema/Metabolisme/BitsSignificatius",0x00000007);
 }
 
 CConfiguracio::~CConfiguracio()

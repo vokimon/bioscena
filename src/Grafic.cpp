@@ -119,7 +119,7 @@ void CComparativaOrganismes::visualitza(CMissatger & msg)
 		msg << gotoxy(m_posX, m_posY+m_tope-m_dominiEdat.mapeja(0xFFFF)) << blanc.fons(groc) << clrlin;
 		msg << blanc.fons(blanc);
 	}
-	if (m_dominiEdat.premapeja(0xFFFFFFFF)<m_tope) {
+	if (m_dominiEdat.premapeja(0x0FFFFFFF)<m_tope) {
 		msg << gotoxy(m_posX, m_posY+m_tope-m_dominiEdat.mapeja(0xFFFFFFFF)) << blanc.fons(vermell) << clrlin;
 		msg << blanc.fons(blanc);
 	}

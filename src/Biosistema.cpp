@@ -353,7 +353,7 @@ bool CBiosistema::organismeExpontani()
 		return false;
 	}
 	// Li posem l'energia inicial
-	org->guanyaEnergia(Config.get("Organisme/Energia/Inicial"));
+	org->guanyaEnergia(Config.get("Biosistema/Energia/InicialExpontani"));
 	// Ho introduim en societat (a la comunitat i al biotop)
 	uint32 id = m_comunitat->introdueix(org, pos, taxo);
 	(*m_biotop)[pos].ocupa(id);
@@ -383,6 +383,7 @@ bool CBiosistema::eliminaOrganismeActiu()
 	// El desterrem de la comunitat
 	m_comunitat->extreu(m_idOrganismeActiu);
 	(*m_comunitat)[m_idOrganismeActiu].taxo(0); // Aixo indica que ha estat borrat adecuadament
+	// TODO: Pensar-se si posar el taxo a 0 es la forma mes elegant de declarar el InfoOrg esborrat
 	return true;
 }
 
@@ -393,8 +394,11 @@ bool CBiosistema::eliminaOrganismeActiu()
 bool CBiosistema::organismeMitosi(uint32 parametres)
 {
 	// Extreiem els parametres del codi d'operacio i el fenotip de l'organisme
-	uint32 desp =    (*m_organismeActiu)[nibble(0,parametres)];
-	uint32 energia = (*m_organismeActiu)[nibble(1,parametres)];
+	uint32 desp =        (*m_organismeActiu)[nibble(0,parametres)];
+	uint32 elementBase = (*m_organismeActiu)[nibble(1,parametres)]&m_mascaraQuimica;
+	uint32 tolerancia =  (*m_organismeActiu)[nibble(2,parametres)]|~m_mascaraQuimica;
+	uint32 energia =     (*m_organismeActiu)[nibble(3,parametres)]&0x00ff;
+	uint32 nutrients =   (*m_organismeActiu)[nibble(3,parametres)]&0x00ff;
 	// Precalculem tot el que utilitzem mutliples vegades
 	uint32 posOrigen = m_infoOrganismeActiu->posicio();
 	uint32 posDesti  = m_biotop->desplacament(posOrigen, desp);
@@ -408,22 +412,30 @@ bool CBiosistema::organismeMitosi(uint32 parametres)
 	// Inici del log
 	logAccio << m_infoOrganismeActiu->descripcio() << "Mitosi " << hex << nibble(0,parametres) << ":" << setw(8) << desp << dec << ": ";
 
+	// Comprovem el minim d'energia requerit
+	if (m_organismeActiu->energia()<Config.get("Biosistema/Energia/Mitosi/Minima")) {
+		m_organismeActiu->consumeixEnergia(Config.get("Biosistema/Energia/Mitosi/CostNoMinima"));
+		logAccio << vermell << "No tinc l'energia minima" << blanc.fosc() << endl;
+		return false;
+		}
 	// Mirem si encara tenim energia per fer la mitosi
-	if (!m_organismeActiu->consumeixEnergia(Config.get("Biosistema/Energia/Mitosi")*Config.get("Biosistema/Energia/FactorDescendencia"))) {
+	if (!m_organismeActiu->consumeixEnergia(energia/*Config.get("Biosistema/Energia/Mitosi/Cedida")*/*Config.get("Biosistema/Energia/Mitosi/Factor"))) {
 		logAccio << vermell << "No tinc energia" << blanc.fosc() << endl;
 		return false;
 		}
-
+	// Comprovem que la posició del futur nado està buida
 	if (substratDesti.esOcupat()) {
 		logAccio << vermell.brillant() << "Ocupat " << blanc.fosc() << (*m_comunitat)[substratDesti.ocupant()].descripcio() << endl;
 		return false; // Error: Ja hi ha penya a la posicio, no la podem ocupar
 	}
+	// Benvingut al mon!!!
 	COrganisme * nouOrganisme = new COrganisme(m_organismeActiu->m_cariotip);
 	if (!nouOrganisme) {
 		logAccio << vermell.brillant() << "Falta memoria" << blanc.fosc() << endl;
 		cin.get();
 		return false;
 	}
+	// L'inscribim al registre de naixements (taxonomista)
 	// TODO: Cal canviar aixo, quan tinguem taxonomista
 	uint32 taxo;
 	if (m_calEspeciar && nouOrganisme->m_mutat)
@@ -434,16 +446,23 @@ bool CBiosistema::organismeMitosi(uint32 parametres)
 	else 
 		taxo = m_infoOrganismeActiu->taxo();
 
-	nouOrganisme->guanyaEnergia(Config.get("Biosistema/Energia/Mitosi"));
+	// Omplim el nado amb energia i nutrients
+	nouOrganisme->guanyaEnergia(energia); // Config.get("Biosistema/Energia/Mitosi/Cedida")
+	while (nutrients--) {
+		uint32 element;
+		if (m_organismeActiu->excreta(element, elementBase, tolerancia))
+			nouOrganisme->engoleix(element);
+	}
+
 	uint32 id = m_comunitat->introdueix(nouOrganisme, posDesti, taxo);
-	// Restaurem el punter que probablement haura quedat invalidat
+	// Restaurem el punter que probablement haura quedat invalidat en introduir el nado
 	m_infoOrganismeActiu = &((*m_comunitat)[m_idOrganismeActiu]);
 	substratDesti.ocupa(id);
 	logAccio << verd.brillant() << "Nascut " << blanc.fosc() << (*m_comunitat)[id].descripcio() << endl;
 
 	// Logging adicional (i provisional)
 	if (taxo!=m_infoOrganismeActiu->taxo()) {
-		logAccio << "Eps! Mutacio " /*<< m_infoOrganismeActiu->taxo() << "->" << taxo*/ << endl;
+		logAccio << "Eps! Mutacio " << m_infoOrganismeActiu->taxo() << "->" << taxo << endl;
 	}
 	// TODO: Logs
 	return true;
@@ -608,8 +627,8 @@ bool CBiosistema::organismeCatabolitza(uint32 parametres)
 		return false; // No he pogut trobar el primer reactiu
 	}
 	
-	B=(A^clauCatabolica)&A;
-	C=(A^~clauCatabolica)&A;
+	B=A&clauCatabolica;
+	C=A&~clauCatabolica;
 	m_organismeActiu->engoleix(C);
 	m_organismeActiu->engoleix(C);
 	uint32 energia=comptaUns(A)- max(comptaUns(B),comptaUns(C));
@@ -800,14 +819,14 @@ bool CBiosistema::organismeSensorIntern(uint32 parametres)
 
 void CBiosistema::ProvaClasse()
 {
-	out << clrscr;
+//	out << clrscr;
 	out << blanc.brillant() << "Provant Biosistema" << blanc.fosc() << endl;
 
 	Config.parsejaArxiu("Bioscena.ini", error);
 	CBiosistema biosistema;
 	biosistema.carregaOpCodes("Opcodes.ini", error);
 	out << "Inicialitzant Biotop..." << endl;
-	biosistema.biotop(new CTopologiaToroidal<CBiosistema::t_substrat>(Config.get("Biotop/CassellesAmplitud"),Config.get("Biotop/CassellesAltitud")));
+	biosistema.biotop(new CTopologiaToroidal<CBiosistema::t_substrat>(Config.get("Biotop/CasellesAmplitud"),Config.get("Biotop/CasellesAltitud")));
 	biosistema.comunitat(new CComunitat);
 	biosistema.agents(CAgent::ParsejaArxiu("Agents.ini", *(biosistema.biotop()), error));
 
@@ -898,14 +917,14 @@ void CBiosistema::ProvaClasse()
 			case Blanc:
 			case Mapa:
 				out << gotoxy(42,1) 
-					<< "Coords: " << setw(3) << pos%Config.get("Biotop/CassellesAmplitud") 
-					<< '@' << setw(3) << pos/Config.get("Biotop/CassellesAmplitud") 
+					<< "Coords: " << setw(3) << pos%Config.get("Biotop/CasellesAmplitud") 
+					<< '@' << setw(3) << pos/Config.get("Biotop/CasellesAmplitud") 
 					;
 				break;
 			case MapaOrganismes:
 				out << gotoxy(1,42) 
-					<< "Coords: " << setw(3) << pos%Config.get("Biotop/CassellesAmplitud") 
-					<< '@' << setw(3) << pos/Config.get("Biotop/CassellesAmplitud") 
+					<< "Coords: " << setw(3) << pos%Config.get("Biotop/CasellesAmplitud") 
+					<< '@' << setw(3) << pos/Config.get("Biotop/CasellesAmplitud") 
 					;
 				break;
 			}
@@ -1051,7 +1070,7 @@ void CBiosistema::ProvaClasse()
 				COrganisme * org = (*biosistema.comunitat())[id].cos();
 				uint32 pos = (*biosistema.comunitat())[id].posicio();
 				out << (*biosistema.comunitat())[id].descripcio() << '\t' 
-					<<  pos%Config.get("Biotop/CassellesAmplitud")<< '@' <<  pos/Config.get("Biotop/CassellesAmplitud") 
+					<<  pos%Config.get("Biotop/CasellesAmplitud")<< '@' <<  pos/Config.get("Biotop/CasellesAmplitud") 
 					<< " Edat:" << (*biosistema.comunitat())[id].cos()->edat()
 					<< " Energia: " << (*biosistema.comunitat())[id].cos()->energia()
 					<< endl;

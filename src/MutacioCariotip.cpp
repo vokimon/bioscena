@@ -6,7 +6,9 @@
 // 19991126 VoK - Fix: No esborraven el material genetic residual
 //                a les Mutacions per Fusio
 // 19991214 VoK - Afegida insercio d'un cromosoma aleatori
+// 20000111 VoK - Afegits prototips de translocacio i trans. reciproca
 //////////////////////////////////////////////////////////////////////
+// TODO: Implementar les mutacions per translocacio i activar-les perque puguin ser usades.
 
 #include <algorithm>
 #include "MutacioCariotip.h"
@@ -60,7 +62,7 @@ void CMutacioPerFusio::muta(CCariotip & car)
 }
 
 void CMutacioPerEscisio::muta(CCariotip & car)
-// Escisio d'un cromosoma del cariotip
+// Escisio d'un cromosoma del cariotip en dos cromosomes
 // (Granularitat Cariotip)
 {
 	if (!car.tamany()) return; // Fugida discreta
@@ -86,6 +88,20 @@ void CMutacioPerEscisio::muta(CCariotip & car)
 	}
 	crm1->parteix(*crm2,idxCentromer);
 	car.afegeix(crm2,idxDesti);
+}
+
+void CMutacioPerTranslocacio::muta(CCariotip & car)
+// Migració d'un fragment cromosomic d'un cromosoma a un altre
+// (Granularitat Cariotip)
+{
+	if (!car.tamany()) return; // Fugida discreta
+}
+
+void CMutacioPerTranslocacioReciproca::muta(CCariotip & car)
+// Intercanvi mutu de dos fragments entre dos cromosomes
+// (Granularitat Cariotip)
+{
+	if (!car.tamany()) return; // Fugida discreta
 }
 
 void CAneuploidiaPositiva::muta(CCariotip & car)
@@ -188,6 +204,16 @@ string CMutacioPerEscisio::tipus()
 	return CMutacioPerEscisio::Tipus();
 }
 
+string CMutacioPerTranslocacio::tipus()
+{
+	return CMutacioPerTranslocacio::Tipus();
+}
+
+string CMutacioPerTranslocacioReciproca::tipus()
+{
+	return CMutacioPerTranslocacioReciproca::Tipus();
+}
+
 string CAneuploidiaPositiva::tipus()
 {
 	return CAneuploidiaPositiva::Tipus();
@@ -231,6 +257,8 @@ CMutacioCariotip * CMutacioCariotip::Nova(uint32 n)
 	case 3: return new CAneuploidiaNegativa;
 	case 4: return new CAneuploidiaAleatoria;
 //	case 5: return new CEuploidiaPositiva;
+//	case 6: return new CMutacioPerTranslocacio;
+//	case 7: return new CMutacioPerTranslocacioReciproca;
 	default: return NULL;
 	}
 }
@@ -243,6 +271,8 @@ CMutacioCariotip * CMutacioCariotip::Nova(string tipus)
 	if (tipus==CAneuploidiaNegativa::Tipus()) return new CAneuploidiaNegativa;
 	if (tipus==CAneuploidiaAleatoria::Tipus()) return new CAneuploidiaAleatoria;
 //	if (tipus==CEuploidiaPositiva::Tipus()) return new CEuploidiaPositiva;
+//	if (tipus==CMutacioPerTranslocacio::Tipus()) return new CMutacioPerTranslocacio;
+//	if (tipus==CMutacioPerTranslocacioReciproca::Tipus()) return new CMutacioPerTranslocacioReciproca;
 	else return NULL;
 }
 
@@ -258,6 +288,16 @@ string CMutacioPerFusio::Tipus()
 string CMutacioPerEscisio::Tipus()
 {
 	return "Mutacio/Cariotip/Escisio";
+}
+
+string CMutacioPerTranslocacio::Tipus()
+{
+	return "Mutacio/Cariotip/Translocacio";
+}
+
+string CMutacioPerTranslocacioReciproca::Tipus()
+{
+	return "Mutacio/Cariotip/TranslocacioReciproca";
 }
 
 string CAneuploidiaPositiva::Tipus()
