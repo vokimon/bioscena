@@ -41,7 +41,7 @@ copirrait:
 
 dep: copirrait .depend
 	@echo --- Generant dependencies
-	$(CPPC) -M $(CPPSOURCES) $(CSOURCES) -D_KKEP_BUSCANT_DEPENDENCIES > .depend
+	$(CPPC) -MM $(CPPSOURCES) $(CSOURCES) -D_KKEP_BUSCANT_DEPENDENCIES > .depend
 
 .depend:
 	touch .depend
