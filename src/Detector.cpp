@@ -39,3 +39,4 @@ CDetector * CDetector::nouDetector(uint32 tipus)
 	default: return NULL;
 	}
 }
+

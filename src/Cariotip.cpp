@@ -16,6 +16,8 @@
 #include "Color.h"
 #include "RandomStream.h"
 
+using namespace AnsiCodes;
+
 //////////////////////////////////////////////////////////////////////
 // Variables estatiques
 //////////////////////////////////////////////////////////////////////
@@ -175,6 +177,10 @@ void CCariotip::ompleCromosomesCopiant(t_cromosomes cromosomes)
 	while (nCromosomes--)
 		if (!m_cromosomes[nCromosomes]) {
 			m_cromosomes[nCromosomes] = new CCromosoma;
+			if (!m_cromosomes[nCromosomes]) {
+				error << "Error omplint el cariotip per copia" << endl;
+				cin.get();
+			}
 			m_cromosomes[nCromosomes]->init(*(cromosomes[nCromosomes]));
 		}
 }
@@ -185,6 +191,10 @@ void CCariotip::ompleCromosomesAleatoriament(uint32 minLong, uint32 maxLong)
 	while (nCromosomes--)
 		if (!m_cromosomes[nCromosomes]) {
 			m_cromosomes[nCromosomes] = new CCromosoma;
+			if (!m_cromosomes[nCromosomes]) {
+				error << "Error omplint el cariotip aleatoriament" << endl;
+				cin.get();
+			}
 			m_cromosomes[nCromosomes]->init(rnd.get(minLong,maxLong));
 		}
 }
@@ -197,6 +207,10 @@ void CCariotip::ompleCromosomesSequencialment(uint32 primer)
 		t_cromosoma & crm = m_cromosomes[nCromosomes];
 		if (!crm) {
 			crm = new CCromosoma;
+			if (!crm) {
+				error << "Error omplint el cariotip per debug" << endl;
+				cin.get();
+			}
 			crm->init(nCromosomes+primer,nCromosomes+primer+3);
 		}
 	}
@@ -208,7 +222,7 @@ void CCariotip::ompleCromosomesSequencialment(uint32 primer)
 
 void CCariotip::ProvaClasse(void)
 {
-	out << "\033[J";// Un clrscr xapuser pero standard (ANSI)
+	out << clrscr;
 	out << blanc.brillant() << "Provant Cariotip" << blanc.fosc() << endl;
 	CCariotip car;
 	car.dump(out);

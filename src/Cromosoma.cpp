@@ -26,6 +26,8 @@
 #include "RandomStream.h"
 #include "Color.h"
 
+using namespace AnsiCodes;
+
 //////////////////////////////////////////////////////////////////////
 // Variables estatiques
 //////////////////////////////////////////////////////////////////////
@@ -243,7 +245,7 @@ void CCromosoma::treuCodons(uint32 primer, uint32 longitud)
 
 void CCromosoma::ProvaClasse(void)
 {
-	out << "\033[J";// Un clrscr xapuser pero standard (ANSI)
+	out << clrscr;
 	out << blanc.brillant() << "Provant Cromosomes" << blanc.fosc() << endl;
 	CCromosoma c;
 	c.dump(out);

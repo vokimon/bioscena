@@ -2,10 +2,19 @@
 //
 //////////////////////////////////////////////////////////////////////
 
+#include <algorithm>
+//#include <functional>
 #include "Comunitat.h"
 #include "Configuracio.h"
 #include "RandomStream.h"
 #include "Color.h"
+
+//////////////////////////////////////////////////////////////////////
+// Variables estatiques
+//////////////////////////////////////////////////////////////////////
+
+static bool tracaAltes=false;
+static bool tracaBaixes=false;
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -40,7 +49,7 @@ void CComunitat::dump(CMissatger & msg)
 				<< " Taxo: " << it->taxo() 
 				<< endl;
 			msg << " Punter " << it->cos() << endl;
-			//it->cos()->dump(msg);
+//			it->cos()->dump(msg);
 //		}
 	}
 	dumpDisponibles(msg);
@@ -48,14 +57,47 @@ void CComunitat::dump(CMissatger & msg)
 
 void CComunitat::dumpDisponibles(CMissatger & msg)
 {
+/*
 	vector<uint32>::iterator it = m_disponibles.begin();
 	for (uint32 index=0; it!=m_disponibles.end(); ++it, ++index)
 		msg << *it << "-";
+*/
 	msg << endl;
 }
+
+void CComunitat::dumpEnergies(CMissatger & msg)
+{
+	using AnsiCodes::gotoxy;
+	using AnsiCodes::clrlin;
+	for (uint32 fil=32; fil<43; ++fil)
+	{
+		msg << gotoxy(fil,1) << blanc.fons(blanc) << clrlin;
+	}
+	for (uint32 col=0; col<79 && col<m_organismes.size(); col++)
+	{
+		msg << CColor(1+(col>>3)&7).brillant();
+		if ((*this)[col].cos()) 
+		{
+			uint32 energia = m_organismes[col].cos()->energia() >> 2;
+			uint32 edat    = m_organismes[col].cos()->edat()    >> 3;
+			msg << gotoxy(42-energia, col+1) << '*';
+			msg << gotoxy(42-edat   , col+1) << '-';
+		}
+		else 
+			msg << gotoxy(42, col+1) << 'X';
+		msg << gotoxy(43, col+1) << (col&7);
+	}
+	msg << blanc.fosc();
+}
+
+
 //////////////////////////////////////////////////////////////////////
 // Operacions
 //////////////////////////////////////////////////////////////////////
+
+CInfoOrganisme & CComunitat::operator[](uint32 index) {
+	return m_organismes[index];
+}
 
 uint32 CComunitat::introdueix(COrganisme* org, uint32 posicio, uint32 taxo)
 	// PRE: org és un punter vàlid
@@ -70,7 +112,8 @@ uint32 CComunitat::introdueix(COrganisme* org, uint32 posicio, uint32 taxo)
 		index = m_organismes.size();
 		m_organismes.push_back(CInfoOrganisme());
 	}
-	out << "Introduint organisme " << index << endl;
+	if (tracaAltes)
+		out << "Introduint organisme " << index << endl;
 	CInfoOrganisme & nouOrganisme = m_organismes[index];
 	nouOrganisme.taxo(taxo);
 	nouOrganisme.posicio(posicio);
@@ -82,7 +125,8 @@ uint32 CComunitat::introdueix(COrganisme* org, uint32 posicio, uint32 taxo)
 void CComunitat::extreu (uint32 index)
 	// Pre: index es un organisme anteriorment introduit
 {
-	out << "Extreient organisme " << index << endl;
+	if (tracaBaixes)
+		out << "Extreient organisme " << index << endl;
 	CInfoOrganisme & vellOrganisme = m_organismes[index];
 	// Eliminem l'organisme, si encara esta
 	vellOrganisme.cos(NULL);
@@ -95,7 +139,7 @@ void CComunitat::extreu (uint32 index)
 
 uint32 CComunitat::organismeAleatori()
 {
-	KKEPAssert (m_organismes.size()>m_disponibles.size(), 
+	KKEPAssert ((m_organismes.size())>(m_disponibles.size()), 
 		"Comunitat: No hi ha organismes per escollir");
 	while (true) {
 		uint32 org=rnd.get(0,m_organismes.size()-1);

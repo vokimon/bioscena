@@ -14,9 +14,9 @@
 #if !defined(AFX_GENERADORMASCARES_H__487D83E2_D4FF_11D2_A87F_2CDF02C10000__INCLUDED_)
 #define AFX_GENERADORMASCARES_H__487D83E2_D4FF_11D2_A87F_2CDF02C10000__INCLUDED_
 
-#if _MSC_VER >= 1000
-#pragma once
-#endif // _MSC_VER >= 1000
+#ifdef  _MSC_VER
+	#pragma warning(disable:4786)
+#endif /* _MSC_VER */
 
 #include <iostream>
 #include <iomanip>

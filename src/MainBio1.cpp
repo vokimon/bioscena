@@ -39,6 +39,7 @@ using namespace std;
 
 int main () 
 {
+try{
 	out << cyan.brillant() << CAppInfo::MyAppInfo << blanc << endl;
 
 // Proves eines d'implementacio
@@ -84,5 +85,15 @@ int main ()
 
 //	cout << ">> Final de proves. Pulsa la tecla de retorn...";
 //	cin.get();
+}
+catch(exception& e)
+{
+	out << "Recogida excepcion: '" << e.what() << "'" << endl;
+}
+catch(...)
+{
+	error << "Ostia patxi, la he cogido" << endl;
+	throw;
+}
 	return 0;
 }

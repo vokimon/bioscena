@@ -31,7 +31,7 @@ CEnergiaDisipable::~CEnergiaDisipable()
 uint32 CEnergiaDisipable::consumeix(uint32 demandaEnergia)
 {
 	uint32 i=m_slotActual;
-	while (m_total) 
+	while (m_total&&demandaEnergia) 
 	{
 		if (!i) i=m_nSlots;
 		i--;
@@ -75,6 +75,7 @@ CEnergiaDisipable::operator uint32()
 {
 	return m_total;
 }
+
 //////////////////////////////////////////////////////////////////////
 // Proves
 //////////////////////////////////////////////////////////////////////

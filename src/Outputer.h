@@ -8,11 +8,13 @@
 #if !defined(KKEP_OUTPUTER_H_INCLUDED_)
 #define KKEP_OUTPUTER_H_INCLUDED_
 
-#if _MSC_VER >= 1000
-#pragma once
-#endif // _MSC_VER >= 1000
+#ifdef  _MSC_VER
+	#pragma warning(disable:4786)
+#endif /* _MSC_VER */
 
 #include <iostream>
+#include <deque>
+#include <string>
 
 // Aquesta definicio es la declaracio del COutputer per defecte.
 // Si vols una diferent defineix-la a fora abans de cridar aquest fitxer
@@ -46,7 +48,7 @@ private:
 	ostream & m_stream;
 	int m_color; // Color d'aquests missatges
 public:
-	CColorOutputer(ostream &str=clog, int color=7)
+	CColorOutputer(ostream &str=cout, int color=7)
 		: m_stream(str), m_color(color) 
 	{}
 	virtual void print(char *msg, char *caption) {
@@ -72,6 +74,24 @@ private:
 		if (m_color!=7)
 			m_stream << "\033[0;37m";
 	}
+};
+
+/////////////////////////////////////////////////////////////////////
+// CMemoryOutputer
+/////////////////////////////////////////////////////////////////////
+class CMemoryOutputer: public CBasicOutputer {
+private:
+	ostream & m_stream;
+	deque<string> m_llista;
+	unsigned int m_longitud; // Longitud maxima de la llista
+public:
+	CMemoryOutputer(ostream &str=clog, unsigned int longitud=7)
+		: m_stream(str)
+	{
+		m_longitud=longitud;
+	}
+	virtual ~CMemoryOutputer(){};
+	virtual void print(char *msg, char *caption);
 };
 
 /////////////////////////////////////////////////////////////////////
@@ -106,7 +126,7 @@ public:
 		// Potser volem enviar un missatge abans de crear el control
 		// o, si s'ens ha colat attachar-ho que no peti
 		if (!m_editControl) {
-			CBoxOutputer(msg,caption);
+			CBoxOutputer::print(msg,caption);
 			return;
 		}
 		// Si si que esta attachat, doncs a la aventura
