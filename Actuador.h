@@ -23,7 +23,7 @@ class CActuador : public CAgent
 public:
 	CActuador();
 	virtual ~CActuador();
-// Virtuals redefinibles a les subclasses
+// Redefinibles
 public:
 	virtual void operator() (void);
 	virtual void operator() (CSubstrat & s)=0;

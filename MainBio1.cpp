@@ -14,13 +14,13 @@
 #include "Substrat.h"
 
 #include "Agent.h"
+#include "FuncioAgent.h"
 #include "Itineraris.h"
 #include "Actuadors.h"
 #include "MultiAgent.h"
 #include "Temporitzador.h"
 #include "Aleaturitzador.h"
 #include "Iterador.h"
-#include "ParserAgents.h"
 
 #include "Taxo.h"
 #include "Taxonomista.h"
@@ -28,7 +28,7 @@
 #include "EnergiaDisipable.h"
 #include "Organisme.h"
 //#include "Comunitat.h"
-//#include "Biosistema.h"
+#include "Biosistema.h"
 //#include "LlistaDinamica.h"
 //#include "Cromosoma.h"
 
@@ -61,7 +61,7 @@ void main ()
 //	CNutridor::ProvaClasse(); //OK
 //	CDesnutridor::ProvaClasse(); //OK
 //	CPosicionadorAleatori::ProvaClasse(); //OK
-	CItinerari::ProvaClasse(); //OK
+//	CItinerari::ProvaClasse(); //OK
 //	CDireccionadorAleatori::ProvaClasse(); //OK
 //	CPosicionadorZonal::ProvaClasse(); //OK
 //	CMultiAgent::ProvaClasse(); //OK
@@ -69,7 +69,7 @@ void main ()
 
 // Proves Comunitat
 //	CEnergiaDisipable::ProvaClasse();
-//	COrganisme::ProvaClasse();
+	COrganisme::ProvaClasse();
 //	CTaxo::ProvaClasse();
 //	CTaxonomista::ProvaClasse();
 //	CCromosoma::ProvaClasse();

@@ -61,6 +61,7 @@ CLEAN :
 	-@erase "$(INTDIR)\Configuracio.obj"
 	-@erase "$(INTDIR)\Detector.obj"
 	-@erase "$(INTDIR)\EnergiaDisipable.obj"
+	-@erase "$(INTDIR)\FuncioAgent.obj"
 	-@erase "$(INTDIR)\GeneradorMascares.obj"
 	-@erase "$(INTDIR)\InfoOrganisme.obj"
 	-@erase "$(INTDIR)\Iterador.obj"
@@ -111,6 +112,7 @@ LINK32_OBJS= \
 	"$(INTDIR)\Configuracio.obj" \
 	"$(INTDIR)\Detector.obj" \
 	"$(INTDIR)\EnergiaDisipable.obj" \
+	"$(INTDIR)\FuncioAgent.obj" \
 	"$(INTDIR)\GeneradorMascares.obj" \
 	"$(INTDIR)\InfoOrganisme.obj" \
 	"$(INTDIR)\Iterador.obj" \
@@ -165,6 +167,7 @@ CLEAN :
 	-@erase "$(INTDIR)\Configuracio.obj"
 	-@erase "$(INTDIR)\Detector.obj"
 	-@erase "$(INTDIR)\EnergiaDisipable.obj"
+	-@erase "$(INTDIR)\FuncioAgent.obj"
 	-@erase "$(INTDIR)\GeneradorMascares.obj"
 	-@erase "$(INTDIR)\InfoOrganisme.obj"
 	-@erase "$(INTDIR)\Iterador.obj"
@@ -219,6 +222,7 @@ LINK32_OBJS= \
 	"$(INTDIR)\Configuracio.obj" \
 	"$(INTDIR)\Detector.obj" \
 	"$(INTDIR)\EnergiaDisipable.obj" \
+	"$(INTDIR)\FuncioAgent.obj" \
 	"$(INTDIR)\GeneradorMascares.obj" \
 	"$(INTDIR)\InfoOrganisme.obj" \
 	"$(INTDIR)\Iterador.obj" \
@@ -436,6 +440,7 @@ DEP_CPP_ALEAT=\
 	".\Aleaturitzador.h"\
 	".\BioIncludes.h"\
 	".\Color.h"\
+	".\FuncioAgent.h"\
 	".\Missatger.h"\
 	".\MultiAgent.h"\
 	".\Outputer.h"\
@@ -455,6 +460,7 @@ DEP_CPP_ALEAT=\
 	".\Aleaturitzador.h"\
 	".\BioIncludes.h"\
 	".\Color.h"\
+	".\FuncioAgent.h"\
 	".\Missatger.h"\
 	".\MultiAgent.h"\
 	".\Outputer.h"\
@@ -753,6 +759,46 @@ DEP_CPP_ENERG=\
 
 !ENDIF 
 
+SOURCE=.\FuncioAgent.cpp
+
+!IF  "$(CFG)" == "Bioscena - Win32 Release"
+
+DEP_CPP_FUNCI=\
+	".\Agent.h"\
+	".\BioIncludes.h"\
+	".\Color.h"\
+	".\FuncioAgent.h"\
+	".\Missatger.h"\
+	".\Outputer.h"\
+	".\Portable.h"\
+	".\RandomStream.h"\
+	".\Substrat.h"\
+	".\Topologia.h"\
+	
+
+"$(INTDIR)\FuncioAgent.obj" : $(SOURCE) $(DEP_CPP_FUNCI) "$(INTDIR)"
+
+
+!ELSEIF  "$(CFG)" == "Bioscena - Win32 Debug"
+
+DEP_CPP_FUNCI=\
+	".\Agent.h"\
+	".\BioIncludes.h"\
+	".\Color.h"\
+	".\FuncioAgent.h"\
+	".\Missatger.h"\
+	".\Outputer.h"\
+	".\Portable.h"\
+	".\RandomStream.h"\
+	".\Substrat.h"\
+	".\Topologia.h"\
+	
+
+"$(INTDIR)\FuncioAgent.obj" : $(SOURCE) $(DEP_CPP_FUNCI) "$(INTDIR)"
+
+
+!ENDIF 
+
 SOURCE=.\GeneradorMascares.cpp
 
 !IF  "$(CFG)" == "Bioscena - Win32 Release"
@@ -825,6 +871,7 @@ DEP_CPP_ITERA=\
 	".\Agent.h"\
 	".\BioIncludes.h"\
 	".\Color.h"\
+	".\FuncioAgent.h"\
 	".\Iterador.h"\
 	".\Missatger.h"\
 	".\MultiAgent.h"\
@@ -844,6 +891,7 @@ DEP_CPP_ITERA=\
 	".\Agent.h"\
 	".\BioIncludes.h"\
 	".\Color.h"\
+	".\FuncioAgent.h"\
 	".\Iterador.h"\
 	".\Missatger.h"\
 	".\MultiAgent.h"\
@@ -870,6 +918,7 @@ DEP_CPP_ITINE=\
 	".\Aleaturitzador.h"\
 	".\BioIncludes.h"\
 	".\Color.h"\
+	".\Iterador.h"\
 	".\Itineraris.h"\
 	".\Missatger.h"\
 	".\MultiAgent.h"\
@@ -895,6 +944,7 @@ DEP_CPP_ITINE=\
 	".\Aleaturitzador.h"\
 	".\BioIncludes.h"\
 	".\Color.h"\
+	".\Iterador.h"\
 	".\Itineraris.h"\
 	".\Missatger.h"\
 	".\MultiAgent.h"\
@@ -957,6 +1007,7 @@ DEP_CPP_MAINB=\
 	".\Color.h"\
 	".\Compatibilitat.h"\
 	".\EnergiaDisipable.h"\
+	".\FuncioAgent.h"\
 	".\GeneradorMascares.h"\
 	".\Iterador.h"\
 	".\Itineraris.h"\
@@ -965,7 +1016,6 @@ DEP_CPP_MAINB=\
 	".\MultiAgent.h"\
 	".\Organisme.h"\
 	".\Outputer.h"\
-	".\ParserAgents.h"\
 	".\Portable.h"\
 	".\Posicionador.h"\
 	".\RandomStream.h"\
@@ -992,6 +1042,7 @@ DEP_CPP_MAINB=\
 	".\Color.h"\
 	".\Compatibilitat.h"\
 	".\EnergiaDisipable.h"\
+	".\FuncioAgent.h"\
 	".\GeneradorMascares.h"\
 	".\Iterador.h"\
 	".\Itineraris.h"\
@@ -1000,7 +1051,6 @@ DEP_CPP_MAINB=\
 	".\MultiAgent.h"\
 	".\Organisme.h"\
 	".\Outputer.h"\
-	".\ParserAgents.h"\
 	".\Portable.h"\
 	".\Posicionador.h"\
 	".\RandomStream.h"\
@@ -1313,6 +1363,7 @@ DEP_CPP_TEMPO=\
 	".\Agent.h"\
 	".\BioIncludes.h"\
 	".\Color.h"\
+	".\FuncioAgent.h"\
 	".\Missatger.h"\
 	".\MultiAgent.h"\
 	".\Outputer.h"\
@@ -1332,6 +1383,7 @@ DEP_CPP_TEMPO=\
 	".\Agent.h"\
 	".\BioIncludes.h"\
 	".\Color.h"\
+	".\FuncioAgent.h"\
 	".\Missatger.h"\
 	".\MultiAgent.h"\
 	".\Outputer.h"\

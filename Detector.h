@@ -2,8 +2,8 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_DETECTOR_H__FE3CEB81_5664_11D3_A880_2CDF02C10000__INCLUDED_)
-#define AFX_DETECTOR_H__FE3CEB81_5664_11D3_A880_2CDF02C10000__INCLUDED_
+#if !defined(__KKEP_DETECTOR_H_INCLUDED)
+#define __KKEP_DETECTOR_H_INCLUDED
 
 #include "Substrat.h"
 
@@ -17,6 +17,9 @@ public:
 public:
 	CDetector();
 	virtual ~CDetector();
+// Metodes estatics
+public:
+	static CDetector * nouDetector(uint32 tipus);
 };
 
 class CDetectorQuimic
@@ -48,4 +51,4 @@ public:
 };
 
 
-#endif // !defined(AFX_DETECTOR_H__FE3CEB81_5664_11D3_A880_2CDF02C10000__INCLUDED_)
+#endif // !defined(__KKEP_DETECTOR_H_INCLUDED)

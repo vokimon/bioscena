@@ -44,7 +44,7 @@ class CTemporitzador : public CMultiAgent
 public:
 	CTemporitzador();
 	virtual ~CTemporitzador();
-// Virtuals redefinibles a les subclasses
+// Redefinibles
 public:
 	virtual void operator() (void);
 	virtual void dump(CMissatger & msg);

@@ -6,6 +6,7 @@
 #include "Actuadors.h"
 #include "Aleaturitzador.h"
 #include "Temporitzador.h"
+#include "Iterador.h"
 #include "TopologiaToroidal.h"
 
 //////////////////////////////////////////////////////////////////////
@@ -41,7 +42,7 @@ CDireccionadorAleatori::CDireccionadorAleatori(tipus_biotop & biotop)
 };
 
 //////////////////////////////////////////////////////////////////////
-// Virtuals redefinibles a les subclasses (Itinerari)
+// Redefinibles (Itinerari)
 //////////////////////////////////////////////////////////////////////
 
 void CItinerari::operator() (void) 
@@ -98,7 +99,7 @@ list<CAgent*> CItinerari::dependencies() {
 }
 
 //////////////////////////////////////////////////////////////////////
-// Virtuals redefinibles a les subclasses (PosicionadorZonal)
+// Redefinibles (PosicionadorZonal)
 //////////////////////////////////////////////////////////////////////
 
 void CPosicionadorZonal::operator() (void) 
@@ -156,16 +157,16 @@ list<CAgent*> CPosicionadorZonal::dependencies() {
 }
 
 //////////////////////////////////////////////////////////////////////
-// Virtuals redefinibles a les subclasses (PosicionadorAleatori)
+// Redefinibles (PosicionadorAleatori)
 //////////////////////////////////////////////////////////////////////
 
 void CPosicionadorAleatori::operator() (void) 
 {
-	m_pos=m_biotop.cassellaAlAtzar();
+	m_pos=m_biotop.posicioAlAtzar();
 }
 
 //////////////////////////////////////////////////////////////////////
-// Virtuals redefinibles a les subclasses (DireccionadorAleatori)
+// Redefinibles (DireccionadorAleatori)
 //////////////////////////////////////////////////////////////////////
 
 void CDireccionadorAleatori::operator() (void) 
@@ -229,12 +230,15 @@ void CItinerari::ProvaClasse()
 {
 	out << "\033[J";
 	out << blanc.brillant() << "Provant Itinerari" << endl;
-	CTopologiaToroidal<CSubstrat> biotop(70,22);
-
+	CTopologiaToroidal<CSubstrat> biotop(70,21);
+/*
 	CDireccionador* direccio = new CDireccionador(biotop);
-	direccio->dir(001077777777L);
+//	direccio->dir(000177777777L);
+//	direccio->dir(037701234567L); // Aixi aniria amb els selectors (377) davant (en octal)
+	direccio->dir(0x37777777777L); // Aixi va amb els selectors
 
 	CPosicionador* posicio = new CItinerari(biotop);
+//	posicio->pos(20);
 	((CItinerari*)posicio)->direccionador(direccio);
 
 	CActuador * nutridor = new CNutridor;
@@ -246,20 +250,77 @@ void CItinerari::ProvaClasse()
 	ruleta->accio(direccio);
 
 	CMultiAgent agents;
+	agents.accio(nutridor);
 	agents.accio(ruleta);
 	agents.accio(posicio);
-	agents.accio(nutridor);
+*/
+	CPosicionador* posicioRef = new CPosicionadorAleatori(biotop);
+	posicioRef->pos(20);
 
-	for (int i=5000; i--;)
+	CDireccionador* direccio = new CDireccionador(biotop);
+	direccio->dir(0x00000000L); // Aixi va amb els selectors
+
+	CPosicionador* posicio = new CItinerari(biotop);
+	posicio->pos(300);
+	((CItinerari*)posicio)->direccionador(direccio);
+
+	CActuador * nutridor = new CNutridor;
+	((CNutridor*)nutridor)->composicio (31, 0);
+	((CNutridor*)nutridor)->posicionador(posicio);
+
+	CActuador * desnutridor = new CDesnutridor;
+	((CNutridor*)desnutridor)->composicio (31, ~0);
+	((CNutridor*)desnutridor)->posicionador(posicio);
+
+	CActuador * nutridorRef = new CNutridor;
+	((CNutridor*)nutridorRef)->composicio (0, 0);
+	((CNutridor*)nutridorRef)->posicionador(posicioRef);
+
+	CActuador * desnutridorRef = new CDesnutridor;
+	((CNutridor*)desnutridorRef)->composicio (0, ~0);
+	((CNutridor*)desnutridorRef)->posicionador(posicioRef);
+
+	CIterador * iterador1 = new CIterador;
+	iterador1->iteracions(4);
+	iterador1->accio(desnutridor);
+
+	CIterador * iterador2 = new CIterador;
+	iterador2->iteracions(4);
+	iterador2->accio(nutridor);
+
+	CAleaturitzador * ruletaRef = new CAleaturitzador;
+	ruletaRef->probabilitat(5, 1);
+	ruletaRef->accio(desnutridorRef);
+	ruletaRef->accio(posicioRef);
+	ruletaRef->accio(nutridorRef);
+
+	CMultiAgent agents;
+	agents.accio(iterador1);
+	agents.accio(posicio);
+	agents.accio(iterador2);
+	agents.accio(ruletaRef);
+	agents.accio(direccio);
+
+	for (int i=50; i--;)
 	{
+		uint32 direccioCerca;
+		bool alcancat = biotop.unio(posicio->pos(),posicioRef->pos(),direccioCerca);
+		direccio->dir(direccioCerca&0xFFFF0000L);
 		agents();
-		if (!(i%5)) {
+//		if (!(i%5)) {
 			biotop.debugPresenta(out);
-			out << blanc.fosc() << setw(4) << i <<endl;
-		}
+			out 
+				<< blanc.fosc() 
+				<< " Posicio: " << setw(4) << posicio->pos() << ". Direccio: " << hex << setw(8) << direccio->dir() << dec << endl
+				<< " Posicio Desti: " << setw(4) << posicioRef->pos() << " " << (alcancat?"Alcancat!!":"Cercant...") << endl
+				<< " Quenden " << setw(4) << i << " iteracios." << endl;
+//			cin.get();
+//		}
 	}
+
 	agents.dumpAll(out);
 	cin.get();
+
 }
 
 void CPosicionadorZonal::ProvaClasse()
@@ -337,8 +398,8 @@ void CPosicionadorAleatori::ProvaClasse()
 	nutridor->composicio (31, 0);
 	CTemporitzador timer1;
 	timer1.accio(nutridor);
-	timer1.cicleActiu(6);
-	timer1.cicleInactiu(1);
+	timer1.cicleActiu(2);
+	timer1.cicleInactiu(0);
 	CTemporitzador timer2;
 	timer2.accio(posicio);
 	timer2.cicleActiu(10);

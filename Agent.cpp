@@ -38,7 +38,7 @@ CAgent::~CAgent()
 };
 
 //////////////////////////////////////////////////////////////////////
-// Virtuals redefinibles a les subclasses
+// Redefinibles
 //////////////////////////////////////////////////////////////////////
 
 void CAgent::dump(CMissatger& msg)
@@ -251,22 +251,5 @@ void CAgent::ProvaClasse()
 		agentArrel->dumpAll(out);
 	}
 	cin.get(); 
-}
-
-//////////////////////////////////////////////////////////////////////
-// Proves CFuncioAgent
-//////////////////////////////////////////////////////////////////////
-
-static void hola(){out << "Hola mon!"<<endl;}
-
-void CFuncioAgent::ProvaClasse ()
-{
-	out << "\033[J";// Un clrscr xapuser pero standard (ANSI)
-	out << blanc.brillant() << "Provant Agent Funcio Usuari" << blanc.fosc() << endl;
-	CFuncioAgent ag(hola);
-	ag();
-	// De fet es una prova molt simpleta :-)
-	ag.dumpAll(out);
-	cin.get();
 }
 
