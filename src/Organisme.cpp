@@ -49,7 +49,7 @@ COrganisme::COrganisme(CCariotip &c) :
 	tracaOrganisme.desactiva();
 	// Inicialitzem el material genetic
 	m_cariotip.init(c);
-	m_mutat = false; //m_cariotip.muta(); 
+	m_mutat = m_cariotip.muta(); 
 	m_genotip.init(m_cariotip);
 	// Inicialitzem el fenotip
 	m_fenotip = new uint32[Config.get("Organisme/Fenotip/Longitud")];

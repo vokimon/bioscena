@@ -58,6 +58,9 @@ CConfiguracio::CConfiguracio()
 	set("Biosistema/Energia/Engolir",6);
 	set("Biosistema/Energia/Excretar",3);
 	set("Biosistema/Energia/Moviment",0);
+	set("Biosistema/OpCodes/BitsOperacio",5);
+	set("Sensors/Localitzacio/Intents",10);
+	set("Sensors/Identificacio/Intents",10);
 }
 
 CConfiguracio::~CConfiguracio()
@@ -73,7 +76,7 @@ void CConfiguracio::parsejaArxiu(char * nomArxiu, CMissatger & errors)
 	t_valor valor;
 	string prefetch;
 
-	out << "Carregant configuracio general [" << nomArxiu << "]" << endl;
+	out << "Carregant la configuracio dels parametres generals [" << nomArxiu << "]" << endl;
 
 	if (!entrada) {
 		errors << "No s'ha pogut obrir \"" << nomArxiu << "\"" << endl;
@@ -84,7 +87,7 @@ void CConfiguracio::parsejaArxiu(char * nomArxiu, CMissatger & errors)
 	while (entrada && prefetch=="*") {	
 		entrada >> parametre >> valor >> prefetch;
 		// TODO: Esborrar aquesta traca (o no)
-		out << '\t' << parametre << ":\t" << valor << endl;
+//		out << '\t' << parametre << ":\t" << valor << endl;
 		if (!exist(parametre)) {
 			errors 
 				<< "'" << parametre << "' no es un parametre configurable. " 
@@ -97,8 +100,7 @@ void CConfiguracio::parsejaArxiu(char * nomArxiu, CMissatger & errors)
 		errors << "No s'esperava '" << prefetch << "'"<< endl;
 	}
 
-	out << "Final configuracio general [" << nomArxiu << "]" << endl;
-	// TODO: Comprovacions de que es tracta d'una estructura arborea correcta
+	out << "Configuracio dels parametres generals [" << nomArxiu << "] carregada" << endl;
 
 }
 
