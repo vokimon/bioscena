@@ -1,114 +1,168 @@
-Agent
-	- Nom
+MultiAgent (Agent/Multiple)
+	- Accio: Determina un agent subordinat. Es repeteix tantes vegades com subordinats tingui.
+		- agent: Agent que es subordina
+	Exemple de configuracio texte
+		+ AgentMultiple: 
+		- Accio Posicionador1
+		- Accio Posicionador2
+		- Accio Direccionador1
 
-MultiAgent
-	- string: Nom
-	- list<CAgent*>: Llista ordenada d'agents subordinats
-	- Exemple de configuracio texte
-
-		Agents2: 
-			Tipus(Agent/Multiple) 
-			Agent(Posicionador1)
-			Agent(Posicionador2)
-			Agent(Direccionador1);
-
-Temporitzador
-	- string: Nom
-	- Cicle Actiu: Determina quan triguen els periodes de temps actius
+Temporitzador (Agent/Multiple/Temporitzador)
+	- Accio: Determina un agent subordinat. Es repeteix tantes vegades com subordinats tingui.
+		- agent: Agent que es subordina
+	- CicleActiu: Determina quan triguen els periodes de temps actius
 		- uint32: Periode minim
 		- uint32: Numero de daus
 		- uint32: Magnitud dels daus (Van de zero a la magnitud)
-	- Cicle Inactiu: Determina quan triguen els periodes de temps inactius
+	- CicleInactiu: Determina quan triguen els periodes de temps inactius
 		- uint32: Periode minim
 		- uint32: Numero de daus
 		- uint32: Magnitud dels daus (Van de zero a la magnitud)
-	- Agents subordinats
-		- list<CAgent*>: Llista ordenada de subordinats que s'executen en el cicle actiu
-		- CAgent*: Agent de antiaccio (S'execute en cicle inactiu)
-	- Cicle actual (Valors del temporitzador quan es reemprengui la marxa)
+	- AntiAccio: Agent subordinat especial que s'acciona en el cicle inactiu (Nomes un per temporitzador i es opcional)
+		- agent: Agent que es subordina
+	- CicleActual: Valors del temporitzador quan es reemprengui la marxa
 		- bool: Cicle actiu o inactiu
 		- uint32: Periode restant del cicle actual
-	- Exemple de configuracio texte
+	Exemple de configuracio texte
+		+ Temporitzador1
+		- Accio Posicionador3
+		- CicleActiu 34 2 5 
+		- CicleInactiu 2 4 4
+		- CicleActual 3 Inactiu
 
-		Temporitzador1
-			Tipus(Agent/Multiple/Temporitzador)
-			Agent(Posicionador3);
-			CicleActiu(34,2,5) 
-			CicleInactiu()
-			CicleActual(3, true)
-Iterador
-	- string: Nom
+Iterador (Agent/Multiple/Iterador)
+	- Accio: Determina un agent subordinat. Es repeteix tantes vegades com subordinats tingui.
+		- agent: Agent que es subordina
 	- Iteracions: Determina quantes vegades es repiteixen els subordinats
 		- uint32: Iteracions minimes
 		- uint32: Numero de daus
 		- uint32: Magnitud dels daus (Van de zero a la magnitud)
-	- Agents subordinats
-		- list<CAgent*>: Llista ordenada d'agents subordinats
-		- CAgent*: Agent de preaccio (S'executa un sol cop abans de tot)
-		- CAgent*: Agent de postaccio (S'executa un sol cop despres de tot)
-	- Exemple de configuracio texte
+	- PreAccio: Agent subordinat especial que s'executa un sol cop abans de tot (Nomes un per iterador i es opcional)
+		- agent: Agent que es subordina
+	- PostAccio: Agent subordinat especial que s'executa un sol cop despres de tot (Nomes un per iterador i es opcional)
+		- agent: Agent que es subordina
+	Exemple de configuracio
+		+ Iterador3
+		- Accio Posicionador4
+		- Accio Actuador2
+		- Iteracions 20 3 6
 
-		Iterador3
-			Tipus(Agent/Multiple/Iterador)
-			Agent(Posicionador3);
-			Probabilitat(20,100) 
-
-Aleaturitzador
-	- string: Nom
-	- Probabilitat d'activacio
+Aleaturitzador (Agent/Multiple/Aleaturitzador)
+	- Accio: Determina un agent subordinat. Es repeteix tantes vegades com subordinats tingui.
+		- agent: Agent que es subordina
+	- Probabilitat: La que hi ha d'accionar els subordinats
+		- uint32: Numero d'encerts que segons la probabilitat tenderien a donar-se en la mostra
 		- uint32: Numero de intents o mostra
-		- uint32: Numero d'encerts que segons la probabilitat tenderien a donar-se
-	- Agents subordinats
-		- CAgent*: Agent d'accio (S'execute si es dona la probabilitat)
-		- CAgent*: Agent de reaccio (S'execute si no es dona la probabilitat)
-	- Exemple de configuracio texte
+	- ReAccio: Agent subordinat especial que s'acciona si no es dona la probabilitat (Nomes un per temporitzador i es opcional)
+		- agent: Agent que es subordina
+	Exemple de configuracio
+		+ Aleaturitzador1
+		- Accio Posicionador3
+		- Probabilitat 20 100
 
-		Aleaturitzador1
-			Tipus(Agent/Multiple/Aleaturitzador)
-			Agent(Posicionador3);
-			Probabilitat(20,100) 
+Posicionador Fixe (Agent/Posicionador)
+	- Posicio: Posicio inicial
+		- uint32: valor de la posicio (Ha d'existir a la topologia)
+	Exemple de configuracio
+		+ Posicionador1
+		- Posicio 12
 
-Posicionador
-	- string: Nom
-	- Posicio
-		* Ha d'existir a la topologia
+Posicionador Aleatori (Agent/Posicionador/Aleatori)
+	- Posicio: Posicio inicial
+		- uint32: valor de la posicio (Ha d'existir a la topologia)
+	Exemple de configuracio
+		+ Posicionador2
+		- Posicio 23
 
-PosicionadorAleatori
-	- string: Nom
-	- Posicio
-		* Ha d'existir a la topologia
+PosicionadorSequencial (Agent/Posicionador/Aleatori)
+	- Posicio: Posicio inicial
+		- uint32: valor de la posicio (Ha d'existir a la topologia)
+	- Sequencia: Determina una posicio de la sequencia. Es repeteix tantes vegades com calgui.
+		- uint32: valor de la posicio (Ha d'existir a la topologia)
+	- SequenciaActual:
+		- uint32: El numero de sequencia de la seguent posicio (Si es passa es pren l'ultim)
+	Exemple de configuracio
+		+ Posicionador3
+		- Posicio 23
+		- Sequencia 27
+		- Sequencia 50
+		- Sequencia 402
+		- SequenciaActual 2
 
-PosicionadorSequencial
-	- string: Nom
-	- uint32: Posicio actual
-		* Ha d'existir a la topologia
-	- list<uint32>: Llista de posicions
-		* Han d'existir a la topologia
+PosicionadorZonal (Agent/Posicionador/Zonal)
+	- Posicio: Posicio inicial
+		- uint32: valor de la posicio (Ha d'existir a la topologia)
+	- Posicionador: Dona la posicio central de la zona
+		- agent: Agent posicionador (dependencia)
+	- Radi: Nombre de desplacaments que pot fer la posicio entorn al centre
+		- uint32: valor del radi
+	Exemple de configuracio
+		+ Posicionador4
+		- Posicio 23
+		- Posicionador Posicionador1
+		- Radi 3
 
-PosicionadorZonal
-	- string: Nom
-	- uint32: Posicio actual
-		* Han d'existir a la topologia
-	- CPosicionador*: Agent Posicionador central (dependencia)
-	- uint32: Radi (Desplacaments entorn al centre que pot fer la posicio)
-	
-Itenerari
-	- string: Nom
-	- uint32: Posicio actual
-		* Ha d'existir a la topologia
-	- CDireccionador*: Agent Direccionador (dependencia)
-	- uint32: Radi (Desplacaments entorn al centre que pot fer la posicio)
+Itinerari (Agent/Posicionador/Direccional)
+	- Posicio: Posicio inicial
+		- uint32: valor de la posicio (Ha d'existir a la topologia)
+	- Direccionador: Dona la direccio del desplacament
+		- agent: Agent direccionador (dependencia)
+	- Radi: Nombre de desplacaments que pot fer la posicio respecte a la posicio anterior
+		- uint32: valor del radi
+	Exemple de configuracio
+		+ Posicionador5
+		- Posicio 23
+		- Direccionador Direccionador3
+		- Radi 1
 
-Direccionador
-	- string: Nom
-	- uint32: Direccio
+Direccionador (Agent/Direccionador)
+	- Direccio: Direccio inicial
+		- uint32: valor de la direccio
+	Exemple de configuracio
+		+ Direccionador1
+		- Direccio 876342
 
-DireccionadorAleatori
-	- string: Nom
-	- uint32: Direccio
+DireccionadorAleatori (Agent/Direccionador/Aleatori)
+	- Direccio: Direccio inicial
+		- uint32: valor de la direccio
+	Exemple de configuracio
+		+ Direccionador2
+		- Direccio 23442684
 
-DireccionadorSequencial
-	- string: Nom
-	- uint32: Direccio actual
-	- list<uint32>: Llista de direccions
+DireccionadorSequencial (Agent/Direccionador/Sequencial)
+	- Direccio: Direccio inicial
+		- uint32: valor de la direccio
+	- Sequencia: Determina una direccio de la sequencia. Es repeteix tantes vegades com calgui.
+		- uint32: valor de la direccio
+	- SequenciaActual:
+		- uint32: El numero de sequencia de la seguent direccio (Si es passa es pren l'ultim)
+	Exemple de configuracio
+		+ Direccionador3
+		- Direccio 23
+		- Sequencia 27
+		- Sequencia 50
+		- Sequencia 402
+		- SequenciaActual 2
+
+Nutridor (Agent/Actuador/Nutridor)
+	- Posicionador: Dona la posicio on s'actua
+		- agent: Agent posicionador (dependencia)
+	- Composicio: Determina els elements que es depositen
+		- uint32: element basic
+		- uint32: variabilitat, a 1 els bits que poden variar
+	Exemple de configuracio
+		+ Actuador1
+		- Posicionador Posicionador4
+		- Composicio 13152450903 0
+
+Desnutridor (Agent/Actuador/Nutridor/Invers)
+	- Posicionador: Dona la posicio on s'actua
+		- agent: Agent posicionador (dependencia)
+	- Composicio: Determina els elements que s'eliminen
+		- uint32: element basic
+		- uint32: tolerancia, a 1 els bits que no importa que coincideixin
+	Exemple de configuracio
+		+ Actuador2
+		- Posicionador Posicionador3
+		- Composicio 8943742645 768764258
 

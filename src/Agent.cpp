@@ -3,8 +3,16 @@
 //////////////////////////////////////////////////////////////////////
 
 #include <algorithm>
+#include <fstream>
 #include "Agent.h"
+#include "Itineraris.h"
+#include "Actuadors.h"
+#include "MultiAgent.h"
+#include "Temporitzador.h"
+#include "Aleaturitzador.h"
+#include "Iterador.h"
 #include "Color.h"
+#include "TopologiaToroidal.h"
 
 //////////////////////////////////////////////////////////////////////
 // Construccio/Desctruccio
@@ -30,27 +38,22 @@ CAgent::~CAgent()
 };
 
 //////////////////////////////////////////////////////////////////////
-// Definicio de membres estatics
+// Virtuals redefinibles a les subclasses
 //////////////////////////////////////////////////////////////////////
 
-uint32 CAgent::s_ultimNumeroAgent=0;
-map<string, CAgent*> CAgent::s_DiccionariAgents;
-
-void CAgent::dumpDiccionari(CMissatger& msg) 
+void CAgent::dump(CMissatger& msg)
 {
-//	msg << groc.brillant() << "Diccionari d'agents" << blanc.fosc() << endl;
-	map<string, CAgent*>::iterator it;
-	for (it=s_DiccionariAgents.begin(); it!=s_DiccionariAgents.end(); it++)
-		msg << "* " << it->second->nom() << " " << it->second->tipus() << endl;
+	msg << endl
+		<< "+ " << nom() << endl
+//		<< "- Tipus: " << tipus() << endl
+		;
 }
 
-CAgent* CAgent::cercaDiccionari(string s) 
+bool CAgent::configura(string parametre, istream & nom, t_diccionariAgents & diccionari, CMissatger & errors)
 {
-	map<string, CAgent*>::iterator it;
-	it=s_DiccionariAgents.find(s); 
-	if (it==s_DiccionariAgents.end())
-		return NULL;
-	return it->second;
+	// CAgent no te cap parametre configurar
+	// El retorn diu si l'agent ha interceptat el parametre
+	return false;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -107,13 +110,147 @@ void CAgent::dumpTipus(CMissatger& msg)
 		(*it)->dumpTipus(msg);
 }
 
+//////////////////////////////////////////////////////////////////////
+// Definicio de dades estatiques
+//////////////////////////////////////////////////////////////////////
 
-void CAgent::dump(CMissatger& msg)
+uint32 CAgent::s_ultimNumeroAgent=0;
+map<string, CAgent*> CAgent::s_DiccionariAgents;
+
+//////////////////////////////////////////////////////////////////////
+// Definicio de funcions estatiques
+//////////////////////////////////////////////////////////////////////
+
+void CAgent::DumpDiccionari(CMissatger& msg) 
 {
-	msg << endl
-		<< "+ " << nom() << endl
-//		<< "- Tipus: " << tipus() << endl
-		;
+//	msg << groc.brillant() << "Diccionari d'agents" << blanc.fosc() << endl;
+	map<string, CAgent*>::iterator it;
+	for (it=s_DiccionariAgents.begin(); it!=s_DiccionariAgents.end(); it++)
+		msg << "* " << it->second->nom() << " " << it->second->tipus() << endl;
+}
+
+CAgent* CAgent::CercaDiccionari(string s) 
+{
+	t_diccionariAgents::iterator it;
+	it=s_DiccionariAgents.find(s); 
+	if (it==s_DiccionariAgents.end())
+		return NULL;
+	return it->second;
+}
+
+CAgent * CAgent::ParsejaArxiu(char * nomArxiu, CTopologia<CSubstrat> & biotop, CMissatger & errors)
+{
+	// Com que els noms del fitxer poden estar agafats, fem servir
+	// el nostre propi diccionari per manegar els noms de l'arxiu
+	t_diccionariAgents diccionari;
+	// Obrim l'arxiu
+	ifstream entrada(nomArxiu);
+	string nom, tipus, parametre, valor;
+	string prefetch;
+	CAgent * agentArrel = NULL;
+
+	entrada >> prefetch;
+	while (prefetch=="*") {	
+		entrada >> nom >> tipus >> prefetch;
+		out << nom << " " << tipus << endl;
+		CAgent * ag = CreaAgent(tipus, biotop);
+		if (!agentArrel) agentArrel= ag;
+		if (!ag) {
+			errors 
+				<< "No esta soportat importar agents de tipus '" << tipus 
+				<< "' com l'especificat per a l'agent '" << nom 
+				<< "' o no hi ha memoria suficient." << endl;
+			continue;
+		}
+		if (diccionari.find(nom)!=diccionari.end()) {
+			errors 
+				<< "El nom de l'agent '" << nom << "' esta duplicat a l'arxiu. " 
+				<< "Renombrant-ho com a '" << ag->nom() << "'." 
+				<< "Les possibles referencies es perdran." << endl;
+			continue;
+		}
+		diccionari[nom]=ag;
+		if (!ag->nom(nom)) {
+			errors 
+				<< "El nom de l'agent '" << nom << "' ja existeix al sistema. " 
+				<< "Renombrant-ho com a '" << ag->nom() << "'." << endl;
+			continue;
+		}
+	}
+	while (entrada && prefetch=="+") {
+		entrada >> nom;
+		entrada >> prefetch;
+		t_diccionariAgents::iterator it = diccionari.find(nom);
+		if (it==diccionari.end()) {
+			errors 
+				<< "Configurant l'agent '" << nom 
+				<< "' sense haver especificat el seu tipus abans. " << endl;
+			do entrada >> prefetch;
+			while (entrada && prefetch!="+");
+			continue;
+		}
+		while (entrada && prefetch=="-") {
+			string parametre, valor;
+			entrada >> parametre;
+			getline(entrada, valor);
+			entrada >> prefetch;
+			strstream stream;
+			stream << valor;
+			if (!((*it).second->configura(parametre, stream, diccionari, errors))) {
+				errors 
+					<< "L'agent '" << nom 
+					<< "' del tipus '" << (*it).second->tipus() 
+					<< "' no respon al parametre de configuracio '" << parametre 
+					<< "'"<< endl;
+			}
+		}
+	}
+	if (entrada) {
+		errors << "No s'esperava '" << prefetch << "'"<< endl;
+	}
+
+	// TODO: Comprovacions de que es tracta d'una estructura arborea correcta
+
+	return agentArrel;
+}
+
+CAgent * CAgent::CreaAgent(string tipus, CTopologia<CSubstrat> &biotop)
+{
+	if (tipus=="Agent/Multiple") return new CMultiAgent;
+	if (tipus=="Agent/Multiple/Temporitzador") return new CTemporitzador;
+	if (tipus=="Agent/Multiple/Iterador") return new CIterador;
+	if (tipus=="Agent/Multiple/Aleaturitzador") return new CAleaturitzador;
+	if (tipus=="Agent/Posicionador") return new CPosicionador(biotop);
+	if (tipus=="Agent/Posicionador/Aleatori") return new CPosicionadorAleatori(biotop);
+	if (tipus=="Agent/Posicionador/Zonal") return new CPosicionadorZonal(biotop);
+	if (tipus=="Agent/Posicionador/Direccional") return new CItinerari(biotop);
+	if (tipus=="Agent/Direccionador") return new CDireccionador(biotop);
+	if (tipus=="Agent/Direccionador/Aleatori") return new CDireccionadorAleatori(biotop);
+	if (tipus=="Agent/Actuador/Nutridor") return new CNutridor;
+	if (tipus=="Agent/Actuador/Nutridor/Invers") return new CDesnutridor;
+
+	return NULL;
+}
+
+//////////////////////////////////////////////////////////////////////
+// Proves CAgent
+//////////////////////////////////////////////////////////////////////
+
+void CAgent::ProvaClasse()
+{
+	out << "\033[J";// Un clrscr xapuser pero standard (ANSI)
+	out << blanc.brillant() << "Provant Agent Parsing" << blanc.fosc() << endl;
+	CTopologiaToroidal<CSubstrat> biotop(70,21);
+	CAgent * agentArrel = ParsejaArxiu("AgentsLog.txt", biotop, error);
+	cin.get(); 
+	if (agentArrel) {
+		ofstream file("AgentsLog2.txt");
+		CColorOutputer miout(file);
+		CMissatger msg(NULL, NULL, miout);
+		agentArrel->dumpAll(msg);
+		agentArrel->dumpAll(out);
+	}
+	cin.get(); 
 }
 
 //////////////////////////////////////////////////////////////////////

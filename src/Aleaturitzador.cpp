@@ -43,10 +43,41 @@ void CAleaturitzador::operator()(void)
 void CAleaturitzador::dump(CMissatger & msg)
 {
 	CMultiAgent::dump(msg);
-	msg << "- Probabilitat: " 
-		<< m_probabilitat.m_encerts << " de "
+	msg << "- Probabilitat " 
+		<< m_probabilitat.m_encerts << " "
 		<< m_probabilitat.m_mostra << endl;
-	if (m_reAccio) msg << "- ReAccio: " << m_reAccio->nom() << endl; 
+	if (m_reAccio) msg << "- ReAccio " << m_reAccio->nom() << endl; 
+}
+
+bool CAleaturitzador::configura(string parametre, istream & valor, t_diccionariAgents & diccionari, CMissatger & errors)
+{
+	if (parametre=="Probabilitat") {
+		uint32 mostra, encerts;
+		if (!(valor>>encerts))
+			errors << "Format invalid per la probabilitat de '" << nom() << "'" << endl;
+		else if (!(valor>>mostra))
+			errors << "Falta la quantitat de mostra per a la probabilitat de '" << nom() << "'" << endl;
+		else 
+			probabilitat(mostra, encerts);
+		return true;
+	}
+	if (parametre=="ReAccio") {
+		string nomSubordinat;
+		t_diccionariAgents::iterator it;
+		if (!(valor>>nomSubordinat))
+			errors << "Format invalid per a l'especificacio de subordinat de '" << nom() << "'" << endl;
+		else if (m_reAccio)
+			errors << "L'agent '" << nom() << "' ja tenia una reAccio" << endl;
+		else if ((it=diccionari.find(nomSubordinat))==diccionari.end())
+			errors << "L'agent subordinat '" << nomSubordinat << "' de l'agent '" << nom() << "' no esta definit al fitxer." << endl;
+		else if ((*it).second->subordinant())
+			errors << "L'agent subordinat '" << nomSubordinat << "' de l'agent '" << nom() << "' ja esta subordinat a l'agent '" << it->second->subordinant()->nom() << "'." << endl;
+		else 
+			reAccio(it->second);
+		return true; // Parametre interceptat
+	}
+	// Li deixem a la superclasse que l'intercepti si vol
+	return CMultiAgent::configura(parametre, valor, diccionari, errors);
 }
 
 list<CAgent*> CAleaturitzador::subordinats() {

@@ -56,9 +56,39 @@ void CItinerari::operator() (void)
 void CItinerari::dump(CMissatger & msg)
 {
 	CPosicionador::dump(msg);
-	msg << "- Radi: " << m_radi << endl;
+	msg << "- Radi " << m_radi << endl;
 	if (m_direccionador) 
-		msg << "- Direccionador: " << m_direccionador->nom() << endl; 
+		msg << "- Direccionador " << m_direccionador->nom() << endl; 
+}
+
+bool CItinerari::configura(string parametre, istream & valor, t_diccionariAgents & diccionari, CMissatger & errors)
+{
+	if (parametre=="Radi") {
+		uint32 rad;
+		if (!(valor>>rad))
+			errors << "Format invalid pel radi de '" << nom() << "'" << endl;
+		else 
+			radi(rad);
+		return true;
+	}
+	if (parametre=="Direccionador") {
+		string tipusBasic("Agent/Direccionador");
+		string nomDependencia;
+		t_diccionariAgents::iterator it;
+		if (!(valor>>nomDependencia))
+			errors << "Format invalid per a l'especificacio del posicionador de '" << nom() << "'" << endl;
+		else if ((it=diccionari.find(nomDependencia))==diccionari.end())
+			errors << "El direccionador '" << nomDependencia << "' de l'agent '" << nom() << "' no esta definit al fitxer." << endl;
+		else if (it->second->tipus().find(tipusBasic)==string::npos)
+			errors << "L'agent '" << nomDependencia << "' no es un subtipus de '" << tipusBasic << "' com necessita l'agent '" << nom() << "'." << endl;
+		else if (false) // TODO: Ha de ser del tipus 
+			errors << "L'agent '" << nomDependencia << "' no es un direccionador com necessita l'agent '" << nom() << "'." << endl;
+		else 
+			direccionador((CDireccionador*)it->second);
+		return true; // Parametre interceptat
+	}
+	// Li deixem a la superclasse que l'intercepti si vol
+	return CPosicionador::configura(parametre, valor, diccionari, errors);
 }
 
 list<CAgent*> CItinerari::dependencies() {
@@ -86,9 +116,37 @@ void CPosicionadorZonal::operator() (void)
 void CPosicionadorZonal::dump(CMissatger & msg)
 {
 	CPosicionador::dump(msg);
-	msg << "- Radi: " << m_radi << endl;
+	msg << "- Radi " << m_radi << endl;
 	if (m_posicionador) 
-		msg << "- Posicionador: " << m_posicionador->nom() << endl; 
+		msg << "- Posicionador " << m_posicionador->nom() << endl; 
+}
+
+bool CPosicionadorZonal::configura(string parametre, istream & valor, t_diccionariAgents & diccionari, CMissatger & errors)
+{
+	if (parametre=="Radi") {
+		uint32 rad;
+		if (!(valor>>rad))
+			errors << "Format invalid pel radi de '" << nom() << "'" << endl;
+		else 
+			radi(rad);
+		return true;
+	}
+	if (parametre=="Posicionador") {
+		string tipusBasic("Agent/Posicionador");
+		string nomDependencia;
+		t_diccionariAgents::iterator it;
+		if (!(valor>>nomDependencia))
+			errors << "Format invalid per a l'especificacio del posicionador de '" << nom() << "'" << endl;
+		else if ((it=diccionari.find(nomDependencia))==diccionari.end())
+			errors << "El posicionador '" << nomDependencia << "' de l'agent '" << nom() << "' no esta definit al fitxer." << endl;
+		else if (it->second->tipus().find(tipusBasic)==string::npos)
+			errors << "L'agent '" << nomDependencia << "' no es un subtipus de '" << tipusBasic << "' com necessita l'agent '" << nom() << "'." << endl;
+		else 
+			posicionador((CPosicionador*)it->second);
+		return true; // Parametre interceptat
+	}
+	// Li deixem a la superclasse que l'intercepti si vol
+	return CPosicionador::configura(parametre, valor, diccionari, errors);
 }
 
 list<CAgent*> CPosicionadorZonal::dependencies() {
@@ -166,6 +224,43 @@ void CPosicionadorZonal::radi(uint32 rad)
 //////////////////////////////////////////////////////////////////////
 // Proves
 //////////////////////////////////////////////////////////////////////
+
+void CItinerari::ProvaClasse()
+{
+	out << "\033[J";
+	out << blanc.brillant() << "Provant Itinerari" << endl;
+	CTopologiaToroidal<CSubstrat> biotop(70,22);
+
+	CDireccionador* direccio = new CDireccionador(biotop);
+	direccio->dir(001077777777L);
+
+	CPosicionador* posicio = new CItinerari(biotop);
+	((CItinerari*)posicio)->direccionador(direccio);
+
+	CActuador * nutridor = new CNutridor;
+	((CNutridor*)nutridor)->composicio (31, 0);
+	((CNutridor*)nutridor)->posicionador(posicio);
+
+	CAleaturitzador * ruleta = new CAleaturitzador;
+	ruleta->probabilitat(20, 1);
+	ruleta->accio(direccio);
+
+	CMultiAgent agents;
+	agents.accio(ruleta);
+	agents.accio(posicio);
+	agents.accio(nutridor);
+
+	for (int i=5000; i--;)
+	{
+		agents();
+		if (!(i%5)) {
+			biotop.debugPresenta(out);
+			out << blanc.fosc() << setw(4) << i <<endl;
+		}
+	}
+	agents.dumpAll(out);
+	cin.get();
+}
 
 void CPosicionadorZonal::ProvaClasse()
 {

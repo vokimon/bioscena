@@ -44,8 +44,27 @@ void CMultiAgent::dump(CMissatger & msg)
 	CAgent::dump(msg);
 	for (list<CAgent*>::iterator it=m_agents.begin(); it!=m_agents.end(); it++)
 	{
-		msg	<< "- Accio: " << (*it)->nom() << endl;
+		msg	<< "- Accio " << (*it)->nom() << endl;
 	}
+}
+
+bool CMultiAgent::configura(string parametre, istream & valor, t_diccionariAgents & diccionari, CMissatger & errors)
+{
+	if (parametre=="Accio") {
+		string nomSubordinat;
+		t_diccionariAgents::iterator it;
+		if (!(valor>>nomSubordinat))
+			errors << "Format invalid per a l'especificacio de subordinat de '" << nom() << "'" << endl;
+		else if ((it=diccionari.find(nomSubordinat))==diccionari.end())
+			errors << "L'agent subordinat '" << nomSubordinat << "' de l'agent '" << nom() << "' no esta definit al fitxer." << endl;
+		else if ((*it).second->subordinant())
+			errors << "L'agent subordinat '" << nomSubordinat << "' de l'agent '" << nom() << "' ja esta subordinat a l'agent '" << it->second->subordinant()->nom() << "'." << endl;
+		else 
+			accio(it->second);
+		return true; // Parametre interceptat
+	}
+	// Li deixem a la superclasse que l'intercepti si vol
+	return CAgent::configura(parametre, valor, diccionari, errors);
 }
 
 list<CAgent*> CMultiAgent::subordinats() {

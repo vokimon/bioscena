@@ -12,6 +12,12 @@
 // de anar modificant la posició (per defecte es mante igual)
 // 
 //////////////////////////////////////////////////////////////////////
+// Change Log:
+// 19990822 VoK - Funcions de dump
+// 19990823 VoK - Reordenat els fitxers
+// 19990824 VoK - dump ja no posa ':' despres de nom del parametre
+// 19990824 VoK - Funcions de configuracio amb parametres
+//////////////////////////////////////////////////////////////////////
 
 #if !defined(__KKEP_POSICIONADOR_H_INCLUDED)
 #define __KKEP_POSICIONADOR_H_INCLUDED
@@ -39,6 +45,7 @@ public:
 public:
 	virtual void operator() (void) {};
 	virtual void dump(CMissatger& msg);
+	virtual bool configura(string parametre, istream & nom, t_diccionariAgents & diccionari, CMissatger & errors);
 // Operacions
 public:
 	tipus_posicio pos() {return m_pos;};;
@@ -66,19 +73,23 @@ class CDireccionador : public CAgent
 public:
 	CDireccionador(tipus_biotop& biotop);
 	virtual ~CDireccionador() {};
+// Virtuals redefinibles a les subclasses
+public:
+	virtual void operator() (void) {};
+	virtual void dump (CMissatger & msg);
+	virtual bool configura(string parametre, istream & nom, t_diccionariAgents & diccionari, CMissatger & errors);
 // Operacions
 public:
 	tipus_direccio dir() {return m_dir;};
 	void dir(tipus_direccio nova) {m_dir=nova;};
 	CDireccionador & operator = (tipus_direccio nova) {m_dir=nova; return *this;};
-// Virtuals redefinibles a les subclasses
-public:
-	virtual void operator() (void) {};
-	virtual void dump (CMissatger & msg);
 // Atributs
 protected:
 	tipus_posicio m_dir;
 	tipus_biotop & m_biotop;
+// Proves
+public:
+	static void ProvaClasse();
 };
 
 
