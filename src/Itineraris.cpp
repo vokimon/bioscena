@@ -162,7 +162,7 @@ list<CAgent*> CPosicionadorZonal::dependencies() {
 
 void CPosicionadorAleatori::operator() (void) 
 {
-	m_pos=m_biotop.posicioAlAtzar();
+	m_pos=m_biotop.posicioAleatoria();
 }
 
 //////////////////////////////////////////////////////////////////////

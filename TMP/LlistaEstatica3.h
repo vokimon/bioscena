@@ -111,19 +111,6 @@ public:
 	typedef _kkep_index_iterator<t_self> iterator;
 
 public:
-	class t_node
-	{
-	public:
-		t_node(void) {
-//			enUs=false;
-		}
-		t_index seguent;
-		t_index anterior;
-//		t_index elMeuIndex;
-//		bool enUs;
-	};
-
-public:
 	friend iterator;
 	typedef reverse_bidirectional_iterator
 		<iterator, value_type, reference, /*_Tptr,*/ difference_type> 
@@ -135,10 +122,11 @@ public:
 //			const_reverse_iterator;
 // Implementacio interna de la llista de nodes
 protected:
-	vector<t_node> nodes;
+	list<t_index> sequencia;
+	list<t_index> lliures;
 	vector<t_element> valors;
-	uint32 nodeLliure;
-	uint32 nodeFantasma;
+//	uint32 nodeLliure;
+//	uint32 nodeFantasma;
 	uint32 maxNodes;
 	uint32 m_tamany;
 // Construccio/Destruccio
@@ -302,35 +290,35 @@ void CLlistaEstatica<T>::pop_front()
 //////////////////////////////////////////////////////////////////////
 
 template <class T> 
-uint32 CLlistaEstatica<T>::size() const {return m_tamany;}
+uint32 CLlistaEstatica<T>::size() const {return sequencia.size();}
 
 template <class T> 
-uint32 CLlistaEstatica<T>::capacity() const {return maxNodes;}
+uint32 CLlistaEstatica<T>::capacity() const {return valors.size();}
 
 template <class T> 
 bool CLlistaEstatica<T>::nodeEnUs (uint32 node) const
 {
-	for (uint32 i=nodes[nodeFantasma].seguent; i!=nodeFantasma; i=nodes[i].seguent) 
-		if (node==i) return true;
+//	for (uint32 i=nodes[nodeFantasma].seguent; i!=nodeFantasma; i=nodes[i].seguent) 
+//		if (node==i) return true;
 	return false;
 }
 
 template <class T> 
 bool CLlistaEstatica<T>::nodeHiHaLliures () const
 {
-	return nodeLliure != nodeFantasma;
+	return !lliures.empty();
 }
 
 template <class T> 
 bool CLlistaEstatica<T>::nodeHiHaEnUs () const
 {
-	return nodes[nodeFantasma].seguent != nodeFantasma;
+	return !sequencia.empty();
 }
 
 template <class T> 
 bool CLlistaEstatica<T>::empty () const
 {
-	return nodes[nodeFantasma].seguent == nodeFantasma;
+	return sequencia.empty();
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -338,15 +326,19 @@ bool CLlistaEstatica<T>::empty () const
 //////////////////////////////////////////////////////////////////////
 
 template <class T> 
-void CLlistaEstatica<T>::afegeixLliures (void) 
+void CLlistaEstatica<T>::afegeixLliures (size_t n) 
 {
-	uint32 node=nodes.size();
-	nodes.insert(nodes.end(),1,t_node());
-	valors.insert(valors.end(),1,value_type());
-	nodes[node].anterior=nodeFantasma;		
-	nodes[node].seguent=nodeLliure;		
-	nodeLliure = node;
-	maxNodes++;
+	// Ens guardem el numero de valors actuals
+	uint32 nNodesInicialitzats = capacity();
+	// Inserim els espais nous pels valors
+	valors.insert(valors.end(), n, value_type());
+	// Inserim numeros de node lliures
+	list<t_index>::iterator it = lliures.end();
+	// Sense el zero es pensa que es un altre constructor
+	lliures.insert(it,n,0);
+	for (; n; ++it,--n) 
+		*it = nNodesInicialitzats++;
+//	maxNodes = nNodesInicialitzats;
 }
 
 template <class T> 
@@ -357,8 +349,8 @@ uint32 CLlistaEstatica<T>::nodeOcupa (void)
 		afegeixLliures();
 	// Ho extreiem dels nodes lliures
 	// no cal mantenir l'anterior.
-	uint32 node=nodeLliure;
-	nodeLliure = nodes[node].seguent;
+	uint32 node = lliures.back();
+	lliures.pop_back();
 	m_tamany++;
 	return node;
 }
@@ -368,9 +360,7 @@ void CLlistaEstatica<T>::nodeAllibera (uint32 node)
 	// Pre: El node es un node en us
 {
 	// Ho insertem a la llista de proscrits.
-	nodes[node].seguent=nodeLliure;		
-	nodes[node].anterior=nodeFantasma;		
-	nodeLliure = node;
+	lliures.push_back(node);
 	m_tamany--;
 }
 

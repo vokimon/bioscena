@@ -10,10 +10,9 @@
 
 CInfoOrganisme::CInfoOrganisme()
 {
-	m_organisme=NULL;
+	m_cos=NULL;
 }
 
 CInfoOrganisme::~CInfoOrganisme()
 {
-	if (m_organisme) delete m_organisme;
 }

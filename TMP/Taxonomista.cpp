@@ -8,8 +8,8 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CTaxonomista::CTaxonomista (uint32 nTaxons, uint32 nNivells)
-	: CLlistaEstatica<CTaxonomistaNode>(nTaxons)
+CTaxonomista::CTaxonomista (uint32 nNivells)
+	: CLlistaEstatica<CTaxonomistaNode>()
 {
 	nivells=nNivells;
 }

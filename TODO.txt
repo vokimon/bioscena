@@ -1,6 +1,7 @@
 TODO:
 
-Comprovar mutacio desplacament
+Fer que la escisio centrica esborri els escisionats
+Considerar si separar estructurals i puntuals
 Dissenyar el mecanisme d'atac-defensa
 Dissenyar el funcionament generic dels sensors
 	Particular per quimic

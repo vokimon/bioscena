@@ -270,14 +270,6 @@ SOURCE=.\Itineraris.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\LlistaEstatica.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\LlistaEstatica.h
-# End Source File
-# Begin Source File
-
 SOURCE=.\MainBio1.cpp
 # End Source File
 # Begin Source File
@@ -295,6 +287,22 @@ SOURCE=.\MultiAgent.cpp
 # Begin Source File
 
 SOURCE=.\MultiAgent.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\MutacioCariotip.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\MutacioCariotip.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\MutacioGenica.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\MutacioGenica.h
 # End Source File
 # Begin Source File
 
@@ -335,22 +343,6 @@ SOURCE=.\Substrat.cpp
 # Begin Source File
 
 SOURCE=.\Substrat.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\Taxo.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\Taxo.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\Taxonomista.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\Taxonomista.h
 # End Source File
 # Begin Source File
 

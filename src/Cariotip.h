@@ -10,7 +10,10 @@
 
 class CCariotip  
 {
+// Tipus Propis
 public:
+	typedef CCromosoma * t_cromosoma;
+	typedef vector<t_cromosoma> t_cromosomes;
 // Construccio/Destruccio
 public:
 	CCariotip();
@@ -20,15 +23,35 @@ public:
 	virtual void dump(CMissatger & msg);
 // Operacions
 public:
+	bool init(CCariotip &c);
+	bool init(uint32 nCromosomess);
+	bool init(uint32 primer, uint32 ultim);
+	t_cromosoma & operator [ ](uint32 n);
+	uint32 cromosomaAleatori(void) const;
+	uint32 tamany() const;
+
+	void afegeix(t_cromosoma & c, uint32 index);
+	void afegeix(t_cromosoma & c);
+	t_cromosoma extreu(uint32 index);
+	t_cromosoma extreu();
+
 // Atributs
 protected:
-	vector<CCromosoma> m_cromosomes;
+	t_cromosomes m_cromosomes;
 // Proves
 public:
 	static void ProvaClasse(void);	
 // Implementacio
 private:
+	bool initCromosomes(void);
+	bool ocupaCromosomes(uint32 nCromosomes);
+	void alliberaCromosomes(void);
 
+	void ompleCromosomesCopiant(t_cromosomes cromosomes);
+	void ompleCromosomesAleatoriament(uint32 minLong, uint32 maxLong);
+	void ompleCromosomesSequencialment(uint32 primer);
+
+//	void copiaCodonsSuperficialment(uint32 * codons, uint32 nCodons);
 };
 
 #endif // !defined(__KKEP_CARIOTIP_H_INCLUDED)
