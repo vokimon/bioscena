@@ -57,7 +57,6 @@ public:
 	virtual bool esPosicioValida(t_posicio cassella) const;
 	
 	/// Returns a random valid position on the topology
-	/// Retorna una posicio qualsevol valida per a la topologia
 	virtual t_posicio posicioAleatoria() const;
 
 	/// Calculates a single movement within the topology
@@ -95,6 +94,12 @@ public:
 	/// Returns a displacement value that applied to one position it gives the same position.
 	/// @returns A null displacement
 	virtual t_desplacament desplacamentNul() const;
+	
+	/// Returns the number of displacements to reach one position from another.
+	/// @param posOrigen The original position
+	/// @param posDesti The final position
+	/// @returns The number of displacements
+	virtual uint32 distancia(t_posicio posOrigen, t_posicio posDesti) const;
 	
 //@}	
 // Funcions estatiques

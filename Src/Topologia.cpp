@@ -86,6 +86,11 @@ CTopologia::t_posicio CTopologia::posicioAleatoria() const
 	return rnd.get(0,m_totalCasselles-1);
 }
 
+uint32 CTopologia::distancia(t_posicio posOrigen, t_posicio posDesti) const
+{
+	return 0;
+}
+
 //////////////////////////////////////////////////////////////////////
 // Proves
 //////////////////////////////////////////////////////////////////////
