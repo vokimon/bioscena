@@ -30,7 +30,8 @@ void CMemoryOutputer::print(char *msg, char *caption) {
 	{
 		m_stream << gotoxy(++cont,col) << clrlin << *it << endl; 
 	}
-	m_stream << pop_cursor << endl;
+	m_stream << pop_cursor;
+//	m_stream.flush();
 }
 
 

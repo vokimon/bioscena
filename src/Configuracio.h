@@ -26,7 +26,10 @@ public:
 	virtual ~CConfiguracio();
 // Operacions
 public:
+	void dump(CMissatger& msg);
+	void parsejaArxiu(char * nomArxiu, CMissatger & errors);
 	void set (t_clau clau, t_valor valor) {
+		m_diccionari.erase(clau);
 		m_diccionari.insert(t_parellClauValor(clau,valor));
 	}
 	void get (t_clau clau, t_valor& valor) {
@@ -36,6 +39,10 @@ public:
 		else 
 			errorConfiguracio << "No hi ha valor per la clau '" << clau << "'" << endl;
 	}
+	bool exist(t_clau clau) {
+		t_iteradorDiccionari it = m_diccionari.find(clau);
+		return it!=m_diccionari.end();
+	} 
 	// Aquesta funcio es insegura si no existeix la clau
 	t_valor get (t_clau clau) {
 		t_iteradorDiccionari it = m_diccionari.find(clau);
@@ -47,6 +54,7 @@ public:
 public:
 // Atributs
 public:
+	static void ProvaClasse();
 	t_diccionari m_diccionari;
 };
 

@@ -8,7 +8,7 @@ OBJSCPP:=$(CPPSOURCES:.cpp=.o)
 OBJSC:=$(CSOURCES:.c=.o)
 CFLAGS= -g -Wall -fexceptions -pedantic
 LDLIBS=-lm 
-LDFLAGS=-s --relax 
+LDFLAGS=--relax #-s
 default: copirrait ${EXEC}
 
 copirrait:

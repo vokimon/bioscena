@@ -9,6 +9,7 @@
 #include "Missatger.h"
 #include "RandomStream.h"
 #include "Color.h"
+#include "Configuracio.h"
 
 #include "TopologiaToroidal.h"
 #include "Substrat.h"
@@ -21,6 +22,9 @@
 #include "Temporitzador.h"
 #include "Aleaturitzador.h"
 #include "Iterador.h"
+#ifdef WIN32
+#include <wincon.h>
+#endif
 
 //#include "Taxo.h"
 //#include "Taxonomista.h"
@@ -39,8 +43,13 @@ using namespace std;
 
 int main () 
 {
-try{
+//try{
 	out << cyan.brillant() << CAppInfo::MyAppInfo << blanc << endl;
+#ifdef WIN32
+	// A fotres, nomes volia una forma estandard de canviar les files i columnes
+	_COORD tamany={80,50};
+	SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE),tamany);
+#endif
 
 // Proves eines d'implementacio
 //	CMissatger::ProvaClasse(); //Ok
@@ -50,6 +59,9 @@ try{
 //	CLlistaEstatica<int>::ProvaClasse();
 //	CLlistaDinamica<int>::ProvaClasse();
 //	CGeneradorMascares<uint32>::ProvaClasse();
+//	CConfiguracio::ProvaClasse();
+
+	Config.parsejaArxiu("Bioscena.ini", error);
 
 // Proves Biotop
 //	CTopologia<CColor>::ProvaClasse(); //OK TODO: Provar tipus propis i scan
@@ -85,7 +97,7 @@ try{
 
 //	cout << ">> Final de proves. Pulsa la tecla de retorn...";
 //	cin.get();
-}
+/*}
 catch(exception& e)
 {
 	out << "Recogida excepcion: '" << e.what() << "'" << endl;
@@ -94,6 +106,6 @@ catch(...)
 {
 	error << "Ostia patxi, la he cogido" << endl;
 	throw;
-}
+}*/
 	return 0;
 }

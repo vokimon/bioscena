@@ -63,4 +63,32 @@ public:
 	static void ProvaClasse();
 };
 
+class CInoculador : public CActuador
+{
+// Tipus interns
+public:
+	typedef CActuador inherited;
+// Construccio/Destruccio
+public:
+	CInoculador();
+	virtual ~CInoculador();
+// Redefinibles
+public:
+	virtual void operator () (CSubstrat & s) {
+//		m_biosistema->organismeExpontani();
+	}
+	virtual void dump (CMissatger & msg);
+	virtual bool configura(string parametre, istream & nom, t_diccionariAgents & diccionari, CMissatger & errors);
+// Operadors
+public:
+	void composicio(uint32 element, uint32 variabilitat=0);
+// Atributs
+public:
+	uint32 m_element; // Element basic que s'afegira
+	uint32 m_variabilitat; // Mascara amb els bits de l'element que poden variar
+// Proves
+public:
+	static void ProvaClasse();
+};
+
 #endif // !defined(__KKEP_ACTUADORS_H_INCLUDED)

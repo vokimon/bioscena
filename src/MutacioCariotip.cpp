@@ -16,7 +16,7 @@ using namespace AnsiCodes;
 // Variables estatiques
 //////////////////////////////////////////////////////////////////////
 
-static bool traceMutacions=true;
+static bool traceMutacions=false;
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -36,7 +36,7 @@ CMutacioCariotip::~CMutacioCariotip()
 
 void CMutacioPerFusio::muta(CCariotip & car)
 // Fusio de dos cromosomes d'un cariotip
-// (Granularitat Cromosoma)
+// (Granularitat Cariotip)
 {
 	if (!car.tamany()) return; // Fugida discreta
 	uint32 idxOrigen=car.cromosomaAleatori();
@@ -54,8 +54,8 @@ void CMutacioPerFusio::muta(CCariotip & car)
 }
 
 void CMutacioPerEscisio::muta(CCariotip & car)
-// Escisio d''un cromosoma del cariotip
-// (Granularitat Cromosoma)
+// Escisio d'un cromosoma del cariotip
+// (Granularitat Cariotip)
 {
 	if (!car.tamany()) return; // Fugida discreta
 	uint32 idxOrigen=car.cromosomaAleatori();
@@ -79,7 +79,7 @@ void CMutacioPerEscisio::muta(CCariotip & car)
 
 void CAneuploidiaPositiva::muta(CCariotip & car)
 // Duplicacio total d'un cromosoma del cariotip
-// (Granularitat Cromosoma)
+// (Granularitat Cariotip)
 {
 	uint32 cromosomaDuplicat = car.cromosomaAleatori();
 	uint32 posicioFinal = rnd.get(0,car.tamany());
@@ -112,7 +112,7 @@ void CAneuploidiaNegativa::muta(CCariotip & car)
 
 void CEuploidiaPositiva::muta(CCariotip & car)
 // Duplicacio total del cariotip
-// (Granularitat Cromosoma)
+// (Granularitat Cariotip)
 {
 	if (traceMutacions)
 		out << "Mutacio per Duplicacio Euplodica: "
