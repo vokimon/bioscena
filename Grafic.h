@@ -70,7 +70,7 @@ public:
 // Operacions
 public:
 	virtual void visualitza(CMissatger & msg)=0;
-	void tamany(uint32 posX, uint32 posY, uint32 amplada, uint32 altura);
+	virtual void tamany(uint32 posX, uint32 posY, uint32 amplada, uint32 altura);
 // Implementacio
 protected:
 	void recalculaTope();
@@ -168,3 +168,4 @@ private:
 };
 
 #endif // !defined(_KKEP_GRAFIC_H_INCLUDED)
+

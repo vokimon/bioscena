@@ -11,6 +11,8 @@
 // 20000103 VoK - Funcio membre que detecta nutrients al pap sense 
 //                extreure'ls. Y2K compatible!!!
 // 20000217 VoK - Serialitzacio
+// 20000406 VoK - Adaptat als canvis de disipacio energia
+// 20000527 VoK - Funcio per coneixer la carrega de l'organisme
 //////////////////////////////////////////////////////////////////////
 
 #include <iomanip>
@@ -310,7 +312,7 @@ COrganisme::t_instruccio COrganisme::seguentInstruccio()
 	if (m_tempsDisipacio) {
 		m_tempsDisipacioRestant--;
 		if (!m_tempsDisipacioRestant) {
-			m_energia();
+			m_energia.disipa();
 			m_tempsDisipacioRestant = m_tempsDisipacio;
 		}
 	}
@@ -329,6 +331,11 @@ void COrganisme::guanyaEnergia(uint32 energia)
 uint32 COrganisme::energia()
 {
 	return m_energia.total();
+}
+
+uint32 COrganisme::carrega()
+{
+	return m_nutrients.size();
 }
 
 uint32 COrganisme::edat()

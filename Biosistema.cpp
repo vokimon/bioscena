@@ -18,7 +18,9 @@
 // 19991214 VoK - Funcio 'nibble' per fer mes llegible el codi.
 // 19991220 VoK - Afegides operacions de Shift
 // 20000103 VoK - Sensibilitat interna
+// 20000104 VoK - Impronta: el pare modifica un registre de fenotip del fill
 // 20000215 VoK - La feina de taxonomista es fa amb l'objecte extern
+// 20000527 VoK - Factor de carrega pel moviment
 //////////////////////////////////////////////////////////////////////
 // Notes de manteniment:
 // - m_infoOrganisme apunta a un element d'un vector. Com a tal es pot
@@ -526,6 +528,9 @@ bool CBiosistema::organismeAvanca(uint32 parametres)
 	// Logica de moviment
 	substratOrigen.desocupa();
 	substratDesti.ocupa(m_idOrganismeActiu);
+	uint32 energiaGastada = Config.get("Biosistema/Energia/Moviment") +
+		(m_organismeActiu->carrega()/Config.get("Biosistema/Energia/Moviment/UnitatDeCarrega"))*
+		m_organismeActiu->carrega()/Config.get("Biosistema/Energia/Moviment/CostUnitatDeCarrega");
 	m_organismeActiu->consumeixEnergia(Config.get("Biosistema/Energia/Moviment"));
 	(*m_comunitat)[m_idOrganismeActiu].posicio(posDesti);
 	logAccio << groc.brillant() << "Desti " << setw(4) << posDesti << " Ok" << blanc.fosc() << endl;

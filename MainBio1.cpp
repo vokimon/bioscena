@@ -94,9 +94,11 @@ int main (int argc, char**argv)
 //	CCromosoma::ProvaClasse(); // OK
 //	CMutacioGenica::ProvaClasse(); // OK
 //	CCariotip::ProvaClasse();
+//	CMutacioCromosomica::ProvaClasse();
 //	CMutacioCariotip::ProvaClasse();
 //	CGenotip::ProvaClasse(); // OK 19991202
 //	CComunitat::ProvaClasse(); // OK 20000221
+
 	CBiosistema::ProvaClasse();
 
 //	cout << ">> Final de proves. Pulsa la tecla de retorn...";

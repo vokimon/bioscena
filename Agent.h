@@ -1,20 +1,6 @@
 // Agent.h: interface for the CAgent class.
 //
 //////////////////////////////////////////////////////////////////////
-// El destructor de las subclasses debera destruir los agentes subordinados 
-// pero no los agentes de los que depende
-//////////////////////////////////////////////////////////////////////
-// Change Log:
-// 19990820 VoK - Modificacions per tipus d'agent jerarquic
-// 19990821 VoK - Funcionalitats de dump
-// 19990821 VoK - Afegit diccionari de Agents
-// 20000220 VoK - Adaptat a la nova forma de fer topologies
-//////////////////////////////////////////////////////////////////////
-// TODO:
-// - Permetre coneixer el pare
-// - Que passa quan ja hi ha un nom amb el meu nom per defecte!!??
-//////////////////////////////////////////////////////////////////////
-
 
 #if !defined(__KKEP_AGENT_H_INCLUDED)
 #define __KKEP_AGENT_H_INCLUDED

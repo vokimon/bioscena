@@ -16,7 +16,7 @@ public:
 	virtual ~CMutacioCariotip();
 // Redefinibles
 public:
-	virtual void muta(CCariotip & c)=0;
+	virtual bool muta(CCariotip & c)=0;
 	virtual string tipus()=0;
 // Atributs
 protected:
@@ -41,7 +41,7 @@ class CMutacioPerEscisio: public CMutacioCariotip
 {
 // Redefinibles
 public:
-	virtual void muta (CCariotip & c);
+	virtual bool muta (CCariotip & c);
 	virtual string tipus();
 // Funcions estatiques
 public:
@@ -52,7 +52,7 @@ class CMutacioPerFusio: public CMutacioCariotip
 {
 // Redefinibles
 public:
-	virtual void muta (CCariotip & c);
+	virtual bool muta (CCariotip & c);
 	virtual string tipus();
 // Funcions estatiques
 public:
@@ -63,7 +63,7 @@ class CMutacioPerTranslocacio: public CMutacioCariotip
 {
 // Redefinibles
 public:
-	virtual void muta (CCariotip & c);
+	virtual bool muta (CCariotip & c);
 	virtual string tipus();
 // Funcions estatiques
 public:
@@ -74,7 +74,7 @@ class CMutacioPerTranslocacioReciproca: public CMutacioCariotip
 {
 // Redefinibles
 public:
-	virtual void muta (CCariotip & c);
+	virtual bool muta (CCariotip & c);
 	virtual string tipus();
 // Funcions estatiques
 public:
@@ -85,7 +85,7 @@ class CEuploidiaPositiva: public CMutacioCariotip
 {
 // Redefinibles
 public:
-	virtual void muta (CCariotip & c);
+	virtual bool muta (CCariotip & c);
 	virtual string tipus();
 // Funcions estatiques
 public:
@@ -96,7 +96,7 @@ class CAneuploidiaPositiva: public CMutacioCariotip
 {
 // Redefinibles
 public:
-	virtual void muta (CCariotip & c);
+	virtual bool muta (CCariotip & c);
 	virtual string tipus();
 // Funcions estatiques
 public:
@@ -107,7 +107,7 @@ class CAneuploidiaAleatoria: public CMutacioCariotip
 {
 // Redefinibles
 public:
-	virtual void muta (CCariotip & c);
+	virtual bool muta (CCariotip & c);
 	virtual string tipus();
 // Funcions estatiques
 public:
@@ -118,7 +118,7 @@ class CEuploidiaNegativa: public CMutacioCariotip
 {
 // Redefinibles
 public:
-	virtual void muta (CCariotip & c);
+	virtual bool muta (CCariotip & c);
 	virtual string tipus();
 // Funcions estatiques
 public:
@@ -129,7 +129,7 @@ class CAneuploidiaNegativa: public CMutacioCariotip
 {
 // Redefinibles
 public:
-	virtual void muta (CCariotip & c);
+	virtual bool muta (CCariotip & c);
 	virtual string tipus();
 // Funcions estatiques
 public:

@@ -16,13 +16,11 @@ public:
 	virtual ~CMutacioCromosomica();
 // Redefinibles
 public:
-	virtual void muta(CCariotip & c);
-	virtual void muta(CCromosoma & c)=0;
+	virtual bool muta(CCariotip & c);
+	virtual bool muta(CCromosoma & c)=0;
 	virtual string tipus()=0;
 // Atributs
 protected:
-	uint32 * m_codons;
-	uint32 m_nCodons;
 //	string m_tipus;
 // Funcions estatiques
 public:
@@ -36,8 +34,6 @@ public:
 	static void ProvaClasse (void);
 // Implementacio 
 protected:
-	void agafaInformacio(CCromosoma &c);
-	void fixaInformacio(CCromosoma &c);
 };
 
 
@@ -50,7 +46,7 @@ class CMutacioDesplacament : public CMutacioCromosomica
 {
 // Redefinibles
 public:
-	virtual void muta (CCromosoma & c);
+	virtual bool muta (CCromosoma & c);
 	virtual string tipus();
 // Funcions estatiques
 public:
@@ -61,7 +57,7 @@ class CMutacioInversio : public CMutacioCromosomica
 {
 // Redefinibles
 public:
-	virtual void muta (CCromosoma & c);
+	virtual bool muta (CCromosoma & c);
 	virtual string tipus();
 // Funcions estatiques
 public:
@@ -72,7 +68,7 @@ class CMutacioInsercioReplicada : public CMutacioCromosomica
 {
 // Redefinibles
 public:
-	virtual void muta (CCromosoma & c);
+	virtual bool muta (CCromosoma & c);
 	virtual string tipus();
 // Funcions estatiques
 public:
@@ -83,7 +79,7 @@ class CMutacioInsercioAleatoria : public CMutacioCromosomica
 {
 // Redefinibles
 public:
-	virtual void muta (CCromosoma & c);
+	virtual bool muta (CCromosoma & c);
 	virtual string tipus();
 // Funcions estatiques
 public:
@@ -94,7 +90,7 @@ class CMutacioDeleccio : public CMutacioCromosomica
 {
 // Redefinibles
 public:
-	virtual void muta (CCromosoma & c);
+	virtual bool muta (CCromosoma & c);
 	virtual string tipus();
 // Funcions estatiques
 public:

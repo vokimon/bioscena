@@ -34,6 +34,7 @@ CTaxonomista::~CTaxonomista()
 
 istream & CTaxonomista::load(istream & str)
 {
+	m_taxons.clear();
 	str.read((char*)&(m_ultimTaxo),sizeof(uint32));
 	str.read((char*)&(m_calEspeciar),sizeof(uint32));
 	uint32 nTaxons;

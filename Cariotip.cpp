@@ -29,6 +29,7 @@ using namespace AnsiCodes;
 //////////////////////////////////////////////////////////////////////
 
 static bool tracePrivate=false;
+static string ultimaMutacio;
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -180,13 +181,6 @@ CCariotip::t_cromosoma CCariotip::extreu()
 // Implementacio
 //////////////////////////////////////////////////////////////////////
 
-bool CCariotip::initCromosomes()
-	{
-	if (tracePrivate)
-		out << "CCariotip: Initant les variables relatives als cromosomes" << endl;
-	return true;
-}
-
 bool CCariotip::ocupaCromosomes(uint32 nCromosomes)
 // PRE: m_codons=NULL, no hi hauria error pero es perdria la memoria
 {
@@ -302,20 +296,21 @@ void CCariotip::ProvaClasse(void)
 
 
 
-bool CCariotip::muta()
+bool CCariotip::muta(CMutacioCariotip * mutacio)
 {
 	if (!CProbabilitat::EsDona(Config.get("Organisme/ProbabilitatMutacio/Encerts"),Config.get("Organisme/ProbabilitatMutacio/Mostra")))
 		return false;	
-	CMutacioCariotip * mutacio;
-	switch (rnd.get(0,2))
+	if (mutacio) return mutacio->muta(*this);
+
+	switch (rnd.get(0,4))
 	{
 	case 0:
 		mutacio = CMutacioGenica::Nova(rnd.get(1,CMutacioGenica::Nombre())-1);
 		break;
-	case 1:
+	case 1: case 3:
 		mutacio = CMutacioCromosomica::Nova(rnd.get(1,CMutacioCromosomica::Nombre())-1);
 		break;
-	case 2:
+	case 2: case 4:
 		mutacio = CMutacioCariotip::Nova(rnd.get(1,CMutacioCariotip::Nombre())-1);
 		break;
 	default:
@@ -325,11 +320,12 @@ bool CCariotip::muta()
 	}
 
 	if (!mutacio) return false;
+	ultimaMutacio = mutacio->tipus();
 //	out << mutacio->tipus() << endl;
-	mutacio->muta(*this);
+	bool ok = mutacio->muta(*this);
 	delete mutacio;
-	
-	return true;
+
+	return ok;
 }
 
 uint32 CCariotip::tamanyCodons()

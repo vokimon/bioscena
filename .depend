@@ -15,12 +15,12 @@ Aleaturitzador.o: Aleaturitzador.cpp Aleaturitzador.h RandomStream.h \
  MultiAgent.h Agent.h Substrat.h Biotop.h Topologia.h Color.h \
  FuncioAgent.h
 AppInfo.o: AppInfo.cpp AppInfo.h Missatger.h Outputer.h
-Biosistema.o: Biosistema.cpp turbioconio.h Biosistema.h Biotop.h \
- BioIncludes.h Missatger.h Outputer.h Portable.h Topologia.h \
- RandomStream.h Color.h Substrat.h Agent.h Comunitat.h InfoOrganisme.h \
- Organisme.h EnergiaDisipable.h Cariotip.h Cromosoma.h Genotip.h Gen.h \
- ControlOrganisme.h Probabilitat.h Taxonomista.h TopologiaToroidal.h \
- Configuracio.h Grafic.h Compatibilitat.h
+Biosistema.o: Biosistema.cpp Biosistema.h Biotop.h BioIncludes.h \
+ Missatger.h Outputer.h Portable.h Topologia.h RandomStream.h Color.h \
+ Substrat.h Agent.h Comunitat.h InfoOrganisme.h Organisme.h \
+ EnergiaDisipable.h Cariotip.h Cromosoma.h Genotip.h Gen.h \
+ ControlOrganisme.h Probabilitat.h Taxonomista.h Configuracio.h \
+ Compatibilitat.h
 BiosistemaProves.o: BiosistemaProves.cpp turbioconio.h Biosistema.h \
  Biotop.h BioIncludes.h Missatger.h Outputer.h Portable.h Topologia.h \
  RandomStream.h Color.h Substrat.h Agent.h Comunitat.h InfoOrganisme.h \
@@ -28,7 +28,7 @@ BiosistemaProves.o: BiosistemaProves.cpp turbioconio.h Biosistema.h \
  ControlOrganisme.h Probabilitat.h Taxonomista.h Configuracio.h \
  Grafic.h TopologiaToroidal.h
 Biotop.o: Biotop.cpp Biotop.h BioIncludes.h Missatger.h Outputer.h \
- Portable.h Topologia.h RandomStream.h Color.h
+ Portable.h Topologia.h RandomStream.h Color.h Substrat.h
 Cariotip.o: Cariotip.cpp turbioconio.h Cariotip.h Cromosoma.h \
  BioIncludes.h Missatger.h Outputer.h Portable.h Configuracio.h \
  Color.h Probabilitat.h RandomStream.h MutacioCariotip.h \
@@ -50,8 +50,6 @@ Cromosoma.o: Cromosoma.cpp Cromosoma.h BioIncludes.h Missatger.h \
  Outputer.h Portable.h RandomStream.h Color.h
 Distribucio.o: Distribucio.cpp Distribucio.h BioIncludes.h Missatger.h \
  Outputer.h Portable.h RandomStream.h
-Encaix.o: Encaix.cpp Encaix.h GeneradorMascares.h BioIncludes.h \
- Missatger.h Outputer.h Portable.h RandomStream.h
 EnergiaDisipable.o: EnergiaDisipable.cpp EnergiaDisipable.h \
  BioIncludes.h Missatger.h Outputer.h Portable.h
 FuncioAgent.o: FuncioAgent.cpp FuncioAgent.h Agent.h BioIncludes.h \
@@ -104,8 +102,6 @@ MutacioGenica.o: MutacioGenica.cpp MutacioGenica.h \
  MutacioCromosomica.h MutacioCariotip.h Cariotip.h Cromosoma.h \
  BioIncludes.h Missatger.h Outputer.h Portable.h RandomStream.h \
  Color.h
-Nutrient.o: Nutrient.cpp Nutrient.h BioIncludes.h Missatger.h \
- Outputer.h Portable.h
 Organisme.o: Organisme.cpp Organisme.h EnergiaDisipable.h \
  BioIncludes.h Missatger.h Outputer.h Portable.h Cariotip.h \
  Cromosoma.h Genotip.h Gen.h ControlOrganisme.h Compatibilitat.h \

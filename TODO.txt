@@ -43,7 +43,11 @@ GENERICS:
 	Sistema de Logging/Analisis
 	Alliberar un xic del vector de comunitat (taxo?) quan hi hagi molt de lliure
 	Unificar la forma de fer les traces per moduls
-	Format de gravacio del biosistema.
+	Millorar la grabacio de biosistemes (incloure la majoria de parametres)
+	Format de gravacio del biosistema multimodel.
+	Grabació de la topologia amb multiples tipus.
+	Grabar l'edat dels organismes i el temps de biosistema
+	Creacio dels objectes des del fitxer (ara nomes es transformen)
 
 AGENTS EXTERNS:
 	Agent mutagen
@@ -81,6 +85,7 @@ GRAFICS I VISTES
 	Intentar generalitzar per un model OpenGL
 
 MISSATGERS:
+	Mirar si els missatgers es pot fer amb streambuffers
 	Testejar el COutputer per a CEdits de MFC's
 	COutputer per curses
 	COutputer per una llista d'strings

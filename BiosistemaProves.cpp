@@ -108,7 +108,7 @@ static void exportaBiosistema(CBiosistema & biosistema)
 		return;
 	}
 	out << clrscr << endl;
-	out << "Exportant el biosisitema al fitxer '" << filename << '\'' << endl;
+	out << "Exportant el biosistema al fitxer '" << filename << '\'' << endl;
 	ofstream file(filename, ios::binary|ios::out);
 	if (!file) {
 		error << "Error obrint '" << filename << "'" << endl;
@@ -129,7 +129,7 @@ static void importaBiosistema(CBiosistema & biosistema)
 		return;
 	}
 	out << clrscr << endl;
-	out << "Important el biosisitema del fitxer '" << filename << '\'' << endl;
+	out << "Important el biosistema del fitxer '" << filename << '\'' << endl;
 	ifstream file(filename, ios::binary|ios::in);
 	if (!file) {
 		error << "Error obrint '" << filename << "'" << endl;
@@ -194,8 +194,8 @@ void CBiosistema::ProvaClasse()
 	CTopologia * topologia = new CTopologiaToroidal(Config.get("Biotop/CasellesAmplitud"),Config.get("Biotop/CasellesAltitud"));
 	biosistema.biotop(new CBiotop<CBiosistema::t_substrat>(topologia));
 	biosistema.comunitat(new CComunitat);
-	biosistema.agents(CAgent::ParsejaArxiu("Agents.ini", *(biosistema.biotop()), error));
 	biosistema.taxonomista(new CTaxonomista);
+	biosistema.agents(CAgent::ParsejaArxiu("Agents.ini", *(biosistema.biotop()), error));
 
 	uint32 pasVisualitzacio=0;
 	uint32 pas=pasVisualitzacio;

@@ -1,6 +1,26 @@
 // Agent.cpp: implementation of the CAgent class.
 //
 //////////////////////////////////////////////////////////////////////
+// Descripcio:
+// Aquest modul implementa la classe abstracta factoria per a tots els 
+// agents externs que es poden configurar perque afectin a un biòtop.
+// Com a classe abstracta factoria, implementa el nucli dels 
+// mecanismes de pasivacio i activacio comuns pels agents.
+//////////////////////////////////////////////////////////////////////
+// Notes d'implementacio:
+// El destructor de las subclasses debera destruir los agentes 
+// subordinados pero no los agentes de los que depende
+//////////////////////////////////////////////////////////////////////
+// Change Log:
+// 19990820 VoK - Modificacions per tipus d'agent jerarquic
+// 19990821 VoK - Funcionalitats de dump
+// 19990821 VoK - Afegit diccionari de Agents
+// 20000220 VoK - Adaptat a la nova forma de fer topologies
+//////////////////////////////////////////////////////////////////////
+// TODO:
+// - Permetre coneixer el pare
+// - Que passa quan ja hi ha un nom amb el meu nom per defecte!!??
+//////////////////////////////////////////////////////////////////////
 
 #include <algorithm>
 #include <fstream>
@@ -17,7 +37,7 @@
 using namespace AnsiCodes;
 
 //////////////////////////////////////////////////////////////////////
-// Construccio/Desctruccio
+// Construccio/Destruccio
 //////////////////////////////////////////////////////////////////////
 
 CAgent::CAgent()
@@ -118,14 +138,14 @@ void CAgent::dumpTipus(CMissatger& msg)
 }
 
 //////////////////////////////////////////////////////////////////////
-// Definicio de dades estatiques
+// Dades estatiques
 //////////////////////////////////////////////////////////////////////
 
 uint32 CAgent::s_ultimNumeroAgent=0;
 map<string, CAgent*> CAgent::s_DiccionariAgents;
 
 //////////////////////////////////////////////////////////////////////
-// Definicio de funcions estatiques
+// Funcions estatiques
 //////////////////////////////////////////////////////////////////////
 
 void CAgent::DumpDiccionari(CMissatger& msg) 
@@ -250,7 +270,7 @@ CAgent * CAgent::CreaAgent(string tipus, CBiotop<CSubstrat> &biotop)
 }
 
 //////////////////////////////////////////////////////////////////////
-// Proves CAgent
+// Proves
 //////////////////////////////////////////////////////////////////////
 
 void CAgent::ProvaClasse()

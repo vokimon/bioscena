@@ -52,10 +52,10 @@ uint32 CGenotip::seguentInstruccio(uint32 * fenotip)
 		} while (--intents);
 		if (!intents) {
 			return 0;
-			}
+		}
 	}
 
-	// Finalment la podem agafar, pero, potser no funciona
+	// Tenim un gen amb zona operadora valida, pero, potser no funciona
 	uint32 instr;
 	if (!m_gens[m_genActual].seguentInstruccio(instr))
 		return 0; //rnd.get();

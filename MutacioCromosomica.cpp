@@ -8,6 +8,12 @@
 // 19991209 VoK - Fix: Una insercio aleatoria no pot ser de len=0
 // 19991209 VoK - Escisio: Geniques i Estructurals
 // 19991209 VoK - Deriven de la factoria CMutacio
+// 20000526 VoK - MutacioPerInsercioAleatoria fa servir afegeixCodons
+// 20000526 VoK - MutacioPerInsercioReplicada fa servir afegeixCodons
+// 20000526 VoK - Es pot inserir al final del cromosoma
+// 20000526 VoK - MutacioPerDesplacament no fa servir les 'm_'
+// 20000526 VoK - Eliminades funcions agafarInfo i fixarInfo
+// 20000527 VoK - Mutacions retornen si han anat be
 //////////////////////////////////////////////////////////////////////
 
 #include <algorithm>
@@ -39,38 +45,36 @@ CMutacioCromosomica::~CMutacioCromosomica()
 // Redefinibles
 //////////////////////////////////////////////////////////////////////
 
-void CMutacioCromosomica::muta(CCariotip & ca)
+bool CMutacioCromosomica::muta(CCariotip & ca)
 // Generalitzacio Cariotip -> Estructural
 {
 	uint32 cromosoma = ca.cromosomaAleatori();
-//	ca[cromosoma]->dump(out);
-	if (ca.tamany())
-		muta(*(ca[cromosoma]));
-//	ca[cromosoma]->dump(out);
+	if (!ca.tamany()) return false;
+	return muta(*(ca[cromosoma]));
 }
 
-void CMutacioDesplacament::muta(CCromosoma & c)
+bool CMutacioDesplacament::muta(CCromosoma & c)
 // Desplaca una sequencia aleatoria del cromosoma 
 // (Granularitat Cromosoma) (Anellat) (Longitud Variable)
 {
-	agafaInformacio(c);
-	if (m_nCodons<2) return; // Un desplacament no te sentit amb menys de 2 codons
-	uint32 inici = rnd.get(0,m_nCodons-1);
-	uint32 longitud = rnd.get(1,m_nCodons-1);
-	uint32 desplacament = rnd.get(1,m_nCodons-longitud);
+	uint32 nCodons=c.tamany();
+	if (nCodons<2) return false; // Un desplacament no te sentit amb menys de 2 codons
+	uint32 inici = rnd.get(0,nCodons-1);
+	uint32 longitud = rnd.get(1,nCodons-1);
+	uint32 desplacament = rnd.get(1,nCodons-longitud);
 //  Nota de manteniment: Si es vol permetre un desplacament de m_nCodons cal revisar l'algorisme
 	if (traceMutacions)
 		out << tipus()
-			<< " Codons:" << m_nCodons
+			<< " Codons:" << nCodons
 			<< " Primer:" << inici
 			<< " Longitud:" << longitud 
 			<< " Desplacament:" << desplacament 
 			<< endl;
 	uint32 * tmp = new uint32[longitud];
 	if (!tmp) {
-		error << "CCromosoma: Error de memoria mutant per desplacament" << endl;
+		error << "CMutacioDesplacament: Error de memoria mutant" << endl;
 		cin.get();
-		return;
+		return false;
 	}
 	uint32 idxDesti, idxOrigen, cont;
 	// Primer copiem el tros desplacat
@@ -78,33 +82,34 @@ void CMutacioDesplacament::muta(CCromosoma & c)
 	idxOrigen=inici;
 	for (cont=longitud; cont--;)
 	{
-		tmp[idxDesti++]=m_codons[idxOrigen++];
-		if (idxOrigen>=m_nCodons) idxOrigen = 0;
+		tmp[idxDesti++]=c[idxOrigen++];
+		if (idxOrigen>=nCodons) idxOrigen = 0;
 	}
 	// Despres pasem el tros que queda fins el punt de desplacament
 	idxDesti=inici;
 	for (cont=desplacament; cont--;)
 	{
-		m_codons[idxDesti++]=m_codons[idxOrigen++];
-		if (idxOrigen>=m_nCodons) idxOrigen = 0;
-		else if (idxDesti>=m_nCodons) idxDesti = 0;
+		c[idxDesti++]=c[idxOrigen++];
+		if (idxOrigen>=nCodons) idxOrigen = 0;
+		else if (idxDesti>=nCodons) idxDesti = 0;
 	}
 	// I tornem a copiar el tros desplacat des del temporal
 	idxOrigen=0;
 	for (cont=longitud;cont--;)
 	{
-		m_codons[idxDesti++]=tmp[idxOrigen++];
-		if (idxDesti>=m_nCodons) idxDesti = 0;
+		c[idxDesti++]=tmp[idxOrigen++];
+		if (idxDesti>=nCodons) idxDesti = 0;
 	}
 	delete[] tmp;
+	return true;
 }
 
-void CMutacioDeleccio::muta(CCromosoma & c)
+bool CMutacioDeleccio::muta(CCromosoma & c)
 // Elimina una sequencia aleatoria del cromosoma
 // (Granularitat Cromosoma) (Anellat) (Longitud Variable)
 {
 	uint32 nCodons=c.tamany();
-	if (nCodons<=1) return; // Fugida discreta
+	if (nCodons<=1) return false; // Fugida discreta
 	uint32 inici = rnd.get(0,nCodons-1);
 	uint32 longitud = rnd.get(1,nCodons-1);
 	if (traceMutacions)
@@ -113,111 +118,104 @@ void CMutacioDeleccio::muta(CCromosoma & c)
 			<< " Primer:" << inici
 			<< " Total a esborrar:" << longitud 
 			<< endl;
-	c.treuCodons(inici,longitud);
+	if (!c.treuCodons(inici,longitud)) {
+		error << "CMutacioDeleccio: Error de memoria mutant" << endl;
+		cin.get();
+		return false;
+		}
+	return true;
 }
 
-void CMutacioInsercioAleatoria::muta(CCromosoma & c)
+bool CMutacioInsercioAleatoria::muta(CCromosoma & c)
 // Insereix un nombre aleatori de gens aleatoris en 
 // un punt aleatori
 // (Granularitat Cromosoma) (Anellat) (Longitud Variable)
 {
-	agafaInformacio(c);
-	if (!m_nCodons) return;
-	uint32 iInsercio = rnd.get(0,m_nCodons-1);
-	uint32 longitud = rnd.get(1,m_nCodons);
-	uint32 *tmp= new uint32[m_nCodons+longitud];
-	if (!tmp) {
-		error << "CCromosoma: Error de memoria mutant per insercio aleatoria" << endl;
+	uint32 nCodons = c.tamany();
+	if (!nCodons) return false;
+	uint32 iInsercio = rnd.get(0,nCodons);
+	uint32 longitud = rnd.get(1,nCodons);
+	if (!c.afegeixCodons(iInsercio,longitud)) {
+		error << "CMutacioInsercioAleatoria: Error de memoria mutant" << endl;
 		cin.get();
-	}
+		return false;
+		}
 	if (traceMutacions)
 		out << tipus()
-			<< " Codons:" << m_nCodons
+			<< " Codons:" << nCodons
 			<< " Inici Insercio:" << iInsercio
 			<< " Longitud:" << longitud 
 			<< endl;
-	uint32 iDesti, iOrigen, cont;
-	for (iDesti=iOrigen=0; iOrigen<iInsercio;)
-		tmp[iDesti++]=m_codons[iOrigen++];
-	for (cont=longitud; cont--;)
-		tmp[iDesti++]=rnd.get();	
-	while (iOrigen<m_nCodons)
-		tmp[iDesti++]=m_codons[iOrigen++];
-	delete [] m_codons;
-	m_codons = tmp;
-	m_nCodons = iDesti;
-	fixaInformacio(c);
+
+	for (uint32 cont=longitud; cont--;)
+		c[iInsercio++]=rnd.get();
+	return true;
 }
 
-void CMutacioInsercioReplicada::muta(CCromosoma & c)
+bool CMutacioInsercioReplicada::muta(CCromosoma & c)
 // Insereix un nombre aleatori de gens replicats del
 // mateix cromosoma en un punt aleatori
 // (Granularitat Cromosoma) (Anellat) (Longitud Variable)
 {
-	agafaInformacio(c);
-	if (!m_nCodons) return;
-	uint32 iInsercio = rnd.get(0,m_nCodons-1);
-	uint32 iReplica = rnd.get(0,m_nCodons-1);
-	uint32 longitud = rnd.get(1,m_nCodons);
-	uint32 *tmp= new uint32[m_nCodons+longitud];
-	if (!tmp) {
-		error << "CCromosoma: Error de memoria, mutant per insercio aleatoria" << endl;
+	uint32 nCodons = c.tamany();
+	if (!nCodons) return false;
+	uint32 iInsercio = rnd.get(0,nCodons-1);
+	uint32 iReplica = rnd.get(0,nCodons-1);
+	uint32 longitud = rnd.get(1,nCodons);
+	if (!c.afegeixCodons(iInsercio,longitud)) {
+		error << "CMutacioInsercioReplicada: Error de memoria mutant" << endl;
 		cin.get();
-	}
+		return false;
+		}
 	if (traceMutacions)
 		out << tipus()
-			<< " Codons:" << m_nCodons
+			<< " Codons:" << nCodons
 			<< " Inici Insercio:" << iInsercio
 			<< " Inici Replica:" << iReplica
 			<< " Longitud:" << longitud 
 			<< endl;
-	uint32 iDesti, iOrigen, cont;
-	// Primer copiem la part d'abans de la insercio
-	for (iDesti=iOrigen=0; iOrigen<iInsercio;)
-		tmp[iDesti++]=m_codons[iOrigen++];
 	// Despres fem la insercio replicada
-	for (cont=longitud; cont--;)
+	uint32 iDesti=iInsercio;
+	nCodons+=longitud;
+	if (iReplica>iInsercio) iReplica+=longitud;
+	for (uint32 cont=longitud; cont--;)
 	{
-		tmp[iDesti++]=m_codons[iReplica++];
-		if (iReplica==m_nCodons) iReplica=0;
+		if (iReplica==iInsercio) iReplica+=longitud;
+		if (iReplica>=nCodons) iReplica-=nCodons;
+		c[iDesti++]=c[iReplica++];
 	}
-	// I acabem de copiar la part de despres
-	while (iOrigen<m_nCodons)
-		tmp[iDesti++]=m_codons[iOrigen++];
-	delete [] m_codons;
-	m_codons = tmp;
-	m_nCodons=iDesti;
-	fixaInformacio(c);
+	return true;
 }
 
 
-void CMutacioInversio::muta(CCromosoma & c)
+bool CMutacioInversio::muta(CCromosoma & c)
 // Inverteix l'ordre d'una subsequencia de gens
 // (Granularitat Cromosoma) (Anellat) (Longitud Variable)
 {
-	agafaInformacio(c);
-	if (!m_nCodons) return;
-	uint32 inici = rnd.get(0,m_nCodons-1);
-	uint32 longitud = rnd.get(1,m_nCodons);
+	uint32 nCodons = c.tamany();
+	if (!nCodons) return false;
+	uint32 inici = rnd.get(0, nCodons-1);
+	uint32 longitud = rnd.get(1, nCodons);
 	if (traceMutacions)
 		out << tipus()
-			<< " Codons:" << m_nCodons
+			<< " Codons:" << nCodons
 			<< " Primer:" << inici
 			<< " Total a invertir:" << longitud 
 			<< endl;
 	uint32 idxInici, idxFinal, cont;
 	idxInici=inici;
-	idxFinal= (longitud>m_nCodons-inici)? // Si la zona invertida sobrepassa el final...
-		longitud-(m_nCodons-inici)-1:     // El punt final es calcula
+	idxFinal= (longitud>nCodons-inici)? // Si la zona invertida sobrepassa el final...
+		longitud-(nCodons-inici)-1:     // El punt final es calcula
 		inici+longitud-1;                 // Sino es calcula sumant-li la longitud al inici
 	for (cont=longitud;cont>1;cont-=2)
 	{
-		swap(m_codons[idxInici],m_codons[idxFinal]);
+		swap(c[idxInici],c[idxFinal]);
 		if (idxFinal) idxFinal--;
-		else idxFinal=m_nCodons-1;
+		else idxFinal=nCodons-1;
 		idxInici++;
-		if (idxInici==m_nCodons) idxInici=0;
+		if (idxInici==nCodons) idxInici=0;
 	}
+	return true;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -247,31 +245,6 @@ string CMutacioInsercioAleatoria::tipus()
 string CMutacioInsercioReplicada::tipus()
 {
 	return CMutacioInsercioReplicada::Tipus();
-}
-
-//////////////////////////////////////////////////////////////////////
-// Implementacio
-//////////////////////////////////////////////////////////////////////
-
-// Aquestes dos funcions membres son per permetre que les derivades de 
-// CMutacioCromosomica puguin accedir als membres protegits de 
-// CCromosoma sense que cada cop que afegim un nou operador de mutacio, 
-// haguem de posar-ho com a friend.
-
-void CMutacioCromosomica::agafaInformacio(CCromosoma &c)
-// Es crida si cal consultar els codons del cromosoma
-{
-	m_nCodons=c.m_nCodons;
-	m_codons=c.m_codons;
-}
-
-void CMutacioCromosomica::fixaInformacio(CCromosoma &c)
-// Es crida si cal modificar els codons del cromosoma (principalment
-// si cal substituir l'espai de memoria, modificacions del tipus
-// m_codons[i]=x no ho requereixen)
-{
-	c.m_nCodons=m_nCodons;
-	c.m_codons=m_codons;
 }
 
 //////////////////////////////////////////////////////////////////////
