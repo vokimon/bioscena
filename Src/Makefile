@@ -11,9 +11,9 @@ PROGRAM=bioscena
 EXECSUFFIX=
 LDFLAGS= --relax -s
 	# Library flags for the linker
-LDLIBS=-lm -lcppunit
+LDLIBS=-lm -lcppunit -lqt-mt -lqttestrunner
 	# Flags for the C compiler
-CFLAGS=-Wall -pedantic -O5 -march=i686 # -g -fexceptions
+CFLAGS=-Wall -O5 -march=i686 -pg -I/usr/include/qt3 #  -fexceptions
 
 # Change the following options as suited to your system
 	# The C compiler
