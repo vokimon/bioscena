@@ -193,7 +193,7 @@ uint32 CComunitat::introdueix(COrganisme* org, uint32 posicio, uint32 taxo)
 	ostrstream fluxe;
 	fluxe
 		<< setfill('0') 
-		<< (index>>6) << CColor(1+((index&070)>>3)).brillant() << (index&07) << blanc.fosc() << "-" 
+		<< oct << (index>>6) << dec << CColor((index>>3)&07).brillant() << (index&07) << blanc.fosc() << "-" 
 		<< setw(3) << nouOrganisme.subidentificador() << "-" 
 		<< (taxo>>6) << (taxo&070?negre.fons((taxo&070)>>3):blanc) << (taxo&7) << blanc.fosc() << " "
 		<< setfill(' ') 

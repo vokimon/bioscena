@@ -53,6 +53,7 @@ protected:
 	uint32 m_nCodisOperacio;
 	uint32 m_mascaraCodis;
 	bool m_calEspeciar;
+	uint32 m_mascaraQuimica;
 private:
 	uint32 m_instruccionsUtilsRestants;
 	uint32 m_instruccionsRestants;
@@ -93,6 +94,8 @@ public:
 	bool organismeAtaca(uint32 parametres);
 	bool organismeEngoleix(uint32 parametres);
 	bool organismeExcreta(uint32 parametres);
+	bool organismeCatabolitza(uint32 parametres);
+	bool organismeAnabolitza(uint32 parametres);
 	bool organismeNoOperacio(uint32 parametres);
 	bool organismeAnd(uint32 parametres);
 	bool organismeOr(uint32 parametres);

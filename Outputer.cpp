@@ -8,7 +8,7 @@
 #include "Outputer.h"
 #include "Color.h"
 
-static unsigned int col=20, fil=2;
+static unsigned int col=15, fil=2;
 
 /////////////////////////////////////////////////////////////////////
 // CMemoryOutputer

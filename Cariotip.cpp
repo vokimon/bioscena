@@ -300,7 +300,6 @@ bool CCariotip::muta()
 	if (!mutacio) return false;
 //	out << mutacio->tipus() << endl;
 	mutacio->muta(*this);
-	if (!mutacio) out << "copon!" << endl;
 	delete mutacio;
 	
 	return true;
