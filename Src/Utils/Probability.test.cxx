@@ -241,22 +241,22 @@ protected:
 		const uint32 N = 0xfff;
 		const uint32 success=3;
 		const uint32 sample=10;
-		ostream & out = std::cout;
-		out 
-			<< "Performance and success ratio tendency for a " 
-			<< success << "/" <<sample << " probability..." << std::endl;
+//		ostream & out = std::cout;
+//		out 
+//			<< "Performance and success ratio tendency for a " 
+//			<< success << "/" <<sample << " probability..." << std::endl;
 		{
 			uint32 encerts=0;
 			time_t t = time(NULL);
 			for (uint32 i = N; i--;) {
 				if (Probability(success,sample)()) encerts++;
 			}
-			out << "Temporary object -"
-				<< " Time:" << time(NULL)-t 
-				<< " Encerts: " << encerts 
-				<< " Mostra: " << N 
-				<< " Ratio: " << ((double)encerts*100/N) 
-				<< std::endl;
+//			out << "Temporary object -"
+//				<< " Time:" << time(NULL)-t 
+//				<< " Encerts: " << encerts 
+//				<< " Mostra: " << N 
+//				<< " Ratio: " << ((double)encerts*100/N) 
+//				<< std::endl;
 		}
 		{
 			uint32 encerts=0;
@@ -264,12 +264,12 @@ protected:
 			for (uint32 i = N; i--;) {
 				if (Probability::Chance(success,sample)) encerts++;
 			}
-			out << "Static function -" 
-				<< " Time:" << time(NULL)-t 
-				<< " Encerts: " << encerts 
-				<< " Mostra: " << N 
-				<< " Ratio: " << ((double)encerts*100/N) 
-				<< std::endl;
+//			out << "Static function -" 
+//				<< " Time:" << time(NULL)-t 
+//				<< " Encerts: " << encerts 
+//				<< " Mostra: " << N 
+//				<< " Ratio: " << ((double)encerts*100/N) 
+//				<< std::endl;
 		}
 		{
 			uint32 encerts=0;
@@ -277,12 +277,12 @@ protected:
 			for (uint32 i = N; i--;) {
 				if (Probability::Chance(3,10)) encerts++;
 			}
-			out << "Static function inmediate -" 
-				<< " Time:" << time(NULL)-t 
-				<< " Encerts: " << encerts 
-				<< " Mostra: " << N 
-				<< " Ratio: " << ((double)encerts*100/N) 
-				<< std::endl;
+//			out << "Static function inmediate -" 
+//				<< " Time:" << time(NULL)-t 
+//				<< " Encerts: " << encerts 
+//				<< " Mostra: " << N 
+//				<< " Ratio: " << ((double)encerts*100/N) 
+//				<< std::endl;
 		}
 		{
 			uint32 encerts=0;
@@ -291,12 +291,12 @@ protected:
 			for (uint32 i = N; i--;) {
 				if (p.chance()) encerts++;
 			}
-			out << "Stack object -"
-				<< " Time:" << time(NULL)-t 
-				<< " Encerts: " << encerts 
-				<< " Mostra: " << N 
-				<< " Ratio: " << ((double)encerts*100/N) 
-				<< std::endl;
+//			out << "Stack object -"
+//				<< " Time:" << time(NULL)-t 
+//				<< " Encerts: " << encerts 
+//				<< " Mostra: " << N 
+//				<< " Ratio: " << ((double)encerts*100/N) 
+//				<< std::endl;
 		}
 	}
 };
