@@ -5,6 +5,7 @@
 #include <iomanip>
 #include "turbioconio.h" 
 #include "ControlOrganisme.h"
+#include "ControlAleatori.h"
 #include "Genotip.h"
 #include "Configuracio.h"
 #include "Color.h"
@@ -16,7 +17,7 @@
 uint32 CControlOrganisme::Nombre(void)
 // Retorna el nombre de subclasses que te
 {
-	return 1;
+//	return 1;
 	return 2;
 }
 
@@ -25,15 +26,15 @@ CControlOrganisme * CControlOrganisme::Crea(uint32 n)
 	switch (n)
 	{
 	case 0: return new CGenotip;
-//	case 1: return new CControlAleatori;
+	case 1: return new CControlAleatori;
 	default: return NULL;
 	}
 }
 
-CControlOrganisme * CControlOrganisme::Crea(string tipus)
+CControlOrganisme * CControlOrganisme::Crea(const std::string &tipus)
 {
 	if (tipus=="ControlOrganisme/ExpressioGenica") return new CGenotip;
-//	if (tipus=="ControlOrganisme/Aleatori") return new CGenotip;
+	if (tipus=="ControlOrganisme/Aleatori") return new CGenotip;
 
 	// Alguns exemples de posibles tipus de control, per fer boca :-)
 	// Un com als LEE's
