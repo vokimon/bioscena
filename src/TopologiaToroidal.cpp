@@ -64,8 +64,8 @@ void Torus::ProvaClasse(void) {
 //		topo.debugPresenta(out);
 		out << gotoxy(1,2);
 		uint32 nCella=0;
-		for (uint32 j=0;j<topo.alcada();j++) {
-			for (uint32 i=0;i<topo.amplada();i++)
+		for (uint32 j=0;j<topo.height();j++) {
+			for (uint32 i=0;i<topo.widht();i++)
 				out << CColor(celles[nCella++]) << "#";
 			out << endl;
 			}

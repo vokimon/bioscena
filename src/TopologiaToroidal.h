@@ -20,6 +20,7 @@
 #include "RandomStream.h"
 #include "Missatger.h"
 
+namespace Bioscena {
 
 /**
 * The CTopogogiaToroidal class is an optimized implementation 
@@ -43,6 +44,11 @@ public:
 	typedef Topology inherited;
 	typedef inherited::t_position t_position;
 	typedef inherited::t_displacement t_displacement;
+	/** 
+	 * The building block for a displacement vector.
+	 * Note that oposed directions are complementaries 
+	 * in order to speed up the oposite calculation.
+	 */
 	enum t_DireccionsBasiques 
 	{
 		UP        = 0x00,
@@ -59,8 +65,10 @@ public:
 	Torus (uint32 XMax, uint32 YMax);
 // Operacions
 public: 
-	uint32 amplada() const {return m_xMax;}
-	uint32 alcada() const {return m_yMax;}
+	void height(uint32 rows) {m_yMax=rows;}
+	void width(uint32 cols) {m_xMax=cols;}
+	uint32 height() const {return m_yMax;}
+	uint32 width() const {return m_xMax;}
 // Redefinibles
 public: 
 	virtual inline t_position desplacament (t_position origen, t_displacement movimentRelatiu) const;
@@ -201,6 +209,8 @@ Torus::t_displacement Torus::invers(t_displacement desp) const {
 
 Torus::t_displacement Torus::nilDisplacement() const {
 	return 0;
+}
+
 }
 
 #endif // !defined(__KKEP_TOPOLOGIATOROIDAL_H_INCLUDED)
