@@ -15,8 +15,9 @@
 \usepackage{verbatim}
 \usepackage{amssymb}
 \usepackage{hyperref}
+\def\boldindex#1{\textbf{\hyperpage{#1}}}
 \hypersetup{backref,hyperindex,colorlinks}
-
+\makeindex
 \newlength{\defbaselineskip}
 \setlength{\defbaselineskip}{\baselineskip}
 \newcommand{\setlinespacing}[1]%
@@ -75,20 +76,16 @@ David Garcia\\
 \input{biologia}
 %\input{alive}
 \part{Part pràctica}
-\index{Pràctica|boldindex}
 \chapter{Disseny de l'aplicatiu}
 \input{biotop}
 \input{agents}
 \input{organismes}
 \input{analisis}
 \input{manualprogramador}
+\appendix
 \input{bibliografia}
 \label{TODO}
-\appendix
 \printindex
-\printtitle
-
-\maketableofcontents
 
 %% TODO: Treure aixo dels links
 %\hyperlink{kaja}{Origen}

@@ -11,7 +11,7 @@ David Garcia<br>
 <a href="mailto:vokimon@jet.es">vokimon@jet.es</a><br>
  </H3>
 
-<H3 align=center>Sep 07, 1999
+<H3 align=center>Sep 08, 1999
   </H3>
 
 <p>
@@ -366,7 +366,145 @@ creuament.
 
 <p>
 
-<pre> </pre>Aleaturitzador.cpp
+<pre>// Aleaturitzador.cpp: implementation of the CAleaturitzador class.
+//
+//////////////////////////////////////////////////////////////////////
+
+#include "Aleaturitzador.h"
+#include "FuncioAgent.h"
+#include "Color.h"
+
+//////////////////////////////////////////////////////////////////////
+// Construction/Destruction
+//////////////////////////////////////////////////////////////////////
+
+CAleaturitzador::CAleaturitzador()
+{
+	m_tipus+="/Aleaturitzador";
+	m_probabilitat.m_encerts=1;
+	m_probabilitat.m_mostra=1;
+	m_reAccio = NULL;
+	m_accionat = false;
+}
+
+CAleaturitzador::~CAleaturitzador()
+{
+	if (m_reAccio) delete m_reAccio;
+}
+
+//////////////////////////////////////////////////////////////////////
+// Redefinibles
+//////////////////////////////////////////////////////////////////////
+
+void CAleaturitzador::operator()(void)
+{
+	m_accionat=false;
+	// Nomes si es dona la probabilitat i existeix l'accio, l'executem
+	if (m_probabilitat.esDona()) 
+	{
+		CMultiAgent::operator()();
+		m_accionat=true;
+	}
+	else if (m_reAccio)
+		(*m_reAccio)();
+}
+
+void CAleaturitzador::dump(CMissatger &amp; msg)
+{
+	CMultiAgent::dump(msg);
+	msg &lt;&lt; "- Probabilitat " 
+		&lt;&lt; m_probabilitat.m_encerts &lt;&lt; " "
+		&lt;&lt; m_probabilitat.m_mostra &lt;&lt; endl;
+	if (m_reAccio) msg &lt;&lt; "- ReAccio " &lt;&lt; m_reAccio-&#62;nom() &lt;&lt; endl; 
+}
+
+bool CAleaturitzador::configura(string parametre, istream &amp; valor, t_diccionariAgents &amp; diccionari, CMissatger &amp; errors)
+{
+	if (parametre=="Probabilitat") {
+		uint32 mostra, encerts;
+		if (!(valor&#62;&#62;encerts))
+			errors &lt;&lt; "Format invalid per la probabilitat de '" &lt;&lt; nom() &lt;&lt; "'" &lt;&lt; endl;
+		else if (!(valor&#62;&#62;mostra))
+			errors &lt;&lt; "Falta la quantitat de mostra per a la probabilitat de '" &lt;&lt; nom() &lt;&lt; "'" &lt;&lt; endl;
+		else 
+			probabilitat(mostra, encerts);
+		return true;
+	}
+	if (parametre=="ReAccio") {
+		string nomSubordinat;
+		t_diccionariAgents::iterator it;
+		if (!(valor&#62;&#62;nomSubordinat))
+			errors &lt;&lt; "Format invalid per a l'especificacio de subordinat de '" &lt;&lt; nom() &lt;&lt; "'" &lt;&lt; endl;
+		else if (m_reAccio)
+			errors &lt;&lt; "L'agent '" &lt;&lt; nom() &lt;&lt; "' ja tenia una reAccio" &lt;&lt; endl;
+		else if ((it=diccionari.find(nomSubordinat))==diccionari.end())
+			errors &lt;&lt; "L'agent subordinat '" &lt;&lt; nomSubordinat &lt;&lt; "' de l'agent '" &lt;&lt; nom() &lt;&lt; "' no esta definit al fitxer." &lt;&lt; endl;
+		else if ((*it).second-&#62;subordinant())
+			errors &lt;&lt; "L'agent subordinat '" &lt;&lt; nomSubordinat &lt;&lt; "' de l'agent '" &lt;&lt; nom() &lt;&lt; "' ja esta subordinat a l'agent '" &lt;&lt; it-&#62;second-&#62;subordinant()-&#62;nom() &lt;&lt; "'." &lt;&lt; endl;
+		else 
+			reAccio(it-&#62;second);
+		return true; // Parametre interceptat
+	}
+	// Li deixem a la superclasse que l'intercepti si vol
+	return CMultiAgent::configura(parametre, valor, diccionari, errors);
+}
+
+list&lt;CAgent*&#62; CAleaturitzador::subordinats() {
+	list&lt;CAgent*&#62; l=CMultiAgent::subordinats();
+	if (m_reAccio) l.push_back(m_reAccio);
+	return l;
+}
+
+//////////////////////////////////////////////////////////////////////
+// Operacions
+//////////////////////////////////////////////////////////////////////
+
+void CAleaturitzador::probabilitat(uint32 mostra, uint32 encerts)
+{
+	m_probabilitat.m_mostra=mostra;
+	m_probabilitat.m_encerts=encerts;
+}
+
+void CAleaturitzador::reAccio(t_accio * a)
+{
+	m_reAccio=a;
+	if (a&amp;&amp;!a-&#62;subordinant(this))
+		warning &lt;&lt; "Subordinant l'agent '" &lt;&lt; a-&#62;nom() &lt;&lt; "' a un segon subordinant" &lt;&lt; endl;
+}
+
+//////////////////////////////////////////////////////////////////////
+// Proves
+//////////////////////////////////////////////////////////////////////
+
+static void Ko () {out &lt;&lt; "-";}
+static void Ok () {out &lt;&lt; "O";}
+
+void CAleaturitzador::ProvaClasse()
+{
+	out &lt;&lt; "\033[J";// Un clrscr xapuser pero standard (ANSI)
+	out &lt;&lt; blanc.brillant() &lt;&lt; "Provant Agent Aleaturitzador" &lt;&lt; blanc.fosc() &lt;&lt; endl;
+	int exits=0;
+	int intents=0;
+	CAleaturitzador aleaturitzador;
+	CAgent * ag1= new CFuncioAgent(Ok);
+	CAgent * ag2= new CFuncioAgent(Ko);
+	aleaturitzador.probabilitat(40,25);
+	aleaturitzador.accio(ag1);
+	aleaturitzador.reAccio(ag2);
+	for (int i=400; i--;) {
+		aleaturitzador();
+		intents++;
+		if (aleaturitzador.m_accionat)
+			exits++;
+	}
+	out &lt;&lt; endl &lt;&lt; "S'han executat " &lt;&lt; exits &lt;&lt; " de " &lt;&lt; intents &lt;&lt; endl;
+	aleaturitzador.dumpAll(out);
+	cin.get();
+}
+
+
+
+</pre>
 
 <p>
  <br><H1>Part 2   <br>Part teòrica</H1><br>
@@ -381,9 +519,9 @@ Chapter 2     </A><br>Coneixements teòrics sobre biologia</H1>
 
 <p>
 Aquest capítol introdueix alguns conceptes sobre procediments que es donen
-a la natura que necessitem coneixer per, posteriorment, aplicar-los en dos 
-àmbits. Per un costat, necessitem coneixer els procediments genètics que 
-es donen a la natura per adaptar-los als algorismes genètics. 
+a la natura que necessitem coneixer per, posteriorment, aplicar-los en dos
+àmbits. Per un costat, necessitem coneixer els procediments genètics que
+es donen a la natura per adaptar-los als algorismes genètics.
 Per un altre costat, necessitem coneixements sobre etologia i ecologia
 per interpretar i analitzar els resultats de la simulació.
 
@@ -396,37 +534,51 @@ per interpretar i analitzar els resultats de la simulació.
 2.2.1</A>&nbsp;&nbsp;Gen, Al·lel, Genotip i Fenotip</H3>
 
 <p>
-Els primers estudis genètics de la història [MENDEL 1866] van pendre una 
-perspectiva externa als individuus per estudiar l'herència (als organismes
-que es reprodueixen sexualment). És a dir, a partir dels caràcters observables 
-d'individuus de diferents generacions, van intentar deduir els mecanismes o 
-factors que intervenen en l'herència.
+Els primers estudis genètics de la història [MENDEL 1866] van pendre
+una perspectiva externa als individuus per estudiar l'herència als
+organismes que es reprodueixen sexualment. És a dir, a partir dels
+caràcters observables d'individuus de diferents generacions, van
+intentar deduir els mecanismes o factors que intervenen en
+l'herència.
 
 <p>
 Aquest estudis, i les seves ampliacions posteriors, van madurar un seguit
 de conceptes que han perdurat fins avui en dia. S'expliquen a continuació:
 
 <p>
-El caràcter observable en el que ens fixem l'anomenem <b>fenotip</b>, 
-per exemple, el color dels ulls.
-Un <b>gen</b> és cadascun dels factors hereditaris que controlen aquest fenotip. 
-El normal és que siguin diversos gens els que controlin un fenotip 
-el conjunt dels quals formen el seu <b>genotip</b>.
-Per exemple, imaginem que el color dels ulls el controla un genotip format per dos gens.
-Generalment, la correspondència entre genotip i fenotip no és directa, 
-perque en el fenotip pot intervindre l'entorn.
-El conjunt de tots els gens que té un organisme (no pas considerant un sol fenotip)
-és el <b>genoma</b>.
+El caràcter observable en el que ens fixem l'anomenem <b>
+fenotip</b><a NAME="fenotip+concepte mendelià22">
+</a>, per exemple, el color dels
+ulls. Un <b>gen</b><a NAME="gen+concepte mendelià22">
+</a> és cadascun dels
+factors hereditaris que controlen aquest fenotip. El normal és que
+siguin diversos gens els que controlin un fenotip el conjunt dels
+quals formen el seu <b>genotip</b><a NAME="genotip+concepte mendelià22">
+</a>.
+Per exemple, imaginem que el color dels ulls el controla un genotip
+format per dos gens. Generalment, la correspondència entre genotip i
+fenotip no és directa, perque en el fenotip pot intervindre l'entorn.
+El conjunt de tots els gens que té un organisme (no pas considerant
+un sol fenotip) és el <b>genoma</b><a NAME="genoma+concepte mendelià22">
+</a>.
 
 <p>
-Un <b>al·lel</b>, és cadascuna de les alternatives (o ``valors'') que pot adoptar un gen. 
-Per exemple, imaginem que tenim les alternatives A, B, C y D.
-Dos al·lels es consideren diferents només si, en algun cas, el fet 
-de tenir un o l'altre afecta al fenotip obtingut.
-Dos gens poden tenir els mateixos al·lels possibles. Si això passa i, a més,
-l'efecte d'un és equivalent al de l'altre, diem que són <b>gens homòlegs</b>
-El genotip és <b>homozigot</b> si els seus gens només presenten un al·lel per cada conjunt de gens homòlegs (Raça pura).
-En canvi, el genotip és <b>heterozigot</b> si els seus gens presenten al·lels diversos (Híbrid).
+Un <b>al·lel</b><a NAME="al·lel22">
+</a>, és cadascuna de les alternatives (o
+``valors'') que pot adoptar un gen. Per exemple, imaginem que tenim
+les alternatives A, B, C y D. Dos al·lels es consideren diferents
+només si, en algun cas, el fet de tenir un o l'altre afecta al
+fenotip obtingut. Dos gens poden tenir els mateixos al·lels
+possibles. Si això passa i, a més, l'efecte d'un és equivalent al de
+l'altre, diem que són <b>gens homòlegs</b><a NAME="gen+gens homòlegs22">
+</a>.
+El genotip és <b>homozigot</b><a NAME="genotip+homozigot22">
+</a> si els seus
+gens només presenten un al·lel per cada conjunt de gens homòlegs
+(Raça pura). En canvi, el genotip és <b>
+heterozigot</b><a NAME="genotip+heterozigot22">
+</a> si els seus gens presenten
+al·lels diversos (Híbrid).
 
 <p>
       <H3><A NAME="tth_sEc2.2.2">
@@ -438,17 +590,17 @@ Aquest caràcter s'en diu el fenotip homozigòtic per aquest al·lel.
 
 <p>
 En la natura, sovint, els genotips homozigòtics estan associats, directament o indirecta,
-a fenotips negatius. Això és degut a que els individuus homozigòtics donen molt 
+a fenotips negatius. Això és degut a que els individuus homozigòtics donen molt
 poca variabilitat genètica. Si una població acaba convertint-se en homozigotica,
-per exemple, per excesiva endogàmia, aquest gen es queda estancat i no dòna 
+per exemple, per excesiva endogàmia, aquest gen es queda estancat i no dòna
 variabilitat. Si, per adaptar-se a un canvi en l'entorn cal canviar aquest gen,
-una població homozigòtica tindrà menys capacitat de resposta perqué dependrà de les mutacions. 
-En els gens que no interesa aquest estancament la pròpia dotació genètica s'autopenalitza. 
+una població homozigòtica tindrà menys capacitat de resposta perqué dependrà de les mutacions.
+En els gens que no interesa aquest estancament la pròpia dotació genètica s'autopenalitza.
 Si una població no castiga la homozigosis, té més probabilitat de tornar-s'en.
 
 <p>
-A vegades la millor forma de penalitzacio són els gens letals. 
-Un genotip letal és aquella combinació d'al·lels que no es presenten mai 
+A vegades la millor forma de penalitzacio són els gens letals.
+Un genotip letal és aquella combinació d'al·lels que no es presenten mai
 donat que els individuus no sobrepassen l'estat embrionari.
 
 <p>
@@ -458,40 +610,40 @@ dels gens homòlegs, segons la forma d'expressar-se en el fenotip:
 <UL>
 <p>
 
-<li>	<b>Dominància - Recessivitat:</b> Un al·lel (dominant) s'imposa sobre l'altre (recessiu), 
-		i, el fenotip resultant és el mateix que el d'un homozigot amb l'al·lel dominant.
+<li>   <b>Dominància - Recessivitat:</b> Un al·lel (dominant) s'imposa sobre l'altre (recessiu),
+        i, el fenotip resultant és el mateix que el d'un homozigot amb l'al·lel dominant.
 
-<li>	<b>Herència intermitja:</b> El fenotip no és l'equivalent a cap dels dos fenotips 
-		homozigots sinó	que és un fenotip intermig.
+<li>   <b>Herència intermitja:</b> El fenotip no és l'equivalent a cap dels dos fenotips
+        homozigots sinó que és un fenotip intermig.
 
-<li>	<b>Codominància:</b> Es presenten els fenotips dels dos al·lels a la vegada.
+<li>   <b>Codominància:</b> Es presenten els fenotips dels dos al·lels a la vegada.
 
-<li>	<b>Superdominància o heterosis:</b> La presència de l'al·lel recessiu reforça el fenotip
-		de al·lel dominant més que si fós un homozigot.
+<li>   <b>Superdominància o heterosis:</b> La presència de l'al·lel recessiu reforça el fenotip
+        de al·lel dominant més que si fós un homozigot.
 </UL>
 <p>
       <H3><A NAME="tth_sEc2.2.3">
 2.2.3</A>&nbsp;&nbsp;Fenotips de distribució contínua</H3>
 
 <p>
-Alguns caràcters de l'individu, com per exemple l'altura o la inteligència, 
+Alguns caràcters de l'individu, com per exemple l'altura o la inteligència,
 no presenten unes alternatives fenotípiques tan discontínues sinó que
 són més contínues.
 
 <p>
-El caràcter pot dependre de diversos gens <b>poligen</b> amb la qual cosa 
-es produeix una distribució normal en el caràcter. 
-Com més gens s'hi impliquin, més graus discontinus hi haurà a la distribució. 
+El caràcter pot dependre de diversos gens <b>poligen</b> amb la qual cosa
+es produeix una distribució normal en el caràcter.
+Com més gens s'hi impliquin, més graus discontinus hi haurà a la distribució.
 Per exemple:
 
 <p>
 
 <table>
-<tr><td>Número de gens implicats	</td><td align="center">Distribució del caracter </td>
+<tr><td>Número de gens implicats    </td><td align="center">Distribució del caracter </td>
 <tr><td>1 (haploide)</td><td align="center">1:1 </td>
-<tr><td>2 	</td><td align="center">1:2:1 </td>
-<tr><td>4	</td><td align="center">1:2:3:4:3:2:1 </td>
-<tr><td>6	</td><td align="center">1:6:15:20:15:6:1
+<tr><td>2   </td><td align="center">1:2:1 </td>
+<tr><td>4   </td><td align="center">1:2:3:4:3:2:1 </td>
+<tr><td>6   </td><td align="center">1:6:15:20:15:6:1
 </td></table>
 
 <p>
@@ -510,7 +662,7 @@ gens no homòlegs també poden contribuir-hi, però en aquest cas la influència
 dels gens no es equivalent (per la definició anterior de gens homòlegs).
 
 <p>
-Una de les interaccions entre gens no homòlegs és la <b>epistàsia</b>: un gen 
+Una de les interaccions entre gens no homòlegs és la <b>epistàsia</b>: un gen
 (epistàtic) controla l'activació o desactivació d'un altre (hipostàtic).
 
 <p>
@@ -520,7 +672,7 @@ Una de les interaccions entre gens no homòlegs és la <b>epistàsia</b>: un gen
 <p>
 El concepte d'herència tal i com el definia Mendel, s'enfrontava amb les noves
 idees de Darwin sobre l'evolució [DARWIN 1859]. El concepte que tenia Darwin
-sobre l'evolució és que als individuus es produien petits canvis (mutacions) 
+sobre l'evolució és que als individuus es produien petits canvis (mutacions)
 dels quals la natura escollia els més apropiats per a l'entorn.
 En el concepte de Mendel sobre l'herència, no es creaven al·lels nous, les generacions
 posteriors tenen simplement una recombinació dels al·lels de les generacions anteriors.
@@ -530,12 +682,12 @@ una explicació a l'aparició de al·lels diferents dintre d'un gen.
 
 <p>
 Una mutació genica o puntual és l'aparició sobtada d'una nova alternativa (al·lel)
-per a un gen. 
+per a un gen.
 
 <p>
-La mutació (tan si és gènica com si és una altra de les que veurem més endavant) és un 
-fenòmen aleatori que es dona amb una determinada freqüència que sol ser molt baixa. 
-La <b>freqüència de mutació</b> és una probabilitat que es mesura per a un gen donat, 
+La mutació (tan si és gènica com si és una altra de les que veurem més endavant) és un
+fenòmen aleatori que es dona amb una determinada freqüència que sol ser molt baixa.
+La <b>freqüència de mutació</b> és una probabilitat que es mesura per a un gen donat,
 i durant una generació.
 
 <p>
@@ -561,40 +713,40 @@ aproximació, ja ens dona alguns conceptes que no són presents a la implementació
 clàssica dels algorismes genètics.
 
 <p>
-El primer concepte és el de gens homòlegs. 
-A l'algorisme genètic clàssic, els gens no tènen homòlegs a menys que 
-es considerin així a la funció d'evaluació i, generalment, no es fa. 
-En el cas de tenir homòlegs, caldria resoldre el problema de 
+El primer concepte és el de gens homòlegs.
+A l'algorisme genètic clàssic, els gens no tènen homòlegs a menys que
+es considerin així a la funció d'evaluació i, generalment, no es fa.
+En el cas de tenir homòlegs, caldria resoldre el problema de
 l'heterozigosi la qual cosa implica un cost computacional superior
-que és sovint inútil en els problemes que tenen una funció d'avaluació 
-constant. Aquest cost computacional, com a mínim, és el que implica 
+que és sovint inútil en els problemes que tenen una funció d'avaluació
+constant. Aquest cost computacional, com a mínim, és el que implica
 duplicar la informació continguda al cromosoma.
 
 <p>
-En canvi, als problemes on la funció d'avaluació varia al llarg del 
-temps, com és el cas d'un entorn biològic, és positiu guardar-se 
-aquesta variabilitat en forma d'heterozigosis. 
-Un genotip que no tingui gens homòlegs té els mateixos desavantatges 
-que s'han comentat abans per un genotip homozigot, però, amb el 
+En canvi, als problemes on la funció d'avaluació varia al llarg del
+temps, com és el cas d'un entorn biològic, és positiu guardar-se
+aquesta variabilitat en forma d'heterozigosis.
+Un genotip que no tingui gens homòlegs té els mateixos desavantatges
+que s'han comentat abans per un genotip homozigot, però, amb el
 desavantatge afegit de que mai pot arribar a ser heterozigot.
 
 <p>
 El concepte de mutació gènica, és el concepte de mutació puntual
-dels algorismes genètics clàssics. 
+dels algorismes genètics clàssics.
 El que s'aporta de nou és el concepte de probabilitat de
 mutació variable segons el gen, i la diferència entre mutació
-somàtica i germinal de cara a transmetre les mutacions a la 
+somàtica i germinal de cara a transmetre les mutacions a la
 descendència.
-Als apartats següents anirem modificant i enriquint el concepte 
-de mutació a mida que es vagi desgavellant, en aquest capítol, 
+Als apartats següents anirem modificant i enriquint el concepte
+de mutació a mida que es vagi desgavellant, en aquest capítol,
 la natura dels gens.
 
 <p>
-De cara a l'anàlisis dels resultats, pot ser interesant detectar si 
-hi ha algun mecanisme que afavoreixi els genotips heterozigots i la 
-presència de fenotips continus. 
-També pot interesar detectar si es donen casos d'epistàsia, tot i 
-que, com que els mecanismes d'epistàsia poden ser molt complexos, 
+De cara a l'anàlisis dels resultats, pot ser interesant detectar si
+hi ha algun mecanisme que afavoreixi els genotips heterozigots i la
+presència de fenotips continus.
+També pot interesar detectar si es donen casos d'epistàsia, tot i
+que, com que els mecanismes d'epistàsia poden ser molt complexos,
 caldria limitar a alguns casos de baix nivell.
 
 <p>
@@ -606,12 +758,12 @@ caldria limitar a alguns casos de baix nivell.
 2.3.1</A>&nbsp;&nbsp;Els cromosomes i l'herència</H3>
 
 <p>
-Els estudis de Morgan et al. varen demostrar que els gens no eren 
-quelcom independent sinó que estaven en estructures superiors 
-formant els <b>cromosomes</b>. 
+Els estudis de Morgan et al. varen demostrar que els gens no eren
+quelcom independent sinó que estaven en estructures superiors
+formant els <b>cromosomes</b>.
 
 <p>
-El gens es troben localitzats en un punt concret del cromosoma 
+El gens es troben localitzats en un punt concret del cromosoma
 (<b>locus</b>). Quan reconvinem el material genètic de dos
 progenitors, els gens a locus més propers dins d'un cromosoma
 tenen molta més probabilitat d'heretar-se conjuntament.
@@ -623,7 +775,7 @@ els gens i sempre que els gens tinguin un locus suficientment
 allunyats o en cromosomes diferents.
 
 <p>
-Anomenem <b>cariotip</b> al conjunt de cromosomes que té una espècie 
+Anomenem <b>cariotip</b> al conjunt de cromosomes que té una espècie
 (en quant a nombre i morfologia).
 
 <p>
@@ -634,7 +786,7 @@ i contènen gens homòlegs als mateixos <em>locus</em>.
 Un cariotip és <b>diplont</b> si està format per n parelles de
 cromosomes homòlegs. És a dir, cada cromosoma té un altre d'homòleg,
 de tal forma que hi ha dos dotacions cromosòmiques homòlogues.
-Generalment són organismes que es reprodueixen sexualment, 
+Generalment són organismes que es reprodueixen sexualment,
 i, de cada parella d'homòlegs, cada progenitor n'ha aportat un.
 
 <p>
@@ -647,7 +799,7 @@ si n'hi ha quatre, <b>tetraplont</b> i, si n'hi ha més, <b>poliplont</b>.
 2.3.2</A>&nbsp;&nbsp;Mitosi i meiosi</H3>
 
 <p>
-Les cel·lules següeixen 
+Les cel·lules següeixen
 
 <p>
       <H3><A NAME="tth_sEc2.3.3">
@@ -656,35 +808,35 @@ Les cel·lules següeixen
 <p>
 Sexualitat i reproducció són dos procesos amb origen evolutiu i funció diferent.
 Si bé l'objectiu de la reprodució era obtindre individuus que siguin còpies
-genètiques dels seus progenitors, l'objectiu de la sexualitat és el de la 
+genètiques dels seus progenitors, l'objectiu de la sexualitat és el de la
 recombinació genètica per provar generar mes variabilitat genètica.
 
 <p>
-Alguns organismes unicel·lulars, per exemple, tenen comportaments sexuals no lligats 
-a la reproducció com ara la conjugació que consisteix en l'intercanvi simple de 
+Alguns organismes unicel·lulars, per exemple, tenen comportaments sexuals no lligats
+a la reproducció com ara la conjugació que consisteix en l'intercanvi simple de
 material genètic sense que es produeixi cap nou individuu.
 
 <p>
-Dels procesos sexuals en resulta una gama d'individuus diferents molt més amplia 
-del que en resulta amb processos exclusivament asexuals. 
-Això dona més agilitat al procés evolutiu, sobretot de cara a variacions en el medi. 
-Permet que, si un organisme adquireix per mutació una característica positiva, 
-aquesta característica es propagui per la població sense necessitat de que 
-hi hagi una substitució dràstica de la descendència sense mutació per la 
+Dels procesos sexuals en resulta una gama d'individuus diferents molt més amplia
+del que en resulta amb processos exclusivament asexuals.
+Això dona més agilitat al procés evolutiu, sobretot de cara a variacions en el medi.
+Permet que, si un organisme adquireix per mutació una característica positiva,
+aquesta característica es propagui per la població sense necessitat de que
+hi hagi una substitució dràstica de la descendència sense mutació per la
 descendència amb mutació.
 
 <p>
 Als organismes que es reprodueixen sexualment, a la fecundació, sempre intervenen
-dos cèl·lules haplonts (gametes), una de cada progenitor, que es junten per formar 
+dos cèl·lules haplonts (gametes), una de cada progenitor, que es junten per formar
 un zigot diplont.
 Pot passar que la meiosi es produeixi abans de la fecundació, i que els individuus
-madurs siguin diplonts (<b>cicle diplont</b>) o que la meiosis es produeixi després 
+madurs siguin diplonts (<b>cicle diplont</b>) o que la meiosis es produeixi després
 de la fecundació amb la qual cosa els individuus son haplonts (<b>cicle haplont</b>).
 
 <p>
 Alguns organismes alternen generacions haplonts amb les diplonts (<b>cicle haplodiplont</b>.
 Una generació haplont produeix les gametes que intervenen a la fecundació, formant un
-zigot que dona un individuu diplont. Aquest crea cèl·lules esporogènees (diplonts) que 
+zigot que dona un individuu diplont. Aquest crea cèl·lules esporogènees (diplonts) que
 per meiosi dona lloc a meiospores haplonts de les que es torna a formar un individuu haplont.
 
 <p>
@@ -692,11 +844,11 @@ per meiosi dona lloc a meiospores haplonts de les que es torna a formar un indiv
 2.3.4</A>&nbsp;&nbsp;Mutacions cromosòmiques</H3>
 
 <p>
-El fet de que els gens estiguin dins de l'estrutura cromosòmica dona 
-lloc a altres tipus de mutacions que no són pas les gèniques. 
-Ténen a veure amb la distribució dels gens a dins dels cromosomes, 
+El fet de que els gens estiguin dins de l'estrutura cromosòmica dona
+lloc a altres tipus de mutacions que no són pas les gèniques.
+Ténen a veure amb la distribució dels gens a dins dels cromosomes,
 i, així com les mutacions gèniques explicaven l'origen dels diferents
-genotips, les mutacion cromosòmiques expliquen l'origen dels diferents 
+genotips, les mutacion cromosòmiques expliquen l'origen dels diferents
 cariotips per cada espècie.
 
 <p>
@@ -706,24 +858,24 @@ no intervenen cromosomes integres sino fragments d'aquests.
 <p>
 
 <UL>
-<li>	Es produeix una <b>deficiència o delecció</b> quan un cromosoma en perd un segment.
+<li>   Es produeix una <b>deficiència o delecció</b> quan un cromosoma en perd un segment.
 Les causes poden ser una falla en el procés de replica o, en el moment del crossover.
 
 <p>
 
-<li>	La <b>duplicació</b> consisteix en el fet de que un segment cromosòmic es dupliqui,
+<li>   La <b>duplicació</b> consisteix en el fet de que un segment cromosòmic es dupliqui,
 generalment, en sèrie.
 
 <p>
 
-<li>	La <b>translocació</b> és una mutació cromosòmica que consisteix canviar el locus
-d'una seqüència gènica. 
-	Si un organisme es reprodueix sexualment, sovint, la translocació 
-	causa, en els descendents, duplicació o deficiencia del gen translocat.
+<li>   La <b>translocació</b> és una mutació cromosòmica que consisteix canviar el locus
+d'una seqüència gènica.
+    Si un organisme es reprodueix sexualment, sovint, la translocació
+    causa, en els descendents, duplicació o deficiencia del gen translocat.
 
 <p>
 
-<li>	La <b>inversió</b> consisteix en el canvi de sentit d'un segment de cromosoma.
+<li>   La <b>inversió</b> consisteix en el canvi de sentit d'un segment de cromosoma.
 
 <p>
 </UL>De banda de les mutacion estructurals, es donen <b>mutacions per canvi en el nombre
@@ -732,17 +884,17 @@ de cromosomes</b>. La causa del canvi en el nombre de cromosomes pot ser:
 <p>
 
 <UL>
-<li>	<b>Fusió cèntrica:</b> Dos cromosomes no homòlegs es fusionen pel seu centròmer.
+<li>   <b>Fusió cèntrica:</b> Dos cromosomes no homòlegs es fusionen pel seu centròmer.
 
-<li>	<b>Escissió cèntrica:</b> Un cromosoma se escindeix en dos pel seu centròmer.
+<li>   <b>Escissió cèntrica:</b> Un cromosoma se escindeix en dos pel seu centròmer.
 
-<li>	<b>No disyunció en la meiosi:</b> En la meiosi no es reparteixen per igual
-	les cromàtides de tal forma que una gameta es queda amb més cromàtides del
-	normal i l'altre, amb menys.
-	Es tracta d'una <b>euploidia</b> si és un canvi en el nombre de 
-	dotacions gèniques. Per exemple, que d'un diploide en sorgeixi un triploide.
-	Pel contrari, si el que hi ha hagut és la falta o la duplicació d'un sol cromosoma,
-	es tracta d'una <b>aneuploidia</b>
+<li>   <b>No disyunció en la meiosi:</b> En la meiosi no es reparteixen per igual
+    les cromàtides de tal forma que una gameta es queda amb més cromàtides del
+    normal i l'altre, amb menys.
+    Es tracta d'una <b>euploidia</b> si és un canvi en el nombre de
+    dotacions gèniques. Per exemple, que d'un diploide en sorgeixi un triploide.
+    Pel contrari, si el que hi ha hagut és la falta o la duplicació d'un sol cromosoma,
+    es tracta d'una <b>aneuploidia</b>
 </UL>
 <p>
       <H3><A NAME="tth_sEc2.3.5">
@@ -751,21 +903,21 @@ de cromosomes</b>. La causa del canvi en el nombre de cromosomes pot ser:
 <p>
 La influència del locus de cada gen en el fet de que dos gens tendeixin
 a heretar-se junts, és un efecte que, als algorismes genètics clàssics
-i amb segons quins problemes, resulta negatiu. A la natura és un efecte 
+i amb segons quins problemes, resulta negatiu. A la natura és un efecte
 positiu per que la posició dels gens no es fixa sino que evoluciona
-juntament amb els individuus i, si dos gens són bons si s'hereten junts, 
+juntament amb els individuus i, si dos gens són bons si s'hereten junts,
 l'evolució tendirà a posar-los junts en el cariotip, i, si fós bo que
 es recombinin de forma equitativa, l'evolució tendirà a posar-los separats.
 
 <p>
-A la simulació, de cara a deixar via oberta a diversos comportaments 
-sexuals o a organismes asexuals, farem servir la separació entre els 
+A la simulació, de cara a deixar via oberta a diversos comportaments
+sexuals o a organismes asexuals, farem servir la separació entre els
 conceptes de sexualitat i reproducció.
 
 <p>
-La introducció d'organismes diplonts o poliplonts suposaria implementar 
-un mecanisme de resolució del fenotip heterozigòtic als gens homòlegs. 
-També sorgirien alguns altres problemes, relacionats amb el creuament, 
+La introducció d'organismes diplonts o poliplonts suposaria implementar
+un mecanisme de resolució del fenotip heterozigòtic als gens homòlegs.
+També sorgirien alguns altres problemes, relacionats amb el creuament,
 que es comenten en el següent apartat.
 
 <p>
@@ -783,15 +935,15 @@ l'estructura mol·lecular de l'ADN, els biòlegs consideraven el gen com a:
 <UL>
 <p>
 
-<li>	<b>Unitat funcional:</b> De cara a controlar un caràcter.
+<li>   <b>Unitat funcional:</b> De cara a controlar un caràcter.
 
-<li>	<b>Unitat de reconbinació:</b> Unitat estructural bàsica e indivisible del cromosoma.
+<li>   <b>Unitat de reconbinació:</b> Unitat estructural bàsica e indivisible del cromosoma.
 
-<li>	<b>Unitat de mutació:</b> El gen és el que canvia com un tot.
+<li>   <b>Unitat de mutació:</b> El gen és el que canvia com un tot.
 </UL>
 <p>
 Més tard, van descobrir que els cromosomes estaven formats per seqüències d'ADN.
-L'estudi mol·lecular de l'ADN  va donar una idea més en detall de com 
+L'estudi mol·lecular de l'ADN  va donar una idea més en detall de com
 s'expressen, com es reconbinen i com muten els gens.
 
 <p>
@@ -801,8 +953,8 @@ s'expressen, com es reconbinen i com muten els gens.
 <p>
 monocatenario
 bicatenario
-	circular
-	linial
+    circular
+    linial
 
 <p>
 Model de Watson i Crick (Heleicoidal)
@@ -815,18 +967,18 @@ transcripció és inversa.
 Bases al ADN
 
 <table border>
-<tr><td align="center"><b>Púriques</b>	</td><td align="center"> </td><td align="center"><b>Pirimídiniques</b> </td><tr><td>
-<tr><td align="center">Adenina		</td><td align="center">lliga amb </td><td align="center">Timina </td>
-<tr><td align="center">Guanina		</td><td align="center">lliga amb </td><td align="center">Citosina </td></td></table>
+<tr><td align="center"><b>Púriques</b>  </td><td align="center"> </td><td align="center"><b>Pirimídiniques</b> </td><tr><td>
+<tr><td align="center">Adenina     </td><td align="center">lliga amb </td><td align="center">Timina </td>
+<tr><td align="center">Guanina     </td><td align="center">lliga amb </td><td align="center">Citosina </td></td></table>
 
 
 <p>
 Bases al ARN
 
 <table border>
-<tr><td align="center"><b>Púriques</b>	</td><td align="center"> </td><td align="center"><b>Pirimídiniques</b> </td><tr><td>
-<tr><td align="center">Adenina		</td><td align="center">lliga amb </td><td align="center">Uracil </td>
-<tr><td align="center">Guanina		</td><td align="center">lliga amb </td><td align="center">Citosina </td></td></table>
+<tr><td align="center"><b>Púriques</b>  </td><td align="center"> </td><td align="center"><b>Pirimídiniques</b> </td><tr><td>
+<tr><td align="center">Adenina     </td><td align="center">lliga amb </td><td align="center">Uracil </td>
+<tr><td align="center">Guanina     </td><td align="center">lliga amb </td><td align="center">Citosina </td></td></table>
 
 
 <p>
@@ -835,10 +987,10 @@ Bases al ARN
 
 <p>
 L'expressió gènica és la forma que tènen els gens, continguts en els cromosomes,
-per arribar a afectar al caràcter fenotípic que controlen. En general, cada gen 
-contingut als cromosomes està associat a la producció d'una proteina que pot ser 
-enzimatica o estructural. A més, aquesta associació és linial, com ja veurem, 
-això vol dir que 
+per arribar a afectar al caràcter fenotípic que controlen. En general, cada gen
+contingut als cromosomes està associat a la producció d'una proteina que pot ser
+enzimatica o estructural. A més, aquesta associació és linial, com ja veurem,
+això vol dir que
 
 <p>
 A la natura, l'expressió gènica no es fa directament de l'ADN a les proteines
@@ -850,28 +1002,28 @@ la expressió gènica es fa en tres passos:
 <H4>Transcripció</H4>
 
 <p>
-La transcripció és el primer pas de l'expressió gènica i l'únic en el que pren part l'ADN. 
+La transcripció és el primer pas de l'expressió gènica i l'únic en el que pren part l'ADN.
 Consisteix en sintetitzar una cadena d'ARN complementària a una subseqüència d'ADN.
 Es divideix en tres fases:
 
 <p>
 
 <UL>
-<li>	<b>Fase d'iniciació:</b> 
-Primer, l'enzim transcriptor reconeix una seqüència de nucleòtids, 
-anomenada <b>regió promotora</b>, que és la que indica el punt de la 
-cadena on cal començar una transcripció. 
+<li>   <b>Fase d'iniciació:</b>
+Primer, l'enzim transcriptor reconeix una seqüència de nucleòtids,
+anomenada <b>regió promotora</b>, que és la que indica el punt de la
+cadena on cal començar una transcripció.
 
 <p>
 
-<li>	<b>Fase de allargament de cadena:</b>
-Després, a mida que avança en la direcció de transcripció, va enganxant 
+<li>   <b>Fase de allargament de cadena:</b>
+Després, a mida que avança en la direcció de transcripció, va enganxant
 nucleòtids d'ARN complementaris als que es va trobant a la cadena d'ADN.
 
 <p>
 
-<li>	<b>Fase de finalització:</b> 
-El procés arriba a la seva fi, quan l'enzim arriba a una seqüència 
+<li>   <b>Fase de finalització:</b>
+El procés arriba a la seva fi, quan l'enzim arriba a una seqüència
 d'ADN determinada, <b>regió terminadora</b>, que indica la seva fi.
 </UL>
 <p>
@@ -879,23 +1031,23 @@ d'ADN determinada, <b>regió terminadora</b>, que indica la seva fi.
 <H4>Processat o maduració</H4>
 
 <p>
-Les cadenes d'ARN<sub>m</sub> inmadur, a les cèl·lules eucariotes (amb nucli diferenciat), 
-pateixen tot un seguit de transformacions abans de traduïr-se als ribosomes. 
-Aquest processat no es fa als organismes procariotes (nucli dispers) donat que 
+Les cadenes d'ARN<sub>m</sub> inmadur, a les cèl·lules eucariotes (amb nucli diferenciat),
+pateixen tot un seguit de transformacions abans de traduïr-se als ribosomes.
+Aquest processat no es fa als organismes procariotes (nucli dispers) donat que
 ARN<sub>m</sub> es tradueix directament, abans, i tot, de acabar-se de transcriure.
 
 <p>
-Per un costat, la seqüència d'ADN que hi ha transcrita al ARN<sub>m</sub>, no tota conté 
+Per un costat, la seqüència d'ADN que hi ha transcrita al ARN<sub>m</sub>, no tota conté
 informació útil. Els <b>exons</b> són els segments que codifiquen informació
 útil, i els <b>introns</b> són els segments que no. Una de les transformacions que es fan
 en aquesta fase és eliminar els introns.
 
 <p>
-Una altra transformació és afegir al lider i al trailer un cap i una 
+Una altra transformació és afegir al lider i al trailer un cap i una
 cua respectivament que ajudaran a iniciar i finalitzar la traducció.
 
 <p>
-Algunes mol·lecules d'ARN (ARN<sub>t</sub>, ARN<sub>r</sub>...) que també es transcriuen 
+Algunes mol·lecules d'ARN (ARN<sub>t</sub>, ARN<sub>r</sub>...) que també es transcriuen
 de l'ADN, pateixen un processat més especialitzat. Aquestes mol·lècules
 d'ARN no es fan servir per codificar proteines però, com es veurà
 en la fase següent, tenen un paper importantísim en la síntesis de
@@ -906,16 +1058,16 @@ proteines.
 <H4>Traducció</H4>
 
 <p>
-Durant la traducció, l'ARN<sub>m</sub> madur s'interpreta per anar enganxant 
+Durant la traducció, l'ARN<sub>m</sub> madur s'interpreta per anar enganxant
 la seqüència d'aminoàcids d'una proteina.
 
 <p>
-Cada tres nucleòtids d'ARN<sub>t</sub> formen un codó. Cada codó té un 
-aminoàcid associat, segons la taula de sota. La concatenació dels 
+Cada tres nucleòtids d'ARN<sub>t</sub> formen un codó. Cada codó té un
+aminoàcid associat, segons la taula de sota. La concatenació dels
 aminoàcids segons la seqüència de codons és el que forma la proteina.
 
 <p>
-Els quatre valors possibles pels tres nucleòtids d'un codó donen 
+Els quatre valors possibles pels tres nucleòtids d'un codó donen
 4<sup>3</sup> = 64 combinacions. Però, a la natura, es donen només 21 aminoàcids.
 Es dedueix, llavors, que <b>la codificació és redundant</b> i produeix <b>sinònims</b>.
 Un parell o tres de codons són <b>muts</b> i no tenen traducció.
@@ -929,9 +1081,9 @@ Aquesta taula és el codi genètic que tradueix els codons a aminoàcids:
 L'associació la fan mol·lècules d'ARN<sub>t</sub> que tènen a un extrem un anticodó
 per lligar-se a un codó, i, per l'altre extrem un radical amb el qual
 es lliguen a l'aminoàcid corresponent. Les mol·lècules d'ARN<sub>t</sub> també estan
-codificades a l'ADN i, per tant, l'associació codó-aminoàcid és també 
-informació genètica. Sorprenentment, el codi genètic és pràcticament 
-universal, donant-se petites variacions, només a l'ADN mitocondrial. 
+codificades a l'ADN i, per tant, l'associació codó-aminoàcid és també
+informació genètica. Sorprenentment, el codi genètic és pràcticament
+universal, donant-se petites variacions, només a l'ADN mitocondrial.
 La raò és que en els organismes mínimament evolucionats, un canvi
 en el codi genètic suposaria tants canvis que segurament serien letals,
 en canvi en els organismes primigenis, seria possible trobar més diversitat
@@ -944,17 +1096,17 @@ de codis.
 
 <p>
 Mutacions i creuaments són els mecanismes d'adaptació al medi que
-permeten a una població adaptar-se de generació en generació als 
+permeten a una població adaptar-se de generació en generació als
 canvis graduals en el medi.
 Però, hi ha canvis que són tan freqüents que els ha d'afrontar
 l'individuu que els pateix i no es pot esperar a que varii el
-genotip de la seva descendència. Són les respostes que produeix 
+genotip de la seva descendència. Són les respostes que produeix
 l'individuu a les variacions del medi.
 
 <p>
 Perque un organisme es pugui adaptar a diverses situacions de l'entorn
 cal que tingui mecanismes per regular l'expressió dels seus gens segons
-aquestes situacions. Per exemple, si el medi es torna massa àcid cal 
+aquestes situacions. Per exemple, si el medi es torna massa àcid cal
 generar enzims que ho compensin, però, quan es massa bàsic, la producció
 d'aquests enzims, no només és un gast inútil d'energies sinó que podria
 ser contraproduent.
@@ -963,32 +1115,32 @@ ser contraproduent.
 Cal llavors un mecanisme que permeti a l'organisme controlar la seva producció
 enzimàtica. Aquest control no es podria fer efectiu, si l'ARN<sub>m</sub> no tingués
 una vida molt limitada. La vida de l'ARN<sub>m</sub> i la vida de la majoria
-de proteines enzimàtiques, ve fixada per un compromís entre economia en 
+de proteines enzimàtiques, ve fixada per un compromís entre economia en
 la seva producció i la capacitat de reacció de l'organisme.
 
 <p>
-Aquest límit en la vida del ARN<sub>m</sub> i de les proteines que en genera, 
+Aquest límit en la vida del ARN<sub>m</sub> i de les proteines que en genera,
 ens permet una regulació basada en el control de la producció d'ARN<sub>m</sub>.
-Si es deixa de produir, hi haurà un moment en que les proteines que 
-genera no hi seran presents. A continuació s'explica els factors que 
+Si es deixa de produir, hi haurà un moment en que les proteines que
+genera no hi seran presents. A continuació s'explica els factors que
 intervenen en la síntesis d'ARN<sub>m</sub> per a un gen donat.
 
 <p>
-El gens tenen una <b>probabilitat transcripció</b> que depen de l'afinitat de 
-l'enzim transcriptor amb el seu promotor i de la seva repetició al llarg del genotip. 
+El gens tenen una <b>probabilitat transcripció</b> que depen de l'afinitat de
+l'enzim transcriptor amb el seu promotor i de la seva repetició al llarg del genotip.
 Aquesta probabilitat és inherent al genotip, però, pot ser modificada amb <b>regulació activa</b>.
 Segon l'efecte de la regulació diem que el control que fa és:
 
 <UL>
 <p>
 
-<li>	<b>Control negatiu:</b> Si es fa mitjançant <b>agents represors</b>
-	que impideixen l'unió de l'enzim transcriptor amb el promotor
-	bloquejant la síntesi de ARN<sub>m</sub>.
+<li>   <b>Control negatiu:</b> Si es fa mitjançant <b>agents represors</b>
+    que impideixen l'unió de l'enzim transcriptor amb el promotor
+    bloquejant la síntesi de ARN<sub>m</sub>.
 
-<li>	<b>Control positiu:</b> Si es fa mitjançant <b>agents activadors</b>
-	que es junten amb el promotor per fer-lo més afí amb l'enzim 
-	transcriptor.
+<li>   <b>Control positiu:</b> Si es fa mitjançant <b>agents activadors</b>
+    que es junten amb el promotor per fer-lo més afí amb l'enzim
+    transcriptor.
 </UL>
 <p>
 Els agents represors/activadors són proteines que es sintetitzen també
@@ -998,14 +1150,14 @@ Quan aquestes condicions ambientals són principis actius es diu que són:
 <p>
 
 <UL>
-<li>	<b>Sistemes inducibles:</b> Si actuen per la ausencia d'un principi actiu.
+<li>   <b>Sistemes inducibles:</b> Si actuen per la ausencia d'un principi actiu.
 
-<li>	<b>Sistemes represibles:</b> Si actuen per la presència d'un principi actiu (correpressor o coactivador).
+<li>   <b>Sistemes represibles:</b> Si actuen per la presència d'un principi actiu (correpressor o coactivador).
 </UL>
 <p>
-Per exemple, si el gen que volem regular és un catabolitzador d'una sustància A, 
-l'organisme pot fer servir un control negatiu induible, de tal forma que es 
-desactivi quan no hi hagi A, i/o un control positiu represible, perque s'acceleri 
+Per exemple, si el gen que volem regular és un catabolitzador d'una sustància A,
+l'organisme pot fer servir un control negatiu induible, de tal forma que es
+desactivi quan no hi hagi A, i/o un control positiu represible, perque s'acceleri
 la producció quan hi hagi A.
 
 <p>
@@ -1023,44 +1175,44 @@ deguda a l'inestabilitat química del propi ADN o a agents externs.
 <UL>
 <p>
 
-<li>	<b>Mutació per transició de bases:</b> Intercanvi per l'altre base del mateix grup (púriques o pirimírique)
+<li>   <b>Mutació per transició de bases:</b> Intercanvi per l'altre base del mateix grup (púriques o pirimírique)
 
-<li>	<b>Mutació per transversió de bases:</b> Intercanvi per la base no complementaria de l'altre grup.
+<li>   <b>Mutació per transversió de bases:</b> Intercanvi per la base no complementaria de l'altre grup.
 
-<li>	No es donen, de forma natural, les mutacions directes entre bases complementaris.
+<li>   No es donen, de forma natural, les mutacions directes entre bases complementaris.
 </UL>
 <p>
-Tant la transició com la transversió, es donen per la modificació 
+Tant la transició com la transversió, es donen per la modificació
 química d'una de les bases (tautomerització) que, en duplicar-se
 l'ADN, no es lliga amb la seva base complementària sinó amb una
-altra. Quedant les bases desajustades. 
+altra. Quedant les bases desajustades.
 Encara cal que passi per uns quants filtres perque la mutació es
 faci efectiva a la descendència:
 
 <UL>
 <p>
 
-<li>	Existeixenn mecanismes de reparació basats en el fet de que, tot i que una
-	base hagi canviat, l'altre pot seguir igual, si no són complementàries, vol dir
-	que hi ha hagut una mutació. L'enzim corrector modifica una de les dues bases
-	per tal de que siguin complementàries, però, pot modificar la mutada o la bona.
+<li>   Existeixenn mecanismes de reparació basats en el fet de que, tot i que una
+    base hagi canviat, l'altre pot seguir igual, si no són complementàries, vol dir
+    que hi ha hagut una mutació. L'enzim corrector modifica una de les dues bases
+    per tal de que siguin complementàries, però, pot modificar la mutada o la bona.
 
-<li>	En duplicar-se la cadena, per una divisió cel·lular, si encara no s'ha 'corregit´ 
-	la mutació, la meitat de la descendència durà la mutació complerta i l'altra meitat
-	el genoma primitiu.
+<li>   En duplicar-se la cadena, per una divisió cel·lular, si encara no s'ha 'corregit´
+    la mutació, la meitat de la descendència durà la mutació complerta i l'altra meitat
+    el genoma primitiu.
 
-<li>	Tant si es repara com si es queda la mutació sense reparar, la probabilitat de 
-	traspasar-la a un descendent és del 50%.
+<li>   Tant si es repara com si es queda la mutació sense reparar, la probabilitat de
+    traspasar-la a un descendent és del 50%.
 
-<li>	La mutació es pot produir a un segment d'ADN no codificant (introns i zones intermitges)
+<li>   La mutació es pot produir a un segment d'ADN no codificant (introns i zones intermitges)
 
-<li>	Els codons sinònims fan que alguns canvis en les bases no impliquin canvi de pèptid.
+<li>   Els codons sinònims fan que alguns canvis en les bases no impliquin canvi de pèptid.
 
-<li>	Alguns canvis de pèptids als extrons tampoc no són significatius pel fenotip.
+<li>   Alguns canvis de pèptids als extrons tampoc no són significatius pel fenotip.
 
-<li>	En organismes pluricel·lulars, cal que sigui una mutació al teixit germinal
-	que dona lloc als nous individuus. Si es dona al teixit somàtic, només afecta
-	a les cèl·lules filles al mateix organisme.
+<li>   En organismes pluricel·lulars, cal que sigui una mutació al teixit germinal
+    que dona lloc als nous individuus. Si es dona al teixit somàtic, només afecta
+    a les cèl·lules filles al mateix organisme.
 </UL>
 <p>
       <H3><A NAME="tth_sEc2.4.6">
@@ -1071,17 +1223,17 @@ A nivell mol·lecular, trobem alternatives molt riques al AG clàssic.
 Algunes de les quals han estat estudiades en la bibliografia.
 
 <p>
-El gens són de longitud variable. El que ho permet són les seqüències 
+El gens són de longitud variable. El que ho permet són les seqüències
 promotora i terminadora que els delimiten. Mayer va experimentar
-aquest tipus de codificació, mitjaçant promotors i terminadors, en 
-cromosomes de longitud fixa, variant el nombre, posició i 
+aquest tipus de codificació, mitjaçant promotors i terminadors, en
+cromosomes de longitud fixa, variant el nombre, posició i
 longitud dels gens/paràmetres. Raich va trobar ideal una codificació
 molt semblant (feia servir una longitud en comptes d'una seqüència
 terminadora) per problemes orientats a disseny que ténen un nombre
-variable de paràmetres i que requereixen solucions obertes. 
+variable de paràmetres i que requereixen solucions obertes.
 
 <p>
-No tot l'ADN es transcriu, com a mínim les seqüències promotores i 
+No tot l'ADN es transcriu, com a mínim les seqüències promotores i
 terminadores, no ho fan. A més, tenim els introns que s'eliminen
 durant la fase de maduració.
 
@@ -2283,7 +2435,7 @@ A continuació es presenta un exemple complert:
 
 <p>
         <H2><A NAME="tth_sEc3.3">
-3.3</A>&nbsp;&nbsp;Serveis que donen al biosistema els organismes</H2>
+3.3</A>&nbsp;&nbsp;Serveis que donen els organismes al biosistema</H2>
 
 <p>
 De cara a poder manegar
@@ -2319,56 +2471,81 @@ partir d'altres i organismes aleatoris.
 
 <p>
 </UL>        <H2><A NAME="tth_sEc3.4">
-3.4</A>&nbsp;&nbsp;Estructura interna dels organismes</H2>
-
-<p>
-      <H3><A NAME="tth_sEc3.4.1">
-3.4.1</A>&nbsp;&nbsp;El cariotip</H3>
-
-<p>
-Definim el cariotip com el conjunt de cromosomes que conté un
-organisme, doncs en el present cas es consideren organismes
-unicel·lulars.
-
-<p>
-Cada cromosoma està format per una seqüència de bases representada
-cadascuna amb un sencer.
+3.4</A>&nbsp;&nbsp;Visió general de l'estructura interna dels organismes</H2>
 
 <p>
 Cariotip-&#62;Cromosoma-&#62;Base-&#62;Codo-&#62;
 
 <p>
-      <H3><A NAME="tth_sEc3.4.2">
-3.4.2</A>&nbsp;&nbsp;El genotip</H3>
+        <H2><A NAME="tth_sEc3.5">
+3.5</A>&nbsp;&nbsp;El cariotip i els cromosomes</H2>
 
 <p>
-El genotip és la traducció del cariotip a elements significatius.
-És el conjunt de gens que s'interpreten
+Cada organisme conté un nombre variable de <b>
+cromosomes</b><a NAME="cromosoma+segons aquest projecte35">
+</a> que, en conjunt,
+formen el <b>cariotip</b><a NAME="cariotip+segons aquest projecte35">
+</a>. Cada
+cromosoma està format per una seqüència de bases representada
+cadascuna amb un bit o un grup de bits.
 
 <p>
-      <H3><A NAME="tth_sEc3.4.3">
-3.4.3</A>&nbsp;&nbsp;El fenotip</H3>
+Tot i que la unitat bàsica del cromosoma és la base (un conjunt
+reduït de bits), a la implementació, no es considera aquesta unitat
+més que per a fer algun tipus de mutació puntual. Per a la resta de
+manipulacions, com no fa falta arribar a nivell de base i és més
+òptim accedir-hi, ho farem a nivell de codò, que en aquesta
+representació coincideix amb una paraula doble (32 bits).
 
 <p>
-El que anomenem propiament fenotip és un conjunt de 32 registres de
-32 bits que té cada organisme. Representen el cos físic de l'organisme.
-El fenotip es modifica per acció directa del genotip, però també
-es veu afectat pel medi mitjançant els sensors i, al mateix temps
-afecta al medi mitjançant els motors. A més, és un dels dos mitjans
-que tènen els organismes per reconeixer-se juntament amb la detecció
-de mol·lècules excretades.
+El cromosoma, com a tal, no és una unitat d'informació sinò un medi
+on estan les dades genètiques. És un medi que pot tenir errors i
+provocar mutacions. Dins d'un organisme, la tasa de mutació de cada
+cromosoma és proporcional a la seva longitud.
 
 <p>
-      <H3><A NAME="tth_sEc3.4.4">
-3.4.4</A>&nbsp;&nbsp;Sensors i motors</H3>
+      <H3><A NAME="tth_sEc3.5.1">
+3.5.1</A>&nbsp;&nbsp;Els gens i el genotip</H3>
 
 <p>
-      <H3><A NAME="tth_sEc3.4.5">
-3.4.5</A>&nbsp;&nbsp;Presa de nutrients</H3>
+El <b>genotip</b><a NAME="genotip+segons aquest projecte35">
+</a> és la
+traducció del cariotip a elements significatius. Aquests elements
+significatius s'grupen en <b>gens</b><a NAME="gen+segons aquest
+projecte35">
+</a>, que s'interpreten a partir dels codons del cromosoma.
 
 <p>
-      <H3><A NAME="tth_sEc3.4.6">
-3.4.6</A>&nbsp;&nbsp;Metabolisme</H3>
+      <H3><A NAME="tth_sEc3.5.2">
+3.5.2</A>&nbsp;&nbsp;El fenotip</H3>
+
+<p>
+El que anomenem propiament <em>fenotip</em><a NAME="fenotip+segons aquest
+projecte35">
+</a> és un conjunt de 32 registres de 32 bits que té cada
+organisme. Representen el cos físic de l'organisme. El fenotip es
+modifica per acció directa del genotip, però també aquestes
+modificacions depenen sovint del medi mitjançant els sensors i, al
+mateix temps, el contingut del fenotip influeix al medi mitjançant
+l'acció dels motors. A més, és un dels dos mitjans que tènen els
+organismes per reconeixer-se juntament amb la detecció de mol·lècules
+excretades.
+
+<p>
+En resum, el fenotip és el mecanisme principal d'interacció que tenen
+els organismes.
+
+<p>
+      <H3><A NAME="tth_sEc3.5.3">
+3.5.3</A>&nbsp;&nbsp;Sensors i motors</H3>
+
+<p>
+      <H3><A NAME="tth_sEc3.5.4">
+3.5.4</A>&nbsp;&nbsp;Presa de nutrients</H3>
+
+<p>
+      <H3><A NAME="tth_sEc3.5.5">
+3.5.5</A>&nbsp;&nbsp;Metabolisme</H3>
 
 <p>
 Un cop els nutrients estan dins de l'organisme, pot metabolitzar-los,
@@ -2390,12 +2567,12 @@ Si això passes, els seus depredadors tenderien a augmentar en
 nombre d'organismes i en nombre d'espècies.
 
 <p>
-        <H2><A NAME="tth_sEc3.5">
-3.5</A>&nbsp;&nbsp;Eines d'analisis</H2>
+        <H2><A NAME="tth_sEc3.6">
+3.6</A>&nbsp;&nbsp;Eines d'analisis</H2>
 
 <p>
-      <H3><A NAME="tth_sEc3.5.1">
-3.5.1</A>&nbsp;&nbsp;Mecanismes d'especiació</H3>
+      <H3><A NAME="tth_sEc3.6.1">
+3.6.1</A>&nbsp;&nbsp;Mecanismes d'especiació</H3>
 
 <p>
 Per que l'usuari pugui extreure una informacio útil, cal que poguem
@@ -2617,12 +2794,12 @@ manté ordenats de tal forma que les cerques de grups de parentesc
 tenen un cost temporal mínim.
 
 <p>
-      <H3><A NAME="tth_sEc3.5.2">
-3.5.2</A>&nbsp;&nbsp;Estadístiques de població</H3>
+      <H3><A NAME="tth_sEc3.6.2">
+3.6.2</A>&nbsp;&nbsp;Estadístiques de població</H3>
 
 <p>
-      <H3><A NAME="tth_sEc3.5.3">
-3.5.3</A>&nbsp;&nbsp;Estadístiques inter-poblacionals</H3>
+      <H3><A NAME="tth_sEc3.6.3">
+3.6.3</A>&nbsp;&nbsp;Estadístiques inter-poblacionals</H3>
 
 <p>
       <H1><A NAME="tth_chAp4">
@@ -2890,7 +3067,10 @@ ja implementats i retocar el mínim.
 
 <p>
 <A NAME="TODO">
-</A><hr><H3>Footnotes:</H3>
+</A><a name="tth_sEcindex"></a>
+
+<H2> Index (showing section)</H2>
+<hr><H3>Footnotes:</H3>
 
 <p><a name=tthFtNtAAB></a><a href="#tthFrefAAB"><sup>1</sup></a> Això dòna una idea de en quin punt de l'evolució, les mitocondries
 passaren simbiòticament a formar part dels altres organismes
@@ -2899,5 +3079,5 @@ Tot i així, és important preveure que l'ordre d'accionat entre
 agents interdependents podria implicar variacions en els resultats.
 
 <p><a name=tthFtNtAAD></a><a href="#tthFrefAAD"><sup>3</sup></a> Veure l'apartat  que parla del que cal fer si es redefineix el substrat
-<p><hr><small>File translated from T<sub><font size="-1">E</font></sub>X by <a href="http://hutchinson.belmont.ma.us/tth/">T<sub><font size="-1">T</font></sub>H</a>, version 2.00.<br>On 07 Sep 1999, 06:42.</small>
+<p><hr><small>File translated from T<sub><font size="-1">E</font></sub>X by <a href="http://hutchinson.belmont.ma.us/tth/">T<sub><font size="-1">T</font></sub>H</a>, version 2.00.<br>On 08 Sep 1999, 01:08.</small>
 </HTML>
