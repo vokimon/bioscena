@@ -1,5 +1,6 @@
 TODO:
 
+Comprovar mutacio desplacament
 Dissenyar el mecanisme d'atac-defensa
 Dissenyar el funcionament generic dels sensors
 	Particular per quimic
