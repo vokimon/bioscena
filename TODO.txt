@@ -1,11 +1,15 @@
 TODO:
 
-Perfilar una funció de busqueda direccional
-Crear objectes per a la busqueda segons:
-	fenotip 
-	nutrients
-	condicions ambient
-	...
+Dissenyar el mecanisme d'atac-defensa
+Dissenyar el funcionament generic dels sensors
+	Particular per quimic
+	Particular per organismes
+	Particular per intern
+	Particular per ambient
+Dissenyar el funcionament generic dels motors
+Situar les claus
+
+Considerar si fer alimentació autòtrofa
 Considerar si fer una funcio de desplacament fisic 
 	(cada desplacament intermig ha de ser possible)
 Operacions amb els registres dels organismes

@@ -30,7 +30,7 @@ class CMultiAgent : public CAgent
 public:
 	CMultiAgent();
 	virtual ~CMultiAgent();
-// Virtuals redefinibles a les subclasses
+// Redefinibles
 public:
 	virtual void operator() (void);
 	virtual void dump(CMissatger & msg);

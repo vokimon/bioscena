@@ -24,7 +24,7 @@ class CIterador : public CMultiAgent
 public:
 	CIterador();
 	virtual ~CIterador();
-// Virtuals redefinibles a les subclasses
+// Redefinibles
 public:
 	virtual void operator() (void);
 	virtual bool configura(string parametre, istream & valor, t_diccionariAgents & diccionari, CMissatger & errors);

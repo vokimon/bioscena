@@ -40,11 +40,13 @@ uint32 CEnergiaDisipable::consumeix(uint32 demandaEnergia)
 			m_slots[i]-=demandaEnergia;
 			m_total-=demandaEnergia;
 			demandaEnergia=0;
-			break;
 		}
-		demandaEnergia-=m_slots[i];
-		m_total-=m_slots[i];
-		m_slots[i]=0;
+		else 
+		{
+			demandaEnergia-=m_slots[i];
+			m_total-=m_slots[i];
+			m_slots[i]=0;
+		}
 	}
 	return demandaEnergia;
 }

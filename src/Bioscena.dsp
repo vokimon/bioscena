@@ -89,6 +89,10 @@ SOURCE=.\AgentConfig.txt
 # End Source File
 # Begin Source File
 
+SOURCE=.\Sensomotriu.txt
+# End Source File
+# Begin Source File
+
 SOURCE=.\TODO.txt
 # End Source File
 # End Group
@@ -199,6 +203,14 @@ SOURCE=.\EnergiaDisipable.cpp
 # Begin Source File
 
 SOURCE=.\EnergiaDisipable.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\FuncioAgent.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\FuncioAgent.h
 # End Source File
 # Begin Source File
 

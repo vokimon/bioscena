@@ -41,7 +41,7 @@ class CPosicionador : public CAgent
 public:
 	CPosicionador(tipus_biotop& biotop);
 	virtual ~CPosicionador() {};
-// Virtuals redefinibles a les subclasses
+// Redefinibles
 public:
 	virtual void operator() (void) {};
 	virtual void dump(CMissatger& msg);
@@ -73,7 +73,7 @@ class CDireccionador : public CAgent
 public:
 	CDireccionador(tipus_biotop& biotop);
 	virtual ~CDireccionador() {};
-// Virtuals redefinibles a les subclasses
+// Redefinibles
 public:
 	virtual void operator() (void) {};
 	virtual void dump (CMissatger & msg);

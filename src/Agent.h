@@ -39,7 +39,7 @@ class CAgent
 public:
 	CAgent();
 	virtual ~CAgent();
-// Virtuals redefinibles a les subclasses
+// Redefinibles
 public:
 	virtual void operator() (void)=0;
 	virtual void dump(CMissatger & msg);
@@ -75,38 +75,6 @@ public:
 	static CAgent * ParsejaArxiu(char * nomArxiu, CTopologia<CSubstrat> & biotop, CMissatger & errors);
 private:
 	static CAgent * CreaAgent(string tipus, CTopologia<CSubstrat>& biotop);
-// Proves
-public:
-	static void ProvaClasse();
-};
-
-
-// Aquesta classe es per poder fer un Agent de qualsevol objecte valid 
-// Valid=respongui al operador () Per exemple una funcio.
-
-//template <class T>
-class CFuncioAgent : public CAgent
-{
-// Tipus Propis
-//	typedef T t_enmascarat;
-	typedef void (t_enmascarat)();
-
-// Construccio/Destruccio
-public:
-	CFuncioAgent(t_enmascarat * accio)
-	{
-		m_accio=accio;
-		m_tipus+="/Funcio Usuari";
-	}
-// Virtuals redefinibles a les subclasses
-public:
-	virtual void operator() (void)
-	{
-		(*m_accio)();
-	}
-// Atributs
-public:
-	t_enmascarat * m_accio;
 // Proves
 public:
 	static void ProvaClasse();

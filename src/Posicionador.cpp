@@ -12,18 +12,20 @@ CPosicionador::CPosicionador(tipus_biotop& biotop)
 	:m_biotop(biotop)
 {
 	m_tipus+="/Posicionador";
-	m_pos=0;
+	// Aixi ens asegurem de que la posicio inicial sigui valida
+	m_pos=biotop.posicioAlAtzar(); 
 };
 
 CDireccionador::CDireccionador(tipus_biotop& biotop)
 	:m_biotop(biotop)
 {
 	m_tipus+="/Direccionador";
-	m_dir=0;
+	// No tots els direccionadors comencen igual
+	m_dir=rnd.get();
 }
 
 //////////////////////////////////////////////////////////////////////
-// Virtuals redefinibles a les subclasses
+// Redefinibles
 //////////////////////////////////////////////////////////////////////
 
 void CPosicionador::dump(CMissatger & msg)

@@ -1,0 +1,7 @@
+DUbtES I OPCIONS:
+
+Fer la digestio un a un, confrontant el nutrient amb una clau
+
+
+
+
