@@ -51,7 +51,8 @@ public:
 	// Nutricio
 	bool anabolitza(uint32 & energia, uint32 A, uint32 toleranciaA, uint32 B, uint32 toleranciaB);
 	bool catabolitza(uint32 & energia, uint32 C, uint32 toleranciaC, uint32 clauCatabolica);
-	bool excreta(t_mollecula & excrecio, uint32 patro, uint32 tolerancia);
+	bool detecta(uint32 & clauDetectada, uint32 patro, uint32 tolerancia);
+	bool excreta(t_mollecula & excretada, uint32 patro, uint32 tolerancia);
 	void engoleix(t_mollecula mol);
 	bool defensa(list<t_mollecula> &fluxeQuimic, uint32 patroAtac, uint32 patroNutrient, uint32 toleranciaNutrient);
 	bool consumeixEnergia(uint32 energia);

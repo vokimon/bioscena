@@ -8,6 +8,8 @@
 // 19991126 VoK - Fix: No feiem delete del fenotip al destructor
 // 19991214 VoK - Capacitat del pap limitat (Ocupava massa memoria)
 // 19991215 VoK - L'energia es disipa
+// 20000103 VoK - Funcio membre que detecta nutrients al pap sense 
+//                extreure'ls. Y2K compatible!!!
 //////////////////////////////////////////////////////////////////////
 
 #include <iomanip>
@@ -201,7 +203,7 @@ void COrganisme::engoleix(t_mollecula element)
 		m_nutrients.pop_front();
 }
 	
-bool COrganisme::excreta(t_mollecula & excreccio, uint32 patro, uint32 tolerancia)
+bool COrganisme::excreta(t_mollecula & excretada, uint32 patro, uint32 tolerancia)
 {
 	tracaOrganisme 
 		<<"Excretant: "<< endl
@@ -217,24 +219,43 @@ bool COrganisme::excreta(t_mollecula & excreccio, uint32 patro, uint32 toleranci
 	}
 	if (it==m_nutrients.end())
 		return false;
-	excreccio=*it;
+	excretada=*it;
 	m_nutrients.erase(it);
 	tracaOrganisme 
 		<< hex << setfill('0')
-		<<"\tExc: "<<setw(8)<<excreccio<<endl
+		<<"\tExc: "<<setw(8)<<excretada<<endl
 		<< dec << setfill(' ');
 	return true;
 }
 
-bool COrganisme::defensa(list<t_mollecula> &fluxeQuimic, uint32 forcaAtac, uint32 patroNutrient, uint32 toleranciaNutrient)
+bool COrganisme::detecta(uint32 & detectada, uint32 patro, uint32 tolerancia)
 {
-	// TODO: Treure el random i posar quelcom amb sentit per la defensa
-/*	out << "Forca Atac: " << forcaAtac 
-		<< " Patro Nutrient: " << patroNutrient 
-		<< " Tolerancia: " << toleranciaNutrient 
-		<< endl;
-	debugPresentaNutrients(out);
-*/	// Aixo es per si un dia volem fem comportaments d'inoculacio
+	tracaOrganisme 
+		<<"Detectant: "<< endl
+		<< hex << setfill('0')
+		<<"\tPat: "<<setw(8)<<patro<<endl
+		<<"\tTol: "<<setw(8)<<tolerancia<<endl
+		<< dec << setfill(' ');
+	list<t_mollecula>::iterator it;
+	for (it=m_nutrients.begin(); it!=m_nutrients.end(); it++)
+	{
+		if (sonCompatibles(*it, patro, tolerancia)) {
+			detectada=*it;
+			tracaOrganisme 
+				<< hex << setfill('0')
+				<<"\tDet: "<<setw(8)<<detectada<<endl
+				<< dec << setfill(' ');
+			return true;
+			}
+	}
+	return false;
+}
+
+bool COrganisme::defensa(list<t_mollecula> &fluxeQuimic, uint32 clauAtac, uint32 patroNutrient, uint32 toleranciaNutrient)
+{
+	// TODO: Treure el random i posar quelcom amb sentit per la defensa (una clau de defensa)
+	uint32 forcaAtac = comptaUns(clauAtac^rnd.get());
+	// Aixo es per si un dia volem fer comportaments d'inoculacio
 	while (!fluxeQuimic.empty()&&forcaAtac)
 	{
 		engoleix(fluxeQuimic.back());

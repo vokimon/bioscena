@@ -72,8 +72,10 @@ CConfiguracio::CConfiguracio()
 	set("Biosistema/Energia/Extraccio",6);
 	set("Biosistema/Energia/FactorDescendencia",2);
 	set("Biosistema/OpCodes/BitsOperacio",5);
-	set("Sensors/Localitzacio/Intents",10);
-	set("Sensors/Identificacio/Intents",10);
+	set("Sensor/Quimic/Intents",10);
+	set("Sensor/Presencia/Intents",20);
+	set("Sensor/Intern/Intents",10);
+	set("Biosistema/Metabolisme/BitsSignificatius",0x00000005);
 }
 
 CConfiguracio::~CConfiguracio()
