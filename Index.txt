@@ -1,0 +1,42 @@
+Abstract
+Resum
+Introducció
+	Introducció al projecte
+	Objectius
+	Contingut de la memòria
+Coneixements biològics relacionats amb el projecte
+	Genètica mendeliana
+	Teoria cromosòmica
+	Genètica molecular
+	Genètica de poblacions
+	Conceptes bàsics d'Etologia (Estimuls, corportament,
+		aprenentatge, comunicacio, rellotges biologics)
+	Components i dinamica dels ecosistemes		
+Coneixements teòrics
+	Introducció als algorismes genètics
+	Els algorismes genètics com a una abstracció del procés natural
+	Els problemes a la computació evolutiva y les solucions basades
+		en la natura
+	Programació genètica
+	Autòmates cel·lulars
+	(Altres experiments relacionats amb el projecte i la vida
+		artificial)
+Coneixements tecnològics
+	Tècniques avançades de disseny orientat a objectes
+	...
+Disseny de l'aplicació
+	Visio general de l'esquema
+	Funció de compatibilitat entre claus
+	El Biotop
+	El Cariotip
+	El Processador
+	Els Opcodes
+	Fluxe d'energia
+	Mecanismes de extraccio d'informacio
+	Interfície amb l'usuari
+	Utilitats complementaries
+Manual d'usuari
+	...
+Conclusions i línies de futur
+Bibliografia
+
