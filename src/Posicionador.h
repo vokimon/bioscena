@@ -31,8 +31,8 @@ class CPosicionador : public CAgent
 public:
 	typedef CAgent inherited;
 	typedef Topology t_biotop;
-	typedef Topology::t_posicio t_posicio;
-	typedef Topology::t_desplacament t_direccio;
+	typedef Topology::t_position t_position;
+	typedef Topology::t_displacement t_direccio;
 // Construccio/Destruccio
 public:
 	CPosicionador(t_biotop& biotop);
@@ -44,12 +44,12 @@ public:
 	virtual bool configura(string parametre, istream & nom, t_diccionariAgents & diccionari, CMissatger & errors);
 // Operacions
 public:
-	t_posicio pos() {return m_pos;};;
-	void pos(t_posicio nova);
-	CPosicionador & operator = (t_posicio nova) {m_pos=nova; return *this;};
+	t_position pos() {return m_pos;};;
+	void pos(t_position nova);
+	CPosicionador & operator = (t_position nova) {m_pos=nova; return *this;};
 // Atributs
 protected:
-	t_posicio m_pos;
+	t_position m_pos;
 	t_biotop & m_biotop;
 };
 
@@ -63,8 +63,8 @@ class CDireccionador : public CAgent
 public:
 	typedef CAgent inherited;
 	typedef Topology t_biotop;
-	typedef Topology::t_posicio t_posicio;
-	typedef Topology::t_desplacament t_direccio;
+	typedef Topology::t_position t_position;
+	typedef Topology::t_displacement t_direccio;
 // Construccio/Destruccio
 public:
 	CDireccionador(t_biotop& biotop);

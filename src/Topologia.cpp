@@ -36,12 +36,12 @@ uint32 Topology::tamany() const
 	return m_totalCasselles;
 }
 
-bool Topology::esPosicioValida(t_posicio pos) const
+bool Topology::esPosicioValida(t_position pos) const
 {
 	return (pos<m_totalCasselles)&&(pos>=0);
 }
 
-Topology::t_posicio Topology::desplacament (t_posicio origen, t_desplacament movimentRelatiu) const
+Topology::t_position Topology::desplacament (t_position origen, t_displacement movimentRelatiu) const
 // Retorna la posicio resultant de fer el desplacament des de l'origen
 {
 	// TODO: Per defecte aillades o indeterministic?
@@ -49,30 +49,30 @@ Topology::t_posicio Topology::desplacament (t_posicio origen, t_desplacament mov
 //	return origen;
 }
 
-Topology::t_posicio Topology::desplacamentAleatori (t_posicio origen, uint32 radi) const
+Topology::t_position Topology::desplacamentAleatori (t_position origen, uint32 radi) const
 // Retorna la posicio resultant de tants desplacaments aleatoris des de l'origen com indiqui el radi
 {
 	while (radi--) origen = desplacament (origen, rnd.get());
 	return origen;
 }
 
-Topology::t_desplacament Topology::invers (t_desplacament desp) const
+Topology::t_displacement Topology::invers (t_displacement desp) const
 // Retorna un desplacament invers al desplacament
 {
 	// TODO: Per defecte aillades o indeterministic?
-	t_desplacament inverse_displacement;
+	t_displacement inverse_displacement;
 	rnd >> inverse_displacement;
 	return inverse_displacement;
 }
 
-Topology::t_desplacament Topology::desplacamentNul () const
+Topology::t_displacement Topology::desplacamentNul () const
 // Retorna un desplacament que aplicat a una posicio, retorna la posicio
 {
 	// TODO: Per defecte aillades o indeterministic?
 	return 0;
 }
 
-bool Topology::unio (t_posicio posOrigen, t_posicio posDesti, t_desplacament & desp) const
+bool Topology::unio (t_position posOrigen, t_position posDesti, t_displacement & desp) const
 // Retorna cert si es posible unir-les amb un sol desplacament, a desp hi es
 // el desplacament per unir-les o apropar-les
 {
@@ -80,13 +80,13 @@ bool Topology::unio (t_posicio posOrigen, t_posicio posDesti, t_desplacament & d
 	return false;
 }
 
-Topology::t_posicio Topology::posicioAleatoria() const
+Topology::t_position Topology::posicioAleatoria() const
 {
 	CRandomStream rnd;
 	return rnd.get(0,m_totalCasselles-1);
 }
 
-uint32 Topology::distancia(t_posicio posOrigen, t_posicio posDesti) const
+uint32 Topology::distancia(t_position posOrigen, t_position posDesti) const
 {
 	return 0;
 }
@@ -102,7 +102,7 @@ void Topology::ProvaClasse(void) {
 	Topology topologia(400);
 	uint32 * celles = new uint32[topologia.tamany()];
 	for (i=topologia.tamany();i--;) celles[i]=0;
-	t_posicio cuc[7]={130,130,130,130,130,130,130};
+	t_position cuc[7]={130,130,130,130,130,130,130};
 	while (cuc[0]!=8) {
 		for (i=7;i--;) celles[cuc[i]]=escala[6-i];
 		celles[topologia.posicioAleatoria()]=8;
@@ -111,7 +111,7 @@ void Topology::ProvaClasse(void) {
 			out << setw(1) << CColor(celles[i]) << "#";
 		out << dec << endl;
 		CRandomStream rnd;
-		t_desplacament direccio;
+		t_displacement direccio;
 		rnd>>direccio;
 		for (i=6;i--;) cuc[i+1]=cuc[i];
 		cuc[0]=topologia.desplacament(cuc[0],direccio);
