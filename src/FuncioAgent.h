@@ -18,7 +18,9 @@ using namespace std;
 //template <class T>
 class CFuncioAgent : public CAgent
 {
-// Tipus Propis
+// Tipus interns
+public:
+	typedef CAgent inherited;
 //	typedef T t_enmascarat;
 	typedef void (t_enmascarat)();
 

@@ -21,8 +21,10 @@ using namespace std;
 
 class CMultiAgent : public CAgent
 {
-// Tipus Propis
-	typedef CAgent t_accio;
+// Tipus interns
+public:
+	typedef CAgent inherited;
+	typedef CAgent t_accio; // Per proposist son diferents t_accio i inherited
 //	typedef void (t_accio)(); // Aixo es per fer proves nomes
 	typedef list<t_accio *> t_accions;
 

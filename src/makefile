@@ -12,31 +12,31 @@ LDFLAGS=-s --relax
 default: copirrait ${EXEC}
 
 copirrait:
-	@echo KKEPerians UNLTD generic makefile file 
+#	@echo KKEPerians UNLTD generic makefile file 
 	buildnum
 
 dep: copirrait 
-	@echo --- Generant dependencies
+#	@echo --- Generant dependencies
 	$(CPPC) -MM $(CPPSOURCES) $(CSOURCES) -D_KKEP_BUSCANT_DEPENDENCIES > .depend
 
 clean: copirrait 
-	@echo --- Eliminant arxius intermedis
+#	@echo --- Eliminant arxius intermedis
 	$(RM) *.o 
 	$(RM) ${EXEC}
 
 include .depend
 
 ${EXEC}: $(OBJSCPP) $(OBJSC)
-	@echo --- Linkant $@
+#	@echo --- Linkant $@
 	${CPPC} $(LDFLAGS) $(OBJSCPP) $(OBJSC) ${LDLIBS} -o ${EXEC} 
 
 $(OBJSC) %.o: %.c
-	@echo --- Compilant $<
+#	@echo --- Compilant $<
 	${CC} ${CFLAGS} -c $< -o $@
 
 
 $(OBJSCPP) : %.o: %.cpp
-	@echo --- Compilant $<
+#	@echo --- Compilant $<
 	${CPPC} ${CFLAGS} -c $< -o $@
 
 

@@ -92,7 +92,7 @@ bool CItinerari::configura(string parametre, istream & valor, t_diccionariAgents
 		return true; // Parametre interceptat
 	}
 	// Li deixem a la superclasse que l'intercepti si vol
-	return CPosicionador::configura(parametre, valor, diccionari, errors);
+	return inherited::configura(parametre, valor, diccionari, errors);
 }
 
 list<CAgent*> CItinerari::dependencies() {
@@ -150,7 +150,7 @@ bool CPosicionadorZonal::configura(string parametre, istream & valor, t_dicciona
 		return true; // Parametre interceptat
 	}
 	// Li deixem a la superclasse que l'intercepti si vol
-	return CPosicionador::configura(parametre, valor, diccionari, errors);
+	return inherited::configura(parametre, valor, diccionari, errors);
 }
 
 list<CAgent*> CPosicionadorZonal::dependencies() {

@@ -18,7 +18,8 @@
 class CActuador : public CAgent  
 {
 // Tipus Propis
-	typedef CAgent super;
+	typedef CAgent inherited;
+	typedef CAgent super; // equivalent al anterior
 // Construccio/Destruccio
 public:
 	CActuador();

@@ -1,0 +1,36 @@
+** Organismes amb comportament aleatori (Sense material genetic)
+
+Nutrients 
+	Domini: 0x00 - 0x03
+	Totes les accions de nutrients hi estan limitades a aquests valors
+	Capacitat 0-6 nutrients per cella
+	Inicialment 4 a cada cella
+
+Energia
+	Cada instruccio -1
+	Fallada -1
+	Neixement -15
+	Excretar -3 (per nutrient extret)
+	Engolir +4 (per nutrient introduit)
+	Inicial 10
+	Caducitat: intervals infinits (No caduca)
+
+Percentatge d'execucio de cada instruccio
+	2/16 Moure's
+	7/16 Engolir
+	5/16 Atacar
+	2/16 Mitosi
+	La resta no es pot executar
+
+Registres de fenotip
+	No es fa servir
+
+Biotop
+	30x30
+
+Agents Externs
+
+Notes
+	No hi ha metabolisme, l'energia s'obte directament de l'ingestio
+
+

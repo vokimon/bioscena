@@ -56,7 +56,7 @@ bool CNutridor::configura(string parametre, istream & valor, t_diccionariAgents 
 		return true; // Parametre interceptat
 	}
 	// Li deixem a la superclasse que l'intercepti si vol
-	return CActuador::configura(parametre, valor, diccionari, errors);
+	return inherited::configura(parametre, valor, diccionari, errors);
 }
 
 //////////////////////////////////////////////////////////////////////
