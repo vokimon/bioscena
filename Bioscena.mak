@@ -70,6 +70,7 @@ CLEAN :
 	-@erase "$(INTDIR)\Missatger.obj"
 	-@erase "$(INTDIR)\MultiAgent.obj"
 	-@erase "$(INTDIR)\Organisme.obj"
+	-@erase "$(INTDIR)\ParserAgents.obj"
 	-@erase "$(INTDIR)\Posicionador.obj"
 	-@erase "$(INTDIR)\RandomStream.obj"
 	-@erase "$(INTDIR)\Substrat.obj"
@@ -120,6 +121,7 @@ LINK32_OBJS= \
 	"$(INTDIR)\Missatger.obj" \
 	"$(INTDIR)\MultiAgent.obj" \
 	"$(INTDIR)\Organisme.obj" \
+	"$(INTDIR)\ParserAgents.obj" \
 	"$(INTDIR)\Posicionador.obj" \
 	"$(INTDIR)\RandomStream.obj" \
 	"$(INTDIR)\Substrat.obj" \
@@ -174,6 +176,7 @@ CLEAN :
 	-@erase "$(INTDIR)\Missatger.obj"
 	-@erase "$(INTDIR)\MultiAgent.obj"
 	-@erase "$(INTDIR)\Organisme.obj"
+	-@erase "$(INTDIR)\ParserAgents.obj"
 	-@erase "$(INTDIR)\Posicionador.obj"
 	-@erase "$(INTDIR)\RandomStream.obj"
 	-@erase "$(INTDIR)\Substrat.obj"
@@ -228,6 +231,7 @@ LINK32_OBJS= \
 	"$(INTDIR)\Missatger.obj" \
 	"$(INTDIR)\MultiAgent.obj" \
 	"$(INTDIR)\Organisme.obj" \
+	"$(INTDIR)\ParserAgents.obj" \
 	"$(INTDIR)\Posicionador.obj" \
 	"$(INTDIR)\RandomStream.obj" \
 	"$(INTDIR)\Substrat.obj" \
@@ -404,6 +408,26 @@ DEP_CPP_AGENT=\
 !ENDIF 
 
 SOURCE=.\Aleaturitzador.cpp
+
+!IF  "$(CFG)" == "Bioscena - Win32 Release"
+
+DEP_CPP_ALEAT=\
+	".\Agent.h"\
+	".\Aleaturitzador.h"\
+	".\BioIncludes.h"\
+	".\Color.h"\
+	".\Missatger.h"\
+	".\MultiAgent.h"\
+	".\Outputer.h"\
+	".\Portable.h"\
+	".\RandomStream.h"\
+	
+
+"$(INTDIR)\Aleaturitzador.obj" : $(SOURCE) $(DEP_CPP_ALEAT) "$(INTDIR)"
+
+
+!ELSEIF  "$(CFG)" == "Bioscena - Win32 Debug"
+
 DEP_CPP_ALEAT=\
 	".\Agent.h"\
 	".\Aleaturitzador.h"\
@@ -417,6 +441,8 @@ DEP_CPP_ALEAT=\
 
 "$(INTDIR)\Aleaturitzador.obj" : $(SOURCE) $(DEP_CPP_ALEAT) "$(INTDIR)"
 
+
+!ENDIF 
 
 SOURCE=.\AppInfo.cpp
 
@@ -773,6 +799,7 @@ SOURCE=.\Iterador.cpp
 DEP_CPP_ITERA=\
 	".\Agent.h"\
 	".\BioIncludes.h"\
+	".\Color.h"\
 	".\Iterador.h"\
 	".\Missatger.h"\
 	".\MultiAgent.h"\
@@ -810,6 +837,7 @@ DEP_CPP_ITINE=\
 	".\Actuador.h"\
 	".\Actuadors.h"\
 	".\Agent.h"\
+	".\Aleaturitzador.h"\
 	".\BioIncludes.h"\
 	".\Color.h"\
 	".\Itineraris.h"\
@@ -834,6 +862,7 @@ DEP_CPP_ITINE=\
 	".\Actuador.h"\
 	".\Actuadors.h"\
 	".\Agent.h"\
+	".\Aleaturitzador.h"\
 	".\BioIncludes.h"\
 	".\Color.h"\
 	".\Itineraris.h"\
@@ -899,12 +928,14 @@ DEP_CPP_MAINB=\
 	".\Compatibilitat.h"\
 	".\EnergiaDisipable.h"\
 	".\GeneradorMascares.h"\
+	".\Iterador.h"\
 	".\Itineraris.h"\
 	".\LlistaEstatica.h"\
 	".\Missatger.h"\
 	".\MultiAgent.h"\
 	".\Organisme.h"\
 	".\Outputer.h"\
+	".\ParserAgents.h"\
 	".\Portable.h"\
 	".\Posicionador.h"\
 	".\RandomStream.h"\
@@ -925,6 +956,7 @@ DEP_CPP_MAINB=\
 	".\Actuador.h"\
 	".\Actuadors.h"\
 	".\Agent.h"\
+	".\Aleaturitzador.h"\
 	".\AppInfo.h"\
 	".\BioIncludes.h"\
 	".\Color.h"\
@@ -1071,6 +1103,46 @@ DEP_CPP_ORGAN=\
 
 !ENDIF 
 
+SOURCE=.\ParserAgents.cpp
+
+!IF  "$(CFG)" == "Bioscena - Win32 Release"
+
+DEP_CPP_PARSE=\
+	".\Actuador.h"\
+	".\Actuadors.h"\
+	".\Agent.h"\
+	".\Aleaturitzador.h"\
+	".\BioIncludes.h"\
+	".\Color.h"\
+	".\Iterador.h"\
+	".\Itineraris.h"\
+	".\Missatger.h"\
+	".\MultiAgent.h"\
+	".\Outputer.h"\
+	".\ParserAgents.h"\
+	".\Portable.h"\
+	".\Posicionador.h"\
+	".\RandomStream.h"\
+	".\Substrat.h"\
+	".\Temporitzador.h"\
+	".\Topologia.h"\
+	".\TopologiaToroidal.h"\
+	
+
+"$(INTDIR)\ParserAgents.obj" : $(SOURCE) $(DEP_CPP_PARSE) "$(INTDIR)"
+
+
+!ELSEIF  "$(CFG)" == "Bioscena - Win32 Debug"
+
+DEP_CPP_PARSE=\
+	".\ParserAgents.h"\
+	
+
+"$(INTDIR)\ParserAgents.obj" : $(SOURCE) $(DEP_CPP_PARSE) "$(INTDIR)"
+
+
+!ENDIF 
+
 SOURCE=.\Posicionador.cpp
 
 !IF  "$(CFG)" == "Bioscena - Win32 Release"
@@ -1146,7 +1218,7 @@ SOURCE=.\Substrat.cpp
 DEP_CPP_SUBST=\
 	".\BioIncludes.h"\
 	".\Color.h"\
-	".\encaix.h"\
+	".\Encaix.h"\
 	".\GeneradorMascares.h"\
 	".\Missatger.h"\
 	".\Outputer.h"\
@@ -1163,7 +1235,7 @@ DEP_CPP_SUBST=\
 DEP_CPP_SUBST=\
 	".\BioIncludes.h"\
 	".\Color.h"\
-	".\encaix.h"\
+	".\Encaix.h"\
 	".\GeneradorMascares.h"\
 	".\Missatger.h"\
 	".\Outputer.h"\
@@ -1248,6 +1320,7 @@ SOURCE=.\Temporitzador.cpp
 DEP_CPP_TEMPO=\
 	".\Agent.h"\
 	".\BioIncludes.h"\
+	".\Color.h"\
 	".\Missatger.h"\
 	".\MultiAgent.h"\
 	".\Outputer.h"\

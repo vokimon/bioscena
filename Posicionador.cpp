@@ -8,15 +8,35 @@
 // Construccio/Destruccio
 //////////////////////////////////////////////////////////////////////
 
-CPosicionador::CPosicionador(tipus_biotop& biotop):m_biotop(biotop)
+CPosicionador::CPosicionador(tipus_biotop& biotop)
+	:m_biotop(biotop)
 {
-	m_pos=0;
 	m_tipus+="/Posicionador";
+	m_pos=0;
 };
 
-CPosicionador::~CPosicionador()
+CDireccionador::CDireccionador(tipus_biotop& biotop)
+	:m_biotop(biotop)
 {
+	m_tipus+="/Direccionador";
+	m_dir=0;
+}
 
+//////////////////////////////////////////////////////////////////////
+// Virtuals redefinibles a les subclasses
+//////////////////////////////////////////////////////////////////////
+
+void CPosicionador::dump(CMissatger & msg)
+{
+	CAgent::dump(msg);
+	msg << "- Posicio: " << m_pos << endl;
+}
+
+
+void CDireccionador::dump(CMissatger & msg)
+{
+	CAgent::dump(msg);
+	msg << "- Direccio: " << m_dir << endl;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -35,3 +55,4 @@ CSubstrat & CPosicionador::substrat()
 {
 	return m_biotop[m_pos];
 }
+

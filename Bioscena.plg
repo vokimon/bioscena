@@ -10,17 +10,11 @@ Project's tools are:
 			"Custom Build" with flags ""
 			"<Component 0xa>" with flags ""
 
-Creating temp file "C:\WINDOWS\TEMP\RSP9202.TMP" with contents </nologo /MLd /W3 /Gm /GX /Zi /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"Debug/Bioscena.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /c 
-"D:\Bioscena\Bioscena\Actuadors.cpp"
-"D:\Bioscena\Bioscena\Aleaturitzador.cpp"
-"D:\Bioscena\Bioscena\AppInfo.cpp"
+Creating temp file "C:\WINDOWS\TEMP\RSPD1F2.TMP" with contents </nologo /MLd /W3 /Gm /GX /Zi /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"Debug/Bioscena.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /c 
 "D:\Bioscena\Bioscena\Itineraris.cpp"
-"D:\Bioscena\Bioscena\MainBio1.cpp"
-"D:\Bioscena\Bioscena\MultiAgent.cpp"
-"D:\Bioscena\Bioscena\Temporitzador.cpp"
 >
-Creating command line "cl.exe @C:\WINDOWS\TEMP\RSP9202.TMP" 
-Creating temp file "C:\WINDOWS\TEMP\RSP9203.TMP" with contents <kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:yes /pdb:"Debug/Bioscena.pdb" /debug /machine:I386 /out:"Debug/Bioscena.exe" /pdbtype:sept 
+Creating command line "cl.exe @C:\WINDOWS\TEMP\RSPD1F2.TMP" 
+Creating temp file "C:\WINDOWS\TEMP\RSPD1F3.TMP" with contents <kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:yes /pdb:"Debug/Bioscena.pdb" /debug /machine:I386 /out:"Debug/Bioscena.exe" /pdbtype:sept 
 .\Debug\Actuador.obj
 .\Debug\Actuadors.obj
 .\Debug\Agent.obj
@@ -50,15 +44,9 @@ Creating temp file "C:\WINDOWS\TEMP\RSP9203.TMP" with contents <kernel32.lib use
 .\Debug\Temporitzador.obj
 .\Debug\Topologia.obj
 .\Debug\TopologiaToroidal.obj>
-Creating command line "link.exe @C:\WINDOWS\TEMP\RSP9203.TMP" 
+Creating command line "link.exe @C:\WINDOWS\TEMP\RSPD1F3.TMP" 
 Compiling...
-Actuadors.cpp
-Aleaturitzador.cpp
 Itineraris.cpp
-MainBio1.cpp
-MultiAgent.cpp
-Temporitzador.cpp
-AppInfo.cpp
 Linking...
 
 

@@ -22,12 +22,8 @@ Temporitzador
 		- uint32: Periode minim
 		- uint32: Numero de daus
 		- uint32: Magnitud dels daus (Van de zero a la magnitud)
-	- Probabilitat d'activacio en cicle actiu
-		- uint32: Numero de intents o mostra
-		- uint32: Numero d'encerts que segons la probabilitat tenderien a donar-se
 	- Agents subordinats
-		- CAgent*: Agent d'accio (S'execute en cicle actiu si es dona la probabilitat)
-		- CAgent*: Agent de reaccio (S'execute en cicle actiu si no es dona la probabilitat)
+		- list<CAgent*>: Llista ordenada de subordinats que s'executen en el cicle actiu
 		- CAgent*: Agent de antiaccio (S'execute en cicle inactiu)
 	- Cicle actual (Valors del temporitzador quan es reemprengui la marxa)
 		- bool: Cicle actiu o inactiu
@@ -35,10 +31,42 @@ Temporitzador
 	- Exemple de configuracio texte
 
 		Temporitzador1
-			Tipus(Agent/Temporitzador)
+			Tipus(Agent/Multiple/Temporitzador)
+			Agent(Posicionador3);
 			CicleActiu(34,2,5) 
 			CicleInactiu()
+			CicleActual(3, true)
+Iterador
+	- string: Nom
+	- Iteracions: Determina quantes vegades es repiteixen els subordinats
+		- uint32: Iteracions minimes
+		- uint32: Numero de daus
+		- uint32: Magnitud dels daus (Van de zero a la magnitud)
+	- Agents subordinats
+		- list<CAgent*>: Llista ordenada d'agents subordinats
+		- CAgent*: Agent de preaccio (S'executa un sol cop abans de tot)
+		- CAgent*: Agent de postaccio (S'executa un sol cop despres de tot)
+	- Exemple de configuracio texte
+
+		Iterador3
+			Tipus(Agent/Multiple/Iterador)
 			Agent(Posicionador3);
+			Probabilitat(20,100) 
+
+Aleaturitzador
+	- string: Nom
+	- Probabilitat d'activacio
+		- uint32: Numero de intents o mostra
+		- uint32: Numero d'encerts que segons la probabilitat tenderien a donar-se
+	- Agents subordinats
+		- CAgent*: Agent d'accio (S'execute si es dona la probabilitat)
+		- CAgent*: Agent de reaccio (S'execute si no es dona la probabilitat)
+	- Exemple de configuracio texte
+
+		Aleaturitzador1
+			Tipus(Agent/Multiple/Aleaturitzador)
+			Agent(Posicionador3);
+			Probabilitat(20,100) 
 
 Posicionador
 	- string: Nom

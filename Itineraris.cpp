@@ -1,4 +1,4 @@
-// Cumulador.cpp: implementation of the CCumulador class.
+// Itineraris.cpp: CPosicionador & CDireccionador subclasses' implementation.
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -9,11 +9,167 @@
 #include "TopologiaToroidal.h"
 
 //////////////////////////////////////////////////////////////////////
+// Construccio/Destruccio
+//////////////////////////////////////////////////////////////////////
+
+CItinerari::CItinerari(tipus_biotop & biotop)
+	:CPosicionador(biotop)
+{
+	m_tipus+="/Direccional";
+	m_direccionador=NULL;
+	m_radi=1;
+}
+
+CPosicionadorZonal::CPosicionadorZonal(tipus_biotop & biotop)
+	:CPosicionador(biotop)
+{
+	m_tipus+="/Zonal";
+	m_posicionador=NULL;
+	m_radi=1;
+}
+
+CPosicionadorAleatori::CPosicionadorAleatori(tipus_biotop & biotop)
+	:CPosicionador(biotop) 
+{
+	m_tipus+="/Aleatori";
+}
+
+CDireccionadorAleatori::CDireccionadorAleatori(tipus_biotop & biotop)
+	:CDireccionador(biotop) 
+{
+	m_tipus+="/Aleatori";
+};
+
+//////////////////////////////////////////////////////////////////////
+// Virtuals redefinibles a les subclasses (Itinerari)
+//////////////////////////////////////////////////////////////////////
+
+void CItinerari::operator() (void) 
+{
+	if (!m_direccionador)
+		warning << "CItinerari " << nom() << " accionat sense posicionador" << endl;
+	else 
+		for (int i=m_radi; i--;)
+			m_pos = m_biotop.desplacament(m_pos, m_direccionador->dir());
+}
+
+void CItinerari::dump(CMissatger & msg)
+{
+	CPosicionador::dump(msg);
+	msg << "- Radi: " << m_radi << endl;
+	if (m_direccionador) 
+		msg << "- Direccionador: " << m_direccionador->nom() << endl; 
+}
+
+list<CAgent*> CItinerari::dependencies() {
+	list<CAgent*> l=CPosicionador::dependencies();
+	if (m_direccionador) l.push_back(m_direccionador); 
+	return l;
+}
+
+//////////////////////////////////////////////////////////////////////
+// Virtuals redefinibles a les subclasses (PosicionadorZonal)
+//////////////////////////////////////////////////////////////////////
+
+void CPosicionadorZonal::operator() (void) 
+{
+	if (!m_posicionador) 
+	{
+		warning << "PosicionadorZonal sense Posicionador central" << endl;
+		return;
+	}
+	m_pos=m_posicionador->pos();
+	for (int i=m_radi; i--;)
+		m_pos = m_biotop.desplacament(m_pos, rnd.get());
+}
+
+void CPosicionadorZonal::dump(CMissatger & msg)
+{
+	CPosicionador::dump(msg);
+	msg << "- Radi: " << m_radi << endl;
+	if (m_posicionador) 
+		msg << "- Posicionador: " << m_posicionador->nom() << endl; 
+}
+
+list<CAgent*> CPosicionadorZonal::dependencies() {
+	list<CAgent*> l=CPosicionador::dependencies();
+	if (m_posicionador) l.push_back(m_posicionador); 
+	return l;
+}
+
+//////////////////////////////////////////////////////////////////////
+// Virtuals redefinibles a les subclasses (PosicionadorAleatori)
+//////////////////////////////////////////////////////////////////////
+
+void CPosicionadorAleatori::operator() (void) 
+{
+	m_pos=m_biotop.cassellaAlAtzar();
+}
+
+//////////////////////////////////////////////////////////////////////
+// Virtuals redefinibles a les subclasses (DireccionadorAleatori)
+//////////////////////////////////////////////////////////////////////
+
+void CDireccionadorAleatori::operator() (void) 
+{
+	m_dir = rnd.get();
+}
+
+//////////////////////////////////////////////////////////////////////
+// Operacions (Itinerari)
+//////////////////////////////////////////////////////////////////////
+
+void CItinerari::direccionador(CDireccionador * dir) 
+{
+	m_direccionador=dir;
+}
+
+CDireccionador * CItinerari::direccionador() 
+{
+	return m_direccionador;
+}
+
+uint32 CItinerari::radi() 
+{
+	return m_radi;
+}
+
+void CItinerari::radi(uint32 rad) 
+{
+	m_radi=rad;
+}
+
+//////////////////////////////////////////////////////////////////////
+// Operacions (PosicionadorZonal)
+//////////////////////////////////////////////////////////////////////
+
+void CPosicionadorZonal::posicionador(CPosicionador * pos) 
+{
+	m_posicionador=pos;
+}
+
+CPosicionador * CPosicionadorZonal::posicionador() 
+{
+	return m_posicionador;
+}
+
+uint32 CPosicionadorZonal::radi() 
+{
+	return m_radi;
+}
+
+void CPosicionadorZonal::radi(uint32 rad) 
+{
+	m_radi=rad;
+}
+
+//////////////////////////////////////////////////////////////////////
 // Proves
 //////////////////////////////////////////////////////////////////////
 
 void CPosicionadorZonal::ProvaClasse()
 {
+	out << "\033[J";
 	out << blanc.brillant() << "Provant Posicionador Zonal" << endl;
 	CTopologiaToroidal<CSubstrat> biotop(70,35);
 	CPosicionador* posicioCentral = new CPosicionador(biotop);
@@ -30,9 +186,13 @@ void CPosicionadorZonal::ProvaClasse()
 		(*posicioCentral)();
 		(*posicio)();
 		(*nutridor)();
-		if (!(i%5)) biotop.debugPresenta(out);
-		out << blanc << i <<endl;
+		if (!(i%5)) {
+			biotop.debugPresenta(out);
+			out << blanc.fosc() << setw(4) << i <<endl;
+		}
 	}
+//	X.dumpAll(out);
+	cin.get();
 }
 
 void CDireccionadorAleatori::ProvaClasse()
@@ -59,27 +219,29 @@ void CDireccionadorAleatori::ProvaClasse()
 	agents.accio(posicio);
 	agents.accio(nutridor);
 
-	for (int i=400; i--;)
+	for (int i=200; i--;)
 	{
 		agents();
 		if (!(i%5)) {
 			biotop.debugPresenta(out);
-			out << blanc << i <<endl;
+			out << blanc.fosc() << setw(4) << i <<endl;
 		}
 	}
+	agents.dumpAll(out);
+	cin.get();
 }
 
 void CPosicionadorAleatori::ProvaClasse()
 {
-	out << blanc.brillant() << "Provant Posicionador Aleatori" << endl;
+	out << "\033[J";
+	out << blanc.brillant() << "Provant Posicionador Aleatori" << blanc.fosc() << endl;
 	CTopologiaToroidal<CSubstrat> biotop(70,22);
 	CPosicionador* posicio = new CPosicionadorAleatori(biotop);
-	CNutridor cum;
-	cum.posicionador(posicio);
-//	cum.distribucio (1, 0);
-	cum.composicio (31, 0);
+	CNutridor *nutridor = new CNutridor;
+	nutridor->posicionador(posicio);
+	nutridor->composicio (31, 0);
 	CTemporitzador timer1;
-	timer1.accio(&cum);
+	timer1.accio(nutridor);
 	timer1.cicleActiu(6);
 	timer1.cicleInactiu(1);
 	CTemporitzador timer2;
@@ -92,7 +254,10 @@ void CPosicionadorAleatori::ProvaClasse()
 		timer1();
 		if (!(i%5)) {
 			biotop.debugPresenta(out);
-			out << blanc << i <<endl;
+			out << blanc.fosc() << setw(4) << i <<endl;
 		}
 	}
+//	X.dumpAll(out);
+	cin.get();
 }
+

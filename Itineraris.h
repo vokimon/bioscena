@@ -1,8 +1,12 @@
-// Itineraris.h: Interface for subclasses of CPosicionador & CDireccionador
+// Itineraris.h: CPosicionador & CDireccionador subclasses' interface
 //
 //////////////////////////////////////////////////////////////////////
 // Aquesta capcelera descriu els prototips per a les especialitzacions
 // de CPosicionador i CDireccionador
+//////////////////////////////////////////////////////////////////////
+// Change Log:
+// 19990823 VoK - Eliminadas funciones inline que passan al cpp
+// 19990823 VoK - Completadas las funcionalidades estandard de CPosicionadorZonal
 //////////////////////////////////////////////////////////////////////
 // TODO: Fer Direccionadors i Posicionadors segons una sequencia.
 
@@ -19,41 +23,20 @@
 
 class CItinerari : public CPosicionador
 {
-// Tipus Propis
-	typedef CPosicionador super;
 // Construccio/Destruccio
 public:
-	CItinerari(tipus_biotop & biotop):CPosicionador(biotop)
-	{
-		m_tipus+="/Direccional";
-		m_direccionador=NULL;
-		m_radi=1;
-	};
-// Operacions
-public:
-	void direccionador(CDireccionador * dir) {
-		m_direccionador=dir;
-	}
-	CDireccionador * direccionador() {
-		return m_direccionador;
-	}
-	uint32 radi() {return m_radi;}
-	void radi(uint32 rad) {m_radi=rad;}
+	CItinerari(tipus_biotop & biotop);
 // Virtuals redefinibles a les subclasses
 public:
-	virtual list<CAgent*> dependencies() {
-		list<CAgent*> l=super::dependencies();
-		if (m_direccionador) l.push_back(m_direccionador); 
-		return l;
-	};
-	virtual void operator() (void) 
-	{
-		if (!m_direccionador)
-			warning << "CItinerari " << nom() << " accionat sense posicionador" << endl;
-		else 
-			for (int i=m_radi; i--;)
-				m_pos = m_biotop.desplacament(m_pos, m_direccionador->dir());
-	}
+	virtual void operator() (void);
+	virtual void dump(CMissatger & msg);
+	virtual list<CAgent*> dependencies();
+// Operacions
+public:
+	void direccionador(CDireccionador * dir);
+	CDireccionador * direccionador();
+	uint32 radi();
+	void radi(uint32 rad);
 // Atributs
 protected:
 	CDireccionador * m_direccionador;
@@ -68,36 +51,18 @@ class CPosicionadorZonal : public CPosicionador
 {
 // Construccio/Destruccio
 public:
-	CPosicionadorZonal(tipus_biotop & biotop):CPosicionador(biotop)
-	{
-		m_posicionador=NULL;
-		m_radi=1;
-		m_tipus+="/Zonal";
-	};
-// Operacions
-public:
-	void radi(uint32 radi) {
-		m_radi=radi;
-	}
-	void posicionador(CPosicionador * pos) {
-		m_posicionador=pos;
-	}
-	CPosicionador * posicionador() {
-		return m_posicionador;
-	}
+	CPosicionadorZonal(tipus_biotop & biotop);
 // Virtuals redefinibles a les subclasses
 public:
-	virtual void operator() (void) 
-	{
-		if (!m_posicionador) 
-		{
-			warning << "PosicionadorZonal sense Posicionador central" << endl;
-			return;
-		}
-		m_pos=m_posicionador->pos();
-		for (int i=m_radi; i--;)
-			m_pos = m_biotop.desplacament(m_pos, rnd.get());
-	}
+	virtual void operator() (void);
+	virtual void dump(CMissatger & msg);
+	virtual list<CAgent*> dependencies();
+// Operacions
+public:
+	void posicionador(CPosicionador * pos);
+	CPosicionador * posicionador();
+	uint32 radi();
+	void radi(uint32 rad);
 // Atributs
 protected:
 	CPosicionador * m_posicionador;
@@ -115,16 +80,10 @@ class CPosicionadorAleatori : public CPosicionador
 {
 // Construccio/Destruccio
 public:
-	CPosicionadorAleatori(tipus_biotop & biotop):CPosicionador(biotop) {
-		m_tipus+="/Aleatori";
-	};
-// Operacions
+	CPosicionadorAleatori(tipus_biotop & biotop);
 // Virtuals redefinibles a les subclasses
 public:
-	virtual void operator() (void) 
-	{
-		m_pos=m_biotop.cassellaAlAtzar();
-	}
+	virtual void operator() (void);
 // Proves
 public:
 	static void ProvaClasse();
@@ -138,17 +97,10 @@ class CDireccionadorAleatori : public CDireccionador
 {
 // Construccio/Destruccio
 public:
-	CDireccionadorAleatori::CDireccionadorAleatori(tipus_biotop & biotop)
-		:CDireccionador(biotop) 
-	{
-		m_tipus+="/Aleatori";
-	};
+	CDireccionadorAleatori(tipus_biotop & biotop);
 // Virtuals redefinibles a les subclasses
 public:
-	virtual void operator() (void) 
-	{
-		m_dir = rnd.get();
-	}
+	virtual void operator() (void);
 // Proves
 public:
 	static void ProvaClasse();

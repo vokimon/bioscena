@@ -110,6 +110,10 @@ SOURCE=.\AgentConfig.txt
 # End Source File
 # Begin Source File
 
+SOURCE=.\AgentsLog.txt
+# End Source File
+# Begin Source File
+
 SOURCE=.\Aleaturitzador.cpp
 # End Source File
 # Begin Source File
@@ -259,6 +263,14 @@ SOURCE=.\Organisme.h
 # Begin Source File
 
 SOURCE=.\Outputer.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\ParserAgents.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\ParserAgents.h
 # End Source File
 # Begin Source File
 

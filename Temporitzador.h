@@ -1,20 +1,26 @@
 // Temporitzador.h: interface for the CTemporitzador class.
 //
 //////////////////////////////////////////////////////////////////////
+// Change Log:
+// 19990726 VoK - Creat
+// 19990727 VoK - Agrupats els grups de parametres en t_cicle's
+// 19990728 VoK - Fix: Si els periodes eren zero -> bucle infinit
+// 19990822 VoK - Escindides les funcionalitats ara son a CAleaturitzador
+// 19990822 VoK - Funcions de dump
+// 19990823 VoK - Reordenat els fitxers i netejades les proves
+//////////////////////////////////////////////////////////////////////
 
 #if !defined(__KKEP_TEMPORITZADOR_H_INCLUDED)
 #define __KKEP_TEMPORITZADOR_H_INCLUDED
 
-#include <string>
-#include "BioIncludes.h"
-#include "RandomStream.h"
-#include "Missatger.h"
 #include "MultiAgent.h"
+#include "RandomStream.h"
 
 class CTemporitzador : public CMultiAgent
 {
+// Tipus Propis
 	typedef CAgent t_accio;
-//	typedef void (TipusAccio)(); // Aixo es per fer proves nomes
+//	typedef void (t_accio)(); // Aixo es per fer proves nomes
 	struct t_cicle 
 	{
 		uint32 m_periodeMinim;
@@ -36,14 +42,17 @@ class CTemporitzador : public CMultiAgent
 public:
 	CTemporitzador();
 	virtual ~CTemporitzador();
+// Virtuals redefinibles a les subclasses
+public:
+	virtual void operator() (void);
+	virtual void dump(CMissatger & msg);
+	virtual list<CAgent*> subordinats (void);
 // Operacions
 public:
-	virtual list<CAgent*> subordinats();
-	void operator()(void);
 	void cicleActiu(uint32 periode, uint32 margeDau=1, uint32 daus=0);
 	void cicleInactiu(uint32 periode, uint32 margeDau=1, uint32 daus=0);
-	void modificaCicleActual(uint32 m_restantPeriode);
-	void modificaCicleActual(bool actiu, uint32 m_restantPeriode);
+	void cicleActual(uint32 m_restantPeriode);
+	void cicleActual(bool actiu, uint32 m_restantPeriode);
 private:
 	// No fixat al protocol, son aqui per debug
 	void antiAccio(t_accio * a);
@@ -58,7 +67,6 @@ private:
 	t_accio * m_antiAccio;
 // Proves
 public:
-	virtual void dump(CMissatger & msg);
 	static void ProvaClasse();
 // Implementacio
 private:

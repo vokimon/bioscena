@@ -8,6 +8,7 @@ OBJSCPP:=$(CPPSOURCES:.cpp=.o)
 OBJSC:=$(CSOURCES:.c=.o)
 CFLAGS= -g -Wall
 LDLIBS=-lm 
+LDFLAGS=-s --relax 
 
 default: copirrait ${EXEC}
 
@@ -27,7 +28,7 @@ include .depend
 
 ${EXEC}: $(OBJSCPP) $(OBJSC)
 	@echo --- Linkant $@
-	${CPPC} $(OBJSCPP) $(OBJSC) ${LDLIBS} -o ${EXEC} 
+	${CPPC} $(LDFLAGS) $(OBJSCPP) $(OBJSC) ${LDLIBS} -o ${EXEC} 
 	buildnum
 
 $(OBJSC) %.o: %.c

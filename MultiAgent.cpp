@@ -3,6 +3,7 @@
 //////////////////////////////////////////////////////////////////////
 
 #include <fstream>
+#include <algorithm>
 #include "MultiAgent.h"
 #include "Missatger.h"
 #include "TopologiaToroidal.h"
@@ -13,16 +14,64 @@
 #include "Temporitzador.h"
 
 //////////////////////////////////////////////////////////////////////
-// Operacions
+// Construccio/Destruccio
 //////////////////////////////////////////////////////////////////////
+
+CMultiAgent::CMultiAgent()
+{
+	m_tipus+="/Multiple";
+}
+
+CMultiAgent::~CMultiAgent()
+{
+	while (!m_agents.empty()) {
+		delete (*(m_agents.begin()));
+		m_agents.pop_front();
+	}
+}
+
+//////////////////////////////////////////////////////////////////////
+// Virtuals redefinibles a les subclasses
+//////////////////////////////////////////////////////////////////////
+
+void CMultiAgent::operator() (void){
+	for (list<CAgent*>::iterator it=m_agents.begin(); it!=m_agents.end(); it++)
+		(**it)();
+};
 
 void CMultiAgent::dump(CMissatger & msg)
 {
 	CAgent::dump(msg);
 	for (list<CAgent*>::iterator it=m_agents.begin(); it!=m_agents.end(); it++)
 	{
-		msg	<< "\tAccio(" << (*it)->nom() << ")" << endl;
+		msg	<< "- Accio: " << (*it)->nom() << endl;
 	}
+}
+
+list<CAgent*> CMultiAgent::subordinats() {
+	list<CAgent*> l=CAgent::subordinats();
+	for (list<CAgent*>::iterator it=m_agents.begin(); it!=m_agents.end(); it++)
+		l.push_back(*it);
+	return l;
+};
+
+//////////////////////////////////////////////////////////////////////
+// Operacions
+//////////////////////////////////////////////////////////////////////
+
+void CMultiAgent::accio(t_accio * a) 
+{
+	m_agents.push_back(a);
+	if (a&&!a->subordinant(this))
+		warning << "Subordinant l'agent '" << a->nom() << "' a un segon subordinant" << endl;
+}
+
+bool CMultiAgent::desubordina(CAgent * ag)
+{
+	t_accions::iterator it = find(m_agents.begin(), m_agents.end(), ag);
+	if (it==m_agents.end()) return false;
+	m_agents.remove(ag);
+	return true;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -55,7 +104,7 @@ void CMultiAgent::ProvaClasse()
 	((CNutridor*)actuador1)->composicio (31, 0);
 	// L'iterador diu quantes vegades actua per accionat
 	CIterador * iterador1 = new CIterador;
-	iterador1->iteracions(14,0,0);
+	iterador1->iteracions(6,0,0);
 	iterador1->accio(actuador1);
 	agents.accio(iterador1);
 
@@ -80,23 +129,33 @@ void CMultiAgent::ProvaClasse()
 
 	CActuador *actuador2 = new CDesnutridor;
 	actuador2->posicionador(distribucio2);
-//	((CNutridor*)actuador2)->distribucio (5, 1);
 	((CNutridor*)actuador2)->composicio (31, 0	);
 	iterador2->accio(actuador2);
 
-	for (int i=400; i--;)
+	for (int i=40; i--;)
 	{
 		agents();
 		if (!(i%5)) {
 			biotop.debugPresenta(out);
-			out << blanc << setw(4) << i <<endl;
+			out << blanc.fosc() << setw(4) << i <<endl;
 		}
 	}
-
-//	dumpDiccionari(out);
+/*	agents.desubordina(iterador1);
+	cin.get();
+	for (int i=40; i--;)
+	{
+		agents();
+		if (!(i%5)) {
+			biotop.debugPresenta(out);
+			out << blanc.fosc() << setw(4) << i <<endl;
+		}
+	}
+*/
 	ofstream file("AgentsLog.txt");
 	CColorOutputer miout(file);
 	CMissatger msg(NULL, NULL, miout);
 	agents.dumpAll(msg);
+	agents.dumpAll(out);
+	cin.get();
 }
 

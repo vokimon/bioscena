@@ -7,6 +7,7 @@
 #include "Temporitzador.h"
 #include "TopologiaToroidal.h"
 #include "Iterador.h"
+#include "MultiAgent.h"
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -14,9 +15,9 @@
 
 CNutridor::CNutridor()
 {
+	m_tipus+="/Nutridor";
 	m_variabilitat=0;
 	m_element=0;
-	m_tipus+="/Nutridor";
 }
 
 CNutridor::~CNutridor()
@@ -27,6 +28,16 @@ CNutridor::~CNutridor()
 CDesnutridor::CDesnutridor()
 {
 	m_tipus+="/Invers";
+}
+
+//////////////////////////////////////////////////////////////////////
+// Virtuals redefinibles a les subclasses
+//////////////////////////////////////////////////////////////////////
+
+void CNutridor::dump(CMissatger & msg)
+{
+	CActuador::dump(msg);
+	msg << "- Composicio: " << m_element << " " << m_variabilitat << endl;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -45,7 +56,12 @@ void CNutridor::composicio(uint32 element, uint32 variabilitat)
 
 void CNutridor::ProvaClasse()
 {
+	out << "\033[J";
+	out << blanc.brillant() << "Provant Agent Nutridor" << endl;
+	
 	CTopologiaToroidal<CSubstrat> biotop(70,22);
+
+	CMultiAgent agents;
 
 	CDireccionador* direccio = new CDireccionadorAleatori(biotop);
 
@@ -63,59 +79,85 @@ void CNutridor::ProvaClasse()
 	CIterador * iterador = new CIterador;
 	iterador->accio(nutridor);
 	iterador->accio(posicio);
-	iterador->iteracions(6);
+	iterador->iteracions(20);
 
-	CTemporitzador * timer1 = new CTemporitzador;
-	timer1->accio(iterador);
-	timer1->accio(posicioCentral);
-	timer1->cicleActiu(6);
-	timer1->cicleInactiu(2);
+	CTemporitzador * timer = new CTemporitzador;
+	timer->accio(direccio);
+	timer->cicleActiu(1);
+	timer->cicleInactiu(5);
 
-	CTemporitzador * timer2 = new CTemporitzador;
-	timer2->accio(direccio);
-	timer2->cicleActiu(1);
-	timer2->cicleInactiu(5);
+	agents.accio(posicioCentral);
+	agents.accio(iterador);
+	agents.accio(timer);
 
-	for (int i=30; i--;)
+	for (int i=200; i--;)
 	{
-		(*posicio)();
-		(*timer2)();
-		(*timer1)();
-		biotop.debugPresenta(out);
-		out << blanc << i <<endl;
+		agents();
+		if (!(i%5)) {
+			biotop.debugPresenta(out);
+			out << setw(4) << blanc.fosc() << i <<endl;
+		}
 	}
+	agents.dumpAll(out);
+	cin.get();
 }
 
 void CDesnutridor::ProvaClasse()
 {
+	out << "\033[J";
+	out << blanc.brillant() << "Provant Agent Desnutridor" << endl;
+
 	CTopologiaToroidal<CSubstrat> biotop(70,22);
+
+	CMultiAgent agents;
 
 	CPosicionador* posicioCentral = new CPosicionador(biotop);
 	posicioCentral->pos(735);
 
 	CPosicionador* posicio = new CPosicionadorZonal(biotop);
 	((CPosicionadorZonal*)posicio)->posicionador(posicioCentral);
+	((CPosicionadorZonal*)posicio)->radi(4);
 
 	CActuador * cum = new CNutridor;
 	((CNutridor*)cum)->posicionador(posicio);
 //	cum->distribucio (10, 4);
 	((CNutridor*)cum)->composicio (31, 0);
+
+	agents.accio(cum);
+	agents.accio(posicio);
+	agents.accio(posicioCentral);
 	int i;
-	for (i=20; i--;)
+	for (i=100; i--;)
 	{
-		(*cum)();
-		biotop.debugPresenta(out);
-		out << blanc << i <<endl;
+		agents();
+		if (!(i%5)) {
+			biotop.debugPresenta(out);
+			out << blanc.fosc() << setw(4) << i <<endl;
+		}
 	}
+	CPosicionador* posicio2 = new CPosicionadorZonal(biotop);
+	((CPosicionadorZonal*)posicio2)->posicionador(posicioCentral);
+	((CPosicionadorZonal*)posicio2)->radi(1);
+
 	CActuador * cla = new CDesnutridor;
-	cla->posicionador(posicio);
-//	cla->distribucio (20, 1);
+	cla->posicionador(posicio2);
 	((CDesnutridor*)cla)->composicio (31, 0xFFFFFFFF);
-	for (i=40; i--;)
+
+	CIterador *iterador = new CIterador;
+	iterador->iteracions(10);
+	iterador->accio(cla);
+
+	agents.accio(iterador);
+	agents.accio(posicio2);
+	for (i=200; i--;)
 	{
-		(*cum)();
-		(*cla)();
-		biotop.debugPresenta(out);
-		out << blanc << i <<endl;
+		agents();
+		if (!(i%5)) {
+			biotop.debugPresenta(out);
+			out << blanc.fosc() << setw(4) << i <<endl;
+		}
 	}
+	agents.dumpAll(out);
+	cin.get();
 }
+

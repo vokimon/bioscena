@@ -34,16 +34,17 @@ class CPosicionador : public CAgent
 // Construccio/Destruccio
 public:
 	CPosicionador(tipus_biotop& biotop);
-	virtual ~CPosicionador();
+	virtual ~CPosicionador() {};
+// Virtuals redefinibles a les subclasses
+public:
+	virtual void operator() (void) {};
+	virtual void dump(CMissatger& msg);
 // Operacions
 public:
 	tipus_posicio pos() {return m_pos;};;
 	void pos(tipus_posicio nova);
 	CPosicionador & operator = (tipus_posicio nova) {m_pos=nova; return *this;};
 	CSubstrat & substrat();
-// Virtuals redefinibles a les subclasses
-public:
-	virtual void operator() (void) {};
 // Atributs
 protected:
 	tipus_posicio m_pos;
@@ -56,18 +57,14 @@ protected:
 
 class CDireccionador : public CAgent
 {
-// Tipus
+// Tipus Propis
 	typedef CSubstrat tipus_substrat;
 	typedef CTopologia<tipus_substrat> tipus_biotop;
 	typedef uint32 tipus_posicio;
 	typedef uint32 tipus_direccio;
 // Construccio/Destruccio
 public:
-	CDireccionador(tipus_biotop& biotop):m_biotop(biotop)
-	{
-		m_dir=0;
-		m_tipus+="/Direccionador";
-	};
+	CDireccionador(tipus_biotop& biotop);
 	virtual ~CDireccionador() {};
 // Operacions
 public:
@@ -77,6 +74,7 @@ public:
 // Virtuals redefinibles a les subclasses
 public:
 	virtual void operator() (void) {};
+	virtual void dump (CMissatger & msg);
 // Atributs
 protected:
 	tipus_posicio m_dir;

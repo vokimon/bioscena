@@ -38,16 +38,16 @@ Iterador.o: Iterador.cpp Iterador.h MultiAgent.h Agent.h BioIncludes.h \
  Missatger.h Outputer.h portable.h RandomStream.h
 Itineraris.o: Itineraris.cpp Itineraris.h Posicionador.h Agent.h \
  BioIncludes.h Missatger.h Outputer.h portable.h Topologia.h \
- RandomStream.h Substrat.h Actuadors.h Actuador.h Temporitzador.h \
- MultiAgent.h TopologiaToroidal.h Color.h
+ RandomStream.h Substrat.h Actuadors.h Actuador.h Aleaturitzador.h \
+ MultiAgent.h Temporitzador.h TopologiaToroidal.h Color.h
 LlistaEstatica.o: LlistaEstatica.cpp LlistaEstatica.h BioIncludes.h \
  Missatger.h Outputer.h portable.h
 MainBio1.o: MainBio1.cpp BioIncludes.h Missatger.h Outputer.h \
  portable.h AppInfo.h Compatibilitat.h GeneradorMascares.h \
  RandomStream.h Color.h TopologiaToroidal.h Topologia.h Substrat.h \
  Agent.h Itineraris.h Posicionador.h Actuadors.h Actuador.h \
- Temporitzador.h MultiAgent.h Taxo.h Taxonomista.h LlistaEstatica.h \
- EnergiaDisipable.h Organisme.h
+ Temporitzador.h MultiAgent.h Aleaturitzador.h Taxo.h Taxonomista.h \
+ LlistaEstatica.h EnergiaDisipable.h Organisme.h
 Missatger.o: Missatger.cpp Missatger.h Outputer.h
 MultiAgent.o: MultiAgent.cpp MultiAgent.h Agent.h BioIncludes.h \
  Missatger.h Outputer.h portable.h TopologiaToroidal.h Topologia.h \
