@@ -37,7 +37,7 @@ public:
 		for (i=0, bitter=1; i<uns; i++, bitter<<=1)	bit[i]=bitter;
 	}
 
-	inline unsigned int ambUns (unsigned int n) {
+	inline T ambUns (unsigned int n) {
 		KKEPAssert(n<=uns,"CGeneradorMascares: Intentant crear una mascara amb mes uns");
 		unsigned int r=0,i,temp;
 		for (i=n;n--;) {

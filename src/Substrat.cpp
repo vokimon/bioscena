@@ -4,6 +4,7 @@
 
 #include "Substrat.h"
 #include "Color.h"
+#include "Encaix.h"
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -48,16 +49,31 @@ uint32 CSubstrat::ocupant()
 // Operacions (Quimica)
 //////////////////////////////////////////////////////////////////////
 
-void CSubstrat::addNutrient(CNutrient & n)
+void CSubstrat::afegeixMollecula(t_mol n)
 {
 	m_nutrients.push_back(n);
 }
 
-bool CSubstrat::getNutrient(CNutrient&n, CEncaix<uint32> clau, uint32 tolerancia)
+void CSubstrat::limitaMollecules(uint32 n)
 {
-	list<CNutrient>::iterator it;
+	if (n<m_nutrients.size()) {
+		list<t_mol>::iterator it;
+		for (it=m_nutrients.begin(); n--; it++);
+		m_nutrients.erase(m_nutrients.begin(), it);
+	}
+	// TODO: Optimizar el caso en que hay mas que se quedan que no que se van
+}
+
+uint32 CSubstrat::numeroMollecules()
+{
+	return m_nutrients.size();
+}
+
+bool CSubstrat::agafaMollecula(uint32 &n, uint32 clau, uint32 tolerancia)
+{
+	list<uint32>::iterator it;
 	for (it=m_nutrients.begin(); it!=m_nutrients.end(); it++) {
-		if (clau.compatibleAmb(it->m_idonietat,tolerancia)) {
+		if (compat2(clau,*it,tolerancia)) {
 			n=*it;
 			m_nutrients.erase(it);
 			return true;
@@ -78,18 +94,27 @@ void CSubstrat::ProvaClasse ()
 	out << s << endl;
 	s.desocupa();
 	out << s << endl;
-	CNutrient a(1,3);
-	s.addNutrient(a);
+	s.afegeixMollecula(3);
+	s.afegeixMollecula(23);
+	s.afegeixMollecula(43);
+	s.afegeixMollecula(234);
+	s.afegeixMollecula(234);
+	s.afegeixMollecula(0xFFF1);
 	out << s << endl;
-	CNutrient b(2,3);
-	s.addNutrient(b);
+	s.afegeixMollecula(2);
 	out << s << endl;
-	for (int i=10; i--;) {
-		CNutrient n;
-		out << (s.getNutrient(n,0xFFFF,0xFFF3)?"True ":"False ")<<endl;
-		CEncaix<uint32> lala(5), foo(5);
-		out << "Dos iguals son "<< (lala.compatibleAmb(foo,~0)?"True ":"False ")<<endl;
-	}
+	uint32 estomac=0;
+	for (int i=100; i--;) {
+		uint32 n;
+		if (s.agafaMollecula(n,0x0,0x0)) {
+			out << "Hum, Menjar!!"<<endl;
+			estomac++;
+			}
+		}
+	out << "M'he menjat "<< estomac << " coses!" << endl;
+	out << s << endl;
+	s.limitaMollecules(4);
+	out << s << endl;
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -98,20 +123,26 @@ void CSubstrat::ProvaClasse ()
 
 ostream & operator<< (ostream & stream, CSubstrat s) 
 {
-/*
-	if (s.esOcupat())
-		stream << CColor(s.ocupant()&0x07) << "#"; 
+	char representacio;
+	stream 
+		<< CColor(1+s.numeroMollecules()) << "o";
+/*	if (s.esOcupat()) {
+		stream 
+			<< blanc.fons(groc) << char('A'+(s.ocupant()&0x1F)); 
+	}
 	else 
-		stream << white.fosc() << "_";
+		stream << blanc << "_";
 */
+ /*
 	if (!s.esOcupat())
 		stream << "Lliure; ";
 	else
 		stream << "Ocupant: "<<s.ocupant()<<"; ";
 	stream << "Nutrients: ";
-	list<CNutrient>::iterator it;
+	list<uint32>::iterator it;
 	for (it=s.m_nutrients.begin(); it!=s.m_nutrients.end();it++)
-		stream << it->m_idonietat <<"("<<it->m_quantitat<<");";
+		stream <<"("<<*it<<")";
 	if (it==s.m_nutrients.begin()) stream << "Erma";
+*/
 	return stream;
 }
