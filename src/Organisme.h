@@ -40,6 +40,7 @@ public:
 // Operacions
 public:
 	void operator () (void);
+	t_instruccio seguentInstruccio();
 	// Fenotip
 	void fenotip(uint32 index, uint32 valor);
 	uint32 fenotip(uint32);
@@ -56,7 +57,6 @@ public:
 	// 
 // Proves
 public:
-	t_instruccio seguentInstruccio();
 	void dump(CMissatger &msgr);
 	void debugPresentaNutrients(CMissatger &msgr);
 	void debugPresentaFenotip(CMissatger &msgr);

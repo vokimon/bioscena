@@ -16,7 +16,9 @@
 
 class CIterador : public CMultiAgent  
 {
-// Tipus Propis
+// Tipus interns
+public:
+	typedef CMultiAgent inherited;
 	typedef CAgent t_accio;
 //	typedef void (t_accio)(); // Aixo es per fer proves nomes
 

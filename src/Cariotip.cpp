@@ -64,7 +64,7 @@ bool CCariotip::init(uint32 nCromosomes)
 {
 	if (!ocupaCromosomes(nCromosomes))
 		return false;
-	ompleCromosomesAleatoriament(1,4);
+	ompleCromosomesAleatoriament(1,10);
 	return true;
 }
 
@@ -249,3 +249,9 @@ void CCariotip::ProvaClasse(void)
 
 
 
+
+bool CCariotip::muta()
+{
+//	CMutacio = 
+	return false;
+}

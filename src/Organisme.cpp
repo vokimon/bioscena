@@ -47,8 +47,9 @@ COrganisme::COrganisme(CCariotip &c) :
 	// Inicialitzem el fenotip
 	m_fenotip = new uint32[Config.get("Organisme/Fenotip/Longitud")];
 	if (!m_fenotip) error << "Error demanant fenotip";
-	for (int i=Config.get("Organisme/Fenotip/Longitud"); i--;)
-		rnd >> m_fenotip[i];
+	for (uint32 i=Config.get("Organisme/Fenotip/Longitud"), bit=1; i--;)
+		m_fenotip[i] = (bit <<=1);
+//		rnd >> m_fenotip[i];
 	// En principi cap registre del fenotip es diferit
 	m_lecturaDiferida=0L;
 	// Tot individu comenca amb 
@@ -175,7 +176,7 @@ void COrganisme::engoleix(t_mollecula element)
 		<< dec << setfill(' ');
 	m_nutrients.push_back(element);
 }
-
+	
 bool COrganisme::excreta(t_mollecula & excreccio, uint32 patro, uint32 tolerancia)
 {
 	// TODO: Treure aixo
@@ -300,12 +301,9 @@ void COrganisme::debugPresentaFenotip(CMissatger & msgr)
 COrganisme::t_instruccio COrganisme::seguentInstruccio()
 {
 	m_edat++;
-	return rnd.get();
 	// TODO: Ei, les instruccions han de venir d'un lloc coherent!
-/*
-	m_genotip();
-	return m_genotip.seguentGen();
-*/
+	return m_genotip.seguentInstruccio(m_fenotip);
+//	return rnd.get();
 }
 
 bool COrganisme::consumeix(uint32 energia)
