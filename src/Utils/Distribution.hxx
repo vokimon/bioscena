@@ -13,18 +13,16 @@ namespace Bioscena {
 /**
 * A natural numbers probability distribution based on the role game dices metafore.
 * The distribution is parametrized as this:
-* <ul>
-* <li>(m) The minimum value you can obtain
-* <li>(n) The number of dices that will be added to this number
-* <li>(M) The magnitude of the dices. They will score from 0 to M
-* </ul>
+* - (m) The minimum value you can obtain
+* - (n) The number of dices that will be added to this number
+* - (M) The magnitude of the dices. They will score from 0 to M
+*
 * Some deductable caracteristics of the obtained distribution are that:
-* <ul>
-* <li>The maximum value is m + M*n
-* <li>If you use only one dice, you will get an uniform distribution between the maximum and the minumum
-* <li>When you increase the number of dices, the distributions aproximates to a normal distribution 
-* with an increasing typical deviation and the median arround the center ( m + (n * M)/2 ).
-* </ul>
+* - The maximum value is m + M*n
+* - If you use only one dice, you will get an uniform distribution between the maximum and the minumum
+* - When you increase the number of dices, the distributions aproximates to a normal distribution 
+* with an increasing standarstandardtion and the median arround the center ( m + (n * M)/2 ).
+*
 * @see Roulette
 * @see Probability
 * @see sonCompatibles
