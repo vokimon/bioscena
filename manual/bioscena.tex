@@ -32,6 +32,7 @@
 \oddsidemargin 0 cm
 \evensidemargin 0 cm
 \topmargin 0 cm
+\voffset 0 mm
 \headsep 1 cm
 \textheight 8 in
 \textwidth 6.4 in
@@ -76,7 +77,8 @@ David Garcia\\
 % La linia de sota serveix per visualitzar l'efecte dels parametres
 % de pagina. Cal descomentar (o afegir) la linia \usepackage{layout}
 % a la capcalera
-%\layout*
+\layout*
+
 \setlinespacing{1.66}
 \input{resums}
 \part{Introducció}
@@ -95,14 +97,12 @@ David Garcia\\
 \input{analisis}
 \input{manualusuari}
 \input{manualprogramador}
+\part{Conclusions}
+\input{todo}
 \appendix
 \input{bibliografia}
 \label{TODO}
 \addcontentsline{toc}{chapter}{Index Alfabètic}
 \printindex
-
-%% TODO: Treure aixo dels links
-%\hyperlink{kaja}{Origen}
-%\hypertarget{kaja}{Desti}
 
 \end{document}

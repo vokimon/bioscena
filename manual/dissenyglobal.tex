@@ -3,12 +3,167 @@
 %
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Visió global del disseny}
+\section{Metodologia de disseny}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Metodologia d'implementació i estil de programació}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Criteris de disseny i metodologia}
+\subsection{Registre de canvis}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Cada arxiu d'implementació, porta al inici un registre dels canvis
+(Change Log) que s'anat fent al fitxer. Cada entrada d'aquest 
+registre porta la data, un indicador de l'autor de la modificació i
+una breu explicació d'una o dos línies, suficient per deduir en què
+consisteix i a quins llocs afecta.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Registre de coses pendents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Per tenir constància de les coses que s'han anat deixant pendents,
+s'han anat mantenint tres punts de registre de coses a fer (TODO's):
+\begin{itemize}
+\item A peu de codi, és a dir al mateix lloc on cal fer el que quedi
+pendent. Sempre es tracta d'un comentari que comença amb 
+\begin{verbatim}
+  // TODO:
+\end{verbatim}
+El comentari ha de ser autoexplicatiu per sí mateix, perque no 
+es necessiti veure'l en un context per entendre'l. D'aquesta forma, 
+es poden extreure totes les modificacions d'aquest tipus que queden 
+pendents executant la comanda:
+\begin{verbatim}
+  grep -n TODO *.h *.cpp *.c 
+\end{verbatim}
+\item A l'inici del fitxer d'implementació, a continuació del {\em 
+Change Log}, es posa els canvis pendents que afectan al mòdul en 
+general que no es puguin localitzar a cap lloc en concret.
+\item En un fitxer a part anomenat {\tt TODO.txt}, s'han anat 
+recopilant i actualitzant periòdicament els canvis pendents que 
+persisteixen d'entre els anteriors i alguns d'ambit més global o
+que afecten a mòduls que encara no s'han construït.
+\end{itemize}
+
+El control de les coses pendents resulta molt important per no deixar
+qüestions deslligades, donada la quantitat de coses que cal tenir
+presents durant la implementació.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Control de versions}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Cada cop que es compila, es genera de forma automatitzada una 
+entrada a un log de compilacions amb la data i el número de 
+compilació. Al mateix temps es modifica un arxiu font per tal
+de que aquest número de compilació i la data estiguin disponibles
+per al programa.
+
+Això ens permetrà saber, donat un executable, fins a quin punt està
+actualitzat, i amb els {\em Change Logs} quines característiques
+inclou. El registre de compilacions en facilitarà, a més, 
+l'aproximació del temps d'implementació.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Fitxers}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Tot i que la intenció inicial era mantenir per a cada classe un 
+fitxer de prototipus i un altre d'implementació, l'ús massiu de les 
+classes ha obligat a fusionar algunes classes en el mateix parell de 
+fitxers.
+
+Això sí, només s'ha fussionat en un fitxer classes molt intimament
+lligades com ara subclasses d'una mateixa classe abstracta factoria 
+en els casos en els que el codi que aportava cada subclasse era molt 
+poc i molt uniforme.
+
+En aquests casos, la classe abstracta factoria té el seu propi fitxer 
+de prototipus de cara a que els seus clients el puguin incloure sense 
+que interfereixi l'existència de les subclasses. La resta s'ha agrupat
+en un o més.
+
+Generalment el fitxer de la classe abstracta te el nom de la classe
+en singular i el de les classes derivades en plural. Fent servir
+un exemple típic, el fitxer {\tt Persona.h} contindria el prototipus 
+de la classe abstracta {\tt CPersona}, i el fitxer {\tt Persones.h} 
+podria contenir les especialitzacions de la classe {\tt CClient} i 
+{\tt CEmpleat} sempre que aquestes classes no afegissin mètodes
+adicionals al protocol públic de {\tt CPersona}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Criteris de nomenclatura d'identificadors}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+En molts, casos s'han adoptat alguns criteris que es fan servir en 
+la programació d'Smalltalk.
+
+En general, els identificadors que representen diverses paraules hem
+adoptat el criteri de fer servir les majúscules per separar-les en
+comptes del símbol de subratllat com és costum entre alguns 
+programadors de C. Així doncs, farem servir {\tt unIdentificadorLlarg}
+en comptes de {\tt un\_identificador\_llarg}.
+
+Els identificadors de les funcions, mètodes de classe (estàtics en 
+nomenclatura C) i objectes globals, els hem començat preferentment 
+per una majúscula. També els noms de les classes i els {\tt namespace}'s. 
+
+La primera paraula dels altres identificadors (dades locals o membres, 
+funcions membres no estàtiques...) he adoptat el conveni de començar-la
+en minúscula.
+
+També he pres alguns convenis estesos en la programació per a
+windows. Per exemple:
+\begin{itemize}
+\item Preposem una {\tt C} majúscula als identificadors de les classes: {\tt CComunitat}
+\item Preposem {\tt m\_} als identificadors de dades membres no estàtiques: {\tt m\_unaVariableMembre}
+\item Preposem {\tt s\_} als identificadors de dades membres estàtiques: {\tt s\_unaVariableEstàtica}
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Proves}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Cada classe té una funció membre estàtica anomenada {\tt ProvaClasse}
+on es deixa tota la bateria de proves unitàries que s'han fet sobre
+la classe, per, en cas de modificacions, tornar-les a passar.
+
+Els mòduls que no estiguin encapsulats en classes també tindran una
+funció similar. Generalment per ortogonalitat i per no interferir
+en l'espai de noms, la funció de proves del mòdul es fica a dins
+d'un {\tt namespace} sinò hi està ficat ja tot el mòdul.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Tipus de comentaris}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{description}
+\item [Comentaris de mòdul:] Serveixen per explicar qué va al mòdul
+que encapçalen i si hi ha alguna consideració global que fer en 
+usar-lo o mantenir-lo.
+\item [Comentaris de secció:] Separen visualment les diferents 
+seccions d'un mòdul.
+\item [Comentaris d'encapçalament:] Es troben just després de 
+l'encapçalament d'una funció o mètode i just abans de que s'obrin
+els claudàtors de l'implementació. Aquests comentaris van adreçats
+als usuaris de la funció evitant qualsevol menció als detalls 
+d'implementacio. Si cal indicar, precondicions o postcondicions es 
+farà aquí, dedicant una linia a cadascuna que vindrà precedida de les 
+partícules {\tt Pre:} o {\tt Post:}.
+\item [Comentaris de manteniment:] Aquests comentaris es troben 
+al cos de la funció o mètode (entre els claudàtors), parlen de 
+detalls d'implementació i estan adreçats als mantenidors.
+\end{description}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Visió global del disseny}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Disseny modular}
@@ -18,22 +173,30 @@
 L'aplicatiu que es vol dissenyar consta de diversos elements
 principals, cadascun, amb funcions determinades dintre del sistema.
 
-% TODO: Esquemeta del disseny modular global
+\unitlength 1mm
+\begin{figure}[h]
+\begin{picture}(200,30)
+TODO: Esquemeta del disseny modular global
+\put(0,0){\circle*{4}}
+\end{picture}
+\caption{Esquema conceptual del sistema}
+\label{fig:EsquemaConceptual}
+\end{figure}
+
 
 \begin{description}
 \item[Biosistema:] És l'objecte coordinador de la resta
 d'elements. Les seves funcions són:
 \begin{enumerate}
-\item Demanar instruccions als organismes.
-\item Controlar quantes operacions pot executar cada organisme
-d'una tacada.
-\item Fer les operacions de modificació i consulta sobre
+\item Multiplexar l'execució concurrent dels diferents organismes. 
+\item Demanar als organismes les instruccions que volen executar.
+\item Realitzar les operacions de modificació i consulta sobre
 la resta d'elements del sistema, necessàries per executar les
 instruccions proveïdes per la comunitat d'organismes.
-\item Demanar a la comunitat d'organismes per un nou organisme
-quan l'organisme actual ja ha executat les seves instruccions.
-\item Accionar els agents configuradors que varien el medi
-al llarg del temps segons uns parametres.
+\item Mantenir dintre d'uns mínims la població de la comunitat 
+introduint nous organismes quan aquesta baixa.
+\item Accionar els agents externs encarregats de variar el medi
+al llarg del temps.
 \end{enumerate}
 
 \item[Topologia:] Determina la geometria del medi on viuen els
@@ -54,6 +217,8 @@ donada. Les seves funcions són:
 \item Determinar si la posició l'ocupa un organisme i, en cas afirmatiu,
 quin és l'organisme ocupant.
 \item Contenir els nutrients lliures al medi.
+\item Altres característiques associades a la localitat que es 
+vulguin afegir més endavant.
 %TODO: Posar altres funcions del Substrat si apareixen
 \end{enumerate}
 
@@ -62,7 +227,7 @@ paràmetres (posició, composició, probabilitat, estacionalitat...) que
 intervenen  en les propietats dels elements del sistema al llarg del
 temps. Les seves aplicacions són:
 \begin{enumerate}
-\item Afegeixir o eliminar nutrients lliures dins del medi.
+\item Afegir o eliminar nutrients lliures dins del medi.
 \item Modificar els paràmetres del substrat.
 \item Generar expontàneament organismes.
 %% TODO: Posar altres funcions dels Agents si apareixen
@@ -98,14 +263,14 @@ anàlisis de l'evolució d'un grup reproductiu (població) i de les
 interaccions amb els altres grups. Aquest seguiment requereix que el
 taxonomista estigui intimament lligat al funcionament del biosistema.
 \begin{enumerate}
-\item Detectar l'aparició de comportaments sexuals.
 \item Mantenir informació històrica sobre l'aparició de grups
 reproductius.
 \item Mantenir un cens per edats de la població de cada grup
 reproductiu i a cada edat.
 \item Mantenir un llistat sobre la dieta de cada grup reproductiu.
 \item Mantenir un llistat dels agressors de cada grup reproductiu.
-%TODO: Posar altres funcions del Organismes si apareixen
+%TODO: Posar altres funcions del Taxonomista si apareixen
+%TODO: Considerar les que hi ha perque t'has lluit
 \end{enumerate}
 
 \end{description}

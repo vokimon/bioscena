@@ -1,0 +1,109 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+- El que us presentare ara és el que he estat desenvolupant com a TFC.
+- Es tracta d'una eina d'experimentació que simula un entorn biològic evolutiu. 
+- En aquest entorn, conviuen un seguit d'organismes que competeixen per els 
+seus recursos.
+
+- És un sistema prou flexible i obert com per adaptar-se a necessitats de simulació 
+d'entorns biològics evolutius molt diversos.
+- Per un costat, es pot adaptar per les seves possibilitats de configuració.
+- Per un altre, es poden substituir facilment mòduls funcionals concrets, 
+donades les seves estretes interfícies, i la possibilitat d'intercanviar-los, 
+alguns, fins i tot, en execució.
+- Tot i així m'he centrat en un model concret d'organisme i en un model concret de biosistema.
+
+- En quant al model de biosistema, he partit del model LEE (Entorns d'Energia Latent). 
+- A aquest model, els organismes havien de convinar certs tipus d'elements químics 
+del medi per obtenir reaccions amb un balanç d'energia positiu. 
+- Aquests organismes disposaven d'un sistema cognitiu (NNet) com a mecanisme de control. 
+- Les interconexions d'aquesta xarxa neuronal evolucionen generació rera generació per adaptar-se als canvis a llarg termini.
+Ara bé, si el sistema genètic, els hi donava adaptabilitat al canvi a 
+llarg termini, el sistema de control, (la XN en funcionament) que els hi 
+ofereix adaptabilitat als canvis que succeeixen durant la vida de l'organisme 
+(propietat que la literatura LEE anomena 'plasticitat').
+
+Ara bé, a la natura hi ha altres organismes que no obtenen la seva 
+plasticitat en sistemes cognitius. Es tracta llavors de comprovar si
+els mecanismes de regulació sobre l'expressió gènica poden dotar als
+organismes d'aquesta plasticitat. Aquests mecanismes, l'únic que fan
+és decidir si un gen s'expressa o no basant-se en factors que depenen 
+de l'entorn i de l'estat intern.
+
+
+Anem a veure ara, a grans trets com està fet el sistema.
+
+El sistema es composa de dos elements principals:
+- El biòtop, que representa el lloc físic on viuran els organismes.
+- La comunitat, que representa el conjunt d'organismes que poblen el biòtop.
+
+Existeix un tercer element, no tan material, però, no menys important:
+- El biosistema, que és qui articula les interaccions entre els diferents 
+elements. Representaria les 'lleis naturals' que regeixen el sistema.
+
+
+Passem a veure com està fet el medi on viuen els organismes (el biòtop).
+
+- El biòtop és un món amb posicions discretes. 
+- Cada posició pot contenir un organisme i un nombre limitat de nutrients. 
+- Cada nutrient està caracteritzat per un número que indica el seu tipus.
+- La forma com aquestes posicions es comuniquen la determina la topologia.
+- Es poden configurar d'altres topologies diferents, però, en el cas implementat, he triat una superfície toroidal. 
+
+Els agents externs son eines de configuració que permeten a l'usuari 
+controlar les característiques del medi, com, per exemple, com apareixen 
+els nutrients arreu del biòtop: localització, quantitat, tipus, 
+freqüència, periodicitat...
+
+
+
+Els organismes estan composats internament per quatre sistemes:
+
+- El cariotip: que conté un seguit de cromosomes que transportaran la 
+informació hereditaria als seus fills.
+
+- El sistema de control: Que es construeix a partir d'aquest cariotip
+i que determina, en cada moment, les accions de l'organisme.
+
+- Els registres de fenotip (memoria): Que, a gran trets, són un conjunt 
+de registres que fa servir el sistema de control per interaccionar amb
+la resta del mon.
+
+- El sistema metabolic: Que conté els nutrients incorporats a 
+l'organisme, un contenidor d'energia...
+
+
+Per implementar el sistema de control, hem pres com a referència el model
+de 'Tierra' on la informació genètica representa codis d'instruccions
+com si fós un programa de codi màquina. 
+
+A aquesta idea, hem incorporat dos variacions: 
+
+- La primera és que la majoria d'instruccions a Tierra tenien poc a veure
+amb un entorn biològic. Aquí cal que les instruccions tinguin sentit en
+l'entorn biològic simulat (Ataca, DetectaNutrient, LocalitzaOrganisme, 
+Engoleix, Mou-te...)
+
+- La segona és que hem afegit mecanismes de control sobre l'expressió 
+gènica. Això implica, identificar els gens a dins dels cromosomes, 
+traduir-los, i 
+
+
+
+
+Pasem a explicar com funciona el prototipus
+
+Tenim tres fitxers de configuració:
+
+Bioscena.ini  Paràmetres numèrics
+
+Agents.ini:
+
+
+
+
+
+
+

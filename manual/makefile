@@ -23,6 +23,8 @@ TEXOPTS:=
 
 default: copirrait ${POSTSCRIPT}
 
+pre: $(BBL)
+
 all: copirrait ${POSTSCRIPT} ${PDF}  $(HTML)
 
 pdf: copirrait ${PDF}
