@@ -312,5 +312,126 @@ extreure de l'estat i l'estructura dels agents d'un biosistema i que
 es pot fer servir restaurar-ho posteriorment.
 
 
+
+Aquest arxiu té una estructura molt simple: Primer van unes linies
+que determinen, per cada agent, el seu nom i el seu tipus. 
+Un cop definits els noms i els tipus, per a cada agent, identificat
+pel seu nom, s'especifica la seva configuració.
+
+La definició dels noms i els tipus es fa amb una línia per cada agent
+sent la primera línia la que defineix l'agent que està en l'arrel de
+la estructura de subordinació.
+A cada línia es posa, per ordre i {\em separats per espais} un signe
+asterisc, el nom i el tipus.
+
+Quan es carrega un arxiu de configuració d'agents, si és possible 
+a cada agent se li dòna el nom amb el que apareix a l'arxiu, però 
+això no és posible si ja existeix un amb el mateix nom. En aquest
+cas, se li dòna un nom per defecte i s'hi tradueixen totes les 
+posteriors referències al nom antic.
+
+Els noms poden contenir qualsevol caracter que no es consideri
+un espai a C (espais, tabuladors, retorns...).
+
+Els tipus fan servir identificadors que defineixen jeràrquicament
+els diferents subtipus als que pertanyen de la mateixa manera que
+s'identifiquen els directoris a sistemes semblants a UNIX.
+Dins d'un arxiu de configuracio d'agents, es reconeixen els següents tipus:
+
+
+\begin{tabular}{|l|l|}\hline
+{\bf Nom de tipus a la memoria}		& {\bf Nom del tipus a un fitxer de configuració}\\\hline
+Agent Subordinador Multiple		& Agent/Multiple			\\\hline
+Agent Subordinador Temporitzador	& Agent/Multiple/Temporitzador		\\\hline
+Agent Subordinador Iterador		& Agent/Multiple/Iterador		\\\hline
+Agent Subordinador Aleaturitzador	& Agent/Multiple/Aleaturitzador		\\\hline
+Posicionador Fixe			& Agent/Posicionador			\\\hline
+Posicionador Aleatori			& Agent/Posicionador/Aleatori		\\\hline
+Posicionador Zonal			& Agent/Posicionador/Zonal		\\\hline
+Posicionador Direccional (Itinerari)	& Agent/Posicionador/Direccional	\\\hline
+Direccionador Fixe			& Agent/Direccionador			\\\hline
+Direccionador Aleatori			& Agent/Direccionador/Aleatori		\\\hline
+Actuador Nutridor			& Agent/Actuador/Nutridor		\\\hline
+Actuador Desnutridor			& Agent/Actuador/Nutridor/Invers	\\\hline
+\end{tabular}
+
+La definició de noms i tipus podria quedar com segueix:
+
+\begin{verbatim}
+* Agent_0000 Agent/Multiple
+* Agent_0001 Agent/Multiple/Temporitzador
+* Agent_0002 Agent/Direccionador/Aleatori
+* Agent_0003 Agent/Posicionador/Direccional
+* Agent_0004 Agent/Multiple/Iterador
+* Agent_0005 Agent/Actuador/Nutridor
+\end{verbatim}
+
+Un cop definits els noms i els tipus dels agents, cal configurar els
+seus paràmetres. Per configurar un agent primer cal posar una línia
+amb el signe + i el nom de l'agent separats per un espai, i, després,
+tot un seguit de línies de configuració de paràmetres.
+Les linies de configuració de paràmetres comencen amb un signe més
+i el nom del paràmetre i segueixen amb els valors que necessita
+el paràmetre per configurar-se. Tot separat per espais.
+
+Per configurar un Nutridor es faria de la seguent forma
+\begin{verbatim}
++ Agent_0004
+- Posicionador Agent_0003
+- Composicio 31 0
+\end{verbatim}
+
+Alguns paràmetres, com `Composicio', necessiten dos o més
+valors per configurar-se: l'element bàsic (31) i la variabilitat (0).
+Simplement es separen mitjançant espais. Els agents es referencien pel seu nom.
+
+%% TODO: Descripció en detall dels paràmetres
+
+A continuació es presenta un exemple complert:
+
+\begin{verbatim}
+* Agent_0000 Agent/Multiple
+* Agent_0002 Agent/Posicionador/Direccional
+* Agent_0005 Agent/Multiple/Iterador
+* Agent_0004 Agent/Actuador/Nutridor
+* Agent_0003 Agent/Posicionador/Zonal
+* Agent_0006 Agent/Multiple/Temporitzador
+* Agent_0001 Agent/Direccionador/Aleatori
+
++ Agent_0002
+- Posicio 1271
+- Radi 1
+- Direccionador Agent_0001
+
++ Agent_0004
+- Posicionador Agent_0003
+- Composicio 31 0
+
++ Agent_0003
+- Posicio 8
+- Radi 1
+- Posicionador Agent_0002
+
++ Agent_0005
+- Accio Agent_0004
+- Accio Agent_0003
+- Iteracions 20 0 0
+
++ Agent_0001
+- Direccio 2192479406
+
++ Agent_0006
+- Accio Agent_0001
+- CicleActiu 1 0 1
+- CicleInactiu 5 0 1
+- CicleActual 4 Inactiu
+
++ Agent_0000
+- Accio Agent_0002
+- Accio Agent_0005
+- Accio Agent_0006
+\end{verbatim}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
