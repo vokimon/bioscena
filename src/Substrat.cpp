@@ -4,8 +4,8 @@
 
 #include "Substrat.h"
 #include "Color.h"
-#include "Encaix.h"
 #include "Configuracio.h"
+#include "Compatibilitat.h"
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -88,7 +88,7 @@ bool CSubstrat::extreu(uint32 &n, uint32 clau, uint32 tolerancia)
 {
 	list<uint32>::iterator it;
 	for (it=m_nutrients.begin(); it!=m_nutrients.end(); it++) {
-		if (compat2(clau,*it,tolerancia)) {
+		if (sonCompatibles(clau,*it,tolerancia)) {
 			n=*it;
 			m_nutrients.erase(it);
 			return true;
@@ -97,11 +97,12 @@ bool CSubstrat::extreu(uint32 &n, uint32 clau, uint32 tolerancia)
 	return false;
 }
 
-bool CSubstrat::rastreja(uint32 clau, uint32 tolerancia)
+bool CSubstrat::rastreja(t_mol &n, uint32 clau, uint32 tolerancia)
 {
 	list<uint32>::iterator it;
 	for (it=m_nutrients.begin(); it!=m_nutrients.end(); it++) {
-		if (compat2(clau,*it,tolerancia)) {
+		if (sonCompatibles(clau,*it,tolerancia)) {
+			n=*it;
 			return true;
 		}
 	}
@@ -152,8 +153,9 @@ void CSubstrat::ProvaClasse ()
 	s.deposita(0x24); s.dump(out);
 	s.deposita(0x25); s.dump(out);
 	uint32 cercat=0x11111125;
+	uint32 trobat=0;
 	out << "Cercant quelcom semblant a 0x" << hex << cercat << dec 
-		<< (s.rastreja(cercat,0x100100FF)?" Ok":" Ko") << endl;
+		<< (s.rastreja(trobat,cercat,0x100100FF)?" Ok:":" Ko:") << trobat << endl;
 }
 
 //////////////////////////////////////////////////////////////////////

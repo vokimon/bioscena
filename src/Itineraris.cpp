@@ -112,9 +112,13 @@ void CPosicionadorZonal::operator() (void)
 		warning << "PosicionadorZonal sense Posicionador central" << endl;
 		return;
 	}
+	m_pos = m_biotop.desplacamentAleatori(m_posicionador->pos(),m_radi);
+	/* 
+	// Veure el ChangeLog 19991130.VoK Aixo es el que hi havia abans
 	m_pos=m_posicionador->pos();
 	for (int i=m_radi; i--;)
 		m_pos = m_biotop.desplacament(m_pos, rnd.get());
+	*/
 }
 
 void CPosicionadorZonal::dump(CMissatger & msg)
