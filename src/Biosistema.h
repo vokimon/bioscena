@@ -13,6 +13,7 @@
 #include "Substrat.h"
 #include "Agent.h"
 #include "Comunitat.h"
+#include "Probabilitat.h"
 //#include "Taxonomista.h"
 
 class CBiosistema  
@@ -40,6 +41,7 @@ private:
 	CInfoOrganisme * m_infoOrganismeActiu;
 	uint32 m_tempsPerAccionarAgents;
 	uint32 m_temps;
+	CProbabilitat m_probabilitatGeneracioExpontanea;
 // Construccio/Destruccio
 public:
 	CBiosistema();
@@ -73,6 +75,7 @@ public:
 	bool organismeCreaSensor(uint32 sensor, uint32 vector);
 // Proves
 public:
+	uint32 temps();
 	static void ProvaClasse(void);
 // Implementacio
 protected:

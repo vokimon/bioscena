@@ -42,6 +42,7 @@ public:
 	bool esIntro(uint32 codo);
 	bool esPromotor(uint32 codo);
 	t_instruccio traduccio(uint32 codo);
+	bool esOperadora();
 	uint32 tamany();
 // Atributs
 public:
@@ -49,6 +50,7 @@ public:
 	uint32 m_ip;
 // Proves
 public:
+	bool condicioOperadora(uint32 * fenotip);
 	static void ProvaClasse(void);
 };
 

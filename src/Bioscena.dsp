@@ -65,7 +65,7 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /Zi /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /c
-# ADD CPP /nologo /W3 /Gm /GX /Zi /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /c
+# ADD CPP /nologo /W3 /Gm /GX /Zi /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR /YX /FD /c
 # ADD BASE RSC /l 0x403 /d "_DEBUG"
 # ADD RSC /l 0x403 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -86,7 +86,19 @@ LINK32=link.exe
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=.\AgentConfig.txt
+SOURCE=.\Configuracio.txt
+# End Source File
+# Begin Source File
+
+SOURCE=.\Dudas.txt
+# End Source File
+# Begin Source File
+
+SOURCE=.\Idees
+# End Source File
+# Begin Source File
+
+SOURCE=.\ParametresProves
 # End Source File
 # Begin Source File
 
@@ -95,6 +107,10 @@ SOURCE=.\Sensomotriu.txt
 # Begin Source File
 
 SOURCE=.\TODO.txt
+# End Source File
+# Begin Source File
+
+SOURCE=.\Vistes.txt
 # End Source File
 # End Group
 # Begin Source File
@@ -340,6 +356,14 @@ SOURCE=.\Posicionador.cpp
 # Begin Source File
 
 SOURCE=.\Posicionador.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Probabilitat.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Probabilitat.h
 # End Source File
 # Begin Source File
 

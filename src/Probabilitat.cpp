@@ -1,22 +1,20 @@
-// InfoOrganisme.cpp: implementation of the CInfoOrganisme class.
+// Probabilitat.cpp: implementation of the CProbabilitatSaxona class.
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "InfoOrganisme.h"
+#include "Probabilitat.h"
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CInfoOrganisme::CInfoOrganisme()
+CProbabilitat::CProbabilitat()
 {
-	m_cos=NULL;
-	m_subIdentificador=0;
-	m_posicio=0x00ff;
-	m_taxo=0x00ff;
-	m_representacio="";
+	m_encerts=1;
+	m_mostra=1;
 }
 
-CInfoOrganisme::~CInfoOrganisme()
+CProbabilitat::~CProbabilitat()
 {
+
 }

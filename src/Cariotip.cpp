@@ -13,8 +13,11 @@
 // - 
 
 #include "Cariotip.h"
+#include "Configuracio.h"
 #include "Color.h"
 #include "RandomStream.h"
+#include "MutacioCariotip.h"
+#include "MutacioGenica.h"
 
 using namespace AnsiCodes;
 
@@ -64,7 +67,10 @@ bool CCariotip::init(uint32 nCromosomes)
 {
 	if (!ocupaCromosomes(nCromosomes))
 		return false;
-	ompleCromosomesAleatoriament(1,10);
+	ompleCromosomesAleatoriament(
+		Config.get("Organisme/Cromosoma/LongitudMinima"),
+		Config.get("Organisme/Cromosoma/LongitudMaxima")
+		);
 	return true;
 }
 
@@ -252,6 +258,26 @@ void CCariotip::ProvaClasse(void)
 
 bool CCariotip::muta()
 {
-//	CMutacio = 
-	return false;
+	if (rnd.get(0,15))
+		return false;	
+	switch (rnd.get(0,1))
+	{
+	case 0:
+		{
+			CMutacioGenica * mutacio = CMutacioGenica::Nova(rnd.get(1,CMutacioGenica::Nombre())-1);
+			mutacio->muta(*(m_cromosomes[cromosomaAleatori()]));
+			delete mutacio;
+		} break;
+	case 1:
+		{
+			CMutacioCariotip * mutacio = CMutacioCariotip::Nova(rnd.get(1,CMutacioCariotip::Nombre())-1);
+			mutacio->muta(*this);
+			delete mutacio;
+		} break;
+	default:
+		error << "ops!!! Cas no previst a " << __FILE__ << ":" << __LINE__ << endl;
+		cin.get();
+	}
+	
+	return true;
 }

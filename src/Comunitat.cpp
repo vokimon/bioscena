@@ -23,6 +23,7 @@ static bool tracaBaixes=false;
 CComunitat::CComunitat()
 //	: m_txmist(Config.get("Comunitat/NumeroMarquesPerTaxo"))
 {
+	m_nOrganismes=0;
 }
 
 CComunitat::~CComunitat()
@@ -38,7 +39,6 @@ CComunitat::~CComunitat()
 
 void CComunitat::dump(CMissatger & msg)
 {
-	m_nOrganismes=0;
 	msg << "Comunitat de " << (m_organismes.size() - m_disponibles.size()) << " organismes." << endl;
 	vector<CInfoOrganisme>::iterator it = m_organismes.begin();
 	for (uint32 index=0; it!=m_organismes.end(); ++it, ++index) {
@@ -65,8 +65,61 @@ void CComunitat::dumpDisponibles(CMissatger & msg)
 	msg << endl;
 }
 
+class CDominiGrafica {
+private:
+	uint32 m_maxim;
+	uint32 m_minim;
+	uint32 m_factor;
+	uint32 m_esDinamic;
+	bool m_esLogaritmic;
+public:
+	CDominiGrafica ()
+	{
+		m_maxim = 0; // El minimo que se quiere representar
+//		m_minim = 0; // El minimo que se quiere representar
+		m_factor = 0; 
+		m_esDinamic = false;
+		m_esLogaritmic = true;
+	}
+	void fixaFactor (uint32 tope) 
+	// Si el factor es dinamic, es fixa per que el maxim sigui representable
+	{
+		if (!m_esDinamic) return;
+		if (m_esLogaritmic) {
+			uint32 valorLog=0;
+			while (m_maxim) {
+				valorLog++;
+				m_maxim>>=1;
+			}
+			m_maxim=valorLog;
+			}
+		uint32 factor=0;
+		while ((m_maxim>>=1)>tope) factor++;
+		m_factor = (m_factor>factor) ? (m_factor-1): factor;
+		m_maxim=0;
+	}
+	uint32 mapeja (uint32 valor) 
+	{
+		m_maxim=(m_maxim<valor)?valor:m_maxim;
+		// Calcul del valor
+		if (m_esLogaritmic) {
+			uint32 valorLog=0;
+			while (valor>>=1) valorLog++;
+			valor=valorLog;
+			}
+		return valor>>m_factor;
+	}
+};
+
 void CComunitat::dumpEnergies(CMissatger & msg)
 {
+	static uint32 tope = 10;
+	static CDominiGrafica dominiEnergia;
+	static CDominiGrafica dominiEdat;
+
+	dominiEdat.fixaFactor(tope);
+	dominiEnergia.fixaFactor(tope);
+
 	using AnsiCodes::gotoxy;
 	using AnsiCodes::clrlin;
 	uint32 col;
@@ -79,10 +132,19 @@ void CComunitat::dumpEnergies(CMissatger & msg)
 		msg << CColor(1+(col>>3)&7).brillant();
 		if ((*this)[col].cos()) 
 		{
-			uint32 energia = m_organismes[col].cos()->energia() >> 2;
-			uint32 edat    = m_organismes[col].cos()->edat()    >> 3;
-			msg << gotoxy(42-energia, col+1) << '*';
-			msg << gotoxy(42-edat   , col+1) << '-';
+			uint32 energia = m_organismes[col].cos()->energia();
+			energia = dominiEnergia.mapeja(energia);
+			if (energia>tope)
+				msg << gotoxy(32, col+1) << '?';
+			else
+				msg << gotoxy(42-energia, col+1) << '*';
+
+			uint32 edat    = m_organismes[col].cos()->edat();
+			edat    = dominiEdat.mapeja(edat);
+			if (edat>tope)
+				msg << gotoxy(32, col+1) << '?';
+			else
+				msg << gotoxy(42-edat   , col+1) << '-';
 		}
 		else 
 			msg << gotoxy(42, col+1) << 'X';
@@ -91,7 +153,7 @@ void CComunitat::dumpEnergies(CMissatger & msg)
 	for (col=0; col<79 && col<m_organismes.size(); col++)
 	{
 		if ((*this)[col].cos()) {
-			msg << negre.fons(1+(m_organismes[col].taxo()>>3)&7)
+			msg << negre.fons((m_organismes[col].taxo()>>3)&7)
 				<< gotoxy(44, col+1) 
 				<< (m_organismes[col].taxo()&7);
 		}
@@ -108,12 +170,17 @@ void CComunitat::dumpEnergies(CMissatger & msg)
 //////////////////////////////////////////////////////////////////////
 
 CInfoOrganisme & CComunitat::operator[](uint32 index) {
+	if (index>=m_organismes.size()) {
+		cout << "Accediendo a un organisme no existent!" << endl;
+		cin.get();
+	}
 	return m_organismes[index];
 }
 
 uint32 CComunitat::introdueix(COrganisme* org, uint32 posicio, uint32 taxo)
 	// PRE: org és un punter vàlid
 {
+	static char buffer[50]; // TODO: Reconsiderar la longitud o posar-la als limits d'implementacio
 	uint32 index;
 	if (m_disponibles.size()) {
 		index = m_disponibles.front();
@@ -130,6 +197,16 @@ uint32 CComunitat::introdueix(COrganisme* org, uint32 posicio, uint32 taxo)
 	nouOrganisme.taxo(taxo);
 	nouOrganisme.posicio(posicio);
 	nouOrganisme.cos(org);
+	ostrstream fluxe; //(buffer,48);
+	fluxe
+		<< setfill('0') 
+		<< (index>>6) << CColor(1+((index&070)>>3)).brillant() << (index&07) << blanc.fosc() << "-" 
+		<< setw(3) << nouOrganisme.subidentificador() << "-" 
+		<< (taxo>>6) << (taxo&070?negre.fons((taxo&070)>>3):blanc) << (taxo&7) << blanc.fosc() << " "
+		<< setfill(' ') 
+		<< ends; // El fluxe no afegeix un /0 sino ho fem nosaltres
+	nouOrganisme.descripcio(fluxe.str());
+	fluxe.freeze(false);
 	++m_nOrganismes;
 	return index;
 }
@@ -155,6 +232,10 @@ uint32 CComunitat::organismeAleatori()
 		"Comunitat: No hi ha organismes per escollir");
 	while (true) {
 		uint32 org=rnd.get(0,m_organismes.size()-1);
+		if (org>=m_organismes.size()) {
+			error << "Error escogiendo organismo" << endl;
+			cin.get();
+		}
 		if (m_organismes[org].cos()) return org;
 	}
 }
@@ -219,4 +300,9 @@ void CComunitat::ProvaClasse (void)
 uint32 CComunitat::tamany()
 {
 	return m_organismes.size() - m_disponibles.size();
+}
+
+bool CComunitat::esValid(uint32 index)
+{
+	return index<m_organismes.size() && m_organismes[index].cos()!=0;
 }

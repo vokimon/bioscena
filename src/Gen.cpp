@@ -58,10 +58,16 @@ bool CGen::finalitzat()
 bool CGen::traduible(uint32 * fenotip)
 // Si la zona d'operador es compleix reseteja l'ip i retorna true
 {
+	// Comportament amb zona operadora
 	m_ip = 0;
+	while (m_ip<m_instruccions.size() && esOperadora())
+		if (!condicioOperadora(fenotip))
+			return false;
 	return true;
-	// TODO: Cal executar l'operador i retornar true nomes si es compleix
-	// TODO: Posar l'ip despres de l'operador o a fora si no es compleix
+
+	// Comportament sense zona operadora
+	m_ip = 0; 
+	return true;
 }
 
 bool CGen::seguentInstruccio(t_instruccio & valor)
@@ -113,4 +119,25 @@ bool CGen::esPromotor(uint32 codo)
 CGen::t_instruccio CGen::traduccio(uint32 codo)
 {
 	return codo;
+	// TODO: Donar-li coherencia
+}
+
+bool CGen::esOperadora()
+// Retorna cert si la instruccio actual pertany a la zona operadora
+{
+	// Versio amb zona operadora
+	return m_instruccions[m_ip]&0x01;
+	// Versio sense zona operadora
+	return false;
+}
+
+bool CGen::condicioOperadora(uint32 * fenotip)
+// PRE: fenotip apunta a una array de 32 elements
+{
+	uint32 instr = m_instruccions[m_ip];
+	uint32 param1 = fenotip[ instr      & 0x00000017];
+	uint32 param2 = fenotip[(instr>>=5) & 0x00000360];
+	uint32 param3 = fenotip[(instr>>=5) & 0x00007400];
+	uint32 param4 = fenotip[(instr>>=5) & 0x00170000];
+	return (param1 ^ param2) && param2 && param4;
 }
