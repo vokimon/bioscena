@@ -69,16 +69,15 @@ CLEAN :
 	-@erase "$(INTDIR)\InfoOrganisme.obj"
 	-@erase "$(INTDIR)\Iterador.obj"
 	-@erase "$(INTDIR)\Itineraris.obj"
-	-@erase "$(INTDIR)\LlistaEstatica.obj"
 	-@erase "$(INTDIR)\MainBio1.obj"
 	-@erase "$(INTDIR)\Missatger.obj"
 	-@erase "$(INTDIR)\MultiAgent.obj"
+	-@erase "$(INTDIR)\MutacioCariotip.obj"
+	-@erase "$(INTDIR)\MutacioGenica.obj"
 	-@erase "$(INTDIR)\Organisme.obj"
 	-@erase "$(INTDIR)\Posicionador.obj"
 	-@erase "$(INTDIR)\RandomStream.obj"
 	-@erase "$(INTDIR)\Substrat.obj"
-	-@erase "$(INTDIR)\Taxo.obj"
-	-@erase "$(INTDIR)\Taxonomista.obj"
 	-@erase "$(INTDIR)\Temporitzador.obj"
 	-@erase "$(INTDIR)\Topologia.obj"
 	-@erase "$(INTDIR)\TopologiaToroidal.obj"
@@ -123,16 +122,15 @@ LINK32_OBJS= \
 	"$(INTDIR)\InfoOrganisme.obj" \
 	"$(INTDIR)\Iterador.obj" \
 	"$(INTDIR)\Itineraris.obj" \
-	"$(INTDIR)\LlistaEstatica.obj" \
 	"$(INTDIR)\MainBio1.obj" \
 	"$(INTDIR)\Missatger.obj" \
 	"$(INTDIR)\MultiAgent.obj" \
+	"$(INTDIR)\MutacioCariotip.obj" \
+	"$(INTDIR)\MutacioGenica.obj" \
 	"$(INTDIR)\Organisme.obj" \
 	"$(INTDIR)\Posicionador.obj" \
 	"$(INTDIR)\RandomStream.obj" \
 	"$(INTDIR)\Substrat.obj" \
-	"$(INTDIR)\Taxo.obj" \
-	"$(INTDIR)\Taxonomista.obj" \
 	"$(INTDIR)\Temporitzador.obj" \
 	"$(INTDIR)\Topologia.obj" \
 	"$(INTDIR)\TopologiaToroidal.obj"
@@ -181,16 +179,15 @@ CLEAN :
 	-@erase "$(INTDIR)\InfoOrganisme.obj"
 	-@erase "$(INTDIR)\Iterador.obj"
 	-@erase "$(INTDIR)\Itineraris.obj"
-	-@erase "$(INTDIR)\LlistaEstatica.obj"
 	-@erase "$(INTDIR)\MainBio1.obj"
 	-@erase "$(INTDIR)\Missatger.obj"
 	-@erase "$(INTDIR)\MultiAgent.obj"
+	-@erase "$(INTDIR)\MutacioCariotip.obj"
+	-@erase "$(INTDIR)\MutacioGenica.obj"
 	-@erase "$(INTDIR)\Organisme.obj"
 	-@erase "$(INTDIR)\Posicionador.obj"
 	-@erase "$(INTDIR)\RandomStream.obj"
 	-@erase "$(INTDIR)\Substrat.obj"
-	-@erase "$(INTDIR)\Taxo.obj"
-	-@erase "$(INTDIR)\Taxonomista.obj"
 	-@erase "$(INTDIR)\Temporitzador.obj"
 	-@erase "$(INTDIR)\Topologia.obj"
 	-@erase "$(INTDIR)\TopologiaToroidal.obj"
@@ -239,16 +236,15 @@ LINK32_OBJS= \
 	"$(INTDIR)\InfoOrganisme.obj" \
 	"$(INTDIR)\Iterador.obj" \
 	"$(INTDIR)\Itineraris.obj" \
-	"$(INTDIR)\LlistaEstatica.obj" \
 	"$(INTDIR)\MainBio1.obj" \
 	"$(INTDIR)\Missatger.obj" \
 	"$(INTDIR)\MultiAgent.obj" \
+	"$(INTDIR)\MutacioCariotip.obj" \
+	"$(INTDIR)\MutacioGenica.obj" \
 	"$(INTDIR)\Organisme.obj" \
 	"$(INTDIR)\Posicionador.obj" \
 	"$(INTDIR)\RandomStream.obj" \
 	"$(INTDIR)\Substrat.obj" \
-	"$(INTDIR)\Taxo.obj" \
-	"$(INTDIR)\Taxonomista.obj" \
 	"$(INTDIR)\Temporitzador.obj" \
 	"$(INTDIR)\Topologia.obj" \
 	"$(INTDIR)\TopologiaToroidal.obj"
@@ -523,19 +519,18 @@ DEP_CPP_BIOSI=\
 	".\Agent.h"\
 	".\BioIncludes.h"\
 	".\Biosistema.h"\
+	".\Cariotip.h"\
 	".\Color.h"\
 	".\Comunitat.h"\
+	".\Cromosoma.h"\
 	".\EnergiaDisipable.h"\
 	".\InfoOrganisme.h"\
-	".\LlistaEstatica.h"\
 	".\Missatger.h"\
 	".\Organisme.h"\
 	".\Outputer.h"\
 	".\Portable.h"\
 	".\RandomStream.h"\
 	".\Substrat.h"\
-	".\Taxo.h"\
-	".\Taxonomista.h"\
 	".\Topologia.h"\
 	".\TopologiaToroidal.h"\
 	
@@ -545,28 +540,8 @@ DEP_CPP_BIOSI=\
 
 !ELSEIF  "$(CFG)" == "Bioscena - Win32 Debug"
 
-DEP_CPP_BIOSI=\
-	".\Agent.h"\
-	".\BioIncludes.h"\
-	".\Biosistema.h"\
-	".\Color.h"\
-	".\Comunitat.h"\
-	".\EnergiaDisipable.h"\
-	".\InfoOrganisme.h"\
-	".\LlistaEstatica.h"\
-	".\Missatger.h"\
-	".\Organisme.h"\
-	".\Outputer.h"\
-	".\Portable.h"\
-	".\RandomStream.h"\
-	".\Substrat.h"\
-	".\Taxo.h"\
-	".\Taxonomista.h"\
-	".\Topologia.h"\
-	".\TopologiaToroidal.h"\
-	
 
-"$(INTDIR)\Biosistema.obj" : $(SOURCE) $(DEP_CPP_BIOSI) "$(INTDIR)"
+"$(INTDIR)\Biosistema.obj" : $(SOURCE) "$(INTDIR)"
 
 
 !ENDIF 
@@ -578,10 +553,12 @@ SOURCE=.\Cariotip.cpp
 DEP_CPP_CARIO=\
 	".\BioIncludes.h"\
 	".\Cariotip.h"\
+	".\Color.h"\
 	".\Cromosoma.h"\
 	".\Missatger.h"\
 	".\Outputer.h"\
 	".\Portable.h"\
+	".\RandomStream.h"\
 	
 
 "$(INTDIR)\Cariotip.obj" : $(SOURCE) $(DEP_CPP_CARIO) "$(INTDIR)"
@@ -589,8 +566,18 @@ DEP_CPP_CARIO=\
 
 !ELSEIF  "$(CFG)" == "Bioscena - Win32 Debug"
 
+DEP_CPP_CARIO=\
+	".\BioIncludes.h"\
+	".\Cariotip.h"\
+	".\Color.h"\
+	".\Cromosoma.h"\
+	".\Missatger.h"\
+	".\Outputer.h"\
+	".\Portable.h"\
+	".\RandomStream.h"\
+	
 
-"$(INTDIR)\Cariotip.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\Cariotip.obj" : $(SOURCE) $(DEP_CPP_CARIO) "$(INTDIR)"
 
 
 !ENDIF 
@@ -665,18 +652,17 @@ SOURCE=.\Comunitat.cpp
 
 DEP_CPP_COMUN=\
 	".\BioIncludes.h"\
+	".\Cariotip.h"\
 	".\Comunitat.h"\
 	".\Configuracio.h"\
+	".\Cromosoma.h"\
 	".\EnergiaDisipable.h"\
 	".\InfoOrganisme.h"\
-	".\LlistaEstatica.h"\
 	".\Missatger.h"\
 	".\Organisme.h"\
 	".\Outputer.h"\
 	".\Portable.h"\
 	".\RandomStream.h"\
-	".\Taxo.h"\
-	".\Taxonomista.h"\
 	
 
 "$(INTDIR)\Comunitat.obj" : $(SOURCE) $(DEP_CPP_COMUN) "$(INTDIR)"
@@ -684,23 +670,8 @@ DEP_CPP_COMUN=\
 
 !ELSEIF  "$(CFG)" == "Bioscena - Win32 Debug"
 
-DEP_CPP_COMUN=\
-	".\BioIncludes.h"\
-	".\Comunitat.h"\
-	".\Configuracio.h"\
-	".\EnergiaDisipable.h"\
-	".\InfoOrganisme.h"\
-	".\LlistaEstatica.h"\
-	".\Missatger.h"\
-	".\Organisme.h"\
-	".\Outputer.h"\
-	".\Portable.h"\
-	".\RandomStream.h"\
-	".\Taxo.h"\
-	".\Taxonomista.h"\
-	
 
-"$(INTDIR)\Comunitat.obj" : $(SOURCE) $(DEP_CPP_COMUN) "$(INTDIR)"
+"$(INTDIR)\Comunitat.obj" : $(SOURCE) "$(INTDIR)"
 
 
 !ENDIF 
@@ -877,6 +848,7 @@ SOURCE=.\Gen.cpp
 
 DEP_CPP_GEN_C=\
 	".\BioIncludes.h"\
+	".\Color.h"\
 	".\Gen.h"\
 	".\Missatger.h"\
 	".\Outputer.h"\
@@ -890,6 +862,7 @@ DEP_CPP_GEN_C=\
 
 DEP_CPP_GEN_C=\
 	".\BioIncludes.h"\
+	".\Color.h"\
 	".\Gen.h"\
 	".\Missatger.h"\
 	".\Outputer.h"\
@@ -937,6 +910,8 @@ SOURCE=.\InfoOrganisme.cpp
 
 DEP_CPP_INFOO=\
 	".\BioIncludes.h"\
+	".\Cariotip.h"\
+	".\Cromosoma.h"\
 	".\EnergiaDisipable.h"\
 	".\InfoOrganisme.h"\
 	".\Missatger.h"\
@@ -952,6 +927,8 @@ DEP_CPP_INFOO=\
 
 DEP_CPP_INFOO=\
 	".\BioIncludes.h"\
+	".\Cariotip.h"\
+	".\Cromosoma.h"\
 	".\EnergiaDisipable.h"\
 	".\InfoOrganisme.h"\
 	".\Missatger.h"\
@@ -1065,36 +1042,6 @@ DEP_CPP_ITINE=\
 
 !ENDIF 
 
-SOURCE=.\LlistaEstatica.cpp
-
-!IF  "$(CFG)" == "Bioscena - Win32 Release"
-
-DEP_CPP_LLIST=\
-	".\BioIncludes.h"\
-	".\LlistaEstatica.h"\
-	".\Missatger.h"\
-	".\Outputer.h"\
-	".\Portable.h"\
-	
-
-"$(INTDIR)\LlistaEstatica.obj" : $(SOURCE) $(DEP_CPP_LLIST) "$(INTDIR)"
-
-
-!ELSEIF  "$(CFG)" == "Bioscena - Win32 Debug"
-
-DEP_CPP_LLIST=\
-	".\BioIncludes.h"\
-	".\LlistaEstatica.h"\
-	".\Missatger.h"\
-	".\Outputer.h"\
-	".\Portable.h"\
-	
-
-"$(INTDIR)\LlistaEstatica.obj" : $(SOURCE) $(DEP_CPP_LLIST) "$(INTDIR)"
-
-
-!ENDIF 
-
 SOURCE=.\MainBio1.cpp
 
 !IF  "$(CFG)" == "Bioscena - Win32 Release"
@@ -1107,6 +1054,7 @@ DEP_CPP_MAINB=\
 	".\AppInfo.h"\
 	".\BioIncludes.h"\
 	".\Biosistema.h"\
+	".\Cariotip.h"\
 	".\Color.h"\
 	".\Compatibilitat.h"\
 	".\Comunitat.h"\
@@ -1120,6 +1068,8 @@ DEP_CPP_MAINB=\
 	".\LlistaEstatica.h"\
 	".\Missatger.h"\
 	".\MultiAgent.h"\
+	".\MutacioCariotip.h"\
+	".\MutacioGenica.h"\
 	".\Organisme.h"\
 	".\Outputer.h"\
 	".\Portable.h"\
@@ -1138,41 +1088,8 @@ DEP_CPP_MAINB=\
 
 !ELSEIF  "$(CFG)" == "Bioscena - Win32 Debug"
 
-DEP_CPP_MAINB=\
-	".\Actuador.h"\
-	".\Actuadors.h"\
-	".\Agent.h"\
-	".\Aleaturitzador.h"\
-	".\AppInfo.h"\
-	".\BioIncludes.h"\
-	".\Biosistema.h"\
-	".\Color.h"\
-	".\Compatibilitat.h"\
-	".\Comunitat.h"\
-	".\Cromosoma.h"\
-	".\EnergiaDisipable.h"\
-	".\FuncioAgent.h"\
-	".\GeneradorMascares.h"\
-	".\InfoOrganisme.h"\
-	".\Iterador.h"\
-	".\Itineraris.h"\
-	".\LlistaEstatica.h"\
-	".\Missatger.h"\
-	".\MultiAgent.h"\
-	".\Organisme.h"\
-	".\Outputer.h"\
-	".\Portable.h"\
-	".\Posicionador.h"\
-	".\RandomStream.h"\
-	".\Substrat.h"\
-	".\Taxo.h"\
-	".\Taxonomista.h"\
-	".\Temporitzador.h"\
-	".\Topologia.h"\
-	".\TopologiaToroidal.h"\
-	
 
-"$(INTDIR)\MainBio1.obj" : $(SOURCE) $(DEP_CPP_MAINB) "$(INTDIR)"
+"$(INTDIR)\MainBio1.obj" : $(SOURCE) "$(INTDIR)"
 
 
 !ENDIF 
@@ -1255,14 +1172,90 @@ DEP_CPP_MULTI=\
 
 !ENDIF 
 
+SOURCE=.\MutacioCariotip.cpp
+
+!IF  "$(CFG)" == "Bioscena - Win32 Release"
+
+DEP_CPP_MUTAC=\
+	".\BioIncludes.h"\
+	".\Cariotip.h"\
+	".\Color.h"\
+	".\Cromosoma.h"\
+	".\Missatger.h"\
+	".\MutacioCariotip.h"\
+	".\Outputer.h"\
+	".\Portable.h"\
+	".\RandomStream.h"\
+	
+
+"$(INTDIR)\MutacioCariotip.obj" : $(SOURCE) $(DEP_CPP_MUTAC) "$(INTDIR)"
+
+
+!ELSEIF  "$(CFG)" == "Bioscena - Win32 Debug"
+
+DEP_CPP_MUTAC=\
+	".\BioIncludes.h"\
+	".\Cariotip.h"\
+	".\Color.h"\
+	".\Cromosoma.h"\
+	".\Missatger.h"\
+	".\MutacioCariotip.h"\
+	".\Outputer.h"\
+	".\Portable.h"\
+	".\RandomStream.h"\
+	
+
+"$(INTDIR)\MutacioCariotip.obj" : $(SOURCE) $(DEP_CPP_MUTAC) "$(INTDIR)"
+
+
+!ENDIF 
+
+SOURCE=.\MutacioGenica.cpp
+
+!IF  "$(CFG)" == "Bioscena - Win32 Release"
+
+DEP_CPP_MUTACI=\
+	".\BioIncludes.h"\
+	".\Color.h"\
+	".\Cromosoma.h"\
+	".\Missatger.h"\
+	".\MutacioGenica.h"\
+	".\Outputer.h"\
+	".\Portable.h"\
+	".\RandomStream.h"\
+	
+
+"$(INTDIR)\MutacioGenica.obj" : $(SOURCE) $(DEP_CPP_MUTACI) "$(INTDIR)"
+
+
+!ELSEIF  "$(CFG)" == "Bioscena - Win32 Debug"
+
+DEP_CPP_MUTACI=\
+	".\BioIncludes.h"\
+	".\Color.h"\
+	".\Cromosoma.h"\
+	".\Missatger.h"\
+	".\MutacioGenica.h"\
+	".\Outputer.h"\
+	".\Portable.h"\
+	".\RandomStream.h"\
+	
+
+"$(INTDIR)\MutacioGenica.obj" : $(SOURCE) $(DEP_CPP_MUTACI) "$(INTDIR)"
+
+
+!ENDIF 
+
 SOURCE=.\Organisme.cpp
 
 !IF  "$(CFG)" == "Bioscena - Win32 Release"
 
 DEP_CPP_ORGAN=\
 	".\BioIncludes.h"\
+	".\Cariotip.h"\
 	".\Color.h"\
 	".\Compatibilitat.h"\
+	".\Cromosoma.h"\
 	".\EnergiaDisipable.h"\
 	".\GeneradorMascares.h"\
 	".\Missatger.h"\
@@ -1279,8 +1272,10 @@ DEP_CPP_ORGAN=\
 
 DEP_CPP_ORGAN=\
 	".\BioIncludes.h"\
+	".\Cariotip.h"\
 	".\Color.h"\
 	".\Compatibilitat.h"\
+	".\Cromosoma.h"\
 	".\EnergiaDisipable.h"\
 	".\GeneradorMascares.h"\
 	".\Missatger.h"\
@@ -1397,70 +1392,6 @@ DEP_CPP_SUBST=\
 	
 
 "$(INTDIR)\Substrat.obj" : $(SOURCE) $(DEP_CPP_SUBST) "$(INTDIR)"
-
-
-!ENDIF 
-
-SOURCE=.\Taxo.cpp
-
-!IF  "$(CFG)" == "Bioscena - Win32 Release"
-
-DEP_CPP_TAXO_=\
-	".\BioIncludes.h"\
-	".\Missatger.h"\
-	".\Outputer.h"\
-	".\Portable.h"\
-	".\Taxo.h"\
-	
-
-"$(INTDIR)\Taxo.obj" : $(SOURCE) $(DEP_CPP_TAXO_) "$(INTDIR)"
-
-
-!ELSEIF  "$(CFG)" == "Bioscena - Win32 Debug"
-
-DEP_CPP_TAXO_=\
-	".\BioIncludes.h"\
-	".\Missatger.h"\
-	".\Outputer.h"\
-	".\Portable.h"\
-	".\Taxo.h"\
-	
-
-"$(INTDIR)\Taxo.obj" : $(SOURCE) $(DEP_CPP_TAXO_) "$(INTDIR)"
-
-
-!ENDIF 
-
-SOURCE=.\Taxonomista.cpp
-
-!IF  "$(CFG)" == "Bioscena - Win32 Release"
-
-DEP_CPP_TAXON=\
-	".\BioIncludes.h"\
-	".\LlistaEstatica.h"\
-	".\Missatger.h"\
-	".\Outputer.h"\
-	".\Portable.h"\
-	".\Taxo.h"\
-	".\Taxonomista.h"\
-	
-
-"$(INTDIR)\Taxonomista.obj" : $(SOURCE) $(DEP_CPP_TAXON) "$(INTDIR)"
-
-
-!ELSEIF  "$(CFG)" == "Bioscena - Win32 Debug"
-
-DEP_CPP_TAXON=\
-	".\BioIncludes.h"\
-	".\LlistaEstatica.h"\
-	".\Missatger.h"\
-	".\Outputer.h"\
-	".\Portable.h"\
-	".\Taxo.h"\
-	".\Taxonomista.h"\
-	
-
-"$(INTDIR)\Taxonomista.obj" : $(SOURCE) $(DEP_CPP_TAXON) "$(INTDIR)"
 
 
 !ENDIF 

@@ -13,7 +13,7 @@ CPosicionador::CPosicionador(tipus_biotop& biotop)
 {
 	m_tipus+="/Posicionador";
 	// Aixi ens asegurem de que la posicio inicial sigui valida
-	m_pos=biotop.posicioAlAtzar(); 
+	m_pos=biotop.posicioAleatoria(); 
 };
 
 CDireccionador::CDireccionador(tipus_biotop& biotop)

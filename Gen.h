@@ -25,7 +25,8 @@ public:
 public:
 // Proves
 public:
-	static void ProvaClasse(void);	
+	static void ProvaClasse(void);
 };
+
 
 #endif // !defined(__KKEP_GEN_H_INCLUDED)

@@ -14,7 +14,8 @@ static CMissatger tracaOrganisme ("Organisme");
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-COrganisme::COrganisme() : m_energia(OrganismeCaducitatEnergia)
+COrganisme::COrganisme() : 
+	m_energia(OrganismeCaducitatEnergia)
 {
 	// Desactivem o on el traceig
 	tracaOrganisme.activa();
@@ -27,6 +28,7 @@ COrganisme::COrganisme() : m_energia(OrganismeCaducitatEnergia)
 		rnd >> m_fenotip[i];
 	// Tot individu comenca amb 
 	m_energia.afegeix(OrganismeEnergiaMinima);
+	m_nutrients.clear();
 }
 
 COrganisme::~COrganisme()
@@ -138,29 +140,62 @@ bool COrganisme::catabolitza(uint32 & energia, uint32 A, uint32 toleranciaA, uin
 
 void COrganisme::engoleix(t_mollecula element)
 {
+	tracaOrganisme 
+		<<"Engolint: "
+		<< hex << setfill('0')
+		<<"\tElement: "<<setw(8)<<element<<endl
+		<< dec << setfill(' ');
+
 	m_nutrients.push_back(element);
 }
 
 bool COrganisme::excreta(t_mollecula & excreccio, uint32 patro, uint32 tolerancia)
 {
-	tracaOrganisme <<"Excretant: "<< endl;
-	tracaOrganisme << hex << setfill('0');
-	tracaOrganisme <<"\tPat: "<<setw(8)<<patro<<endl;
-	tracaOrganisme <<"\tTol: "<<setw(8)<<tolerancia<<endl;
+	tracaOrganisme 
+		<<"Excretant: "<< endl
+		<< hex << setfill('0')
+		<<"\tPat: "<<setw(8)<<patro<<endl
+		<<"\tTol: "<<setw(8)<<tolerancia<<endl
+		<< dec << setfill(' ');
 	list<t_mollecula>::iterator it;
 	for (it=m_nutrients.begin(); it!=m_nutrients.end(); it++)
 	{
 		if (sonCompatibles(*it, patro, tolerancia))
 			break;
 	}
-	if (it==m_nutrients.end()) {
-		tracaOrganisme << dec << setfill(' ');
+	if (it==m_nutrients.end())
 		return false;
-	}
 	excreccio=*it;
 	m_nutrients.erase(it);
-	tracaOrganisme <<"\tExc: "<<setw(8)<<excreccio<<endl;
-	tracaOrganisme << dec << setfill(' ');
+	tracaOrganisme 
+		<< hex << setfill('0')
+		<<"\tExc: "<<setw(8)<<excreccio<<endl
+		<< dec << setfill(' ');
+	return true;
+}
+
+bool COrganisme::defensa(list<t_mollecula> &fluxeQuimic, uint32 patroAtac, uint32 patroNutrient, uint32 toleranciaNutrient)
+{
+	// TODO: Treure el random i posar quelcom amb sentit per la defensa
+	uint32 forcaAtac=comptaUns(patroAtac^rnd.get()); 
+	// Aixo es per si un dia volem fem comportaments d'inoculacio
+	while (fluxeQuimic.empty()&&forcaAtac)
+	{
+		engoleix(fluxeQuimic.back());
+		forcaAtac--;
+	}
+	fluxeQuimic.clear();
+	// I ara ve lo normal d'atacar.
+	// El biosistema sabra que fer-ne d'aquests nutrients a fluxeQuimic:
+	// - Passar-los al atacant directament
+	// - Deixar-los lliures al medi
+	while (forcaAtac)
+	{
+		t_mollecula mol;
+		if (excreta(mol, patroNutrient, toleranciaNutrient))
+			fluxeQuimic.push_back(mol);
+		forcaAtac--;
+	}
 	return true;
 }
 
@@ -194,6 +229,12 @@ void COrganisme::ProvaClasse()
 	pepe.excreta   (excrecio, A=0x000000F0, tolA=0x0000FFFF);
 	pepe.debugPresentaNutrients(tracaOrganisme);
 	tracaOrganisme << dec << setfill(' ');
+}
+
+void COrganisme::dump(CMissatger & msgr)
+{
+	debugPresentaNutrients(msgr);
+	debugPresentaFenotip(msgr);
 }
 
 void COrganisme::debugPresentaNutrients(CMissatger & msgr)

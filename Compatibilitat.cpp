@@ -14,7 +14,7 @@ void ProvaCompatibilitat () {
 	cout << "---- Fitxer de sortida: Estadisticas.xls" << endl;
 
 	CGeneradorMascares<t_clau> generador;
-	unsigned int i,j;
+	unsigned int i;
 	unsigned int matxes, encerts;
 	unsigned int mitja=0;
 	t_clau z=0, matxer=0;

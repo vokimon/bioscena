@@ -8,11 +8,12 @@
 
 #if !defined(__KKEP_BIOSISTEMA_H_INCLUDED)
 #define __KKEP_BIOSISTEMA_H_INCLUDED
+
 #include "Topologia.h"
 #include "Substrat.h"
 #include "Agent.h"
 #include "Comunitat.h"
-#include "Taxonomista.h"
+//#include "Taxonomista.h"
 
 class CBiosistema  
 {
@@ -22,13 +23,13 @@ public:
 	typedef CSubstrat t_substrat;
 	typedef CComunitat t_comunitat;
 	typedef CAgent t_agent;
-	typedef CTaxonomista t_taxonomista;
+//	typedef CTaxonomista t_taxonomista;
 // Atributs
 protected:
 	t_biotop * m_biotop;
 	t_comunitat * m_comunitat;
 	t_agent * m_agents;
-	t_taxonomista * m_taxonomista;
+//	t_taxonomista * m_taxonomista;
 private:
 	uint32 m_instruccionsUtilsRestants;
 	uint32 m_maxInstruccionsUtils;
@@ -42,6 +43,7 @@ public:
 // Redefinibles
 public:
 	virtual void operator () (void);
+	void canviaOrganismeActiu();
 // Operacions (Access als membres)
 public:
 	t_biotop * biotop();

@@ -44,7 +44,7 @@ public:
 	inline CTaxo *taxoAmbIndex (uint32 i);
 
 // Construccio/Destruccio
-	CTaxonomista(uint32 nTaxons, uint32 nNivells);
+	CTaxonomista(uint32 nNivells);
 	virtual ~CTaxonomista();
 // Debug
 	ostream & dump (ostream& stream);

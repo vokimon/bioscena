@@ -42,7 +42,7 @@ public:
 		if (it!=m_diccionari.end())
 			return it->second;
 		errorConfiguracio << "No hi ha valor per la clau '" << clau << "'" << endl;
-		return -1;
+		return (uint32)-1;
 	}
 public:
 // Atributs

@@ -22,14 +22,16 @@
 #include "Aleaturitzador.h"
 #include "Iterador.h"
 
-#include "Taxo.h"
-#include "Taxonomista.h"
-#include "LlistaEstatica.h"
+//#include "Taxo.h"
+//#include "Taxonomista.h"
+//#include "LlistaEstatica.h"
 #include "EnergiaDisipable.h"
 #include "Organisme.h"
-//#include "Comunitat.h"
+#include "Comunitat.h"
 #include "Cromosoma.h"
+#include "MutacioGenica.h"
 #include "Cariotip.h"
+#include "MutacioCariotip.h"
 #include "Biosistema.h"
 //#include "LlistaDinamica.h"
 
@@ -73,10 +75,12 @@ int main ()
 //	COrganisme::ProvaClasse();
 //	CTaxo::ProvaClasse();
 //	CTaxonomista::ProvaClasse();
-	CCromosoma::ProvaClasse();
-	CCariotip::ProvaClasse();
-//	CComunitat::ProvaClasse();
-//	CBiosistema::ProvaClasse();
+//	CCromosoma::ProvaClasse(); // OK
+//	CMutacioGenica::ProvaClasse(); // OK
+//	CCariotip::ProvaClasse();
+//	CMutacioCariotip::ProvaClasse();
+//	CComunitat::ProvaClasse(); // OK
+	CBiosistema::ProvaClasse();
 
 //	cout << ">> Final de proves. Pulsa la tecla de retorn...";
 //	cin.get();
