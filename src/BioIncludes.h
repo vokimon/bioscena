@@ -16,5 +16,8 @@
 // Esto a ver donde se pone!!!
 #define NMem 10
 
+// Para quitar el warning de que hay nombres de simbolos demasiado grandes
+#pragma warning(disable:4786)
+
 #endif //__BIOINCLUDES_H__
 

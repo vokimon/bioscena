@@ -1,0 +1,47 @@
+
+Agent-0001
+	Tipus(Agent/Direccionador/Aleatori)
+
+Agent-0002
+	Tipus(Agent/Multiple/Temporitzador)
+	CicleActiu(1, 0, 1)
+	CicleInactiu(5, 0, 1)
+	Probabilitat(1 de 1)
+
+Agent-0003
+	Tipus(Agent/Posicionador/Direccional)
+
+Agent-0004
+	Tipus(Agent/Actuador/Nutridor)
+
+Agent-0005
+	Tipus(Agent/Multiple/Iterador)
+	Accio(Agent-0004)
+	Iteracions(14, 0, 0)
+
+Agent-0006
+	Tipus(Agent/Posicionador)
+
+Agent-0007
+	Tipus(Agent/Posicionador/Zonal)
+
+Agent-0009
+	Tipus(Agent/Posicionador/Zonal)
+
+Agent-0010
+	Tipus(Agent/Actuador/Nutridor/Invers)
+
+Agent-0008
+	Tipus(Agent/Multiple/Iterador)
+	Accio(Agent-0009)
+	Accio(Agent-0010)
+	Iteracions(10, 2, 10)
+
+Agent-0000
+	Tipus(Agent/Multiple)
+	Accio(Agent-0002)
+	Accio(Agent-0003)
+	Accio(Agent-0005)
+	Accio(Agent-0006)
+	Accio(Agent-0007)
+	Accio(Agent-0008)

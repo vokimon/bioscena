@@ -3,56 +3,114 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "Agent.h"
-#include "Missatger.h"
-#include "TopologiaToroidal.h"
-#include "Substrat.h"
-#include "Itineraris.h"
-#include "Cumulador.h"
-#include "Temporitzador.h"
+#include "Color.h"
 
-void hola(){out << "hola "<<endl;}
+//////////////////////////////////////////////////////////////////////
+// Construccio/Desctruccio
+//////////////////////////////////////////////////////////////////////
 
-void CMultiAgent::ProvaClasse()
+CAgent::CAgent()
 {
-	out << "Provant Direccionador Aleatori" << endl;
-	CMultiAgent agents;
-	CTopologiaToroidal<CSubstrat> biotop(70,22);
-	CDireccionador* direccio = new CDireccionadorAleatori(biotop);
-	CPosicionador* posicio = new CItinerari(biotop, direccio);
-	CCumulador cum (biotop, posicio);
-	cum.distribucio (1, 0);
-	cum.composicio (31, 0);
-	CTemporitzador timer1;
-	timer1.accio(&cum);
-	timer1.cicleActiu(6);
-	timer1.cicleDesactiu(1);
-	agents.add(&timer1);
-	CTemporitzador timer2;
-	timer2.accio(posicio);
-	timer2.cicleActiu(10);
-	timer2.cicleDesactiu(1);
-	agents.add(&timer2);
-	CTemporitzador timer3;
-	timer3.accio(direccio);
-	timer3.cicleActiu(1);
-	timer3.cicleDesactiu(5);
-	agents.add(&timer3);
-	CPosicionador* posicioCentral = new CPosicionador(biotop);
-	posicioCentral->pos(1085);
-	agents.add(posicioCentral);
-	CPosicionador* posicio2 = new CPosicionadorZonal(biotop, posicioCentral);
-	((CPosicionadorZonal*)posicio2)->radi(20);
-	agents.add(posicio2);
-	CCumulador cum2 (biotop, posicio2);
-	cum2.distribucio (5, 1);
-	cum2.composicio (31, 0);
-	agents.add(&cum2);
-	for (int i=100; i--;)
-	{
-		agents();
-		if (!(i%5)) biotop.debugPresenta(out);
-		out << blanc << i <<endl;
-	}
+	// TODO: Que passa quan ja hi ha un nom amb el meu nom per defecte?
+	m_numeroAgent=s_ultimNumeroAgent++;
+	m_tipus="Agent";
+	m_nomDefinit=false;
+	ostrstream stream;
+	stream 
+		<< tipus() << "-" 
+		<< setfill('0') << setw(4) << m_numeroAgent 
+		<< setfill(' ') << ends;
+	nom(stream.str());
+};
+
+CAgent::~CAgent() 
+{
+	if (m_nomDefinit) s_DiccionariAgents.erase(m_nom); 
+};
+
+//////////////////////////////////////////////////////////////////////
+// Definicio de membres estatics
+//////////////////////////////////////////////////////////////////////
+
+uint32 CAgent::s_ultimNumeroAgent=0;
+map<string, CAgent*> CAgent::s_DiccionariAgents;
+
+void CAgent::dumpDiccionari(CMissatger& msg) 
+{
+	msg << groc.brillant() << "Diccionari d'agents" << blanc.fosc() << endl;
+	map<string, CAgent*>::iterator it;
+	for (it=s_DiccionariAgents.begin(); it!=s_DiccionariAgents.end(); it++)
+		msg 
+			<< it->first << endl 
+			<< "\t" << it->second->nom() 
+			<< " (" << it->second->tipus() << ") " << endl;
+}
+
+CAgent* CAgent::cercaDiccionari(string s) 
+{
+	map<string, CAgent*>::iterator it;
+	it=s_DiccionariAgents.find(s); 
+	if (it==s_DiccionariAgents.end())
+		return NULL;
+	return it->second;
+}
+
+
+//////////////////////////////////////////////////////////////////////
+// Seralitzacio
+//////////////////////////////////////////////////////////////////////
+
+ostream& operator<< (ostream& str, CAgent& ag) {
+	str << ag.nom() << ":" << endl 
+		<< "\tTipus(" << ag.tipus() << ")" << endl;
+	return str;
+}
+
+
+//////////////////////////////////////////////////////////////////////
+// Operacions
+//////////////////////////////////////////////////////////////////////
+
+bool CAgent::nom(string unNom)
+{
+	// Primer em trec del diccionari amb el nom antic
+	if (m_nomDefinit) s_DiccionariAgents.erase(m_nom); 
+	map<string, CAgent*>::value_type parell(unNom,this);
+	// Si ja existia no fem 
+	if (!s_DiccionariAgents.insert(parell).second) 
+		return false;
+	m_nomDefinit=true;
+	m_nom=unNom;
+	return true;
+}
+
+void CAgent::dumpAll(CMissatger& msg)
+{
+	list<CAgent*> l=subordinats();
+	for (list<CAgent*>::iterator it=l.begin(); it!=l.end(); it++)
+		(*it)->dumpAll(msg);
+	dump(msg);
+}
+
+void CAgent::dump(CMissatger& msg)
+{
+	msg << endl
+		<< nom() << endl
+		<< "\tTipus(" << tipus() << ")" << endl
+		;
+}
+
+//////////////////////////////////////////////////////////////////////
+// Proves CFuncioAgent
+//////////////////////////////////////////////////////////////////////
+
+static void hola(){out << "Hola mon!"<<endl;}
+
+void CFuncioAgent::ProvaClasse ()
+{
+	CFuncioAgent ag(hola);
+	ag();
+	// De fet es una prova molt simpleta :-)
 }
 
 
