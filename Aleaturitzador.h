@@ -8,12 +8,15 @@
 // 19990823 VoK - Reordenat els fitxers i netejades les proves
 // 19990824 VoK - dump ja no posa ':' despres de nom del parametre
 // 19990824 VoK - Funcions de configuracio amb parametres
+// 19991116 VoK - Fa servir CProbabilitat en comptes de l'intern 
+//                t_probabilitat_saxona. Adaptat al nou tipos.
 //////////////////////////////////////////////////////////////////////
 
 #if !defined(__KKEP_ALEATURITZADOR_H_INCLUDED)
 #define __KKEP_ALEATURITZADOR_H_INCLUDED
 
 #include "RandomStream.h"
+#include "Probabilitat.h"
 #include "MultiAgent.h"
 
 class CAleaturitzador : public CMultiAgent
@@ -23,7 +26,8 @@ public:
 	typedef CMultiAgent inherited;
 	typedef CAgent t_accio;
 //	typedef void (t_accio)(); // Aixo es per fer proves nomes
-	struct t_probabilitat_saxona
+	// TODO: Esborrar aixo
+/*	struct t_probabilitat_saxona
 	{
 		bool esDona()
 		{
@@ -32,7 +36,7 @@ public:
 		uint32 m_encerts;
 		uint32 m_mostra;
 	};
-
+*/
 // Construccio/Destruccio
 public:
 	CAleaturitzador();
@@ -52,7 +56,7 @@ protected:
 // Atributs
 public:
 	bool m_accionat;
-	t_probabilitat_saxona m_probabilitat;
+	CProbabilitat m_probabilitat;
 protected:
 	// No fixat al protocol, son aqui per debug
 	t_accio * m_reAccio;

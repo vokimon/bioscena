@@ -41,7 +41,7 @@
 
 using namespace std;
 
-int main () 
+int main (int argc, char**argv) 
 {
 //try{
 	out << cyan.brillant() << CAppInfo::MyAppInfo << blanc << endl;
@@ -50,6 +50,12 @@ int main ()
 	_COORD tamany={80,50};
 	SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE),tamany);
 #endif
+
+	if (argc>1) {
+		Config.dump(out);
+		exit(0);
+	}
+	Config.parsejaArxiu("Bioscena.ini", error);
 
 // Proves eines d'implementacio
 //	CMissatger::ProvaClasse(); //Ok
@@ -60,8 +66,6 @@ int main ()
 //	CLlistaDinamica<int>::ProvaClasse();
 //	CGeneradorMascares<uint32>::ProvaClasse();
 //	CConfiguracio::ProvaClasse();
-
-	Config.parsejaArxiu("Bioscena.ini", error);
 
 // Proves Biotop
 //	CTopologia<CColor>::ProvaClasse(); //OK TODO: Provar tipus propis i scan

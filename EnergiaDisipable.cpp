@@ -13,6 +13,10 @@ CEnergiaDisipable::CEnergiaDisipable(uint32 slots)
 {
 	m_nSlots=slots;
 	m_slots=new uint32[m_nSlots];
+	if (!m_slots) {
+		error << "CEnergiaDisipable: Falta memoria per crear pila" << endl;
+		cin.get();
+	}
 	for (int i=m_nSlots; i--;)
 		m_slots[i]=0;
 	m_slotActual=0;

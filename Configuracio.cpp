@@ -36,6 +36,8 @@ CConfiguracio::CConfiguracio()
 	set("Organisme/Cariotip/LongitudMaxima",10);
 	set("Organisme/Cromosoma/LongitudMinima",1);
 	set("Organisme/Cromosoma/LongitudMaxima",10);
+	set("Organisme/ProbabilitatMutacio/Encerts",1);
+	set("Organisme/ProbabilitatMutacio/Mostra",15);
 	set("Comunitat/NumeroOrganismes",0x00000200);
 	set("Comunitat/TamanyRegeneracio",27);
 	set("Comunitat/NumeroTaxons",0x00000200);
@@ -44,10 +46,18 @@ CConfiguracio::CConfiguracio()
 	set("Comunitat/ProbabilitatGeneracioExpontanea/Encerts",1);
 	set("Biotop/CassellesAmplitud",30);
 	set("Biotop/CassellesAltitud",30);
-	set("Biotop/Substrat/MaximInicial",6);
+	set("Biotop/Substrat/MaximInicial",7);
 	set("Biotop/Substrat/MolleculesInicials/Numero",2);
 	set("Biotop/Substrat/MolleculesInicials/Element",0);
 	set("Biotop/Substrat/MolleculesInicials/Tolerancia",3);
+	set("Biosistema/Quantum/Utils",2);
+	set("Biosistema/Quantum/Maxim",4);
+	set("Biosistema/Energia/FixeInstruccio",1);
+	set("Biosistema/Energia/AdicionalInutil",1);
+	set("Biosistema/Energia/Mitosi",15);
+	set("Biosistema/Energia/Engolir",6);
+	set("Biosistema/Energia/Excretar",3);
+	set("Biosistema/Energia/Moviment",0);
 }
 
 CConfiguracio::~CConfiguracio()
@@ -62,6 +72,10 @@ void CConfiguracio::parsejaArxiu(char * nomArxiu, CMissatger & errors)
 	t_clau parametre;
 	t_valor valor;
 	string prefetch;
+
+	if (!entrada) {
+		errors << "No s'ha pogut obrir \"" << nomArxiu << "\"" << endl;
+	}
 
 	entrada >> prefetch;
 	while (entrada && prefetch=="*") {	

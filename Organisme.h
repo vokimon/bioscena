@@ -37,6 +37,11 @@ public:
 	CGenotip m_genotip;
 	uint32 m_lecturaDiferida;
 	uint32 m_edat;
+public:
+	// Debug
+	uint32 m_foo; // TODO: Treure aixo
+	bool m_primigeni; // TODO: Treure aixo
+	bool m_mutat; // TODO: Treure aixo
 // Operacions
 public:
 	void operator () (void);

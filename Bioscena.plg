@@ -10,17 +10,45 @@ Project's tools are:
 			"Custom Build" with flags ""
 			"<Component 0xa>" with flags ""
 
-Creating temp file "C:\WINDOWS\TEMP\RSPD103.TMP" with contents </nologo /MLd /W3 /Gm /GX /Zi /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR"Debug/" /Fp"Debug/Bioscena.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /c 
+Creating temp file "C:\WINDOWS\TEMP\RSP1185.TMP" with contents </nologo /MLd /W3 /Gm /GX /Zi /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR"Debug/" /Fp"Debug/Bioscena.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /c 
+"D:\Bioscena\Bioscena\Actuador.cpp"
+"D:\Bioscena\Bioscena\Actuadors.cpp"
+"D:\Bioscena\Bioscena\Agent.cpp"
+"D:\Bioscena\Bioscena\Aleaturitzador.cpp"
 "D:\Bioscena\Bioscena\AppInfo.cpp"
 "D:\Bioscena\Bioscena\Biosistema.cpp"
 "D:\Bioscena\Bioscena\Cariotip.cpp"
+"D:\Bioscena\Bioscena\Color.cpp"
+"D:\Bioscena\Bioscena\Compatibilitat.cpp"
 "D:\Bioscena\Bioscena\Comunitat.cpp"
+"D:\Bioscena\Bioscena\Configuracio.cpp"
+"D:\Bioscena\Bioscena\Cromosoma.cpp"
+"D:\Bioscena\Bioscena\Detector.cpp"
+"D:\Bioscena\Bioscena\EnergiaDisipable.cpp"
+"D:\Bioscena\Bioscena\FuncioAgent.cpp"
+"D:\Bioscena\Bioscena\Gen.cpp"
+"D:\Bioscena\Bioscena\GeneradorMascares.cpp"
+"D:\Bioscena\Bioscena\Genotip.cpp"
+"D:\Bioscena\Bioscena\InfoOrganisme.cpp"
+"D:\Bioscena\Bioscena\Iterador.cpp"
+"D:\Bioscena\Bioscena\Itineraris.cpp"
 "D:\Bioscena\Bioscena\MainBio1.cpp"
+"D:\Bioscena\Bioscena\Missatger.cpp"
+"D:\Bioscena\Bioscena\MultiAgent.cpp"
 "D:\Bioscena\Bioscena\MutacioCariotip.cpp"
 "D:\Bioscena\Bioscena\MutacioGenica.cpp"
+"D:\Bioscena\Bioscena\Organisme.cpp"
+"D:\Bioscena\Bioscena\Outputer.cpp"
+"D:\Bioscena\Bioscena\Posicionador.cpp"
+"D:\Bioscena\Bioscena\Probabilitat.cpp"
+"D:\Bioscena\Bioscena\RandomStream.cpp"
+"D:\Bioscena\Bioscena\Substrat.cpp"
+"D:\Bioscena\Bioscena\Temporitzador.cpp"
+"D:\Bioscena\Bioscena\Topologia.cpp"
+"D:\Bioscena\Bioscena\TopologiaToroidal.cpp"
 >
-Creating command line "cl.exe @C:\WINDOWS\TEMP\RSPD103.TMP" 
-Creating temp file "C:\WINDOWS\TEMP\RSPD104.TMP" with contents <kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /verbose /incremental:yes /pdb:"Debug/Bioscena.pdb" /debug /machine:I386 /out:"Debug/Bioscena.exe" /pdbtype:sept 
+Creating command line "cl.exe @C:\WINDOWS\TEMP\RSP1185.TMP" 
+Creating temp file "C:\WINDOWS\TEMP\RSP1186.TMP" with contents <kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /verbose /incremental:yes /pdb:"Debug/Bioscena.pdb" /debug /machine:I386 /out:"Debug/Bioscena.exe" /pdbtype:sept 
 .\Debug\Actuador.obj
 .\Debug\Actuadors.obj
 .\Debug\Agent.obj
@@ -56,66 +84,7 @@ Creating temp file "C:\WINDOWS\TEMP\RSPD104.TMP" with contents <kernel32.lib use
 .\Debug\Temporitzador.obj
 .\Debug\Topologia.obj
 .\Debug\TopologiaToroidal.obj>
-Creating command line "link.exe @C:\WINDOWS\TEMP\RSPD104.TMP" 
+Creating command line "link.exe @C:\WINDOWS\TEMP\RSP1186.TMP" 
 Compiling...
-Biosistema.cpp
-D:\Bioscena\Bioscena\Biosistema.cpp(392) : warning C4101: 'p' : unreferenced local variable
-D:\Bioscena\Bioscena\Biosistema.cpp(424) : warning C4101: 'a' : unreferenced local variable
-Cariotip.cpp
-Comunitat.cpp
-MutacioCariotip.cpp
-MutacioGenica.cpp
-AppInfo.cpp
-Skipping... (no relevant changes detected)
-MainBio1.cpp
-Linking...
-Start Pass2
-     MutacioGenica.obj
-     MutacioCariotip.obj
-     Comunitat.obj
-     Cariotip.obj
-     Biosistema.obj
-     AppInfo.obj
-End Pass2
-Creating temp file "C:\WINDOWS\TEMP\RSPD4.TMP" with contents </nologo /o"Debug/Bioscena.bsc" 
-.\Debug\Actuador.sbr
-.\Debug\Actuadors.sbr
-.\Debug\Agent.sbr
-.\Debug\Aleaturitzador.sbr
-.\Debug\AppInfo.sbr
-.\Debug\Biosistema.sbr
-.\Debug\Cariotip.sbr
-.\Debug\Color.sbr
-.\Debug\Compatibilitat.sbr
-.\Debug\Comunitat.sbr
-.\Debug\Configuracio.sbr
-.\Debug\Cromosoma.sbr
-.\Debug\Detector.sbr
-.\Debug\EnergiaDisipable.sbr
-.\Debug\FuncioAgent.sbr
-.\Debug\Gen.sbr
-.\Debug\GeneradorMascares.sbr
-.\Debug\Genotip.sbr
-.\Debug\InfoOrganisme.sbr
-.\Debug\Iterador.sbr
-.\Debug\Itineraris.sbr
-.\Debug\MainBio1.sbr
-.\Debug\Missatger.sbr
-.\Debug\MultiAgent.sbr
-.\Debug\MutacioCariotip.sbr
-.\Debug\MutacioGenica.sbr
-.\Debug\Organisme.sbr
-.\Debug\Outputer.sbr
-.\Debug\Posicionador.sbr
-.\Debug\Probabilitat.sbr
-.\Debug\RandomStream.sbr
-.\Debug\Substrat.sbr
-.\Debug\Temporitzador.sbr
-.\Debug\Topologia.sbr
-.\Debug\TopologiaToroidal.sbr>
-Creating command line "bscmake.exe @C:\WINDOWS\TEMP\RSPD4.TMP" 
-Creating browse info file...
+Actuador.cpp
 
-
-
-Bioscena.exe - 0 error(s), 2 warning(s)

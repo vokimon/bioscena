@@ -90,8 +90,10 @@ void CMutacioDesplacament::muta(CCromosoma & c)
 			<< endl;
 
 	uint32 * tmp = new uint32[longitud];
-
-	KKEPAssert (tmp, "CCromosoma: Error de memoria mutant per desplacament");
+	if (!tmp) {
+		error << "CCromosoma: Error de memoria mutant per desplacament" << endl;
+		cin.get();
+	}
 	//if (!tmp) return *this; // Sortida rapida si hi ha falta de memoria
 	uint32 idxDesti, idxOrigen, cont;
 	// Primer copiem el tros desplacat
@@ -147,7 +149,10 @@ void CMutacioInsercioAleatoria::muta(CCromosoma & c)
 	uint32 iInsercio = rnd.get(0,m_nCodons-1);
 	uint32 longitud = rnd.get(0,m_nCodons-1);
 	uint32 *tmp= new uint32[m_nCodons+longitud];
-	KKEPAssert (tmp, "CCromosoma: Error de memoria mutant per insercio aleatoria");
+	if (!tmp) {
+		error << "CCromosoma: Error de memoria mutant per insercio aleatoria" << endl;
+		cin.get();
+	}
 	if (traceMutacions)
 		out << "Mutacio per Insercio aleatoria:" 
 			<< " Codons:" << m_nCodons
@@ -178,8 +183,10 @@ void CMutacioInsercioReplicada::muta(CCromosoma & c)
 	uint32 iReplica = rnd.get(0,m_nCodons-1);
 	uint32 longitud = rnd.get(1,m_nCodons);
 	uint32 *tmp= new uint32[m_nCodons+longitud];
-
-	KKEPAssert (tmp, "CCromosoma: Error de memoria, mutant per insercio aleatoria");
+	if (!tmp) {
+		error << "CCromosoma: Error de memoria, mutant per insercio aleatoria" << endl;
+		cin.get();
+	}
 	if (traceMutacions)
 		out << "Mutacio per Insercio replicada:" 
 			<< " Codons:" << m_nCodons

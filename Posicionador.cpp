@@ -76,8 +76,10 @@ void CPosicionador::pos(tipus_posicio nova)
 {
 	if (m_biotop.esValidaCassella(nova))
 		m_pos=nova;
-	else
+	else {
 		warning << "Posicionador '" << nom() << "' fixat a la posicio " << nova << ", invalida pel biotop" << endl;
+		cin.get();
+	}
 }
 
 CSubstrat & CPosicionador::substrat()

@@ -124,6 +124,11 @@ void CCromosoma::fusiona(CCromosoma const & c)
 	if (!c.tamany()) return;
 	uint32 tamanyFinal = tamany() + c.tamany();
 	uint32 * tmp = new uint32[tamanyFinal];
+	if (!tmp) {
+		warning << "CCromosoma: Fusio anulada per falta de memoria" << endl;
+		cin.get();
+		return;
+	}
 	copy(m_codons, m_codons+tamany(), tmp);
 	copy(c.m_codons, c.m_codons+c.tamany(), tmp+tamany());
 	alliberaCodons();

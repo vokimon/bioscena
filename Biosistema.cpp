@@ -11,11 +11,13 @@
 //////////////////////////////////////////////////////////////////////
 
 #include <fstream>
+#include <pc.h>
 #include "Biosistema.h"
 #include "Agent.h"
 #include "TopologiaToroidal.h"
 #include "Missatger.h"
 #include "Configuracio.h"
+#include "Grafic.h"
 
 using namespace AnsiCodes;
 
@@ -45,17 +47,17 @@ CBiosistema::CBiosistema()
 //	m_taxonomista = NULL;
 	logAccio.desactiva();
 
+	m_maxInstruccionsUtils=Config.get("Biosistema/Quantum/Utils");
+	m_maxInstruccions=Config.get("Biosistema/Quantum/Maxim");
 	m_instruccionsUtilsRestants=0;
-	m_maxInstruccionsUtils=2;
 	m_instruccionsRestants=0;
-	m_maxInstruccions=4;
 	m_organismeActiu=NULL;
 	m_tempsPerAccionarAgents=0;
 	m_temps=0;
 
 	m_probabilitatGeneracioExpontanea.fixa(
-		Config.get("Comunitat/ProbabilitatGeneracioExpontanea/Encerts"),
-		Config.get("Comunitat/ProbabilitatGeneracioExpontanea/Mostra")
+		Config.get("Comunitat/ProbabilitatGeneracioExpontanea/Mostra"),
+		Config.get("Comunitat/ProbabilitatGeneracioExpontanea/Encerts")
 		);
 
 }
@@ -143,12 +145,14 @@ void CBiosistema::operator ( )()
 		break;
 	default:
 		error << "Eps, accio no valida!!" << endl;
+		cin.get();
 		break;
 	}
 	if (bUtil) m_instruccionsUtilsRestants--;
-	else m_organismeActiu->consumeix(1);
+	else m_organismeActiu->consumeix(Config.get("Biosistema/Energia/AdicionalInutil"));
 	m_instruccionsRestants--;
-	m_organismeActiu->consumeix(1);
+	m_organismeActiu->consumeix(Config.get("Biosistema/Energia/FixeInstruccio"));
+	m_organismeActiu->m_foo++;
 }
 
 void CBiosistema::canviaOrganismeActiu()
@@ -179,7 +183,7 @@ bool CBiosistema::organismeExpontani()
 	uint32 taxo = ultimTaxo++;
 	COrganisme * org = new COrganisme;
 	if (!org) {
-		error << "Fallo la memoria ocupando un organismo" << endl;
+		error << "CBiosistema: Fallo la memoria ocupando un organismo expontaneo" << endl;
 		cin.get();
 		return false;
 	}
@@ -197,12 +201,18 @@ bool CBiosistema::organismeExpontani()
 bool CBiosistema::eliminaOrganismeActiu()
 {
 	logAccio << m_infoOrganismeActiu->descripcio() << flush << blau.brillant() << "Defuncio" << blanc.fosc() << endl;
+
+	// Alliberem la posicio
 	uint32 pos = m_infoOrganismeActiu->posicio();
+	(*m_biotop)[pos].desocupa();
+
+	// Informem al taxonomista
 	uint32 taxo = m_infoOrganismeActiu->taxo();
 	// TODO: Cal eliminar el taxo
-	(*m_biotop)[pos].desocupa();
-	(*m_comunitat)[m_idOrganismeActiu].taxo(0);
+
+	// El desterrem de la comunitat
 	m_comunitat->extreu(m_idOrganismeActiu);
+	(*m_comunitat)[m_idOrganismeActiu].taxo(0); // Aixo indica que ha estat borrat adecuadament
 	return true;
 }
 
@@ -286,8 +296,7 @@ bool CBiosistema::organismeMitosi(uint32 desp, uint32 energia)
 	uint32 taxo = m_infoOrganismeActiu->taxo(); 
 	uint32 id = m_comunitat->introdueix(nouOrganisme, posDesti, taxo);
 	substratDesti.ocupa(id);
-	m_organismeActiu->m_cariotip.muta();
-	m_organismeActiu->consumeix(15);
+	m_organismeActiu->consumeix(Config.get("Biosistema/Energia/Mitosi"));
 	logAccio << verd.brillant() << "Nascut " << blanc.fosc() << (*m_comunitat)[id].descripcio() << endl;
 	// Restaurem el punter que probablement haura quedat invalidat
 	m_infoOrganismeActiu = &((*m_comunitat)[m_idOrganismeActiu]);
@@ -309,8 +318,9 @@ bool CBiosistema::organismeAvanca(uint32 desp, uint32 energia, uint32 clauMovime
 	// Logica de moviment
 	substratOrigen.desocupa();
 	substratDesti.ocupa(m_idOrganismeActiu);
-	logAccio << groc.brillant() << "Desti " << setw(4) << posDesti << " Ok" << blanc.fosc() << endl;
+	m_organismeActiu->consumeix(Config.get("Biosistema/Energia/Moviment"));
 	(*m_comunitat)[m_idOrganismeActiu].posicio(posDesti);
+	logAccio << groc.brillant() << "Desti " << setw(4) << posDesti << " Ok" << blanc.fosc() << endl;
 	// TODO: Complicar la logica: Cost de desplacament, camí lliure, corrents...
 	// TODO: Logs
 	return true;
@@ -399,9 +409,22 @@ void CBiosistema::ProvaClasse()
 	out << clrscr;
 	out << blanc.brillant() << "Provant Biosistema" << blanc.fosc() << endl;
 	CBiosistema biosistema;
-	biosistema.biotop(new CTopologiaToroidal<CBiosistema::t_substrat>(30,30));
+	biosistema.biotop(new CTopologiaToroidal<CBiosistema::t_substrat>(Config.get("Biotop/CassellesAltitud"),Config.get("Biotop/CassellesAmplitud")));
 	biosistema.agents(CAgent::ParsejaArxiu("Agents2.ini", *(biosistema.biotop()), error));
 	biosistema.comunitat(new CComunitat);
+	CComparativaOrganismes graf1(biosistema.comunitat());
+	graf1.tamany(41,2,40,8);
+	graf1.primerOrganisme(1);
+	CComparativaOrganismes graf2(biosistema.comunitat());
+	graf2.tamany(41,12,40,8);
+	graf2.primerOrganisme(40);
+	CComparativaOrganismes graf3(biosistema.comunitat());
+	graf3.tamany(41,22,40,8);
+	graf3.primerOrganisme(80);
+	CComparativaOrganismes graf4(biosistema.comunitat());
+	graf4.tamany(41,32,40,8);
+	graf4.primerOrganisme(120);
+
 	cin.get();
 	out << clrscr;
 	out << blanc.brillant() << "Provant Biosistema" << blanc.fosc() << endl;
@@ -416,8 +439,25 @@ void CBiosistema::ProvaClasse()
 			maxim--;
 		}
 		biosistema();
-		if (!biosistema.temps())
-			biosistema.comunitat()->dumpEnergies(out);
+		if (!biosistema.temps()) {
+			graf1.visualitza(out);
+			graf2.visualitza(out);
+			graf3.visualitza(out);
+			graf4.visualitza(out);
+			out << gotoxy(1,41) << "Poblacio: " << setw(6) << biosistema.comunitat()->tamany() << endl;
+			out << gotoxy(1,66) << "Temps: " << setw(8) << biosistema.m_temps << endl;
+			cin.rdbuf()->sync();
+			if (kbhit() || cin.rdbuf()->in_avail()) 
+			{
+				if ((a=cin.get())) 
+					out << gotoxy(44,1) << "Tecla: " << '\'' << (a?a:'#') << '\''<< endl;
+				else
+					out << gotoxy(44,1) << "Error Teclat" << endl;
+			}
+//			else
+//				out << gotoxy(44,1) << "Tecla: " << "'" << a << "` eof" << endl;
+
+		}
 	}
 }
 
