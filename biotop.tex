@@ -1,0 +1,180 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Estructura del medi}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Visió general}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+El present apartat descriu el funcionament i la implementació del 
+medi on viuran els organismes. 
+De cara a permetre ampliar fàcilment el model, hem volgut fer
+un disseny del medi que permeti adaptacions a futures necessitats
+de modelatge.
+Per un costat es descriu el model genèric i, per un altre, es
+descriuen les particularitzacions que s'han implementat per a 
+aquest projecte.
+
+A tots els models de biòtop generables amb el present sistema, han
+d'estar discretitzats en cel·les o posicions que tènen relacions de 
+veinatge amb les altres cel·les segons la seva topologia. 
+
+Així doncs, tenim dos elements que hem separat per poder-los modelar 
+independentment.
+
+\begin{itemize}
+\item	{\bf Posicions del substrat:} Elements discrets que indiquen 
+	les propietats d'una zona del biòtop.
+\item	{\bf Topologia:} Controla les relacions de veinatge i la 
+	identificació de les posicions per part de la resta del sistema.
+\end{itemize}
+
+Combinant aquests dos elements, es pot obtindre un conjunt molt ric 
+de biòtops.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Topologies}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+La topologia determina les relacions de veinatge entre les cel·les.
+Si les posicions del biòtop fòssin nodes d'un graf, la topologia 
+indicaria els vertexs que els uneixen.
+
+Per exemple, podem adaptar la topologia per convertir-la en una
+topologia 2D, molt vàlida per simular biosistemes terrestres sense
+estratificar, o podem adaptar-ho a una topologia 3D que és més realista
+per simular medis fluids, com l'aigua o estratificats com els boscos.
+
+Com que el nombre de cel·les és limitat, el conjunt de cel·les formaran
+una regió limitada. La topologia ha de determinar quines són les veïnes
+de les cel·les de les vores. Com a exemple considerem una topologia 2D
+rectangular. Si féssim que les cel·les limítrofes no tinguin veïnes més 
+enllà dels límits ens trobarem davant d'una regió limitada. Si fem que
+les cel·les d'un dels costats es conectin amb les cel·les del costat
+oposat, obtindrem una topologia de superfície cilíndrica. Si fem lo 
+propi amb tots els costats obtindrem una topologia de superfície toroidal.
+
+%% TODO: Una grafiqueta no estaria malament
+
+Per a aquest projecte, s'ha implementat una topologia toroidal perque,
+en principi es vol controlar la complexitat del sistema i un biòtop
+amb topologia limitada n'afegiria donat que introdueix situacions a les que
+hauria de fer front l'organisme, per exemple, quan està en un límit i 
+quan no hi està. En una topologia toroidal no hi ha vores.
+
+Cada posició té 8 cel·les veines. Un desplaçament a qualsevol d'aquestes
+8 cel·les es pot codificar amb 3 bits. Com els vectors de desplaçament
+tenen 32 bits podriem codificar fins a 10 desplaçaments consecutius en
+un vector de desplaçament. La concatenació de N desplaçaments aleatoris
+tendeix a formar una distribució normal entorn al centre.
+{\center
+\begin{tabular}{|c|c|c|}
+\hline
+100	&	000	&	001	\\
+\hline
+101	&	Origen	&	010	\\
+\hline
+110	&	111	&	011	\\
+\hline
+\end{tabular}
+}
+
+La codificació dels desplaçaments s'ha fet de tal manera que, si 
+invertim bit a bit un vector de desplaçament obtenim un desplaçament
+oposat respecte al punt d'origen.
+
+L'altre funció important de la topologia és assignar a cada cel·la un 
+identificador únic dins de la topologia. La resta del sistema farà
+servir aquest identificador per referenciar una posició i demanarà
+a la topologia quin és el substrat per aquesta posició.
+
+En la present implementació hem fet servir enters del 0 a N com a 
+identificadors de les posicions, on N es el nombre de cel.les.
+Aquests identificadors ens permeten fer els desplaçaments de forma
+molt optima si assignem el números per ordre a les cel·les de cada fila.
+Només cal afegir (o extreure) un número, que depen del desplaçament, 
+a l'identificador de la posició origen, i ajustar el resultat en
+cas de sortir-se de límits, per calcular l'identificador de la
+posició destí.
+
+%% TODO: Organitzar tot enaixo
+
+En resum, una topologia ofereix els següents serveis als seus clients:
+
+\begin{itemize}
+\item	Donar l'identificador de la posició destí a partir de 
+	l'identificador d'una posició origen i d'un desplaçament.
+\item	Donar l'identificador d'una posició escollida aleatoriament.
+\item	Determinar si un identificador donat és vàlid dintre de la topologia.
+\item	Accedir al subtrat corresponent a un identificador de posició.
+\item	Donar el desplaçament complert d'una posició d'origen donada a 
+	una posició destí que compleix una condició donada.
+\end{itemize}
+
+Si l'usuari necessités crear una nova topologia, cal que la faci heredar 
+de CTopologia, que és la classe que defineix el mínim per reservar memoria 
+pel substrat de cada posició, i estableix el protocol que han de seguir
+les subclasses, considerant que els identificadors són enters sense signe
+de 32 bits.
+
+Quan es deriva CTopologia, el principal que cal redefinir és:
+\begin{itemize}
+\item	Un {\bf constructor} significatiu per a la topologia. Per exemple, en 
+	una topologia rectangular és significatiu indicar l'altura i l'amplada. 
+	El constructor de CTopologia simplement reserva espai per N casselles.
+\item	{\tt t\_idCella CTopologia::desplacament (t\_idCella origen, uint32 desplacament)}:
+	Una funció per averiguar la posició destí en aplicar-li un vector
+	de desplaçament a una posició origen.
+	CTopologia, la defineix de tal forma que el resultat és una posició 
+	destí aleatoria.
+\item	{\tt bool CTopologia::esValid(t\_idCella id)}:
+	Una funció per saber si un identificador és vàlid. Només cal
+	redefinir-ho si es modifica
+\item	{\tt t\_idCella CTopologia::posicióAleatoria ()}:
+	Una funció per obtindre aleatòriament una posició vàlida de la topopogia.
+\end{itemize}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Substrats}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Un substrat particularitza les propietats del medi a una posició.
+El substrat pot tenir diverses propietats segons la complexitat que
+desitjem per al medi.
+
+Les dos propietats més importants del substrat són qui ocupa el 
+substrat, i quins nutrients hi han.
+
+Hem restringit l'ocupació de les posicions per part dels organismes 
+a un organisme per posició. 
+La raó ha estat fer possible referenciar un organisme per la seva posició. 
+Això simplificarà, a les relacions entre organismes, com referir l'altre organisme.
+Tambè, com a avantatge adicional, simplifica la interfície amb l'usuari 
+per seleccionar un organisme seleccionant la seva posició.
+
+En quant els nutrients els podem limitar a un nombre, de forma que,
+si afegim més, els més vells desapareixen. Els nutrients estan diferenciats
+qualitativament amb un sencer que indica el seu tipus.
+
+La recollida de nutrients, es fa amb un patró de cerca pel tipus de 
+nutrient i una tolerància a nivell de bit de tal forma que un 1 a una 
+posició de la tolerància significa que, encara que no es correspongui
+aquest bit no es tindrà en compte. La cerca es fa des de els més nous
+fins els més vells, tot i així no agafem sempre el primer que concorda
+doncs, si recordem la funció de compatibilitat de claus que haviem 
+escollit introduia un cert indeterminisme.
+
+
+
+
+
+
+
+

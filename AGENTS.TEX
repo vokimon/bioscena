@@ -1,0 +1,316 @@
+% Time Log
+% 19990804 23:00 - 23:45
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Manual d'usuari}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Agents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Visió general}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Els agents són objectes que disparen una acció determinada quan són
+cridats. La majoria d'accions es produeixen sobre el biòtop, sobre
+la configuració d'altres agents o sobre paràmetres globals de 
+configuració.
+
+El paper dels agents a dins del sistema és permetre a l'usuari 
+controlar com evolucionarà l'entorn on es mouran els organismes
+de cara a obtindre resultats que s'hi puguin contrastar.
+Per sí mateix, el conjunt d'agents implementats permet configuracions 
+molt complexes, però, a més, ofereix un seguit d'eines molt útils
+per que l'usuari-programador pugui ampliar aquests agents.
+
+Quan un agent es requerit per realitzar la seva acció, es diu que
+l'agent ha sigut {\bf accionat}. Quan algú requereix un valor contingut
+en l'estat de l'agent es diu que l'agent ha sigut {\bf consultat}.
+
+Direm que un agent A té com a {\bf subordinat} a un altre agent B si és 
+A qui acciona a B. Ho representarem així: $A \rightarrow B$.
+L'estructura de subordinació ha de ser un arbre on els subordinats
+són els fills d'aquell a qui es subordinen.
+
+Direm que un agent A és {\bf depenent} d'un altre agent B si A,
+quan és accionat, necessita consultar l'estat de l'agent B.
+Ho representarem així: A(B). La consulta no ha d'implicar cap 
+modificació ni recàlcul d'estat en l'agent consultat. 
+Això permet que no hi hagi restriccions en l'estructura de 
+dependència i que puguin existir dependències creuades. 
+\footnote{
+Tot i així, és important preveure que l'ordre d'accionat entre 
+agents interdependents podria implicar variacions en els resultats.
+}
+
+Tots els agents duen un nom assocciat que, per defecte, coincideix amb 
+un prefixe i un número de sèrie únic entre tots els agents. Aquest
+nom es pot canviar per un que sigui més mnemotècnic per a l'usuari.
+
+% TODO: El tema dels logs
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Agents Subordinadors}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Els agents subordinadors són agents que, quan són accionats, accionen 
+tot un seguit d'agents subordinats.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Agents Múltiples}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+L'agent múltiple acciona una i només una vegada cadascun dels 
+agents subordinats cada cop que és accionat.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Agents Temporitzadors}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Els agents temporitzadors són agents multiples que no sempre
+que reben un accionat el propaguen cap els subordinats.
+Estableixen dos periodes, un actiu i un altre inactiu.
+Els accionats només es propagen als subordinats durant el 
+periode actiu.
+
+Els periodes es defineixen mitjançant tres paràmetres:
+El periode mínim és el número d'accionats que dura el periode
+com a mínim. Aquest mínim es pot augmentar de forma no determinística
+el resultat de sumar-li n vegades un número aleatori en l'interval [0,m] 
+(els corxets indiquen que els extrems estan inclosos).
+{\em n} és el número de daus, i {\em m} és el valor màxim o magnitud 
+del dau.
+
+D'aquesta especificació es pot deduir algunes dades, pot ser, més 
+intuitives per a l'usuari:
+\begin{itemize}
+\item	El valor màxim que pot adoptar el periode és el mínim més n*m
+\item	Un sól dau equival a una distribució uniforme entre els límits
+\item	A mesura que incrementem el nombre de daus, la distribució dels
+	periodes s'aproxima a una distribució normal entorn al centre
+	entre el valor màxim i mínim, amb un desviació típica cada vegada
+	menor.
+\end{itemize}
+
+Per defecte, els paràmetres que introdueixen indeterminisme en els
+temporitzadors, com són els daus, estan ajustats de manera que el 
+seu efecte sigui nul.
+Si no es toca res més que els periodes mínims, actuarà de forma determinista.
+De la mateixa manera, els periodes mínims dels cicles estan ajustats,
+per defecte, per que sempre s'estigui en un cicle actiu. 
+D'aquesta forma, si no es configura res, l'efecte d'un temporitzador 
+és el d'un agent múltiple ordinari.
+
+Paràmetres per defecte i una execució:
+\begin{itemize}
+\item	Cicle Actiu ( minim=1 daus=0 magnitud=0)
+\item	Cicle Inactiu ( minim=1 daus=0 magnitud=0)
+\item	Periode Actual ( actiu )
+\item	Periode Restant (1)
+\end{itemize}
+
+Paràmetres ilustratius:
+\begin{itemize}
+\item	Cicle Actiu ( minim=0 daus=2 magnitud=3)
+\item	Cicle Inactiu ( minim=4 daus=0 magnitud=0)
+\item	Periode Actual ( actiu )
+\item	Periode Restant (1)
+\end{itemize}
+
+A continuació hi ha una execució dels paràmetres anteriors.
+Els guions representen accionats durant el periode inactiu i les O's 
+representen accionats durant el periode actiu.
+\begin{verbatim}
+OO----OOOOO----OO----O----OOOO----O----OOO----OOOO----OOO----OOOO----O----OO----
+OOO----OOOO--------OOO----O--------OOO----OOOO----O----OOOO----OOOO--------OOOO-
+---OOO----OOO----OOO----OOOOO----O----OOOOOO----OOOO----O----OOOO----OOO----OO--
+--OO----OOOO----OOO----OOO----OOOOO----OOO----OOOO----OOO----OO----OO----OO----O
+OOOOO----OOO----OOOOO----OOOO----OO----OOOOO----OOOO----OOO----OOO----OOOOO----O
+\end{verbatim}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Agents Probabilitzadors}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Els agents probabilitzadors són també agents múltiples que controlen 
+si l'accionat es propaga cap els subordinats o no. Però, a diferència
+dels agents temporitzadors, ho fan mitjançant una llei probabilística.
+Si es dòna la probabilitat, s'accionen els subordinats, si no es dòna,
+no s'accionen.
+
+La probabilitat es defineix amb el nombre de vegades que es donaria 
+la probabilitat en un tamany de mostra.
+Per exemple, podem definir una probabilitat dient que es dòna 3 de 
+cada 14 vegades. 14 és el tamany de mostra i 3 les vegades que es
+donaria en la mostra.
+
+Els paràmetres estan ajustats per defecte a valors que fan del
+probabilitzador un agent múltiple ordinari.
+
+Paràmetres ilustratius:
+\begin{itemize}
+\item	Probabilitat ( mostra=40 encerts=25)
+\end{itemize}
+
+A continuació hi ha una execució dels paràmetres anteriors.
+Els guions representen accionats en els quals no s'ha donat la
+probabilitat i les O's, accionats en els quals sí s'ha
+donat.
+\begin{verbatim}
+OOOO-O-O-O-OO----OOOO-OOOOOOOO-OOO-OOOOOOOOOOO-OOOOOOOOO---O-OOOOOOO-O--OOOO-OO-
+OOO-OOO-O-OOOO-OOO-O-OOO-OOOOOOOOOOOO-OOOOOOO-OOOOOO--OOO-OOO-OO-O-OOOOO--O---O-
+OO--O---OOO-OOOOOOOOO-O-OOO-O-OOO-O--OOOOOOOO-OO-O-OO-OOO-OO-OOOO-OOOOOO-OOO-OOO
+--OOOO-OOOO-O-OOO-OO-OO-O--OO-OOOO--O--O-O-OO--OO-O-O-OOO---O-O-OO------OO-OO-O-
+OOO-OO-O-OO-OO-OOOOO----OO-OO-----O-OOOOO--O---OOOOOOOOOO-O-OO-O-OOOOO---OOO-OO-
+\end{verbatim}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Agents Iteradors}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Els agents iteradors són agents múltiples que no limiten els 
+accionats que arriben als seus subordinats, sinó que el que fan és
+multiplicar els accionats que li arriben.
+
+Més concretament, quan un agent iterador és accionat, els seus
+subordinats, són accionats un número de vegades que es calcula
+a partir d'un mínim i uns daus com els que feiem servir per als
+periodes dels temporitzadors.
+
+Per defecte, la part indeterminística (els daus) no té cap efecte,
+i la part deterministica (el mínim) està posada a un valor (1) que
+el fa equivalent a un agent múltiple ordinari.
+
+Paràmetres ilustratius:
+\begin{itemize}
+\item	Iteracions ( minim=2 daus=2 magnitud=4)
+\end{itemize}
+
+A continuació hi ha una execució dels paràmetres anteriors.
+Els parèntesis agrupen els accionaments dels subordinats 
+que es fan sotat un mateix accionament del iterador.
+\begin{verbatim}
+(OOOOOO)(OOOOOOOO)(OOOOOOO)(OOOOO)(OOO)(OOOOOOO)(OO)(OOOOOOO)(OOOOOOO)(OOOOOO)(O
+OOOOOOO)(OOOOO)(OOOOOO)(OOO)(OOOOOO)(OOOO)(OOOOOO)(OOOOOO)(OOO)(OOOOOO)
+\end{verbatim}
+
+Amb dos accions subordinades una execució quedaria com això:
+\begin{verbatim}
+(OEOEOEOEOEOEOEOEOEOE)(OEOEOEOEOEOEOEOEOE)(OEOEOEOEOEOEOE)(OEOEOEOE)(OEOEOEOEOEO
+EOEOE)(OEOEOEOEOEOEOEOE)(OEOEOEOEOEOEOEOEOEOE)(OEOE)(OEOEOEOEOEOEOE)(OEOEOEOEOEO
+EOE)(OEOEOEOEOEOE)(OEOEOEOEOEOE)(OEOEOEOEOE)(OEOEOEOEOEOEOE)(OEOEOEOEOEOE)(OEOEO
+EOEOEOE)(OEOEOEOEOEOE)(OEOEOEOEOE)(OEOEOEOEOE)(OEOEOEOEOE)
+\end{verbatim}
+on les E's representen l'execucio de la segona acció subordinada.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Agents Posicionadors}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Els agents posicionadors controlen una posició en la topologia del biòtop. 
+No tènen subordinats, però, generalment hi ha agents que en depenen del
+seu valor i segons el tipus de posicionador per recalcular la seva
+posició fan servir altres agents dels quals depenen.
+
+\begin{description}
+\item[{\bf Posicionador Bàsic:}] No modifica la seva posició si és accionat.
+\item[{\bf Posicionador Aleatori:}] Cada cop que és accionat pren una posició aleatoria 
+	vàlida dintre de la topologia.
+\item[{\bf Posicionador Zonal:}] Cada cop que és accionat pren una posició aleatoria 
+	dintre d'una zona. La zona es defineix per una posició central,
+	definida per un altre posicionador, i un radi, que no és més que
+	el nombre de desplaçaments que es fan a partir de la posició central.
+	Les posicions tendeixen a adoptar una distribució normal en l'entorn
+	de la posició central. Diem que el posicionador zonal depén d'un
+	altre posicionador.
+\item[{\bf Posicionador Seqüencial:}] Cada cop que és accionat pren la següent posició 
+	dintre d'una seqüència definida per l'usuari.
+\item[{\bf Itinerari:}] Cada cop que és accionat pren una posició relativa 
+	a la posició anterior que correspon al resultat d'aplicar-li un 
+	desplaçament. El desplaçament el determina un agent direccionador.
+	Els agents direccionadors s'expliquen a continuació.
+\end{description}
+
+% TODO: Exemple d'execució de cadascun (a execpció del itinerari)
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Agents Direccionadors}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+Els agents direccionadors controlen una direcció per calcular desplaçaments
+dintre de la topologia del biòtop. La seva utilitat principal radica
+en controlar la posició d'un posicionador de tipus itinerari.
+
+\begin{description}
+\item[{\bf Direccionador Bàsic:}] No modifica la seva direcció si és accionat.
+\item[{\bf Direccionador Aleatori:}] Cada cop que és accionat pren una direcció aleatoria.
+\item[{\bf Direccionador Seqüencial:}] Cada cop que és accionat pren la següent direcció 
+	dintre d'una seqüència definida per l'usuari.
+\end{description}
+
+% TODO: Exemple d'execució d'un itinerari amb els diferents direccionadors)
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Agents Actuadors}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Els agents actuadors són els que finalment modifiquen el substrat.
+Els actuadors depenen d'un agent posicionador que els indica la 
+cel·la que han de modificar.
+
+La majoria dels agents que hem vist fins ara eren molt independents
+davant de les modificacions en la topologia i en la composició del 
+substrat que es puguin fer més endavant.
+Les especialitzacions dels actuadors, en canvi, han de dependre
+per força del substrat i la seva composció, perqué actuen sobre ell.
+Segueixen sent independents, però, de la topologia.
+
+Aquí a sota, expliquem alguns actuadors vàlids pel substrat 
+implementat en aquest treball.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Agents Nutridors}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Aquests actuadors depositen nutrients al substrat.
+Un tipus de nutrient es codifica amb un enter de 32 bits sense signe.
+El tipus de nutrient que es depositarà s'especifica amb dos nombres
+enters de 32 bits sense signe. El primer enter indica el número
+del tipus bàsic, i el segon indica els bits del tipus bàsic que 
+poden variar aleatoriament.
+
+Per exemple, el parell 
+\begin{tabular}{rl}
+element bàsic: & 0x0000000000000000 \\
+variabilitat:  & 0xFFFFFFFF00000000
+\end{tabular}
+genera elements que tenen la part baixa igual que l'element bàsic
+(a zero) i la part alta al atzar.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Agents Desnutridors}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Els desnutridors són molt semblants als nutridors, però, en comptes
+de afegir nutrients, en treuen. Es pot treure selectivament cercant
+un element químic que s'apropi al que s'indica o es pot especificar
+una tolerància per a certs bits.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Arxiu de configuració dels agents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+L'arxiu de configuració dels agents és un arxiu de text que es pot 
+extreure de l'estat i l'estructura dels agents d'un biosistema i que 
+es pot fer servir restaurar-ho posteriorment.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
