@@ -26,7 +26,6 @@ protected:
 // Funcions estatiques
 public:
 	static uint32 Nombre(void);
-protected:
 	static CMutacioGenica * Nova (uint32 n);
 	static CMutacioGenica * Nova (string idTipus);
 // Dades estatiques

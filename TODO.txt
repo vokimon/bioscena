@@ -1,42 +1,46 @@
 TODO:
 
-Fer que la escisio centrica esborri els escisionats
-Considerar si separar estructurals i puntuals
-Dissenyar el mecanisme d'atac-defensa
-Dissenyar el funcionament generic dels sensors
-	Particular per quimic
-	Particular per organismes
-	Particular per intern
-	Particular per ambient
-Dissenyar el funcionament generic dels motors
-Situar les claus
+GENERAL:
+	Generar una interficie de visualitzacio
+	Entorn d'edició i analisis d'organismes
+	Eina de configuracio i simulacio d'agents externs
+	Recopilar dades de configuracio i establir el format i el mecanismes de configuracio
+	Eines de analisis
+		Taxonomista
+		Poblacions
+		Interaccions entre organismes
 
-Considerar si fer alimentació autòtrofa
-Considerar si fer una funcio de desplacament fisic 
-	(cada desplacament intermig ha de ser possible)
-Operacions amb els registres dels organismes
-Considerar el format de les instruccions
-Dissenyar la traduccio genètica
-Dissenyar els mecanismes de control genic
-Dissenyar operadors genètics
-Integrar en el disseny els paràmetres de control que hi sorgeixin
-Eines de analisis
-	Taxonomista
-	Poblacions
-	Interaccions entre organismes
-Generar una interficie de visualitzacio
-Entorn d'edició i analisis d'organismes
-
-
-Agents
+AGENTS:
+	Considerar el radi com a nombre de desplacaments basics
 	Direccionador i Posicionador sequencials
+	InjectorPosicional
 
-Eines
+ORGANISMES:
+	Operacions amb els registres dels organismes
+	Considerar el format de les instruccions
+
+CARIOTIP:
+	Fer que l'escisio centrica esborri els escisionats
+	Considerar si separar mutacions estructurals i puntuals
+
+RELACIO:
+	Dissenyar el mecanisme d'atac-defensa
+	Dissenyar el funcionament generic dels sensors
+		Particular per quimic
+		Particular per organismes
+		Particular per intern
+		Particular per ambient
+	Dissenyar el funcionament generic dels motors
+	Situar les claus
+
+
+
+EINES:
 	COutputer per curses
 	COutputer per una llista d'strings
 	Constructor rapid de un CMissatger a un fitxer
 
-
-
-
-pointer_to_unary
+ALTERNATIVES:
+	Considerar si fer alimentació autòtrofa
+	Considerar si fer una funcio de desplacament fisic 
+		(cada desplacament intermig ha de ser possible)

@@ -1,0 +1,23 @@
+Pensades sobre la configuracio del programa
+
+
+Biosistema
+	Fitxer de biotop
+	Fitxer d'agents
+	Fitxer de comunitat
+	Fitxer de analisis
+	Fitxer de visualitzacio
+	Processador/Costos associats
+	Processador/Mapa d'instruccions
+	Processador/Quantums
+	Comunitat/Tamany de regeneracio
+	Comunitat/Tamany minim
+	Comunitat/Probabilitat de generacio expontanea
+Topologia
+	Tipus
+	Dimensions
+	Altres caracteristiques
+Posicions
+	Tipus
+	Propietats
+	Contingut

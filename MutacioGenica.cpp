@@ -18,7 +18,7 @@ using namespace AnsiCodes;
 // Variables estatiques
 //////////////////////////////////////////////////////////////////////
 
-static bool traceMutacions=true;
+static bool traceMutacions=false;
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -50,7 +50,7 @@ void CMutacioPuntualDrastica::muta(CCromosoma & c)
 
 void CMutacioPuntualBinaria::muta(CCromosoma & c)
 // Invertim nomes un Bit
-// (Granularitat Bit)
+// (Granularitat Base)
 {
 	agafaInformacio(c);
 	if (traceMutacions)
@@ -62,7 +62,7 @@ void CMutacioPuntualBinaria::muta(CCromosoma & c)
 
 void CMutacioPuntualBinariaGaussiana::muta(CCromosoma & c)
 // El numero d'uns invertits es una distribucio de gauss amb mitja 4=32bits*1/(2^3)
-// (Granularitat codo)
+// (Granularitat Codo)
 {
 	agafaInformacio(c);
 	if (traceMutacions)
@@ -74,7 +74,7 @@ void CMutacioPuntualBinariaGaussiana::muta(CCromosoma & c)
 
 void CMutacioDesplacament::muta(CCromosoma & c)
 // Desplaca una sequencia aleatoria del cromosoma 
-// (Anellat) (Longitud Variable)
+// (Granularitat Cromosoma) (Anellat) (Longitud Variable)
 {
 	agafaInformacio(c);
 	if (!m_nCodons) return;
@@ -122,7 +122,7 @@ void CMutacioDesplacament::muta(CCromosoma & c)
 
 void CMutacioDeleccio::muta(CCromosoma & c)
 // Elimina una sequencia aleatoria del cromosoma
-// (Anellat) (Longitud Variable)
+// (Granularitat Cromosoma) (Anellat) (Longitud Variable)
 {
 	uint32 nCodons=c.tamany();
 	if (nCodons<=1) return; // Fugida discreta
@@ -140,7 +140,7 @@ void CMutacioDeleccio::muta(CCromosoma & c)
 void CMutacioInsercioAleatoria::muta(CCromosoma & c)
 // Insereix un nombre aleatori de gens aleatoris en 
 // un punt aleatori
-// (Anellat) (Longitud Variable)
+// (Granularitat Cromosoma) (Anellat) (Longitud Variable)
 {
 	agafaInformacio(c);
 	if (!m_nCodons) return;
@@ -170,7 +170,7 @@ void CMutacioInsercioAleatoria::muta(CCromosoma & c)
 void CMutacioInsercioReplicada::muta(CCromosoma & c)
 // Insereix un nombre aleatori de gens replicats del
 // mateix cromosoma en un punt aleatori
-// (Anellat) (Longitud Variable)
+// (Granularitat Cromosoma) (Anellat) (Longitud Variable)
 {
 	agafaInformacio(c);
 	if (!m_nCodons) return;
@@ -206,7 +206,7 @@ void CMutacioInsercioReplicada::muta(CCromosoma & c)
 
 void CMutacioInversio::muta(CCromosoma & c)
 // Inverteix l'ordre d'una subsequencia de gens
-// (Anellat) (Longitud Variable)
+// (Granularitat Cromosoma) (Anellat) (Longitud Variable)
 {
 	agafaInformacio(c);
 	if (!m_nCodons) return;

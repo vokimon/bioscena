@@ -36,6 +36,7 @@ public:
 	uint32 m_nOrganismes;
 // Proves
 public:
+	bool esValid(uint32 index);
 	uint32 tamany();
 	static void ProvaClasse (void);
 };

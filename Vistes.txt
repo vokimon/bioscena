@@ -1,0 +1,77 @@
+                       Vistes que es poden donar d'un biosistema.
+
+Representació Espaial (Mapes)
+- Coses que es podrien representar
+	Densitat de nutrients (filtres per tipus)
+	Densitat d'organismes (filtres per especie)
+	Ocupants (id, grup reproductiu...)
+	Nutrients (tipus, ordre)
+	Interaccions
+	Agents externs (posicio, estat...)
+- Mecanismes de pas d'informacio Kernel -> Vista
+	La vista pot accedir a la informacio (Comunitat i Biotop)
+	El Biotop l'informa de les canvis puntuals a cada posició.
+	El Biosistema l'informa de la necessitat canvis globals (agents externs)
+	El Biosistema l'informa sobre les accions
+- Mecanismes de pas d'informacio Vista (Usuari) -> Kernel
+	Seleccio i accions sobre els individuus
+	
+Grafics temporals
+- Coses que es podrien representar
+	Tamany de la comunitat
+	Tamany d'una poblacio (limitada per geografia o grup reproductiu)
+	...
+
+Grafics comunitat
+- Energia
+- Nombre de nutrients
+- 
+
+Grafics poblacions
+- 
+
+Analisis de poblacions
+- Natalitat, mortalitat, mortalitat prematura, taxes diverses...
+- Distribucio per edats
+- Atacants rebuts
+	Especie atacant, nombre, patro cercat
+- Atacs
+	Especie atacada, 
+- Nutrients
+- Productes
+
+
+
+
+Grafics:
+	Dades donades:
+		m_tope
+		m_maxim
+		m_minim
+		m_factor
+		m_esDinamic
+		m_esLogaritmic
+
+	// Ajust al tope
+	valor = m_maxim;
+	if (m_esLogaritmic) {
+		int valorLog=0
+		while (valor>>=1) valorLog++;
+		valor=valorLog;
+		}
+	m_factor=0;
+	while ((valor>>=1)<m_tope) m_factor++;
+
+	// Calcul del valor
+	valor>>=m_factor;
+	if (m_esLogaritmic) {
+		int valorLog=0
+		while (valor>>=1) valorLog++;
+		valor=valorLog;
+		}
+
+
+
+
+
+

@@ -21,7 +21,7 @@ COrganisme::COrganisme() :
 	// Desactivem o on el traceig
 	tracaOrganisme.desactiva();
 	// Inicialitzem el material genetic
-	m_cariotip.init(4);
+	m_cariotip.init(rnd.get(Config.get("Organisme/Cariotip/LongitudMinima"),Config.get("Organisme/Cariotip/LongitudMaxima")));
 	m_genotip.init(m_cariotip);
 	// En principi cap registre del fenotip es diferit
 	m_lecturaDiferida=0L;
@@ -168,7 +168,7 @@ bool COrganisme::catabolitza(uint32 & energia, uint32 A, uint32 toleranciaA, uin
 void COrganisme::engoleix(t_mollecula element)
 {
 	// TODO: Treure aixo
-	m_energia.afegeix(4);
+	m_energia.afegeix(6);
 	tracaOrganisme 
 		<<"Engolint: "
 		<< hex << setfill('0')
