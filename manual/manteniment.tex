@@ -1,0 +1,465 @@
+% Time Log
+%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Notes pel manteniment de l'aplicació}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Implementació del medi. Biòtops}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+En aquest apartat i en els següents del capítol s'explica com està 
+implementat el medi i com s'hi poden fer modificacions mitjançant programació.
+Aquests apartats no són d'interes als usuaris que no vulguin modificar
+el programa.
+
+Per implementar el medi, tenim tres elements: La topologia, el substrat
+i el biòtop que és l'associació d'una topologia i un tipus de substrat.
+
+Per definir el tipus de substrat cal una classe les instàncies de la 
+qual representin el substrat de cada posició individual, és a dir, 
+una casella.
+
+Totes les topologies deriven de la classe {\tt CTopologia}, que 
+defineix el protocol de mètodes virtuals als que una topologia ha
+de respondre per definir la seva geometria.
+
+Per poder escollir diferents substrats i topologies sense gaire
+esforç de programació s'ha creat una classe patrò ({\em template}) 
+anomenada {\tt CBiotop}.
+
+Un biòtop és una especialització d'una topologia. 
+Aquesta especialització es basa en dos fets: 
+\begin{itemize}
+\item
+Per un costat, un biòtop conté un vector de substrats discrets, 
+als quals es pot accedir amb un identificador de posició.
+El tipus del substrat és el paràmetre del patrò.
+\item
+El comportament que té un biòtop com a topologia, és a dir, de cara
+a establir la geometria del medi, es pot determinar en temps d'execució
+tot fent que les crides pròpies de topologia es redireccionin cap a
+un objecte topologia indicat.
+\end{itemize}
+
+En resum, es pot determinar en temps de compilació el tipus de substrat
+amb el paràmetre del template i, la topologia, en temps d'execució, tot 
+assignant-li una topologia o una altra a la que redireccionar les crides.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Programació de nous substrats}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Podem dissenyar un substrat sense preocupar-nos de cap altre element 
+del biòtop.
+Hi ha, però, dependències entre el disseny del substrat i la 
+resta del sistema. Estan localitzades en:
+\begin{itemize}
+\item Execucions de les instruccions dels organismes (Biosistema)
+\item Interaccions amb els agents ambientals
+\item Interaccions amb el sistema de monitorització i logs.
+\end{itemize}
+
+% TODO: Referències als capítols corresponents.
+
+Es recomana implementar els procediments {\tt load} i {\tt store}
+per pasivitzar i recuperar l'estat de la cel·la a un medi serie.
+
+El substrat implementat a l'eina i descrit en l'apartat \ref{sec:substratImplementat} és la classe {\tt CSubstrat}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Programació de noves topologies}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Si l'usuari necessités crear un nou tipus de topologia, cal que la
+faci heretar de CTopologia i redefineixi els mètodes del protocol
+d'accés que CTopologia estableix.
+
+El protocol està pensat per aconseguir que la resta de sistema només 
+hagui de manegar identificadors de posicions i identificadors de
+desplaçaments. El significat geomètric d'aquests identificadors
+queda ocult darrera de l'implementacio del protocol.
+
+Quan es deriva de CTopologia, el principal que caldria redefinir,
+si cal, és:
+\begin{itemize}
+\item   Un {\bf constructor} amb els paràmetres significatius per 
+    a la topologia. Per exemple, en una topologia rectangular és 
+    significatiu indicar l'altura i l'amplada.
+	Cal acutalitzar la variable interna que guarda el nombre de posicions.
+\item   {\tt t\_posicio CTopologia::desplacament (t\_posicio origen, t\_desplacament desplacament)}:
+    Una funció per averiguar la posició destí en aplicar-li un vector
+    de desplaçament a una posició origen.
+    CTopologia, la defineix, per defecte, de tal forma que el 
+	resultat és una posició destí aleatòria vàlida.
+\item   {\tt bool CTopologia::esPosicioValida(t\_posicio id)}:
+    Una funció per saber si un identificador de posició és vàlid. 
+	Per defecte, els identificadors vàlids van de $0$ a $N-1$ on N és
+	el nombre de posicions.
+\item   {\tt t\_posicio CTopologia::posicioAleatoria ()}:
+    Una funció per obtindre aleatòriament una posició vàlida de la
+    topologia. La funció general que no caldria redefinir seria
+    {\setlinespacing{1}
+    \begin{verbatim}
+        {
+            uint32 pos;
+            do {pos=rnd.get();} while (!esValid(pos));
+            return pos
+        }
+    \end{verbatim}
+    }
+    però, CTopologia no fa servir aquest algorisme donat que
+    optimitza agafant un número aleatori entre 0 i N. Aquesta
+    optimització funciona mentre es mantingui la correspondència
+    entre identificador i index abans comentada.
+    Si la subclasse la trenca, es quan cal redefinir la funció.
+\item   {\tt bool CTopologia::unio (t\_posicio origen, t\_posicio desti, t\_desplacament \& desp)}:
+    Una funció per calcular el primer d'un conjunt de desplacaments
+    que cal fer per anar de l'origen al destí.
+    Retorna cert si el desplacament és suficient per arribar a la posició destí.
+    CTopologia, la defineix de tal forma que el resultat és un desplaçament
+    aleatori i retorna sempre fals (mai hi arriba).
+\end{itemize}
+
+Com a exemple, és molt aconsejable fixar-s'hi en com està feta la 
+classe {\tt CTopologiaToroidal} abans d'implementar una topologia pròpia.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Programació de biòtops dinàmics o heterogènis}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Per la forma en que està dissenyada la classe {\tt CBiotop}, els 
+biòtops que es poden construir actualment ténen diverses restriccions:
+
+\begin{itemize}
+\item {\bf Controlen un grup estàtic de posicions:} El nombre de posicions
+està limitat en el moment de creació. La topologia pot controlar el nombre
+de posicions disponibles però sempre dintre d'aquest límit establert 
+inicialment.
+\item {\bf El conjunt de substrats és homogeni:} No poden conviure
+substrats de diferents classes. Poden diferir les propietats però han
+de ser de la mateixa classe.
+\item {\bf Es restringeix els identificadors:} Han de estar entre $0$ i 
+$N-1$ sent $N$ el nombre de caselles màxim determinat inicialment.
+\end{itemize}
+
+Aquestes restriccions conseqüències directes del fet de que el 
+conjunt de substrats s'hagi implementat amb un vector estàtic.
+
+Si el biòtop que es vol simular no compleix aquestes característiques
+ni es pot simular el comportament desitjat, llavors caldria modificar
+la classe CBiotop, o crear-ne una classe nova similar.
+
+% TODO: Com
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Programació de nous agents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+De cara a afegir nous agents al sistema, s'aconsella seguir els
+següents passos:
+
+\begin{enumerate}
+\item
+    Llegir per sobre el codi dels agents ja implementats per
+    assimilar les solucions que s'han donat a problemes que
+    segurament es tornaran a repetir als nous agents.
+    També convé mantenir uniforme l'estil de programació i
+    l'ordre intern dels fitxers per fer-ho més mantenible
+    a tercers.
+    El més pràctic es partir d'una còpia d'un agent que tingui,
+    estructuralment, tot o gran part del que interesa implementar.
+\item
+    Escollir la classe d'agent de la que volem heretar l'agent nou.
+    Generalment voldrem que el nou agent pertanyi a un dels quatre
+    grans grups funcionals d'agents:
+    \begin{itemize}
+    \item   Subordinadors (CMultiAgent i subclasses) si controla l'accionat d'altres agents
+    \item   Posicionadors (CPosicionador i subclasses) si controla una posició en el biòtop
+    \item   Direccionadors (CDireccionador i subclasses) si controla una direcció
+    \item   Actuadors (CActuadors i subclasses) si modifica el substrat a una posició
+    \end{itemize}
+    Si no pertany a cap dels quatre grups, caldria plantejar-se
+    heretar de CAgent directament. En aquest cas, convé fer un
+    esforç i fer una classe intermitja que pugui englobar altres
+    agents en el futur.
+    En endavant, anomenarem CAgentNou al nou agent afegit i CAgentVell a 
+	l'agent del qual heretem.
+\item
+    Adaptar el constructor de CAgentNou per que proveeixi els
+    paràmetres del constructor de la superclasse.
+    Posicionadors i direccionadors, per exemple, necessiten una
+    referència a una topologia en el constructor.
+\item
+    Afegir dins del constructor, la línia.
+    \\{\tt m\_tipus+="/ElMeuSubtipus";}\\
+    que afegeix la cadena de subtipus a l'identificador de tipus
+    que hereta de la superclasse.
+\item
+    Afegir els nous atributs (variables membre) dels que en depèn
+    l'estat de l'agent i les funcions d'accés als mateixos.
+\item
+    Inicialitzar dins del constructor els nous atributs als
+    valors per defecte.
+    Els atributs que siguin dependències amb altres agents,
+    o agents subordinats, es recomana que siguin punters, i no
+    referències, per poder-ho deixar sense especificar
+    al constructor. S'inicialitzen sempre com a punter
+    a NULL. Cal procurar que, si el punter no apunta a un
+    agent vàlid el seu valor sigui NULL i tenir-ho en compte
+    quan hi accedim per evitar accesos il·legals a memòria.
+    Es veu clarament aquesta idea llegint el codi d'alguns
+    agents que ho fan.
+\item
+    Afegir dins del destructor, l'alliberament de memòria ocupada
+    pels agents subordinats. Les dependències no s'han de alliberar
+    pas.
+\item
+    Redefinir la funció membre {\tt virtual void CAgentNou::operator() (void)}
+    per que faci el que hagi de fer quan l'agent és accionat.
+    Si es tracta d'un actuador, no cal redefinir aquesta sino
+    {\tt virtual void CAgentNou::operator() (CSubstrat \& s)} on
+    {\tt s} és el substrat que hem de modificar.
+\item
+    Redefinir la funció {\tt virtual void CAgentNou::dump(CMissatger \& msg)}
+    per que cridi a la funció corresponent de la superclasse
+    (CAgentVell a l'exemple) i, després, inserti en el CMissatger
+    les noves línies de configuració dels paràmetres que afegeix l'agent:
+    {\setlinespacing{1}
+    \begin{verbatim}
+    void CAgentNou::dump(CMissatger & msg)
+    {
+        CAgentVell::dump(msg);
+        msg << "- UnParametreNou " << m_valor1 << " " << valor2 << endl;
+        msg << "- UnAltreParametreNou " << m_valor3 << endl;
+    }
+    \end{verbatim}
+    }
+\item
+	Redefinir la funció {\tt virtual bool CAgentNou::configura(string parametre,
+	istream \& valors, t\_diccionariAgents \& diccionari, CMissatger \& errors)}
+    per mirar si el {\tt parametre} és un dels que ha afegit CAgentNou.
+    Si ho és cal parsejar l'istream {\tt valors} en busca dels valors
+    corresponents, reportar els errors que es produeixin pel CMissatger
+    {\tt errors} i retornar cert per dir que el paràmetre era de la classe.
+    Si no ho és, cal cridar a la funció corresponent de la superclasse
+    per que ho pugui interceptar ella.
+    El diccionari serveix per, donat un nom d'agent de l'arxiu,
+    obtindre un punter a l'agent que s'ha creat que, pot ser, té
+    un nom diferent.
+    El diccionari és un {\tt map<string, CAgent*>}, el seu funcionament
+    s'explica a qualsevol manual sobre les Standard Template
+    Libraries de C++.
+    L'estructura general de la funció {\tt configura} quedarà com això:
+
+    {\setlinespacing{1}
+    \begin{verbatim}
+    bool CAgentNou::configura(string parametre, istream & valors,
+    t_diccionariAgents & diccionari, CMissatger & errors)
+    {
+        if (parametre=="UnParametreNou") {
+            // Parsing dels valors...
+            return true;
+        }
+        if (parametre=="UnAltreParametreNou") {
+            // Parsing dels valors...
+            return true;
+        }
+        // Li deixem a la superclasse que l'intercepti si vol
+        return CAgentVell::configura(parametre, valors, diccionari, errors);
+    }
+    \end{verbatim}
+    }
+\item
+    Si cap dels atributs (m\_dependencia a l'exemple) és una
+    dependència amb altre agent, cal redefinir la següent funció com segueix:
+    {\setlinespacing{1}
+    \begin{verbatim}
+    list<CAgent*> CAgentNou::dependencies() {
+        list<CAgent*> l=CAgentVell::dependencies();
+        if (m_dependencia) l.push_back(m_dependencia);
+        return l;
+    }
+    \end{verbatim}
+    }
+\item
+    Si cap dels atributs (m\_subordinat a l'exemple) és un
+    agent subordinat, cal redefinir la següent funció com segueix:
+    {\setlinespacing{1}
+    \begin{verbatim}
+    list<CAgent*> CAgentNou::subordinats() {
+        list<CAgent*> l=CAgentVell::subordinats();
+        if (m_subordinat) l.push_back(m_subordinat);
+        return l;
+    }
+    \end{verbatim}
+    }
+\item
+    Afegir a l'arxiu {\tt Agent.cpp} un include a {\tt AgentNou.h}
+    i, a la funció estàtica CAgent::CreaAgent(...) una línia com
+    les que ja n'hi ha per cada tipus d'agent, però, per a CAgentNou.
+    Això permet que la funció CAgent::ParsejaArxiu pugui reconèixer
+    el nou tipus als arxius de configuració.
+
+\end{enumerate}
+
+De tots els punts anteriors el que potser és una mica més
+particularitzat són els atributs i els mètodes d'accés als mateixos,
+i el mètode d'accionament (o d'actuació en el cas dels actuadors).
+Per a la resta de coses el més pràctic es fer un cut\&paste dels agents
+ja implementats i retocar el mínim.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Arxius de configuració d'agents ambientals}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Per abocar a disc i per recuperar un agent, tota la feina bruta la fa
+la classe abstracta factoria {\tt CAgent}.
+
+En l'abocat, {\tt CAgent} engega primer un recorregut en arbre per 
+abocar els noms i els tipus dels agents. Després, en fa un altre per
+fer el mateix amb els paràmetres.
+
+En la recuperació, la classe {\tt CAgent} llegeix els noms i els tipus. 
+Amb el tipus, crea l'objecte corresponent i després l'introdueix en un
+diccionari que relaciona els noms del fitxer amb el punter a memòria.
+
+Tot agent té un nom únic al sistema. En un arxiu, aquest nom serveix
+per fer-ne referència. En memòria les referències es fan directament 
+amb punters i el nom només serveix per quan ho grabem.
+
+Però, quan llegim un arxiu d'agents, és possible que un nom dels que 
+es fan servir al fitxer ja es trobi a memòria i caldrà renombrar-ho. 
+Per això, es mantenen les els noms de referència del fitxer, mitjançant 
+un diccionari.
+
+Un cop creats els objectes {\tt CAgent}, cal modificar els paràmetres
+per defecte. La classe factoria {\tt CAgent} determina a quin agent 
+del diccionari pertany cada conjunt de línies de configuració i 
+va enviant els noms de paràmetres que troba i els valors
+perquè l'agent els faci servir per configurar-se.
+
+Donat que hi ha diversos nivells de subclasses als agents i cadascuna
+té els seus paràmetres a configurar, es segueix la mateixa estratègia
+que segueix el pas de missatges amb el que Smalltalk implementa 
+l'herència.
+
+Cada nivell d'herència d'una subclasse de {\tt CAgent} té uns 
+paràmetres que reconeix, i que pot configurar. 
+Si un nivell d'herència d'un objecte agent rep un nom de paràmetre i 
+un stream amb els valors associats, mira si el parèmetre és un dels 
+que reconeix, si ho és, parseja l'stream dels valors.
+Si no és un paràmetre seu, li passa el paràmetre al següent nivell 
+(la superclasse).
+Si el paràmetre arriba a {\tt CAgent} i no ha estat configurat es 
+dóna un error.
+
+Per abocar, simplement cada subclasse aboca els seus paràmetres i
+indica a la seva superclasse que faci el mateix amb els seus.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Implementar nous sistemes de control}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Tot sistema de control deriva de la classe abstracta factoria 
+{\tt CControlOrganisme}.
+Aquesta classe defineix el protocol d'accés a un sistema de control
+i mètodes per crear-ne sistemes de control a partir de l'identificador 
+de tipus.
+
+{\setlinespacing{1}
+\begin{verbatim}
+class CControlOrganisme
+{
+// Construccio/Destruccio
+public:
+    CControlOrganisme() {}
+    virtual ~CControlOrganisme() {}
+// Operacions Redefinibles
+public:
+    // Construeix l'estructura de control a partir d'un cariotip
+    virtual bool init(CCariotip& c)=0;
+    // Dona una instruccio generada pel sistema de control
+    virtual uint32 seguentInstruccio(uint32 * fenotip)=0;
+    // Representa al CMissatger l'estructura de control (Estat actual?)
+    virtual void dump(CMissatger & msg)=0;
+// Operacions No Redefinibles
+public:
+	string tipus();
+// Atributs
+public:
+	string m_tipus;
+// Factoria
+public:
+    // retorna el nombre de tipus de sistemes de control implementats
+    static uint32 Nombre(void);
+    // retorna un sistema de control de tipus 'n'
+    static CControlOrganisme * Crea(uint32 n);
+    // retorna un sistema de control del tipus identificat per 'tipus'
+    static CControlOrganisme * Crea(string tipus);
+// Proves
+public:
+    // No es pot fer virtual pura pero caldria fer-la en totes les subclasses
+    static void ProvaClasse();
+};
+\end{verbatim}
+}
+
+Per crear un nou sistema de control és convenient seguir les següents
+passes:
+
+\begin{enumerate}
+\item Definir una classe derivada de {\tt CControlOrganisme}, que 
+anomenarem aquí, per entendre'ns, {\tt CNouControl}.
+\item Crear un constructor per fer inicialitzacions d'atributs 
+independents de la informació genètica i on s'agregui a 
+l'identificador de tipus {\tt m\_tipus} la porció de nom del 
+tipus que correspon a la subclasse.
+\item Definir per a {\tt CNouControl}, les tres operacions bàsiques:
+\begin{itemize}
+\item {\tt init}: Construeix l'estructura interna del sistema de control a partir d'un cariotip.
+\item {\tt seguentInstruccio}: Retorna una instrucció a partir del contingut dels registres fenotípics que rep com a paràmetre.
+\item {\tt dump}: Visualtiza el contingut del sistema de control a un dispositiu de sortida.
+\end{itemize}
+\item Definir un mètode estàtic anomenat {\tt CNouControl::ProvaClasse} amb un conjunt consistent de proves de la nova classe.
+\item Adaptar la classe factoria per que sapiga generar el nou tipus de control.
+\begin{enumerate}
+\item Incrementar el número retornat per {\tt CControlOrganisme::Nombre}
+\item Afegir a les funcions {\tt CControlOrganisme::Crea} el codi
+necessari per crear també controls del nou tipus.
+\item Provar els mètodes factoria fent servir de el mètode de proves de la 
+classe abstracta.
+\end{enumerate}
+\end{enumerate}
+
+% TODO: Com incorporar el tipus de control al biosistema
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Modificar del sistema de control actual}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Afegir operadors genètics}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Adaptar el model d'herència}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Eines d'anàlisi}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Arquitectura de la interfície d'usuari}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Afegir nous dispositius de visualització}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+

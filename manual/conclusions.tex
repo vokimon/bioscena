@@ -1,0 +1,194 @@
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusions}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+En aquest apartat de la memòria es recullen les conclusions a les que
+s'han arribat en aquest projecte.
+
+Primer, faig una valoració del que ha estat el desenvolupament de l'eina.
+
+Seguidament, comentaré els resultats que han donant en les experiències
+els mecanismes d'expressió gènica i el model implementat.
+
+Finalment, s'inclou com un resum dels seus costos econòmics.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Conclusions sobre l'eina implementada}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Metodologia de treball}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+La metodologia d'implementació i les estratègies de disseny han ajudat
+molt a fer més efectiu el desenvolupament de l'eina. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{La interfície}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Ha estat un gran inconvenient el fet de presentar una primera 
+interfície portable en consola de text perquè limita molt la quantitat
+i la qualitat de la informació representable i també resta 
+interactivitat amb l'usuari.
+
+Aquests dos inconvenients s'han compensat, per un costat, amb 
+l'incorporació de seqüències d'escapament ANSI per augmentar la
+capacitat de representació del terminal, i, per un altre, la
+possibilitat de carregar fitxers de configuració en calent amb 
+comandes ràpides del teclat.
+
+Tot i així, segueix sent interesant la implementació d'una interfície
+gràfica, front-ends o altres eines complementàries per crear de forma
+més interactiva el que ara són els fitxers de configuració o 
+modificar la configuració i el mateix sistema directament.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Possibilitats de configuració}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+El model implementat és altament parametritzable. Fins i tot, la
+majoria de paràmetres es poden canviar en mig de la simulació.
+
+És molt destacable en aquest sentit el paper dels agents ambientals. 
+Només amb els agents ambientals implementats en aquest projecte, es 
+poden construir escenaris molt diversos per als organismes.
+A més, com la programació de nous tipus d'agents ambientals és molt
+senzilla i està documentada al detall, aquests nous agents poden 
+oferir noves possibilitats de configuració que no hagin estat 
+incloses amb els ja existents.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Components intercanviables}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Les interfícies entre els diferents mòduls del nucli implementat, 
+en ser tan estretes i genèriques, permeten no només millorar la
+testabilitat dels mòduls i encapsular la implementació. També 
+permeten substituir de forma molt simple un mòdul per un altre.
+
+Alguns mòduls anàlegs, fins i tot poden conviure en el mateix 
+sistema. És el cas dels organismes i dels sistemes de control dels 
+organismes. Aquests dos casos, amplien les opcions d'experimentació 
+en el futur, per exemple es podria fer una comparació en competència 
+entre organismes amb diferents elements de control o sistemes 
+metabòlics.
+
+Altres grups de mòduls com els agents ambientals, els operadors de
+mutació, i les vistes, directament fan servir aquesta característica
+per complir amb la seva funcionalitat.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Utilitat de l'eina}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Donat que, en el Departament d'Informàtica d'Enginyeria la Salle, 
+pot ser no es treballa prou sovint en temes de vida artificial, crec 
+que l'existència d'una eina d'aquest estil, que té prou generalitat 
+com per ser transportada a un conjunt molt ample de problemes, pot 
+contribuir a l'increment dels treballs en aquesta àrea.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Conclusions sobre el model i les experiències realitzades}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+En quant al model concret d'organisme implementat, cal dir que ha donat
+proves de ser suficientment flexible al llarg de l'evolució. 
+
+En interval de temps entre 10 i 12 hores d'execució s'han trobat 
+alguns comportaments complexos o emergents. Exemples són:
+\begin{itemize}
+\item En zones on hi ha molt diferencial de menjar que atreien als
+organismes del voltant, s'han observat conductes de depredació que 
+seguien una estrategia `de trampers'. És a dir, quedar-se quiet 
+on hi ha el menjar i esperar a que arribin les preses. 
+\item En zones on hi ha aliments agrupats en petis montículs s'han
+observat patrons complexos de cerca de nutrients al medi que 
+prioritzen els pròxims, però, tenint sempre l'opció de cercar-los a 
+distància fent dues cerques seguides sobre el mateix registre amb 
+diferent radi.
+\item A zones amb suficient menjar uniformement distribuït 
+s'observen comportaments per mantenir la distància amb els altres 
+organismes, ja sigui per evitar competència, o per evitar ser
+depredat. 
+\item En casos semblants a l'anterior, però, quan la suficiència de 
+nutrients no era una situació perpètua, a vegades havien sorgit 
+organismes que subordinaven el fet de mantenir-se equidistant al 
+fet de trobar-se a una zona amb suficient menjar.
+\item Altres...
+\end{itemize}
+
+Al començament ha costat molt trobar conductes purament depredadores, 
+però han començat a aparèixer així com hem posat els incentius 
+energètics i configurant un medi més variable.
+
+Per que els organismes desenvolupin comportaments complexos, cal 
+que els organismes tinguin una vida mitjanament llarga. Si és possible
+reproduir-se de forma temprana, la vida dels organismes es fa molt
+curta i en conseqüència simple. Dificultar la reproducció temprana
+sembla ser la solució.
+
+Primer, vaig intentar compensar-ho posant costos de reproducció molt
+grans. Vaig observar que funcionava, els organismes acabaven tenint
+una vida més llarga que donava peu a comportaments més complexos.
+El problema és que costava molt que els organismes comencessin a
+reproduir-se de forma correcta, doncs i ho provaven a fer de forma
+incorrecta morien doncs pagaven igual l'energia.
+
+La conclusió a la que vaig arribat en aquest aspecte és que, més que 
+fer pagar-ho amb energia, que evidentment caldria posar requisits 
+energia però no fer-los pagar.
+
+Per acabar amb els comentaris sobre el model, caldria dir que el model
+original, preveia comportaments sexuals no lligats directament a la 
+reproducció (intercanvi de fragments cromosòmics com fan els bacteris).
+No es va fer perquè el model ja era prou complex com per afegir un
+element més però, crec que hagués millorat molt la capacitat d'adaptació
+del sistema.
+
+També cal comentar que els significat de les zones operadores és una
+mica pobre i que generalment tendeixen a fer una funció probabilística
+més que de dependència.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Estudi econòmic}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+De cara a evaluar el temps invertit en la realització del projecte,
+el dividirem en diverses parts. En aquesta taula es representa en
+hores.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{|l|r|r|r|}
+\hline
+Part		& {\centering 1998.05 - 1999.06} & {\centering 1999.07 - 2000.01} & Total \\
+\hline
+Documentació	& 120 &  10 & 130 \\
+Eines i entorn	&  35 &   8 &  38 \\
+Disseny		&  50 &   5 &  55 \\
+Implementació	& 110 & 490 & 600 \\
+Proves		&  30 &  10 &  40 \\
+Experimentació	&   0 &  80 &  80 \\
+Memòria		&  25 & 150 & 175 \\
+\hline
+Total		& 370 & 753 & 1123\\
+\hline
+\end{tabular}
+\caption{Hores destinades al projecte}
+\end{table}
+
+La documentació del projecte va començar al Maig de 1998. El temps
+invertit en el projecte en cada part fins al Juny de 1999 és estimat. 
+Des del Juliol de 1999 fins el Gener de 2000 el temps d'implementació,
+proves, experimentació i memòria està recollit aproximadament, per
+una eina de Logging.
+
+
+

@@ -1,0 +1,296 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Change Log:
+% 20000518 VoK - Afegida una explicació de com funciona l'objecte biòtop
+% 20000518 VoK - 
+% 20000701 VoK - Revisada la redacció (sembla OK)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Representació del medi}
+\label{sec:biotop}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Visió general}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+El present apartat descriu el funcionament del medi on viuen els
+organismes i alguns detalls de disseny i d'implementació.
+De cara a permetre ampliar fàcilment el model, s'ha volgut fer
+un disseny del medi que permeti adaptacions a futures necessitats
+de modelatge.
+Es descriu el model genèric, les particularitzacions bàsiques 
+implementades i els passos a seguir si es volgués implementar 
+particularitzacions pròpies.
+
+\index{biòtop}
+\index{biòtop!discretització}
+Malgrat que el model és general, està restringit a biòtops (medis) 
+que contènen posicions discretes. Això implica dues coses:
+\begin{itemize}
+\item   Les posicions dins del biòtop estan quantitzades.
+No hi ha més que un nombre limitat de posicions a diferència
+de l'espai continu real amb infinites posicions possibles.
+\item   Es pot considerar una posició discreta com a representació 
+d'una zona limitada del substrat continuu real, però, les 
+propietats dins d'aquesta zona del substrat es mantenen uniformes.
+\end{itemize}
+
+La discretització de l'espai juntament amb la discretització del 
+temps és una característica comuna a la majoria de sistemes de 
+simulació i vida artificial. 
+L'única forma de limitar els efectes artificiosos que això pot crear 
+és fer una quantització tan petita que el seu efecte quedi minimitzat.
+
+El model general per al biòtop és un model que consta de posicions 
+discretes amb les seves corresponents propietats i que ténen relacions 
+de veinatge amb les altres posicions segons una topologia.
+
+Així doncs, tenim dos elements que podem modelar independentment.
+
+\begin{itemize}
+\item   {\bf Posicions del substrat:} Elements discrets que indiquen
+    les propietats d'una zona del biòtop.
+\item   {\bf Topologia:} Controla les relacions de veinatge i la
+    identificació de les posicions per part de la resta del sistema.
+\end{itemize}
+
+Combinant aquests dos elements, es pot obtindre un conjunt molt ric
+de biòtops.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Topologies}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\index{topologia}
+La topologia determina les relacions de veinatge entre les cel·les.
+Si les posicions del biòtop fòssin nodes d'un graf, la topologia
+representaria els vertexs que els uneixen.
+
+Per exemple, podem adaptar la topologia per convertir-la en una
+topologia 2D, molt vàlida per simular biosistemes terrestres sense
+estratificar, o podem adaptar-ho a una topologia 3D que és més realista
+per simular medis fluids, com l'aigua o estratificats com els boscos.
+
+Dissenyar una topologia comporta decidir que és el que representen
+geomètricament els identificadors de posició i els identificadors
+de desplaçament, i, segons aquesta decisió, especificar quin ha de 
+ser el comportament de les funcionalitats de la topologia que 
+relacionen posicions i desplaçaments.
+
+Aquestes funcionalitats es basen en dos relacions principals:
+Donats un desplaçament i una posició, la topologia ha de poder determinar 
+quina és la posició destí, i, donades dos posicions, la topologia 
+ha de poder determinar el desplaçament entre elles.
+
+Com que el nombre de cel·les sovint serà limitat, el conjunt de 
+cel·les formaran una regió limitada. En aquests casos, el significat
+geomètric dels desplaçaments tambe inclou la decisió de quines són 
+les veïnes de les cel·les situades a les vores.
+
+Per exemple, considerem una topologia 2D rectangular. 
+Si féssim que les cel·les limítrofes no tinguin veïnes més
+enllà dels límits ens trobarem davant d'una regió limitada. Si fem que
+les cel·les d'un dels costats es conectin amb les cel·les del costat
+oposat, obtindrem una topologia de superfície cilíndrica. Si fem el
+mateix amb tots quatre costats obtindrem una topologia de superfície
+toroidal.
+
+\begin{figure}[ht]
+    \centering
+    \fbox{TODO: Solucions per a les vores}
+%    \fbox{\pdfimage{vores.png}}
+	\caption{Conexions de les vores}
+	\label{fig:ConexionsVores}
+\end{figure}
+
+El conjunt de serveis que una topologia ofereix als seus clients són:
+\begin{itemize}
+\item   Donar l'identificador de la posició destí a partir de
+    l'identificador d'una posició origen i d'un desplaçament.
+	Possibilita els moviments.
+\item   Donar el desplaçament que apropa una posició d'origen donada
+   	a una posició destí per l'itinerari més curt.
+	Possibilita l'orientació per objectiu.
+\item   Donar el desplaçament oposat a un altre, quan sigui aplicable.
+	Possibilita l'orientació per evasió.
+\item   Donar l'identificador d'una posició escollida aleatòriament.
+	Possibilita el posicionament aleatori.
+\item	Donar la posició destí despres de n desplaçaments aleatoris 
+	des d'una posició origen 
+	Possibilita el moviment aleatori en l'entorn.
+\item   Determinar si un identificador de posició és vàlid dintre de 
+	la topologia.
+	Facilita la depuració (debugging) i implementar el posicionament aleatori de forma general però, poc òptima.
+\end{itemize}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{La topologia toroidal}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\index{topologia!toroidal}
+La topologia bàsica que ja és implementada al prototip és una 
+topologia 2D toroidal.
+
+S'ha escollit una topologia en 2D per al primer prototip donat 
+que és molt fàcilment representable en pantalla i a més, els càlculs 
+dels desplaçaments surten molt senzills i òptims.
+L'optimització de les funcions de la topologia és crucial donat
+que s'utilitzen de forma intesiva al sistema.
+
+S'ha triat fer-la toroidal perquè, en els primers prototipus s'ha 
+preferit no afegir complexitat al medi tot afegint situacions 
+excepcionals per als organismes com ara són les vores.
+
+Per optimitzar la implementació, hem fet que la veïna directa d'una posició
+a l'extrem dret sigui una posició a l'extrem esquerre però, no pas la que
+està a la mateixa línia sinó la que està una línia abaix.
+Així, tots els desplaçaments es resolen amb una única suma o resta i
+només cal ajustar quan la posició destí es surt del domini de les 
+posicions existent.
+
+\begin{figure}[ht]
+    \centering
+    \fbox{TODO: Posar esquema de la topologia}
+%    \fbox{\pdfimage{toroidal.png}}
+	\caption{Topologia toroidal}
+	\label{fig:TopologiaToroidal}
+\end{figure}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Desplaçaments}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\index{desplaçament}
+Cada posició té 8 cel·les veines directes. Un desplaçament a
+qualsevol d'aquestes 8 cel·les es pot codificar amb 3 bits com indica
+la figura \ref{tab:veinesDirectes}
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+100 &   000 &   001 \\
+\hline
+101 &   Origen  &   010 \\
+\hline
+110 &   111 &   011 \\
+\hline
+\end{tabular}
+    \caption{Veïnes directes d'una posició}
+    \label{tab:veinesDirectes}
+\end{table}
+
+\index{desplaçament!vectors de}
+La concatenació de N desplaçaments bàsics aleatoris tendeix a
+formar una distribució normal entorn al centre.
+Com els vectors de desplaçament tenen 32 bits podriem codificar fins
+a 10 desplaçaments bàsics consecutius en un vector de desplaçament.
+Però, com ens serà molt útil poder activar i desactivar cada desplaçament
+bàsic, farem servir un quart bit per a cada bàsic per dir si està
+habilitat o inhibit el desplaçament, i en un vector hi caben, doncs,
+8 desplaçaments bàsics amb els seus bits d'inhibició.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|}
+\hline
+    h0&d0& h1&d1& h2&d2& h3&d3& h4&d4& h5&d5& h6&d6& h7&d7\\
+\hline
+    1&101& 1&101& 1&010& 1&110& 1&110& 1&110& 1&110& 1&110\\
+\hline
+\end{tabular}
+    \caption{Codificació dels desplaçaments al biòtop}
+    \label{tab:codiDesplacaments}
+\end{table}
+
+Si cal considerar cap ordre en el càlcul dels desplaçaments bàsics,
+es fa de més significatiu a menys.
+
+La codificació dels desplaçaments bàsics de la taula 
+\ref{tab:veinesDirectes} s'ha fet de tal manera que, si invertim bit 
+a bit un vector de desplaçament, obtenim un desplaçament invers.
+És a dir, si invertim tots el bits d'un vector de desplaçament {\tt desp}
+a excepció dels bits d'inhibició amb l'expressió {\tt (desp XOR 0x77777777)},
+en dòna el desplaçament invers.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Posicions}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\index{posició!identificadors}
+L'altre funció important de la topologia és assignar a cada posició un
+identificador únic dins de la topologia. La resta del sistema farà
+servir aquest identificador per referenciar una posició i, en cas
+de necessitar-ho, demanarà a la topologia quin és el substrat per
+aquesta posició.
+
+En la present implementació s'han fet servir enters del 0 a N-1 com a
+identificadors de les posicions, on N es el nombre de cel.les.
+Aquests identificadors ens permeten fer els desplaçaments de forma
+molt òptima si assignem el números per ordre a les cel·les de cada fila.
+Per calcular l'identificador de la posició destí, només cal afegir 
+(o treure), a l'identificador de la posició origen, un número, que 
+depèn del desplaçament, i ajustar el resultat en cas de sortir-se 
+de límits.
+
+%TODO: topologia toroidal: I l'unió seria...
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Substrats}
+\label{sec:substratImplementat}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\index{substrat}
+Un substrat particularitza les propietats del medi per a una posició.
+El substrat pot tenir propietats diferents segons la complexitat que
+desitjem per al medi. No hi ha cap restricció pel disseny dels 
+substrats de cara a que es pugui muntar un biòtop amb ells.
+
+A continuació, es descriu com està definit el substrat bàsic 
+implementat a l'aplicatiu.
+Les dos propietats més importants del substrat són qui ocupa el
+substrat, i quins nutrients hi han.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Ocupants}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+S'ha restringit l'ocupació de les posicions per part dels organismes
+a un sól organisme per posició i a una sola posició per organisme.
+La raó ha estat fer possible referenciar un organisme per la seva posició.
+Això simplificarà, a les relacions entre organismes, com referir l'altre organisme.
+Tambè, com a avantatge adicional, simplifica la interfície amb l'usuari
+per seleccionar un organisme seleccionant la seva posició.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Nutrients}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+En quant els nutrients que hi pot haver en una mateixa posició del substrat,
+cada posició tè un nombre de nutrients màxim definit.
+Quan s'afegeixen nutrients per damunt d'aquest nombre, els nutrients més
+antics desapareixen.
+
+Els nutrients estan diferenciats qualitativament amb un sencer que indica
+el seu tipus.
+
+La recollida de nutrients, es fa amb un patró de cerca pel tipus de
+nutrient i una tolerància a nivell de bit segons la funció de
+compatibilitat estàndard.
+%%\footnote{
+Com s'explica a l'apartat \ref{sec:compatibilitat}, aquesta funció
+retorna cert si
+\begin{verbatim}
+    ((Patro^Clau)&Random&~Tolerancia)==0
+\end{verbatim}
+, de tal forma que un 1 a una posició de la tolerància significa que,
+encara que no es correspongui aquest bit no es tindrà en compte.
+%%}
+La cerca es fa des dels més nous fins els més vells.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage

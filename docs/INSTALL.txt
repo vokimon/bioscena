@@ -1,0 +1,85 @@
+Espero que aquesta informació sigui suficient perque pogueu, al menys,
+llençar els bitxos sense problemes.
+
+1. COMPILACIÓ
+
+1.1. DJGPP
+
+- Comenteu la crida a 'buildnum' que hi ha als makefiles
+- Si voleu optimitzar per la vostra maquina afegiu '-march=ix86' a la 
+  variable CFLAGS del makefile; on x={3,4,5,6}
+- 'make' i ale.
+- Si teniu les llibreries estandars prou actualitzades cap problema.
+- Si us dona problemes a la linia 170 de Cariotip.cpp aneu alli i 
+  seguiu les instruccions.
+
+1.2. Linux GCC
+
+- Si descomprimiu amb l'opcio '-a', ja us converteix els textos a 
+  format UNIX.
+- Comenteu la crida a 'buildnum' que hi ha als makefiles
+- Si voleu optimitzar per la vostra maquina afegiu '-march=ix86' a la 
+  variable CFLAGS del makefile; on x={3,4,5,6}
+- Adapteu els noms dels executables del makefile (rm, c++...)
+- Si teniu les llibreries estandars prou actualitzades cap problema.
+- Si us dona problemes a la linia 170 de Cariotip.cpp aneu alli i 
+  seguiu les instruccions.
+- El tema del kbhit crec que esta solucionat (Slump Rulez); proveu-lo.
+
+1.3. MSVC
+
+- Obriu el Bioscena.dsw i proveu sort
+- Jo vaig haver de fotre parxos a les STL per ke m'acabes de compilar, 
+  pot ser amb MSVC6...
+- Hi ha petits problemes en execucio amb els punters a funcions membres, 
+  pot ser amb MSVC6...
+
+1.4. Altres compilates (BC, Watcom, CBuilder...)
+
+- NPI. Si els proveu, dieu-me que tal. Recordeu que necessiteu que 
+  implementada la llibreria estàndar de C++ (<list> <vector> <algorithm> 
+  <iostream>...)
+
+
+2. PREPARANT L'EXECUCIÓ (Codis ANSI i consola 80x50)
+
+
+2.1. WIN95
+
+- Cal que el config.sys dugui la línia 'DEVICE=C:\WINDOWS\COMMAND\ANSI.SYS'
+- Si és un executable de DOS (DJGPP) cal crear un acces directe i, a les 
+  seves propietats, al separador 'Pantalla' especificar 50 linies.
+- Si és un executable Win32 (MSVC), automaticament es posa a 80x50.
+
+2.2. WINNT
+
+- A les propietats de l'executable DOS, podem especificar l'encaminament d'un
+  'config.nt' personalitzat. Al directori c:\WINNT\SYSTEM32 (o l'equivalent, 
+  si està instalat d'una altra forma) tens el controlador ANSI.SYS i un 
+  'config.nt' que et pots copiar i personalitzar.
+- Si és un executable DOS (DJGPP), per canviar el nombre de linies de la 
+  pantalla no fa cas a les propietats del fitxer com feiem a W9x. Cal accedir 
+  a l'opcio propietats del menu del sistema quan el programa s'està executant. 
+  Primer cal canviar a una lletra suficient petita. Despres cal augmentar el 
+  tamany del buffer de sortida i de l'area de pantalla fins a 50 linies com a 
+  minim. Comproveu despres que us mante totes les 50 que fa una mica el burro.
+
+- No he comprovat si es pot fer el mateix per activar els codis de l'ANSI.SYS 
+  amb un executable Win32 en consola.
+- Si és un executable Win32 (MSVC), automaticament es posa a 80x50.
+
+
+2.3. LINUX
+
+- Ja hi ha ANSI per defecte tant a terminals texte com a X-terms
+- Xterms: Cal augmentar el tamany de la finestra fins que no faci cap scroll.
+- Kterms: En el fitxer de configuracio del lilo es pot escollir el mode vga 
+  de les consoles
+
+3. PENDENT
+
+80x50 en executables DOS sense que haguem de especificar-ho des de Windows.
+Si les llibreries estandars del MSVC6 o superior no necessiten parxos o no.
+Que kony li passa amb els punters a funcions membres al MSVC5.
+
+

@@ -1,0 +1,287 @@
+% Time Log
+%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Eines i ajudes a la implementació}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+En aquest apartat s'expliquen algunes eines que s'han implementat per
+tal d'afavorir la implementació de la resta del sistema.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Funció de compatibilitat de claus}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:compatibilitat}
+
+Al sistema resulta molt important una funció que determini, a partir
+de dos claus, quin els el grau de compatibilitat de les dues.
+
+La compatibilitat entre claus es fara servir, per exemple, per a la 
+identificació d'organismes (amb l'objectiu de cercar preses, 
+col·legues, progenitors...), identificació de nutrients (amb
+l'objectiu d'ingerir-los, evitar-los, detectar excrecions ajenes,
+controlar els processos metabòlics interns...) i contesa (mecanismes
+de depredació i defensa). Donat que aquesta funció és una de les més
+utilitzades al sistema, ha de ser molt poc costosa.
+
+Cal que la funció no tingui en compte la ponderació dels bits que
+formen la clau i que els tracti tots de la mateixa forma perquè no es
+converteixi en una optimització numèrica. A més, és desitjable que
+aquesta funció permeti nivells de tolerància variables i un cert
+indeterminisme.
+
+Necessitem tenir en compte, doncs, tres elements:
+\begin{itemize}
+\item El grau de compatibilitat entre les claus.
+\item Una tolerància quantificable sobre les variacions entre claus.
+\item Un element indeterminístic que permeti resultats diferents amb les mateixes entrades.
+\end{itemize}
+
+Si les claus les representem amb dos enters de 32 bits, el grau de
+coincidència el podrem obtenir fent-ne la o exclusiva bit a bit i
+complementant el resultat. Al número obtingut l'anomenarem
+coincidència (C). El nivell de tolerància també pot ser un enter (T)
+que ens vindrà donat i l'indeterminisme el pot introduir un altre
+enter (R) tret d'una funció pseudo-aleatòria.
+
+\subsubsection{Opció 1}
+
+Els uns del número generat pseudo-aleatòriament (R) es 'filtren' per
+la coincidència (C) de tal forma que nomes arribin els uns que
+estiguin en una posició on no hi havia coincidència entre claus. La
+tolerància (T) indica el número d'uns que admetem com a màxim per
+aceptar les claus com a compatibles.
+
+\begin{equation}
+    ComptaUns(R \& \sim C)<T
+    \label{eq:tolerancia1}
+\end{equation}
+
+El punt negre d'aquest mètode és l'alt cost de la funció ComptaUns,
+donat que no és una operacio nativa a la majoria de màquines i cal
+implementar-la a base de desplaçaments i enmascaraments.
+
+La següent gràfica mostra la probabilitat de que dos claus de 32 bits
+siguin compatibles segons el bits que tinguin igual i per diferents
+valors de T. La T pot oscilar entre 0 i 32 tot i que veiem que la
+distribució no pateix variacions apreciables per valors a partir de
+24 o potser abans. Podriem molt be limitar-la entre 0 i 15 sense
+perdre gaire significat.
+
+
+
+\begin{figure}[ht]
+    \centering
+%    %\includegraphics[width=6.1 in, keepaspectratio, draft]{compatibilitat1}
+%    \framebox[6.2 in]{TODO: Posar la gràfica compatibilitat1}
+    \label{fig:compat1}
+    \caption{Probabilitat d'encert amb la funció de compatibilitat número 1}
+\end{figure}
+
+La distribució sembla ideal pel que volem: Per valors de poca
+tolerància, la probabilitat és gairebé nul·la, per toleràncies molt
+grans ho deixa passar gairebe tot i per a una sèrie de valors
+intermitjos on es mantenen tres zones:
+\begin{itemize}
+\item Una zona de pas incondicional, per les coincidències més altes.
+\item Una zona intermitja on la probabilitat de pas depèn de la coincidència.
+\item Una zona de tall incondicional, per les coincidències més baixes.
+\end{itemize}
+
+\subsubsection{Opció 2}
+
+Una altra opció és fer servir la tolerància com una altra màscara. Un
+bit a un a la tolerància voldria dir que es tolera que aquest bit
+resulti a un després del filtratge. La condició que determina que dos
+claus són compatibles quedaria com segueix:
+
+\begin{equation}
+    {\tt(R \& \sim C \& \sim T)==0}
+    \label{eq:tolerancia2}
+\end{equation}
+
+Aquí sí que T agafa tota la franja dels 32 bits. Per fer la gràfica i
+obtenir un resultat comparable amb l'anterior, s'ha considerat el
+número de uns a la T en comptes del seu valor.
+
+\begin{figure}[ht]
+    \centering
+%    \includegraphics[width=6.1 in, keepaspectratio, draft]{compatibilitat2}
+    \fbox{\pdfimage{compat2.png}}
+    \label{fig:compat2}
+    \caption{Probabilitat d'encert amb la funció de compatibilitat número 2}
+\end{figure}
+
+Observem que hem perdut les zones d'aceptació i rebuig incondicional
+a les toleràncies intermitges, però, la funció és bastant vàlida pels
+objectius donat que és una aceptació no determinística on la
+probabilitat depèn de la tolerància i de la coincidència, i, a més,
+hem optimitzat moltíssim el cost d'avaluació.
+
+Com a característica afegida, aquesta funció permet, mitjançant la
+tolerància, un control més acurat de quins bits són els que poden no
+coincidir. Aquesta peculiaritat pot donar peu a mecanismes més
+complexos, més que no pas ho faria una tolerància cega. A mès, tot i 
+que es té en compte la posició dels bits, no els pondera, com les altres 
+fòrmules provades.
+
+\subsubsection{Altres opcions desestimades}
+
+Altres funcions de compatibilitat han estat provades i del tot
+desestimades pel seu alt cost i/o per la seva poca idoneïtat.
+
+Per exemple, es va provar la funció
+\begin{equation}
+    ComptaUns(R \& \sim C \& \sim T1) < (T2 \& 0x5)
+    \label{eq:tolerancia3}
+\end{equation}
+
+per sintetitzar en una fòrmula els dos conceptes de tolerància que
+hem vist, una tolerància que dóna significat a la posició dels uns i
+una altra que permet tolerar globalment un cert nombre d'uns
+independentment de la posició.
+
+Degut als pocs bits (32) amb els que juga i a que hi havia dos punts on es tolera, la funció, lluny de donar tot el significat que volíem, dóna molt poca variació amb els paràmetres. A més, tornem a tenir el problema de la funció ComptaUns.
+
+\begin{equation}
+    R>>(T\&0x7) < (C<< ( (T>>3) \& 0xf) )
+    \label{eq:tolerancia4}
+\end{equation}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Dispositius d'entrada i sortida portables}
+\label{sec:Missatger}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Seguint el paradigma model-vista-controlador el nucli del sistema, el 
+model, hauria de ser independent de l'entorn on executem l'aplicació. 
+Tot i així, a dintre del nucli cal fer algunes operacions d'entrada i 
+sortida, com a mínim per fer les tasques de depurat i els missatges 
+d'error. Per això, ens facilitaria molt les coses que un
+objecte que tingués un comportament semblant a un {\tt iostream} de
+C++ però que permeti redireccionar els missatges per gestionar com
+es visualtitzen depenent de l'entorn destí.
+
+S'ha implementat un objecte {\tt CMissatger} que es comporta de
+forma molt similar als {\tt iostreams}. Aquest objecte conté una 
+referència a un objecte que pertany a una classe derivada de la 
+clase abstracta {\tt COutputer}. La classe abstracta {\tt COutputer}
+defineix un protocol molt senzill d'inserció de missatges, per ser 
+controlat per {\tt CMissatger}. Segons la subclasse a que pertanyi
+l'objecte {\tt COutputer} els missatges insertats es visualitzen 
+d'una forma o d'altra.
+
+Ara mateix estan implementats els seguents {\tt COutputer}'s:
+\begin{itemize}
+\item Consola estàndard
+\item Control d'edició de MS-Windows
+\item Caixes de missatges de MS-Windows
+\item Pop up de la llibreria Curses
+\item Un scroll limitat de la pantalla fent servir codis ANSI
+\item Una llista d'strings de la llibreria STL (per imprimir-los en diferit)
+\end{itemize}
+
+En cas de voler un altre dispositiu de sortida, només cal crear el
+COutputer adient que és una tasca molt senzilla.
+
+\begin{figure}[ht]
+    \centering
+    %\includegraphics[width=6.1 in, keepaspectratio, draft]{misatger}
+    \fbox{\pdfimage height 3in {outputer.png}}
+    \label{fig:Missatger}
+    \caption{Encapsulament dels dispositius de sortida}
+\end{figure}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Seqüències d'escapament ANSI}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+De cara a obtenir una sortida rica, però, conservar el caracter 
+portable d'aquest primer prototipus, s'ha optat per fer servir 
+seqüències d'escapament ANSI en un terminal de text. Aquestes 
+seqüències permeten fixar colors, posicionar el cursor, netejar la 
+pantalla... i d'altres operacions en terminals que compleixin aquest 
+estàndard. Això inclou els terminals de Linux i les consoles de MS-DOS 
+i MS-Windows després d'instalar el controlador {\tt ANSI.SYS}.
+
+S'ha optat per implementar una biblioteca pròpia per ajudar a insertar
+aquests codis donat que totes les biblioteques provades que 
+treballaven amb aquestes seqüències, no eren prou òptimes com per 
+l'ús masiu que calia fer d'elles. A més, tampoc feien un enfoc 
+compatible amb els {\tt iostream}'s de C++.
+
+Com que els símbols que defineix la biblioteca de codis ANSI es poden 
+insertar sense problemes en un {\tt iostream} qualsevol, no hi ha
+cap problema en enviar-los a un fitxer obert, o la a classe {\tt 
+CMissatger} implementada (veure \ref{sec:Missatger}).
+
+Generalment la inserció optimitzada simplement inserta una cadena 
+predefinida, o, si hi ha paràmetres, substitueix els caracters que
+varien d'un a l'altre a una còpia de la cadena original. Es podria 
+optimitzar un xic més del que està no copiant la cadena, però, seria 
+a costa de comprometre la integritat del sistema, si algun dia, 
+l'aplicació ha d'executar-se en multithread.
+
+
+La biblioteca també implementa la classe {\tt CColor} que implementa
+operacions amb atributs de color pels caracters. Els objectes CColor
+en ser inserits en un {\tt stream} inserta la seqüència d'escapament
+corresponent.
+
+En resum, la biblioteca permet expressions com aquesta:
+{\setlinespacing{1}
+\begin{verbatim}
+  cout << clrscr << gotoxy(3,4) << blau.fons(vermell) 
+       << "Hola Món" << blau.brillant() << "!!!" << endl;
+\end{verbatim}
+}
+que es resolen de forma bastant optima comparant-ho amb altres 
+llibreries de l'estil.
+
+
+A mode d'exemple posem com hem solucionat cada tipus de seqüència:
+{\setlinespacing{1}
+\begin{verbatim}
+  // Sequencia constant
+  const char clrscr[] = "\033[2J";
+
+
+  // Seqüència amb parametres de longitud fixa
+  string color (int fg, int bg)
+  {
+    // Aquesta es la copia necesaria per permetre multithreading
+    string ansiseq ("\033[0;30;40m"); 
+
+    ansiseq[2]=(fg&0x08)?'1':'0';
+    ansiseq[5]='0'+(fg&0x07);
+    ansiseq[8]='0'+(bg&0x07);
+    return ansiseq;
+  }
+
+  // Seqüència amb parametres de longitud variable
+  string gotoxy(int col, int lin)
+  {
+    ostrstream str(myBuffer,16);
+    str << "\033[" << lin << ';' << col << 'H' << ends;
+    return str.str();
+  }
+\end{verbatim}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Objecte configurador}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Els objectes configuradors llegeixen un fitxer de configuració amb 
+paràmetres numèrics sobre el sistema. Cada paràmetre té associat un 
+identificador pel qual pot ser consultat el paràmetre.
+
+L'avantatge d'aquest procediment per configurar el sistema és que
+és molt fàcil per el programador afegir paràmetres configurables amb 
+valors per defecte al sistema.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage

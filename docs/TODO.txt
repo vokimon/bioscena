@@ -1,0 +1,96 @@
+************** TODO ***************
+
+APLICACIONS EXTERNES:
+	Entorn d'edició i analisis d'organismes
+	Eina de configuracio i simulacio d'agents externs
+
+CONFIGURACIO:
+	Opcions de linia comandes per posar traces dels fitxers de configuracio.
+	Considerar l'us de diversos objectes configuradors
+	Considerar on cal consultar cada parametre de la configuracio 
+		(Optimitzar + Consistencia en recarregues)
+
+INSTRUCCIONS:
+	Complicar les logiques de moviment, atac
+	Claus internes i instruccions per modificar-les
+	Afegir metabolisme (transformacio dels principis inmediats) (Ubicacio Biosistema)
+
+OPCODES:
+	Considerar fer configurable els parametres de les instruccions
+	Cal fer alguna comprovacio extra del fitxer de configuracio dels opcodes
+	Que no s'esborrin els opcodes vells fins que no s'hagin llegit correctament els nous
+	Comprovar que passa amb els opcodes i MSVC
+
+ORGANISMES:
+	Considerar una forma empaquetada de enmagatzemar els cariotips primigenis
+	Aillar la signatura general de qualsevol organimse a COrganismeBasic
+	Fer de COrganismeBasic una classe factoria
+	Inicialitzar el fenotip d'una altra manera mes rica potser
+	Millorar la visualitzacio d'organismes
+	Opcio per guardar i carregar organismes a fitxer.
+	Serialitzacio generica (per a tot control)
+
+CONTROL:
+	Donar-li mes cos a les zones operadores
+	Predicats
+	Controls alternatius: Neuronals
+
+HERENCIA:
+	Control genetic sobre les mutacions
+	Fer que l'escisio centrica esborri els escisionats
+	Considerar si separar mutacions estructurals i puntuals
+	Documentar: Analisi de limits i que les operacions de mutacio en siguin valides amb ells
+
+GENERICS:
+	Sistema de Logging/Analisis
+	Alliberar un xic del vector de comunitat (taxo?) quan hi hagi molt de lliure
+	Unificar la forma de fer les traces per moduls
+	Millorar la grabacio de biosistemes (incloure la majoria de parametres)
+	Format de gravacio del biosistema multimodel.
+	Grabació de la topologia amb multiples tipus.
+	Grabar l'edat dels organismes i el temps de biosistema
+	Creacio dels objectes des del fitxer (ara nomes es transformen)
+
+AGENTS EXTERNS:
+	Agent mutagen
+	Agent biogenerador
+	Agent direccionador sequencial 
+	Agent posicionador sequencial
+	Comprovar l'estructura d'arbre d'un fitxer i recuperar-se
+	Definir un KindOf
+	Verificar els tipus requerits de les dependencies
+	Diccionari global de noms
+	Solucionar els conflictes si els noms per defecte estan agafats
+	Solucionar els conflictes si els noms finals estan agafats
+	Guardar-se el pare en l'estructura
+	Funcio de validacio de l'invariant
+	Guardar el contingut dels comentaris dels fitxers de configuracio
+	Permetre comentaris en altres llocs
+	Definir be i fer servir CDistribucioNormal o com li vulguis dir (daus)
+
+ANALISIS:
+	TOT!!!
+	Determinar el fluxe d'informacio d'analisis
+	Determinar els criteris de discriminacio de poblacions (sexuals, asexuals...)
+	Determinar les dades que guardem de cada poblacio i com ho fem
+	Determinar com manegar l'historic de les poblacions
+
+GRAFICS I VISTES
+	Proves unitaries dels dominis dinanics de les grafiques.
+	Fer mes prima l'escala logaritmica
+	Fer programable el que visualitzen les comparatives d'organismes
+	Fer programable el que visualitzen els mapes
+	Muntar un conjunt de visualitzadors des d'un fitxer
+	Muntar un array de grafiques
+	Implementar Grafic Evolutiu/Temporal
+	Implementar Comparativa Taxons
+	Intentar generalitzar per un model OpenGL
+
+MISSATGERS:
+	Mirar si els missatgers es pot fer amb streambuffers
+	Testejar el COutputer per a CEdits de MFC's
+	COutputer per curses
+	COutputer per una llista d'strings
+	Constructor rapid de un CMissatger a un fitxer
+	Refer el modul AnsiCodes
+
