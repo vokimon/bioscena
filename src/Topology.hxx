@@ -1,4 +1,4 @@
-// Topologia.h: interface for the CTopologia class.
+// Topologia.h: interface for the Topology class.
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -8,7 +8,7 @@
 #include "BioIncludes.h"
 
 /**
-* A CTopologia encapsulates the geometrical caracteristics for a discrete biotop.
+* A Topology encapsulates the geometrical caracteristics for a discrete biotop.
 * 
 * You can specialize this interface in order to describe your own
 * geometry for the biotop (the inert media in which life beings live).
@@ -26,9 +26,9 @@
 * <p>
 * This class also implements a dummy default implementation: 
 * N cells so that they are ramdomly interconected.
-* @see CTopologiaToroidal A reference implementation for a concrete CTopologia
+* @see Torus A reference implementation for a concrete Topology
 */
-class CTopologia  
+class Topology  
 {
 // Tipus propis
 public:
@@ -41,8 +41,8 @@ protected:
 	uint32 m_totalCasselles;
 // Construccio/Destruccio
 public:
-	CTopologia(uint32 tamany=0);
-	virtual ~CTopologia();
+	Topology(uint32 tamany=0);
+	virtual ~Topology();
 
 /// @name Redefinibles
 //@{

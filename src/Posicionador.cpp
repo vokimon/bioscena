@@ -8,7 +8,7 @@
 // 19990824 VoK - Funcions de configuracio amb parametres
 // 20000220 VoK - Adaptat topologia sense templates
 // 20000220 VoK - Canviat el nom dels tipus interns tipus_X -> t_X
-// 20000708 VoK - CTopologia::esValidaCassella -> CTopologia::esPosicioValida
+// 20000708 VoK - Topology::esValidaCassella -> Topology::esPosicioValida
 //////////////////////////////////////////////////////////////////////
 
 #include "Posicionador.h"

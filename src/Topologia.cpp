@@ -1,4 +1,4 @@
-// Topologia.cpp: implementation of the CTopologia class.
+// Topologia.cpp: implementation of the Topology class.
 //
 //////////////////////////////////////////////////////////////////////
 // Change Log
@@ -18,12 +18,12 @@ using namespace AnsiCodes;
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CTopologia::CTopologia(uint32 tamany)
+Topology::Topology(uint32 tamany)
 {
 	m_totalCasselles=tamany;
 }
 
-CTopologia::~CTopologia()
+Topology::~Topology()
 {
 }
 
@@ -31,17 +31,17 @@ CTopologia::~CTopologia()
 // Redefinibles
 //////////////////////////////////////////////////////////////////////
 
-uint32 CTopologia::tamany() const
+uint32 Topology::tamany() const
 {
 	return m_totalCasselles;
 }
 
-bool CTopologia::esPosicioValida(t_posicio pos) const
+bool Topology::esPosicioValida(t_posicio pos) const
 {
 	return (pos<m_totalCasselles)&&(pos>=0);
 }
 
-CTopologia::t_posicio CTopologia::desplacament (t_posicio origen, t_desplacament movimentRelatiu) const
+Topology::t_posicio Topology::desplacament (t_posicio origen, t_desplacament movimentRelatiu) const
 // Retorna la posicio resultant de fer el desplacament des de l'origen
 {
 	// TODO: Per defecte aillades o indeterministic?
@@ -49,14 +49,14 @@ CTopologia::t_posicio CTopologia::desplacament (t_posicio origen, t_desplacament
 //	return origen;
 }
 
-CTopologia::t_posicio CTopologia::desplacamentAleatori (t_posicio origen, uint32 radi) const
+Topology::t_posicio Topology::desplacamentAleatori (t_posicio origen, uint32 radi) const
 // Retorna la posicio resultant de tants desplacaments aleatoris des de l'origen com indiqui el radi
 {
 	while (radi--) origen = desplacament (origen, rnd.get());
 	return origen;
 }
 
-CTopologia::t_desplacament CTopologia::invers (t_desplacament desp) const
+Topology::t_desplacament Topology::invers (t_desplacament desp) const
 // Retorna un desplacament invers al desplacament
 {
 	// TODO: Per defecte aillades o indeterministic?
@@ -65,14 +65,14 @@ CTopologia::t_desplacament CTopologia::invers (t_desplacament desp) const
 	return inverse_displacement;
 }
 
-CTopologia::t_desplacament CTopologia::desplacamentNul () const
+Topology::t_desplacament Topology::desplacamentNul () const
 // Retorna un desplacament que aplicat a una posicio, retorna la posicio
 {
 	// TODO: Per defecte aillades o indeterministic?
 	return 0;
 }
 
-bool CTopologia::unio (t_posicio posOrigen, t_posicio posDesti, t_desplacament & desp) const
+bool Topology::unio (t_posicio posOrigen, t_posicio posDesti, t_desplacament & desp) const
 // Retorna cert si es posible unir-les amb un sol desplacament, a desp hi es
 // el desplacament per unir-les o apropar-les
 {
@@ -80,13 +80,13 @@ bool CTopologia::unio (t_posicio posOrigen, t_posicio posDesti, t_desplacament &
 	return false;
 }
 
-CTopologia::t_posicio CTopologia::posicioAleatoria() const
+Topology::t_posicio Topology::posicioAleatoria() const
 {
 	CRandomStream rnd;
 	return rnd.get(0,m_totalCasselles-1);
 }
 
-uint32 CTopologia::distancia(t_posicio posOrigen, t_posicio posDesti) const
+uint32 Topology::distancia(t_posicio posOrigen, t_posicio posDesti) const
 {
 	return 0;
 }
@@ -95,11 +95,11 @@ uint32 CTopologia::distancia(t_posicio posOrigen, t_posicio posDesti) const
 // Proves
 //////////////////////////////////////////////////////////////////////
 
-void CTopologia::ProvaClasse(void) {
+void Topology::ProvaClasse(void) {
 	// TODO: Proves Topologia::unio
 	uint32 i;
 	int escala[]={0,6,3,4,12,14,15,7};
-	CTopologia topologia(400);
+	Topology topologia(400);
 	uint32 * celles = new uint32[topologia.tamany()];
 	for (i=topologia.tamany();i--;) celles[i]=0;
 	t_posicio cuc[7]={130,130,130,130,130,130,130};
@@ -126,7 +126,7 @@ void CTopologia::ProvaClasse(void) {
 // Funcions estatiques
 //////////////////////////////////////////////////////////////////////
 /*
-CTopologia * CTopologia::ParsejaArxiu(istream & str, CMissatger & errors)
+Topology * Topology::ParsejaArxiu(istream & str, CMissatger & errors)
 {
 	string nom, tipus, parametre, valor;
 	string prefetch;

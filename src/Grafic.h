@@ -14,7 +14,6 @@
 #include "Comunitat.h"
 #include "Biosistema.h"
 #include "Biotop.h"
-#include "TopologiaToroidal.h"
 
 class CDominiGrafica {
 // Construccio/Destruccio

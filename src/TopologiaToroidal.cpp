@@ -1,4 +1,4 @@
-// TopologiaToroidal.cpp: implementation of the CTopologiaToroidal class.
+// TopologiaToroidal.cpp: implementation of the Torus class.
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -11,11 +11,11 @@ using namespace AnsiCodes;
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CTopologiaToroidal::CTopologiaToroidal(uint32 xMax=5, uint32 yMax=5)
+Torus::Torus(uint32 xMax=5, uint32 yMax=5)
 	// Precondicions:
 	//   nD<xMax<0x1FFFFFFF on nD es el nombre maxim de desplacaments basics a un desplacament complert
 	//   2<yMax<(0xFFFFFFFF>>digitsSignificatius(xMax))
-: CTopologia(xMax*yMax)
+: Topology(xMax*yMax)
 {
 //	cout<<"Inicializando un Substrato Toroidal de "<<xMax <<" X "<<yMax<<endl;
 	m_direccions[UP        ]=  0 -xMax;
@@ -48,12 +48,12 @@ void debugPresenta(CMissatger & stream) {
 }
 */
 
-void CTopologiaToroidal::ProvaClasse(void) {
+void Torus::ProvaClasse(void) {
 	// TODO: Proves TopologiaToroidal::unio
 	// TODO: Prova maximitzant els limits calculats als 'Pre' del constructor
 	uint32 i;
 	int escala[]={7,6,4,4,12,14,15,9};
-	CTopologiaToroidal topo(25,21);
+	Torus topo(25,21);
 	uint32 * celles = new uint32[topo.tamany()];
 	uint32 cuc[7]={130,130,130,130,130,130,130};
 	for (i=topo.tamany();i--;) celles[i]=3;
