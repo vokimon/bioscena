@@ -40,6 +40,7 @@ public:
         /**
 	* This conversion operator is used to get a distribution value.
 	* It allows to use the distribution as a number in a expression.
+	/// @todo Not yet implemented
 	*/
 	operator uint32()
 	{
@@ -55,19 +56,22 @@ public:
 /// @{
 public:
 	/// Sets the sector size for a value
-	/// @todo
+	/// @todo Not yet implemented
 	void sector(uint32 value, uint32 size) {
 		// TODO
 	}
 	/// Increase the sector size an amount
+	/// @todo Not yet implemented
 	uint32 increase(uint32 value, uint32 amount) {
 		// TODO
 	}
 	/// Decrease the sector size an amount
+	/// @todo Not yet implemented
 	uint32 decrease(uint32 value, uint32 amount) {
 		// TODO
 	}
 	/// Gets the sector size for a value
+	/// @todo Not yet implemented
 	uint32 sector(uint32 value) {
 		// TODO
 	}
@@ -76,6 +80,7 @@ public:
 /// @name Testing
 /// @{
 public:
+	/// @todo Not yet implemented
 	static void ClassTest();
 /// @}
 
