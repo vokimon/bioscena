@@ -35,23 +35,23 @@ bool Topology::esPosicioValida(t_position pos) const
 	return (pos<m_totalCasselles)&&(pos>=0);
 }
 
-Topology::t_position Topology::desplacament (t_position origen, t_displacement movimentRelatiu) const
-// Retorna la posicio resultant de fer el desplacament des de l'origen
+Topology::t_position Topology::displace (t_position origen, t_displacement movimentRelatiu) const
+// Retorna la posicio resultant de fer el displacement des de l'origen
 {
 	// TODO: Per defecte aillades o indeterministic?
 	return movimentRelatiu ? posicioAleatoria() : origen;
 //	return origen;
 }
 
-Topology::t_position Topology::desplacamentAleatori (t_position origen, uint32 radi) const
-// Retorna la posicio resultant de tants desplacaments aleatoris des de l'origen com indiqui el radi
+Topology::t_position Topology::displaceRandomly (t_position origen, uint32 radi) const
+// Retorna la posicio resultant de tants displacements aleatoris des de l'origen com indiqui el radi
 {
-	while (radi--) origen = desplacament (origen, rnd.get());
+	while (radi--) origen = displace (origen, rnd.get());
 	return origen;
 }
 
 Topology::t_displacement Topology::invers (t_displacement desp) const
-// Retorna un desplacament invers al desplacament
+// Retorna un displacement invers al displacement
 {
 	// TODO: Per defecte aillades o indeterministic?
 	t_displacement inverse_displacement;
@@ -60,15 +60,15 @@ Topology::t_displacement Topology::invers (t_displacement desp) const
 }
 
 Topology::t_displacement Topology::nilDisplacement () const
-// Retorna un desplacament que aplicat a una posicio, retorna la posicio
+// Retorna un displacement que aplicat a una posicio, retorna la posicio
 {
 	// TODO: Per defecte aillades o indeterministic?
 	return 0;
 }
 
 bool Topology::unio (t_position posOrigen, t_position posDesti, t_displacement & desp) const
-// Retorna cert si es posible unir-les amb un sol desplacament, a desp hi es
-// el desplacament per unir-les o apropar-les
+// Retorna cert si es posible unir-les amb un sol displacement, a desp hi es
+// el displacement per unir-les o apropar-les
 {
 	rnd >> desp;
 	return false;
@@ -110,7 +110,7 @@ void Topology::ProvaClasse(void) {
 		t_displacement direccio;
 		rnd>>direccio;
 		for (i=6;i--;) cuc[i+1]=cuc[i];
-		cuc[0]=topologia.desplacament(cuc[0],direccio);
+		cuc[0]=topologia.displace(cuc[0],direccio);
 		if (cuc[0]==cuc[6]) cuc[0]=topologia.posicioAleatoria();
 		out<<blanc.fosc()<<"Celles"<<setw(5)<<setfill(' ');
 		for (i=7;i--;) out << cuc[i] << " - ";

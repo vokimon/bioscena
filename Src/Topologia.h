@@ -65,7 +65,7 @@ namespace Bioscena {
 		/// @param origen The origin of a movement
 		/// @param movimentRelatiu A displacement
 		/// @return The displaced position
-		virtual t_position desplacament(t_position origen, t_displacement movimentRelatiu) const;
+		virtual t_position displace(t_position origen, t_displacement movimentRelatiu) const;
 		
 		/// Calculates a randomly displaced position from an origin.
 		/// By applying several random displacements you will obtain a normal
@@ -73,7 +73,7 @@ namespace Bioscena {
 		/// @param origen The origin of a movement
 		/// @param radi The number of random displacements to perform
 		/// @return The displaced position
-		virtual t_position desplacamentAleatori(t_position origen, uint32 radi) const;
+		virtual t_position displaceRandomly(t_position origen, uint32 radi) const;
 
 		/// Calculates the displacement needed in order to go from one position to the other one.
 		/// Not always an only displacement is enough to reach the goal but the displacement
