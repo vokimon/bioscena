@@ -18,7 +18,6 @@
 //#include <time.h>
 //#include <stdlib.h>
 #include <fstream>
-#include "GeneradorMascares.h"
 #include "RandomStream.h"
 
 typedef uint32 t_clau;
