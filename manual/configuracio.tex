@@ -9,7 +9,7 @@ Existeixen tres arxius de configuració:
 
 \begin{tabular}{lp{6in}}
 bioscena.ini	& Paràmetres del biosistema\\
-agents.ini	& Agents externs\\
+agents.ini	& Agents ambientals\\
 opcodes.ini	& Correspondència entre codis i intruccions
 \end{tabular}
 
@@ -197,9 +197,390 @@ un missatge d'advertiment i se li asignara {\tt NoOperacio}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Arxiu {\tt agents.ini}}
+\label{sec:cfgAgents}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-El funcionament d'aquest fitxer de configuració s'explica en més 
-detall a l'apartat \ref{sec:agentsExterns} de la memòria.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Estructura}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Els arxius de configuració d'agents ténen una estructura molt simple:
+Primer van unes linies de text que determinen, per cada agent, el seu
+nom i el seu tipus.
+Un cop definits els noms i els tipus, es configuren els paràmetres
+per a cada agent.
+
+La definició dels noms i els tipus es fa amb una línia per cada agent
+sent la primera línia la que defineix l'agent que està en l'arrel de
+la estructura de subordinació.
+A cada línia es posa, per ordre i {\em separats per espais} un signe
+asterisc, el nom i el tipus.
+
+Quan es carrega un arxiu de configuració d'agents, si és possible
+a cada agent se li dóna el nom amb el que apareix a l'arxiu, però
+això no és posible si ja existeix un amb el mateix nom. En aquest
+cas, se li dóna un nom per defecte i s'hi tradueixen totes les
+posteriors referències al nom antic.
+
+Els noms poden contenir qualsevol caracter que no es consideri
+un espai a C (espais, tabuladors, retorns...).
+
+El tipus s'especifica amb un identificador propi de cada tipus d'agent.
+Dins d'un arxiu de configuració d'agents, es reconeixen els següents tipus:
+
+\begin{table}[ht]
+\begin{tabular}{|l|l|}\hline
+{\bf Nom de tipus a la memòria}     & {\bf Nom del tipus a un fitxer de configuració}\\\hline
+Agent Subordinador Multiple     & Agent/Multiple            \\\hline
+Agent Subordinador Temporitzador    & Agent/Multiple/Temporitzador      \\\hline
+Agent Subordinador Iterador     & Agent/Multiple/Iterador       \\\hline
+Agent Subordinador Aleaturitzador   & Agent/Multiple/Aleaturitzador     \\\hline
+Posicionador Fixe           & Agent/Posicionador            \\\hline
+Posicionador Aleatori           & Agent/Posicionador/Aleatori       \\\hline
+Posicionador Zonal          & Agent/Posicionador/Zonal      \\\hline
+Posicionador Direccional (Itinerari)    & Agent/Posicionador/Direccional    \\\hline
+Direccionador Fixe          & Agent/Direccionador           \\\hline
+Direccionador Aleatori          & Agent/Direccionador/Aleatori      \\\hline
+Actuador Nutridor           & Agent/Actuador/Nutridor       \\\hline
+Actuador Desnutridor            & Agent/Actuador/Nutridor/Invers    \\\hline
+\end{tabular}
+    \caption{Tipus d'agents implementats al projecte i identificadors associats}
+    \label{tab:tipusAgent}
+\end{table}
+
+Es fan servir identificadors jerarquics molt semblants als que es
+fan servir a UNIX per identificar els directoris. La jerarquia
+de noms el que especifica aquí és una jerarquia de tipus i subtipus
+que és molt útil de cara a restringir els agents que es poden posar
+com a dependències. Per exemple, una dependència requereix un 
+{\em Agent/Posicionador}, aquest lloc el pot ocupar tant un 
+{\em Agent/Posicionador/Direccional} com un {\em Agent/Posicionador/Zonal}.
+
+Una definició de noms i tipus podria quedar com segueix:
+
+{\setlinespacing{1}
+\begin{verbatim}
+* Agent_0000 Agent/Multiple
+* Agent_0001 Agent/Multiple/Temporitzador
+* Agent_0002 Agent/Direccionador/Aleatori
+* Agent_0003 Agent/Posicionador/Direccional
+* Agent_0004 Agent/Multiple/Iterador
+* Agent_0005 Agent/Actuador/Nutridor
+\end{verbatim}
+}
+
+Aquí, {\em Agent\_0000} seria l'agent arrel. Perqué està declarat
+en primer lloc.
+
+Un cop definits els noms i els tipus dels agents, cal configurar els
+seus paràmetres. Per configurar un agent primer cal posar una línia
+amb el signe + i el nom de l'agent separats per un espai, i, després,
+tot un seguit de línies de configuració de paràmetres.
+Les linies de configuració de paràmetres comencen amb un signe menys
+i el nom del paràmetre i es segueix amb els valors que necessita
+el paràmetre per configurar-se, tot separat per espais.
+Com veurem al següent exemple, és normal que un paràmetre s'especifiqui
+amb diversos valors separats per espais.
+La posició dels valors acostuma a ser significativa o sigui que és
+important mantenir l'ordre.
+
+Per configurar un Nutridor es faria de la següent forma
+{\setlinespacing{1}
+\begin{verbatim}
++ Agent_0004
+- Posicionador Agent_0003
+- Composicio 31 0
+\end{verbatim}
+}
+
+Quan un paràmetre necessita com a valor un altre agent, fa servir
+els seu nom com a referència.
+
+Al següent apartat, es detalla els paràmetres que controlen cada
+tipus d'agent.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Paràmetres configurables per a cada tipus d'agent}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+El que segueix és una especificació de com s'especifiquen al fitxer
+de configuració els paràmetres dels tipus d'agent implementats. 
+Per fer-ho fem servir la següent estructura:
+
+Per a cada paràmetre de cada tipus d'agent es fa una petita explicació
+i es detallen, ordenats tal qual han d'aparèixer, els valors que el
+defineixen.
+
+Els valors dels paràmetres es detallen posant un tipus de dada,
+dos punts, una petita explicació del valor i, entre parèntesis,
+les restriccions que s'hi apliquen.
+
+Als agents implementats, els tipus de dada possibles pels valors són:
+\begin{itemize}
+\item   {\bf agent:} Nom d'un agent especificat a la definició de noms i tipus
+\item   {\bf uint32:} Senser sense signe codificable en 32 bits i expressat en base decimal
+\item   {\bf id(Alternativa1/Alternativa2...):} Un dels identificadors posats com a alternativa
+\end{itemize}
+
+Després dels paràmetres de cada tipus hi ha un exemple de com quedarien
+les línies de configuració.
+
+A la secció \ref{sec:agentsExterns} hi ha una explicació menys 
+esquemàtica de cada tipus d'agent.
+
+\subsubsection{MultiAgent (Agent/Multiple)}
+\begin{description}
+\item[Accio:] Determina un agent subordinat. Es repeteix tantes vegades com subordinats tingui.
+        \\- agent: agent que es subordina (No ha de ser subordinat de cap altre)
+\end{description}
+    Exemple de configuració
+{\setlinespacing{1}
+\begin{verbatim}
+        + AgentMultiple1:
+        - Accio Posicionador1
+        - Accio Posicionador2
+        - Accio Direccionador1
+\end{verbatim}
+}
+
+\subsubsection{Temporitzador (Agent/Multiple/Temporitzador)}
+\begin{description}
+\item[Accio:] Determina un agent subordinat. Es repeteix tantes vegades com subordinats tingui.
+        \\- agent: agent que es subordina (No ha de ser subordinat de cap altre)
+\item[CicleActiu:] Determina quan triguen els períodes de temps actius
+        \\- uint32: període mínim
+        \\- uint32: número de daus
+        \\- uint32: magnitud dels daus (Van de zero a la magnitud)
+\item[CicleInactiu:] Determina quan triguen els períodes de temps inactius
+        \\- uint32: període mínim
+        \\- uint32: número de daus
+        \\- uint32: magnitud dels daus (Van de zero a la magnitud)
+\item[AntiAccio:] Agent subordinat especial que s'acciona en el cicle inactiu (Només un per temporitzador i es opcional)
+        \\- agent: agent que es subordina (No ha de ser subordinat de cap altre)
+\item[CicleActual:] Valors del temporitzador quan es reemprengui la marxa
+        \\- id(Actiu/Inactiu): cicle actiu o inactiu
+        \\- uint32: període restant del cicle actual
+\end{description}
+    Exemple de configuració
+{\setlinespacing{1}
+\begin{verbatim}
+        + Temporitzador1
+        - Accio Posicionador3
+        - CicleActiu 34 2 5
+        - CicleInactiu 2 4 4
+        - CicleActual 3 Inactiu
+\end{verbatim}
+}
+
+\subsubsection{Iterador (Agent/Multiple/Iterador)}
+\begin{description}
+\item[Accio:] Determina un agent subordinat. Es repeteix tantes vegades com subordinats tingui.
+        \\- agent: agent que es subordina (No ha de ser subordinat de cap altre)
+\item[Iteracions:] Determina quantes vegades es repiteixen els subordinats
+        \\- uint32: iteracions mínimes
+        \\- uint32: número de daus
+        \\- uint32: magnitud dels daus (Van de zero a la magnitud)
+\item[PreAccio:] Agent subordinat especial que s'executa un sol cop abans de tot (Només un per iterador i és opcional)
+        \\- agent: agent que es subordina (No ha de ser subordinat de cap altre)
+\item[PostAccio:] Agent subordinat especial que s'executa un sol cop despres de tot (Només un per iterador i és opcional)
+        \\- agent: agent que es subordina (No ha de ser subordinat de cap altre)
+\end{description}
+    Exemple de configuració
+{\setlinespacing{1}
+\begin{verbatim}
+        + Iterador3
+        - Accio Posicionador4
+        - Accio Actuador2
+        - Iteracions 20 3 6
+\end{verbatim}
+}
+
+\subsubsection{Aleaturitzador (Agent/Multiple/Aleaturitzador)}
+\begin{description}
+\item[Accio:] Determina un agent subordinat. Es repeteix tantes vegades com subordinats tingui.
+        \\- agent: agent que es subordina (No ha de ser subordinat de cap altre)
+\item[Probabilitat:] La que hi ha d'accionar els subordinats
+        \\- uint32: número d'encerts que segons la probabilitat tenderien a donar-se en la mostra
+        \\- uint32: número de intents o mostra
+\item[ReAccio:] Agent subordinat especial que s'acciona si no es dóna la probabilitat (Només un per temporitzador i és opcional)
+        \\- agent: agent que es subordina (No ha de ser subordinat de cap altre)
+\end{description}
+    Exemple de configuració
+{\setlinespacing{1}
+\begin{verbatim}
+        + Aleaturitzador1
+        - Accio Posicionador3
+        - Probabilitat 20 100
+\end{verbatim}
+}
+
+\subsubsection{Posicionador Fixe (Agent/Posicionador)}
+\begin{description}
+\item[Posicio:] Posició inicial
+        \\- uint32: valor de la posició (Ha d'existir a la topologia)
+\end{description}
+    Exemple de configuració
+{\setlinespacing{1}
+\begin{verbatim}
+        + Posicionador1
+        - Posicio 12
+\end{verbatim}
+}
+
+\subsubsection{Posicionador Aleatori (Agent/Posicionador/Aleatori)}
+\begin{description}
+\item[Posicio:] Posició inicial
+        \\- uint32: valor de la posició (Ha d'existir a la topologia)
+\end{description}
+    Exemple de configuració
+{\setlinespacing{1}
+\begin{verbatim}
+        + Posicionador2
+        - Posicio 23
+\end{verbatim}
+}
+
+\subsubsection{PosicionadorSequencial (Agent/Posicionador/Sequencial)}
+\begin{description}
+\item[Posicio:] Posició inicial
+        \\- uint32: valor de la posició (Ha d'existir a la topologia)
+\item[Sequencia]: Determina una posició de la seqüència. Es repeteix tantes vegades com calgui.
+        \\- uint32: valor de la posició (Ha d'existir a la topologia)
+\item[SequenciaActual]:
+        \\- uint32: el número de seqüència de la següent posició (Si es passa es pren l'ultim)
+\end{description}
+    Exemple de configuració
+{\setlinespacing{1}
+\begin{verbatim}
+        + Posicionador3
+        - Posicio 23
+        - Sequencia 27
+        - Sequencia 50
+        - Sequencia 402
+        - SequenciaActual 2
+\end{verbatim}
+}
+
+\subsubsection{PosicionadorZonal (Agent/Posicionador/Zonal)}
+\begin{description}
+\item[Posicio:] Posicio inicial
+    \\- uint32: valor de la posició (Ha d'existir a la topologia)
+\item[Posicionador:] Dona la posició central de la zona
+    \\- agent: agent posicionador (dependència)
+\item[Radi:] Nombre de desplacaments que pot fer la posició entorn al centre
+    \\- uint32: valor del radi
+\end{description}
+Exemple de configuració
+{\setlinespacing{1}
+\begin{verbatim}
+        + Posicionador4
+        - Posicio 23
+        - Posicionador Posicionador1
+        - Radi 3
+\end{verbatim}
+}
+
+\subsubsection{Itinerari (Agent/Posicionador/Direccional)}
+\begin{description}
+\item[Posicio:] Posició inicial
+        \\- uint32: valor de la posició (Ha d'existir a la topologia)
+\item[Direccionador:] Dona la direcció del desplacament
+        \\- agent: agent direccionador (dependència)
+\item[Radi:] Nombre de desplacaments que pot fer la posició respecte a la posició anterior
+        \\- uint32: valor del radi
+\end{description}
+Exemple de configuració
+{\setlinespacing{1}
+\begin{verbatim}
+    + Posicionador5
+    - Posicio 23
+    - Direccionador Direccionador3
+    - Radi 1
+\end{verbatim}
+}
+
+\subsubsection{Direccionador (Agent/Direccionador)}
+\begin{description}
+\item[Direccio:] Direcció inicial
+        \\- uint32: valor de la direcció
+\end{description}
+Exemple de configuració
+{\setlinespacing{1}
+\begin{verbatim}
+    + Direccionador1
+    - Direccio 876342
+\end{verbatim}
+}
+
+\subsubsection{DireccionadorAleatori (Agent/Direccionador/Aleatori)}
+\begin{description}
+\item[Direccio:] Direcció inicial
+        \\- uint32: valor de la direcció
+\end{description}
+Exemple de configuració
+{\setlinespacing{1}
+\begin{verbatim}
+    + Direccionador2
+    - Direccio 23442684
+\end{verbatim}
+}
+
+\subsubsection{DireccionadorSequencial (Agent/Direccionador/Sequencial)}
+\begin{description}
+\item[Direccio:] Direcció inicial
+        \\- uint32: valor de la direcció
+\item[Sequencia:] Determina una direcció de la seqüència. Es repeteix tantes vegades com calgui.
+        \\- uint32: valor de la direcció
+\item[SequenciaActual:] Determina el punt actual de la seqüència
+        \\- uint32: el número de seqüència de la següent direcció (Si es passa es pren l'ultim)
+\end{description}
+Exemple de configuració
+{\setlinespacing{1}
+\begin{verbatim}
+    + Direccionador3
+    - Direccio 23
+    - Sequencia 27
+    - Sequencia 50
+    - Sequencia 402
+    - SequenciaActual 2
+\end{verbatim}
+}
+
+\subsubsection{Nutridor (Agent/Actuador/Nutridor)}
+\begin{description}
+\item[Posicionador:] Dona la posició on s'actua
+        \\- agent: Agent posicionador (dependència)
+\item[Composicio:] Determina els elements que es depositen
+        \\- uint32: element basic
+        \\- uint32: variabilitat, a 1 els bits que poden variar
+\end{description}
+Exemple de configuració
+{\setlinespacing{1}
+\begin{verbatim}
+    + Actuador1
+    - Posicionador Posicionador4
+    - Composicio 13152450903 0
+\end{verbatim}
+}
+
+\subsubsection{Desnutridor (Agent/Actuador/Nutridor/Invers)}
+\begin{description}
+\item[Posicionador:] Dona la posició on s'actua
+        \\- agent: Agent posicionador (dependència)
+\item[Composicio:] Determina els elements que s'eliminen
+        \\- uint32: element basic
+        \\- uint32: tolerancia, a 1 els bits que no importa que coincideixin
+\end{description}
+Exemple de configuració
+{\setlinespacing{1}
+\begin{verbatim}
+    + Actuador2
+    - Posicionador Posicionador3
+    - Composicio 8943742645 768764258
+\end{verbatim}
+}
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

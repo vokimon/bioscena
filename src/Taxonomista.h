@@ -1,18 +1,6 @@
 // Taxonomista.h: interface for the CTaxonomista class.
 //
 //////////////////////////////////////////////////////////////////////
-// Change Log: 
-// 19990306 VoK - Implementat 'parentesc'
-// 19990306 VoK - Implementat 'discrimina'
-// 19990306 VoK - Adaptat 'taxoAmbIndex' per les modificacions que es
-//          VoK - van fer 'CLlistaEstatica'
-// 20000113 VoK - Adaptat per un taxonomista simplificat
-// 20000221 VoK - Serialitzacio
-//////////////////////////////////////////////////////////////////////
-// TODO Log:
-// TODO: Implementar-ho amb una llista indexada
-// TODO: Independitzar el modul d'acces per part del biosistema de la implementacio
-//////////////////////////////////////////////////////////////////////
 
 #if !defined(__KKEP_TAXONOMISTA_H_INCLUDED)
 #define __KKEP_TAXONOMISTA_H_INCLUDED
@@ -25,18 +13,22 @@ class CInfoTaxo
 public:
 	CInfoTaxo(uint32 primi=0, uint32 pred=0) {
 		cens=0;
+		morts=0;
 		primigeni=primi;
 		predecesor=pred;
 	}
 	uint32 operator++() {return ++cens;}
 	uint32 operator--() {return --cens;}
 	uint32 cens; // Nombre d'organismes vius que hi pertanyen
+	uint32 morts; // Nombre d'organismes morts que hi van pertanyer
 	uint32 primigeni; // Taxo primigeni del que evoluciona
 	uint32 predecesor; // Taxo existent del que evoluciona directament
 };
 
 class CTaxonomista 
 {
+// Tipus propis
+	typedef map<uint32,CInfoTaxo> t_taxons;
 // Construccio/Destruccio
 public:
 	CTaxonomista();
@@ -63,7 +55,8 @@ public:
 private:
 	bool m_calEspeciar;
 	uint32 m_ultimTaxo;
-	map<uint32,CInfoTaxo> m_taxons;
+public:
+	t_taxons m_taxons;
 // Proves
 public:
 	static void ProvaClasse (void);

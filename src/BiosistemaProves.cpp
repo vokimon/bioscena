@@ -19,6 +19,7 @@
 // 19991220 VoK - Afegides operacions de Shift
 // 20000103 VoK - Sensibilitat interna
 // 20000215 VoK - La feina de taxonomista es fa amb l'objecte extern
+// 20000528 VoK - Adaptats els canvis dels grafix amb aquesta data
 //////////////////////////////////////////////////////////////////////
 // Notes de manteniment:
 // - m_infoOrganisme apunta a un element d'un vector. Com a tal es pot
@@ -167,6 +168,7 @@ static char TextAjuda[] =
 	"\nVisualitzacio:\n\n" 
 	"  M      Visualitza el mapa (amb Shift ho treu)\n" 
 	"  O      Visualitza comparativa organismes (amb Shift la treu)\n"
+	"  T      Visualitza comparativa taxons (amb Shift la treu)\n"
 	"  L      Visualitza les accions dels organismes una per una (Amb Shift ho treu)\n"
 	"  V+Num  Visualitza l'interior de l'organisme especificat\n"
 	"  J+Num  Es salta 'Num' pasos entre visualitzacio i visualitzacio\n"
@@ -176,11 +178,33 @@ static char TextAjuda[] =
 	"  D      1 posicio a la dreta (amb Shift 1 pantalla sencera)\n"
 	"  A      1 posicio a l'esquerra (amb Shift 1 pantalla sencera)\n"
 	"\nActuacio sobre el biosistema:\n\n"
-	"  R      Torna a carregar el fitxer de configuracio d'agents externs\n"
-	"  E      Diferencia els colors dels organismes mutants (amb Shift es desactiva)\n"
-	"  P      Congela el biosistema (amb Shift ho descongela)\n"
+	"  r          Carrega el fitxer standard de configuracio d'agents externs\n"
+	"  RNomFitxer Carrega el fitxer de configuracio d'agents externs\n"
+	"  CNomFitxer Exporta un organisme al fitxer especificat\n"
+	"  cNomFitxer Importa un organisme des del fitxer especificat\n"
+	"  XNomFitxer Exporta el biosistema al fitxer especificat\n"
+	"  xNomFitxer Importa el biosistema des del fitxer especificat\n"
+	"  e          Discrimina el taxo dels organismes mutants\n"
+	"  E          No discrimina el taxo dels organismes mutants\n"
+	"  P          Congela el biosistema (amb Shift ho descongela)\n"
 	"\n  Premi return per a continuar amb el programa\n"
 	"\n  Copirait KKEPerians UNLTD\n";
+
+inline static uint32 agafaEdatOrganisme (CInfoOrganisme & info) {
+	return info.cos()->edat();
+	}
+inline static uint32 agafaEnergiaOrganisme (CInfoOrganisme & info) {
+	return info.cos()->energia();
+	}
+inline static uint32 agafaCarregaOrganisme (CInfoOrganisme & info) {
+	return info.cos()->carrega();
+	}
+inline static uint32 agafaCensTaxo (CInfoTaxo & info) {
+	return info.cens;
+	}
+inline static uint32 agafaTotalTaxo (CInfoTaxo & info) {
+	return info.morts+info.cens;
+	}
 
 void CBiosistema::ProvaClasse()
 {
@@ -200,13 +224,39 @@ void CBiosistema::ProvaClasse()
 	uint32 pasVisualitzacio=0;
 	uint32 pas=pasVisualitzacio;
 
-	enum {Blanc, Mapa, MapaOrganismes, Organismes} mode = MapaOrganismes;
+	enum {Blanc, Mapa, MapaOrganismes, Organismes, Taxons, MapaTaxons} mode 
+		= MapaOrganismes;
 	bool modeCanviat=true;
-	CComparativaOrganismes graf1(biosistema.comunitat());
-	CComparativaOrganismes graf2(biosistema.comunitat());
-	CComparativaOrganismes graf3(biosistema.comunitat());
-	CComparativaOrganismes graf4(biosistema.comunitat());
-	CComparativaOrganismes graf5(biosistema.comunitat());
+	CComparativaOrganismes grafO[5];
+	CDominiGraficaComparativa<CInfoOrganisme> 
+		dominiEnergia, dominiEdat, dominiCarrega;
+	dominiEdat.funcio(agafaEdatOrganisme);
+	dominiEdat.representacio('-','?');
+	dominiEnergia.funcio(agafaEdatOrganisme);
+	dominiEnergia.representacio('*','!');
+	dominiEnergia.logaritmic(true);
+	dominiCarrega.funcio(agafaCarregaOrganisme);
+	dominiCarrega.representacio('+','^');
+	dominiCarrega.logaritmic(false);
+	for (int i=5; i--;) {
+		grafO[i].comunitat(biosistema.comunitat());
+		grafO[i].afegeixDomini(dominiEdat);
+		grafO[i].afegeixDomini(dominiEnergia);
+//		grafO[i].afegeixDomini(dominiCarrega);
+		}
+
+	CComparativaTaxons grafT[5];
+	CDominiGraficaComparativa<CInfoTaxo> dominiCens, dominiTotal;
+	dominiCens.funcio(agafaCensTaxo);
+	dominiCens.representacio('-','?');
+	dominiTotal.funcio(agafaTotalTaxo);
+	dominiTotal.representacio('+','?');
+	for (int i=5; i--;) {
+		grafT[i].taxonomista(biosistema.taxonomista());
+		grafT[i].afegeixDomini(dominiCens);
+		grafT[i].afegeixDomini(dominiTotal);
+		}
+	
 	CMapa mapa1(&biosistema);
 
 	mapa1.primeraPosicio(0);
@@ -229,28 +279,51 @@ void CBiosistema::ProvaClasse()
 				break;
 			case MapaOrganismes:
 				mapa1.tamany(1,2,40,40);
-				graf1.tamany(41,1,40,8);
-				graf1.primerOrganisme(0);
-				graf2.tamany(41,11,40,8);
-				graf2.primerOrganisme(40);
-				graf3.tamany(41,21,40,8);
-				graf3.primerOrganisme(80);
-				graf4.tamany(41,31,40,8);
-				graf4.primerOrganisme(120);
-				graf5.tamany(41,41,40,8);
-				graf5.primerOrganisme(160);
+				grafO[0].tamany(41,1,40,8);
+				grafO[0].inici(0);
+				grafO[1].tamany(41,11,40,8);
+				grafO[1].inici(40);
+				grafO[2].tamany(41,21,40,8);
+				grafO[2].inici(80);
+				grafO[3].tamany(41,31,40,8);
+				grafO[3].inici(120);
+				grafO[4].tamany(41,41,40,8);
+				grafO[4].inici(160);
+			case MapaTaxons:
+				mapa1.tamany(1,2,40,40);
+				grafT[0].tamany(41,1,40,8);
+				grafT[0].inici(0);
+				grafT[1].tamany(41,11,40,8);
+				grafT[1].inici(40);
+				grafT[2].tamany(41,21,40,8);
+				grafT[2].inici(80);
+				grafT[3].tamany(41,31,40,8);
+				grafT[3].inici(120);
+				grafT[4].tamany(41,41,40,8);
+				grafT[4].inici(160);
 				break;
 			case Organismes:
-				graf1.tamany(1,2,80,8);
-				graf1.primerOrganisme(0);
-				graf2.tamany(1,12,80,8);
-				graf2.primerOrganisme(80);
-				graf3.tamany(1,22,80,8);
-				graf3.primerOrganisme(160);
-				graf4.tamany(1,32,80,8);
-				graf4.primerOrganisme(240);
-				graf5.tamany(1,42,80,7);
-				graf5.primerOrganisme(320);
+				grafO[0].tamany(1,2,80,8);
+				grafO[0].inici(0);
+				grafO[1].tamany(1,12,80,8);
+				grafO[1].inici(80);
+				grafO[2].tamany(1,22,80,8);
+				grafO[2].inici(160);
+				grafO[3].tamany(1,32,80,8);
+				grafO[3].inici(240);
+				grafO[4].tamany(1,42,80,7);
+				grafO[4].inici(320);
+			case Taxons:
+				grafT[0].tamany(1,2,80,8);
+				grafT[0].inici(0);
+				grafT[1].tamany(1,12,80,8);
+				grafT[1].inici(80);
+				grafT[2].tamany(1,22,80,8);
+				grafT[2].inici(160);
+				grafT[3].tamany(1,32,80,8);
+				grafT[3].inici(240);
+				grafT[4].tamany(1,42,80,7);
+				grafT[4].inici(320);
 			}
 			modeCanviat=false;
 			redisplayWanted=true;
@@ -268,33 +341,36 @@ void CBiosistema::ProvaClasse()
 		// Visualitzem
 		if (redisplayWanted) {
 			redisplayWanted=false;
-			if (mode==Mapa||mode==MapaOrganismes)
+			if (mode==Mapa||mode==MapaOrganismes||mode==MapaTaxons)
 				mapa1.visualitza(out);
 			if (mode==MapaOrganismes||mode==Organismes) {
-				graf1.visualitza(out);
-				graf2.visualitza(out);
-				graf3.visualitza(out);
-				graf4.visualitza(out);
-				graf5.visualitza(out);
+				grafO[0].visualitza(out);
+				grafO[1].visualitza(out);
+				grafO[2].visualitza(out);
+				grafO[3].visualitza(out);
+				grafO[4].visualitza(out);
+			}
+			if (mode==MapaTaxons||mode==Taxons) {
+				grafT[0].visualitza(out);
+				grafT[1].visualitza(out);
+				grafT[2].visualitza(out);
+				grafT[3].visualitza(out);
+				grafT[4].visualitza(out);
 			}
 			uint32 pos = mapa1.primeraPosicio();
 			out << setfill('0');
-			switch (mode)
-			{
-			case Blanc:
-			case Mapa:
-				out << gotoxy(42,1) 
-					<< "Coords: " << setw(3) << pos%Config.get("Biotop/CasellesAmplitud") 
-					<< '@' << setw(3) << pos/Config.get("Biotop/CasellesAmplitud") 
-					;
-				break;
-			case MapaOrganismes:
+			if (mode==MapaOrganismes||mode==MapaTaxons) {
 				out << gotoxy(1,42) 
 					<< "Coords: " << setw(3) << pos%Config.get("Biotop/CasellesAmplitud") 
 					<< '@' << setw(3) << pos/Config.get("Biotop/CasellesAmplitud") 
 					;
-				break;
-			}
+				}
+			else {
+				out << gotoxy(42,1) 
+					<< "Coords: " << setw(3) << pos%Config.get("Biotop/CasellesAmplitud") 
+					<< '@' << setw(3) << pos/Config.get("Biotop/CasellesAmplitud") 
+					;
+				}
 			out << gotoxy(1, 1) << "Poblacio: " << setw(6) << biosistema.comunitat()->tamany();
 			out << gotoxy(26,1) << "Temps: " << setw(8) << biosistema.m_temps;
 			out << setfill(' ') << endl;
@@ -322,12 +398,14 @@ void CBiosistema::ProvaClasse()
 				case 'M': 
 					modeCanviat = true;
 					if (mode==MapaOrganismes) mode=Organismes;
+					else if (mode==MapaTaxons) mode=Taxons;
 					else if (mode==Mapa) mode=Blanc;
 					else modeCanviat = false;
 					break;
 				case 'm': 
 					modeCanviat = true;
 					if (mode==Organismes) mode=MapaOrganismes;
+					else if (mode==Taxons) mode=MapaTaxons;
 					else if (mode==Blanc) mode=Mapa;
 					else modeCanviat = false;
 					break;
@@ -341,6 +419,22 @@ void CBiosistema::ProvaClasse()
 					modeCanviat = true;
 					if (mode==Mapa) mode=MapaOrganismes;
 					else if (mode==Blanc) mode=Organismes;
+					else if (mode==Taxons) mode=Organismes;
+					else if (mode==MapaTaxons) mode=MapaOrganismes;
+					else modeCanviat = false;
+					break;
+				case 'T': 
+					modeCanviat = true;
+					if (mode==MapaTaxons) mode=Mapa;
+					else if (mode==Taxons) mode=Blanc;
+					else modeCanviat = false;
+					break;
+				case 't': 
+					modeCanviat = true;
+					if (mode==Mapa) mode=MapaTaxons;
+					else if (mode==Blanc) mode=Taxons;
+					else if (mode==Organismes) mode=Taxons;
+					else if (mode==MapaOrganismes) mode=MapaTaxons;
 					else modeCanviat = false;
 					break;
 				case 'Q': 

@@ -2,39 +2,56 @@
 %
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Instalació i execució de l'eina}
+\chapter{Instalació de l'eina}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Contingut de l'arxiu comprimit}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% TODO: Comentar millor el contingut del zip
+{\tt Bioscena} es distribueix en una arxiu comprimit. Cal 
+descomprimir-ho mantenint la estructura de directoris que conté.
+Hi ha diversos directoris:
+\begin{description}
+\item[\tt Bin/] Conté l'executable per a MS-DOS generat amb DJGPP i 
+els arxius de configuració.
+També hi ha alguns arxius de configuració alternatius d'exemple.
+\item[\tt Docs/] Conté alguna documentació útil pel manteniment com
+ara l'arxiu {\tt TODO.txt}.
+\item[\tt Src/] Conté el codi font i els arxius necessaris per
+compilar en diferents entorns.
+\item[\tt Manual/] Conté aquest manual i els arxius necessaris per
+generar-ho.
+\item[\tt Utils/] Conté aplicacions complementàries.
+\end{description}
 
-A l'arxiu comprimit s'inclouen els fonts, la documentació, l'executable
-per a MS-DOS i els fitxers de configuració.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Preparant l'execució}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Per a l'execució del programa, només són necessaris l'executable i
-els tres arixius de configuració {\tt bioscena.ini}, {\tt agents.ini}
+els tres arxius de configuració {\tt bioscena.ini}, {\tt agents.ini}
 i {\tt opcodes.ini}.
-Han d'estar tots quatre al mateix directori en el moment de l'execució.
+Els arxius de configuració han d'estar en el directori de treball
+de l'executable.
 
 És possible que no estigui disponible l'executable per la plataforma
 escollida. Es pot generar tot seguint les instruccions de compilació
-de l'apartat \label{sec:Compilacio}.
+de l'apartat \ref{sec:Compilacio}.
 
-{\bf L'executable necessita una consola de text de 80x50 i seqüències de 
-terminal ANSI.} Els següents apartats expliquen com fer-ho a diferents
-sistemes.
+{\bf L'executable necessita una consola de text de 80x50 que interpreti
+correctament seqüències de terminal ANSI.}
 
-Si, al sistema destí, no és possible treballar amb un terminal 80x50
-es poden canviar fàcilment el codi font les coordenades dels objectes
-gràfics.
+Els següents apartats expliquen com fer-ho a diferents sistemes.
+Si, a la plataforma destí, no és possible treballar amb un terminal 
+80x50, encara seria possible canviar les coordenades dels objectes 
+gràfics a l'arxiu font {\tt BiosistemaProves.cpp}.
 
 % TODO: Aixo fins que posi quelcom per configurar-ho
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Terminal ANSI de 50 linies sota Windows 95}
+\subsection{Terminal ANSI de 50 linies sota Windows 95}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Per suportar les seqüències de control ANSI, cal haver iniciat l'ordinador
@@ -54,7 +71,7 @@ Si és un executable Win32 per a consola (compilat amb Microsoft Visual C++),
 automaticament es posa a 80x50.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Terminal ANSI de 50 linies sota Windows-NT}
+\subsection{Terminal ANSI de 50 linies sota Windows-NT}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Per fer servir les seqüències ANSI amb l'executable MS-DOS, cal 
@@ -92,7 +109,7 @@ Windows NT.
 % TODO: Insertar grafic configurant 80X50 WindowsNT
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Terminal ANSI de 50 linies sota Linux}
+\subsection{Terminal ANSI de 50 linies sota Linux}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 A linux ja hi ha ANSI per defecte tant a terminals en mode text com a X-terms.

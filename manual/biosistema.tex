@@ -3,9 +3,10 @@
 %
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Coordinació del biosistema}
+\chapter{Coordinació del biosistema}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\index{biosistema}
 L'objecte {\tt CBiosistema} conté i coordina tots els elements que 
 formen part del nucli del simulador.
 
@@ -14,7 +15,7 @@ executar de forma iterativa. A continuació es detallen les accions
 que el biosistema pot fer durant una iteració.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Manteniment de la població mínima i la variabilitat genètica}
+\section{Manteniment de la població mínima i la variabilitat genètica}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 El biosistema té la capacitat de generar organismes aleatoris i 
@@ -34,7 +35,7 @@ exemple, si la posició del biòtop escollida és ocupada, com passaria
 segur si no hi hagués cap posició del biosistema lliure.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Control del quàntum i canvi de context}
+\section{Control del quàntum i canvi de context}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Com que es vol simular un sistema paral·lel en una màquina seqüencial
@@ -42,6 +43,8 @@ haurem d'implementar tècniques de temps compartit.
 El quàntum és el nombre d'instruccions d'un organisme que s'executen
 seguides abans de canviar a un altre organisme.
 
+\index{temps compartit}
+\index{quàntum}
 Sovint les tècniques de temps compartit introdueixen artificis en els 
 sistemes de simulació i, en concret, de vida artificial. Amb l'objectiu 
 de dispersar el seu efecte hem introduït les següents tècniques:
@@ -66,9 +69,11 @@ també va bé fer el quàntum un xic gran per veure més instruccions
 juntes d'un mateix organisme i entendre millor el seu sentit.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Defuncions}
+\section{Defuncions}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\index{energia!defunció}
+\index{defunció}
 Si l'organisme actual no té energia, s'executa el procediment de
 defunció. Aquest fa tres accions:
 
@@ -83,7 +88,7 @@ amb la funció de canvi de context i tornar a comprovar si aquest nou
 organisme també està sense energia.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Expedició d'instruccions}
+\section{Expedició d'instruccions}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Un cop tenim un organisme amb suficient quantum i prou energia per 
@@ -92,7 +97,7 @@ continuar, se li demana una instrucció i s'executa. L'apartat
 instruccions.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Temps simulat}
+\section{Temps simulat}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 De cara a mesurar el temps transcorregut en el sistema, la idea més
@@ -153,12 +158,13 @@ períodes de fluctuacions en la població donat que la població la
 estem mirant, només en un instant.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Accionament dels agents externs}
+\section{Accionament dels agents ambientals}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-El biosistema acciona l'arbre d'agents externs que actuen sobre ell
+\index{agents ambientals!accionament}
+El biosistema acciona l'arbre d'agents ambientals que actuen sobre ell
 cada unitat de temps simulat. D'aquesta forma els organismes i els
-agents externs parlen una mateixa llengua en qüestió de temps.
+agents ambientals parlen una mateixa llengua en qüestió de temps.
 
 Com a mitja es dóna que, per cada vegada que s'accionen els agents, 
 cada organisme ha executat una instrucció. 

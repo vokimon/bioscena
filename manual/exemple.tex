@@ -1,113 +1,22 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Proves i resultats}
+\chapter{Exemple d'execució: Biosistema amb múltiples climes}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Proves preliminars}
+\section{Condicions de la simulació}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Durant la progressiva construcció del sistema, s'han avaluat les
-aportacions que anava fent cada nou element que s'hi afegia.
-A continuació, s'explica els fets més significatius que es varen
-observar en cadascuna de les etapes.
+Els fitxers de configuració que venen amb l'executable modelitzen
+una simulació d'exemple.
 
-Cal notar que en aquestes etapes el guany energètic es fa per simple 
-ingestió, doncs no estaven implementades encara les reaccions
-metabòliques i les instruccions {\tt anabol} i {\tt catabol}.
+És un biosistema de 160x80 on s'han diferenciat algunes regions amb 
+l'objectiu que els diferents organismes s'especialitzin, a la regiò 
+on viuen. Es vol demostrar que cada grup d'organismes, potser i tot 
+d'origens genètics comuns, es pot especialitzar per viure en cada zona.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Exemple 1: Comportament aleatori}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-En aquest punt, el sistema de control dels organismes expedia, 
-simplement, instruccions aleatòries. Els paràmetres, en comptes 
-d'agafar-los del fenotip, també eren generats aleatòriament.
-Es va fer la prova de cara a comprovar la consistència del sistema, 
-independentment del sistema de control. Funcionaven només les
-quatre instruccions: {\tt ingestio}, {\tt moviment}, {\tt agressio} i 
-{\tt mitosi}. També es varen relaxar les condicions de compatibilitat 
-limitant les claus a 3 bits.
-
-Per aquest primer sistema, es va preparar un biòtop de 30x30 on uns
-agents externs deixaven caure nutrients en densitat molt baixa 
-aleatoriament per tot el món. Altres agents externs en dipositaven 
-massivament dins d'una zona de radi 8.
-
-Tot i que no hi havia cap tipus d'herència ni comportament definit,
-es sabia que l'única cosa que s'heretaven els fills era la proximitat
-geogràfica al seu progenitor. Així, s'esperava que, com els organismes
-que sobreviurien serien els que estaven a la taca de nutrients al final
-hi hagués un cúmul d'organismes concentrats.
-
-Per sorpresa, no va ser exactament així, sino que es varen disposar
-fent un anell al voltant de la taca i un parell o tres es disposaven
-just en mig.
-
-Un exàmen més detallat de la situació va donar l'explicació: Els 
-organismes que es posaven entre el centre i la vora de la taca eren 
-atacats aleatòriament pels altres, i només a les voreres, tenien menys
-probabilitat de ser atacats. I els del centre, simplement, quedaven 
-fora de l'abast dels que estaven a les vores.
-
-Per corraborar aquesta hipòtesi es va procedir a fer la taca més gran
-i es va poder comprovar com s'acabaven formant anells i espirals 
-irregulars més o menys equidistants entorn al centre.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Exemple 2: Comportament amb herència}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-Es va procedir seguidament a activar el mecanisme d'herència
-tot i que sense mutació. Donat que no hi havia mutació, la 
-variabilitat genètica del sistema es basaba en els organismes generats 
-expontàniament. 
-
-El que es va observar es un relleu continu de les espècies: un cop 
-els descendents d'un primigeni (organisme generat de forma expontània) 
-dominaven amb la seva presència, apareixia un nou grup més optimitzat
-i acabava substituint a l'altre. Com que cada vegada els organismes 
-eren menys dolents els intervals de temps entre relleus es dilatava 
-com més avançava la simulació.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Exemple 3: Comportament amb mutació}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-El canvi més important que es va produir en afegir la mutació va ser
-que els relleus no es produien ja tant entre organismes de diferents
-espècies sinó que es produien entre mutacions de la mateixa espècie.
-
-La rapidesa amb la que milloren els organismes amb la mutació no 
-deixa espai a la generació expontània, de tal forma que el primer
-organisme que té exit és el que es queda i evoluciona.
-
-Els organismes només podien modificar el contingut dels registres 
-amb operacions de fenotip i, inicialment, el fenotip s'inicialitza 
-amb valors que, llegits com a direccions, no indiquen cap moviment.
-
-Llavors les tres úniques formes de menjar, moure's, atacar o excretar
-a una posició que no fós la pròpia era fent una negació, una càrrega
-o un Random a un registre de fenotip.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Resultats obtinguts amb el sistema final}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Biosistema amb múltiples climes}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-El següent exemple mostra un biosistema de 160x80 on s'han diferenciat
-algunes regions amb l'objectiu que els diferents organismes 
-s'especialitzin, a la regiò on viuen. Es vol demostrar que cada grup
-d'organismes, potser i tot d'origens genètics comuns, es pot 
-especialitzar per viure en cada zona.
-
-Així doncs s'han diferenciat, mitjançant els agents externs quatre
+Així doncs s'han diferenciat, mitjançant els agents ambientals quatre
 zones amb {\em climes diferents}:
 \begin{enumerate}
 \item [A] 
@@ -123,6 +32,63 @@ dipositava nutrients de tipus C.
 Per la resta del biòtop es deixen petits grupùscles molt densos
 de forma aleatòria.
 \end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Primigenis}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+El primer que cal dir és ha de passar cert temps de simulació
+perqué l'atzar faci aparèixer un organisme vàlid que es sapiga
+reproduir. Fins llavors els organismes, apareixen aleatòriament
+i desapareixen quan se'ls acaba l'energia.
+
+La millor forma veure quan apareix un organisme vàlid és anar
+mirant el gràfic de grups reproductius. Al començament podem
+trobar quatre tipus d'organismes:
+\begin{enumerate}
+\item Organismes inestables que no trascendeixen.
+\item Organismes inmortals que sobreviuen però no es reprodueixen
+\item Organismes que es reprodueixen amb una tasa de creixement
+al voltant de 1.
+\item Organismes que es reprodueixen amb una tasa de creixement major
+que un.
+\end{enumerate}
+
+\index{organismes!inmortals}
+Els organismes inmortal sobreviuran, però, segurament no sobreviuran
+quan es desenvolupin organismes del quart tipus.
+
+Els organismes amb tasa de creixement al voltant de 1, són organismes
+que poc després de reproduir-se es moren o que el seus descendents
+no sobreviuen. Aquest tipus d'organisme té l'esperança de que un fill
+seu muti i esdevingui un organisme primigeni, però amb tota probabilitat
+aquesta mutació acabarà sent negativa.
+
+Un cop apareix un grup reproductiu tal com el quart cas, aquest
+primer grup acaba sent el dominador del biosistema amb més o menys
+velocitat, donat que la probabilitat de generar al atzar un individu 
+bó és molt petita, com hem vist, i la competència en aquest punt ja 
+seria massa ofegant.
+
+Així doncs, els principis de supervivència que fan servir els primers 
+organismes que aprenen a reproduir-se eficientment són aquells en els 
+que es basaran la majoria dels organismes que apareixin a partir 
+d'aquell moment.
+
+Si es vol obtenir organismes amb principis de supervivéncia diferents,
+un mètode que s'aconsella és fer diverses simulacions i exportar
+els organismes que aprenen a reproduir-se en cadascuna.
+Si els importem a un altre biosistema, tenen més probabilitat de conviure.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Especialització}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Degut al caracter no determinista de les simulacions, els resultats
+poden diferir molt, tot i així, el que es fa a continuació és resumir 
+alguns aspectes observats a les simulacions basades en aquesta
+configuració que es donen de forma majoritària o que resulten interesants.
 
 Entre la zona C i D al llarg del temps no hi ha masses diferències
 tret una diferència en la densitat dels organismes. Diguem que el
@@ -158,7 +124,7 @@ des de C i D.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Pressió selectiva depenent de la densitat}
+\section{Pressió selectiva depenent de la densitat}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Les primeres experiències amb el prototip van servir, per clarificar 
@@ -174,9 +140,10 @@ a pujar, els mateixos organismes, en la competència pels recursos
 limitats es creaven la pressió evolutiva.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Distribució d'edats i organismes inmortals}
+\section{Distribució d'edats i organismes inmortals}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\index{organismes!inmortals}
 Un altre tema relacionat és el de la distribució de les edats i
 el problema dels organismes inmortals apuntat per Todd en \cite{ADeath}.
 El problema es basa en el fet de que, si no limitem artificialment

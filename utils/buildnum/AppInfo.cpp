@@ -37,7 +37,8 @@ ostream &operator<<(ostream& stream, CAppInfo &info)
 }
 
 /////////////////////////////////////////////////////////////////////
-// 
+// Inicialitzem l'informacio de la nostra aplicacio 
+// (Modifiqueu-la com convingui)
 /////////////////////////////////////////////////////////////////////
-CAppInfo CAppInfo::MyAppInfo("Bioscena",1,3,"Vokimon","KKEPerians UNLTD",BuildNumber,BuildDate);
+CAppInfo CAppInfo::MyAppInfo("Bioscena",1,1,"Vokimon","KKEPerians UNLTD",BuildNumber,BuildDate);
 

@@ -22,7 +22,9 @@ Es descriu el model genèric, les particularitzacions bàsiques
 implementades i els passos a seguir si es volgués implementar 
 particularitzacions pròpies.
 
-Malgrat que el model és general, està restringit a biòtops
+\index{biòtop}
+\index{biòtop!discretització}
+Malgrat que el model és general, està restringit a biòtops (medis) 
 que contènen posicions discretes. Això implica dues coses:
 \begin{itemize}
 \item   Les posicions dins del biòtop estan quantitzades.
@@ -60,6 +62,7 @@ de biòtops.
 \section{Topologies}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\index{topologia}
 La topologia determina les relacions de veinatge entre les cel·les.
 Si les posicions del biòtop fòssin nodes d'un graf, la topologia
 representaria els vertexs que els uneixen.
@@ -118,7 +121,7 @@ El conjunt de serveis que una topologia ofereix als seus clients són:
 	Possibilita el moviment aleatori en l'entorn.
 \item   Determinar si un identificador de posició és vàlid dintre de 
 	la topologia.
-	Facilita la depuració (debugging) i implementart el posicionament aleatori de forma general però, poc òptima.
+	Facilita la depuració (debugging) i implementar el posicionament aleatori de forma general però, poc òptima.
 \end{itemize}
 
 
@@ -126,6 +129,7 @@ El conjunt de serveis que una topologia ofereix als seus clients són:
 \section{La topologia toroidal}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\index{topologia!toroidal}
 La topologia bàsica que ja és implementada al prototip és una 
 topologia 2D toroidal.
 
@@ -159,6 +163,7 @@ posicions existent.
 \subsection{Desplaçaments}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\index{desplaçament}
 Cada posició té 8 cel·les veines directes. Un desplaçament a
 qualsevol d'aquestes 8 cel·les es pot codificar amb 3 bits com indica
 la figura \ref{tab:veinesDirectes}
@@ -178,6 +183,7 @@ la figura \ref{tab:veinesDirectes}
     \label{tab:veinesDirectes}
 \end{table}
 
+\index{desplaçament!vectors de}
 La concatenació de N desplaçaments bàsics aleatoris tendeix a
 formar una distribució normal entorn al centre.
 Com els vectors de desplaçament tenen 32 bits podriem codificar fins
@@ -214,6 +220,7 @@ en dòna el desplaçament invers.
 \subsection{Posicions}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\index{posició!identificadors}
 L'altre funció important de la topologia és assignar a cada posició un
 identificador únic dins de la topologia. La resta del sistema farà
 servir aquest identificador per referenciar una posició i, en cas
@@ -236,6 +243,7 @@ de límits.
 \label{sec:substratImplementat}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\index{substrat}
 Un substrat particularitza les propietats del medi per a una posició.
 El substrat pot tenir propietats diferents segons la complexitat que
 desitjem per al medi. No hi ha cap restricció pel disseny dels 
@@ -283,155 +291,6 @@ encara que no es correspongui aquest bit no es tindrà en compte.
 %%}
 La cerca es fa des dels més nous fins els més vells.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Implementació. Biòtops}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-En aquest apartat i en els següents del capítol s'explica com està 
-implementat el medi i com s'hi poden fer modificacions mitjançant programació.
-Aquests apartats no són d'interes als usuaris que no vulguin modificar
-el programa.
-
-Per implementar el medi, tenim tres elements: La topologia, el substrat
-i el biòtop que és l'associació d'una topologia i un tipus de substrat.
-
-Per definir el tipus de substrat cal una classe les instàncies de la 
-qual representin el substrat de cada posició individual, és a dir, 
-una cassella.
-
-Totes les topologies deriven de la classe {\tt CTopologia}, que 
-defineix el protocol de mètodes virtuals als que una topologia ha
-de respondre per definir la seva geometria.
-
-Per poder escollir diferents substrats i topologies sense gaire
-esforç de programació s'ha creat una classe patrò ({\em template}) 
-anomenada {\tt CBiotop}.
-
-Un biòtop és una especialització d'una topologia. 
-Aquesta especialització es basa en dos fets: 
-\begin{itemize}
-\item
-Per un costat, un biòtop conté un vector de substrats discrets, 
-als quals es pot accedir amb un identificador de posició.
-El tipus del substrat és el paràmetre del patrò.
-\item
-El comportament que té un biòtop com a topologia, és a dir, de cara
-a establir la geometria del medi, es pot determinar en temps d'execució
-tot fent que les crides pròpies de topologia es redireccionin cap a
-un objecte topologia indicat.
-\end{itemize}
-
-En resum, es pot determinar en temps de compilació el tipus de substrat
-amb el paràmetre del template i, la topologia, en temps d'execució, tot 
-assignant-li una topologia o una altra a la que redireccionar les crides.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Programació de nous substrats}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-Podem dissenyar un substrat sense preocupar-nos de cap altre element 
-del biòtop.
-Hi ha, però, dependències entre el disseny del substrat i la 
-resta del sistema. Estan localitzades en:
-\begin{itemize}
-\item Execucions de les instruccions dels organismes (Biosistema)
-\item Interaccions amb els agents externs
-\item Interaccions amb el sistema de monitorització i logs.
-\end{itemize}
-
-% TODO: Referències als capítols corresponents.
-
-Es recomana implementar els procediments {\tt load} i {\tt store}
-per pasivitzar i recuperar l'estat de la cel·la a un medi serie.
-
-El substrat implementat a l'eina i descrit en l'apartat \ref{sec:substratImplementat} és la classe {\tt CSubstrat}.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Programació de noves topologies}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-Si l'usuari necessités crear un nou tipus de topologia, cal que la
-faci heretar de CTopologia i redefineixi els mètodes del protocol
-d'accés que CTopologia estableix.
-
-El protocol està pensat per aconseguir que la resta de sistema només 
-hagui de manegar identificadors de posicions i identificadors de
-desplaçaments. El significat geomètric d'aquests identificadors
-queda ocult darrera de l'implementacio del protocol.
-
-Quan es deriva de CTopologia, el principal que caldria redefinir,
-si cal, és:
-\begin{itemize}
-\item   Un {\bf constructor} amb els paràmetres significatius per 
-    a la topologia. Per exemple, en una topologia rectangular és 
-    significatiu indicar l'altura i l'amplada.
-	Cal acutalitzar la variable interna que guarda el nombre de posicions.
-\item   {\tt t\_posicio CTopologia::desplacament (t\_posicio origen, t\_desplacament desplacament)}:
-    Una funció per averiguar la posició destí en aplicar-li un vector
-    de desplaçament a una posició origen.
-    CTopologia, la defineix, per defecte, de tal forma que el 
-	resultat és una posició destí aleatòria vàlida.
-\item   {\tt bool CTopologia::esValid(t\_posicio id)}:
-    Una funció per saber si un identificador és vàlid. Només cal
-    redefinir-ho si es modifica la correspondència directa entre
-    identificador de posició i index de casella en l'array de
-    substrats reservada per CTopologia::CTopologia
-\item   {\tt t\_posicio CTopologia::posicioAleatoria ()}:
-    Una funció per obtindre aleatòriament una posició vàlida de la
-    topologia. La funció general que no caldria redefinir seria
-    {\setlinespacing{1}
-    \begin{verbatim}
-        {
-            uint32 pos;
-            do {pos=rnd.get();} while (!esValid(pos));
-            return pos
-        }
-    \end{verbatim}
-    }
-    però, CTopologia no fa servir aquest algorisme donat que
-    optimitza agafant un número aleatori entre 0 i N. Aquesta
-    optimització funciona mentre es mantingui la correspondència
-    entre identificador i index abans comentada.
-    Si la subclasse la trenca, es quan cal redefinir la funció.
-\item   {\tt bool CTopologia::unio (t\_posicio origen, t\_posicio desti, t\_desplacament \& desp)}:
-    Una funció per calcular el primer d'un conjunt de desplacaments
-    que cal fer per anar de l'origen al destí.
-    Retorna cert si el desplacament és suficient per arribar a la posició destí.
-    CTopologia, la defineix de tal forma que el resultat és un desplaçament
-    aleatori i retorna sempre fals (mai hi arriba).
-\end{itemize}
-
-Com a exemple, és molt aconsejable fixar-s'hi en com està feta la 
-classe {\tt CTopologiaToroidal} abans d'implementar una topologia pròpia.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Programació de biòtops dinàmics o heterogènis}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-Per la forma en que està dissenyada la classe {\tt CBiotop}, els 
-biòtops que es poden construir actualment ténen diverses restriccions:
-
-\begin{itemize}
-\item {\bf Controlen un grup estàtic de posicions:} El nombre de posicions
-està limitat en el moment de creació. La topologia pot controlar el nombre
-de posicions disponibles però sempre dintre d'aquest límit establert 
-inicialment.
-\item {\bf El conjunt de substrats és homogeni:} No poden conviure
-substrats de diferents classes. Poden diferir les propietats però han
-de ser de la mateixa classe.
-\item {\bf Es restringeix els identificadors:} Han de estar entre $0$ i 
-$N-1$ sent $N$ el nombre de casselles màxim determinat inicialment.
-\end{itemize}
-
-Aquestes restriccions conseqüències directes del fet de que el 
-conjunt de substrats s'hagi implementat amb un vector estàtic.
-
-Si el biòtop que es vol simular no compleix aquestes característiques
-ni es pot simular el comportament desitjat, llavors caldria modificar
-la classe CBiotop, o crear-ne una classe nova similar.
-
-% TODO: Com
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage

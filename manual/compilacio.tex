@@ -11,17 +11,6 @@ executable. És possible que a la distribució ja vingui un executable
 per a la seva plataforma i no calgui generar-ho.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Generació de números de compilació}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-Per generar números de compilació, cal el programa {\tt buildnum},
-el codi font del qual està disponible a la pagina 
-\url{http://www.salleurl.edu/~is04069/Codders}.
-
-Si no es vol fer servir aquest programa, cal treure les crides que 
-s'hi fan al {\tt makefile} o als fitxers de projecte.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{GCC/DJGPP}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -41,7 +30,8 @@ dels executables al sistema on es compila:
 \item [RM] Comanda per esborrar arxius
 \item [EXEC] Nom del executable generat
 \end{description}
-\item Si cal, comenta les crides a 'buildnum' que es fan als makefiles
+\item Si cal, comenta les crides a {\tt buildnum} que es fan als makefiles
+(veure apartat \ref{sec:buildnum})
 \item Si es vol optimitzar per una maquina en concret, cal afegir '-march=ix86' a la variable CFLAGS del makefile; on x={3,4,5,6}
 \item Executar la comanda 'make'
 \end{enumerate}
@@ -60,11 +50,15 @@ errors i després executar {\tt make dep}.
 \begin{itemize}
 \item Generals:
 \begin{itemize}
+\item Asegurat de que el fitxer {\tt .depend} existeixi, encara que
+sigui buit. Si no crea'l amb: {\tt echo >.depend; make dep}
 \item Si es fa servir una versió del compilador o de les llibreries 
-de C++ inferior a la 2.8, dóna problemes a una línia de la funció
+de C++ inferior a la 2.8, dóna errors a una línia de la funció
 {\tt CCariotip::ocupaCromosomes} del fitxer {\tt Cariotip.cpp}.
-A sota de la mateixa línia hi ha un fragment de codi substitutori
-per a la línia del error, amb indicacions de com arreglar-ho.
+A sota de la mateixa línia hi ha un fragment de codi comentat que
+pot substituir la línia del error, i indicacions de com arreglar-ho.
+\item Per problemes amb relacionats amb el programa de generació
+de números de compilació veure l'apartat \ref{sec:buildnum}.
 \end{itemize}
 \item Sistemes Unix:
 \begin{itemize}
@@ -79,8 +73,14 @@ descomprimeix el comprimit amb la utilitat {\tt unzip}.
 \section{Microsoft Visual C++}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Dins de l'arxiu comprimit hi ha un projecte per Microsoft Visual C++
-anomenat {\tt Bioscena.dsw}.
+Dins del directori {\tt Src/} hi ha els tres arxius del projecte per a
+Microsoft Visual C++: {\tt Bioscena.dsw}, {\tt Bioscena.dsp} i 
+{\tt Bioscena.opt}.
+
+Aquest darrer arxiu no és necessari però, és útil pel manteniment 
+perqué ordena les classes en carpetes al {\em Infoviewer} segons
+la seva funció.
+És imprescindible si es vol treballar amb les més de 70 classes que hi ha.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Problemes amb versions antigues}
@@ -115,5 +115,20 @@ Concretament es fan servir les capçaleres estàndard
 {\tt <list>}, {\tt <vector>}, {\tt <map>}, {\tt <deque>}, {\tt <string>}, 
 {\tt <iostream>}, {\tt <fstream>}, {\tt <iomanip>} i {\tt <strstream>}.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Generació de números de compilació}
+\label{sec:buildnum}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Cada compilació porta associada un número d'ordre i la seva data 
+i hora d'inici.
+
+Per generar números de compilació, cal el programa {\tt buildnum}
+que es troba al directori {\tt Utils} de la distribució.
+El codi font també està disponible a la pàgina web
+\url{http://www.salleurl.edu/~is04069/Codders}.
+
+Si no es vol fer servir aquest programa, cal treure les crides que 
+s'hi fan al {\tt makefile} o als fitxers de projecte.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

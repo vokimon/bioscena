@@ -3,7 +3,7 @@
 %
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Conjunt d'instruccions}
+\chapter{Conjunt d'instruccions}
 \label{sec:cjtInstruccions}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -20,7 +20,7 @@ nibbles de 4 bits que generalment indexen un dels 16 registres de
 on s'escriu el valor.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Instruccions fenotípiques}
+\section{Instruccions fenotípiques}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 El següent grup d'instruccions, són instruccions en les que només 
@@ -40,7 +40,7 @@ del biosistema. Són operacions que comencen i acaben al fenotip.
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Instruccions sensorials}
+\section{Instruccions sensorials}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Són les instruccions que modifiquen el fenotip segons algun element
@@ -72,7 +72,7 @@ nutrient dins del pap que és compatible amb el patró i la tolerància
 donades, si n'hi ha cap, i, a un altre, l'energia total actual.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Instruccions motores}
+\section{Instruccions motores}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Les instruccions motores són les que modifiquen altres coses que no
@@ -99,7 +99,7 @@ motores i sensores, de forma que es permet associar guanys i costos
 extres d'energia a cada instrucció.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Ingestió}
+\subsection{Ingestió}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Per introduir un nutrient lliure al medi dins del cos d'un organisme,
@@ -113,7 +113,7 @@ més senzills (sense metabolisme), és possible associar un guany
 energètic a la ingestió.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Excreció}
+\subsection{Excreció}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 L'excreció mou un nutrient (especificat per un patró i una tolerància)
@@ -140,7 +140,7 @@ o amb un cost adicional.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Agressió i defensa}
+\subsection{Agressió i defensa}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Un organisme, de banda d'obtindre nutrients del medi, tambè els pot 
@@ -163,7 +163,7 @@ nutrients extrets a un altre organisme. De la mateixa forma també
 es pot associar un cost energètic proporcional per a la victima.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Moviment}
+\subsection{Moviment}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 La instrucció per moure's és ben simple, només cal indicar una
@@ -171,7 +171,7 @@ posició destí. Es pot realitzar si la posició està lliure. Té
 associada un cost configurable.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Mitosi}
+\subsection{Mitosi}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 La instrucció {\tt Mitosi} crea un fill de l'organisme a una posició
@@ -226,7 +226,7 @@ que un de curt. Això possibilita permetre els llargs sempre que
 serveixin per codificar millors solucions.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Anabolisme}
+\subsection{Anabolisme}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 L'anabolisme que implementa aquest prototip extreu dos nutrients
@@ -244,7 +244,7 @@ A la fórmula, {\tt PAnabol} representa un factor configurable.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Catabolisme}
+\subsection{Catabolisme}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 El catabolisme que implementa aquest prototip extreu un nutrient

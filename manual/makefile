@@ -2,29 +2,35 @@
 # all ps pdf html
 RM=rm
 PAGER=less
-MAINBASE:=bioscena
-MAINTEX:=$(MAINBASE).tex
-POSTSCRIPT=$(MAINBASE).ps
-DVI:=$(MAINBASE).dvi
-PDF:=$(MAINBASE).pdf
-HTML:=$(MAINBASE).html
-AUX:=$(MAINBASE).aux
-IDX:=$(MAINBASE).idx
-TOC:=$(MAINBASE).toc
-IND:=$(MAINBASE).ind
-BBL:=$(MAINTEX:.tex=.bbl)
+MAIN:=bioscena
+MAINTEX:=$(MAIN).tex
+PS=$(MAIN).ps
+DVI:=$(MAIN).dvi
+PDF:=$(MAIN).pdf
+HTML:=$(MAIN).html
+AUX:=$(MAIN).aux
+IDX:=$(MAIN).idx
+TOC:=$(MAIN).toc
+IND:=$(MAIN).ind
+BBL:=$(MAIN).bbl
 TEXSOURCES:= $(wildcard *.tex)
 BIBSOURCES:= $(wildcard *.bib)
 JPGSOURCES:= $(wildcard *.jpg)
 GIFSOURCES:= $(wildcard *.gif)
+PNGSOURCES:= $(wildcard *.png)
 BOUNDINGBOXES:= $(JPGSOURCES:.jpg=.bb)
 INTERMEDIATES:= $(AUX) $(IDX)  $(IND) $(BBL) $(TOC)
-LOGS:=$(wildcard *.out) $(wildcard *.log) $(wildcard *.blg) $(wildcard *.ilg) head.tmp body.tmp
+LOGS:=$(wildcard *.out) $(wildcard *.log) $(wildcard *.blg) $(wildcard *.ilg)
 FINALS:= $(DVI) $(PDF) $(HTML) $(PS)
 #TEXOPTS:=--src-specials --c-style-errors
 TEXOPTS:=
 
-default: copirrait $(AUX) $(BBL) $(IDX) ${POSTSCRIPT} 
+default: copirrait
+	pdflatex $(TEXOPTS) $(MAIN)
+	bibtex $(MAIN)
+	makeindex $(MAIN)
+	pdflatex $(TEXOPTS) $(MAIN)
+
 ps: copirrait ${POSTSCRIPT}
 pre: copirrait $(AUX) $(BBL) $(IDX)
 all: copirrait ${POSTSCRIPT} ${PDF}  $(HTML)
@@ -51,6 +57,11 @@ copirrait:
 	@echo --- KKEPerians UNLTD LaTeX makefile file --------------
 	buildnum
 
+$(PDF): $(TEXSOURCES)
+	@echo
+	@echo --- Generant Sortida PDF $@ ---------------------------
+	pdflatex $(TEXOPTS) $(MAINTEX)
+
 $(BOUNDINGBOXES): $(JPGSOURCES) 
 	@echo
 	@echo --- Bounding box $(JPGSOURCE) -------------------------
@@ -72,7 +83,7 @@ $(IND): $(IDX)
 	makeindex $< -o $@ 
 
 $(BBL): $(BIBSOURCES) $(AUX)
-	bibtex $(MAINBASE)
+	bibtex $(MAIN)
 
 $(DVI): $(TEXSOURCES)
 	@echo
@@ -83,11 +94,6 @@ ${POSTSCRIPT}: $(DVI)
 	@echo
 	@echo --- Generant Sortida Postscript $@ --------------------
 	dvips $(DVI) -z -o $(POSTSCRIPT)
-
-$(PDF): $(TEXSOURCES)
-	@echo
-	@echo --- Generant Sortida PDF $@ ---------------------------
-	pdflatex $(TEXOPTS) $(MAINTEX)
 
 $(HTML): $(TEXSOURCES)
 	@echo

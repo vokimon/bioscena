@@ -9,6 +9,7 @@
 \section{Visió externa dels organismes}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\index{organisme!visió externa}
 Un organisme ofereix a la resta del sistema un conjunt de funcions.
 
 \begin{itemize}
@@ -33,6 +34,14 @@ De forma aleatòria o a partir de la forma d'altres ja existents.
 \section{Components bàsics}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\index{organisme!components}
+\index{cariotip}
+\index{fenotip}
+\index{genotip}
+\index{sistema de control}
+\index{sistema metabòlic}
+\index{pap|see{sistema de metabòlic}}
+\index{sistema de memòria|see{fenotip}}
 Els organismes es composen de quatre parts principals:
 \begin{itemize}
 \item {\em Sistema d'herència (cariotip):} Conté la informació genètica que es passa de pares a fills.
@@ -85,7 +94,7 @@ adaptant les rutines de traducció del control.
 \subsection{Concepte genèric}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-S'anomenat {\em fenotip}\index{fenotip!segons aquest projecte} 
+S'anomenat {\em fenotip}\index{fenotip} 
 en aquest sistema a un conjunt de 16 registres de 32 bits que té 
 cada organisme. És el mecanisme d'intercanvi d'informació entre el 
 sistema de control i el biosistema.
@@ -123,7 +132,7 @@ mol·lècules excretades.
 En nèixer un nou organisme, el fenotip s'inicialitza a valors que
 traduïts a desplaçaments siguin desplaçaments nuls.
 El pare té el dret excepcional d'inicialitzar un dels registres a 
-un valor donat quan el fill neix. Com es comentarà a l'apartat \ref{TODO}.
+un valor donat quan el fill neix.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -151,7 +160,7 @@ es donen a la natura.
 \subsection{Regulació de l'expressió gènica}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\index{regulació!de la expressió gènica (biològia)}
+\index{regulació!biològica de la expressió gènica}
 \index{expressió gènica!concepte biològic}
 A la natura, perque un gen s'expressi necessita que l'enzima que
 transcriu l'ADN tingui afinitat amb la part previa al gen en el 
@@ -171,8 +180,8 @@ El sistema de control implementat emula aquests mecanismes de regulació.
 	\label{fig:gens}
 \end{figure}
 
-\index{gen!segons aquest projecte}
-\index{genotip!segons aquest projecte}
+\index{gen}
+\index{genotip}
 \index{zona operadora}
 \index{zona estructural}
 El sistema de control està format per un conjunt de gens (el {\bf genotip}). 
@@ -187,7 +196,10 @@ perqué la seqüencia de la zona estructural es pugui executar.
 \subsection{Zones operadores}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Cada codó de la zona operadora codifica una condició. 
+\index{zona operadora}
+\index{codó}
+Cada codó (part elemental de traducció) de la zona operadora codifica 
+una condició. 
 El gen s'expressa si es compleixen una a una les condicions 
 de cada codó de la zona operadora. 
 
@@ -211,7 +223,12 @@ els bits que en sobren com a discriminador del tipus de condició.
 \subsection{Transcripció}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
+\index{transcripció}
+\index{zona promotora}
+\index{zona terminadora}
+\index{cromosoma!transcripció}
+\index{cromosoma!transcripció|see{transcripció}}
+\index{transcripció|see{cromosoma!transcripció}}
 La trascripció del cromosoma en gens constarà de diverses parts:
 \begin{enumerate}
 \item Indentificació de la zona promotora (indica l'inici d'un
@@ -244,6 +261,8 @@ comportament temporal de la transcripció.
 \subsection{El cariotip i els cromosomes}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\index{sistema d'herència}
+\index{cariotip}
 El sistema d'herència és el cariotip. El cariotip és un conjunt de
 cromosomes de tamany variable. Cada cromosoma conté una seqüència 
 de bases (bits).
@@ -277,6 +296,7 @@ forma la implementació d'aquests fenòmens.
 \subsection{Mutacions}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\index{mutació}
 El cariotip és el responsable de les mutacions que passaran a la
 descendència.
 
@@ -344,6 +364,9 @@ base o conjunt de bases.
 \section{Model metabòlic dels organismes}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\index{sistema metabòlic}
+\index{energia}
+\index{nutrients}
 \begin{figure}[ht]
 \centering
 \begin{tabular}{@{\extracolsep{.1 cm}}c@{\extracolsep{.1 cm}}c@{\extracolsep{.1 cm}}c@{\extracolsep{.1 cm}}c@{\extracolsep{-.1 cm}}c@{\extracolsep{.1 cm}}c@{\extracolsep{.1 cm}}c@{\extracolsep{.1 cm}}c@{\extracolsep{.1 cm}}}
@@ -413,6 +436,7 @@ representa els cicles energètics dins d'un organisme.
 \subsection{Fluxe de nutrients}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\index{nutrients}
 Com s'ha explicat a l'apartat \ref{sec:biotop}, els nutrients tenen
 un identificador o patró qualitatiu que indica quin tipus de nutrient
 és. Per seleccionar un nutrient dins d'un grup, només cal oferir una
@@ -441,6 +465,7 @@ i uns productes que son introduïts al pap novament.
 \subsection{Fluxe d'energia útil}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\index{energia}
 Segons els reactius, les reaccions metabòliques acaben sent exògenes
 o endògenes, és a dir, proudeixen energia o en consumeixen.
 
@@ -479,67 +504,7 @@ nou buit.
     \label{fig:disipacio}
 \end{figure}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Modificar del sistema de control}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Implementar sistemes de control nous}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Expedint instruccions}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-La principal funció d'un sistema de control és la que en rep un 
-punter als registres de fenotip. Segueix el prototip:
-
-{\tt uint32 CMiControl::seguentInstruccio(uint32 * fenotip);}
-
-
-\begin{verbatim}
-class CControlOrganisme
-{
-// Construccio/Destruccio
-public:
-	CControlOrganisme() {}
-	virtual ~CControlOrganisme() {}
-// Operacions
-public:
-	// Construeix l'estructura de control a partir d'un cariotip
-	virtual bool init(CCariotip& c)=0;
-	// Dona una instruccio generada pel sistema de control
-	virtual uint32 seguentInstruccio(uint32 * fenotip)=0;
-	// Representa al CMissatger l'estructura de control (Estat actual?)
-	virtual void dump(CMissatger & msg)=0;
-// Factoria
-public:
-	static uint32 Nombre(void);
-	static CControlOrganisme * Crea(uint32 n);
-	static CControlOrganisme * Crea(string tipus);
-// Proves
-public:
-	// No es pot fer virtual pura pero caldria fer-la en totes les subclasses
-	static void ProvaClasse();
-};
-\end{verbatim}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Afegir operadors genètics}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Adaptar el model d'herència}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-\chapter{TODO: finsaki}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage

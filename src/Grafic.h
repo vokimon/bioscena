@@ -7,6 +7,7 @@
 
 #include <functional>
 #include <list>
+#include <vector>
 #include <deque>
 #include "BioIncludes.h"
 #include "Missatger.h"
@@ -16,34 +17,47 @@
 #include "TopologiaToroidal.h"
 
 class CDominiGrafica {
+// Construccio/Destruccio
+public:
+	CDominiGrafica (); // Domini dinàmic
+	CDominiGrafica (uint32 factor); // Domini fixe
+// Operacions
+public:
+	void logaritmic(bool esLogaritmic);
+	void adaptaFactor (uint32 tope);
+	void factorFixe (uint32 factor);
+	void dinamic ();
+	uint32 mapeja (uint32 valor);
+	uint32 premapeja (uint32 valor);
+	void representacio (char simbol, char simbolFora);
+	char simbol() {return m_simbol;};
+	char simbolFora() {return m_simbolFora;};
 // Atributs
 private:
 	uint32 m_maxim;
 	uint32 m_factor;
 	uint32 m_esDinamic;
 	bool m_esLogaritmic;
+public:
+	char m_simbol;
+	char m_simbolFora;
+};
+
+template <class TObjecteComparat> 
+class CDominiGraficaComparativa : public CDominiGrafica {
+// Tipus propis
+	typedef uint32 (*t_funcio) (TObjecteComparat &);
 // Construccio/Destruccio
 public:
-	CDominiGrafica (bool esLogaritmic); // Domini dinàmic
-	CDominiGrafica (bool esLogaritmic, uint32 factor); // Domini fixe
+	CDominiGraficaComparativa() {m_funcio=NULL;};
 // Operacions
 public:
-	void fixaFactor (uint32 tope); // Si el factor es dinamic, es fixa per que el maxim sigui representable
-	uint32 mapeja (uint32 valor); // 
-	uint32 premapeja (uint32 valor); // 
-};
-
-
-/*
-class CDominiGraficaComparativa : public CDominiGrafica {
+	void funcio(t_funcio f) {m_funcio=f;};
+	t_funcio funcio() {return m_funcio;};
 // Atributs
 private:
-	unary_function<uint32, uint32> & m_f;
-// Construccio/Destruccio
-public:
-	CDominiGraficaComparativa(unary_function<uint32, uint32> & f) : m_f=f {}
+	t_funcio m_funcio;
 };
-*/
 
 class CDominiGraficaEvolutiva : public CDominiGrafica {
 // Atributs
@@ -53,10 +67,9 @@ private:
 // Construccio/Destruccio
 public:
 	CDominiGraficaEvolutiva(bool esLogaritmic, uint32 factor, uint32 tamanyMemoria=80)
-		: CDominiGrafica(esLogaritmic, factor)
+		: CDominiGrafica(factor)
 	{m_tamanyMemoria = tamanyMemoria;}
 };
-
 
 
 class CGrafic  
@@ -85,29 +98,73 @@ protected:
 	uint32 m_tope;
 };
 
+/*
+class CMarc: public CGrafic {
+// Tipus interns
+	typedef CGrafic inherited;
+// Construccio/Destruccio
+public:
+	CMarc();
+	virtual ~CMarc();
+// Operacions
+public:
+	virtual void visualitza(CMissatger & msg)=0;
+	virtual void tamany(uint32 posX, uint32 posY, uint32 ample, uint32 altura);
+// Implementacio
+protected:
+	void recalculaTope();
+// Atributs
+protected:
+//	dequeue<CGrafic *> m_grafics;
+};
+*/
+
 class CComparativaOrganismes : public CGrafic
 {
 // Tipus interns
 	typedef CGrafic inherited;
 // Construccio/Destruccio
 public:
-	CComparativaOrganismes(CComunitat * comunitat);
+	CComparativaOrganismes();
 	virtual ~CComparativaOrganismes();
 // Operacions
 public:
 	virtual void visualitza(CMissatger & msg);
-	void primerOrganisme(uint32 org);
+	void inici(uint32 org);
 	void comunitat(CComunitat * comunitat);
 	CComunitat * comunitat(void);
+	void afegeixDomini(CDominiGraficaComparativa<CInfoOrganisme> & domini);
 // Implementacio
 private:
 // Atributs
 private:
-//	list<CDominiGrafica> m_dominis;
+	uint32 m_inici;
 	CComunitat * m_comunitat;
-	uint32 m_primerOrg;
-	CDominiGrafica m_dominiEnergia;
-	CDominiGrafica m_dominiEdat;
+	vector<CDominiGraficaComparativa<CInfoOrganisme> > m_dominis;
+};
+
+class CComparativaTaxons : public CGrafic
+{
+// Tipus interns
+	typedef CGrafic inherited;
+// Construccio/Destruccio
+public:
+	CComparativaTaxons();
+	virtual ~CComparativaTaxons();
+// Operacions
+public:
+	virtual void visualitza(CMissatger & msg);
+	void inici(uint32 tax);
+	void taxonomista(CTaxonomista * comunitat);
+	CTaxonomista * taxonomista(void);
+	void afegeixDomini(CDominiGraficaComparativa<CInfoTaxo> & domini);
+// Implementacio
+private:
+// Atributs
+private:
+	uint32 m_inici;
+	CTaxonomista * m_taxonomista;
+	vector<CDominiGraficaComparativa<CInfoTaxo> > m_dominis;
 };
 
 class CGraficaEvolutiva : public CGrafic
