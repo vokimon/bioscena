@@ -1,0 +1,270 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conjunt d'instruccions}
+\label{sec:cjtInstruccions}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+El biosistema pot configurar quins opcodes es relacionen amb quines
+operacions mitjançant un arxiu de configuració especial. Mitjançant
+aquesta relació, el biosistema pot saber, a partir dels números 
+d'instruccions que ofereix l'organisme, quina és la instrucció que
+cal executar.
+
+Aquest apartat detalla com s'executen les diferents instruccions que
+pot executar un biosistema. Els paràmetres de les instruccions, són 
+nibbles de 4 bits que generalment indexen un dels 16 registres de 
+32 bits que formen fenotip de l'organisme actual, d'on s'extreu o a 
+on s'escriu el valor.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Instruccions fenotípiques}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+El següent grup d'instruccions, són instruccions en les que només 
+intervé el fenotip. Ni el sistema metabòlic ni els altres elements
+del biosistema. Són operacions que comencen i acaben al fenotip.
+
+\begin{itemize}
+\item {\tt And dest op1 op2}: Fica a {\tt dest} la and bit a bit de {\tt op1} i {\tt op2}
+\item {\tt Or dest op1 op2}: Fica a {\tt dest} la or bit a bit de {\tt op1} i {\tt op2}
+\item {\tt Xor dest op1 op2}: Fica a {\tt dest} la xor bit a bit de {\tt op1} i {\tt op2}
+\item {\tt Not dest op1}: Fica a {\tt dest} la negació bit a bit de {\tt op1}
+\item {\tt Oposa dest op1}: Fica a {\tt dest} el desplaçament en sentit contrari al desplaçament expressat per {\tt op1} (veure \ref{tab:veinesDirectes})
+\item {\tt Carrega dest}: Omple el registre amb el valor de la següent instrucció
+\item {\tt Random dest}: Omple el registre amb un valor al atzar
+\item {\tt ShiftL dest op1 num}: dest=op1$<<$num (num és directament el nibble, no pas el valor del registre indexat pel nibble)
+\item {\tt ShiftR dest op1 num}: dest=op1$>>$num (num és directament el nibble, no pas el valor del registre indexat pel nibble)
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Instruccions sensorials}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Són les instruccions que modifiquen el fenotip segons algun element
+del biosistema:
+\begin{itemize}
+\item {\tt SensorQ}: Sensor químic (nutrients al medi)
+\item {\tt SensorP}: Sensor de presència (altres organismes)
+\item {\tt SensorI}: Sensor intern (nutrients al pap i estat energètic)
+\end{itemize}
+
+Tant el sensor químic com el de presència, cerquen una posició en 
+una zona del biòtop que acompleixi una condició. El primer cerca 
+per un nutrient que tingui una clau compatible amb el patró i la 
+tolerància indicades com a paràmetres. 
+El segon cerca un organisme que, al registre indicat, tingui un 
+contingut compatible amb el patró i la tolerància indicades.
+
+Totes dos indiquen una posició relativa que marca el centre de la
+zona de cerca i un radi que indica el número màxim de salts als que
+es pot trobar l'objectiu.
+
+Es comprova un nombre configurable de vegades una posició aleatòria
+dintre d'aquesta zona. Si la posició compleix la condició, als dos
+registres de destí es posen el valor trobat i el desplaçament 
+relatiu que em dirigeix a aquesta posició.
+
+El sensor intern simplement posa, a un registre destí, la clau del 
+nutrient dins del pap que és compatible amb el patró i la tolerància 
+donades, si n'hi ha cap, i, a un altre, l'energia total actual.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Instruccions motores}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Les instruccions motores són les que modifiquen altres coses que no
+només el fenotip. En resum són:
+\begin{itemize}
+\item {\tt Ingestio}: Incorpora al pap nutrients lliures al medi
+\item {\tt Excrecio}: Allibera al medi nutrients del pap
+\item {\tt Moviment}: Mou l'organisme a una posició donada
+\item {\tt Mitosi}: Crea un fill de l'organisme
+\item {\tt Agressio}: Manlleva nutrients d'un altre organisme
+\item {\tt Catabol}: Parteix un nutrient del pap en dos (reacció exògena)
+\item {\tt Anabol}: Fusiona dos nutrients del pap en un (reacció endògena)
+\end{itemize}
+
+Les instruccions motores poden fallar. Quan ho fan, tenen un cost 
+adicional. Aquest cost adicional per fallada és comú a totes les
+instruccions motores i es pot configurar.
+
+En principi, en el sistema proposat, l'energia útil s'extreu només 
+de reaccions metabòliques. Però, amb l'objectiu de simular entorns 
+més senzills (sense metabolisme), és possible associar un guany 
+energètic a la ingestió. També ho hem estés a la resta de funcions
+motores i sensores, de forma que es permet associar guanys i costos
+extres d'energia a cada instrucció.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Ingestió}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Per introduir un nutrient lliure al medi dins del cos d'un organisme,
+cal precissar el lloc d'on vol extreure-ho, un patró i una tolerància.
+Si existeix l'element que compleixi aquests requisit, el nutrient és 
+introduït a l'interior de l'organisme.
+
+En principi, en el sistema proposat, l'energia útil s'extreu només 
+de reaccions metabòliques. Però, amb l'objectiu de simular entorns 
+més senzills (sense metabolisme), és possible associar un guany 
+energètic a la ingestió.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Excreció}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+L'excreció mou un nutrient (especificat per un patró i una tolerància)
+del pap cap al medi a una posició indicada.
+
+Aquesta instrucció s'ha introduit donat que és una forma en que
+l'organisme pot modificar el medi. És possible que, al llarg de 
+l'evolució doni peu a comportaments complexos com el següents:
+\begin{itemize}
+\item Proporcionar a la descendència nutrients via excreció.
+\item Detectar als membres d'una espècie o el seu estat per les
+mol·lecules excretades.
+\item Transport de nutrients.
+\item ...
+\end{itemize}
+
+El caracter obert que poden adoptar les soluccions dels organismes
+implica que la llista anterior pot no ser tancada, o pot ser els
+organismes no arribin a cap dels punts anteriors.
+
+De la mateixa manera que la ingestió es pot associar un guany 
+energètic adicional, l'excrecció es pot configurar amb un guany
+o amb un cost adicional.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Agressió i defensa}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Un organisme, de banda d'obtindre nutrients del medi, tambè els pot 
+obtindre d'altres organismes. Per fer-ho, només cal indicar una 
+posició on suposadament hi ha un altre organisme, un element base
+i una tolerància, i una clau d'atac. Aquesta clau d'atac, en 
+enfrentar-la a la clau de defensa de la victima en resulta la força
+final de l'atac. Aquesta força indica el nombre de vegades que es 
+provarà d'extreure un nutrient del pap de la victima segons l'element
+base i la tolerància.
+
+Com es pot deduir, d'un atac es poden obtindre molts nutrients al
+mateix temps la qual cosa la fa més profitosa que la ingestio de
+nutrients del medi. Això prova de compensar els desavantatges de 
+desenvolupar una conducta depredadora i haver de dependre de les
+preses.
+
+Es pot associar un guany energètic proporcional al nombre de 
+nutrients extrets a un altre organisme. De la mateixa forma també 
+es pot associar un cost energètic proporcional per a la victima.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Moviment}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+La instrucció per moure's és ben simple, només cal indicar una
+posició destí. Es pot realitzar si la posició està lliure. Té 
+associada un cost configurable.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Mitosi}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+La instrucció {\tt Mitosi} crea un fill de l'organisme a una posició
+indicada. Aquesta posició ha de estar lliure, si no, l'instrucció
+no s'executa.
+
+Es crea el cos del nou organisme a partir del cariotip del progenitor, 
+amb una certa probabilitat de mutació. Es situa al biòtop, i es 
+demana per un identificador de taxo al taxonomista tot aportant el
+identificador de taxó del pare i indicant si ha mutat o no.
+
+En el moment en el que s'introdueix l'organisme en la comunitat, 
+aquest és elegible pel biosistema per ésser executat.
+
+La mitosi té molts factors energètics configurables, donat que és
+una de les instruccions clau quan es vol equilibrar els costos per
+obtindre comportaments complexos.
+
+Es requereix que hi hagi una certa energia disponible abans de
+reproduir-se. Si no es posés un límit d'aquest tipus, no seria
+necessari tenir una vida llarga per reproduir-se i amb una vida
+excessivament curta (en algunes proves els organismes arribaven a 
+reproduir-se en les cinc instruccions que se'ls hi donaven de quantum), 
+no hi ha lloc per a trobar comportaments interesants.
+
+Llavors hi ha un mínim d'energia per poder iniciar la reproducció. 
+Aquesta energia mínima no és el cost real de la instrucció, sinó que 
+aquest és configurable independentment.
+
+Una altra cosa que cal que sigui configurable és l'energia útil amb 
+la que comença el nou organisme. Per ser consistents, és important 
+que sigui bastant menor que el cost de reproduir-se perquè sinó els 
+organismes no tindrien perquè menjar.
+
+També s'especifica els nutrients del pap que passen a la descendència 
+amb un patró, una tolerància i un número d'intents.
+
+És possible penalitzar en aquesta instrucció al pares que tinguin
+un cariotip superior a un nombre de codons. Aquesta penalització
+es proporcional a la quantitat que es passa.
+
+Aquesta penalització s'ha introduït per corregir l'efecte que 
+produien alguns operadors de mutació que sovint incrementaven el 
+tamany del cariotip afegint més redundància de la que era necessària
+per mantenir la variabilitat.
+Els cariotips grans afecten en gran mesura a la velocitat i a la 
+memòria ocupada pel sistema. Però, tampoc semblava correcte limitar 
+el tamany restrictivament perqué algun cop pot arribar a ser útil 
+aquest increment. Així doncs s'ha adoptat la solució també present 
+a la natura: Un cariotip excessivament llarg costa més de replicar
+que un de curt. Això possibilita permetre els llargs sempre que
+serveixin per codificar millors solucions.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Anabolisme}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+L'anabolisme que implementa aquest prototip extreu dos nutrients
+del pap (mitjançant els respectius patrons i toleràncies) i els junta 
+per formar un tercer, donant un balanc d'energia negatiu.
+
+\(A + B \rightarrow^{-E} C\)
+
+\begin{verbatim}
+   C = A & B
+   cost = PAnabol * (comptaUns(C)- min(comptaUns(A),comptaUns(B)))
+\end{verbatim}
+
+A la fórmula, {\tt PAnabol} representa un factor configurable.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Catabolisme}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+El catabolisme que implementa aquest prototip extreu un nutrient
+del pap (mitjançant un patró i una tolerància) i obté dos nutrients
+mitjançant una clau catabòlica.
+
+\(A \rightarrow^{+E} B + C\)
+
+El catabolisme requereix, a més una clau catabòlica $T$ que es fa servir
+per calcular els productes.
+
+\begin{verbatim}
+	B=A & T;
+	C=A & ~T;
+	energia = PCatabol * (comptaUns(A)- max(comptaUns(B),comptaUns(C)))
+\end{verbatim}
+
+A la fórmula, {\tt PCatabol} representa un factor configurable.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+

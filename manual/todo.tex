@@ -1,13 +1,13 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Vies de futur}
+\section{Línies de futur}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Experimentació amb el model presentat}
+\subsection{Experimentació amb el model presentat}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 La principal via de futur d'aquest projecte és la seva aplicació.
@@ -17,10 +17,8 @@ aquest sistema.
 Com a exemple tenim la bateria d'experiments que s'han anat fent a la
 Universitat de San Diego sobre el sistema LEE.
 
-TODO: Quins experiments
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Sistema de control}
+\subsection{Sistema de control}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Es pot adaptar el sistema d'una forma molt directa a altres models 
@@ -31,12 +29,21 @@ entre d'altres.
 
 Dels resultats d'aquesta primera experiència hem resaltat que potser
 es milloraria el sistema si s'introdueixen o es modifiquen alguns dels
-seus elements.
+seus elements. Uns exemples serien:
 
-TODO: Modificacions suggerides
+\begin{description}
+\item [Millors zones operadores:] El significat que he donat a les zones
+operadores és un xic pobre. La majoria de casos adquireixen més un
+significat de probabilitat que no pas de dependència. Si s'enriquissin 
+una mica més, pot ser donaria peu a comportaments molt més elaborats.
+\item [Instruccions de test i predicats:] Pot ser de cara a millorar
+el significat de les zones operadores, convindria implementar 
+instruccions de test que modifiquessin bits de predicat, que al mateix
+temps es facin servir per validar o no una zona operadora.
+\end{description}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Sistema genètic}
+\subsection{Sistema genètic}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 També és possible afegir altres elements interesants a la part 
@@ -54,11 +61,10 @@ també evolucioni amb el mateix cromosoma.
 sexualitat, la qual cosa, no permet gaire variabilitat genètica. És
 trivial introduir mecanismes sexuals no lligats a la reproducció com
 els dels organismes unicel·lulars. Només caldria considerar l 
-\item [Cariotips poliploides:] TODO
 \end{description}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Metabolisme}
+\subsection{Metabolisme}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Les reaccions metabòliques s'han implementat d'una forma molt simple
@@ -69,7 +75,7 @@ el balanç d'energia per a cada dos possibles reactius.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Interfícies}
+\subsection{Interfícies}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 En aquest projecte, de cara a mantenir la portabilitat, s'ha volgut
@@ -98,7 +104,7 @@ d'accés que podria implementar a sota elements gràfics d'alta
 resolució.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Eines adicionals}
+\subsection{Eines adicionals}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 A mida que compliquem el problema, les modificacions dels fitxers de 
@@ -115,14 +121,19 @@ convenientment per falcilitar la variabilitat genètica.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Funcionalitats}
+\subsection{Funcionalitats}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Grabar el biosistema
-Importar i exportar organismes
+Donat que les simulacions s'allarguen molt de temps convindria
+implementar mecanismes per fer persistent el biosistema un cop
+es finalitza l'execució de l'eina i recuperar l'estat del biosistema
+en una execució posterior.
+
+També seria interesant una funcionalitat que permetés importar i 
+exportar organismes.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Optimitzacions}
+\subsection{Optimitzacions}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Hi ha punts del sistema dels qual encara es pot optimitzar el seu 

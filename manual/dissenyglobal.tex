@@ -16,7 +16,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Cada arxiu d'implementació, porta al inici un registre dels canvis
-(Change Log) que s'anat fent al fitxer. Cada entrada d'aquest 
+que s'anat fent al fitxer (Change Log). Cada entrada d'aquest 
 registre porta la data, un indicador de l'autor de la modificació i
 una breu explicació d'una o dos línies, suficient per deduir en què
 consisteix i a quins llocs afecta.
@@ -24,33 +24,36 @@ consisteix i a quins llocs afecta.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Registre de coses pendents}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Per tenir constància de les coses que s'han anat deixant pendents,
-s'han anat mantenint tres punts de registre de coses a fer (TODO's):
+
+El control de les coses pendents (informalment, {\em TODO's}) 
+resulta molt important per no deixar qüestions deslligades, donada la 
+quantitat de coses que cal tenir presents durant la implementació.
+
+Per tenir-ne constància de les coses que s'han anat deixant pendents,
+s'han anat mantenint registres a tres punts diferents:
 \begin{itemize}
-\item A peu de codi, és a dir al mateix lloc on cal fer el que quedi
-pendent. Sempre es tracta d'un comentari que comença amb 
+\item Les coses pendents que han d'anar a un punt concret a dins
+del codi s'indiquen al mateix lloc on caldrà afegir-ho. S'indica amb 
+un comentari d'una sola línia que comença amb:
 \begin{verbatim}
   // TODO:
 \end{verbatim}
-El comentari ha de ser autoexplicatiu per sí mateix, perque no 
-es necessiti veure'l en un context per entendre'l. D'aquesta forma, 
-es poden extreure totes les modificacions d'aquest tipus que queden 
-pendents executant la comanda:
+El text del comentari ha de ser suficientment explicatiu, perque no 
+es necessiti veure'l en el seu context per entendre'l. Tot això es
+fa així perquè es pugui obtindre un extracte de totes les 
+modificacions pendents d'aquest tipus només executant la comanda:
 \begin{verbatim}
   grep -n TODO *.h *.cpp *.c 
 \end{verbatim}
 \item A l'inici del fitxer d'implementació, a continuació del {\em 
-Change Log}, es posa els canvis pendents que afectan al mòdul en 
-general que no es puguin localitzar a cap lloc en concret.
+Change Log}, es posen els canvis pendents que afectan al mòdul en 
+general i que no es puguin localitzar a cap lloc en concret dins
+del codi.
 \item En un fitxer a part anomenat {\tt TODO.txt}, s'han anat 
 recopilant i actualitzant periòdicament els canvis pendents que 
-persisteixen d'entre els anteriors i alguns d'ambit més global o
-que afecten a mòduls que encara no s'han construït.
+persisteixen d'entre els anteriors i alguns altres que afecten a
+diversos mòduls o a mòduls que encara no s'han construït.
 \end{itemize}
-
-El control de les coses pendents resulta molt important per no deixar
-qüestions deslligades, donada la quantitat de coses que cal tenir
-presents durant la implementació.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Control de versions}
@@ -64,8 +67,8 @@ per al programa.
 
 Això ens permetrà saber, donat un executable, fins a quin punt està
 actualitzat, i amb els {\em Change Logs} quines característiques
-inclou. El registre de compilacions en facilitarà, a més, 
-l'aproximació del temps d'implementació.
+inclou. El registre de compilacions facilitarà, a més, una millor
+aproximació del temps d'implementació.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -125,7 +128,7 @@ windows. Per exemple:
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Proves}
+\subsection{Proves unitàries de classe}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Cada classe té una funció membre estàtica anomenada {\tt ProvaClasse}
@@ -139,29 +142,62 @@ d'un {\tt namespace} sinò hi està ficat ja tot el mòdul.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Tipus de comentaris}
+\subsection{Funcions dels comentaris al codi}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Els comentaris dels fitxers estan tipificats segons la seva 
+funcionalitat. De banda dels que es fan servir per les funcions
+ja explicades (Change Log i TODO's), tenim altres funcionalitats:
 
 \begin{description}
 \item [Comentaris de mòdul:] Serveixen per explicar qué va al mòdul
 que encapçalen i si hi ha alguna consideració global que fer en 
-usar-lo o mantenir-lo.
+usar-lo o mantenir-lo. Es troben a l'inici del fitxer, juntament
+amb el Change Log i els TODO globals pel mòdul.
 \item [Comentaris de secció:] Separen visualment les diferents 
-seccions d'un mòdul.
+seccions d'un mòdul. Tots els mòduls estan dividits d'una forma
+molt semblant i cada divisió es troba, generalment en el mateix
+ordre per tal de trobar fàcilment les funcions. Exemples de seccions 
+comunes són: Inicialització de variables estàtiques, 
+Construcció/destrucció, Mètodes redefinibles a les subclasses, 
+Operacions (de diferents tipus), Proves...
+Es distingeixen visualment per estar envoltats per un parell de
+línies adalt i abaix com el següent exemple:
+
+{\setlinespacing{1}
+\begin{verbatim}
+/////////////////////////////////////////////////////////////////////
+// Nom de la secció
+/////////////////////////////////////////////////////////////////////
+\end{verbatim}
+}
 \item [Comentaris d'encapçalament:] Es troben just després de 
 l'encapçalament d'una funció o mètode i just abans de que s'obrin
-els claudàtors de l'implementació. Aquests comentaris van adreçats
-als usuaris de la funció evitant qualsevol menció als detalls 
-d'implementacio. Si cal indicar, precondicions o postcondicions es 
-farà aquí, dedicant una linia a cadascuna que vindrà precedida de les 
-partícules {\tt Pre:} o {\tt Post:}.
+els claudàtors del seu cos. Aquests comentaris van adreçats a
+explicar als usuaris potencials de la funció que és el que fa, 
+evitant qualsevol menció als detalls d'implementació. Si cal indicar, 
+precondicions o postcondicions es farà aquí, dedicant, a cadascuna, 
+una linia que vindrà precedida de les partícules {\tt Pre:} o 
+{\tt Post:} segons convingui.
+
+{\setlinespacing{1}
+\begin{verbatim}
+int unaFuncio (int param1, it param2)
+// Comentari d'encapçalament
+// Pre: Precondició
+// Post: Postcondició
+{
+     ...
+}\end{verbatim}
+}
 \item [Comentaris de manteniment:] Aquests comentaris es troben 
 al cos de la funció o mètode (entre els claudàtors), parlen de 
 detalls d'implementació i estan adreçats als mantenidors.
 \end{description}
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Visió global del disseny}
+\section{Trets generals del disseny}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -175,10 +211,11 @@ principals, cadascun, amb funcions determinades dintre del sistema.
 
 \unitlength 1mm
 \begin{figure}[h]
-\begin{picture}(200,30)
-TODO: Esquemeta del disseny modular global
-\put(0,0){\circle*{4}}
-\end{picture}
+    \centering
+    \fbox{TODO: Esquemeta del disseny modular global}
+%    \begin{picture}(200,30)
+%    \put(0,0){\circle*{4}}
+%    \end{picture}
 \caption{Esquema conceptual del sistema}
 \label{fig:EsquemaConceptual}
 \end{figure}

@@ -1,0 +1,170 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Coordinació del biosistema}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+L'objecte {\tt CBiosistema} conté i coordina tots els elements que 
+formen part del nucli del simulador.
+
+El cicle intern del biosistema és una funció que un controlador pot
+executar de forma iterativa. A continuació es detallen les accions 
+que el biosistema pot fer durant una iteració.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Manteniment de la població mínima i la variabilitat genètica}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+El biosistema té la capacitat de generar organismes aleatoris i 
+inocular-los al sistema. 
+
+A cada cicle, el biosistema prova d'inocular organismes aleatoris en 
+tres casos:
+\begin{itemize}
+\item Quan es dona una probabilitat configurada
+\item Quan la població no arriba a un cert mínim configurat
+\item Quan no hi ha població
+\end{itemize}
+
+El procediment per fer-ho no sempre és exitós donat que es poden 
+donar condicions per que la inoculació no sigui correcta, per 
+exemple, si la posició del biòtop escollida és ocupada, com passaria 
+segur si no hi hagués cap posició del biosistema lliure.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Control del quàntum i canvi de context}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Com que es vol simular un sistema paral·lel en una màquina seqüencial
+haurem d'implementar tècniques de temps compartit.
+El quàntum és el nombre d'instruccions d'un organisme que s'executen
+seguides abans de canviar a un altre organisme.
+
+Sovint les tècniques de temps compartit introdueixen artificis en els 
+sistemes de simulació i, en concret, de vida artificial. Amb l'objectiu 
+de dispersar el seu efecte hem introduït les següents tècniques:
+\begin{itemize}
+\item No intercanviar els organismes de forma ordenada, sino aleatòriament.
+\item Fer servir un quantum despreciable, (si no pot ser 1), respecte les instruccions que necessita l'organisme per reproduir-se.
+\item Introduir cert indeterminisme en la determinació del quàntum.
+\end{itemize}
+
+L'encarregat de fer el ``canvi de context'' és un mètode del 
+biosistema que té com a postcondició surtir sempre amb un organisme 
+com actual. 
+Fins i tot, si la comunitat és buida, en genera un organismes 
+aleatoris fins que ho deixi de ser.
+
+Si, per un costat, es bo fer petit el quàntum per dispersar els 
+artificis, fer el quàntum petit també carrega més el sistema doncs
+cal fer més canvis de contexte.
+
+També, de cara a visualitzar les instruccions pas a pas, a vegades
+també va bé fer el quàntum un xic gran per veure més instruccions
+juntes d'un mateix organisme i entendre millor el seu sentit.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Defuncions}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Si l'organisme actual no té energia, s'executa el procediment de
+defunció. Aquest fa tres accions:
+
+\begin{itemize}
+\item Buidar la posició del biòtop on es trobi l'organisme.
+\item Indicar al taxonomista que un organisme de determinat taxó ha mort.
+\item Extreure l'organisme de la comunitat.
+\end{itemize}
+
+Després d'una defunció, evidentment, cal canviar a un nou organisme
+amb la funció de canvi de context i tornar a comprovar si aquest nou
+organisme també està sense energia.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Expedició d'instruccions}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Un cop tenim un organisme amb suficient quantum i prou energia per 
+continuar, se li demana una instrucció i s'executa. L'apartat 
+\ref{sec:cjtInstruccions} detalla una mica més com s'executen les
+instruccions.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Temps simulat}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+De cara a mesurar el temps transcorregut en el sistema, la idea més
+simple és comptar el cicles del biosistema, aixó és, el nombre 
+d'instruccions executades.
+
+Però, es vol trobar una mesura del temps que, d'alguna forma, sigui 
+regular des del punt de vista dels organismes. Regular des del punt 
+de vista de l'organisme vol dir, que un organisme, en $n$ unitats de 
+temps un organisme executi sempre, aproximadament, $i$ instruccions.
+
+El problema que porta considerar els cicles del biosistema com a
+unitat de temps és que la població varia durant la simulació.
+Com que la població varia al llarg del temps, donat un nombre $n$
+d'instruccions executades entre tots els organismes, no es manté una 
+proporció $p$ més o menys constant d'instruccions d'un mateix 
+organisme.
+
+Així doncs, si comptem el nombre de cicles, des del punt de vista
+dels organismes es veurà que, quan hi ha més població, el temps passa
+més poc a poc i, quan hi ha menys població, el temps passa mès ràpid.
+
+El problema ve del fet que, en la realitat, un nombre variable 
+d'organismes executarien instruccions en paral·lel, i, en aquesta 
+simulació tots els temps es seqüencien com indica el gràfic següent.
+En ser una població variable, els intervals oscilen.
+
+A la figura \ref{fig:disipacio}, anomenem {\em temps real o 
+temps seqüencial} \index{temps seqüencial} al temps que es pot 
+mesurar en cicles del biosistema i que és el que nosaltres percebem 
+per la pantalla, i {\em temps simulat o temps paral·lel}
+\index{temps paral·lel} al temps que veuen els organismes que
+és el que veurien en la realitat.
+
+\begin{figure}[h]
+\centering
+%    \includegraphics[width=6.1 in, keepaspectratio, draft]{disipable}
+    \framebox[6.2 in]{TODO: Comparativa temps real i simulat}
+    \caption{Temps seqüencial i temps paral·lel}
+    \label{fig:temps}
+\end{figure}
+
+Al esquema seqüencial de la figura \ref{fig:disipacio} estem imaginant 
+que el model de compartició de temps entre els organismes seqüencia en 
+ordre els organismes de la comunitat. En aquest cas, es podria mesurar
+fàcilment el temps paral·lel considerant com unitat de temps el que 
+triga el sistema en atendre a cadascun dels organismes.
+
+A Bioscena no es pot fer exactament aquesta solució, donat que s'ha 
+escollit seqüenciar els organismes de forma aleatòria per disipar els 
+artificis de la seqüencialitat. Però, podem fer una aproximació 
+bastant equivalent que consisteix en comptar la població en un 
+determinat instant i esperar tants cicles del biosistema com aquest
+número per incrementar el temps.
+
+Cal tenir en compte que aquesta mesura no és gaire perfecte durant
+períodes de fluctuacions en la població donat que la població la
+estem mirant, només en un instant.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Accionament dels agents externs}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+El biosistema acciona l'arbre d'agents externs que actuen sobre ell
+cada unitat de temps simulat. D'aquesta forma els organismes i els
+agents externs parlen una mateixa llengua en qüestió de temps.
+
+Com a mitja es dóna que, per cada vegada que s'accionen els agents, 
+cada organisme ha executat una instrucció. 
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+

@@ -3,6 +3,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Agents externs}
+\label{sec:agentsExterns}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -98,18 +99,18 @@ l'efecte d'un temporitzador és el d'un agent múltiple ordinari.
 
 Paràmetres per defecte i una execució:
 \begin{itemize}
-\item   Cicle Actiu ( minim=1 daus=0 magnitud=0)
-\item   Cicle Inactiu ( minim=0 daus=0 magnitud=0)
-\item   Periode Actual ( actiu )
-\item   Periode Restant (1)
+\item   Cicle Actiu ( mínim=1 daus=0 magnitud=0)
+\item   Cicle Inactiu ( mínim=0 daus=0 magnitud=0)
+\item   Període Actual ( actiu )
+\item   Període Restant (1)
 \end{itemize}
 
 Paràmetres ilustratius:
 \begin{itemize}
-\item   Cicle Actiu ( minim=0 daus=2 magnitud=3)
-\item   Cicle Inactiu ( minim=4 daus=0 magnitud=0)
-\item   Periode Actual ( actiu )
-\item   Periode Restant (1)
+\item   Cicle Actiu ( mínim=0 daus=2 magnitud=3)
+\item   Cicle Inactiu ( mínim=4 daus=0 magnitud=0)
+\item   Període Actual ( actiu )
+\item   Període Restant (1)
 \end{itemize}
 
 A continuació hi ha una execució dels paràmetres anteriors. Els
@@ -133,12 +134,12 @@ OOOOO----OOO----OOOOO----OOOO----OO----OOOOO----OOOO----OOO----OOO----OOOOO----O
 Els agents probabilitzadors són també agents múltiples que controlen
 si l'accionat es propaga cap els subordinats o no. Però, a diferència
 dels agents temporitzadors, ho fan mitjançant una llei probabilística.
-Si es dòna la probabilitat, s'accionen els subordinats, si no es dòna,
+Si es dóna la probabilitat, s'accionen els subordinats, si no es dóna,
 no s'accionen.
 
 La probabilitat es defineix amb el nombre de vegades que es donaria
 la probabilitat en un tamany de mostra.
-Per exemple, podem definir una probabilitat dient que es dòna 3 de
+Per exemple, podem definir una probabilitat dient que es dóna 3 de
 cada 14 vegades. 14 és el tamany de mostra i 3 les vegades que es
 donaria en la mostra.
 
@@ -183,7 +184,7 @@ el fa equivalent a un agent múltiple ordinari.
 
 Paràmetres ilustratius:
 \begin{itemize}
-\item   Iteracions ( minim=2 daus=2 magnitud=4)
+\item   Iteracions ( mínim=2 daus=2 magnitud=4)
 \end{itemize}
 
 A continuació hi ha una execució dels paràmetres anteriors. Els
@@ -221,11 +222,11 @@ posició fan servir altres agents dels quals depenen.
 \begin{description}
 \item[{\bf Posicionador Bàsic:}] No modifica la seva posició si és accionat.
     A menys que, per configuració, es fixi a una posició concreta,
-    s'inicialitza amb una posició aleatoria vàlida dins de la topologia,
-\item[{\bf Posicionador Aleatori:}] Cada cop que és accionat pren una posició aleatoria
+    s'inicialitza amb una posició aleatòria vàlida dins de la topologia,
+\item[{\bf Posicionador Aleatori:}] Cada cop que és accionat pren una posició aleatòria
     vàlida dintre de la topologia.
 \item[{\bf Posicionador Zonal:}] Cada cop que és accionat pren una posició
-    aleatoria dintre d'una zona.
+    aleatòria dintre d'una zona.
     La zona es defineix per una posició central, determinada per un altre
     posicionador de qual depèn, i un radi, que no és més que el nombre de
     desplaçaments aleatoris que es fan a partir d'aquesta posició central
@@ -266,7 +267,7 @@ direccional, però, no es descarten altres aplicacions futures.
 
 \begin{description}
 \item[{\bf Direccionador Bàsic:}] No modifica la seva direcció si és accionat.
-\item[{\bf Direccionador Aleatori:}] Cada cop que és accionat pren una direcció aleatoria.
+\item[{\bf Direccionador Aleatori:}] Cada cop que és accionat pren una direcció aleatòria.
 \item[{\bf Direccionador Seqüencial:}] Cada cop que és accionat pren la
     direcció del següent direccionador que hi ha en una seqüència
     de direccionadors. Els agents direccionadors de la seqüència són
@@ -317,7 +318,7 @@ Un tipus de nutrient es codifica amb un enter de 32 bits sense signe.
 El tipus de nutrient que es depositarà s'especifica amb dos nombres
 enters de 32 bits sense signe. El primer enter indica el número
 del tipus bàsic, i el segon indica els bits del tipus bàsic que
-poden variar aleatoriament.
+poden variar aleatòriament.
 
 Per exemple, el parell
 \begin{tabular}{rl}
@@ -378,9 +379,9 @@ A cada línia es posa, per ordre i {\em separats per espais} un signe
 asterisc, el nom i el tipus.
 
 Quan es carrega un arxiu de configuració d'agents, si és possible
-a cada agent se li dòna el nom amb el que apareix a l'arxiu, però
+a cada agent se li dóna el nom amb el que apareix a l'arxiu, però
 això no és posible si ja existeix un amb el mateix nom. En aquest
-cas, se li dòna un nom per defecte i s'hi tradueixen totes les
+cas, se li dóna un nom per defecte i s'hi tradueixen totes les
 posteriors referències al nom antic.
 
 Els noms poden contenir qualsevol caracter que no es consideri
@@ -418,6 +419,7 @@ aquest lloc el pot ocupar tant un {\em Agent/Posicionador/Direccional} com un
 
 Una definició de noms i tipus podria quedar com segueix:
 
+{\setlinespacing{1}
 \begin{verbatim}
 * Agent_0000 Agent/Multiple
 * Agent_0001 Agent/Multiple/Temporitzador
@@ -426,6 +428,7 @@ Una definició de noms i tipus podria quedar com segueix:
 * Agent_0004 Agent/Multiple/Iterador
 * Agent_0005 Agent/Actuador/Nutridor
 \end{verbatim}
+}
 
 Aquí, {\em Agent\_0000} seria l'agent arrel.
 
@@ -442,11 +445,13 @@ La posició dels valors acostuma a ser significativa o sigui que és
 important mantenir l'ordre.
 
 Per configurar un Nutridor es faria de la següent forma
+{\setlinespacing{1}
 \begin{verbatim}
 + Agent_0004
 - Posicionador Agent_0003
 - Composicio 31 0
 \end{verbatim}
+}
 
 Quan un paràmetre necessita com a valor un altre agent, fa servir
 els seu nom com a referència.
@@ -488,12 +493,14 @@ les línies de configuració.
         \\- agent: agent que es subordina (No ha de ser subordinat de cap altre)
 \end{description}
     Exemple de configuració texte
+{\setlinespacing{1}
 \begin{verbatim}
         + AgentMultiple1:
         - Accio Posicionador1
         - Accio Posicionador2
         - Accio Direccionador1
 \end{verbatim}
+}
 
 \subsubsection{Temporitzador (Agent/Multiple/Temporitzador)}
 \begin{description}
@@ -507,13 +514,14 @@ les línies de configuració.
         \\- uint32: període mínim
         \\- uint32: número de daus
         \\- uint32: magnitud dels daus (Van de zero a la magnitud)
-\item[AntiAccio:] Agent subordinat especial que s'acciona en el cicle inactiu (Nomes un per temporitzador i es opcional)
+\item[AntiAccio:] Agent subordinat especial que s'acciona en el cicle inactiu (Només un per temporitzador i es opcional)
         \\- agent: agent que es subordina (No ha de ser subordinat de cap altre)
 \item[CicleActual:] Valors del temporitzador quan es reemprengui la marxa
         \\- id(Actiu/Inactiu): cicle actiu o inactiu
         \\- uint32: període restant del cicle actual
 \end{description}
     Exemple de configuració texte
+{\setlinespacing{1}
 \begin{verbatim}
         + Temporitzador1
         - Accio Posicionador3
@@ -521,27 +529,30 @@ les línies de configuració.
         - CicleInactiu 2 4 4
         - CicleActual 3 Inactiu
 \end{verbatim}
+}
 
 \subsubsection{Iterador (Agent/Multiple/Iterador)}
 \begin{description}
 \item[Accio:] Determina un agent subordinat. Es repeteix tantes vegades com subordinats tingui.
         \\- agent: agent que es subordina (No ha de ser subordinat de cap altre)
 \item[Iteracions:] Determina quantes vegades es repiteixen els subordinats
-        \\- uint32: iteracions minimes
+        \\- uint32: iteracions mínimes
         \\- uint32: número de daus
         \\- uint32: magnitud dels daus (Van de zero a la magnitud)
-\item[PreAccio:] Agent subordinat especial que s'executa un sol cop abans de tot (Nomes un per iterador i es opcional)
+\item[PreAccio:] Agent subordinat especial que s'executa un sol cop abans de tot (Només un per iterador i és opcional)
         \\- agent: agent que es subordina (No ha de ser subordinat de cap altre)
-\item[PostAccio:] Agent subordinat especial que s'executa un sol cop despres de tot (Nomes un per iterador i es opcional)
+\item[PostAccio:] Agent subordinat especial que s'executa un sol cop despres de tot (Només un per iterador i és opcional)
         \\- agent: agent que es subordina (No ha de ser subordinat de cap altre)
 \end{description}
     Exemple de configuració
+{\setlinespacing{1}
 \begin{verbatim}
         + Iterador3
         - Accio Posicionador4
         - Accio Actuador2
         - Iteracions 20 3 6
 \end{verbatim}
+}
 
 \subsubsection{Aleaturitzador (Agent/Multiple/Aleaturitzador)}
 \begin{description}
@@ -550,15 +561,17 @@ les línies de configuració.
 \item[Probabilitat:] La que hi ha d'accionar els subordinats
         \\- uint32: número d'encerts que segons la probabilitat tenderien a donar-se en la mostra
         \\- uint32: número de intents o mostra
-\item[ReAccio:] Agent subordinat especial que s'acciona si no es dona la probabilitat (Nomes un per temporitzador i es opcional)
+\item[ReAccio:] Agent subordinat especial que s'acciona si no es dóna la probabilitat (Només un per temporitzador i és opcional)
         \\- agent: agent que es subordina (No ha de ser subordinat de cap altre)
 \end{description}
     Exemple de configuració
+{\setlinespacing{1}
 \begin{verbatim}
         + Aleaturitzador1
         - Accio Posicionador3
         - Probabilitat 20 100
 \end{verbatim}
+}
 
 \subsubsection{Posicionador Fixe (Agent/Posicionador)}
 \begin{description}
@@ -566,10 +579,12 @@ les línies de configuració.
         \\- uint32: valor de la posició (Ha d'existir a la topologia)
 \end{description}
     Exemple de configuració
+{\setlinespacing{1}
 \begin{verbatim}
         + Posicionador1
         - Posicio 12
 \end{verbatim}
+}
 
 \subsubsection{Posicionador Aleatori (Agent/Posicionador/Aleatori)}
 \begin{description}
@@ -577,10 +592,12 @@ les línies de configuració.
         \\- uint32: valor de la posició (Ha d'existir a la topologia)
 \end{description}
     Exemple de configuració
+{\setlinespacing{1}
 \begin{verbatim}
         + Posicionador2
         - Posicio 23
 \end{verbatim}
+}
 
 \subsubsection{PosicionadorSequencial (Agent/Posicionador/Sequencial)}
 \begin{description}
@@ -592,6 +609,7 @@ les línies de configuració.
         \\- uint32: el número de seqüència de la següent posició (Si es passa es pren l'ultim)
 \end{description}
     Exemple de configuració
+{\setlinespacing{1}
 \begin{verbatim}
         + Posicionador3
         - Posicio 23
@@ -600,6 +618,7 @@ les línies de configuració.
         - Sequencia 402
         - SequenciaActual 2
 \end{verbatim}
+}
 
 \subsubsection{PosicionadorZonal (Agent/Posicionador/Zonal)}
 \begin{description}
@@ -611,12 +630,14 @@ les línies de configuració.
     \\- uint32: valor del radi
 \end{description}
 Exemple de configuració
+{\setlinespacing{1}
 \begin{verbatim}
         + Posicionador4
         - Posicio 23
         - Posicionador Posicionador1
         - Radi 3
 \end{verbatim}
+}
 
 \subsubsection{Itinerari (Agent/Posicionador/Direccional)}
 \begin{description}
@@ -628,12 +649,14 @@ Exemple de configuració
         \\- uint32: valor del radi
 \end{description}
 Exemple de configuració
+{\setlinespacing{1}
 \begin{verbatim}
     + Posicionador5
     - Posicio 23
     - Direccionador Direccionador3
     - Radi 1
 \end{verbatim}
+}
 
 \subsubsection{Direccionador (Agent/Direccionador)}
 \begin{description}
@@ -641,10 +664,12 @@ Exemple de configuració
         \\- uint32: valor de la direcció
 \end{description}
 Exemple de configuració
+{\setlinespacing{1}
 \begin{verbatim}
     + Direccionador1
     - Direccio 876342
 \end{verbatim}
+}
 
 \subsubsection{DireccionadorAleatori (Agent/Direccionador/Aleatori)}
 \begin{description}
@@ -652,10 +677,12 @@ Exemple de configuració
         \\- uint32: valor de la direcció
 \end{description}
 Exemple de configuració
+{\setlinespacing{1}
 \begin{verbatim}
     + Direccionador2
     - Direccio 23442684
 \end{verbatim}
+}
 
 \subsubsection{DireccionadorSequencial (Agent/Direccionador/Sequencial)}
 \begin{description}
@@ -667,6 +694,7 @@ Exemple de configuració
         \\- uint32: el número de seqüència de la següent direcció (Si es passa es pren l'ultim)
 \end{description}
 Exemple de configuració
+{\setlinespacing{1}
 \begin{verbatim}
     + Direccionador3
     - Direccio 23
@@ -675,6 +703,7 @@ Exemple de configuració
     - Sequencia 402
     - SequenciaActual 2
 \end{verbatim}
+}
 
 \subsubsection{Nutridor (Agent/Actuador/Nutridor)}
 \begin{description}
@@ -685,11 +714,13 @@ Exemple de configuració
         \\- uint32: variabilitat, a 1 els bits que poden variar
 \end{description}
 Exemple de configuració
+{\setlinespacing{1}
 \begin{verbatim}
     + Actuador1
     - Posicionador Posicionador4
     - Composicio 13152450903 0
 \end{verbatim}
+}
 
 \subsubsection{Desnutridor (Agent/Actuador/Nutridor/Invers)}
 \begin{description}
@@ -700,17 +731,19 @@ Exemple de configuració
         \\- uint32: tolerancia, a 1 els bits que no importa que coincideixin
 \end{description}
 Exemple de configuració
+{\setlinespacing{1}
 \begin{verbatim}
     + Actuador2
     - Posicionador Posicionador3
     - Composicio 8943742645 768764258
 \end{verbatim}
-
+}
 
 \subsection{Exemple complert d'arxiu de configuració d'agents}
 
 A continuació es presenta un exemple complert:
 
+{\setlinespacing{1}
 \begin{verbatim}
 * Agent_0000 Agent/Multiple
 * Agent_0002 Agent/Posicionador/Direccional
@@ -753,6 +786,7 @@ A continuació es presenta un exemple complert:
 - Accio Agent_0005
 - Accio Agent_0006
 \end{verbatim}
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Disseny del abocat a disc i de la recuperació}

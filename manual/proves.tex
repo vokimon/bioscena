@@ -1,0 +1,290 @@
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Proves i resultats}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Proves preliminars}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Durant la progressiva construcció del sistema, s'han avaluat les
+aportacions que anava fent cada nou element que s'hi afegia.
+A continuació, s'explica els fets més significatius que es varen
+observar en cadascuna de les etapes.
+
+Cal notar que en aquestes etapes el guany energètic es fa per simple 
+ingestió, doncs no estaven implementades encara les reaccions
+metabòliques i les instruccions {\tt anabol} i {\tt catabol}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Exemple 1: Comportament aleatori}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+En aquest punt, el sistema de control dels organismes expedia, 
+simplement, instruccions aleatòries. Els paràmetres, en comptes 
+d'agafar-los del fenotip, també eren generats aleatòriament.
+Es va fer la prova de cara a comprovar la consistència del sistema, 
+independentment del sistema de control. Funcionaven només les
+quatre instruccions: {\tt ingestio}, {\tt moviment}, {\tt agressio} i 
+{\tt mitosi}. També es varen relaxar les condicions de compatibilitat 
+limitant les claus a 3 bits.
+
+Per aquest primer sistema, es va preparar un biòtop de 30x30 on uns
+agents externs deixaven caure nutrients en densitat molt baixa 
+aleatoriament per tot el món. Altres agents externs en dipositaven 
+massivament dins d'una zona de radi 8.
+
+Tot i que no hi havia cap tipus d'herència ni comportament definit,
+es sabia que l'única cosa que s'heretaven els fills era la proximitat
+geogràfica al seu progenitor. Així, s'esperava que, com els organismes
+que sobreviurien serien els que estaven a la taca de nutrients al final
+hi hagués un cúmul d'organismes concentrats.
+
+Per sorpresa, no va ser exactament així, sino que es varen disposar
+fent un anell al voltant de la taca i un parell o tres es disposaven
+just en mig.
+
+Un exàmen més detallat de la situació va donar l'explicació: Els 
+organismes que es posaven entre el centre i la vora de la taca eren 
+atacats aleatòriament pels altres, i només a les voreres, tenien menys
+probabilitat de ser atacats. I els del centre, simplement, quedaven 
+fora de l'abast dels que estaven a les vores.
+
+Per corraborar aquesta hipòtesi es va procedir a fer la taca més gran
+i es va poder comprovar com s'acabaven formant anells i espirals 
+irregulars més o menys equidistants entorn al centre.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Exemple 2: Comportament amb herència}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Es va procedir seguidament a activar el mecanisme d'herència
+tot i que sense mutació. Donat que no hi havia mutació, la 
+variabilitat genètica del sistema es basaba en els organismes generats 
+expontàneament. 
+
+El que es va observar es un relleu continu de les espècies: un cop 
+els descendents d'un primigeni (organisme generat de forma expontànea) 
+dominaven amb la seva presència, apareixia un nou grup més optimitzat
+i acabava substituint a l'altre. Com que cada vegada els organismes 
+eren menys dolents els intervals de temps entre relleus es dilatava 
+com més avançava la simulació.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Exemple 3: Comportament amb mutació}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+El canvi més important que es va produir en afegir la mutació va ser
+que els relleus no es produien ja tant entre organismes de diferents
+espècies sinó que es produien entre mutacions de la mateixa espècie.
+
+La rapidesa amb la que milloren els organismes amb la mutació no 
+deixa espai a la generació expontànea, de tal forma que el primer
+organisme que té exit és el que es queda i evoluciona.
+
+Els organismes només podien modificar el contingut dels registres 
+amb operacions de fenotip i, inicialment, el fenotip s'inicialitza 
+amb valors que, llegits com a direccions, no indiquen cap moviment.
+
+Llavors les tres úniques formes de menjar, moure's, atacar o excretar
+a una posició que no fós la pròpia era fent una negació, una càrrega
+o un Random a un registre de fenotip.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Resultats obtinguts amb el sistema final}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Biosistema amb múltiples climes}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+El següent exemple mostra un biosistema de 160x80 on s'han diferenciat
+algunes regions amb l'objectiu que els diferents organismes 
+s'especialitzin, a la regiò on viuen. Es vol demostrar que cada grup
+d'organismes, potser i tot d'origens genètics comuns, es pot 
+especialitzar per viure en cada zona.
+
+Així doncs s'han diferenciat, mitjançant els agents externs quatre
+zones amb {\em climes diferents}:
+\begin{enumerate}
+\item [A] 
+Una taca de 20 posicions de radi que dipositava nutrients de tipus A
+amb molta freqüència, però, que tenia períodes d'inactivitat.
+\item [B] 
+Una taca de 20 posicions de radi que dipositava nutrients de tipus B
+amb un xic menys de freqüència, però, de forma constant.
+\item [C]
+Una taca molt dispersa però molt ampla (60 posicions de radi) que 
+dipositava nutrients de tipus C.
+\item [D] 
+Per la resta del biòtop es deixen petits grupùscles molt densos
+de forma aleatòria.
+\end{enumerate}
+
+Entre la zona C i D al llarg del temps no hi ha masses diferències
+tret una diferència en la densitat dels organismes. Diguem que el
+tipus d'organisme que trionfa a D (que normalment són els que millor
+cerquen l'aliment) acaba dominant en C.
+
+A les altres dos zones, el resultat més clar es que a la llarga 
+(aproximadament 1.500.000 d'unitats temporals) els organismes de A i B,
+que sempre són molt voraços i competitius, acabaven no movent-se. 
+Com que la font de menjar que tenien no es mou, si ells es mouen
+es temps que perden de menjar.
+
+A les zones A i B, al començament hi ha molta densitat d'organismes
+la qual cosa crea que en sorgir comportaments d'agressió aleatòria, 
+és a dir sense saber si hi ha ningú a on ataquem, aquests siguin
+beneficiosos. 
+
+En A els comportaments d'agressió, de banda d'un 
+complement per la nutrició resultaven una forma de debilitar a 
+la competència.
+
+En canvi, en B, l'augment de la voracitat dels organismes causa que
+durant el període de temps en que no es diposita aliment no hi hagi
+res a menjar. En aquesta situació, l'agressió deixa de ser un 
+complement i passa a ser vital. De tal forma que en B, els organismes
+que fan servir els sensors de presència comencen a tindre avantatge
+i es desenvolupen comportaments d'aquest tipus.
+
+Desprès d'això, la densitat en B, descendeix i els organismes que
+hi sobreviuen s'alimenten del medi, quan hi ha menjar i dels 
+organismes que, atrets per la quantitat de nutrients, s'apropen
+des de C i D.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Pressió selectiva depenent de la densitat}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Les primeres experiències amb el prototip van servir, per clarificar 
+un dilema que em plantejava al començament de les proves: Cal fer un 
+biosistema molt restrictiu per que hi hagi pressió evolutiva i així
+es desenvolupin comportaments bons o cal fer-ne un de menys restrictiu 
+per que es puguin desenvolupar els organismes primigenis amb major 
+facilitat. 
+
+Realment vam comprovar que configurant un biosistema on els primigenis
+puguessin desenvolupar-se amb facilitat, quan la població començava
+a pujar, els mateixos organismes, en la competència pels recursos 
+limitats es creaven la pressió evolutiva.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Distribució d'edats i organismes inmortals}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Un altre tema relacionat és el de la distribució de les edats i
+el problema dels organismes inmortals apuntat per Todd en \cite{ADeath}.
+El problema es basa en el fet de que, si no limitem artificialment
+l'edat dels organismes, ens podriem trobar situacions en les que
+hi haguessin organismes que no morissin mai.
+
+Beleg i Menezer \cite{LEEIntro1994} apunten el fet de que sense 
+limitar artificialment l'edat dels organismes a LEE, emergeixen 
+distribucions d'edats estables semblants a les corbes de la equació
+clàssica d'Euler-Lotka. Això és degut al fet de que els organismes 
+comparteixen recursos finits i, en conseqüència, com hem vist a
+l'apartat anterior, la pressió selectiva depen de la densitat de la
+població.
+
+Quan la població es manté estable deixa de crèixer, la distribució 
+en edats tendeix a ser tal que la fracció d'organismes amb una 
+determinada edat equival a la probabilitat de que un organisme
+arribi a aquesta edat. \cite{Stearns1992}
+
+En el nostre cas, el problema és que, a diferència del que passa
+al sistema LEE, els organismes de Bioscena no es reprodueixen
+automàticament quan arriben a un nivell energètic, sinó que
+han de desenvolupar en el seu codi genètic la capacitat de 
+reproduir-se només quan tenen prou energia.
+
+Mentre que no hi ha cap organisme que sapiga reproduir-se 
+edientment, a grans trets hi ha dos tipus d'organismes. Uns que
+proven de reproduir-se abans de tenir l'energia necessària i en
+fer-ho moren. D'altres que no proven mai de reproduir-se i només
+menjen sense que ningú els faci competència.
+
+Aquests darrers es podrien considerar organismes inmortals. Però,
+en el moment en el que apareix un organisme que es sap reproduir
+correctament, la població puja explossivament i arriba al punt en 
+que comença a haver pressió selectiva. En aquest punt, ja es donen 
+les condicions perquè aparegui el comportament emergent descrit 
+pels autors del LEE i com he pogut contrastar es dóna.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Exemples d'organismes}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+A continuació presentem el genotip traduït d'alguns organismes 
+interesants.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{TODO}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+{\setlinespacing{1}
+\begin{verbatim}
+Sessio: 20000114-4
+Taxo: 117310(2)6
+Temps: 5.301K
+
+4-      [
+cf559068. If      8~6(5) or 0~9(5) 
+20729ea4. NOP
+3b2386e2. Carrega dest(2)
+d97cca08. SensorQ -----------
+e30656c8. Engolo  dir (8),base(c),tol (6)
+7cb6c26b. Or      dest(b)=op1 (6),op2 (2)
+6b3a2ece. Carrega dest(e)
+c0a42ea6. NOP     ----------- 
+]
+3-      [2373c914.c45b7e09.bd07e642.  35ce32.ffdd8b57.3dedbe70. <- Cacho fenotipo
+7f50c59d.9a0b1693
+.bf03d414.1331fa0b.844b132d.8f28527a.afa78cff.1c7f0775. 759dda4.b7b803f6.666cdf6
+1.149e668a.468b0a03.b5d1772a.a6449d28.47c8ea49.bde180ef. 8d55041.6bfba616.e52c4d
+c1.ee38db6a.1833d569.4eb049af.5f081bb0.d3d33152.a50471ee.d76f2808.ae328f84.36dd8
+8e7.99c71940.11588567.7afac665.113535c5.e8cf672f.d006a9ab.7a5c6103.ad552ad3.7862
+cebb.43b5c09b.82428e5e.8d97c686.339556e3.1e25c647.c2a9bf6e.1bc6c541.1ffc7449.1ff
+1acab.9fe5c60c.a2112d13.4deb09d7. 49945d2.14b05d59.7a823210.8a09f2cc.7099923f.54
+b6b7aa.d50e5f33.32a07074.eaa8d204.6d360fd9.cdabf446.4c0b5d05.c3af0ea4.146b2df9.8
+082b4b9.9d67797b. a4b3326.ff8bad5d.9dd41d24. 6518cf0.4a4d3aae.e35ade3e.a3d00dc3.
+6e46f425.baac6208.c522fbf1.40e7970d.e64d2b63.2f22d017.c612c7e2.6c684016.79dfe5ac
+. 4e0908c.56399fbb.2a774e46.b4fdfbd5.8e5e14ce.f3f0691c.]
+2-      [
+33f64e41. Engolo  dir (1),base(4),tol (e)
+537d0f79. Engolo  dir (9),base(7),tol (f)
+89c2aa04. SensorQ ddir(2),dtip(c)=dir (4),radi(0),base(a),tol (a)
+33f64e41. Engolo  dir (1),base(4),tol (e)
+9354b3f2. Engolo  dir (2),base(f),tol (3)
+853af002. Ataca   dir (2),base(0),tol (0),atac(f)
+56c5fa62. Avanca  dir (2)
+]
+1-      [
+33f64e41. Engolo  dir (1),base(4),tol (e)
+537d0f79. Engolo  dir (9),base(7),tol (f)
+89c2aa04. SensorQ ddir(2),dtip(c)=dir (4),radi(0),base(a),tol (a)
+33f64e41. Engolo  dir (1),base(4),tol (e)
+9354b3f2. Engolo  dir (2),base(f),tol (3)
+853af002. Ataca   dir (2),base(0),tol (0),atac(f)
+56c5fa62. Avanca  dir (2)
+]
+0-      [
+221b67b7. If
+215a5252. Mitosi  dir (2),ener(5)
+84c946b1. Excreta dir (1),base(b),tol (6)
+9beb75dd. Carrega dest(d)
+b81ad123. SensorP -----------
+ce0cd7f9. Oposa   dest(9),op1 (f)
+]
+\end{verbatim}
+}
+
+
+
+
+

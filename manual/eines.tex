@@ -6,43 +6,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 En aquest apartat s'expliquen algunes eines que s'han implementat per
-tal d'afavorir l'implementació de la resta del sistema.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Dispositius d'entrada i sortida portables}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-Seguint el paradigma model-vista-controlador el nucli del sistema, el 
-model, hauria de ser independent de l'entorn on executem l'aplicació. 
-Tot i així, a dintre del nucli cal fer algunes operacions d'entrada i 
-sortida, com a mínim per fer les tasques de depurat i els missatges 
-d'error. Per això, ens facilitaria molt les coses que un
-objecte que tingués un comportament semblant a un {\tt iostream} de
-C++ però que permeti redireccionar els missatges per gestionar com
-es visualtitzen depenent de l'entorn destí.
-
-S'ha implementat un objecte {\tt CMissatger} que es comporta de
-forma molt similar als {\tt iostreams}. Aquest objecte conté una 
-referència a un objecte que pertany a una classe derivada de la 
-clase abstracta {\tt COutputer}. La classe abstracta {\tt COutputer}
-defineix un protocol molt senzill d'inserció de missatges, per ser 
-controlat per {\tt CMissatger}. Segons la subclasse a que pertanyi
-l'objecte {\tt COutputer} els missatges insertats es visualitzen 
-d'una forma o d'altra.
-
-Ara mateix estan implementats els seguents {\tt COutputer}'s:
-\begin{itemize}
-\item Consola estàndard
-\item Control d'edició de MS-Windows
-\item Caixes de missatges de MS-Windows
-\item Pop up de la llibreria Curses
-\item Un scroll limitat de la pantalla fent servir codis ANSI
-\item Una llista d'strings de la llibreria STL (per imprimir-los en diferit)
-\end{itemize}
-
-En cas de voler una altre dispositiu de sortida, només cal crear el
-COutputer edient que és una tasca molt senzilla.
-
+tal d'afavorir la implementació de la resta del sistema.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Funció de compatibilitat de claus}
@@ -78,11 +42,11 @@ coincidència el podrem obtenir fent-ne la o exclusiva bit a bit i
 complementant el resultat. Al número obtingut l'anomenarem
 coincidència (C). El nivell de tolerància tambe pot ser un enter (T)
 que ens vindra donat i l'indeterminisme el pot introduir un altre
-enter (R) tret d'una funcio pseudo-aleatoria.
+enter (R) tret d'una funcio pseudo-aleatòria.
 
 \subsubsection{Opció 1}
 
-Els uns del número generat pseudo-aleatoriament (R) es 'filtren' per
+Els uns del número generat pseudo-aleatòriament (R) es 'filtren' per
 la coincidència (C) de tal forma ke nomes arribin els uns que
 estiguin en una posició on no hi havia coincidència entre claus. La
 tolerància (T) indica el número d'uns que admetem com a màxim per
@@ -140,7 +104,8 @@ número de uns a la T en comptes del seu valor.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=6.1 in, keepaspectratio, draft]{compatibilitat2}
+%    \includegraphics[width=6.1 in, keepaspectratio, draft]{compatibilitat2}
+    \framebox[6.2 in]{TODO: Posar la gràfica compatibilitat2}
     \label{fig:compat2}
     \caption{Probabilitat d'encerts segons el nombre d'uns presents a la coincidència i a la tolerància amb la funció de compatibilitat número 2}
 \end{figure}
@@ -170,7 +135,7 @@ Per exemple, es va provar la funció
 \end{equation}
 
 per sintetitzar en una fòrmula els dos conceptes de tolerància que
-hem vist, una tolerància que dòna significat a la posició dels uns i
+hem vist, una tolerància que dóna significat a la posició dels uns i
 una altra que permet tolerar globalment un cert nombre d'uns
 independentment de la posició.
 
@@ -183,26 +148,72 @@ Degut als pocs bits (32) amb els que juga i a que hi havia dos punts on es toler
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Dispositius d'entrada i sortida portables}
+\label{sec:Missatger}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Seguint el paradigma model-vista-controlador el nucli del sistema, el 
+model, hauria de ser independent de l'entorn on executem l'aplicació. 
+Tot i així, a dintre del nucli cal fer algunes operacions d'entrada i 
+sortida, com a mínim per fer les tasques de depurat i els missatges 
+d'error. Per això, ens facilitaria molt les coses que un
+objecte que tingués un comportament semblant a un {\tt iostream} de
+C++ però que permeti redireccionar els missatges per gestionar com
+es visualtitzen depenent de l'entorn destí.
+
+S'ha implementat un objecte {\tt CMissatger} que es comporta de
+forma molt similar als {\tt iostreams}. Aquest objecte conté una 
+referència a un objecte que pertany a una classe derivada de la 
+clase abstracta {\tt COutputer}. La classe abstracta {\tt COutputer}
+defineix un protocol molt senzill d'inserció de missatges, per ser 
+controlat per {\tt CMissatger}. Segons la subclasse a que pertanyi
+l'objecte {\tt COutputer} els missatges insertats es visualitzen 
+d'una forma o d'altra.
+
+Ara mateix estan implementats els seguents {\tt COutputer}'s:
+\begin{itemize}
+\item Consola estàndard
+\item Control d'edició de MS-Windows
+\item Caixes de missatges de MS-Windows
+\item Pop up de la llibreria Curses
+\item Un scroll limitat de la pantalla fent servir codis ANSI
+\item Una llista d'strings de la llibreria STL (per imprimir-los en diferit)
+\end{itemize}
+
+En cas de voler una altre dispositiu de sortida, només cal crear el
+COutputer edient que és una tasca molt senzilla.
+
+\begin{figure}[h]
+    \centering
+    %\includegraphics[width=6.1 in, keepaspectratio, draft]{misatger}
+    \framebox[6.2 in]{TODO: Esquema de la relació Nucli-CMissatger-COutputer}
+    \label{fig:Missatger}
+    \caption{Encapsulament dels dispositius de sortida}
+\end{figure}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Seqüències d'escapament ANSI}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 De cara a obtenir una sortida rica, però, conservar el caracter 
-portable de l'aplicació, s'ha optat per fer servir seqüències
-d'escapament ANSI en un terminal de texte. Aquestes seqüències 
-permeten fixar colors, posicionar el cursor, netejar la pantalla...
-i d'altres operacions en terminals que compleixin aquest estàndard.
-Això inclou els terminals de Linux i les consoles de MS-DOS i 
-MS-Windows després de instalar el controlador {\tt ANSI.SYS}.
+portable d'aquest primer prototipus, s'ha optat per fer servir 
+seqüències d'escapament ANSI en un terminal de texte. Aquestes 
+seqüències permeten fixar colors, posicionar el cursor, netejar la 
+pantalla... i d'altres operacions en terminals que compleixin aquest 
+estàndard. Això inclou els terminals de Linux i les consoles de MS-DOS 
+i MS-Windows després de instalar el controlador {\tt ANSI.SYS}.
 
 S'ha optat per implementar una biblioteca pròpia per ajudar a insertar
-aquests codis donat que totes les biblioteques que provades que 
+aquests codis donat que totes les biblioteques provades que 
 treballaven amb aquestes seqüències, no eren prou optimes com per 
-l'ús masiu que es fa d'elles al projecte. A més, cap de les provades
-feia un enfoc compatible amb els {\tt iostream}'s de C++.
+l'ús masiu que calia fer d'elles. A més, tampoc feien un enfoc 
+compatible amb els {\tt iostream}'s de C++.
 
-Els símbols que defineix la biblioteca de codis ANSI es poden insertar
-sense problemes en un {\tt iostream} qualsevol (fins i tot a un fitxer
-obert), o en la classe {\tt CMissatger} implementada.
+Com que els símbols que defineix la biblioteca de codis ANSI es poden 
+insertar sense problemes en un {\tt iostream} qualsevol, no hi ha
+cap problema en enviar-los a un fitxer obert, o la a classe {\tt 
+CMissatger} implementada (veure \ref{sec:Missatger}).
 
 Generalment la inserció optimitzada simplement inserta una cadena 
 predefinida, o, si hi ha paràmetres, substitueix els caracters que
@@ -218,16 +229,18 @@ en ser inserits en un {\tt stream} inserta la seqüència d'escapament
 corresponent.
 
 En resum, la biblioteca permet expressions com aquesta:
+{\setlinespacing{1}
 \begin{verbatim}
-  cout 
-       << clrscr << gotoxy(3,4) << blau.fons(vermell) 
+  cout << clrscr << gotoxy(3,4) << blau.fons(vermell) 
        << "Hola Món" << blau.brillant() << "!!!" << endl;
 \end{verbatim}
+}
 que es resolen de forma bastant optima comparant-ho amb altres 
 llibreries de l'estil.
 
 
 A mode d'exemple posem com hem solucionat cada tipus de seqüència:
+{\setlinespacing{1}
 \begin{verbatim}
   // Sequencia constant
   const char clrscr[] = "\033[2J";
@@ -253,7 +266,19 @@ A mode d'exemple posem com hem solucionat cada tipus de seqüència:
     return str.str();
   }
 \end{verbatim}
+}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Objecte de configuració}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Els objectes configuradors llegeixen un fitxer de configuració amb 
+paràmetres numèrics sobre el sistema. Cada paràmetre té asociat un 
+identificador pel qual pot ser consultat el paràmetre.
+
+L'avantatge d'aquest procediment per configurar el sistema és que
+és molt fàcil afegir paràmetres configurables amb valors per defecte
+al sistema.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

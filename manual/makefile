@@ -1,3 +1,5 @@
+# Opciones
+# all ps pdf html
 RM=rm
 MAINBASE:=bioscena
 MAINTEX:=$(MAINBASE).tex
@@ -21,21 +23,13 @@ FINALS:= $(DVI) $(PDF) $(HTML) $(PS)
 #TEXOPTS:=--src-specials --c-style-errors
 TEXOPTS:=
 
-default: copirrait ${POSTSCRIPT}
-
-pre: $(BBL)
-
-all: copirrait ${POSTSCRIPT} ${PDF}  $(HTML)
-
-pdf: copirrait ${PDF}
-
+default: copirrait $(AUX) $(BBL) $(IDX) ${POSTSCRIPT} 
 ps: copirrait ${POSTSCRIPT}
-
+pre: copirrait $(AUX) $(BBL) $(IDX)
+all: copirrait ${POSTSCRIPT} ${PDF}  $(HTML)
+dvi: copirrait ${DVI}
+pdf: copirrait ${PDF}
 html: copirrait $(HTML)
-
-copirrait:
-	@echo KKEPerians UNLTD LaTeX makefile file ------------------
-	buildnum
 
 clean: copirrait 
 	@echo
@@ -49,16 +43,22 @@ cleannoout: copirrait
 
 todo: copirrait 
 	@echo
-	@echo --- Llistant feines pendents ----------------------
+	@echo --- Llistant feines pendents --------------------------
 	grep -n TODO $(TEXSOURCES) $(BIBSOURCES) | more
 
+copirrait:
+	@echo --- KKEPerians UNLTD LaTeX makefile file --------------
+	buildnum
 
 $(BOUNDINGBOXES): $(JPGSOURCES) 
+	@echo
+	@echo --- Bounding box $(JPGSOURCE) -------------------------
 	ebb $<
 
-$(AUX): $(TEXSOURCES) $(BIBSOURCES) $(BOUNDINGBOXES)
+$(AUX): $(TEXSOURCES) $(AUX) $(TOC) $(IND) $(BBL) $(BIBSOURCES) $(BOUNDINGBOXES)
 	@echo
-	@echo --- Precompilant $(MAINTEX) -----------------------------------
+	@echo --- Precompilant $(MAINTEX) ---------------------------
+	latex $(TEXOPTS) $(MAINTEX)
 	latex $(TEXOPTS) $(MAINTEX)
 
 $(TOC): $(TEXSOURCES)
@@ -70,26 +70,25 @@ $(IND): $(IDX)
 	@echo --- Generant Index IDX $@ -----------------------------
 	makeindex $< -o $@ 
 
-$(DVI): $(AUX) $(TOC) $(IND) $(BBL)
-	@echo
-	@echo --- Generant Sortida DVI $@ ---------------------------
-	latex $(TEXOPTS) $(MAINTEX)
-	latex $(TEXOPTS) $(MAINTEX)
-
 $(BBL): $(BIBSOURCES) $(AUX)
 	bibtex $(MAINBASE)
 
-${POSTSCRIPT}: $(DVI)
+$(DVI): $(TEXSOURCES)
+	@echo
+	@echo --- Generant Sortida DVI $@ ---------------------------
+	latex $(TEXOPTS) $(MAINTEX)
+
+${POSTSCRIPT}: $(DVI) 
 	@echo
 	@echo --- Generant Sortida Postscript $@ --------------------
 	dvips $(DVI) -z -o $(POSTSCRIPT)
 
-$(PDF): $(AUX) $(TOC) $(IDX)
+$(PDF): $(TEXSOURCES)
 	@echo
 	@echo --- Generant Sortida PDF $@ ---------------------------
 	pdflatex $(TEXOPTS) $(MAINTEX)
 
-$(HTML): $(AUX) $(TOC) $(IDX)
+$(HTML): $(TEXSOURCES)
 	@echo
 	@echo --- Generant Sortida HTML $@ --------------------------
 	tth -L <$(MAINTEX) >$@
