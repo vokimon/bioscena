@@ -13,7 +13,7 @@ using namespace AnsiCodes;
 
 Torus::Torus(uint32 xMax=5, uint32 yMax=5)
 	// Precondicions:
-	//   nD<xMax<0x1FFFFFFF on nD es el nombre maxim de desplacaments basics a un desplacament complert
+	//   nD<xMax<0x1FFFFFFF on nD es el nombre maxim de displacements basics a un displacement complert
 	//   2<yMax<(0xFFFFFFFF>>digitsSignificatius(xMax))
 : Topology(xMax*yMax)
 {
@@ -74,7 +74,7 @@ void Torus::ProvaClasse(void) {
 		uint32 direccio;
 		rnd>>direccio;
 		for (i=6;i--;) cuc[i+1]=cuc[i];
-		cuc[0]=topo.desplacament(cuc[0],direccio);
+		cuc[0]=topo.displace(cuc[0],direccio);
 		if (cuc[0]==cuc[6]) cuc[0]=topo.posicioAleatoria();
 		out<<"Celles"<<setw(5)<<setfill(' ');
 		for (i=7;i--;) out << cuc[i] << " - ";
