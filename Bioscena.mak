@@ -52,14 +52,16 @@ CLEAN :
 	-@erase "$(INTDIR)\Agent.obj"
 	-@erase "$(INTDIR)\AppInfo.obj"
 	-@erase "$(INTDIR)\Color.obj"
+	-@erase "$(INTDIR)\Compatibilitat.obj"
 	-@erase "$(INTDIR)\Cumulador.obj"
-	-@erase "$(INTDIR)\Encaix.obj"
 	-@erase "$(INTDIR)\GeneradorMascares.obj"
+	-@erase "$(INTDIR)\Itineraris.obj"
 	-@erase "$(INTDIR)\MainBio1.obj"
 	-@erase "$(INTDIR)\Missatger.obj"
 	-@erase "$(INTDIR)\Posicionador.obj"
 	-@erase "$(INTDIR)\RandomStream.obj"
 	-@erase "$(INTDIR)\Substrat.obj"
+	-@erase "$(INTDIR)\Temporitzador.obj"
 	-@erase "$(INTDIR)\Topologia.obj"
 	-@erase "$(INTDIR)\TopologiaToroidal.obj"
 	-@erase "$(INTDIR)\vc50.idb"
@@ -86,14 +88,16 @@ LINK32_OBJS= \
 	"$(INTDIR)\Agent.obj" \
 	"$(INTDIR)\AppInfo.obj" \
 	"$(INTDIR)\Color.obj" \
+	"$(INTDIR)\Compatibilitat.obj" \
 	"$(INTDIR)\Cumulador.obj" \
-	"$(INTDIR)\Encaix.obj" \
 	"$(INTDIR)\GeneradorMascares.obj" \
+	"$(INTDIR)\Itineraris.obj" \
 	"$(INTDIR)\MainBio1.obj" \
 	"$(INTDIR)\Missatger.obj" \
 	"$(INTDIR)\Posicionador.obj" \
 	"$(INTDIR)\RandomStream.obj" \
 	"$(INTDIR)\Substrat.obj" \
+	"$(INTDIR)\Temporitzador.obj" \
 	"$(INTDIR)\Topologia.obj" \
 	"$(INTDIR)\TopologiaToroidal.obj"
 
@@ -124,14 +128,16 @@ CLEAN :
 	-@erase "$(INTDIR)\Agent.obj"
 	-@erase "$(INTDIR)\AppInfo.obj"
 	-@erase "$(INTDIR)\Color.obj"
+	-@erase "$(INTDIR)\Compatibilitat.obj"
 	-@erase "$(INTDIR)\Cumulador.obj"
-	-@erase "$(INTDIR)\Encaix.obj"
 	-@erase "$(INTDIR)\GeneradorMascares.obj"
+	-@erase "$(INTDIR)\Itineraris.obj"
 	-@erase "$(INTDIR)\MainBio1.obj"
 	-@erase "$(INTDIR)\Missatger.obj"
 	-@erase "$(INTDIR)\Posicionador.obj"
 	-@erase "$(INTDIR)\RandomStream.obj"
 	-@erase "$(INTDIR)\Substrat.obj"
+	-@erase "$(INTDIR)\Temporitzador.obj"
 	-@erase "$(INTDIR)\Topologia.obj"
 	-@erase "$(INTDIR)\TopologiaToroidal.obj"
 	-@erase "$(INTDIR)\vc50.idb"
@@ -162,14 +168,16 @@ LINK32_OBJS= \
 	"$(INTDIR)\Agent.obj" \
 	"$(INTDIR)\AppInfo.obj" \
 	"$(INTDIR)\Color.obj" \
+	"$(INTDIR)\Compatibilitat.obj" \
 	"$(INTDIR)\Cumulador.obj" \
-	"$(INTDIR)\Encaix.obj" \
 	"$(INTDIR)\GeneradorMascares.obj" \
+	"$(INTDIR)\Itineraris.obj" \
 	"$(INTDIR)\MainBio1.obj" \
 	"$(INTDIR)\Missatger.obj" \
 	"$(INTDIR)\Posicionador.obj" \
 	"$(INTDIR)\RandomStream.obj" \
 	"$(INTDIR)\Substrat.obj" \
+	"$(INTDIR)\Temporitzador.obj" \
 	"$(INTDIR)\Topologia.obj" \
 	"$(INTDIR)\TopologiaToroidal.obj"
 
@@ -220,10 +228,18 @@ SOURCE=.\Agent.cpp
 DEP_CPP_AGENT=\
 	".\Agent.h"\
 	".\BioIncludes.h"\
+	".\Color.h"\
+	".\Cumulador.h"\
+	".\Itineraris.h"\
 	".\Missatger.h"\
 	".\Outputer.h"\
 	".\Portable.h"\
+	".\Posicionador.h"\
 	".\RandomStream.h"\
+	".\Substrat.h"\
+	".\Temporitzador.h"\
+	".\Topologia.h"\
+	".\TopologiaToroidal.h"\
 	
 
 "$(INTDIR)\Agent.obj" : $(SOURCE) $(DEP_CPP_AGENT) "$(INTDIR)"
@@ -233,11 +249,8 @@ DEP_CPP_AGENT=\
 
 DEP_CPP_AGENT=\
 	".\Agent.h"\
-	".\BioIncludes.h"\
 	".\Missatger.h"\
 	".\Outputer.h"\
-	".\Portable.h"\
-	".\RandomStream.h"\
 	
 
 "$(INTDIR)\Agent.obj" : $(SOURCE) $(DEP_CPP_AGENT) "$(INTDIR)"
@@ -303,6 +316,40 @@ DEP_CPP_COLOR=\
 
 !ENDIF 
 
+SOURCE=.\Compatibilitat.cpp
+
+!IF  "$(CFG)" == "Bioscena - Win32 Release"
+
+DEP_CPP_COMPA=\
+	".\BioIncludes.h"\
+	".\Compatibilitat.h"\
+	".\GeneradorMascares.h"\
+	".\Missatger.h"\
+	".\Outputer.h"\
+	".\Portable.h"\
+	".\RandomStream.h"\
+	
+
+"$(INTDIR)\Compatibilitat.obj" : $(SOURCE) $(DEP_CPP_COMPA) "$(INTDIR)"
+
+
+!ELSEIF  "$(CFG)" == "Bioscena - Win32 Debug"
+
+DEP_CPP_COMPA=\
+	".\BioIncludes.h"\
+	".\Compatibilitat.h"\
+	".\GeneradorMascares.h"\
+	".\Missatger.h"\
+	".\Outputer.h"\
+	".\Portable.h"\
+	".\RandomStream.h"\
+	
+
+"$(INTDIR)\Compatibilitat.obj" : $(SOURCE) $(DEP_CPP_COMPA) "$(INTDIR)"
+
+
+!ENDIF 
+
 SOURCE=.\Cumulador.cpp
 
 !IF  "$(CFG)" == "Bioscena - Win32 Release"
@@ -319,6 +366,7 @@ DEP_CPP_CUMUL=\
 	".\Posicionador.h"\
 	".\RandomStream.h"\
 	".\Substrat.h"\
+	".\Temporitzador.h"\
 	".\Topologia.h"\
 	".\TopologiaToroidal.h"\
 	
@@ -328,42 +376,24 @@ DEP_CPP_CUMUL=\
 
 !ELSEIF  "$(CFG)" == "Bioscena - Win32 Debug"
 
-
-"$(INTDIR)\Cumulador.obj" : $(SOURCE) "$(INTDIR)"
-
-
-!ENDIF 
-
-SOURCE=.\Encaix.cpp
-
-!IF  "$(CFG)" == "Bioscena - Win32 Release"
-
-DEP_CPP_ENCAI=\
+DEP_CPP_CUMUL=\
+	".\Agent.h"\
 	".\BioIncludes.h"\
-	".\Encaix.h"\
-	".\GeneradorMascares.h"\
+	".\Color.h"\
+	".\Cumulador.h"\
+	".\Itineraris.h"\
 	".\Missatger.h"\
 	".\Outputer.h"\
 	".\Portable.h"\
+	".\Posicionador.h"\
 	".\RandomStream.h"\
+	".\Substrat.h"\
+	".\Temporitzador.h"\
+	".\Topologia.h"\
+	".\TopologiaToroidal.h"\
 	
 
-"$(INTDIR)\Encaix.obj" : $(SOURCE) $(DEP_CPP_ENCAI) "$(INTDIR)"
-
-
-!ELSEIF  "$(CFG)" == "Bioscena - Win32 Debug"
-
-DEP_CPP_ENCAI=\
-	".\BioIncludes.h"\
-	".\Encaix.h"\
-	".\GeneradorMascares.h"\
-	".\Missatger.h"\
-	".\Outputer.h"\
-	".\Portable.h"\
-	".\RandomStream.h"\
-	
-
-"$(INTDIR)\Encaix.obj" : $(SOURCE) $(DEP_CPP_ENCAI) "$(INTDIR)"
+"$(INTDIR)\Cumulador.obj" : $(SOURCE) $(DEP_CPP_CUMUL) "$(INTDIR)"
 
 
 !ENDIF 
@@ -398,6 +428,54 @@ DEP_CPP_GENER=\
 
 !ENDIF 
 
+SOURCE=.\Itineraris.cpp
+
+!IF  "$(CFG)" == "Bioscena - Win32 Release"
+
+DEP_CPP_ITINE=\
+	".\Agent.h"\
+	".\BioIncludes.h"\
+	".\Color.h"\
+	".\Cumulador.h"\
+	".\Itineraris.h"\
+	".\Missatger.h"\
+	".\Outputer.h"\
+	".\Portable.h"\
+	".\Posicionador.h"\
+	".\RandomStream.h"\
+	".\Substrat.h"\
+	".\Temporitzador.h"\
+	".\Topologia.h"\
+	".\TopologiaToroidal.h"\
+	
+
+"$(INTDIR)\Itineraris.obj" : $(SOURCE) $(DEP_CPP_ITINE) "$(INTDIR)"
+
+
+!ELSEIF  "$(CFG)" == "Bioscena - Win32 Debug"
+
+DEP_CPP_ITINE=\
+	".\Agent.h"\
+	".\BioIncludes.h"\
+	".\Color.h"\
+	".\Cumulador.h"\
+	".\Itineraris.h"\
+	".\Missatger.h"\
+	".\Outputer.h"\
+	".\Portable.h"\
+	".\Posicionador.h"\
+	".\RandomStream.h"\
+	".\Substrat.h"\
+	".\Temporitzador.h"\
+	".\Topologia.h"\
+	".\TopologiaToroidal.h"\
+	
+
+"$(INTDIR)\Itineraris.obj" : $(SOURCE) $(DEP_CPP_ITINE) "$(INTDIR)"
+
+
+!ENDIF 
+
 SOURCE=.\MainBio1.cpp
 
 !IF  "$(CFG)" == "Bioscena - Win32 Release"
@@ -410,12 +488,14 @@ DEP_CPP_MAINB=\
 	".\Compatibilitat.h"\
 	".\Cumulador.h"\
 	".\GeneradorMascares.h"\
+	".\Itineraris.h"\
 	".\Missatger.h"\
 	".\Outputer.h"\
 	".\Portable.h"\
 	".\Posicionador.h"\
 	".\RandomStream.h"\
 	".\Substrat.h"\
+	".\Temporitzador.h"\
 	".\Topologia.h"\
 	".\TopologiaToroidal.h"\
 	
@@ -426,16 +506,21 @@ DEP_CPP_MAINB=\
 !ELSEIF  "$(CFG)" == "Bioscena - Win32 Debug"
 
 DEP_CPP_MAINB=\
+	".\Agent.h"\
 	".\AppInfo.h"\
 	".\BioIncludes.h"\
 	".\Color.h"\
 	".\Compatibilitat.h"\
+	".\Cumulador.h"\
 	".\GeneradorMascares.h"\
+	".\Itineraris.h"\
 	".\Missatger.h"\
 	".\Outputer.h"\
 	".\Portable.h"\
+	".\Posicionador.h"\
 	".\RandomStream.h"\
 	".\Substrat.h"\
+	".\Temporitzador.h"\
 	".\Topologia.h"\
 	".\TopologiaToroidal.h"\
 	
@@ -470,7 +555,11 @@ DEP_CPP_MISSA=\
 !ENDIF 
 
 SOURCE=.\Posicionador.cpp
+
+!IF  "$(CFG)" == "Bioscena - Win32 Release"
+
 DEP_CPP_POSIC=\
+	".\Agent.h"\
 	".\BioIncludes.h"\
 	".\Missatger.h"\
 	".\Outputer.h"\
@@ -483,6 +572,25 @@ DEP_CPP_POSIC=\
 
 "$(INTDIR)\Posicionador.obj" : $(SOURCE) $(DEP_CPP_POSIC) "$(INTDIR)"
 
+
+!ELSEIF  "$(CFG)" == "Bioscena - Win32 Debug"
+
+DEP_CPP_POSIC=\
+	".\Agent.h"\
+	".\BioIncludes.h"\
+	".\Missatger.h"\
+	".\Outputer.h"\
+	".\Portable.h"\
+	".\Posicionador.h"\
+	".\RandomStream.h"\
+	".\Substrat.h"\
+	".\Topologia.h"\
+	
+
+"$(INTDIR)\Posicionador.obj" : $(SOURCE) $(DEP_CPP_POSIC) "$(INTDIR)"
+
+
+!ENDIF 
 
 SOURCE=.\RandomStream.cpp
 
@@ -521,7 +629,7 @@ SOURCE=.\Substrat.cpp
 DEP_CPP_SUBST=\
 	".\BioIncludes.h"\
 	".\Color.h"\
-	".\Encaix.h"\
+	".\encaix.h"\
 	".\GeneradorMascares.h"\
 	".\Missatger.h"\
 	".\Outputer.h"\
@@ -538,7 +646,7 @@ DEP_CPP_SUBST=\
 DEP_CPP_SUBST=\
 	".\BioIncludes.h"\
 	".\Color.h"\
-	".\Encaix.h"\
+	".\encaix.h"\
 	".\GeneradorMascares.h"\
 	".\Missatger.h"\
 	".\Outputer.h"\
@@ -548,6 +656,40 @@ DEP_CPP_SUBST=\
 	
 
 "$(INTDIR)\Substrat.obj" : $(SOURCE) $(DEP_CPP_SUBST) "$(INTDIR)"
+
+
+!ENDIF 
+
+SOURCE=.\Temporitzador.cpp
+
+!IF  "$(CFG)" == "Bioscena - Win32 Release"
+
+DEP_CPP_TEMPO=\
+	".\Agent.h"\
+	".\BioIncludes.h"\
+	".\Missatger.h"\
+	".\Outputer.h"\
+	".\Portable.h"\
+	".\RandomStream.h"\
+	".\Temporitzador.h"\
+	
+
+"$(INTDIR)\Temporitzador.obj" : $(SOURCE) $(DEP_CPP_TEMPO) "$(INTDIR)"
+
+
+!ELSEIF  "$(CFG)" == "Bioscena - Win32 Debug"
+
+DEP_CPP_TEMPO=\
+	".\Agent.h"\
+	".\BioIncludes.h"\
+	".\Missatger.h"\
+	".\Outputer.h"\
+	".\Portable.h"\
+	".\RandomStream.h"\
+	".\Temporitzador.h"\
+	
+
+"$(INTDIR)\Temporitzador.obj" : $(SOURCE) $(DEP_CPP_TEMPO) "$(INTDIR)"
 
 
 !ENDIF 

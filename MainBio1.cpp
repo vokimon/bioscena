@@ -13,7 +13,9 @@
 #include "TopologiaToroidal.h"
 #include "Substrat.h"
 #include "Agent.h"
+#include "Itineraris.h"
 #include "Cumulador.h"
+#include "Temporitzador.h"
 
 //#include "Biosistema.h"
 //#include "Comunitat.h"
@@ -28,8 +30,7 @@ void main ()
 {
 	out << cyan.brillant() << CAppInfo::MyAppInfo << blanc << endl;
 
-// Proves classes d'implementacio
-
+// Proves eines d'implementacio
 //	CMissatger::ProvaClasse();
 //	ProvaTemplateCompatibilitat<uint32>(); // OK
 //	CEncaix<uint32>::ProvaClasse();
@@ -38,15 +39,21 @@ void main ()
 //	CLlistaDinamica<int>::ProvaClasse();
 //	CGeneradorMascares<uint32>::ProvaClasse();
 
-// Proves classes  Genetix
-
+// Proves Biotop
 //	CTopologia<CColor>::ProvaClasse(); //OK
 //	CTopologiaToroidal<CColor>::ProvaClasse(); //OK
-	CSubstrat::ProvaClasse(); //OK
+//	CSubstrat::ProvaClasse(); //OK
 //	CTopologiaToroidal<CSubstrat>::ProvaClasse(); //OK
-//	CAgent<void(*)()>::ProvaClasse();
-//	CCumulador::ProvaClasse();
-	CClareador::ProvaClasse();
+
+// Proves Agents diversos
+//	CAgentEnmascarador<void *()>::ProvaClasse(); //OK
+//	CTemporitzador::ProvaClasse(); //OK
+//	CCumulador::ProvaClasse();//OK
+//	CClarejador::ProvaClasse();//Ok
+//	CPosicionadorAleatori::ProvaClasse(); //OK
+//	CDireccionadorAleatori::ProvaClasse(); //OK
+//	CPosicionadorZonal::ProvaClasse(); //OK
+	CMultiAgent::ProvaClasse();
 
 //	CTaxo::ProvaClasse();
 //	CTaxonomista::ProvaClasse();
@@ -57,5 +64,4 @@ void main ()
 //	cout << ">> Final de proves. Pulsa una tecla...";
 //	char a;
 //	cin >> a;
-
 }
