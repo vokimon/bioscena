@@ -47,7 +47,7 @@ void CEnergiaDisipable::dump(CMissatger & msg)
 }
 
 ostream & CEnergiaDisipable::store(ostream & str) {
-//	str << binary;
+	// TODO: Serializar el indicador de slot actual
 	str.write((char*)&m_nSlots, sizeof(uint32));
 	for (uint32 i=0; i<m_nSlots; i++)
 		str.write((char*)&(m_slots[i]),sizeof(uint32));
@@ -55,14 +55,18 @@ ostream & CEnergiaDisipable::store(ostream & str) {
 }
 
 istream & CEnergiaDisipable::load(istream & str) {
+	// TODO: Serializar el indicador de slot actual
 	if (m_slots) delete [] m_slots;
-//	str >> binary;
+	m_total=0;
 	str.read((char*)&m_nSlots, sizeof(uint32));
 	m_slots=new uint32[m_nSlots];
 	for (uint32 i=0; i<m_nSlots; i++) {
 		uint32 nouSlot;
 		str.read((char*)&nouSlot,sizeof(uint32));
-		if (m_slots) m_slots[i]=nouSlot;
+		if (m_slots) {
+			m_slots[i]=nouSlot;
+			m_total+=nouSlot;
+		}
 	}
 	return str;
 }

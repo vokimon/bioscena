@@ -30,7 +30,7 @@ ${EXEC}: $(OBJSCPP) $(OBJSC)
 #	@echo --- Linkant $@
 	${CPPC} $(LDFLAGS) $(OBJSCPP) $(OBJSC) ${LDLIBS} -o ${EXEC} 
 
-$(OBJSC) %.o: %.c
+$(OBJSC) : %.o: %.c
 #	@echo --- Compilant $<
 	${CC} ${CFLAGS} -c $< -o $@
 

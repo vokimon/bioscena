@@ -7,6 +7,7 @@
 #include "Temporitzador.h"
 #include "TopologiaToroidal.h"
 #include "Iterador.h"
+#include "Biotop.h"
 #include "MultiAgent.h"
 #include "Color.h"
 
@@ -16,7 +17,8 @@ using namespace AnsiCodes;
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CNutridor::CNutridor()
+CNutridor::CNutridor(t_biotop & biotop)
+	: CActuador(biotop)
 {
 	m_tipus+="/Nutridor";
 	m_variabilitat=0;
@@ -28,7 +30,8 @@ CNutridor::~CNutridor()
 
 }
 
-CDesnutridor::CDesnutridor()
+CDesnutridor::CDesnutridor(t_biotop & biotop)
+	: CNutridor(biotop)
 {
 	m_tipus+="/Invers";
 }
@@ -75,10 +78,12 @@ void CNutridor::composicio(uint32 element, uint32 variabilitat)
 
 void CNutridor::ProvaClasse()
 {
+	//TODO: Treure els comentaris dels debug presenta
 	out << clrscr;
 	out << blanc.brillant() << "Provant Agent Nutridor" << endl;
 	
-	CTopologiaToroidal<CSubstrat> biotop(70,22);
+	CTopologiaToroidal topo(70,22);
+	CBiotop<CSubstrat> biotop(&topo);
 
 	CMultiAgent agents;
 
@@ -91,7 +96,7 @@ void CNutridor::ProvaClasse()
 	CPosicionador* posicio = new CPosicionadorZonal(biotop);
 	((CPosicionadorZonal*)posicio)->posicionador(posicioCentral);
 
-	CActuador * nutridor = new CNutridor;
+	CActuador * nutridor = new CNutridor(biotop);
 	nutridor->posicionador(posicio);
 	((CNutridor*)nutridor)->composicio(31, 0);
 
@@ -113,7 +118,7 @@ void CNutridor::ProvaClasse()
 	{
 		agents();
 		if (!(i%5)) {
-			biotop.debugPresenta(out);
+//			biotop.debugPresenta(out);
 			out << setw(4) << blanc.fosc() << i <<endl;
 		}
 	}
@@ -123,10 +128,12 @@ void CNutridor::ProvaClasse()
 
 void CDesnutridor::ProvaClasse()
 {
+	//TODO: Treure els comentaris dels debug presenta
 	out << clrscr;
 	out << blanc.brillant() << "Provant Agent Desnutridor" << endl;
 
-	CTopologiaToroidal<CSubstrat> biotop(70,22);
+	CTopologiaToroidal topo(70,22);
+	CBiotop<CSubstrat> biotop(&topo);
 
 	CMultiAgent agents;
 
@@ -137,7 +144,7 @@ void CDesnutridor::ProvaClasse()
 	((CPosicionadorZonal*)posicio)->posicionador(posicioCentral);
 	((CPosicionadorZonal*)posicio)->radi(4);
 
-	CActuador * cum = new CNutridor;
+	CActuador * cum = new CNutridor(biotop);
 	((CNutridor*)cum)->posicionador(posicio);
 //	cum->distribucio (10, 4);
 	((CNutridor*)cum)->composicio (31, 0);
@@ -150,7 +157,7 @@ void CDesnutridor::ProvaClasse()
 	{
 		agents();
 		if (!(i%5)) {
-			biotop.debugPresenta(out);
+//			biotop.debugPresenta(out);
 			out << blanc.fosc() << setw(4) << i <<endl;
 		}
 	}
@@ -158,7 +165,7 @@ void CDesnutridor::ProvaClasse()
 	((CPosicionadorZonal*)posicio2)->posicionador(posicioCentral);
 	((CPosicionadorZonal*)posicio2)->radi(1);
 
-	CActuador * cla = new CDesnutridor;
+	CActuador * cla = new CDesnutridor(biotop);
 	cla->posicionador(posicio2);
 	((CDesnutridor*)cla)->composicio (31, 0xFFFFFFFF);
 
@@ -172,7 +179,7 @@ void CDesnutridor::ProvaClasse()
 	{
 		agents();
 		if (!(i%5)) {
-			biotop.debugPresenta(out);
+//			biotop.debugPresenta(out);
 			out << blanc.fosc() << setw(4) << i <<endl;
 		}
 	}

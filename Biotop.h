@@ -9,6 +9,7 @@
 
 #include <iomanip>
 #include "BioIncludes.h"
+#include "Topologia.h"
 #include "RandomStream.h"
 #include "Color.h"
 
@@ -19,13 +20,14 @@ class CBiotop: public CTopologia
 {
 // Tipus propis
 public:
-//	typedef uint32 t_posicio;
-//	typedef uint32 t_desplacament;
+	typedef CTopologia inherited;
+	typedef CTopologia::t_posicio t_posicio;
+	typedef CTopologia::t_desplacament t_desplacament;
 	typedef Cella t_cella;
 // Atributs
 protected:
-	uint32 m_totalCasselles;
-	Cella *m_casselles;
+	uint32 m_nPosicions;
+	t_cella *m_casselles;
 	CTopologia * m_topologia;
 // Construccio/Destruccio
 public:
@@ -34,6 +36,27 @@ public:
 
 // Redefinibles
 public:
+	// TODO: Carrega i descarrega de la topologia
+	virtual ostream & store(ostream & str)
+	{
+		uint32 i;
+		str.write((char*)&m_nPosicions,sizeof(uint32));
+		for (i=0; i<m_nPosicions; i++) {
+			m_casselles[i].store(str);
+		}
+		return str;
+	}
+	virtual istream & load(istream & str)
+	{
+		uint32 i, nPosicions;
+		str.read((char*)&nPosicions,sizeof(uint32));
+		if (nPosicions != m_topologia->tamany())
+			error << "El nombre de posicions no coincideix amb el tamany de la topologia" << endl;
+		for (i=0; i<nPosicions; i++) {
+			m_casselles[i].load(str);
+		}			
+		return str;
+	}
 	virtual t_posicio desplacament (t_posicio origen, t_desplacament movimentRelatiu)
 	// Retorna la posicio resultant de fer el desplacament des de l'origen
 	{
@@ -67,6 +90,7 @@ public:
 	}
 // Operacions
 public:
+	CTopologia * topologia() const {return m_topologia;}
 	t_cella &operator [] (t_posicio index) 
 	{
 		if ((index>=tamany())||(index<0)) {
@@ -82,31 +106,13 @@ protected:
 public:
 	virtual void debugPresenta(CMissatger & stream) {
 		stream << gotoxy(2,1);
-		for (uint32 i=0;i<m_totalCasselles;i++)
-			stream << m_casselles[i]<<"#";
+		for (uint32 i=0; i<m_nPosicions; i++)
+			stream << m_casselles[i] << "#";
 		stream<<endl;
 		}
+
 public:
-	static void ProvaClasse(void) {
-		uint32 i;
-		int escala[]={7,6,4,4,12,14,15,9};
-		CTopologia<t_cella> topologia(400);
-		t_posicio cuc[7]={130,130,130,130,130,130,130};
-		while (cuc[0]!=8) {
-			for (i=7;i--;) topologia[cuc[i]]=escala[6-i];
-			topologia[topologia.posicioAleatoria()]=9;
-			topologia.debugPresenta(out);
-			CRandomStream rnd;
-			t_desplacament direccio;
-			rnd>>direccio;
-			for (i=6;i--;) cuc[i+1]=cuc[i];
-			cuc[0]=topologia.desplacament(cuc[0],direccio);
-			if (cuc[0]==cuc[6]) cuc[0]=topologia.posicioAleatoria();
-			out<<"Celles"<<setw(5)<<setfill(' ');
-			for (i=7;i--;) out << cuc[i] << " - ";
-			out<<setw(0)<<endl;
-		}
-	}
+	static void ProvaClasse(void);
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -116,12 +122,12 @@ public:
 template<class Cella> CBiotop<Cella>::CBiotop(CTopologia * topologia)
 {
 	m_casselles=NULL;
-	m_totalCasselles=0;
+	m_nPosicions=0;
 	m_topologia=topologia;
 	
 	reservaCasselles(m_topologia->tamany());
 }
-template<class Cella> CTopologia<Cella>::~CTopologia()
+template<class Cella> CBiotop<Cella>::~CBiotop()
 {
 	if (m_casselles) delete[] m_casselles;
 
@@ -133,19 +139,21 @@ template<class Cella> CTopologia<Cella>::~CTopologia()
 
 template<class Cella> void CBiotop<Cella>::reservaCasselles(uint32 tamany) {
 	if (m_casselles) {
-		warning << "Tornant a definir les celles de la topologia." <<endl;
+//		warning << "Tornant a definir les celles de la topologia." <<endl;
 		delete[] m_casselles;
 		}
 	if (!tamany) {
 		error << "Creant un biotop sense casselles." <<endl;
 		cin.get();
 		}
-	m_casselles = new Cella [m_totalCasselles=tamany];
+	m_casselles = new t_cella [m_nPosicions=tamany];
 	if (!m_casselles) {
-		m_totalCasselles = 0;
+		m_nPosicions = 0;
 		error << "No hi ha suficient memoria per les celles de la topologia." << endl;
 		cin.get();
 		}
 }
+
+
 
 #endif // !defined(__KKEP_BIOTOP_H_INCLUDED)

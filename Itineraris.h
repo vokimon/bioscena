@@ -15,6 +15,8 @@
 // 19991130 VoK - CPosicionador Zonal adaptat per fer servir la funcio
 //                'desplacamentAleatori' de biotop especificant radi
 //                en desplacaments basics i no en vectors de despl.
+// 20000220 VoK - Adaptat topologia sense templates
+// 20000220 VoK - Canviat el nom dels tipus interns tipus_X -> t_X
 //////////////////////////////////////////////////////////////////////
 // TODO: Fer Direccionadors i Posicionadors segons una sequencia.
 //////////////////////////////////////////////////////////////////////
@@ -37,7 +39,7 @@ public:
 	typedef CPosicionador inherited;
 // Construccio/Destruccio
 public:
-	CItinerari(tipus_biotop & biotop);
+	CItinerari(t_biotop & biotop);
 // Redefinibles
 public:
 	virtual void operator() (void);
@@ -70,7 +72,7 @@ public:
 	typedef CPosicionador inherited;
 // Construccio/Destruccio
 public:
-	CPosicionadorZonal(tipus_biotop & biotop);
+	CPosicionadorZonal(t_biotop & biotop);
 // Redefinibles
 public:
 	virtual void operator() (void);
@@ -103,7 +105,7 @@ public:
 	typedef CPosicionador inherited;
 // Construccio/Destruccio
 public:
-	CPosicionadorAleatori(tipus_biotop & biotop);
+	CPosicionadorAleatori(t_biotop & biotop);
 // Redefinibles
 public:
 	virtual void operator() (void);
@@ -123,7 +125,7 @@ public:
 	typedef CDireccionador inherited;
 // Construccio/Destruccio
 public:
-	CDireccionadorAleatori(tipus_biotop & biotop);
+	CDireccionadorAleatori(t_biotop & biotop);
 // Redefinibles
 public:
 	virtual void operator() (void);

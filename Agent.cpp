@@ -145,7 +145,7 @@ CAgent* CAgent::CercaDiccionari(string s)
 	return it->second;
 }
 
-CAgent * CAgent::ParsejaArxiu(char * nomArxiu, CTopologia<CSubstrat> & biotop, CMissatger & errors)
+CAgent * CAgent::ParsejaArxiu(char * nomArxiu, CBiotop<CSubstrat> & biotop, CMissatger & errors)
 {
 	// Com que els noms del fitxer poden estar agafats, fem servir
 	// el nostre propi diccionari per manegar els noms de l'arxiu
@@ -231,20 +231,20 @@ CAgent * CAgent::ParsejaArxiu(char * nomArxiu, CTopologia<CSubstrat> & biotop, C
 	return agentArrel;
 }
 
-CAgent * CAgent::CreaAgent(string tipus, CTopologia<CSubstrat> &biotop)
+CAgent * CAgent::CreaAgent(string tipus, CBiotop<CSubstrat> &biotop)
 {
 	if (tipus=="Agent/Multiple") return new CMultiAgent;
 	if (tipus=="Agent/Multiple/Temporitzador") return new CTemporitzador;
 	if (tipus=="Agent/Multiple/Iterador") return new CIterador;
 	if (tipus=="Agent/Multiple/Aleaturitzador") return new CAleaturitzador;
-	if (tipus=="Agent/Posicionador") return new CPosicionador(biotop);
-	if (tipus=="Agent/Posicionador/Aleatori") return new CPosicionadorAleatori(biotop);
-	if (tipus=="Agent/Posicionador/Zonal") return new CPosicionadorZonal(biotop);
-	if (tipus=="Agent/Posicionador/Direccional") return new CItinerari(biotop);
-	if (tipus=="Agent/Direccionador") return new CDireccionador(biotop);
-	if (tipus=="Agent/Direccionador/Aleatori") return new CDireccionadorAleatori(biotop);
-	if (tipus=="Agent/Actuador/Nutridor") return new CNutridor;
-	if (tipus=="Agent/Actuador/Nutridor/Invers") return new CDesnutridor;
+	if (tipus=="Agent/Posicionador") return new CPosicionador(*(biotop.topologia()));
+	if (tipus=="Agent/Posicionador/Aleatori") return new CPosicionadorAleatori(*(biotop.topologia()));
+	if (tipus=="Agent/Posicionador/Zonal") return new CPosicionadorZonal(*(biotop.topologia()));
+	if (tipus=="Agent/Posicionador/Direccional") return new CItinerari(*(biotop.topologia()));
+	if (tipus=="Agent/Direccionador") return new CDireccionador(*(biotop.topologia()));
+	if (tipus=="Agent/Direccionador/Aleatori") return new CDireccionadorAleatori(*(biotop.topologia()));
+	if (tipus=="Agent/Actuador/Nutridor") return new CNutridor(biotop);
+	if (tipus=="Agent/Actuador/Nutridor/Invers") return new CDesnutridor(biotop);
 
 	return NULL;
 }
@@ -257,7 +257,8 @@ void CAgent::ProvaClasse()
 {
 	out << clrscr;
 	out << blanc.brillant() << "Provant Agent Parsing" << blanc.fosc() << endl;
-	CTopologiaToroidal<CSubstrat> biotop(70,21);
+	CTopologiaToroidal topo(70,21);
+	CBiotop<CSubstrat> biotop(&topo);
 	CAgent * agentArrel = ParsejaArxiu("AgentsLog.txt", biotop, error);
 	cin.get(); 
 	if (agentArrel) {

@@ -101,8 +101,8 @@ ostream & COrganisme::store(ostream & str)
 		}
 	uint32 nNutrients=m_nutrients.size();
 	str.write((char*)&nNutrients,sizeof(uint32));
-	list<t_mollecula>::iterator it;
-	for (it=m_nutrients.begin(); it!=m_nutrients.end(); it++) {
+	list<t_mollecula>::iterator it=m_nutrients.begin();
+	for (uint32 i=0; it!=m_nutrients.end(); it++,i++) {
 		str.write((char*)&(*it),sizeof(uint32));
 		if (!str) error << "Error escrivint el nutrient " << i << " del pap" << endl;
 		}

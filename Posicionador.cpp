@@ -8,15 +8,15 @@
 // Construccio/Destruccio
 //////////////////////////////////////////////////////////////////////
 
-CPosicionador::CPosicionador(tipus_biotop& biotop)
+CPosicionador::CPosicionador(t_biotop& biotop)
 	:m_biotop(biotop)
 {
 	m_tipus+="/Posicionador";
 	// Aixi ens asegurem de que la posicio inicial sigui valida
 	m_pos=biotop.posicioAleatoria(); 
-};
+}
 
-CDireccionador::CDireccionador(tipus_biotop& biotop)
+CDireccionador::CDireccionador(t_biotop& biotop)
 	:m_biotop(biotop)
 {
 	m_tipus+="/Direccionador";
@@ -72,7 +72,7 @@ bool CDireccionador::configura(string parametre, istream & valor, t_diccionariAg
 // Operacions
 //////////////////////////////////////////////////////////////////////
 
-void CPosicionador::pos(tipus_posicio nova) 
+void CPosicionador::pos(t_posicio nova) 
 {
 	if (m_biotop.esValidaCassella(nova))
 		m_pos=nova;
@@ -82,8 +82,4 @@ void CPosicionador::pos(tipus_posicio nova)
 	}
 }
 
-CSubstrat & CPosicionador::substrat()
-{
-	return m_biotop[m_pos];
-}
 

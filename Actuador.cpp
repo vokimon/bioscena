@@ -8,7 +8,8 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CActuador::CActuador()
+CActuador::CActuador(t_biotop & biotop)
+	:m_biotop(biotop)
 {
 	m_tipus+="/Actuador";
 	m_posicionador=NULL;
@@ -28,7 +29,7 @@ void CActuador::operator() (void)
 	if (!m_posicionador)
 		warning << "CActuador " << nom() << " accionat sense posicionador" << endl;
 	else
-		(*this)(m_posicionador->substrat());
+		(*this)(m_biotop[m_posicionador->pos()]);
 }
 
 void CActuador::dump(CMissatger & msg)

@@ -14,15 +14,18 @@
 
 #include "Agent.h"
 #include "Posicionador.h"
+#include "Biotop.h"
+#include "Substrat.h"
 
 class CActuador : public CAgent  
 {
 // Tipus Propis
 	typedef CAgent inherited;
 	typedef CAgent super; // equivalent al anterior
+	typedef CBiotop<CSubstrat> t_biotop;
 // Construccio/Destruccio
 public:
-	CActuador();
+	CActuador(t_biotop & biotop);
 	virtual ~CActuador();
 // Redefinibles
 public:
@@ -38,6 +41,7 @@ public:
 // Atributs
 public:
 	CPosicionador * m_posicionador;
+	t_biotop & m_biotop;
 };
 
 #endif // !defined(__KKEP_ACTUADOR_H_INCLUDED)

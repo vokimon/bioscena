@@ -1,9 +1,6 @@
 // Comunitat.h: interface for the CComunitat class.
 //
 //////////////////////////////////////////////////////////////////////
-// Change Log: 
-// 199909181 VoK - Recreat
-//////////////////////////////////////////////////////////////////////
 
 #if !defined(__KKEP_COMUNITAT_H_INCLUDED)
 #define __KKEP_COMUNITAT_H_INCLUDED
@@ -20,9 +17,12 @@ public:
 	virtual ~CComunitat();
 // Redefinibles
 public:
-	void dump(CMissatger & msg);
+// Redefinibles
+public:
+	virtual istream & load(istream & str);
+	virtual ostream & store(ostream & str);
+	virtual void dump(CMissatger & msg);
 	void dumpDisponibles(CMissatger & msg);
-	void dumpEnergies(CMissatger & msg);
 // Operacions
 public:
 	CInfoOrganisme & operator[](uint32 index);

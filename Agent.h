@@ -8,6 +8,7 @@
 // 19990820 VoK - Modificacions per tipus d'agent jerarquic
 // 19990821 VoK - Funcionalitats de dump
 // 19990821 VoK - Afegit diccionari de Agents
+// 20000220 VoK - Adaptat a la nova forma de fer topologies
 //////////////////////////////////////////////////////////////////////
 // TODO:
 // - Permetre coneixer el pare
@@ -26,6 +27,7 @@
 #include "BioIncludes.h"
 #include "Missatger.h"
 #include "Substrat.h"
+#include "Biotop.h"
 #include "Topologia.h"
 
 using namespace std;
@@ -73,9 +75,9 @@ public:
 public:
 	static void DumpDiccionari(CMissatger& msg);
 	static CAgent * CercaDiccionari(string s);
-	static CAgent * ParsejaArxiu(char * nomArxiu, CTopologia<CSubstrat> & biotop, CMissatger & errors);
+	static CAgent * ParsejaArxiu(char * nomArxiu, CBiotop<CSubstrat> & biotop, CMissatger & errors);
 private:
-	static CAgent * CreaAgent(string tipus, CTopologia<CSubstrat>& biotop);
+	static CAgent * CreaAgent(string tipus, CBiotop<CSubstrat> & biotop);
 // Proves
 public:
 	static void ProvaClasse();

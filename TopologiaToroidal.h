@@ -7,6 +7,8 @@
 // 19990723 VoK - Rebautizat: BiotopToroidal -> TopologiaToroidal
 // 19991130 VoK - Adaptada desplacament aleatori per radis en desp. basics
 // 20000112 VoK - Fix: desp.aleat: el pic el calculava al reves
+// 20000120 VoK - Ja no es un template
+// 20000120 VoK - Fix lexic: Altura -> alcada
 //////////////////////////////////////////////////////////////////////
 
 #if !defined(__KKEP_TOPOLOGIATOROIDAL_H_INCLUDED)
@@ -16,7 +18,6 @@
 #include "Topologia.h"
 #include "RandomStream.h"
 #include "Missatger.h"
-#include "Color.h"
 
 enum DireccionsBasiques 
 {
@@ -31,26 +32,25 @@ enum DireccionsBasiques
 };
 
 
-template <class Cella>
-class CTopologiaToroidal : public CTopologia<Cella>
+class CTopologiaToroidal : public CTopologia
 {
 // Tipus interns
 public:
-	typedef CTopologia<Cella> inherited;
-	typedef CTopologia<Cella>::t_posicio t_posicio;
-	typedef CTopologia<Cella>::t_desplacament t_desplacament;
+	typedef CTopologia inherited;
+	typedef CTopologia::t_posicio t_posicio;
+	typedef CTopologia::t_desplacament t_desplacament;
 // Contruccio/Destruccio
 public: 
 	CTopologiaToroidal (uint32 XMax, uint32 YMax);
 // Operacions
 public: 
-	uint32 amplada() {return m_xMax;}
-	uint32 altura() {return m_yMax;}
+	uint32 amplada() const {return m_xMax;}
+	uint32 alcada() const {return m_yMax;}
 // Redefinibles
 public: 
-	virtual t_posicio desplacament (t_posicio origen, t_desplacament movimentRelatiu);
-	virtual bool unio (t_posicio posOrigen, t_posicio posDesti, t_desplacament & desp);
-	virtual t_posicio desplacamentAleatori (t_posicio posOrigen, uint32 radi);
+	virtual inline t_posicio desplacament (t_posicio origen, t_desplacament movimentRelatiu) const;
+	virtual inline bool unio (t_posicio posOrigen, t_posicio posDesti, t_desplacament & desp) const;
+	virtual inline t_posicio desplacamentAleatori (t_posicio posOrigen, uint32 radi) const;
 // Atributs
 protected:
 	uint32 m_xMax;
@@ -58,89 +58,26 @@ protected:
 	int32 m_direccions[10]; // Cal que sigui signed!
 // Proves
 public:
-	void debugPresenta(CMissatger & stream) {
-		stream << gotoxy(1,2);
-		uint32 nCella=0;
-		for (uint32 j=0;j<m_yMax;j++) {
-			for (uint32 i=0;i<m_xMax;i++)
-//				stream << m_casselles[nCella++] <<"#";
-				stream << m_casselles[nCella++];
-			stream<<endl;
-			}
-		stream << blanc.fosc();
-		}
-public:
-	static void ProvaClasse(void) {
-		uint32 i;
-		int escala[]={7,6,4,4,12,14,15,9};
-		CTopologiaToroidal<Cella> topo(25,21);
-		uint32 cuc[7]={130,130,130,130,130,130,130};
-		while (cuc[0]!=8) {
-			for (i=7;i--;) topo[cuc[i]].ocupa(escala[6-i]);
-			topo[cuc[6]].desocupa();
-			topo[topo.posicioAleatoria()].deposita(4);
-			topo.debugPresenta(out);
-			CRandomStream rnd;
-			uint32 direccio;
-			rnd>>direccio;
-			for (i=6;i--;) cuc[i+1]=cuc[i];
-			cuc[0]=topo.desplacament(cuc[0],direccio);
-			if (cuc[0]==cuc[6]) cuc[0]=topo.posicioAleatoria();
-			out<<"Celles"<<setw(5)<<setfill(' ');
-			for (i=7;i--;) out << cuc[i] << " - ";
-			out<<setw(0)<<endl;
-		}
-	}
+	static void ProvaClasse(void);
 };
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
-template <class Cella>
-CTopologiaToroidal<Cella>::CTopologiaToroidal(uint32 xMax=5, uint32 yMax=5)
-	// Precondicions:
-	//   nD<xMax<0x1FFFFFFF on nD es el nombre maxim de desplacaments basics a un desplacament complert
-	//   2<yMax<(0xFFFFFFFF>>digitsSignificatius(xMax))
-{
-//	cout<<"Inicializando un Substrato Toroidal de "<<xMax <<" X "<<yMax<<endl;
-	reservaCasselles(xMax*yMax);
-	m_direccions[UP        ]=  0 -xMax;
-	m_direccions[UP_RIGHT  ]= +1 -xMax;
-	m_direccions[RIGHT     ]= +1 +0   ;
-	m_direccions[DOWN_RIGHT]= +1 +xMax;
-	m_direccions[DOWN      ]=  0 +xMax;
-	m_direccions[DOWN_LEFT ]= -1 +xMax;
-	m_direccions[LEFT      ]= -1 +0   ;
-	m_direccions[UP_LEFT   ]= -1 -xMax;
-	m_xMax=xMax;
-	m_yMax=yMax;
-}
 
 //////////////////////////////////////////////////////////////////////
 // Redefinibles
 //////////////////////////////////////////////////////////////////////
 
-template <class Cella>
-CTopologiaToroidal<Cella>::t_posicio CTopologiaToroidal<Cella>::desplacament(t_posicio origen, t_desplacament movimentRelatiu)
+CTopologiaToroidal::t_posicio CTopologiaToroidal::desplacament(t_posicio origen, t_desplacament movimentRelatiu) const
 {
-	// Segur que es podria fer mes optim pero no funcionaria pels
-	// biotops amb un nombre de celles elevat.
-	int moviment=0;
-/*	for (uint32 selector=movimentRelatiu>>24; selector; selector>>=1) {
-		if (selector&1) 
-			moviment += m_direccions [movimentRelatiu&0x0000007];
-		movimentRelatiu >>= 3;
-	}
-*/
+	// Descomentar la seguent linia perque el 4art bit del nibble
+	// indiqui la seva inibicio i no la seva activacio 
+//	movimentRelatiu^=0x88888888;
 
-	// Descomentar la seguent linia per 4art bit inibicio en comptes 
-	// d'activacio del nibble
-//	movimentRelatiu^=0x88888888; 
-	for (; movimentRelatiu; movimentRelatiu>>=4) {
+	// Les operacions estan fetes amb cura per que funcionin amb topologies
+	// amb un nombre elevat de posicions sense que es produeixi overflow. 
+	// Si no tenim aquest problema es podria optimitzar
+	int moviment=0;
+	for (; movimentRelatiu; movimentRelatiu>>=4)
 		if (movimentRelatiu&010) 
 			moviment += m_direccions [movimentRelatiu&0x0000007];
-	}
 
 	if (moviment<0) {
 		if (origen < uint32(-moviment))
@@ -156,8 +93,7 @@ CTopologiaToroidal<Cella>::t_posicio CTopologiaToroidal<Cella>::desplacament(t_p
 		}
 }
 
-template <class Cella>
-bool CTopologiaToroidal<Cella>::unio (t_posicio posOrigen, t_posicio posDesti, t_desplacament & desplacament)
+bool CTopologiaToroidal::unio (t_posicio posOrigen, t_posicio posDesti, t_desplacament & desplacament) const
 {
 	uint32 x1 = posOrigen % m_xMax;
 	uint32 y1 = posOrigen / m_xMax;
@@ -227,8 +163,7 @@ bool CTopologiaToroidal<Cella>::unio (t_posicio posOrigen, t_posicio posDesti, t
 	return !(dx || dy);
 }
 
-template <class Cella>
-CTopologiaToroidal<Cella>::t_posicio CTopologiaToroidal<Cella>::desplacamentAleatori (t_posicio posOrigen, uint32 radi)
+CTopologiaToroidal::t_posicio CTopologiaToroidal::desplacamentAleatori (t_posicio posOrigen, uint32 radi) const
 {
 	// El radi esta expressat en desplacaments basics (4 bits) -> en un vector de 
 	// desplacament (32 bits) hi han 8 de basics.
