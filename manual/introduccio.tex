@@ -1,0 +1,239 @@
+
+\chapter{Introducció al projecte}
+
+\section{Àmbit del projecte}
+
+Aquest projecte és dins de l'àmbit de la vida artificial
+(Artificial Life), disciplina que recull coneixements
+d'informàtica i biologia per recrear fenòmens biològics en un
+entorn artificial.
+
+Aquesta disciplina va sorgir de cara a la biologia com a camp de
+proves alternatiu a la vida real, però, les aplicacions van
+extenent-se, per exemple, aportant noves perspectives a l'analisis,
+simulació i predicció de sistemes complexos no biològics i a
+algorismes per la resolució de problemes als sistemes informàtics.
+
+Les aplicacions de la vida artificial tenen un seguit de
+característiques més o menys comunes. Les principals són:
+
+\begin{description}
+\item[Mètode sintètic:]
+En comptes d'analitzar la vida, sintetitzem artificialment sistemes
+amb un comportament similar partint de les premises que hem obtingut
+de l'analisis dels sistemes reals.
+
+\item[Construccio Botton-Up:]
+Es parteix de unitats petites les interaccions locals de les quals
+conformen globalment un comportament pel qual el sistema no estava
+explícitament dissenyat.
+
+\item[Emergència:]
+El fet de que apareixin aquests comportaments globals no dissenyats
+explícitament a partir d'un entramat complex d'interacions simples
+s'anomena emergència.
+
+\item[No lligat als sistemes reals:]
+Donat el seu caracter sintètic la vida no es limita a la vida
+coneguda sinó que prova de extreure propietats generals per a
+qualsevol forma de vida possible.
+
+\item[Paral·lelisme implícit:]
+La complexitat dels sistemes vius es deguda, en part, a que els
+diferents processos es donen en paral·lel. Per fer això en els
+sistemes de vida artificial, tot i que no sempre sigui possible
+dedicar un processador a cada procés, sí que caldria fer servir
+tècniques de temps compartit, que, macroscòpicament, doni la
+impressió d'executar-se paral·lelament.
+\end{description}
+
+% TODO: Cap àmbit més pel projecte? De banda de l'Alife
+
+
+\section{Antecedents}
+
+Concretament, l'objectiu del present treball de fi de carrera és
+implementar una eina d'estudi i experimentació amb aplicació als
+camps de la biologia i la vida artificial que permeti a un usuari
+configurar, analitzar e intervindre en la dinàmica d'un sistema
+biològic evolutiu simulat amb interaccions organisme-organisme i
+organisme-medi.
+
+Dels treballs que s'han fet sobre vida artificial, cal destacar,
+com a precedents, per la seva relació amb aquest projecte, els
+següents:
+
+\begin{itemize}
+\item El projecte `Tierra' que encapçala Thomas S. Ray \cite{RAY93}
+un biòleg que va aplicar els seus coneixements de genètica i de
+ecologia i els va traduir a un medi informàtic on petites porcions de
+codi competien per la memòria i el temps del processador per replicar
+els seus gens.
+\item Les experiències que Richard K. Beleg i Filippo Menezer van fer
+sobre el model Latent Energy Environments (LEE). LEE és un model
+que es basa en l'evolució de sistemes cognitius interaccionen amb
+un medi químic de complexitat controlada. El més remarcable
+d'aquest projecte, de banda de les diverses conclusions que n'han
+anat treient en diferents estudis, és, per un costat, la
+integració d'algorismes evolutius i xarxes neuronals, i, d'altre,
+el fet de basar-se en un model metabòlic.
+%% TODO: Referencies de LEE
+\end{itemize}
+
+Bioscena moltes idees dels LEE, com es veurà en la resta de la
+memòria, però, a diferència d'aquests, no pretén simular organismes
+amb comportaments cognitius, sinò organismes amb comportaments
+reactius. La diferència principal radica en que els comportaments
+reactius estan controlats principalment pel codi genétic i
+l'interacció {\em química} amb el medi que s'en deriva i, els
+comportaments cognitius estan controlats principalment per un sistema
+nerviós central i un procés d'aprenentatge.
+
+Per modelar el comportament dels organismes de Bioscena, es fan
+servir rafagues d'instruccions que formen el genotip de forma
+semblant a com funcionava `Tierra'. La diferència important és que, a
+`Tierra', el conjunt d'instruccions feien de genotip, medi i fenotip,
+tot alhora, i en Bioscena la idea és separar el conjunt
+d'instruccions del medi i tant medi com genotip actuaran sobre el
+fenotip.
+
+\begin{figure}
+% TODO: Imatge de l'estructura genotip -> fenotip <- medi
+\end{figure}
+
+
+La simulació suposa, per a totes les decisions de disseny on sigui
+necessari que els organismes són unicel·lulars. Aquesta suposició no
+vol dir que els resultats siguin aplicables només a aquest tipus
+d'organisme, però, facilita el disseny, donat que el model d'un
+organisme pluricel·lular és molt complexe. A més hi ha la
+possibilitat, si el medi fós suficientment ampli, de que l'evolució
+portés als organismes unicel·lulars a formar estructures cooperatives
+més grans similars als organismes pluricel·lulars.
+
+Resumint la comparació entre els tres sistemes:
+
+\begin{tabular}{rl}
+
+Tierra&Sopa primigenia, organització cel·lular procariota\\
+
+Bioscena&Organismes unicel·lulars eucariotes no cognitius\\
+
+LEE's&Organismes cognitius, model d'alt nivell\\
+\end{tabular}
+
+
+\section{Objectius del projecte}
+
+Els objectius principals del projecte són:
+
+\begin{enumerate}
+\item Fer un estudi dels processos naturals (evolutius, ecològics i
+etològics) que es donen a la natura. Per un costat, cal triar els que
+afegeixirien més realisme i generalitat al model en cas
+d'implementar-se. Per un altre costat, cal triar aquells fenòmens que
+es donen en la natura que no cal implementar directament, sinó, que
+s'espera que puguin emergir. L'esforç de l'analisis ha d'anar adreçat
+a modelar aquelles característiques no cognitives de caire general, i
+sobretot, dels organismes unicel·lulars, tot i que no cal descartar
+que emergeixin estructures pluricel·lulars o cognitives.
+
+\item Fer un estudi bibliogràfic dels processos anteriors ja
+implementats. En quines condicions concretes s'han fet i quins
+resultats han donat.
+
+\item Dissenyar i implementar el model amb tota la informació
+recollida, possibilitant, sense dirigir-la, l'aparició dels fenòmens
+emergents esperats, i l'adaptació dels organismes a variacions que es
+poden donar durant la vida d'un organisme o al llarg de generacions.
+El model tindrà diversos elements principals:
+
+\begin{itemize}
+\item El biosistema, que coordina la resta d'elements.
+
+\item El biòtop, que és el medi on viuran els organismes. Cal que
+permeti configuracions molt diverses per donar possibilitats
+d'experimentació. Per modificar el biòtop farem servir, sobretot, els
+agents, que són modificadors programables del biòtop.
+
+\item La comunitat, que controla el conjunt d'organismes presents al
+medi i la informació que no és intrínseca a ells, com ara la seva
+posició en el medi i la població a la que pertany. Els organismes
+proveeixen al medi les accions que volen realitzar i un conjunt
+d'operacions que el medi pot fer sobre ells.
+
+\end{itemize}
+Els elements del sistema han d'estar dèbilment acoblats per tal de
+poder, en un futur, intercanviar-los per uns altres amb un mínim
+d'efectes laterals.
+
+\item Afegir al model les eines d'anàlisis han de poder donar
+informació útil del que està passant al biosistema: Per això, cal
+dividir la comunitat en poblacions i analitzar les interaccions entre
+elles. Cal posar una cura especial en detectar l'aparició de fenòmens
+emergents. Les eines de configuració i intervenció han de servir per
+controlar la forma en que canvia aquest medi, de forma que, els
+resultats obtinguts amb les eines d'analisis siguin confrontables i
+els usuaris puguin extreure conclusions.
+\end{enumerate}
+
+A aquests objectius es poden sumar altres objectius adicionals que es
+cobriran de forma secundària.
+
+\begin{enumerate}
+\item El sistema ha de poder abocar-se totalment o parcial a
+disc per tornar-se a restaurar. Això faria possible execucions molt
+més llargues i obtenir poblacions més evolucionades.
+\item Ha de ser possible canviar alguns aspectes de la configuració
+del biòtop o intervindre en la població (extraccions, introduccions,
+clonacions...) sobre la marxa.
+\item Establir uns procediments de modificació per tal de que
+l'usuari-programador no necessiti comprendre tot el sistema per fer
+una modificació puntual.
+\end{enumerate}
+
+Els organismes de la simulació han de fer front a un medi variable,
+amb canvis caòtics o periòdics que es poden produir freqüentment al
+llarg de la vida d'un organisme o de forma progressiva en el decurs
+de diverses generacions. Amb la finalitat de que la comunitat tingui
+capacitat de reaccionar davant de tots aquests canvis, s'incorporen,
+als mecanismes evolutius que intervenen en la simulació, algunes
+característiques que es donen en els entorns evolutius naturals i
+que, clàssicament, no s'incorporen en els entorns evolutius
+computacionals.
+
+Les característiques naturals que s'estudiarà introduïr a l'entorn
+evolutiu són:
+
+\begin{description}
+\item[Mecanismes d'expressió gènica (transcripció, maduració i
+traducció):] Útils per implementar les altres característiques
+
+\item[Regulació sobre l'expressió gènica:]
+Control dels gens que es transcriuen segons la presència o no
+d'alguns factors. Ajuda a adaptar-se, sense l'utilització d'un
+sistema cognitiu, a canvis en el medi tan esporàdics que el procés
+evolutiu no els soporti.
+
+\item[Promotor/teminador, zones no codificadores i longitud de
+cromosoma variable:] Permet solucions obertes no parametritzades
+(Nombre i longitud variable pels gens)
+
+\item[Paràmetres del procés evolutiu codificats parcialment al
+genotip:]
+Ens permetrà tenir uns paràmetres optimitzats per a cada situació
+concreta.
+
+\item[Genotips no haplonts i al·lels (Encara he de considerar si
+implementar-ho):] Mantenen la variabilitat genètica de la
+descendència augmentant així la capacitat de canvi i adaptació.
+
+\item[Cariotip multicromosòmic]: Divideix la dotació gènica en
+subunitats d'alt nivell que permeten traspasar divers material gènic
+de cop i possibilita les mutacions cromosòmiques que poden emergir en
+creuament.
+%% TODO: Revisa esto ultimo que es una fantochada
+
+\end{description}
+
+\section{Contingut de la memòria}

@@ -1,0 +1,90 @@
+%----------------------------------------------------------
+%  Aixo es una plantilla basica de latex on es vol tenir
+%   el format principal d'un document i totes aquelles coses
+%   que normalment utilitzo en latex.
+
+%  Data inici creacio: 19-11-97
+%----------------------------------------------------------
+\documentclass[11pt,titlepage]{report}
+\usepackage[latin1]{inputenc}
+\usepackage[catalan]{babel}
+\usepackage{layout} % Per visualitzar marges
+\usepackage{graphicx}
+%[dvips][pdftex,dvips]
+\usepackage{amssymb}
+\usepackage{hyperref}
+\hypersetup{backref,hyperindex,colorlinks}
+
+\newlength{\defbaselineskip}
+\setlength{\defbaselineskip}{\baselineskip}
+\newcommand{\setlinespacing}[1]%
+           {\setlength{\baselineskip}{#1 \defbaselineskip}}
+\newcommand{\doublespacing}{\setlength{\baselineskip}%
+                           {2.0 \defbaselineskip}}
+\newcommand{\singlespacing}{\setlength{\baselineskip}{\defbaselineskip}}
+
+\oddsidemargin 0 cm
+\evensidemargin 0 cm
+\topmargin 0 cm
+\headsep 1 cm
+\textheight 8 in
+\textwidth 6.4 in
+\footskip 2 cm
+\parskip 2 mm
+\columnsep 1 cm
+
+\hyphenation{}
+
+\def\baselinestretch{1}
+\setlinespacing{1.5}
+
+\begin{document}
+
+%-----------------------------------------------------
+%    Titol del document
+%-----------------------------------------------------
+\title{Bioscena\\Simulació d'un sistema biològic evolutiu amb interacció entre els individuus}
+\author{
+David Garcia\\
+\href{mailto:vokimon@jet.es}{vokimon@jet.es}\\
+%\includegraphics{04069.jpg}
+}
+\date{\today}
+
+\maketitle
+\newpage
+
+%-----------------------------------------------------
+%   Index
+%-----------------------------------------------------
+\tableofcontents
+\newpage
+% La linia de sota serveix per visualitzar l'efecte dels parametres
+% de pagina. Cal descomentar (o afegir) la linia \usepackage{layout}
+% a la capcalera
+%\layout*
+\setlinespacing{1.66}
+\input{resums}
+\part{Introducció}
+\input{introduccio}
+\part{Part teòrica}
+\input{biologia}
+%\input{alive}
+\part{Part pràctica}
+\chapter{Disseny de l'aplicatiu}
+\input{biotop}
+\input{agents}
+\input{organismes}
+\input{analisis}
+\input{manualprogramador}
+\input{bibliografia}
+\label{TODO}
+\appendix
+
+
+
+%% TODO: Treure aixo dels links
+%\hyperlink{kaja}{Origen}
+%\hypertarget{kaja}{Desti}
+
+\end{document}

@@ -1,0 +1,224 @@
+% Time Log
+% 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Manual del programador}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Programació de noves topologies}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Si l'usuari necessités crear un nou tipus de topologia, cal que la 
+faci heretar de CTopologia, que és la classe que defineix el mínim per 
+reservar memoria pel substrat de cada posició. CTopologia també 
+estableix el protocol que han de seguir les subclasses, perqué la
+resta del sistema l'acepti sense haver de canviar-ho.
+
+El secret està en el fet de que tot el sistema manega identificadors 
+de posicions que són enters sense signe de 32 bits. Tot el significat
+que poden tenir aquests identificadors el manega la topologia 
+internament.
+
+Quan es deriva de CTopologia, el principal que caldria redefinir, 
+si cal, és:
+\begin{itemize}
+\item	Un {\bf constructor} significatiu per a la topologia. Per exemple, en 
+	una topologia rectangular és significatiu indicar l'altura i l'amplada. 
+	El constructor de CTopologia simplement reserva espai per N casselles.
+	Caldria calcular aquesta N per passar-se-la.
+\item	{\tt t\_posicio CTopologia::desplacament (t\_posicio origen, t\_desplacament desplacament)}:
+	Una funció per averiguar la posició destí en aplicar-li un vector
+	de desplaçament a una posició origen.
+	CTopologia, la defineix de tal forma que el resultat és una posició 
+	destí aleatoria.
+\item	{\tt bool CTopologia::esValid(t\_posicio id)}:
+	Una funció per saber si un identificador és vàlid. Només cal
+	redefinir-ho si es modifica la correspondència directa entre
+	identificador de posició i index de cassella en l'array de 
+	substrats reservada per CTopologia::CTopologia
+\item	{\tt t\_posicio CTopologia::posicioAleatoria ()}:
+	Una funció per obtindre aleatòriament una posició vàlida de la 
+	topologia. La funció general que no caldria redefinir seria
+	\begin{verbatim}
+		{
+			uint32 pos;
+			do {pos=rnd.get();} while (!esValid(pos));
+			return pos
+		}
+	\end{verbatim}
+	però, CTopologia no fa servir aquest algorisme donat que
+	optimitza agafant un número aleatori entre 0 i N. Aquesta 
+	optimització funciona mentre es mantingui la correspondència 
+	entre identificador i index abans comentada.
+	Si la subclasse la trenca, es quan cal redefinir la funció.
+\item	{\tt bool CTopologia::unio (t\_posicio origen, t\_posicio desti, t\_desplacament \& desp)}:
+	Una funció per calcular el primer d'un conjunt de desplacaments
+	que cal fer per anar de l'origen al destí.
+	Retorna cert si el desplacament és suficient per arribar a la posició destí.
+	CTopologia, la defineix de tal forma que el resultat és un desplaçament 
+	aleatori i retorna sempre fals (mai hi arriba).
+\end{itemize}
+
+Pot ser molt ilustratiu, de cara a implementar noves topologies, 
+fixar-se en les ja existents com CTopologiaToroidal.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Programació de nous agents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+De cara a afegir nous agents al sistema, s'aconsella seguir els
+següents passos:
+
+\begin{enumerate}
+\item 
+	Llegir per sobre el codi dels agents ja implementats per 
+	assimilar les solucions que s'han donat a problemes que 
+	segurament es tornaran a repetir als nous agents.
+	També convé mantenir uniforme l'estil de programació i
+	l'ordre intern dels fitxers per fer-ho més mantenible
+	a tercers.
+	El més pràctic es partir d'una còpia d'un agent que tingui, 
+	estructuralment, tot o gran part del que interesa implementar.
+\item 
+	Escollir la classe d'agent de la que volem heretar l'agent. 
+	Generalment voldrem que el nou agent pertanyi a un dels quatre 
+	grans grups funcionals d'agents: 
+	\begin{itemize}
+	\item	Subordinadors (CMultiAgent i subclasses) si controla l'accionat d'altres agents
+	\item	Posicionadors (CPosicionador i subclasses) si controla una posició en el biòtop
+	\item	Direccionadors (CDireccionador i subclasses) si controla una direcció
+	\item	Actuadors (CActuadors i subclasses) si modifica el substrat a una posició
+	\end{itemize}
+	Si no pertany a cap dels quatre grups, caldria plantejar-se
+	heretar de CAgent directament. En aquest cas, convé fer un
+	esforç i fer una classe intermitja que pugui englobar altres
+	agents en el futur.
+	Anomenarem CAgentNou al nou agent afegit i CAgentVell a l'agent
+	del qual heretem.
+\item
+	Adaptar el constructor de CAgentNou per que proveeixi els 
+	paràmetres del constructor de la superclasse. 
+	Posicionadors i direccionadors, per exemple, necessiten una 
+	referència a un biòtop en el constructor. A les classes
+	derivades de CPosicionador està implementat com fer-ho.
+\item
+	Afegir dins del constructor, la línia.
+	\\{\tt m\_tipus+="/ElMeuSubtipus";}\\
+	que afegeix la cadena de subtipus a l'identificador de tipus 
+	que hereta de la superclasse.
+\item
+	Afegir els nous atributs (variables membre) dels que en depen 
+	l'estat de l'agent i les funcions d'accés als mateixos.
+\item
+	Inicialitzar dins del constructor els nous atributs als 
+	valors per defecte.
+	Els atributs que siguin dependències amb altres agents,
+	o agents subordinats, es recomana que siguin punters, i no
+	referències, per poder-ho deixar sense especificar
+	al constructor. S'inicialitzen sempre com a punter
+	a NULL. Cal procurar que, si el punter no apunta a un 
+	agent vàlid el seu valor sigui NULL i tenir-ho en compte
+	quan hi accedim per evitar accesos il·legals a memòria.
+	Es veu clarament aquesta idea llegint el codi d'alguns
+	agents que ho fan.
+\item
+	Afegir dins del destructor, l'alliberament de memòria ocupada
+	pels agents subordinat. Les dependències no s'han de alliberar
+	pas.
+\item
+	Redefinir la funció membre {\tt virtual void CAgentNou::operator() (void)}
+	per que faci el que hagi de fer quan l'agent és accionat.
+	Si es tracta d'un actuador, no cal redefinir aquesta sino
+	{\tt virtual void CAgentNou::operator() (CSubstrat \& s)} on 
+	{\tt s} és el substrat que hem de modificar. 
+	\footnote{Veure l'apartat \ref{TODO} que parla del que cal fer si es redefineix el substrat}
+\item
+	Redefinir la funció {\tt virtual void CAgentNou::dump(CMissatger \& msg)}
+	per que cridi a la funció corresponent de la superclasse 
+	(CAgentVell a l'exemple) i, després, inserti en el CMissatger 
+	les noves línies de configuració dels paràmetres que afegeix l'agent:
+	\begin{verbatim}
+	void CAgentNou::dump(CMissatger & msg) 
+	{
+		CAgentVell::dump(msg);
+		msg << "- UnParametreNou " << m_valor1 << " " << valor2 << endl;
+		msg << "- UnAltreParametreNou " << m_valor3 << endl;
+	}
+	\end{verbatim}
+\item
+	Redefinir la funció {\tt virtual bool CAgentNou::configura(string parametre, istream \& valors, t\_diccionariAgents \& diccionari, CMissatger \& errors)}
+	per mirar si el {\tt parametre} és un dels que ha afegit CAgentNou.
+	Si ho és cal parsejar l'istream {\tt valors} en busca dels valors 
+	corresponents, reportar els errors que es produeixin pel CMissatger 
+	{\tt errors} i retornar cert per dir que el paràmetre era de la classe.
+	Si no ho és, cal cridar a la funció corresponent de la superclasse
+	per que ho pugui interceptar ella.
+	El diccionari serveix per, donat un nom d'agent de l'arxiu,
+	obtindre un punter a l'agent que s'ha creat que, pot ser, té
+	un nom diferent.
+	El diccionari és un {\tt map<string, CAgent*>}, el seu funcionament 
+	s'explica a qualsevol manual sobre les Standard Template 
+	Libraries de C++.
+	La estructura general de la funció configura quedarà com això:
+
+	\begin{verbatim}
+	bool CAgentNou::configura(string parametre, istream & valors, 
+	t_diccionariAgents & diccionari, CMissatger & errors)
+	{
+		if (parametre=="UnParametreNou") {
+			// Parsing dels valors...
+			return true;
+		}
+		if (parametre=="UnAltreParametreNou") {
+			// Parsing dels valors...
+			return true;
+		}
+		// Li deixem a la superclasse que l'intercepti si vol
+		return CAgentVell::configura(parametre, valors, diccionari, errors);
+	}
+	\end{verbatim}
+\item
+	Si cap dels atributs (m\_dependencia a l'exemple) és una 
+	dependència amb altre agent, cal redefinir la següent funció com segueix:
+	\begin{verbatim}
+	list<CAgent*> CAgentNou::dependencies() {
+		list<CAgent*> l=CAgentVell::dependencies();
+		if (m_dependencia) l.push_back(m_dependencia); 
+		return l;
+	}
+	\end{verbatim}
+\item
+	Si cap dels atributs (m\_subordinat a l'exemple) és un 
+	agent subordinat, cal redefinir la següent funció com segueix:
+	\begin{verbatim}
+	list<CAgent*> CAgentNou::subordinats() {
+		list<CAgent*> l=CAgentVell::subordinats();
+		if (m_subordinat) l.push_back(m_subordinat); 
+		return l;
+	}
+	\end{verbatim}
+\item
+	Afegir a l'arxiu {\tt Agent.cpp} un include a {\tt AgentNou.h}
+	i, a la funció estàtica CAgent::CreaAgent(...) una línia com 
+	les que ja n'hi ha per cada tipus d'agent, però, per a CAgentNou.
+	Això permet que la funció CAgent::ParsejaArxiu pugui reconeixer
+	el nou tipus als arxius de configuració.
+	
+\end{enumerate}
+
+De tots els punts anteriors el que potser és una mica més 
+particularitzat són els atributs i els mètodes d'accés als mateixos, 
+i el mètode d'accionament (o d'actuació en el cas dels actuadors).
+Per a la resta de coses el més pràctic es fer un cut\&paste dels agents
+ja implementats i retocar el mínim.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Programació de nous substrats}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% TODO: Programació de nous substrats
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
