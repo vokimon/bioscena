@@ -19,7 +19,7 @@ public:
 	virtual ~CDetector();
 // Metodes estatics
 public:
-	static CDetector * nouDetector(uint32 tipus);
+	static CDetector * NouDetector(uint32 tipus);
 };
 
 class CDetectorQuimic: public CDetector
@@ -48,6 +48,9 @@ public:
 	virtual bool analitza(CSubstrat & s) {return true;};
 // Atributs
 public:
+	uint32 m_clau;
+	uint32 m_tolerancia;
+	uint32 m_registre;
 };
 
 

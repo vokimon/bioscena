@@ -8,7 +8,7 @@
 #include "TopologiaToroidal.h"
 
 //////////////////////////////////////////////////////////////////////
-// Construction/Destruction
+// (CGrafic) Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
 CGrafic::CGrafic()
@@ -27,7 +27,7 @@ CGrafic::~CGrafic()
 }
 
 //////////////////////////////////////////////////////////////////////
-// Operacions
+// (CGrafic) Operacions
 //////////////////////////////////////////////////////////////////////
 
 void CGrafic::tamany(uint32 posX, uint32 posY, uint32 amplada, uint32 altura)
@@ -40,7 +40,7 @@ void CGrafic::tamany(uint32 posX, uint32 posY, uint32 amplada, uint32 altura)
 }
 
 //////////////////////////////////////////////////////////////////////
-// Implementacio
+// (CGrafic) Implementacio
 //////////////////////////////////////////////////////////////////////
 
 void CGrafic::recalculaTope() 
@@ -50,10 +50,12 @@ void CGrafic::recalculaTope()
 
 
 //////////////////////////////////////////////////////////////////////
-// Construction/Destruction
+// (CComparativaOrganismes) Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
 CComparativaOrganismes::CComparativaOrganismes(CComunitat *comunitat=NULL)
+	: m_dominiEnergia (true)
+	, m_dominiEdat (true)
 {
 	m_comunitat=comunitat;
 	m_margeSup = 0;
@@ -68,7 +70,7 @@ CComparativaOrganismes::~CComparativaOrganismes()
 }
 
 //////////////////////////////////////////////////////////////////////
-// Operacions
+// (CComparativaOrganismes) Operacions
 //////////////////////////////////////////////////////////////////////
 
 void CComparativaOrganismes::comunitat(CComunitat * com)
@@ -88,11 +90,8 @@ void CComparativaOrganismes::primerOrganisme(uint32 org)
 
 void CComparativaOrganismes::visualitza(CMissatger & msg)
 {
-	static CDominiGrafica dominiEnergia (true);
-	static CDominiGrafica dominiEdat (true);
-
-	dominiEdat.fixaFactor(m_tope);
-	dominiEnergia.fixaFactor(m_tope);
+	m_dominiEdat.fixaFactor(m_tope);
+	m_dominiEnergia.fixaFactor(m_tope);
 
 	using AnsiCodes::gotoxy;
 	using AnsiCodes::clrlin;
@@ -112,16 +111,16 @@ void CComparativaOrganismes::visualitza(CMissatger & msg)
 	CComunitat & comunitat = *m_comunitat;
 
 	// Coloquem les guies
-	if (dominiEdat.premapeja(15)<m_tope) {
-		msg << gotoxy(m_posY+m_tope-dominiEdat.mapeja(15), m_posX) << blanc.fons(groc) << clrlin;
+	if (m_dominiEdat.premapeja(3)<m_tope) {
+		msg << gotoxy(m_posY+m_tope-m_dominiEdat.mapeja(3), m_posX) << blanc.fons(verd) << clrlin;
 		msg << blanc.fons(blanc);
 	}
-	if (dominiEdat.premapeja(7)<m_tope) {
-		msg << gotoxy(m_posY+m_tope-dominiEdat.mapeja(7), m_posX) << blanc.fons(verd) << clrlin;
+	if (m_dominiEdat.premapeja(15)<m_tope) {
+		msg << gotoxy(m_posY+m_tope-m_dominiEdat.mapeja(15), m_posX) << blanc.fons(groc) << clrlin;
 		msg << blanc.fons(blanc);
 	}
-	if (dominiEdat.premapeja(31)<m_tope) {
-		msg << gotoxy(m_posY+m_tope-dominiEdat.mapeja(31), m_posX) << blanc.fons(vermell) << clrlin;
+	if (m_dominiEdat.premapeja(63)<m_tope) {
+		msg << gotoxy(m_posY+m_tope-m_dominiEdat.mapeja(63), m_posX) << blanc.fons(vermell) << clrlin;
 		msg << blanc.fons(blanc);
 	}
 
@@ -138,7 +137,7 @@ void CComparativaOrganismes::visualitza(CMissatger & msg)
 		{
 			// Posem l'energia
 			uint32 energia = org->energia();
-			energia = dominiEnergia.mapeja(energia);
+			energia = m_dominiEnergia.mapeja(energia);
 			if (energia>m_tope)
 				msg << gotoxy(m_posY, col) << '?';
 			else
@@ -146,7 +145,7 @@ void CComparativaOrganismes::visualitza(CMissatger & msg)
 
 			// Posem l'edat
 			uint32 edat    = org->edat();
-			edat    = dominiEdat.mapeja(edat);
+			edat    = m_dominiEdat.mapeja(edat);
 			if (edat>m_tope)
 				msg << gotoxy(m_posY, col) << '!';
 			else
@@ -185,9 +184,101 @@ void CComparativaOrganismes::visualitza(CMissatger & msg)
 	msg << blanc.fosc();
 }
 
+//////////////////////////////////////////////////////////////////////
+// (CGraficaEvolutiva) Construction/Destruction
+//////////////////////////////////////////////////////////////////////
+
+CGraficaEvolutiva::CGraficaEvolutiva(CBiosistema *bio=NULL)
+{
+	m_biosistema=bio;
+	m_margeSup = 0;
+	m_margeInf = 2;
+	recalculaTope();
+}
+
+CGraficaEvolutiva::~CGraficaEvolutiva()
+{
+
+}
 
 //////////////////////////////////////////////////////////////////////
-// Construction/Destruction
+// (CComparativaOrganismes) Operacions
+//////////////////////////////////////////////////////////////////////
+
+void CGraficaEvolutiva::biosistema(CBiosistema * bio)
+{
+	m_biosistema=bio;
+}
+
+CBiosistema * CGraficaEvolutiva::biosistema(void)
+{
+	return m_biosistema;
+}
+
+void CGraficaEvolutiva::visualitza(CMissatger & msg)
+{
+/*	static CDominiGrafica domini (true);
+
+	domini.fixaFactor(m_tope);
+
+	using AnsiCodes::gotoxy;
+	using AnsiCodes::clrlin;
+
+	uint32 col, fil;
+
+	// Esborrem el fons
+	for (fil=m_posY; fil<m_posY+m_tope+m_margeInf; ++fil)
+	{
+		msg << gotoxy(fil, m_posX) << blanc.fons(blanc) << clrlin;
+	}
+
+	if (!m_biosistema)
+		return;
+	CBiosistema & biosistema = * m_biosistema;
+	if (!biosistema.comunitat())
+		return;
+	CComunitat & comunitat = * biosistema.comunitat();
+
+	// Coloquem les guies
+	if (domini.premapeja(15)<m_tope) {
+		msg << gotoxy(m_posY+m_tope-domini.mapeja(15), m_posX) << blanc.fons(groc) << clrlin;
+		msg << blanc.fons(blanc);
+	}
+	if (domini.premapeja(7)<m_tope) {
+		msg << gotoxy(m_posY+m_tope-domini.mapeja(7), m_posX) << blanc.fons(verd) << clrlin;
+		msg << blanc.fons(blanc);
+	}
+	if (domini.premapeja(31)<m_tope) {
+		msg << gotoxy(m_posY+m_tope-domini.mapeja(31), m_posX) << blanc.fons(vermell) << clrlin;
+		msg << blanc.fons(blanc);
+	}
+
+	// Imprimim el contingut
+	uint32 col;
+	uint32 time;
+	for (col=m_posX,time=m_actual; col>
+	colorOrg=(m_primerOrg>>3)&7;
+	if (m_primerOrg&7)
+		msg << CColor((colorOrg++)&7).brillant();
+	biosistema->comunitat()->tamany();
+	for (time=0,col=m_posX; col<m_posX+m_amplada && i<domini.size(); col++,i++,time--)
+	{
+		if (!time) time = domini.
+		// Posem l'energia
+		uint32 valor = domini[time];
+		valor = dominiEnergia.mapeja(valor);
+		if (valor>m_tope)
+			msg << gotoxy(m_posY, col) << '?';
+		else
+			msg << gotoxy(m_posY+m_tope-valor, col) << '*';
+	}
+	// Restaurem els colors
+	msg << blanc.fosc();
+*/
+}
+
+//////////////////////////////////////////////////////////////////////
+// (CDominiGrafica) Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
 CDominiGrafica::CDominiGrafica (bool esLogaritmic)
@@ -207,7 +298,7 @@ CDominiGrafica::CDominiGrafica (bool esLogaritmic, uint32 factor)
 }
 
 //////////////////////////////////////////////////////////////////////
-// Operacions
+// (CDominiGrafica) Operacions
 //////////////////////////////////////////////////////////////////////
 
 void CDominiGrafica::fixaFactor (uint32 tope) 
@@ -260,7 +351,7 @@ uint32 CDominiGrafica::premapeja(uint32 valor)
 }
 
 //////////////////////////////////////////////////////////////////////
-// Construction/Destruction
+// (CMapa) Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
 CMapa::CMapa(CBiosistema * biosist=NULL)

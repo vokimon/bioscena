@@ -227,14 +227,6 @@ SOURCE=.\Cromosoma.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\Detector.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\Detector.h
-# End Source File
-# Begin Source File
-
 SOURCE=.\Distribucio.cpp
 # End Source File
 # Begin Source File

@@ -10,14 +10,46 @@ Project's tools are:
 			"Custom Build" with flags ""
 			"<Component 0xa>" with flags ""
 
-Creating temp file "C:\WINDOWS\TEMP\RSP71F0.TMP" with contents </nologo /MLd /W3 /Gm /GX /Zi /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR"Debug/" /Fp"Debug/Bioscena.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /c 
+Creating temp file "C:\WINDOWS\TEMP\RSP21F5.TMP" with contents </nologo /MLd /W3 /Gm /GX /Zi /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR"Debug/" /Fp"Debug/Bioscena.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /c 
+"D:\Bioscena\Bioscena\Actuador.cpp"
+"D:\Bioscena\Bioscena\Actuadors.cpp"
+"D:\Bioscena\Bioscena\Agent.cpp"
+"D:\Bioscena\Bioscena\Aleaturitzador.cpp"
 "D:\Bioscena\Bioscena\AppInfo.cpp"
+"D:\Bioscena\Bioscena\Biosistema.cpp"
+"D:\Bioscena\Bioscena\Cariotip.cpp"
+"D:\Bioscena\Bioscena\Color.cpp"
 "D:\Bioscena\Bioscena\Compatibilitat.cpp"
+"D:\Bioscena\Bioscena\Comunitat.cpp"
+"D:\Bioscena\Bioscena\Configuracio.cpp"
+"D:\Bioscena\Bioscena\Cromosoma.cpp"
+"D:\Bioscena\Bioscena\Distribucio.cpp"
+"D:\Bioscena\Bioscena\EnergiaDisipable.cpp"
+"D:\Bioscena\Bioscena\FuncioAgent.cpp"
+"D:\Bioscena\Bioscena\Gen.cpp"
 "D:\Bioscena\Bioscena\GeneradorMascares.cpp"
+"D:\Bioscena\Bioscena\Genotip.cpp"
+"D:\Bioscena\Bioscena\Grafic.cpp"
+"D:\Bioscena\Bioscena\InfoOrganisme.cpp"
+"D:\Bioscena\Bioscena\Iterador.cpp"
+"D:\Bioscena\Bioscena\Itineraris.cpp"
+"D:\Bioscena\Bioscena\MainBio1.cpp"
+"D:\Bioscena\Bioscena\Missatger.cpp"
+"D:\Bioscena\Bioscena\MultiAgent.cpp"
+"D:\Bioscena\Bioscena\MutacioCariotip.cpp"
+"D:\Bioscena\Bioscena\MutacioGenica.cpp"
+"D:\Bioscena\Bioscena\Organisme.cpp"
+"D:\Bioscena\Bioscena\Outputer.cpp"
+"D:\Bioscena\Bioscena\Posicionador.cpp"
+"D:\Bioscena\Bioscena\Probabilitat.cpp"
+"D:\Bioscena\Bioscena\RandomStream.cpp"
 "D:\Bioscena\Bioscena\Substrat.cpp"
+"D:\Bioscena\Bioscena\Temporitzador.cpp"
+"D:\Bioscena\Bioscena\Topologia.cpp"
+"D:\Bioscena\Bioscena\TopologiaToroidal.cpp"
 >
-Creating command line "cl.exe @C:\WINDOWS\TEMP\RSP71F0.TMP" 
-Creating temp file "C:\WINDOWS\TEMP\RSP71F1.TMP" with contents <kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /verbose /incremental:no /pdb:"Debug/Bioscena.pdb" /debug /machine:I386 /out:"Debug/Bioscena.exe" /pdbtype:sept 
+Creating command line "cl.exe @C:\WINDOWS\TEMP\RSP21F5.TMP" 
+Creating temp file "C:\WINDOWS\TEMP\RSP21F6.TMP" with contents <kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /verbose /incremental:no /pdb:"Debug/Bioscena.pdb" /debug /machine:I386 /out:"Debug/Bioscena.exe" /pdbtype:sept 
 .\Debug\Actuador.obj
 .\Debug\Actuadors.obj
 .\Debug\Agent.obj
@@ -30,7 +62,6 @@ Creating temp file "C:\WINDOWS\TEMP\RSP71F1.TMP" with contents <kernel32.lib use
 .\Debug\Comunitat.obj
 .\Debug\Configuracio.obj
 .\Debug\Cromosoma.obj
-.\Debug\Detector.obj
 .\Debug\Distribucio.obj
 .\Debug\EnergiaDisipable.obj
 .\Debug\FuncioAgent.obj
@@ -55,12 +86,46 @@ Creating temp file "C:\WINDOWS\TEMP\RSP71F1.TMP" with contents <kernel32.lib use
 .\Debug\Temporitzador.obj
 .\Debug\Topologia.obj
 .\Debug\TopologiaToroidal.obj>
-Creating command line "link.exe @C:\WINDOWS\TEMP\RSP71F1.TMP" 
+Creating command line "link.exe @C:\WINDOWS\TEMP\RSP21F6.TMP" 
 Compiling...
-GeneradorMascares.cpp
-Compatibilitat.cpp
-Substrat.cpp
+Actuador.cpp
+Actuadors.cpp
+Agent.cpp
+Aleaturitzador.cpp
 AppInfo.cpp
+Biosistema.cpp
+D:\Bioscena\Bioscena\Biosistema.cpp(512) : warning C4101: 'p' : unreferenced local variable
+Cariotip.cpp
+Color.cpp
+Compatibilitat.cpp
+Comunitat.cpp
+Configuracio.cpp
+Cromosoma.cpp
+Distribucio.cpp
+EnergiaDisipable.cpp
+FuncioAgent.cpp
+Gen.cpp
+D:\Bioscena\Bioscena\Gen.cpp(44) : warning C4800: 'unsigned long' : forcing value to bool 'true' or 'false' (performance warning)
+GeneradorMascares.cpp
+Genotip.cpp
+Grafic.cpp
+InfoOrganisme.cpp
+Iterador.cpp
+Itineraris.cpp
+MainBio1.cpp
+Missatger.cpp
+MultiAgent.cpp
+MutacioCariotip.cpp
+MutacioGenica.cpp
+Organisme.cpp
+Outputer.cpp
+Posicionador.cpp
+Probabilitat.cpp
+RandomStream.cpp
+Substrat.cpp
+Temporitzador.cpp
+Topologia.cpp
+TopologiaToroidal.cpp
 Linking...
 
 Start Pass1
@@ -108,27 +173,26 @@ Searching Libraries
     Searching C:\Archivos de programa\Programacio\DevStudio\VC\LIB\odbccp32.lib:
     Searching C:\Archivos de programa\Programacio\DevStudio\VC\LIB\libcpd.lib:
       Found ??3@YAXPAX@Z
-        Referenced in Temporitzador.obj
-        Referenced in Posicionador.obj
         Referenced in Probabilitat.obj
         Referenced in RandomStream.obj
         Referenced in Substrat.obj
-        Referenced in MutacioCariotip.obj
+        Referenced in Temporitzador.obj
         Referenced in MutacioGenica.obj
         Referenced in Organisme.obj
         Referenced in Outputer.obj
-        Referenced in Itineraris.obj
+        Referenced in Posicionador.obj
         Referenced in MainBio1.obj
         Referenced in Missatger.obj
         Referenced in MultiAgent.obj
-        Referenced in Genotip.obj
+        Referenced in MutacioCariotip.obj
         Referenced in Grafic.obj
         Referenced in InfoOrganisme.obj
         Referenced in Iterador.obj
-        Referenced in Detector.obj
+        Referenced in Itineraris.obj
         Referenced in EnergiaDisipable.obj
         Referenced in FuncioAgent.obj
         Referenced in Gen.obj
+        Referenced in Genotip.obj
         Referenced in Compatibilitat.obj
         Referenced in Comunitat.obj
         Referenced in Configuracio.obj
@@ -346,31 +410,30 @@ Searching Libraries
         Referenced in Aleaturitzador.obj
         Loaded libcpd.lib(uncaught.obj)
       Found ??0Init@ios_base@std@@QAE@XZ
-        Referenced in TopologiaToroidal.obj
-        Referenced in RandomStream.obj
         Referenced in Substrat.obj
         Referenced in Temporitzador.obj
         Referenced in Topologia.obj
-        Referenced in Organisme.obj
+        Referenced in TopologiaToroidal.obj
         Referenced in Outputer.obj
         Referenced in Posicionador.obj
         Referenced in Probabilitat.obj
-        Referenced in Missatger.obj
+        Referenced in RandomStream.obj
         Referenced in MultiAgent.obj
         Referenced in MutacioCariotip.obj
         Referenced in MutacioGenica.obj
-        Referenced in InfoOrganisme.obj
+        Referenced in Organisme.obj
         Referenced in Iterador.obj
         Referenced in Itineraris.obj
         Referenced in MainBio1.obj
-        Referenced in Gen.obj
+        Referenced in Missatger.obj
         Referenced in GeneradorMascares.obj
         Referenced in Genotip.obj
         Referenced in Grafic.obj
-        Referenced in Detector.obj
+        Referenced in InfoOrganisme.obj
         Referenced in Distribucio.obj
         Referenced in EnergiaDisipable.obj
         Referenced in FuncioAgent.obj
+        Referenced in Gen.obj
         Referenced in Compatibilitat.obj
         Referenced in Comunitat.obj
         Referenced in Configuracio.obj
@@ -385,31 +448,30 @@ Searching Libraries
         Referenced in Aleaturitzador.obj
         Loaded libcpd.lib(iostream.obj)
       Found ??0_Winit@std@@QAE@XZ
-        Referenced in TopologiaToroidal.obj
-        Referenced in RandomStream.obj
         Referenced in Substrat.obj
         Referenced in Temporitzador.obj
         Referenced in Topologia.obj
-        Referenced in Organisme.obj
+        Referenced in TopologiaToroidal.obj
         Referenced in Outputer.obj
         Referenced in Posicionador.obj
         Referenced in Probabilitat.obj
-        Referenced in Missatger.obj
+        Referenced in RandomStream.obj
         Referenced in MultiAgent.obj
         Referenced in MutacioCariotip.obj
         Referenced in MutacioGenica.obj
-        Referenced in InfoOrganisme.obj
+        Referenced in Organisme.obj
         Referenced in Iterador.obj
         Referenced in Itineraris.obj
         Referenced in MainBio1.obj
-        Referenced in Gen.obj
+        Referenced in Missatger.obj
         Referenced in GeneradorMascares.obj
         Referenced in Genotip.obj
         Referenced in Grafic.obj
-        Referenced in Detector.obj
+        Referenced in InfoOrganisme.obj
         Referenced in Distribucio.obj
         Referenced in EnergiaDisipable.obj
         Referenced in FuncioAgent.obj
+        Referenced in Gen.obj
         Referenced in Compatibilitat.obj
         Referenced in Comunitat.obj
         Referenced in Configuracio.obj
@@ -436,16 +498,17 @@ Searching Libraries
         Referenced in Biosistema.obj
         Loaded libcpd.lib(iomanip.obj)
       Found __Stof
+        Referenced in Posicionador.obj
         Referenced in Temporitzador.obj
         Referenced in libcpd.lib(locale.obj)
+        Referenced in Iterador.obj
         Referenced in Itineraris.obj
         Referenced in MutacioCariotip.obj
         Referenced in MutacioGenica.obj
-        Referenced in Posicionador.obj
         Referenced in Actuadors.obj
         Referenced in Aleaturitzador.obj
+        Referenced in Biosistema.obj
         Referenced in Configuracio.obj
-        Referenced in Iterador.obj
         Loaded libcpd.lib(xstod.obj)
       Found ?_Fiopen@?$basic_filebuf@DU?$char_traits@D@std@@@std@@CAPAU_iobuf@@PBDH@Z
         Referenced in MultiAgent.obj
@@ -497,35 +560,34 @@ Searching Libraries
         Referenced in Grafic.obj
         Loaded LIBCD.lib(purevirt.obj)
       Found ___CxxFrameHandler
-        Referenced in libcpd.lib(xlocale.obj)
-        Referenced in libcpd.lib(iostream.obj)
         Referenced in libcpd.lib(wiostrea.obj)
         Referenced in libcpd.lib(strstrea.obj)
         Referenced in libcpd.lib(wlocale.obj)
-        Referenced in libcpd.lib(string.obj)
+        Referenced in libcpd.lib(xlocale.obj)
         Referenced in libcpd.lib(locale0.obj)
         Referenced in libcpd.lib(locale.obj)
         Referenced in libcpd.lib(ios.obj)
-        Referenced in Posicionador.obj
+        Referenced in libcpd.lib(iostream.obj)
         Referenced in RandomStream.obj
         Referenced in Substrat.obj
         Referenced in Temporitzador.obj
-        Referenced in MutacioCariotip.obj
+        Referenced in libcpd.lib(string.obj)
         Referenced in MutacioGenica.obj
         Referenced in Organisme.obj
         Referenced in Outputer.obj
-        Referenced in Itineraris.obj
+        Referenced in Posicionador.obj
         Referenced in MainBio1.obj
         Referenced in Missatger.obj
         Referenced in MultiAgent.obj
-        Referenced in Genotip.obj
+        Referenced in MutacioCariotip.obj
         Referenced in Grafic.obj
         Referenced in InfoOrganisme.obj
         Referenced in Iterador.obj
-        Referenced in Detector.obj
+        Referenced in Itineraris.obj
         Referenced in EnergiaDisipable.obj
         Referenced in FuncioAgent.obj
         Referenced in Gen.obj
+        Referenced in Genotip.obj
         Referenced in Compatibilitat.obj
         Referenced in Comunitat.obj
         Referenced in Configuracio.obj
@@ -540,35 +602,34 @@ Searching Libraries
         Referenced in Aleaturitzador.obj
         Loaded LIBCD.lib(trnsctrl.obj)
       Found __except_list
-        Referenced in libcpd.lib(xlocale.obj)
-        Referenced in libcpd.lib(iostream.obj)
         Referenced in libcpd.lib(wiostrea.obj)
         Referenced in libcpd.lib(strstrea.obj)
         Referenced in libcpd.lib(wlocale.obj)
-        Referenced in libcpd.lib(string.obj)
+        Referenced in libcpd.lib(xlocale.obj)
         Referenced in libcpd.lib(locale0.obj)
         Referenced in libcpd.lib(locale.obj)
         Referenced in libcpd.lib(ios.obj)
-        Referenced in Posicionador.obj
+        Referenced in libcpd.lib(iostream.obj)
         Referenced in RandomStream.obj
         Referenced in Substrat.obj
         Referenced in Temporitzador.obj
-        Referenced in MutacioCariotip.obj
+        Referenced in libcpd.lib(string.obj)
         Referenced in MutacioGenica.obj
         Referenced in Organisme.obj
         Referenced in Outputer.obj
-        Referenced in Itineraris.obj
+        Referenced in Posicionador.obj
         Referenced in MainBio1.obj
         Referenced in Missatger.obj
         Referenced in MultiAgent.obj
-        Referenced in Genotip.obj
+        Referenced in MutacioCariotip.obj
         Referenced in Grafic.obj
         Referenced in InfoOrganisme.obj
         Referenced in Iterador.obj
-        Referenced in Detector.obj
+        Referenced in Itineraris.obj
         Referenced in EnergiaDisipable.obj
         Referenced in FuncioAgent.obj
         Referenced in Gen.obj
+        Referenced in Genotip.obj
         Referenced in Compatibilitat.obj
         Referenced in Comunitat.obj
         Referenced in Configuracio.obj
@@ -790,36 +851,35 @@ Searching Libraries
         Referenced in Aleaturitzador.obj
         Loaded LIBCD.lib(typinfo.obj)
       Found ??2@YAPAXI@Z
-        Referenced in libcpd.lib(xlocale.obj)
         Referenced in LIBCD.lib(stdexcpt.obj)
-        Referenced in libcpd.lib(iostream.obj)
         Referenced in libcpd.lib(wiostrea.obj)
         Referenced in libcpd.lib(strstrea.obj)
         Referenced in libcpd.lib(wlocale.obj)
-        Referenced in libcpd.lib(string.obj)
+        Referenced in libcpd.lib(xlocale.obj)
         Referenced in libcpd.lib(locale0.obj)
         Referenced in libcpd.lib(locale.obj)
         Referenced in libcpd.lib(ios.obj)
-        Referenced in Posicionador.obj
+        Referenced in libcpd.lib(iostream.obj)
         Referenced in RandomStream.obj
         Referenced in Substrat.obj
         Referenced in Temporitzador.obj
-        Referenced in MutacioCariotip.obj
+        Referenced in libcpd.lib(string.obj)
         Referenced in MutacioGenica.obj
         Referenced in Organisme.obj
         Referenced in Outputer.obj
-        Referenced in Itineraris.obj
+        Referenced in Posicionador.obj
         Referenced in MainBio1.obj
         Referenced in Missatger.obj
         Referenced in MultiAgent.obj
-        Referenced in Genotip.obj
+        Referenced in MutacioCariotip.obj
         Referenced in Grafic.obj
         Referenced in InfoOrganisme.obj
         Referenced in Iterador.obj
-        Referenced in Detector.obj
+        Referenced in Itineraris.obj
         Referenced in EnergiaDisipable.obj
         Referenced in FuncioAgent.obj
         Referenced in Gen.obj
+        Referenced in Genotip.obj
         Referenced in Compatibilitat.obj
         Referenced in Comunitat.obj
         Referenced in Configuracio.obj
@@ -909,42 +969,41 @@ Searching Libraries
         Referenced in Aleaturitzador.obj
         Loaded LIBCD.lib(memset.obj)
       Found _atexit
-        Referenced in libcpd.lib(strstrea.obj)
         Referenced in libcpd.lib(wlocale.obj)
         Referenced in libcpd.lib(xlocale.obj)
         Referenced in libcpd.lib(nomemory.obj)
-        Referenced in libcpd.lib(iostream.obj)
         Referenced in libcpd.lib(wiostrea.obj)
         Referenced in libcpd.lib(iomanip.obj)
         Referenced in libcpd.lib(fiopen.obj)
-        Referenced in TopologiaToroidal.obj
+        Referenced in libcpd.lib(strstrea.obj)
         Referenced in libcpd.lib(string.obj)
         Referenced in libcpd.lib(locale0.obj)
         Referenced in libcpd.lib(locale.obj)
-        Referenced in RandomStream.obj
+        Referenced in libcpd.lib(iostream.obj)
         Referenced in Substrat.obj
         Referenced in Temporitzador.obj
         Referenced in Topologia.obj
-        Referenced in Organisme.obj
+        Referenced in TopologiaToroidal.obj
         Referenced in Outputer.obj
         Referenced in Posicionador.obj
         Referenced in Probabilitat.obj
-        Referenced in Missatger.obj
+        Referenced in RandomStream.obj
         Referenced in MultiAgent.obj
         Referenced in MutacioCariotip.obj
         Referenced in MutacioGenica.obj
-        Referenced in InfoOrganisme.obj
+        Referenced in Organisme.obj
         Referenced in Iterador.obj
         Referenced in Itineraris.obj
         Referenced in MainBio1.obj
-        Referenced in Gen.obj
+        Referenced in Missatger.obj
         Referenced in GeneradorMascares.obj
         Referenced in Genotip.obj
         Referenced in Grafic.obj
-        Referenced in Detector.obj
+        Referenced in InfoOrganisme.obj
         Referenced in Distribucio.obj
         Referenced in EnergiaDisipable.obj
         Referenced in FuncioAgent.obj
+        Referenced in Gen.obj
         Referenced in Compatibilitat.obj
         Referenced in Comunitat.obj
         Referenced in Configuracio.obj
@@ -1195,48 +1254,51 @@ Searching Libraries
         Referenced in AppInfo.obj
         Loaded LIBCD.lib(strcspn.obj)
       Found _strtoul
+        Referenced in Posicionador.obj
         Referenced in Temporitzador.obj
         Referenced in libcpd.lib(locale.obj)
         Referenced in libcpd.lib(wlocale.obj)
+        Referenced in Iterador.obj
         Referenced in Itineraris.obj
         Referenced in MutacioCariotip.obj
         Referenced in MutacioGenica.obj
-        Referenced in Posicionador.obj
         Referenced in Actuadors.obj
         Referenced in Aleaturitzador.obj
+        Referenced in Biosistema.obj
         Referenced in Configuracio.obj
-        Referenced in Iterador.obj
         Loaded LIBCD.lib(strtol.obj)
       Found _errno
+        Referenced in LIBCD.lib(strtol.obj)
+        Referenced in libcpd.lib(wlocale.obj)
         Referenced in libcpd.lib(xlocale.obj)
         Referenced in libcpd.lib(xmbtowc.obj)
         Referenced in libcpd.lib(xstrcoll.obj)
-        Referenced in LIBCD.lib(strtol.obj)
+        Referenced in Posicionador.obj
         Referenced in Temporitzador.obj
         Referenced in libcpd.lib(locale.obj)
         Referenced in libcpd.lib(xwctomb.obj)
-        Referenced in libcpd.lib(wlocale.obj)
+        Referenced in Iterador.obj
         Referenced in Itineraris.obj
         Referenced in MutacioCariotip.obj
         Referenced in MutacioGenica.obj
-        Referenced in Posicionador.obj
         Referenced in Actuadors.obj
         Referenced in Aleaturitzador.obj
+        Referenced in Biosistema.obj
         Referenced in Configuracio.obj
-        Referenced in Iterador.obj
         Loaded LIBCD.lib(crt0dat.obj)
       Found _isdigit
+        Referenced in Posicionador.obj
         Referenced in Temporitzador.obj
         Referenced in libcpd.lib(locale.obj)
         Referenced in libcpd.lib(wlocale.obj)
+        Referenced in Iterador.obj
         Referenced in Itineraris.obj
         Referenced in MutacioCariotip.obj
         Referenced in MutacioGenica.obj
-        Referenced in Posicionador.obj
         Referenced in Actuadors.obj
         Referenced in Aleaturitzador.obj
+        Referenced in Biosistema.obj
         Referenced in Configuracio.obj
-        Referenced in Iterador.obj
         Loaded LIBCD.lib(_ctype.obj)
       Found _rand
         Referenced in Posicionador.obj
@@ -2164,7 +2226,6 @@ Start Pass2
      FuncioAgent.obj
      EnergiaDisipable.obj
      Distribucio.obj
-     Detector.obj
      Cromosoma.obj
      Configuracio.obj
      Comunitat.obj
@@ -2448,4 +2509,4 @@ End Pass2
 
 
 
-Bioscena.exe - 0 error(s), 0 warning(s)
+Bioscena.exe - 0 error(s), 2 warning(s)

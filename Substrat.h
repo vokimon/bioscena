@@ -45,8 +45,8 @@ public:
 	CSubstrat operator=(int i) {ocupa(i); return *this;};
 // Operacions (Quimica)
 public:
-	bool rastreja(uint32 clau, uint32 tolerancia);
-	bool extreu(uint32 &n, uint32 clau, uint32 tolerancia);
+	bool rastreja(t_mol &n, uint32 clau, uint32 tolerancia);
+	bool extreu  (t_mol &n, uint32 clau, uint32 tolerancia);
 	void deposita(t_mol n);
 	void limitMollecules(uint32 n);
 	uint32 limitMollecules();

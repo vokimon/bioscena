@@ -11,7 +11,8 @@
 //////////////////////////////////////////////////////////////////////
 // TODO:
 // - Permetre coneixer el pare
-// - Que passa quan ja hi ha un nom amb el meu nom per defecte?
+// - Que passa quan ja hi ha un nom amb el meu nom per defecte!!??
+//////////////////////////////////////////////////////////////////////
 
 
 #if !defined(__KKEP_AGENT_H_INCLUDED)

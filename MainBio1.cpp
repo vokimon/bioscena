@@ -97,7 +97,6 @@ int main (int argc, char**argv)
 //	CMutacioCariotip::ProvaClasse();
 //	CComunitat::ProvaClasse(); // OK
 	CBiosistema::ProvaClasse();
-	CBiosistema::ProvaClasse();
 
 //	cout << ">> Final de proves. Pulsa la tecla de retorn...";
 //	cin.get();

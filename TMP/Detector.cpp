@@ -31,7 +31,7 @@ bool CDetector::analitza(CSubstrat & s)
 // Operacions
 //////////////////////////////////////////////////////////////////////
 
-CDetector * CDetector::nouDetector(uint32 tipus)
+CDetector * CDetector::NouDetector(uint32 tipus)
 {
 	switch (tipus) {
 	case 0: return new CDetectorQuimic;

@@ -156,7 +156,7 @@ CAgent * CAgent::ParsejaArxiu(char * nomArxiu, CTopologia<CSubstrat> & biotop, C
 	string prefetch;
 	CAgent * agentArrel = NULL;
 
-	out << "Carregant configuracio agents [" << nomArxiu << "]" << endl;
+	out << "Carregant la configuracio dels agents externs [" << nomArxiu << "]" << endl;
 	if (!entrada) {
 		errors 
 			<< "Error obrint '" << nomArxiu << endl;
@@ -167,7 +167,7 @@ CAgent * CAgent::ParsejaArxiu(char * nomArxiu, CTopologia<CSubstrat> & biotop, C
 	while (prefetch=="*") {	
 		entrada >> nom >> tipus >> prefetch;
 		// TODO: Esborrar aquesta traca (o no)
-		out << '\t' << nom << '\t' << tipus << endl;
+//		out << '\t' << nom << '\t' << tipus << endl;
 		CAgent * ag = CreaAgent(tipus, biotop);
 		if (!agentArrel) agentArrel= ag;
 		if (!ag) {
@@ -226,7 +226,7 @@ CAgent * CAgent::ParsejaArxiu(char * nomArxiu, CTopologia<CSubstrat> & biotop, C
 
 	// TODO: Comprovacions de que es tracta d'una estructura arborea correcta
 
-	out << "Final configuracio agents [" << nomArxiu << "]" << endl;
+	out << "Configuracio dels agents externs [" << nomArxiu << "] carregada" << endl;
 
 	return agentArrel;
 }

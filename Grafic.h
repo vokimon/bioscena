@@ -22,6 +22,7 @@
 
 #include <functional>
 #include <list>
+#include <deque>
 #include "BioIncludes.h"
 #include "Missatger.h"
 #include "Comunitat.h"
@@ -57,6 +58,19 @@ public:
 	CDominiGraficaComparativa(unary_function<uint32, uint32> & f) : m_f=f {}
 };
 */
+
+class CDominiGraficaEvolutiva : public CDominiGrafica {
+// Atributs
+private:
+	deque<uint32> m_valors;
+	uint32 m_tamanyMemoria;
+// Construccio/Destruccio
+public:
+	CDominiGraficaEvolutiva(bool esLogaritmic, uint32 factor, uint32 tamanyMemoria=80)
+		: CDominiGrafica(esLogaritmic, factor)
+	{m_tamanyMemoria = tamanyMemoria;}
+};
+
 
 
 class CGrafic  
@@ -106,6 +120,30 @@ private:
 //	list<CDominiGrafica> m_dominis;
 	CComunitat * m_comunitat;
 	uint32 m_primerOrg;
+	CDominiGrafica m_dominiEnergia;
+	CDominiGrafica m_dominiEdat;
+};
+
+class CGraficaEvolutiva : public CGrafic
+{
+// Tipus interns
+	typedef CGrafic inherited;
+// Construccio/Destruccio
+public:
+	CGraficaEvolutiva(CBiosistema * biosistema);
+	virtual ~CGraficaEvolutiva();
+// Operacions
+public:
+	virtual void visualitza(CMissatger & msg);
+	void biosistema(CBiosistema * biosistema);
+	CBiosistema * biosistema(void);
+// Implementacio
+private:
+// Atributs
+private:
+//	list<CDominiGrafica> m_dominis;
+	uint32 * m_memoria;
+	CBiosistema * m_biosistema;
 };
 
 class CMapa : public CGrafic
@@ -118,8 +156,10 @@ public:
 	virtual ~CMapa();
 // Operacions
 public:
-	virtual void visualitza(CMissatger & msg);
+	void biosistema(CBiosistema * biosistema);
+	CBiosistema * biosistema(void);
 	void primeraPosicio(uint32 pos);
+	virtual void visualitza(CMissatger & msg);
 	void scrollUp(uint32 steps);
 	void scrollDown(uint32 steps);
 	void scrollLeft(uint32 steps);
@@ -128,8 +168,6 @@ public:
 	void scrollPageDown(uint32 steps);
 	void scrollPageLeft(uint32 steps);
 	void scrollPageRight(uint32 steps);
-	void biosistema(CBiosistema * biosistema);
-	CBiosistema * biosistema(void);
 // Implementacio
 private:
 // Atributs

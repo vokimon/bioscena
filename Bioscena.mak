@@ -61,7 +61,6 @@ CLEAN :
 	-@erase "$(INTDIR)\Comunitat.obj"
 	-@erase "$(INTDIR)\Configuracio.obj"
 	-@erase "$(INTDIR)\Cromosoma.obj"
-	-@erase "$(INTDIR)\Detector.obj"
 	-@erase "$(INTDIR)\Distribucio.obj"
 	-@erase "$(INTDIR)\EnergiaDisipable.obj"
 	-@erase "$(INTDIR)\FuncioAgent.obj"
@@ -119,7 +118,6 @@ LINK32_OBJS= \
 	"$(INTDIR)\Comunitat.obj" \
 	"$(INTDIR)\Configuracio.obj" \
 	"$(INTDIR)\Cromosoma.obj" \
-	"$(INTDIR)\Detector.obj" \
 	"$(INTDIR)\Distribucio.obj" \
 	"$(INTDIR)\EnergiaDisipable.obj" \
 	"$(INTDIR)\FuncioAgent.obj" \
@@ -193,8 +191,6 @@ CLEAN :
 	-@erase "$(INTDIR)\Configuracio.sbr"
 	-@erase "$(INTDIR)\Cromosoma.obj"
 	-@erase "$(INTDIR)\Cromosoma.sbr"
-	-@erase "$(INTDIR)\Detector.obj"
-	-@erase "$(INTDIR)\Detector.sbr"
 	-@erase "$(INTDIR)\Distribucio.obj"
 	-@erase "$(INTDIR)\Distribucio.sbr"
 	-@erase "$(INTDIR)\EnergiaDisipable.obj"
@@ -272,7 +268,6 @@ BSC32_SBRS= \
 	"$(INTDIR)\Comunitat.sbr" \
 	"$(INTDIR)\Configuracio.sbr" \
 	"$(INTDIR)\Cromosoma.sbr" \
-	"$(INTDIR)\Detector.sbr" \
 	"$(INTDIR)\Distribucio.sbr" \
 	"$(INTDIR)\EnergiaDisipable.sbr" \
 	"$(INTDIR)\FuncioAgent.sbr" \
@@ -322,7 +317,6 @@ LINK32_OBJS= \
 	"$(INTDIR)\Comunitat.obj" \
 	"$(INTDIR)\Configuracio.obj" \
 	"$(INTDIR)\Cromosoma.obj" \
-	"$(INTDIR)\Detector.obj" \
 	"$(INTDIR)\Distribucio.obj" \
 	"$(INTDIR)\EnergiaDisipable.obj" \
 	"$(INTDIR)\FuncioAgent.obj" \
@@ -912,39 +906,6 @@ DEP_CPP_CROMO=\
 
 !ENDIF 
 
-SOURCE=.\Detector.cpp
-
-!IF  "$(CFG)" == "Bioscena - Win32 Release"
-
-DEP_CPP_DETEC=\
-	".\BioIncludes.h"\
-	".\Detector.h"\
-	".\Missatger.h"\
-	".\Outputer.h"\
-	".\Portable.h"\
-	".\Substrat.h"\
-	
-
-"$(INTDIR)\Detector.obj" : $(SOURCE) $(DEP_CPP_DETEC) "$(INTDIR)"
-
-
-!ELSEIF  "$(CFG)" == "Bioscena - Win32 Debug"
-
-DEP_CPP_DETEC=\
-	".\BioIncludes.h"\
-	".\Detector.h"\
-	".\Missatger.h"\
-	".\Outputer.h"\
-	".\Portable.h"\
-	".\Substrat.h"\
-	
-
-"$(INTDIR)\Detector.obj"	"$(INTDIR)\Detector.sbr" : $(SOURCE) $(DEP_CPP_DETEC)\
- "$(INTDIR)"
-
-
-!ENDIF 
-
 SOURCE=.\Distribucio.cpp
 
 !IF  "$(CFG)" == "Bioscena - Win32 Release"
@@ -1388,7 +1349,6 @@ DEP_CPP_MAINB=\
 	".\EnergiaDisipable.h"\
 	".\FuncioAgent.h"\
 	".\Gen.h"\
-	".\GeneradorMascares.h"\
 	".\Genotip.h"\
 	".\InfoOrganisme.h"\
 	".\Iterador.h"\
@@ -1431,7 +1391,6 @@ DEP_CPP_MAINB=\
 	".\EnergiaDisipable.h"\
 	".\FuncioAgent.h"\
 	".\Gen.h"\
-	".\GeneradorMascares.h"\
 	".\Genotip.h"\
 	".\InfoOrganisme.h"\
 	".\Iterador.h"\
@@ -1459,19 +1418,23 @@ DEP_CPP_MAINB=\
 !ENDIF 
 
 SOURCE=.\Missatger.cpp
+
+!IF  "$(CFG)" == "Bioscena - Win32 Release"
+
 DEP_CPP_MISSA=\
 	".\Missatger.h"\
 	".\Outputer.h"\
 	
-
-!IF  "$(CFG)" == "Bioscena - Win32 Release"
-
 
 "$(INTDIR)\Missatger.obj" : $(SOURCE) $(DEP_CPP_MISSA) "$(INTDIR)"
 
 
 !ELSEIF  "$(CFG)" == "Bioscena - Win32 Debug"
 
+DEP_CPP_MISSA=\
+	".\Missatger.h"\
+	".\Outputer.h"\
+	
 
 "$(INTDIR)\Missatger.obj"	"$(INTDIR)\Missatger.sbr" : $(SOURCE)\
  $(DEP_CPP_MISSA) "$(INTDIR)"
@@ -1623,7 +1586,6 @@ DEP_CPP_ORGAN=\
 	".\Cromosoma.h"\
 	".\EnergiaDisipable.h"\
 	".\Gen.h"\
-	".\GeneradorMascares.h"\
 	".\Genotip.h"\
 	".\Missatger.h"\
 	".\Organisme.h"\
@@ -1646,7 +1608,6 @@ DEP_CPP_ORGAN=\
 	".\Cromosoma.h"\
 	".\EnergiaDisipable.h"\
 	".\Gen.h"\
-	".\GeneradorMascares.h"\
 	".\Genotip.h"\
 	".\Missatger.h"\
 	".\Organisme.h"\
@@ -1798,9 +1759,8 @@ SOURCE=.\Substrat.cpp
 DEP_CPP_SUBST=\
 	".\BioIncludes.h"\
 	".\Color.h"\
+	".\Compatibilitat.h"\
 	".\Configuracio.h"\
-	".\encaix.h"\
-	".\GeneradorMascares.h"\
 	".\Missatger.h"\
 	".\Outputer.h"\
 	".\Portable.h"\
@@ -1816,9 +1776,8 @@ DEP_CPP_SUBST=\
 DEP_CPP_SUBST=\
 	".\BioIncludes.h"\
 	".\Color.h"\
+	".\Compatibilitat.h"\
 	".\Configuracio.h"\
-	".\encaix.h"\
-	".\GeneradorMascares.h"\
 	".\Missatger.h"\
 	".\Outputer.h"\
 	".\Portable.h"\

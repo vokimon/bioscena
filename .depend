@@ -33,8 +33,6 @@ Configuracio.o: Configuracio.cpp Configuracio.h BioIncludes.h \
  Missatger.h Outputer.h Portable.h
 Cromosoma.o: Cromosoma.cpp Cromosoma.h BioIncludes.h Missatger.h \
  Outputer.h Portable.h RandomStream.h Color.h
-Detector.o: Detector.cpp Detector.h Substrat.h BioIncludes.h \
- Missatger.h Outputer.h Portable.h
 Distribucio.o: Distribucio.cpp Distribucio.h BioIncludes.h Missatger.h \
  Outputer.h Portable.h RandomStream.h
 Encaix.o: Encaix.cpp Encaix.h GeneradorMascares.h BioIncludes.h \

@@ -1,6 +1,7 @@
 // Itineraris.h: CPosicionador & CDireccionador subclasses' interface
 //
 //////////////////////////////////////////////////////////////////////
+// Class Description:
 // Aquesta capcelera descriu els prototips per a les especialitzacions
 // de CPosicionador i CDireccionador
 //////////////////////////////////////////////////////////////////////
@@ -11,8 +12,11 @@
 // 19990823 VoK - Completadas las funcionalidades estandard de CPosicionadorZonal
 // 19990824 VoK - dump ja no posa ':' despres de nom del parametre
 // 19990824 VoK - Funcions de configuracio amb parametres
+// 19991130 VoK - CPosicionador Zonal adaptat per fer servir la funcio
+//                'desplacamentAleatori' de biotop especificant radi
 //////////////////////////////////////////////////////////////////////
 // TODO: Fer Direccionadors i Posicionadors segons una sequencia.
+//////////////////////////////////////////////////////////////////////
 
 #if !defined(__KKEP_ITINERARIS_H_INCLUDED)
 #define __KKEP_ITINERARIS_H_INCLUDED
