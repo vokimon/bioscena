@@ -1,18 +1,12 @@
 // Topologia.cpp: implementation of the Topology class.
 //
 //////////////////////////////////////////////////////////////////////
-// Change Log
-// 19990722 VoK - Fa servir templates per a les cel·les
-// 19990723 VoK - Rebautizat: BiotopToroidal -> TopologiaToroidal
-// 20000220 VoK - Ja no es un template, independitzat de les cel·les
-// 20000708 VoK - esValidaCassella -> esPosicioValida
 
 #include <iomanip>
 #include "Topologia.h"
 #include "RandomStream.h"
-#include "Color.h"
 
-using namespace AnsiCodes;
+using namespace Bioscena;
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -65,7 +59,7 @@ Topology::t_displacement Topology::invers (t_displacement desp) const
 	return inverse_displacement;
 }
 
-Topology::t_displacement Topology::desplacamentNul () const
+Topology::t_displacement Topology::nilDisplacement () const
 // Retorna un desplacament que aplicat a una posicio, retorna la posicio
 {
 	// TODO: Per defecte aillades o indeterministic?
@@ -94,6 +88,8 @@ uint32 Topology::distancia(t_position posOrigen, t_position posDesti) const
 //////////////////////////////////////////////////////////////////////
 // Proves
 //////////////////////////////////////////////////////////////////////
+#include "Color.h"
+using namespace AnsiCodes;
 
 void Topology::ProvaClasse(void) {
 	// TODO: Proves Topologia::unio
