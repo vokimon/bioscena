@@ -10,36 +10,54 @@ Project's tools are:
 			"Custom Build" with flags ""
 			"<Component 0xa>" with flags ""
 
-Creating temp file "C:\WINDOWS\TEMP\RSPE041.TMP" with contents </nologo /MLd /W3 /Gm /GX /Zi /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"Debug/Bioscena.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /c 
+Creating temp file "C:\WINDOWS\TEMP\RSP9202.TMP" with contents </nologo /MLd /W3 /Gm /GX /Zi /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"Debug/Bioscena.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /c 
+"D:\Bioscena\Bioscena\Actuadors.cpp"
+"D:\Bioscena\Bioscena\Aleaturitzador.cpp"
 "D:\Bioscena\Bioscena\AppInfo.cpp"
-"D:\Bioscena\Bioscena\Cumulador.cpp"
-"D:\Bioscena\Bioscena\MainBio1.cpp"
-"D:\Bioscena\Bioscena\Posicionador.cpp"
 "D:\Bioscena\Bioscena\Itineraris.cpp"
+"D:\Bioscena\Bioscena\MainBio1.cpp"
+"D:\Bioscena\Bioscena\MultiAgent.cpp"
+"D:\Bioscena\Bioscena\Temporitzador.cpp"
 >
-Creating command line "cl.exe @C:\WINDOWS\TEMP\RSPE041.TMP" 
-Creating temp file "C:\WINDOWS\TEMP\RSPE042.TMP" with contents <kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:yes /pdb:"Debug/Bioscena.pdb" /debug /machine:I386 /out:"Debug/Bioscena.exe" /pdbtype:sept 
+Creating command line "cl.exe @C:\WINDOWS\TEMP\RSP9202.TMP" 
+Creating temp file "C:\WINDOWS\TEMP\RSP9203.TMP" with contents <kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:yes /pdb:"Debug/Bioscena.pdb" /debug /machine:I386 /out:"Debug/Bioscena.exe" /pdbtype:sept 
+.\Debug\Actuador.obj
+.\Debug\Actuadors.obj
 .\Debug\Agent.obj
+.\Debug\Aleaturitzador.obj
 .\Debug\AppInfo.obj
+.\Debug\Biosistema.obj
 .\Debug\Color.obj
 .\Debug\Compatibilitat.obj
-.\Debug\Cumulador.obj
+.\Debug\Comunitat.obj
+.\Debug\Configuracio.obj
+.\Debug\Detector.obj
+.\Debug\EnergiaDisipable.obj
 .\Debug\GeneradorMascares.obj
+.\Debug\InfoOrganisme.obj
+.\Debug\Iterador.obj
+.\Debug\Itineraris.obj
+.\Debug\LlistaEstatica.obj
 .\Debug\MainBio1.obj
 .\Debug\Missatger.obj
+.\Debug\MultiAgent.obj
+.\Debug\Organisme.obj
 .\Debug\Posicionador.obj
 .\Debug\RandomStream.obj
 .\Debug\Substrat.obj
+.\Debug\Taxo.obj
+.\Debug\Taxonomista.obj
 .\Debug\Temporitzador.obj
 .\Debug\Topologia.obj
-.\Debug\TopologiaToroidal.obj
-.\Debug\Itineraris.obj>
-Creating command line "link.exe @C:\WINDOWS\TEMP\RSPE042.TMP" 
+.\Debug\TopologiaToroidal.obj>
+Creating command line "link.exe @C:\WINDOWS\TEMP\RSP9203.TMP" 
 Compiling...
-Cumulador.cpp
-MainBio1.cpp
+Actuadors.cpp
+Aleaturitzador.cpp
 Itineraris.cpp
-Posicionador.cpp
+MainBio1.cpp
+MultiAgent.cpp
+Temporitzador.cpp
 AppInfo.cpp
 Linking...
 

@@ -15,6 +15,11 @@
 template<class Cella> 
 class CTopologia  
 {
+// Tipus propis
+public:
+	typedef uint32 t_idCella;
+	typedef uint32 t_desplacament;
+	typedef Cella t_cella;
 // Atributs
 protected:
 	uint32 m_totalCasselles;
@@ -26,7 +31,7 @@ public:
 	virtual ~CTopologia();
 // Operacions
 public:
-	Cella &operator [] (uint32 index) 
+	t_cella &operator [] (uint32 index) 
 	{
 		if ((index>=m_totalCasselles)||(index<0)) {
 			error<<"Accedint a una cella del Topologia no existent"<< endl;
@@ -34,12 +39,23 @@ public:
 		}
 		return m_casselles[index];
 	}
-	bool esValidaCassella(uint32 cassella) {return (cassella<m_totalCasselles)||(cassella>=0);};
-	uint32 cassellaAlAtzar() {
+	bool esValidaCassella(t_idCella cassella) {return (cassella<m_totalCasselles)||(cassella>=0);};
+	t_idCella cassellaAlAtzar() {
 		CRandomStream rnd;
 		return rnd.get(0,m_totalCasselles-1);
 	}
-	virtual uint32 desplacament (uint32 origen, uint32 movimentRelatiu);
+	virtual t_idCella desplacament (t_idCella origen, t_desplacament movimentRelatiu);
+	template <class t_predicat> 
+		t_desplacament explora (t_idCella origen, t_desplacament direccio, 
+			uint32 radi, t_predicat pred)
+	{
+		uint32 base=desplacament(origen, desplacament);
+		for (uint32 i=10; i--;) {
+			uint32 desp=rnd.get();
+			if (pred(m_casselles[desplacament(base, desp)]))
+				return desp;
+		}
+	}
 // Implementacio
 protected:
 	void reservaCasselles(uint32 tamany);
@@ -47,7 +63,7 @@ protected:
 public:
 template<class output>
 void debugPresenta(output & stream) {
-	stream << "\033[1;1H";// Un gotoxy xapuser pero standard (ANSI)
+	stream << "\033[2;1H";// Un gotoxy xapuser pero standard (ANSI)
 	for (uint32 i=0;i<m_totalCasselles;i++)
 		stream << m_casselles[i]<<"#";
 	stream<<endl;
@@ -110,13 +126,14 @@ template<class Cella> void CTopologia<Cella>::reservaCasselles(uint32 tamany) {
 	}
 }
 
-template<class Cella> uint32 
-CTopologia<Cella>::desplacament (uint32 origen, uint32 movimentRelatiu)
+template<class Cella> 
+CTopologia<Cella>::t_idCella CTopologia<Cella>::desplacament (t_idCella origen, t_desplacament movimentRelatiu)
 // Aquesta funcio es la que determina la proximitat de les celles
 // per omisio totes les celles estan aillades.
 {
 	return cassellaAlAtzar();
 //	return origen;
 }
+
 
 #endif // !defined(__KKEP_TOPOLOGIA_H_INCLUDED)

@@ -1,0 +1,26 @@
+TODO:
+
+Perfilar una funció de busqueda direccional
+Crear objectes per a la busqueda segons:
+	fenotip 
+	nutrients
+	condicions ambient
+	...
+Considerar si fer una funcio de desplacament fisic 
+	(cada desplacament intermig ha de ser possible)
+Operacions amb els registres dels organismes
+Considerar el format de les instruccions
+Dissenyar la traduccio genètica
+Dissenyar els mecanismes de control genic
+Dissenyar operadors genètics
+Integrar en el disseny els paràmetres de control que hi sorgeixin
+Eines de analisis
+	Taxonomista
+	Poblacions
+	Interaccions entre organismes
+Generar una interficie de visualitzacio
+Entorn d'edició i analisis d'organismes
+Direccionador i Posicionador sequencial
+
+
+

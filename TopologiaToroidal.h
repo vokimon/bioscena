@@ -14,10 +14,10 @@ template <class Cella>
 class CTopologiaToroidal : public CTopologia<Cella>
 {
 // Contruccio/Destruccio
-public:
+public: 
 	CTopologiaToroidal (uint32 XMax, uint32 YMax);
 // Redefinicio
-	virtual uint32 desplacament (uint32 origen, uint32 movimentRelatiu);
+	virtual t_idCella desplacament (t_idCella origen, t_desplacament movimentRelatiu);
 // Atributs
 protected:
 	uint32 m_xMax;
@@ -27,7 +27,7 @@ protected:
 public:
 	template<class output>
 	void debugPresenta(output & stream) {
-		stream << "\033[1;1H";// Un gotoxy xapuser pero standard (ANSI)
+		stream << "\033[2;1H";// Un gotoxy xapuser pero estandard (ANSI)
 		uint32 nCella=0;
 		for (uint32 j=0;j<m_yMax;j++) {
 			for (uint32 i=0;i<m_xMax;i++)
@@ -45,7 +45,7 @@ public:
 		while (cuc[0]!=8) {
 			for (i=7;i--;) topo[cuc[i]].ocupa(escala[6-i]);
 			topo[cuc[6]].desocupa();
-			topo[topo.cassellaAlAtzar()].afegeixMollecula(4);
+			topo[topo.cassellaAlAtzar()].deposita(4);
 			topo.debugPresenta(out);
 			CRandomStream rnd;
 			uint32 direccio;
@@ -66,37 +66,39 @@ public:
 
 template <class Cella>
 CTopologiaToroidal<Cella>::CTopologiaToroidal(uint32 xMax=5, uint32 yMax=5)
-{
 	// Precondicions:
 	//   xMax*yMax < Maxim valor positiu representable amb un uint32.
 	//   xMax>2 yMax>2
-	cout<<"Inicializando un Substrato Toroidal de "<<xMax <<" X "<<yMax<<endl;
+{
+//	cout<<"Inicializando un Substrato Toroidal de "<<xMax <<" X "<<yMax<<endl;
 	reservaCasselles(xMax*yMax);
-	m_direccions[0]=  0 -xMax;
-	m_direccions[1]= +1 -xMax;
-	m_direccions[2]= +1 +0   ;
-	m_direccions[3]= +1 +xMax;
-	m_direccions[4]=  0 +xMax;
-	m_direccions[5]= -1 +xMax;
-	m_direccions[6]= -1 +0   ;
-	m_direccions[7]= -1 -xMax;
+	m_direccions[00]=  0 -xMax;
+	m_direccions[01]= +1 -xMax;
+	m_direccions[02]= +1 +0   ;
+	m_direccions[03]= +1 +xMax;
+	m_direccions[07]=  0 +xMax;
+	m_direccions[06]= -1 +xMax;
+	m_direccions[05]= -1 +0   ;
+	m_direccions[04]= -1 -xMax;
 	m_xMax=xMax;
 	m_yMax=yMax;
 }
 
 //////////////////////////////////////////////////////////////////////
-// Debugging (a comentar en la versio definitiva)
+// Operacions
 //////////////////////////////////////////////////////////////////////
 
 template <class Cella>
-uint32 CTopologiaToroidal<Cella>::desplacament(uint32 origen, uint32 movimentRelatiu)
+CTopologiaToroidal<Cella>::t_idCella CTopologiaToroidal<Cella>::desplacament(t_idCella origen, t_desplacament movimentRelatiu)
 {
 	// Segur que es podria fer mes optim pero no funcionaria pels
 	// biotops amb un nombre de celles elevat.
 	int moviment=0;
-	moviment += m_direccions [(movimentRelatiu&0x0007)];
-	moviment += m_direccions [(movimentRelatiu&0x0038)>>3];
-	moviment += m_direccions [(movimentRelatiu&0x01C0)>>6];
+	for (uint32 selector=movimentRelatiu>>24; selector; selector>>=1) {
+		if (selector&1) 
+			moviment += m_direccions [movimentRelatiu&0x0000007];
+		movimentRelatiu >>= 3;
+	}
 	if (moviment<0) {
 		if (origen < uint32(-moviment))
 			return (m_totalCasselles - uint32(-moviment)) + origen;
