@@ -32,56 +32,7 @@ partir d'altres i organismes aleatoris.
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Visió general de l'estructura interna dels organismes}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-Cariotip->Cromosoma->Base->Codo->
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{El cariotip i els cromosomes}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-Cada {\bf cromosoma} està format per una seqüència de bases
-representada cadascuna amb un bit o un grup de bits. Cada organisme
-conté un nombre variable de cromosomes que, en conjunt, formen el
-{\bf cariotip}.
-
-Tot i que la unitat bàsica del cromosoma, a la implementació, no es
-considera aquesta unitat més que per a fer algun tipus de mutació
-puntual. Per a la resta de manipulacions, com no fa falta arribar a
-nivell de base i és més òptim accedir d,
-
-El cromosoma, com a tal, no és una unitat d'informació sinò un medi
-on estan les dades genètiques.
-
-
-El cromosoma, com s'ha dit abans és un medi; un medi que pot tenir
-errors i provocar mutacions. Dins d'un organisme, la tasa de mutació
-de cada cromosoma és proporcional a la seva longitud.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{El genotip}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-El genotip és la traducció del cariotip a elements significatius.
-És el conjunt de gens que s'interpreten
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{El fenotip}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-El que anomenem propiament fenotip és un conjunt de 32 registres de
-32 bits que té cada organisme. Representen el cos físic de l'organisme.
-El fenotip es modifica per acció directa del genotip, però també
-es veu afectat pel medi mitjançant els sensors i, al mateix temps
-afecta al medi mitjançant els motors. A més, és un dels dos mitjans
-que tènen els organismes per reconeixer-se juntament amb la detecció
-de mol·lècules excretades.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Sensors i motors}
+\section{Sistema metabòlic dels organismes}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -105,6 +56,132 @@ aquesta es disipa.
 Es preten que les diferents circumstàncies permetin que hi hagi un
 equilibri
 
-Pot ser, una espècie tendeix a acomular masses nutrients.
-Si això passes, els seus depredadors tenderien a augmentar en
-nombre d'organismes i en nombre d'espècies.
+Pot ser, una espècie tendeix a acomular masses nutrients. Si això
+passes, els seus depredadors tenderien a augmentar en nombre
+d'organismes i en nombre d'espècies.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Estructura genètica}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{El cariotip i els cromosomes}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Cada organisme conté un nombre variable de {\bf
+cromosomes}\index{cromosoma!segons aquest projecte} que, en conjunt,
+formen el {\bf cariotip}\index{cariotip!segons aquest projecte}. Cada
+cromosoma està format per una seqüència de bases representada
+cadascuna amb un bit o un grup de bits.
+
+Tot i que la unitat bàsica del cromosoma és la base (un conjunt
+reduït de bits), a la implementació, no es considera aquesta unitat
+més que per a fer algun tipus de mutació puntual. Per a la resta de
+manipulacions, com no fa falta arribar a nivell de base i és més
+òptim accedir-hi, ho farem a nivell de codò, que en aquesta
+representació coincideix amb una paraula doble (32 bits).
+
+El cromosoma, com a tal, no és una unitat d'informació sinò un medi
+on estan les dades genètiques. És un medi que pot tenir errors i
+provocar mutacions. Dins d'un organisme, la tasa de mutació de cada
+cromosoma és proporcional a la seva longitud.
+
+El cariotip és el responsable de les mutacions germinals (en
+contraposició a les somàtiques, com es va comentar a la secció
+\ref{mutacioMolecular}), és a dir, les mutacions que passaran a la
+descendència.
+
+Tot i que la probabilitat de mutació ha de dependre, en gran mesura,
+dels agens mutagens del medi, els organismes han de poder controlar
+genèticament la probabilitat de mutació per adaptar-la a la seva
+situació. En posar en mans de l'evolució la probabilitat de mutar
+estem confiant en que l'coevolució castigarà els organismes que no
+mutin en front dels que mutin doncs els primers no podran millorar.
+
+Aquest control s'exerceix amb una clau que es pot adaptar a una
+d'equivalent amb el medi.
+
+%% TODO: Com exercim el control sobre la probabilitat de mutació global.
+
+Un cop es dóna, a un organisme, la probabilitat de mutar, cal decidir
+com es fa la mutació, es a dir, amb quin operador de mutació es fa.
+Cada organisme té codificada genèticament una ponderació per a cada
+operador de mutació.
+\begin{equation}
+  Probabilitat (operador_i) = {{ponderacio_i}\over\sum_j{ponderacio_j}}
+  \label{eq:ponderacioOperadors}
+\end{equation}
+
+%% TODO: On es codifica la ponderació pels operadors de mutació
+
+Una mutació és cromosòmica si afecta a diversos cromosomes alhora,
+sent llavors el cariotip el responsable d'executar-la. O bé, si la
+mutació és gènica o biomol·lecular, afectarà nomes a un sól
+cromosoma. En aquest cas el cariotip li traspassa la responsabilitat
+a un cromosoma per que muti. Com decidim en quin cromosoma aplicarem
+la mutació? Ho farem mitjançant una formula com la de la equació
+\ref{eq:ponderacioOperadors}, pero en comptes de tenir en compte una
+ponderació codificada genèticament, tindrem en compta la longitud del
+cromosoma en front de la longitud total del cariotip. Així fem que
+sigui uniforme la densitat de mutació.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Els gens i el genotip}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+El {\bf genotip}\index{genotip!segons aquest projecte} és la
+traducció del cariotip a elements significatius. Aquests elements
+significatius s'grupen en {\bf gens}\index{gen!segons aquest
+projecte}, que s'interpreten a partir dels codons del cromosoma.
+
+Cada gen té una zona operadora\index{zona operadora} que activa o
+desactiva el gen segons certa condició que depen del fenotip o
+indirectament, mitjançant el fenotip, del món exterior.
+
+La zona estructural (seguint de forma aproximada la nomenclatura de
+Jacob i Monod) es la que es veu controlada per la zona operadora. En
+ella
+
+En resum, la traducció del cromosoma en gens constarà de diverses
+parts:
+\begin{enumerate}
+\item Indentificació de la zona promotora (indica l'inici d'un
+locus)
+\item Indentificació de la zona terminadora corresponent (indica
+el final d'un locus)
+\item Identificació (justament després de la zona promotora) i
+interpretació de la zona operadora (indicarà quan cal executar el gen
+traduït).
+\item Eliminació d'introns (sequencies de codons no significatius) entre
+promotora i terminadora
+\item Traducció de la zona estructural (la que porta les instruccions
+que s'executaran amb el gen)
+\end{enumerate}
+
+Per raons d'optimització, aquesta traducció es fa només una vegada
+durant la vida de l'organisme, encara que en la natura, aquest procés
+es fa contínuament cada vegada que es transcriu l'ADN.
+
+%% TODO: Mutacions somàtiques
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{El fenotip}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+El que anomenem propiament {\em fenotip}\index{fenotip!segons aquest
+projecte} és un conjunt de 32 registres de 32 bits que té cada
+organisme. Representen el cos físic de l'organisme. El fenotip es
+modifica per acció directa del genotip, però també aquestes
+modificacions depenen sovint del medi mitjançant els sensors i, al
+mateix temps, el contingut del fenotip influeix al medi mitjançant
+l'acció dels motors. Per últim, el fenotip és un dels dos mitjans que
+tènen els organismes per reconeixer-se juntament amb la detecció de
+mol·lècules excretades.
+
+En resum, el fenotip és el mecanisme principal d'interacció que tenen
+els organismes.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Sensors i motors}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
