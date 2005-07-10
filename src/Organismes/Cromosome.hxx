@@ -21,27 +21,51 @@ namespace Bioscena
 			typedef std::vector<Codon> Codons;
 		// Construction/Destruction
 		public:
+			/** Creates a cromosome without any codon */
 			Cromosome() {}
+			/**
+			 * Returns the codon value at the specified position.
+			 * @pre The position should be under the cromosome size.
+			 */
 			const Codon & operator[](uint32 position)
 			{
 				KKEP_ASSERT(position<size(),
 					"Accessing to a non-existent codon.");
 				return _codons.at(position);
 			}
+			/**
+			 * Fills the cromosome with a sequential set of codons.
+			 * This method is intended for testing.
+			 */
 			void initSequence(uint length, uint start=0)
 			{
 				_codons.resize(length);
 				for (uint32 i = 0; i<length; i++)
 					_codons[i]=start+i;
 			}
+			/**
+			 * Returns the number of codons on the cromosome */
 			uint32 size() const {return _codons.size();}
 
+			/**
+			 * Returns the cromosome string representation.
+			 * The tipical representation of a cromosome is a colon separated
+			 * bracketed list of hexadecimal 32 bits numbers like this one:
+			 * @code
+			 * [0000000:a4591ca0:fffffff]
+			 * @endcode
+			 */
 			std::string asString()
 			{
 				std::ostringstream os;
 				dumpOn(os);
 				return os.str();
 			}
+
+			/**
+			 * Dump the string representation on the ostream.
+			 * It is faster than inserting the result of asString.
+			 */
 			void dumpOn(std::ostream & os)
 			{
 				os << '[';
@@ -57,6 +81,11 @@ namespace Bioscena
 				os << std::dec;
 				os << ']';
 			}
+
+			/**
+			 * Append the given cromosome content to the end
+			 * of the receiver cromosome.
+			 */
 			void fuse(const Cromosome & toFuse)
 			{
 				const Codons & newCodons = toFuse._codons;
@@ -64,6 +93,12 @@ namespace Bioscena
 					newCodons.begin(),
 					newCodons.end());
 			}
+			/**
+			 * Extract part of the codons into the splitted cromosome.
+			 * The splitted codons are removed from the original.
+			 * The centromer is the first codon to be splitted.
+			 * @return true when the split has been efective (useful centromer).
+			 */
 			bool split(unsigned int centromer, Cromosome & splitted)
 			{
 				if (centromer>=_codons.size()) return false;
