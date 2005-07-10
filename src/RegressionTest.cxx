@@ -1,7 +1,7 @@
 #include <cppunit/extensions/TestFactoryRegistry.h>
 #include <cppunit/CompilerOutputter.h>
 
-#define GUI_ENABLED
+//#define GUI_ENABLED
 
 #ifdef GUI_ENABLED
 #	include <cppunit/ui/qt/TestRunner.h>
