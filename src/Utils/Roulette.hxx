@@ -123,6 +123,7 @@ public:
 /// @{
 public:
 	void dump() {
+		/*
 		std::cout << "Suma " << m_maximum << std::endl;
 		for (
 			t_sectors::const_iterator it = sectors.begin();
@@ -132,6 +133,7 @@ public:
 		{
 			std::cout << it->first << " - " << it->second << std::endl;
 		}
+		*/
 	}
 	bool checkInvariant() {
 		t_size acomulator=0;
