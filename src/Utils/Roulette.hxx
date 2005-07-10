@@ -122,19 +122,6 @@ public:
 /// @name Testing
 /// @{
 public:
-	void dump() {
-		/*
-		std::cout << "Suma " << m_maximum << std::endl;
-		for (
-			t_sectors::const_iterator it = sectors.begin();
-			it!=sectors.end();
-			it++
-			) 
-		{
-			std::cout << it->first << " - " << it->second << std::endl;
-		}
-		*/
-	}
 	bool checkInvariant() {
 		t_size acomulator=0;
 		for (
