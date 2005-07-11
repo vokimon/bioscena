@@ -13,7 +13,7 @@
 namespace Bioscena
 {
 
-	class Cromosome
+	class Chromosome
 	{
 		// Inner Types
 		public:
@@ -21,11 +21,11 @@ namespace Bioscena
 			typedef std::vector<Codon> Codons;
 		// Construction/Destruction
 		public:
-			/** Creates a cromosome without any codon */
-			Cromosome() {}
+			/** Creates a chromosome without any codon */
+			Chromosome() {}
 			/**
 			 * Returns the codon value at the specified position.
-			 * @pre The position should be under the cromosome size.
+			 * @pre The position should be under the chromosome size.
 			 */
 			const Codon & operator[](uint32 position)
 			{
@@ -34,7 +34,7 @@ namespace Bioscena
 				return _codons.at(position);
 			}
 			/**
-			 * Fills the cromosome with a sequential set of codons.
+			 * Fills the chromosome with a sequential set of codons.
 			 * This method is intended for testing.
 			 */
 			void initSequence(uint length, uint start=0)
@@ -44,12 +44,12 @@ namespace Bioscena
 					_codons[i]=start+i;
 			}
 			/**
-			 * Returns the number of codons on the cromosome */
+			 * Returns the number of codons on the chromosome */
 			uint32 size() const {return _codons.size();}
 
 			/**
-			 * Returns the cromosome string representation.
-			 * The tipical representation of a cromosome is a colon separated
+			 * Returns the chromosome string representation.
+			 * The tipical representation of a chromosome is a colon separated
 			 * bracketed list of hexadecimal 32 bits numbers like this one:
 			 * @code
 			 * [0000000:a4591ca0:fffffff]
@@ -83,10 +83,10 @@ namespace Bioscena
 			}
 
 			/**
-			 * Append the given cromosome content to the end
-			 * of the receiver cromosome.
+			 * Append the given chromosome content to the end
+			 * of the receiver chromosome.
 			 */
-			void fuse(const Cromosome & toFuse)
+			void fuse(const Chromosome & toFuse)
 			{
 				const Codons & newCodons = toFuse._codons;
 				_codons.insert(_codons.end(),
@@ -94,12 +94,12 @@ namespace Bioscena
 					newCodons.end());
 			}
 			/**
-			 * Extract part of the codons into the splitted cromosome.
+			 * Extract part of the codons into the splitted chromosome.
 			 * The splitted codons are removed from the original.
 			 * The centromer is the first codon to be splitted.
 			 * @return true when the split has been efective (useful centromer).
 			 */
-			bool split(unsigned int centromer, Cromosome & splitted)
+			bool split(unsigned int centromer, Chromosome & splitted)
 			{
 				if (centromer>=_codons.size()) return false;
 				if (centromer==0) return false;
