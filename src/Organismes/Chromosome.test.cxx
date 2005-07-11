@@ -1,22 +1,22 @@
-// Cromosome.test.cxx: regresion test for the Cromosome class.
+// Chromosome.test.cxx: regresion test for the Chromosome class.
 //
 //////////////////////////////////////////////////////////////////////
 // TODO:
 #include <cppunit/extensions/HelperMacros.h>
 #include <cppunit/TestFixture.h>
 
-#include "Cromosome.hxx"
+#include "Chromosome.hxx"
 
-using Bioscena::Cromosome;
+using Bioscena::Chromosome;
 
 namespace BioscenaTest {
 
-class CromosomeTest;
-CPPUNIT_TEST_SUITE_REGISTRATION(CromosomeTest);
+class ChromosomeTest;
+CPPUNIT_TEST_SUITE_REGISTRATION(ChromosomeTest);
 
-class CromosomeTest : public CppUnit::TestFixture {
+class ChromosomeTest : public CppUnit::TestFixture {
 	typedef CppUnit::TestCase super;
-	CPPUNIT_TEST_SUITE( CromosomeTest );
+	CPPUNIT_TEST_SUITE( ChromosomeTest );
 	CPPUNIT_TEST( testConstructor );
 	CPPUNIT_TEST( testInitSequence_whenInside );
 	CPPUNIT_TEST( testInitSequence_whenOutside );
@@ -41,24 +41,24 @@ protected:
 	void test() {
 	}
 	void testConstructor() {
-		Cromosome cromosome;
-		CPPUNIT_ASSERT_EQUAL(uint32(0),cromosome.size());
+		Chromosome chromosome;
+		CPPUNIT_ASSERT_EQUAL(uint32(0),chromosome.size());
 	}
 	void testInitSequence_whenInside()
 	{
-		Cromosome cromosome;
-		cromosome.initSequence(3);
-		CPPUNIT_ASSERT_EQUAL(0ul, cromosome[0]);
-		CPPUNIT_ASSERT_EQUAL(1ul, cromosome[1]);
-		CPPUNIT_ASSERT_EQUAL(2ul, cromosome[2]);
+		Chromosome chromosome;
+		chromosome.initSequence(3);
+		CPPUNIT_ASSERT_EQUAL(0ul, chromosome[0]);
+		CPPUNIT_ASSERT_EQUAL(1ul, chromosome[1]);
+		CPPUNIT_ASSERT_EQUAL(2ul, chromosome[2]);
 	}
 	void testInitSequence_whenOutside()
 	{
-		Cromosome cromosome;
-		cromosome.initSequence(3);
+		Chromosome chromosome;
+		chromosome.initSequence(3);
 		try
 		{
-			cromosome[3];
+			chromosome[3];
 		}
 		catch (Bioscena::ErrAssertionFailed & e)
 		{
@@ -69,28 +69,28 @@ protected:
 	}
 	void testInitSequence_withOffset()
 	{
-		Cromosome cromosome;
-		cromosome.initSequence(3,6);
-		CPPUNIT_ASSERT_EQUAL(6ul, cromosome[0]);
-		CPPUNIT_ASSERT_EQUAL(7ul, cromosome[1]);
-		CPPUNIT_ASSERT_EQUAL(8ul, cromosome[2]);
+		Chromosome chromosome;
+		chromosome.initSequence(3,6);
+		CPPUNIT_ASSERT_EQUAL(6ul, chromosome[0]);
+		CPPUNIT_ASSERT_EQUAL(7ul, chromosome[1]);
+		CPPUNIT_ASSERT_EQUAL(8ul, chromosome[2]);
 	}
 
 	void testCopyConstructor()
 	{
-		Cromosome original;
+		Chromosome original;
 		original.initSequence(3,6);
 
-		Cromosome cromosome(original);
-		CPPUNIT_ASSERT_EQUAL(6ul, cromosome[0]);
-		CPPUNIT_ASSERT_EQUAL(7ul, cromosome[1]);
-		CPPUNIT_ASSERT_EQUAL(8ul, cromosome[2]);
+		Chromosome chromosome(original);
+		CPPUNIT_ASSERT_EQUAL(6ul, chromosome[0]);
+		CPPUNIT_ASSERT_EQUAL(7ul, chromosome[1]);
+		CPPUNIT_ASSERT_EQUAL(8ul, chromosome[2]);
 	}
 
 	void testAsString()
 	{
-		Cromosome cromosome;
-		cromosome.initSequence(3,9);
+		Chromosome chromosome;
+		chromosome.initSequence(3,9);
 
 		CPPUNIT_ASSERT_EQUAL(
 			std::string(
@@ -98,15 +98,15 @@ protected:
 				":0000000a"
 				":0000000b"
 				"]"),
-			cromosome.asString());
+			chromosome.asString());
 	}
 	void testDumpOn()
 	{
-		Cromosome cromosome;
-		cromosome.initSequence(3,9);
+		Chromosome chromosome;
+		chromosome.initSequence(3,9);
 
 		std::ostringstream os;
-		cromosome.dumpOn(os);
+		chromosome.dumpOn(os);
 
 		CPPUNIT_ASSERT_EQUAL(
 			std::string(
@@ -118,11 +118,11 @@ protected:
 	}
 	void testDumpOn_resetFormatFlags()
 	{
-		Cromosome cromosome;
-		cromosome.initSequence(3,9);
+		Chromosome chromosome;
+		chromosome.initSequence(3,9);
 
 		std::ostringstream os;
-		cromosome.dumpOn(os);
+		chromosome.dumpOn(os);
 		os << 256;
 
 		CPPUNIT_ASSERT_EQUAL(
@@ -136,11 +136,11 @@ protected:
 	}
 	void testFuse()
 	{
-		Cromosome receptor;
+		Chromosome receptor;
 		receptor.initSequence(2,0);
-		Cromosome fused;
+		Chromosome fused;
 		fused.initSequence(3,6);
-		const Cromosome & constFused=fused;
+		const Chromosome & constFused=fused;
 
 		receptor.fuse(constFused);
 
@@ -157,9 +157,9 @@ protected:
 	}
 	void testSplit_witOutScopeCentromer()
 	{
-		Cromosome original;
+		Chromosome original;
 		original.initSequence(4,0);
-		Cromosome splitted;
+		Chromosome splitted;
 
 		bool changed = original.split(4,splitted);
 
@@ -182,9 +182,9 @@ protected:
 	}
 	void testSplit_withZeroCentromer()
 	{
-		Cromosome original;
+		Chromosome original;
 		original.initSequence(4,0);
-		Cromosome splitted;
+		Chromosome splitted;
 
 		bool changed = original.split(0,splitted);
 
@@ -207,9 +207,9 @@ protected:
 	}
 	void testSplit_withMidCentromer()
 	{
-		Cromosome original;
+		Chromosome original;
 		original.initSequence(4,0);
-		Cromosome splitted;
+		Chromosome splitted;
 
 		bool changed = original.split(2,splitted);
 
