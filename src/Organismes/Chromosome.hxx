@@ -27,7 +27,7 @@ namespace Bioscena
 			 * Returns the codon value at the specified position.
 			 * @pre The position should be under the chromosome size.
 			 */
-			const Codon & operator[](uint32 position)
+			const Codon & operator[](uint32 position) const
 			{
 				KKEP_ASSERT(position<size(),
 					"Accessing to a non-existent codon.");
