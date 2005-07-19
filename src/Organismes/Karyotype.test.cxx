@@ -149,27 +149,6 @@ protected:
 				"]"),
 			os.str());
 	}
-/*
-	void testDumpOn_resetFormatFlags()
-	{
-		Karyotype karyotype;
-		karyotype.initSequence(3,9);
-
-		std::ostringstream os;
-		karyotype.dumpOn(os);
-		os << 256;
-
-		CPPUNIT_ASSERT_EQUAL(
-			std::string(
-				"[00000009"
-				":0000000a"
-				":0000000b"
-				"]256"),
-			os.str());
-
-	}
-*/
-
 };
 
 
