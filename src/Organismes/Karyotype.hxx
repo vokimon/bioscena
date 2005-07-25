@@ -59,7 +59,10 @@ namespace Bioscena
 			 * The tipical representation of a karyotype is a colon separated
 			 * bracketed list of hexadecimal 32 bits numbers like this one:
 			 * @code
+			 * [
 			 * [0000000:a4591ca0:fffffff]
+			 * [00033e0:479678b3:1f3f331]
+			 * ]
 			 * @endcode
 			 */
 			std::string asString()
