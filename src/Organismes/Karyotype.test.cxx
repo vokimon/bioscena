@@ -7,8 +7,6 @@
 
 #include "Karyotype.hxx"
 
-using Bioscena::Karyotype;
-
 namespace BioscenaTest {
 
 class KaryotypeTest;
@@ -38,12 +36,12 @@ public:
 	}
 protected:
 	void testConstructor() {
-		Karyotype karyotype;
+		Bioscena::Karyotype karyotype;
 		CPPUNIT_ASSERT_EQUAL(uint32(0),karyotype.size());
 	}
 	void testInitSequence_whenInside()
 	{
-		Karyotype karyotype;
+		Bioscena::Karyotype karyotype;
 		karyotype.initSequence(2,3,0);
 		CPPUNIT_ASSERT_EQUAL(0x00ul, karyotype[0][0]);
 		CPPUNIT_ASSERT_EQUAL(0x01ul, karyotype[0][1]);
@@ -54,7 +52,7 @@ protected:
 	}
 	void testInitSequence_whenOutside()
 	{
-		Karyotype karyotype;
+		Bioscena::Karyotype karyotype;
 		karyotype.initSequence(2,3);
 		try
 		{
@@ -69,7 +67,7 @@ protected:
 	}
 	void testInitSequence_withOffset()
 	{
-		Karyotype karyotype;
+		Bioscena::Karyotype karyotype;
 		karyotype.initSequence(2,3,6);
 		CPPUNIT_ASSERT_EQUAL(0x60ul, karyotype[0][0]);
 		CPPUNIT_ASSERT_EQUAL(0x61ul, karyotype[0][1]);
@@ -80,10 +78,10 @@ protected:
 	}
 	void testCopyConstructor()
 	{
-		Karyotype original;
+		Bioscena::Karyotype original;
 		original.initSequence(2,3,6);
 
-		Karyotype karyotype(original);
+		Bioscena::Karyotype karyotype(original);
 
 		CPPUNIT_ASSERT_EQUAL(0x60ul, karyotype[0][0]);
 		CPPUNIT_ASSERT_EQUAL(0x61ul, karyotype[0][1]);
@@ -94,10 +92,10 @@ protected:
 	}
 	void testAssign()
 	{
-		Karyotype original;
+		Bioscena::Karyotype original;
 		original.initSequence(2,3,6);
 
-		Karyotype karyotype;
+		Bioscena::Karyotype karyotype;
 		karyotype.initSequence(4,5,6);
 		karyotype = original;
 
@@ -110,7 +108,7 @@ protected:
 	}
 	void testAsString()
 	{
-		Karyotype karyotype;
+		Bioscena::Karyotype karyotype;
 		karyotype.initSequence(2,3,9);
 
 		CPPUNIT_ASSERT_EQUAL(
@@ -129,7 +127,7 @@ protected:
 	}
 	void testDumpOn()
 	{
-		Karyotype karyotype;
+		Bioscena::Karyotype karyotype;
 		karyotype.initSequence(2,3,9);
 
 		std::ostringstream os;
