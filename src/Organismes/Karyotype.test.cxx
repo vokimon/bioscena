@@ -23,9 +23,6 @@ class KaryotypeTest : public CppUnit::TestFixture {
 	CPPUNIT_TEST( testAssign );
 	CPPUNIT_TEST( testAsString );
 	CPPUNIT_TEST( testDumpOn );
-/*
-	CPPUNIT_TEST( testDumpOn_resetFormatFlags );
-*/
 	CPPUNIT_TEST_SUITE_END();
 public:
 	void setUp()
