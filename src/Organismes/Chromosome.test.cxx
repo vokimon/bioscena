@@ -29,6 +29,11 @@ class ChromosomeTest : public CppUnit::TestFixture {
 	CPPUNIT_TEST( testSplit_witOutScopeCentromer );
 	CPPUNIT_TEST( testSplit_withZeroCentromer );
 	CPPUNIT_TEST( testSplit_withMidCentromer );
+	CPPUNIT_TEST( testInsertSegment_whenNoCicle );
+	CPPUNIT_TEST( testInsertSegment_whenCicle );
+	CPPUNIT_TEST( testInsertSegment_whenInvalidLength );
+	CPPUNIT_TEST( testRemoveSegnment_whenNoCicle );
+	CPPUNIT_TEST( testRemoveSegnment_whenCicle );
 	CPPUNIT_TEST_SUITE_END();
 public:
 	void setUp()
@@ -59,6 +64,7 @@ protected:
 		try
 		{
 			chromosome[3];
+			CPPUNIT_FAIL("Should have thrown an exception");
 		}
 		catch (Bioscena::ErrAssertionFailed & e)
 		{
@@ -227,7 +233,95 @@ protected:
 				":00000003"
 				"]"),
 			splitted.asString());
-		
+	}
+	void testInsertSegment_whenNoCicle()
+	{
+		Chromosome origin_nonConst;
+		origin_nonConst.initSequence(4,0);
+		Chromosome target;
+		target.initSequence(4,0x10);
+		const Chromosome & origin = origin_nonConst;
+
+		target.insertSegment(origin,1,2,3);
+
+		CPPUNIT_ASSERT_EQUAL(
+			std::string(
+				"[00000010"
+				":00000011"
+				":00000012"
+				":00000001"
+				":00000002"
+				":00000013"
+				"]"),
+			target.asString());
+	}
+	void testInsertSegment_whenCicle()
+	{
+		Chromosome origin_nonConst;
+		origin_nonConst.initSequence(4,0);
+		Chromosome target;
+		target.initSequence(4,0x10);
+		const Chromosome & origin = origin_nonConst;
+
+		target.insertSegment(origin,3,2,4);
+
+		CPPUNIT_ASSERT_EQUAL(
+			std::string(
+				"[00000010"
+				":00000011"
+				":00000012"
+				":00000013"
+				":00000003"
+				":00000000"
+				"]"),
+			target.asString());
+	}
+	void testInsertSegment_whenInvalidLength()
+	{
+		Chromosome origin;
+		origin.initSequence(6,0);
+		Chromosome target;
+		target.initSequence(4,0x10);
+
+		try
+		{
+			target.insertSegment(origin,3,7,4);
+			CPPUNIT_FAIL("Should have thrown an exception");
+		}
+		catch (Bioscena::ErrAssertionFailed & e)
+		{
+			std::string expected = 
+				"The source chromosome is shorter than the length of the segment";
+			CPPUNIT_ASSERT_EQUAL(expected, std::string(e.what()));
+		}
+	}
+	void testRemoveSegnment_whenNoCicle()
+	{
+		Chromosome chromosome;
+		chromosome.initSequence(4,0);
+
+		chromosome.removeSegment(1,2);
+
+		CPPUNIT_ASSERT_EQUAL(
+			std::string(
+				"[00000000"
+				":00000003"
+				"]"),
+			chromosome.asString());
+	}
+	void testRemoveSegnment_whenCicle()
+	{
+		Chromosome chromosome;
+		chromosome.initSequence(4,0);
+
+		chromosome.removeSegment(3,2);
+
+		CPPUNIT_ASSERT_EQUAL(
+			std::string(
+				"[00000001"
+				":00000002"
+				"]"),
+			chromosome.asString());
 	}
 
 
