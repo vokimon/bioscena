@@ -111,6 +111,60 @@ namespace Bioscena
 					_codons.end());
 				return true;
 			}
+			void insertSegment(const Chromosome & source, unsigned int startPoint, unsigned int length, unsigned int targetPoint)
+			{
+				unsigned int sourceSize = source.size();
+				unsigned int circleEnd = startPoint + length;
+
+				KKEP_ASSERT(length > 0,
+					"Length zero insertion is not allowed");
+				KKEP_ASSERT(length <= sourceSize,
+					"The source chromosome is shorter than the length of the segment");
+				KKEP_ASSERT(startPoint < sourceSize,
+					"Segment begins beyond the source chromosome size");
+				KKEP_ASSERT(targetPoint <= size(),
+					"Target insertion point beyond the target size");
+
+				if (circleEnd > sourceSize)
+				{
+					_codons.insert(
+						_codons.begin()+targetPoint,
+						source._codons.begin(),
+						source._codons.begin()+(circleEnd-sourceSize)
+						);
+					_codons.insert(
+						_codons.begin()+targetPoint,
+						source._codons.begin()+startPoint,
+						source._codons.end()
+						);
+				}
+				else
+				{
+					_codons.insert(
+						_codons.begin()+targetPoint,
+						source._codons.begin()+startPoint,
+						source._codons.begin()+circleEnd
+						);
+				}
+			}
+			void removeSegment(unsigned int start, unsigned int length)
+			{
+				KKEP_ASSERT(length > 0,
+					"Length zero insertion is not allowed");
+				KKEP_ASSERT(length <= size(),
+					"The source chromosome is shorter than the length of the segment");
+				KKEP_ASSERT(start < size(),
+					"Segment begins beyond the source chromosome size");
+
+				unsigned int circleEnd = start + length;
+				if (circleEnd > size())
+				{
+					_codons.erase(_codons.begin()+start, _codons.end());
+					_codons.erase(_codons.begin(), _codons.begin()+(circleEnd-size()-1));
+				}
+				else
+					_codons.erase(_codons.begin()+start, _codons.begin()+start+length);
+			}
 		private:
 			Codons _codons;
 	};
