@@ -1,11 +1,12 @@
 // Roulette.h: interface for the Roulette class.
 //
 //////////////////////////////////////////////////////////////////////
-#if !defined(__KKEP_ROULETTE_H_INCLUDED)
+#ifndef __KKEP_ROULETTE_H_INCLUDED
 #define __KKEP_ROULETTE_H_INCLUDED
 
 #include "BioIncludes.h"
 #include "RandomStream.hxx"
+
 
 namespace Bioscena {
 
