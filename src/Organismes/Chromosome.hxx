@@ -1,7 +1,9 @@
 
 #include "BioIncludes.h"
+#include "RandomStream.hxx"
 #include <vector>
 #include <iomanip>
+
 
 // TODO:
 // Random init
@@ -43,6 +45,13 @@ namespace Bioscena
 				for (uint32 i = 0; i<length; i++)
 					_codons[i]=start+i;
 			}
+			void initRandom(uint32 length)
+			{
+				_codons.resize(length);
+				for (uint32 i = 0; i<length; i++)
+					_codons[i]=random(0u,0xffffffffu);
+
+			}
 			/**
 			 * Returns the number of codons on the chromosome */
 			uint32 size() const {return _codons.size();}
@@ -55,7 +64,7 @@ namespace Bioscena
 			 * [0000000:a4591ca0:fffffff]
 			 * @endcode
 			 */
-			std::string asString()
+			std::string asString() const
 			{
 				std::ostringstream os;
 				dumpOn(os);
@@ -66,7 +75,7 @@ namespace Bioscena
 			 * Dump the string representation on the ostream.
 			 * It is faster than inserting the result of asString.
 			 */
-			void dumpOn(std::ostream & os)
+			void dumpOn(std::ostream & os) const
 			{
 				os << '[';
 				os << std::setfill('0');
@@ -167,6 +176,10 @@ namespace Bioscena
 			}
 		private:
 			Codons _codons;
+			unsigned int random(unsigned int lower, unsigned int higher)
+			{
+				return Random::Get(lower, higher);
+			}
 	};
 
 }
