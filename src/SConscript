@@ -4,6 +4,7 @@ qtunit = int(ARGUMENTS.get('qtunit', 0))
 
 env = Environment()
 env.ParseConfig('cppunit-config --cflags --libs')
+env.Append(CCFLAGS = ["-g"])
 if qtunit==1 :
 	env.ParseConfig('pkg-config qt-mt --cflags --libs')
 	env.Append(LIBS = ['qttestrunner'])
