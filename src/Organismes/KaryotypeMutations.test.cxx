@@ -39,6 +39,8 @@ class KaryotypeMutationsTest : public CppUnit::TestFixture {
 	CPPUNIT_TEST( testMutationByTranslocation_withInsertionPointBeyondRange );
 	CPPUNIT_TEST( testMutationByTranslocation_withZeroLength );
 	CPPUNIT_TEST( testMutationByTranslocation_withLengthThatMakesSourceWithNoCodons );
+	CPPUNIT_TEST( testMutationByRandomChromosomeInsertion );
+	CPPUNIT_TEST( testMutationByRandomChromosomeInsertion_inPositionBeyondSize );
 	CPPUNIT_TEST_SUITE_END();
 public:
 	void setUp()
@@ -452,6 +454,36 @@ protected:
 		catch (Bioscena::ErrAssertionFailed & e)
 		{
 			const char * expectedMessage = "MutationByTranslocation: Total migration of codons from source";
+			CPPUNIT_ASSERT_EQUAL(expectedMessage, e.what());
+		}
+	}
+	void testMutationByRandomChromosomeInsertion()
+	{
+		Bioscena::Karyotype karyotype;
+		karyotype.initSequence(4,3);
+
+		karyotype.mutationByRandomChromosomeInsertion(/*insertPoint*/1,/*size*/4);
+
+		CPPUNIT_ASSERT_EQUAL(5ul, karyotype.size());
+		CPPUNIT_ASSERT_EQUAL(std::string("[00000000:00000001:00000002]"),karyotype[0].asString());
+		CPPUNIT_ASSERT_EQUAL(4ul, karyotype[1].size());
+		// TODO: Test content with a mockup rnd generator
+		CPPUNIT_ASSERT_EQUAL(std::string("[00000010:00000011:00000012]"),karyotype[2].asString());
+		CPPUNIT_ASSERT_EQUAL(std::string("[00000020:00000021:00000022]"),karyotype[3].asString());
+		CPPUNIT_ASSERT_EQUAL(std::string("[00000030:00000031:00000032]"),karyotype[4].asString());
+	}
+	void testMutationByRandomChromosomeInsertion_inPositionBeyondSize()
+	{
+		Bioscena::Karyotype karyotype;
+		karyotype.initSequence(4,3);
+		try 
+		{
+			karyotype.mutationByRandomChromosomeInsertion(/*insertPoint*/5,/*size*/4);
+			CPPUNIT_FAIL("Should have thrown an exception");
+		}
+		catch (Bioscena::ErrAssertionFailed & e)
+		{
+			const char * expectedMessage = "Positive Anaeploidy: Placing duplicated chromosome beyond range";
 			CPPUNIT_ASSERT_EQUAL(expectedMessage, e.what());
 		}
 	}

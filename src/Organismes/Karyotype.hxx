@@ -1,6 +1,7 @@
 
 #include "BioIncludes.h"
 #include "Chromosome.hxx"
+#include "RandomStream.hxx"
 #include <vector>
 #include <iomanip>
 
@@ -108,6 +109,24 @@ namespace Bioscena
 			{
 				unsigned int N = _chromosomes.size();
 				mutationByPositiveAneploidy(random(0,N-1),random(0,N));;
+			}
+			/**
+			 * Insertion of a new random chromosome.
+			 */
+			void mutationByRandomChromosomeInsertion(unsigned int targetPosition, unsigned int size)
+			{
+				KKEP_ASSERT(targetPosition<=_chromosomes.size(),
+					"Positive Anaeploidy: Placing duplicated chromosome beyond range");
+				Chromosome * chromosome = new Chromosome;
+				chromosome->initRandom(size);
+				_chromosomes.insert(_chromosomes.begin()+targetPosition, chromosome);
+			}
+			void mutationByRandomChromosomeInsertion()
+			{
+				unsigned int N = _chromosomes.size();
+				unsigned int targetPosition = random(0,N);
+				unsigned int size = random(4,10);
+				mutationByRandomChromosomeInsertion(targetPosition, size);;
 			}
 			/**
 			 * Deletion of a single chromosome.
@@ -218,7 +237,7 @@ namespace Bioscena
 		private:
 			unsigned int random(unsigned int lower, unsigned int higher)
 			{
-				return lower + (higher-lower)/2;
+				return Random::Get(lower, higher);
 			}
 			void copyChromosomesFrom(const Karyotype & karyotype)
 			{
