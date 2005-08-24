@@ -32,8 +32,8 @@ class ChromosomeTest : public CppUnit::TestFixture {
 	CPPUNIT_TEST( testInsertSegment_whenNoCicle );
 	CPPUNIT_TEST( testInsertSegment_whenCicle );
 	CPPUNIT_TEST( testInsertSegment_whenInvalidLength );
-	CPPUNIT_TEST( testRemoveSegnment_whenNoCicle );
-	CPPUNIT_TEST( testRemoveSegnment_whenCicle );
+	CPPUNIT_TEST( testRemoveSegment_whenNoCicle );
+	CPPUNIT_TEST( testRemoveSegment_whenCicle );
 	CPPUNIT_TEST_SUITE_END();
 public:
 	void setUp()
@@ -295,7 +295,7 @@ protected:
 			CPPUNIT_ASSERT_EQUAL(expected, std::string(e.what()));
 		}
 	}
-	void testRemoveSegnment_whenNoCicle()
+	void testRemoveSegment_whenNoCicle()
 	{
 		Chromosome chromosome;
 		chromosome.initSequence(4,0);
@@ -309,7 +309,7 @@ protected:
 				"]"),
 			chromosome.asString());
 	}
-	void testRemoveSegnment_whenCicle()
+	void testRemoveSegment_whenCicle()
 	{
 		Chromosome chromosome;
 		chromosome.initSequence(4,0);
