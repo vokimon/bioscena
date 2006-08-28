@@ -14,7 +14,8 @@ namespace BioscenaTest {
 class ChromosomeTest;
 CPPUNIT_TEST_SUITE_REGISTRATION(ChromosomeTest);
 
-class ChromosomeTest : public CppUnit::TestFixture {
+class ChromosomeTest : public CppUnit::TestFixture
+{
 	typedef CppUnit::TestCase super;
 	CPPUNIT_TEST_SUITE( ChromosomeTest );
 	CPPUNIT_TEST( testConstructor );
