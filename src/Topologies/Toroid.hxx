@@ -137,33 +137,56 @@ bool Toroid::pathTowards (Position posOrigen, Position posDesti, Displacement & 
 	uint32 y1 = row(posOrigen);
 	uint32 x2 = col(posDesti);
 	uint32 y2 = row(posDesti);
-	std::cout << "Origen: " << x1 << "@" << y1 << " Desti: " << x2 << "@" << y2 << std::endl;
+//	std::cout << "Origen: " << x1 << "@" << y1 << " Desti: " << x2 << "@" << y2 << std::endl;
 
 	displacement = 0x8888888;
-	uint32 dx = abs(x2-x1);
-	std::cout << "DX: " << dx << std::endl;
+
 	Direction horDirection = x2<x1 ? W:E;
+	uint32 dx = abs(x2-x1);
+//	std::cout << "DX: " << dx << " " << (horDirection==W?"W":"E") << std::endl;
 	if (dx>m_xMax/2)
 	{
 		dx = m_xMax -dx;
 		horDirection = horDirection==W ? E:W;
-		if (horDirection==W) y2++;
-		else y2--;
+
+		if (horDirection==W)
+		{
+			y2++;
+			y2%=m_yMax;
+		}
+		else
+		{
+			y1++;
+			y1%=m_yMax;
+		}
 	}
+
 	Direction verDirection = y2<y1 ? N:S;
 	uint32 dy = abs(y2-y1);
-	std::cout << "DY: " << dy << std::endl;
+//	std::cout << "DY: " << dy << " " << (verDirection==N?"N":"S") << std::endl;
 	if (dy>m_yMax/2)
 	{
 		dy = m_yMax - dy;
 		verDirection = verDirection==S ? N:S;
 	}
-	
+
 	Direction convinedDirection;
 	if (verDirection==N)
 		convinedDirection = horDirection==E ? NE:NW;
 	else
 		convinedDirection = horDirection==E ? SE:SW;
+
+	bool reached = true;
+	if (dx>=8)
+	{
+		dx=8;
+		reached=false;
+	}
+	if (dy>=8)
+	{
+		dy=8;
+		reached=false;
+	}
 
 	for (; dx and dy; dx--, dy--)
 		displacement = displacement<<4 | convinedDirection;
@@ -171,71 +194,8 @@ bool Toroid::pathTowards (Position posOrigen, Position posDesti, Displacement & 
 		displacement = displacement<<4 | verDirection;
 	for (; dx; dx--)
 		displacement = displacement<<4 | horDirection;
-	return true;
 
-#ifdef NEVERDEFINED
-	bool adalt, esquerra;
-	uint32 dx, dy;
-	uint32 inner, outer;
-	
-	// TODO: Correccions per a les espirals horitzontals
-
-	if (x1<x2) {
-		inner = x2-x1; // Camino interior, se hace hacia derecha
-		outer = (m_xMax-x2)+x1; // Camino exterior, se hace hacia izquerda
-		esquerra=outer<inner;
-		dx=esquerra?outer:inner;
-		if (esquerra && dx>x1) // Correccio espiralitat horitzontal
-			y1--;
-	}
-	else
-	{
-		inner = x1-x2;// Camino interior, se hace hacia izquierda
-		outer = (m_xMax-x1)+x2; // Camino exterior, se hace hacia derecha
-		esquerra=inner<outer; 
-		dx=esquerra?inner:outer;
-		if (!esquerra && x1>m_xMax-dx) // Correccio espiralitat horitzontal
-			y1++;
-	}
-
-	if (y1<y2) {
-		inner = y2-y1; // Camino interior, se hace hacia abajo
-		outer = (m_yMax-y2)+y1; // Camino exterior, se hace hacia arriba
-		adalt=outer<inner;
-		dy=adalt?outer:inner;
-	}
-	else
-	{
-		inner = y1-y2; // Camino interior, se hace hacia arriba
-		outer = (m_yMax-y1)+y2; // Camino exterior, se hace hacia abajo
-		adalt=inner<outer;
-		dy=(adalt)?inner:outer;
-	}
-
-	uint32 basic;
-//	out << "dx: " << dx << (esquerra?"L":"R")<< " dy: " << dy << (adalt?"U":"D") << endl;
-
-	uint32 nBasics=8;
-	displacement=0x00000000;
-	basic = esquerra?(adalt?NW:SW):(adalt?NE:SE );
-	basic|=0x8;
-	while (dx&&dy&&nBasics) {
-		dx--;
-		dy--;
-		nBasics--;
-		displacement|=basic<<(nBasics<<2);
-	}
-	basic = dx?(esquerra?W:E):(adalt?N:S);
-	basic|=0x8;
-	while (nBasics&&(dx||dy)) {
-		if (dx) dx--;
-		if (dy) dy--;
-		nBasics--;
-		displacement|=basic<<(nBasics<<2);
-	}
-
-	return !(dx || dy);
-#endif
+	return reached;
 }
 
 Toroid::Position Toroid::displaceRandomly (Position posOrigen, uint32 radi) const
