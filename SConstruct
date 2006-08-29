@@ -12,6 +12,7 @@ exports['sources'] = filesEndingWith('*.cxx')
 exports['includePaths'] = [
 	'-Isrc/Utils',
 	'-Isrc/Organismes'
+	'-Isrc/Topologies'
 ]
 
 
