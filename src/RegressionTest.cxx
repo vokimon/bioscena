@@ -31,8 +31,7 @@ int main( int argc, char* argv[] )
 	CppUnit::TestFactoryRegistry &registry = CppUnit::TestFactoryRegistry::getRegistry();
 	runner.addTest( registry.makeTest() );
 	// Run the test.
-	runner.run("");
-	return 0;
+	return !runner.run("");
 
 }
 
