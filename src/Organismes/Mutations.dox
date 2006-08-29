@@ -1,0 +1,68 @@
+/**
+
+@defgroup Mutations Mutations
+
+- Karyotypical Mutations: Alters the number of chromosomes
+	+ MutationByFusion: Two chromosomes get joined
+		- Target Chromosome 0:N-1
+		- Source Chromosome 0:N-1 (dissappears when is not the target itself) 
+	+ Split mutation: A chromosome splits into two
+		- Chromosome 0:N-1
+		- Split Point 1:n-2
+		- Insert karyotype position 0:N
+	- Translocation:
+		- Source Chromosome
+		- Source break point
+		- Source Length
+		- Target Chromosome
+		- Target point
+	+ Euploidy mutation: Total duplication of the kariotype
+		- No parameters
+	+ Positive Aneuploidy mutation: Single chromosome duplication.
+		- Source Chromosome 0:N-1
+		- Target position 0:N
+	- Positive Random Aneuploidy: Single random chromosome addition
+		- Target position 0:N
+	+ Negative Aneuploidy mutation: Single chromosome removal.
+		- Chromosome to be removed 0:N-1
+- Chromosomal (Structural) Mutations: Changes the structure of the chromosome
+	- Deletion mutation: Removes a fragment of a chromosome. (circular)
+		- Chromosome
+		- Point
+		- Length
+	- Shift mutation: Moves a cromosoma fragment within a chromosome. (circular)
+		- Chromosome
+		- Point
+		- Length
+		- Shift amount
+	- Random insertion: Inserts a new random fragment into a chromosome.
+		- Chromosome
+		- Point
+		- Length
+	- Amplification mutation: Inserts in to a chromosome a copied fragment of itself.
+		- Chromosome
+		- Point
+		- Source
+		- Length
+	- Inversion mutation: Inverts the order of a chromosome fragment.
+		- Chromosome
+		- Point
+		- Length
+- Genic (Point) Mutations: Affects just a base or a set of bases.
+	- Sharp point mutation: Canvia una paraula (codó) per un altre.
+		- Chromosome
+		- Point
+	- Binary point mutation: Inverteix una base (bit) per un altre.
+		- Chromosome
+		- Point
+		- Bit 
+	- Binary point mutation (gaussian distribution): Inverteix aproximadament 4 bits d'un codó (el nombre de bases modificades següeix una distribució normal).
+		- Chromosome
+		- Point
+		- Mascara gaussiana.
+
+
+
+*/
+
+

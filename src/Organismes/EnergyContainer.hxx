@@ -12,7 +12,7 @@ namespace Bioscena
  * A container of energy which disipates old energy.
  * 
  * This class implements an energy container which disipates
- * the older chunk of energy obtained.
+ * the older chunks of fed energy.
  * The number of slots is the number of disipations for
  * a previously fed energy in order to be lost.
  * Energy consumption takes it from older slots.
@@ -26,11 +26,15 @@ public:
 		, _currentlyFed(0)
 	{
 	}
+	/// Adds an amount of energy to the newer container slot
 	uint32 feed(uint32 amount)
 	{
 		_energy += amount;
 		_energySlots[_currentlyFed] += amount;
 	}
+	/// Consume the amount of energy taking it from older
+	/// container slots first.
+	/// @returns the real amount of energy that was available or amount when enough
 	uint32 consume(uint32 amount)
 	{
 		uint32 notServed = amount;
@@ -47,6 +51,7 @@ public:
 		}
 		return amount - notServed;
 	}
+	/// Removes the older energy container, and sets a new one for feeding energy
 	void disipate()
 	{
 		if (_currentlyFed==0)
@@ -55,6 +60,7 @@ public:
 		_energy -= _energySlots[_currentlyFed];
 		_energySlots[_currentlyFed] = 0;
 	}
+	/// Returns the total amount of energy available on the container
 	uint32 total() const
 	{
 		return _energy;
