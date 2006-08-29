@@ -6,6 +6,7 @@
 #include <cppunit/TestFixture.h>
 
 #include "EnergyContainer.hxx"
+#include <sstream>
 
 using Bioscena::EnergyContainer;
 
@@ -28,6 +29,8 @@ class EnergyContainerTest : public CppUnit::TestFixture
 	CPPUNIT_TEST( testDisipate_afterConsuming );
 	CPPUNIT_TEST( testDisipate_afterConsumingSeveralSlots );
 	CPPUNIT_TEST( testConsume_notEnoughSeveralSlots );
+	CPPUNIT_TEST( testDump );
+	CPPUNIT_TEST( testPassivation );
 	CPPUNIT_TEST_SUITE_END();
 public:
 	void setUp()
@@ -115,6 +118,54 @@ protected:
 		energy.disipate();
 		CPPUNIT_ASSERT_EQUAL(uint32(9),got);
 		CPPUNIT_ASSERT_EQUAL(uint32(0),energy.total());
+	}
+	std::string dumpString(const EnergyContainer & energy)
+	{
+		std::ostringstream output;
+		energy.dump(output);
+		return output.str();
+	}
+	void testDump()
+	{
+		EnergyContainer energy(4);
+		CPPUNIT_ASSERT_EQUAL(std::string("[0,0,0,0]=0"), dumpString(energy));
+		energy.feed(8);
+		CPPUNIT_ASSERT_EQUAL(std::string("[0,0,0,8]=8"), dumpString(energy));
+		energy.consume(2);
+		CPPUNIT_ASSERT_EQUAL(std::string("[0,0,0,6]=6"), dumpString(energy));
+		energy.disipate();
+		CPPUNIT_ASSERT_EQUAL(std::string("[0,0,6,0]=6"), dumpString(energy));
+		energy.consume(2);
+		CPPUNIT_ASSERT_EQUAL(std::string("[0,0,4,0]=4"), dumpString(energy));
+		energy.feed(7);
+		CPPUNIT_ASSERT_EQUAL(std::string("[0,0,4,7]=11"), dumpString(energy));
+		energy.disipate();
+		CPPUNIT_ASSERT_EQUAL(std::string("[0,4,7,0]=11"), dumpString(energy));
+		energy.feed(3);
+		CPPUNIT_ASSERT_EQUAL(std::string("[0,4,7,3]=14"), dumpString(energy));
+		energy.disipate();
+		CPPUNIT_ASSERT_EQUAL(std::string("[4,7,3,0]=14"), dumpString(energy));
+		energy.feed(20);
+		CPPUNIT_ASSERT_EQUAL(std::string("[4,7,3,20]=34"), dumpString(energy));
+		energy.disipate();
+		CPPUNIT_ASSERT_EQUAL(std::string("[7,3,20,0]=30"), dumpString(energy));
+	}
+	void testPassivation()
+	{
+		EnergyContainer energy(3);
+		energy.feed(8);
+		energy.disipate();
+		energy.feed(7);
+		energy.disipate();
+		energy.feed(3);
+		std::ostringstream os;
+		energy.store(os);
+
+		std::istringstream is(os.str());
+		EnergyContainer activated(1);
+		activated.load(is);
+		CPPUNIT_ASSERT_EQUAL(dumpString(energy), dumpString(activated));
+		
 	}
 };
 

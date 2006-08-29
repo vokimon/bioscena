@@ -65,11 +65,56 @@ public:
 	{
 		return _energy;
 	}
+	/// Dumps an string to inspect the object status
+	void dump(std::ostream & os) const
+	{
+		unsigned i = _currentlyFed;
+		const char * separator = "";
+		os << "[";
+		for (unsigned count = _energySlots.size(); count--;)
+		{
+			if (i==0) i = _energySlots.size();
+			i--;
+			os << separator << _energySlots[i];
+			separator =",";
+		}	
+		os << "]=" << _energy;
+	}
+	/// Activates a passivated object
+	void load(std::istream & is)
+	{
+		unsigned size=0;
+		is.read((char*)&size, sizeof(size_t));
+		_energySlots.resize(size);
+		bool first = true;
+		for (unsigned count = size; count--;)
+		{
+			uint32 amount = 0;
+			is.read((char*)&amount,sizeof(uint32));
+			if (not first) disipate();
+			first = false;
+			feed(amount);
+		}
+	}
+	/// Passivates an object
+	void store(std::ostream & os) const
+	{
+		size_t size = _energySlots.size();
+		os.write((char*)&size, sizeof(size_t));
+		unsigned i = _currentlyFed;
+		for (unsigned count = size; count--;)
+		{
+			if (i==0) i = size;
+			i--;
+			os.write((char*)&(_energySlots[i]),sizeof(uint32));
+		}	
+	}
 private:
 	uint32 _energy;
 	std::vector<uint32> _energySlots;
 	uint32 _currentlyFed;
 };
+
 
 
 }
