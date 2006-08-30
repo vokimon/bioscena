@@ -430,9 +430,9 @@ public:
 				Toroid::S, Toroid::S, Toroid::S, Toroid::S,
 				Toroid::S, Toroid::SE, Toroid::SE, Toroid::SE);
 		CPPUNIT_ASSERT(!reached);
-		std::cout << std::endl << std::hex << expected;
-		std::cout << std::endl << std::hex << result;
-		std::cout << std::dec << std::endl;
+//		std::cout << std::endl << std::hex << expected;
+//		std::cout << std::endl << std::hex << result;
+//		std::cout << std::dec << std::endl;
 		CPPUNIT_ASSERT_EQUAL(expected,result);
 	}
 };
