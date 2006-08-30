@@ -1,8 +1,38 @@
 import os
+import glob
 
 qtunit = int(ARGUMENTS.get('qtunit', 0))
 
-env = Environment()
+options = Options('options.cache', ARGUMENTS)
+options.Add(BoolOption('verbose', 'Display the full command line instead a short command description', 'no') )
+
+env = Environment(ENV=os.environ, tools=['default'], options=options)
+options.Save('#options.cache', env)
+Help(options.GenerateHelpText(env))
+env.SConsignFile() # Single signature file
+env.Tool('qt4', toolpath=['..'])
+
+env['CXXFILESUFFIX'] = '.cxx'
+env['QT4_UICDECLSUFFIX'] = '.hxx'
+env['QT4_MOCHPREFIX'] = os.path.join('generated','moc_')
+env['QT4_UICDECLPREFIX'] = os.path.join('generated','uic_')
+env['QT4_QRCCXXPREFIX'] = os.path.join('generated','qrc_')
+if not env['verbose']:
+    env['CXXCOMSTR'] = '== Compiling $SOURCE'
+    env['LINKCOMSTR'] = '== Linking $TARGET'
+    env['SHLINKCOMSTR'] = '== Linking library $TARGET'
+    env['QT4_RCCCOMSTR'] = '== Embeding resources $SOURCE'
+    env['QT4_UICCOMSTR'] = '== Compiling interface $SOURCE'
+    env['QT4_LRELEASECOMSTR'] = '== Compiling translation $TARGET'
+    env['QT4_MOCFROMHCOMSTR'] = '== Generating metaobjects for $SOURCE'
+    env['QT4_MOCFROMCXXCOMSTR'] = '== Generating metaobjects for $SOURCE'
+
+env.EnableQt4Modules([
+    'QtCore',
+    'QtGui',
+    'QtOpenGL',
+], debug=True)
+
 env.ParseConfig('cppunit-config --cflags --libs')
 env.Append(CCFLAGS = ["-g"])
 if qtunit==1 :
@@ -12,15 +42,18 @@ if qtunit==1 :
 
 env.Append(BUILDERS = {'Test' : Builder(action = "./$SOURCE && touch $TARGET")})
 
-env.Import('sources')
-env.Import('includePaths')
+allSources = glob.glob("*/*.cxx")
+tests = glob.glob("*/*.test.cxx")
+interfaceSources = glob.glob("QtInterface/*.cxx")
 
-env.Append(CCFLAGS=includePaths)
+sources = [ s for s in allSources if s not in tests ]
+testSources = [ s for s in allSources if s not in interfaceSources ]
 
-objects = env.Object(sources)
+env.Append(CPPPATH= [ dir.strip() for dir in os.popen('find . -type d | grep -v CVS') ] )
 
-env.Program('#BioscenaTests', objects)
-env.Test('BioscenaTests.passed', '#BioscenaTests' )
+env.Program('#BioscenaTests', testSources+["RegressionTest.cxx"])
+env.Program('#Bioscena', sources+["MainQt.cxx"])
+env.Test('#BioscenaTests.passed', '#BioscenaTests' )
 
 
 
