@@ -1,22 +1,20 @@
 import os
-import glob
-
-qtunit = int(ARGUMENTS.get('qtunit', 0))
 
 options = Options('options.cache', ARGUMENTS)
 options.Add(BoolOption('verbose', 'Display the full command line instead a short command description', 'no') )
+options.Add(BoolOption('qtunit', 'Use the qt based test runner', 'no') )
 
 env = Environment(ENV=os.environ, tools=['default'], options=options)
-options.Save('#options.cache', env)
+options.Save('../options.cache', env)
 Help(options.GenerateHelpText(env))
 env.SConsignFile() # Single signature file
 env.Tool('qt4', toolpath=['..'])
 
 env['CXXFILESUFFIX'] = '.cxx'
 env['QT4_UICDECLSUFFIX'] = '.hxx'
-env['QT4_MOCHPREFIX'] = os.path.join('generated','moc_')
-env['QT4_UICDECLPREFIX'] = os.path.join('generated','uic_')
-env['QT4_QRCCXXPREFIX'] = os.path.join('generated','qrc_')
+env['QT4_MOCHPREFIX'] = os.path.join('moc_')
+env['QT4_UICDECLPREFIX'] = os.path.join('uic_')
+env['QT4_QRCCXXPREFIX'] = os.path.join('qrc_')
 if not env['verbose']:
     env['CXXCOMSTR'] = '== Compiling $SOURCE'
     env['LINKCOMSTR'] = '== Linking $TARGET'
@@ -35,25 +33,22 @@ env.EnableQt4Modules([
 
 env.ParseConfig('cppunit-config --cflags --libs')
 env.Append(CCFLAGS = ["-g"])
-if qtunit==1 :
+if env['qtunit'] :
 	env.ParseConfig('pkg-config qt-mt --cflags --libs')
 	env.Append(LIBS = ['qttestrunner'])
 	env.Append(CCFLAGS = ["-DGUI_ENABLED"])
 
 env.Append(BUILDERS = {'Test' : Builder(action = "./$SOURCE && touch $TARGET")})
 
-allSources = glob.glob("*/*.cxx")
-tests = glob.glob("*/*.test.cxx")
-interfaceSources = glob.glob("QtInterface/*.cxx")
+Import('sources', 'testSources', 'includePath')
+env.Append(CPPPATH = includePath)
 
-sources = [ s for s in allSources if s not in tests ]
-testSources = [ s for s in allSources if s not in interfaceSources ]
 
-env.Append(CPPPATH= [ dir.strip() for dir in os.popen('find . -type d | grep -v CVS') ] )
-
-env.Program('#BioscenaTests', testSources+["RegressionTest.cxx"])
-env.Program('#Bioscena', sources+["MainQt.cxx"])
-env.Test('#BioscenaTests.passed', '#BioscenaTests' )
+env.Program('#BioscenaTests', testSources),
+bioscena = env.Program('#Bioscena', sources),
+env.Default( [
+	env.Test('#BioscenaTests.passed', '#BioscenaTests' ),
+])
 
 
 
