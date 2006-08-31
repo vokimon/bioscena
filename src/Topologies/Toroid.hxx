@@ -67,7 +67,7 @@ public:
 	/// @return the column corresponding to the given position
 	uint32 col(Position pos) const {return pos % m_xMax;}
 	Position posAt(uint32 row, uint32 col) const {return row*m_xMax+col;}
-	Displacement displaceVector(
+	static Displacement displaceVector(
 			Direction d0=NoDir,
 			Direction d1=NoDir,
 			Direction d2=NoDir,
@@ -76,7 +76,7 @@ public:
 			Direction d5=NoDir,
 			Direction d6=NoDir,
 			Direction d7=NoDir
-			) const
+			)
 	{
 		return d0 | d1<<4 | d2<<8 | d3<< 12 | d4<< 16 | d5<<20 | d6<<24 | d7<<28;
 	}
@@ -205,19 +205,24 @@ Toroid::Position Toroid::displaceRandomly (Position posOrigen, uint32 radi) cons
 	// pe. Si tenim radi=45 -> 5 vectors * 8 basics/vector + 5 basics
 	// Recorda que el bit de mes pes de cada basic es un 'enabled'.
 
-	// Primer calculem els basics que en sobren
-	uint32 posDesti = displace(posOrigen, (rnd.get()|0x88888888) & ~(0xFFFFFFFF>>((radi&7)<<2)));
+	// Primer desplacem els basics que en sobren d'un vector sencer
+	unsigned partSteps = radi & 0x7;
+	Displacement partDisplacement = (rnd.get()|0x88888888) ^ (0x88888888>>(32-(partSteps*4)));
+	uint32 posDesti = displace(posOrigen, partDisplacement);
 	// Despres calculem vectors sencers amb 8 basics cadascun 
-	for (radi>>=3; radi--;)
+	for (unsigned fullSteps=radi>>=3; fullSteps--;)
 		posDesti = displace(posDesti,rnd.get()|0x88888888);
 	return posDesti;
 }
 
-Toroid::Displacement Toroid::opositeDisplacement(Displacement desp) const {
+Toroid::Displacement Toroid::opositeDisplacement(Displacement desp) const
+{
+	// invert just the 3 lower bits of each nibble
 	return desp ^ 0x77777777;
 }
 
-Toroid::Displacement Toroid::nilDisplacement() const {
+Toroid::Displacement Toroid::nilDisplacement() const
+{
 	return 0x88888888;
 }
 
