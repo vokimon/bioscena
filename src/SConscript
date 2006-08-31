@@ -1,3 +1,5 @@
+#:vim set syntax=python
+
 import os
 
 options = Options('options.cache', ARGUMENTS)
@@ -32,7 +34,7 @@ env.EnableQt4Modules([
 ], debug=True)
 
 env.ParseConfig('cppunit-config --cflags --libs')
-env.Append(CCFLAGS = ["-g"])
+env.Append(CCFLAGS = ["-g","-O3"])
 if env['qtunit'] :
 	env.ParseConfig('pkg-config qt-mt --cflags --libs')
 	env.Append(LIBS = ['qttestrunner'])
@@ -45,8 +47,8 @@ env.Append(CPPPATH = includePath)
 
 
 env.Program('#BioscenaTests', testSources),
-bioscena = env.Program('#Bioscena', sources),
 env.Default( [
+	env.Program('#Bioscena', sources),
 	env.Test('#BioscenaTests.passed', '#BioscenaTests' ),
 ])
 
