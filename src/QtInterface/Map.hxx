@@ -281,6 +281,7 @@ private:
 		uint32 y = _topology->row(_selection);
 		uint32 xv = ((_topology->width()+x)-_topology->col(_firstCell))%_topology->width();
 		uint32 yv = ((_topology->height()+y)-_topology->row(_firstCell))%_topology->height();
+		if (xv>x) yv--;
 		painter.drawRect(xv*cellWidth,yv*cellHeight,cellWidth,cellHeight);
 		painter.setPen(Qt::black);
 		painter.drawText(10,10, tr("%1: col %2, row %3").arg(_selection).arg(xv).arg(yv));
