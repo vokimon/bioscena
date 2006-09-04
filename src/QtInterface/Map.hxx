@@ -21,6 +21,7 @@ class Map : public QWidget
 public:
 	enum Action
 	{
+		DraggingMap,
 		NoAction
 	};
 	enum Region
@@ -238,14 +239,6 @@ private:
 		_firstCell = _topology->displace(_firstCell, dir);
 		queryUpdate();
 	}
-	unsigned normHeight(int height)
-	{
-		return height % _topology->height();
-	}
-	unsigned normWidth(int width)
-	{
-		return width % _topology->width();
-	}
 	unsigned normPos(int pos)
 	{
 		return pos % _topology->size();
@@ -284,7 +277,7 @@ private:
 		if (xv>x) yv--;
 		painter.drawRect(xv*cellWidth,yv*cellHeight,cellWidth,cellHeight);
 		painter.setPen(Qt::black);
-		painter.drawText(10,10, tr("%1: col %2, row %3").arg(_selection).arg(xv).arg(yv));
+		painter.drawText(10,10, tr("%1: col %2, row %3").arg(_selection).arg(x).arg(y));
 	}
 	void paintCell(QPainter & painter, Bioscena::Toroid::Position pos, unsigned i, unsigned j)
 	{
@@ -301,22 +294,64 @@ private:
 		if (_substrat[pos])
 			painter.drawPixmap(cell,_bugPixmap);
 	}
-protected:
-	void mouseMoveEvent(QMouseEvent * event)
+private:
+	Bioscena::Toroid::Position pickCell(const QPoint & point) const
 	{
-		std::cout << "Move " << std::flush;
+		return( _firstCell + point.x()/cellWidth + (point.y()/cellHeight)*_topology->width()) % _topology->size();
 	}
+protected:
 	void mousePressEvent(QMouseEvent * event)
 	{
 		std::cout << "Press " << std::flush;
+		if (_action==NoAction)
+		{
+			_action=DraggingMap;
+			_dragOrigin=event->globalPos();
+			_originalPanning = _firstCell;
+		}
+	}
+	void mouseMoveEvent(QMouseEvent * event)
+	{
+		if (_action==DraggingMap)
+		{
+			QPoint current = event->globalPos();
+			int dx = (_dragOrigin.x() - current.x())/cellWidth;
+			int dy = (_dragOrigin.y() - current.y())/cellHeight;
+			while (dx<_topology->width())
+			{
+				dx+=_topology->width();
+			}
+			while (dy<_topology->height())
+				dy+=_topology->height();
+			std::cout << "Move " << dx << "." << dy << " " << std::flush;
+			_firstCell = _originalPanning + dy*_topology->width() +dx;
+			_firstCell %= _topology->size();
+		}
 	}
 	void mouseReleaseEvent(QMouseEvent * event)
 	{
 		std::cout << "Release " << std::flush;
+		if (_action==DraggingMap)
+		{
+			QPoint current = event->globalPos();
+			int dx = (_dragOrigin.x() - current.x())/cellWidth;
+			int dy = (_dragOrigin.y() - current.y())/cellHeight;
+			while (dx<_topology->width())
+			{
+				dx+=_topology->width();
+			}
+			while (dy<_topology->height())
+				dy+=_topology->height();
+			std::cout << "Move " << dx << "." << dy << " " << std::flush;
+			_firstCell = _originalPanning + dy*_topology->width() +dx;
+			_firstCell %= _topology->size();
+		}
+		_action=NoAction;
 	}
 	void mouseDoubleClickEvent(QMouseEvent * event)
 	{
 		std::cout << "DoubleClick " << std::flush;
+		_selection = pickCell(event->pos());
 	}
 	void keyPressEvent(QKeyEvent * event)
 	{
@@ -351,6 +386,8 @@ private:
 	QPixmap _bugPixmap;
 	QTimer _timer;
 	int lastPaintTime;
+	Bioscena::Toroid::Position _originalPanning;
+	QPoint _dragOrigin;
 };
 
 
