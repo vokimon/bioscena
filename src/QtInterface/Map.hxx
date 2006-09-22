@@ -1,7 +1,7 @@
 #ifndef NetworkCanvas_hxx
 #define NetworkCanvas_hxx
 
-#include <QtGui/QWidget>
+#include <QtOpenGL/QGLWidget>
 #include <QtGui/QApplication>
 #include <QtCore/QTimer>
 #include <QtCore/QTime>
@@ -14,7 +14,7 @@
 #include "Toroid.hxx"
 #include "Assert.hxx"
 
-class Map : public QWidget
+class Map : public QGLWidget
 {
 
 	Q_OBJECT
@@ -35,7 +35,7 @@ public:
 		cellGap = 1
 	};
 	Map(QWidget * parent=0)
-		: QWidget(parent)
+		: QGLWidget(parent)
 		, _firstCell(0)
 		, _selection(0)
 		, _action(NoAction)
@@ -315,17 +315,7 @@ protected:
 		if (_action==DraggingMap)
 		{
 			QPoint current = event->globalPos();
-			int dx = (_dragOrigin.x() - current.x())/cellWidth;
-			int dy = (_dragOrigin.y() - current.y())/cellHeight;
-			while (dx<_topology->width())
-			{
-				dx+=_topology->width();
-			}
-			while (dy<_topology->height())
-				dy+=_topology->height();
-			std::cout << "Move " << dx << "." << dy << " " << std::flush;
-			_firstCell = _originalPanning + dy*_topology->width() +dx;
-			_firstCell %= _topology->size();
+			dragTo(current);
 		}
 	}
 	void mouseReleaseEvent(QMouseEvent * event)
@@ -334,19 +324,25 @@ protected:
 		if (_action==DraggingMap)
 		{
 			QPoint current = event->globalPos();
-			int dx = (_dragOrigin.x() - current.x())/cellWidth;
-			int dy = (_dragOrigin.y() - current.y())/cellHeight;
-			while (dx<_topology->width())
-			{
-				dx+=_topology->width();
-			}
-			while (dy<_topology->height())
-				dy+=_topology->height();
-			std::cout << "Move " << dx << "." << dy << " " << std::flush;
-			_firstCell = _originalPanning + dy*_topology->width() +dx;
-			_firstCell %= _topology->size();
+			dragTo(current);
 		}
 		_action=NoAction;
+	}
+	void dragTo(QPoint current)
+	{
+		Bioscena::Toroid::Position oldFirstCell = _firstCell;
+		int dx = (_dragOrigin.x() - current.x())/cellWidth;
+		int dy = (_dragOrigin.y() - current.y())/cellHeight;
+		while (dx<_topology->width())
+		{
+			dx+=_topology->width();
+		}
+		while (dy<_topology->height())
+			dy+=_topology->height();
+		std::cout << "Move " << dx << "." << dy << " " << std::flush;
+		_firstCell = _originalPanning + dy*_topology->width() +dx;
+		_firstCell %= _topology->size();
+		if (_firstCell != oldFirstCell) queryUpdate();
 	}
 	void mouseDoubleClickEvent(QMouseEvent * event)
 	{
