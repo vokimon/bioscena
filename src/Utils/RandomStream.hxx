@@ -8,6 +8,8 @@
 #include <stdlib.h>
 #include <time.h>
 #include "BioIncludes.h"
+#include <fstream>
+#include <iostream>
 
 class CRandomStream
 {
@@ -28,6 +30,14 @@ public:
 private:
 	uint32 peekSeed()
 	{
+		/*
+		static std::fstream randomStream("/dev/random");
+		unsigned int result;
+		std::cout << "Peaking" << std::endl;
+		randomStream.read((char*)&result,sizeof(result));
+		std::cout << "Peaked" << std::endl;
+		return result;
+*/
 		return (uint32)rand() ^ (uint32)rand()<<15 ^ (uint32)rand()<<30;
 //		return (seed * 31415821 + 1) & 0xFFFFFFFF;
 //		return (seed * 16807) % 0x7FFFFFFF;
@@ -53,15 +63,18 @@ uint32 CRandomStream::get(uint32 limitInferior, uint32 limitSuperior)
 {
 	KKEP_ASSERT(limitInferior <= limitSuperior, 
 		"Interval creuat per a un numero aleatori.");
-	uint32 diferencia=limitSuperior-limitInferior+1;
+	uint32 toZeroBound=limitSuperior-limitInferior;
 	uint32 mascara=0xFFFFFFFF;
-	while (~mascara<diferencia) mascara<<=1;
+	while (~mascara<toZeroBound) mascara<<=1;
 	// La mascara ens permet reduir l'interval total del random
 	// mantenint la distribucio plana. Per acabar d'ajustar-ho
 	// al que volem destriem les que no ens agraden.
-	uint32 escollit;
-	do escollit=get(); while ((escollit&~mascara)>=diferencia);
-	return limitInferior + (escollit&~mascara);
+	while (true)
+	{
+		uint32 escollit=get();
+		if ((escollit&~mascara)>toZeroBound) continue;
+		return limitInferior + (escollit&~mascara);
+	}
 }
 
 extern CRandomStream rnd;
