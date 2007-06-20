@@ -9,6 +9,7 @@
 #include <cppunit/extensions/HelperMacros.h>
 #include <cppunit/TestFixture.h>
 
+
 #include "Roulette.hxx"
 #include <time.h>
 
@@ -25,8 +26,8 @@ CPPUNIT_TEST_SUITE_REGISTRATION(RouletteOperationTest);
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( RouletteOperationTest, "RouletteTests");
 
 class RouletteDistributionTest;
-CPPUNIT_TEST_SUITE_REGISTRATION(RouletteDistributionTest);
-CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( RouletteDistributionTest, "RouletteTests");
+//CPPUNIT_TEST_SUITE_REGISTRATION(RouletteDistributionTest);
+//CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( RouletteDistributionTest, "RouletteTests");
 
 
 class RouletteConstructionTest : public CppUnit::TestCase {
@@ -165,7 +166,7 @@ protected:
 	}
 protected:
 	void testUniformDistribution() {
-		const uint32 niterations = 0xffff;
+		const uint32 niterations = 0xfff;
 		const uint32 nbins = 10;
 		const uint32 offset = 10;
 		uint32 histograma[nbins] = {};

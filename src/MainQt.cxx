@@ -49,6 +49,7 @@ int main( int argc, char ** argv )
 	translator.load(I18N_PATH "share/bioscena/i18n/Bioscena_"+ locale);
 	app.installTranslator(&translator);
 
+
 	QCoreApplication::setOrganizationName("KKEPerians UNLTD");
 	QCoreApplication::setOrganizationDomain("kkeperians.org");
 	QCoreApplication::setApplicationName("Bioscena");
