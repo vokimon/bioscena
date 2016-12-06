@@ -3,6 +3,8 @@ Bioscena, simulation of an evolutive biological system
 
 This project is a computer model that simulates a complex evolutionary world by emulating many traits of actual life.
 
+![bioscenalogo](bioscenalogo.svg)
+
 Bioscena beings are controlled by an inner system which is analogous to the actual gene expression in real life beings.
 Simulations show up many interesting emerging behaviours that you can monitor and trace.
 
