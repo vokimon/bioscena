@@ -500,7 +500,7 @@ bool CBiosistema::organismeMitosi(uint32 parametres)
 	// Restaurem el punter que probablement haura quedat invalidat en introduir el nado
 	m_infoOrganismeActiu = &((*m_comunitat)[m_idOrganismeActiu]);
 	substratDesti.ocupa(id);
-	logAccio << verd.brillant() << "Nascut " << blanc.fosc() << (*m_comunitat)[id].descripcio() << ' ' << regHeredat << '(' << valHeredat << ')' << endl;
+	logAccio << verd.brillant() << "Nascut " << blanc.fosc() << (*m_comunitat)[id].descripcio() << ' ' << hex << regHeredat << '(' << valHeredat << dec << ')' << endl;
 	// Logging adicional (i provisional)
 	if (taxo!=m_infoOrganismeActiu->taxo()) {
 		logAccio << "Eps! Mutacio " << m_infoOrganismeActiu->taxo() << "->" << taxo << endl;
@@ -528,10 +528,10 @@ bool CBiosistema::organismeAvanca(uint32 parametres)
 	// Logica de moviment
 	substratOrigen.desocupa();
 	substratDesti.ocupa(m_idOrganismeActiu);
-	uint32 energiaGastada = Config.get("Biosistema/Energia/Moviment") +
+	uint32 energiaGastada = Config.get("Biosistema/Energia/Moviment/Fixe") +
 		(m_organismeActiu->carrega()/Config.get("Biosistema/Energia/Moviment/UnitatDeCarrega"))*
 		m_organismeActiu->carrega()/Config.get("Biosistema/Energia/Moviment/CostUnitatDeCarrega");
-	m_organismeActiu->consumeixEnergia(Config.get("Biosistema/Energia/Moviment"));
+	m_organismeActiu->consumeixEnergia(energiaGastada);
 	(*m_comunitat)[m_idOrganismeActiu].posicio(posDesti);
 	logAccio << groc.brillant() << "Desti " << setw(4) << posDesti << " Ok" << blanc.fosc() << endl;
 	// TODO: Complicar la logica: Cost de desplacament, camí lliure, corrents...

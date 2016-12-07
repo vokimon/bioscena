@@ -6,14 +6,18 @@
 // 19991107 VoK - Doble constructor de DominiGrafic
 // 19991117 VoK - Diferenciem CGrafic de CComparativaOrganismes
 // 20000527 VoK - Mapa ja no es en aquest fitxer
+// 20000528 VoK - Canvis estructurals als grafics comparatius
+// 20000528 VoK - Creat el template CDominiComparativa
+// 20000528 VoK - Es poden configurar els dominis a representar a la 
+//                comparativa d'organismes
+// 20000528 VoK - Les linies divisories son altre atribut dels dominis
+// 20000528 VoK - Comparativa de taxons
 //////////////////////////////////////////////////////////////////////
 // TODO:
 // Fer mes prima l'escala logaritmica
-// Fer programable el que visualitzen les comparatives d'organismes
 // Fer programable el que visualitzen els mapes
 // Implementar Grafic Evolutiu/Temporal
 // Muntar un conjunt de visualitzadors des d'un fitxer
-// Implementar Comparativa Taxons
 
 #include "Grafic.h"
 #include "Color.h"
@@ -66,15 +70,15 @@ void CGrafic::recalculaTope()
 // (CComparativaOrganismes) Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CComparativaOrganismes::CComparativaOrganismes(CComunitat *comunitat=NULL)
-	: m_dominiEnergia (true)
-	, m_dominiEdat (false)
+
+CComparativaOrganismes::CComparativaOrganismes()
 {
-	m_comunitat=comunitat;
+	m_comunitat=NULL;
 	m_margeSup = 0;
 	m_margeInf = 2;
-	m_primerOrg = 0;
+	m_inici = 0;
 	recalculaTope();
+
 }
 
 CComparativaOrganismes::~CComparativaOrganismes()
@@ -96,16 +100,18 @@ CComunitat * CComparativaOrganismes::comunitat(void)
 	return m_comunitat;
 }
 
-void CComparativaOrganismes::primerOrganisme(uint32 org)
+void CComparativaOrganismes::inici(uint32 org)
 {
-	m_primerOrg = org;
+	m_inici = org;
+}
+
+void CComparativaOrganismes::afegeixDomini(CDominiGraficaComparativa<CInfoOrganisme> & domini)
+{
+	m_dominis.push_back(domini);
 }
 
 void CComparativaOrganismes::visualitza(CMissatger & msg)
 {
-	m_dominiEdat.fixaFactor(m_tope);
-	m_dominiEnergia.fixaFactor(m_tope);
-
 	using AnsiCodes::gotoxy;
 	using AnsiCodes::clrlin;
 
@@ -114,8 +120,7 @@ void CComparativaOrganismes::visualitza(CMissatger & msg)
 	uint32 colorOrg;
 
 	// Esborrem el fons
-	for (fil=m_posY; fil<m_posY+m_tope+m_margeInf; ++fil)
-	{
+	for (fil=m_posY; fil<m_posY+m_tope+m_margeInf; ++fil) {
 		msg << gotoxy(m_posX, fil) << blanc.fons(blanc) << clrlin;
 	}
 
@@ -123,57 +128,59 @@ void CComparativaOrganismes::visualitza(CMissatger & msg)
 		return;
 	CComunitat & comunitat = *m_comunitat;
 
-	// Coloquem les guies
-	if (m_dominiEdat.premapeja(0xFF)<m_tope) {
-		msg << gotoxy(m_posX, m_posY+m_tope-m_dominiEdat.mapeja(0xFF)) << blanc.fons(verd) << clrlin;
-		msg << blanc.fons(blanc);
-	}
-	if (m_dominiEdat.premapeja(0xFFFF)<m_tope) {
-		msg << gotoxy(m_posX, m_posY+m_tope-m_dominiEdat.mapeja(0xFFFF)) << blanc.fons(groc) << clrlin;
-		msg << blanc.fons(blanc);
-	}
-	if (m_dominiEdat.premapeja(0x0FFFFFFF)<m_tope) {
-		msg << gotoxy(m_posX, m_posY+m_tope-m_dominiEdat.mapeja(0xFFFFFFFF)) << blanc.fons(vermell) << clrlin;
+	vector<CDominiGraficaComparativa<CInfoOrganisme> >::iterator it;
+	for (it=m_dominis.begin(); it<m_dominis.end(); it++) {
+		it->adaptaFactor(m_tope);
+		}
+
+	it=m_dominis.begin();
+	if (it<m_dominis.end()) {
+		uint32 valor;
+		valor = it->premapeja(0xFF);
+		if (valor<=m_tope) {
+			msg << gotoxy(m_posX, m_posY + m_tope - valor) << blanc.fons(verd) << clrlin;
+			valor = it->premapeja(0xFFFF);
+			if (valor<=m_tope) {
+				msg << gotoxy(m_posX, m_posY + m_tope - valor) << blanc.fons(groc) << clrlin;
+				valor = it->premapeja(0x0FFFFFFF);
+				if (valor<=m_tope) {
+					msg << gotoxy(m_posX, m_posY + m_tope - valor) << blanc.fons(vermell) << clrlin;
+				}
+			}
+		}
 		msg << blanc.fons(blanc);
 	}
 
 	// Imprimim el contingut
-	colorOrg=(m_primerOrg>>3)&7;
-	if (m_primerOrg&7)
+	colorOrg=(m_inici>>3)&7;
+	if (m_inici&7)
 		msg << CColor((colorOrg++)&7).brillant();
-	for (idOrg=m_primerOrg,col=m_posX; col<m_posX+m_amplada && idOrg<comunitat.m_organismes.size(); col++,idOrg++)
-	{
+
+	for (idOrg=m_inici,col=m_posX; col<m_posX+m_amplada && idOrg<comunitat.m_organismes.size(); col++,idOrg++) {
 		// Color identificador
 		if (!(idOrg&7)) msg << CColor((colorOrg++)&7).brillant();
 		COrganisme * org = comunitat[idOrg].cos();
-		if (org) 
-		{
-			// Posem l'energia
-			uint32 energia = org->energia();
-			energia = m_dominiEnergia.mapeja(energia);
-			if (energia>m_tope)
-				msg << gotoxy(col, m_posY) << '?';
-			else
-				msg << gotoxy(col, m_posY+m_tope-energia) << '*';
-
-			// Posem l'edat
-			uint32 edat    = org->edat();
-			edat    = m_dominiEdat.mapeja(edat);
-			if (edat>m_tope)
-				msg << gotoxy(col, m_posY) << '!';
-			else
-				msg << gotoxy(col, m_posY+m_tope-edat) << '-';
-		}
+		CInfoOrganisme & info = comunitat[idOrg];
+		if (org) {
+			for (it=m_dominis.begin(); it<m_dominis.end(); it++) {
+				uint32 valor = it->funcio()(info);
+				valor = it->mapeja(valor);
+				if (valor>m_tope)
+					msg << gotoxy(col, m_posY) << it->m_simbolFora;
+				else
+					msg << gotoxy(col, m_posY+m_tope-valor) << it->m_simbol;
+				}
+			} 
 		else {
 			msg << gotoxy(col, m_posY+m_tope) << 'X';
-		}
+			}
 	}
 
 	msg << gotoxy(m_posX, m_posY+m_tope+1);
-	colorOrg=(m_primerOrg>>3)&7;
-	if (m_primerOrg&7)
+	colorOrg=(m_inici>>3)&7;
+	if (m_inici&7)
 		msg << CColor((colorOrg++)&7).brillant();
-	for (idOrg=m_primerOrg,col=m_posX; col<m_posX+m_amplada && idOrg<comunitat.m_organismes.size(); col++,idOrg++)
+	for (idOrg=m_inici,col=m_posX; col<m_posX+m_amplada && idOrg<comunitat.m_organismes.size(); col++,idOrg++)
 	{
 		// Color identificador
 		if (!(idOrg&7)) msg << CColor((colorOrg++)&7).brillant();
@@ -183,7 +190,7 @@ void CComparativaOrganismes::visualitza(CMissatger & msg)
 
 	// Afegim els ids dels taxons
 	msg << gotoxy(m_posX, m_posY+m_tope+2);
-	for (idOrg=m_primerOrg,col=m_posX; col<m_posX+m_amplada && idOrg<comunitat.m_organismes.size(); col++,idOrg++)
+	for (idOrg=m_inici,col=m_posX; col<m_posX+m_amplada && idOrg<comunitat.m_organismes.size(); col++,idOrg++)
 	{
 		if (comunitat[idOrg].cos()) {
 			msg << negre.fons((comunitat[idOrg].taxo()>>3)&7)
@@ -196,6 +203,149 @@ void CComparativaOrganismes::visualitza(CMissatger & msg)
 	// Restaurem els colors
 	msg << blanc.fosc();
 }
+
+//////////////////////////////////////////////////////////////////////
+// (CComparativaTaxons) Construction/Destruction
+//////////////////////////////////////////////////////////////////////
+
+
+CComparativaTaxons::CComparativaTaxons()
+{
+	m_taxonomista=NULL;
+	m_margeSup = 0;
+	m_margeInf = 1;
+	m_inici = 0;
+	recalculaTope();
+
+}
+
+CComparativaTaxons::~CComparativaTaxons()
+{
+
+}
+
+//////////////////////////////////////////////////////////////////////
+// (CComparativaTaxons) Operacions
+//////////////////////////////////////////////////////////////////////
+
+void CComparativaTaxons::taxonomista(CTaxonomista * tax)
+{
+	m_taxonomista=tax;
+}
+
+CTaxonomista * CComparativaTaxons::taxonomista(void)
+{
+	return m_taxonomista;
+}
+
+void CComparativaTaxons::inici(uint32 tax)
+{
+	m_inici = tax;
+}
+
+void CComparativaTaxons::afegeixDomini(CDominiGraficaComparativa<CInfoTaxo> & domini)
+{
+	m_dominis.push_back(domini);
+}
+
+void CComparativaTaxons::visualitza(CMissatger & msg)
+{
+	using AnsiCodes::gotoxy;
+	using AnsiCodes::clrlin;
+
+	uint32 col, fil;
+	uint32 idTax;
+	uint32 colorTax;
+
+	// Esborrem el fons
+	for (fil=m_posY; fil<m_posY+m_tope+m_margeInf; ++fil) {
+		msg << gotoxy(m_posX, fil) << blanc.fons(blanc) << clrlin;
+	}
+	msg << gotoxy(m_posX, fil) << blanc.fons(negre) << clrlin;
+
+	if (!m_taxonomista)
+		return;
+	CTaxonomista & taxonomista = *m_taxonomista;
+
+	vector<CDominiGraficaComparativa<CInfoTaxo> >::iterator it;
+	for (it=m_dominis.begin(); it<m_dominis.end(); it++) {
+		it->adaptaFactor(m_tope);
+		}
+
+	it=m_dominis.begin();
+	if (it<m_dominis.end()) {
+		uint32 valor;
+		valor = it->premapeja(0xFF);
+		if (valor<=m_tope) {
+			msg << gotoxy(m_posX, m_posY + m_tope - valor) << blanc.fons(verd) << clrlin;
+			valor = it->premapeja(0xFFFF);
+			if (valor<=m_tope) {
+				msg << gotoxy(m_posX, m_posY + m_tope - valor) << blanc.fons(groc) << clrlin;
+				valor = it->premapeja(0x0FFFFFFF);
+				if (valor<=m_tope) {
+					msg << gotoxy(m_posX, m_posY + m_tope - valor) << blanc.fons(vermell) << clrlin;
+				}
+			}
+		}
+		msg << blanc.fons(blanc);
+	}
+
+	// Imprimim el contingut
+	colorTax=50; // Un numero absurd
+
+	CTaxonomista::t_taxons::iterator ittx;
+	ittx=taxonomista.m_taxons.begin();
+	if (m_inici<taxonomista.m_taxons.size())
+		for (int i=m_inici; i--;) ittx++;
+	else 
+		ittx=taxonomista.m_taxons.end();
+	for (idTax=m_inici, col=m_posX; col<m_posX+m_amplada && idTax<taxonomista.m_taxons.size(); col++, ittx++, idTax++) {
+		// Color identificador
+		uint32 nouColor = ((ittx->first)>>3)&7;
+		if (nouColor!=colorTax) {
+			colorTax=nouColor;
+			msg << CColor(colorTax).brillant();
+			}
+		CInfoTaxo & info = ittx->second;
+		for (it=m_dominis.begin(); it<m_dominis.end(); it++) {
+			uint32 valor = it->funcio()(info);
+			valor = it->mapeja(valor);
+			if (valor>m_tope)
+				msg << gotoxy(col, m_posY) << it->m_simbolFora;
+			else
+				msg << gotoxy(col, m_posY+m_tope-valor) << it->m_simbol;
+			}
+	}
+/*
+	msg << gotoxy(m_posX, m_posY+m_tope+1);
+	colorTax=(m_inici>>3)&7;
+	if (m_inici&7)
+		msg << CColor((colorTax++)&7).brillant();
+	ittx=taxonomista.m_taxons.begin();
+	for (int i=m_inici; i--;) ittx++;
+	for (idTax=m_inici,col=m_posX; col<m_posX+m_amplada && idTax<taxonomista.m_taxons.size(); col++,idTax++, ittx++) {
+		// Color identificador
+		if (!(idTax&7)) msg << CColor((colorTax++)&7).brillant();
+		// Numero identificador
+		msg << char((idTax&7)+'0');
+	}
+*/
+	// Afegim els ids dels taxons
+	ittx=taxonomista.m_taxons.begin();
+	if (m_inici<taxonomista.m_taxons.size())
+		for (int i=m_inici; i--;) ittx++;
+	else 
+		ittx=taxonomista.m_taxons.end();
+	msg << gotoxy(m_posX, m_posY+m_tope+1);
+	for (idTax=m_inici,col=m_posX; col<m_posX+m_amplada && idTax<taxonomista.m_taxons.size(); col++,idTax++, ittx++) {
+		msg << negre.fons(((ittx->first)>>3)&7)
+			<< ((ittx->first)&7);
+	}
+
+	// Restaurem els colors
+	msg << blanc.fosc();
+}
+
 
 //////////////////////////////////////////////////////////////////////
 // (CGraficaEvolutiva) Construction/Destruction
@@ -215,7 +365,7 @@ CGraficaEvolutiva::~CGraficaEvolutiva()
 }
 
 //////////////////////////////////////////////////////////////////////
-// (CComparativaOrganismes) Operacions
+// (CGraficaEvolutiva) Operacions
 //////////////////////////////////////////////////////////////////////
 
 void CGraficaEvolutiva::biosistema(CBiosistema * bio)
@@ -270,8 +420,8 @@ void CGraficaEvolutiva::visualitza(CMissatger & msg)
 	uint32 col;
 	uint32 time;
 	for (col=m_posX,time=m_actual; col>
-	colorOrg=(m_primerOrg>>3)&7;
-	if (m_primerOrg&7)
+	colorOrg=(m_inici>>3)&7;
+	if (m_inici&7)
 		msg << CColor((colorOrg++)&7).brillant();
 	biosistema->comunitat()->tamany();
 	for (time=0,col=m_posX; col<m_posX+m_amplada && i<domini.size(); col++,i++,time--)
@@ -294,27 +444,58 @@ void CGraficaEvolutiva::visualitza(CMissatger & msg)
 // (CDominiGrafica) Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CDominiGrafica::CDominiGrafica (bool esLogaritmic)
+CDominiGrafica::CDominiGrafica ()
 {
 	m_maxim = 0;
 	m_factor = 0; 
 	m_esDinamic = true;
-	m_esLogaritmic = esLogaritmic;
+	m_esLogaritmic = false;
+	m_simbol = '@';
+	m_simbolFora = '?';
 }
 
-CDominiGrafica::CDominiGrafica (bool esLogaritmic, uint32 factor)
+CDominiGrafica::CDominiGrafica (uint32 factor)
 {
 	m_maxim = 0; 
 	m_factor = factor; 
 	m_esDinamic = false;
-	m_esLogaritmic = esLogaritmic;
+	m_esLogaritmic = false;
+	m_simbol = '@';
+	m_simbolFora = '?';
 }
+
 
 //////////////////////////////////////////////////////////////////////
 // (CDominiGrafica) Operacions
 //////////////////////////////////////////////////////////////////////
 
-void CDominiGrafica::fixaFactor (uint32 tope) 
+void CDominiGrafica::representacio (char simbol, char simbolFora) 
+// Fixa el domini a un factor de proporcio donat
+{
+	m_simbol = simbol;
+	m_simbolFora = simbolFora;
+}
+
+void CDominiGrafica::factorFixe (uint32 factor) 
+// Fixa el domini a un factor de proporcio donat
+{
+	m_esDinamic = false;
+	m_factor = factor;
+}
+
+void CDominiGrafica::dinamic () 
+// Fa que el factor de proporcio es pugui adaptar
+{
+	m_esDinamic = true;
+}
+
+void CDominiGrafica::logaritmic (bool esLogaritmic) 
+// Fa que el factor de proporcio es pugui adaptar
+{
+	m_esLogaritmic = esLogaritmic;
+}
+
+void CDominiGrafica::adaptaFactor (uint32 tope) 
 // Si el factor es dinamic, es fixa per que el maxim sigui representable
 {
 	if (!m_esDinamic) return;

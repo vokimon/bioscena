@@ -1,6 +1,23 @@
 // Taxonomista.cpp: implementation of the CTaxonomista class.
 //
 //////////////////////////////////////////////////////////////////////
+// Change Log: 
+// 19990306 VoK - Implementat 'parentesc'
+// 19990306 VoK - Implementat 'discrimina'
+// 19990306 VoK - Adaptat 'taxoAmbIndex' per les modificacions que es
+//          VoK - van fer 'CLlistaEstatica'
+// 20000113 VoK - Adaptat per un taxonomista simplificat
+// 20000221 VoK - Serialitzacio
+// 20000528 VoK - Fix: Els taxons s'eliminaven sempre que es produis
+//                una defuncio encara que quedessin organismes al taxo
+// 20000528 VoK - Afegit el nombre de defuncions a les estadistiques
+// 20000529 VoK - Fix: Deserialitzacio: El cens llegit no reflexava
+//////////////////////////////////////////////////////////////////////
+// TODO Log:
+// TODO: Implementar-ho amb una llista indexada
+// TODO: Independitzar el modul d'acces per part del biosistema de la implementacio
+// TODO: Serialitzar el nombre de defuncions
+//////////////////////////////////////////////////////////////////////
 
 #include <fstream>
 #include "BioIncludes.h"
@@ -22,7 +39,7 @@ CTaxonomista::CTaxonomista ()
 
 CTaxonomista::~CTaxonomista()
 {
-	map<uint32,CInfoTaxo>::iterator it = m_taxons.begin();
+	t_taxons::iterator it = m_taxons.begin();
 	for (; it!=m_taxons.end(); ++it) {
 		// TODO: Destrosar el que calgui
 		}
@@ -39,14 +56,25 @@ istream & CTaxonomista::load(istream & str)
 	str.read((char*)&(m_calEspeciar),sizeof(uint32));
 	uint32 nTaxons;
 	str.read((char*)&(nTaxons),sizeof(uint32));
-	for (uint32 i=nTaxons; i<nTaxons; i++) {
+	log << "TXMIST " << nTaxons << " ultim: " << m_ultimTaxo << endl;
+	if (!str) {
+		error << "Error leyendo datos taxonomista" << endl;
+		cin.get();
+		}
+	for (uint32 i=0; i<nTaxons; i++) {
 		uint32 taxo, primigeni, predecesor, cens;
 		str.read((char*)&(taxo),sizeof(uint32));
 		str.read((char*)&(cens),sizeof(uint32));
 		str.read((char*)&(primigeni),sizeof(uint32));
 		str.read((char*)&(predecesor),sizeof(uint32));
+		if (!str) {
+			error << "Error llegint dades del taxo " << taxo << endl;
+			cin.get();
+			}
 		CInfoTaxo info(primigeni,predecesor);
+		info.cens=cens;
 		m_taxons.insert(make_pair(taxo,info));
+		log << "TX " << taxo << "(" << predecesor << "(" << primigeni << "))" << cens << endl;
 		}
 	return str;
 }
@@ -57,7 +85,7 @@ ostream & CTaxonomista::store(ostream & str)
 	str.write((char*)&(m_calEspeciar),sizeof(uint32));
 	uint32 nTaxons = m_taxons.size();
 	str.write((char*)&(nTaxons),sizeof(uint32));
-	map<uint32,CInfoTaxo>::iterator it = m_taxons.begin();
+	t_taxons::iterator it = m_taxons.begin();
 	for (; it!=m_taxons.end(); ++it) {
 		uint32 taxo = it->first;
 		CInfoTaxo & info = it->second;
@@ -89,8 +117,11 @@ bool CTaxonomista::defuncio(uint32 tx)
 	// Pre: tx es un taxo existent
 {
 	--m_taxons[tx];
-	if (!m_taxons.erase(tx))
+	m_taxons[tx].morts++;
+	if (!m_taxons[tx].cens) {
+		m_taxons.erase(tx);
 		return true;
+		}
 	return false;
 }
 

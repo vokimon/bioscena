@@ -118,12 +118,12 @@ void CEnergiaDisipable::disipa (void)
 	m_slots[m_slotActual]=0;
 }
 
-uint32 CEnergiaDisipable::total()
+uint32 CEnergiaDisipable::total() const
 {
 	return m_total;
 }
 
-CEnergiaDisipable::operator uint32()
+CEnergiaDisipable::operator uint32() const
 {
 	return m_total;
 }
