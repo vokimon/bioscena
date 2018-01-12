@@ -1,0 +1,219 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Mecanismes d'especiació i anàlisi}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Els taxonomistes}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Per que l'usuari pugui extreure una informació útil, cal que poguem
+agrupar els organismes en espècies. És clar que a la nostra comunitat,
+al igual que a la natura, l'especiació és un fenòmen que cal que
+emergeixi, L'espècie, no és quelcom intrínsec a tot organisme; és a
+dir, que el concepte d'espècie no estarà implementat al codi genètic
+o als mecanismes de funcionament comuns dels organismes sinó que
+caldrà observar-ho en el seu comportament.
+
+Els taxonomistes són objectes que agrupen organismes per afinitat
+evolutiva segons els conceptes abans mencionats.
+
+Com que, abans de definir objectius, em plantejava implementar
+organismes amb reproducció sexual, vaig construir un taxonomista que
+soportava tota la complexitat que comporten els creuaments i que he
+mencionat abans.
+
+Com finalment, els intercanvis sexuals es van excloure dels objectius 
+del projecte, les relacions evolutives es limiten a un arbre i vaig 
+implementar un taxonomista molt més senzill, que simplement discrimina 
+organismes amb diferent cromosoma quan es produeix una mutació, però, 
+que compleix el mateix protocol que el més elaborat implementat 
+anteriorment de forma que es podrien intercanviar.
+
+El taxonomista simple és el que he fet servir a les proves donat que
+era molt més ràpid i la informació que dona ja és suficient per la
+complexitat dels sistemes generats. 
+
+Tot i així, documento el taxonomista per organismes sexuals de cara 
+a ilustrar millor el protocol i donat que serà útil en futures 
+ampliacions del sistema si s'afegeixen creuaments.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Qué es vol solucionar}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+El concepte clàssic d'espècie considera que dos organismes són de la
+mateixa espècie si són capaços de donar descencència fèrtil.
+
+A la biologia moderna es considera que la diferenciació de les espècies
+no està tant en la capacitat sinó en el fet mateix de reproduir-se.
+En això pot influir:
+\begin{itemize}
+\item   Compatibilitat genètica
+\item   Compatibilitat d'acoplament
+\item   Compatibilitat geogràfica
+\item   Altres
+\end{itemize}
+
+També, cal adonar-se de que totes aquestes consideracions es
+refereixen als organismes que es reprodueixen sexualment i es creuen.
+Còm es poden identificar les espècies dels organismes que es
+reprodueixen asexualment (com és el cas implementat)? En quin punt es 
+considera que dos descendents d'un mateix organisme sòn d'una 
+espècie diferent?
+
+A més, degut a la seva qualitat emergent, l'especiació no estarà
+sempre ben definida. També pot ser que la selecció a l'hora de
+reproduir-se tingui en compte altres mecanismes que no pas
+l'especiació.
+
+Tota aquesta conjuntura ha obligat a deixar de banda el concepte
+d'espècie cap al concepte, una mica més relaxat, de grup reproductiu
+que, tot i la relaxació, segueix proporcionant informació útil sobre
+les diferents poblacions del biosistema. Considerem que un grup
+reproductiu és un conjunt d'organismes que es creuen entre sí o
+provenen d'ancestres comuns o ancestres que s'han creuat entre sí 
+dintre d'un cert període de temps o d'un cert nombre de generacions.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Taxonomista d'organismes sexuals}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+La política que determina els grups reproductius es basa en un marcatge
+històric.
+
+Cada individu s'associa amb un taxó que no és més que una seqüència de
+marques amb diferent antiguitat. Les marques es traspasen idèntiques a
+la descendència via mitosi.
+
+Cada cert temps, es fa una discriminació que consisteix en fondre les
+dos marques més antigues de cada taxó en una sola i afegir una marca
+nova que diferenciarà els individus que fins llavors compartien les
+mateixes marques i que pendrà importància a mida que adquireixi antiguitat.
+
+Cóm es produirà aquesta discriminació? Imaginem que existeixen individus
+amb els taxons següents:
+\begin{center}
+\begin{tabular}{p{45 mm}cp{45 mm}cp{45 mm}}
+\begin{center}
+\begin{tabular}{l}
+A A A A A A\\
+A A A A A A\\
+A B A A A A\\
+A B B A A A\\
+A B B A A A\\
+B A A A A A
+\end{tabular}
+\end{center}
+&&
+\begin{center}
+\begin{tabular}{l}
+{\bf A} A A A A\\
+{\bf A} A A A A\\
+{\bf B} A A A A\\
+{\bf B} B A A A\\
+{\bf B} B A A A\\
+{\bf C} A A A A
+\end{tabular}
+\end{center}
+&&
+\begin{center}
+\begin{tabular}{l}
+A A A A A {\bf A}\\
+A A A A A {\bf B}\\
+B A A A A {\bf A}\\
+B B A A A {\bf A}\\
+B B A A A {\bf B}\\
+C A A A A {\bf A}
+\end{tabular}
+\end{center}
+\\Taxons originals dels organismes abans de la discretització de la població
+&$\Rightarrow$
+&Fusió dels dos taxons més antics
+&$\Rightarrow$
+&Discriminació dels individus amb les mateixes marques amb una nova:
+\end{tabular}
+\end{center}
+
+D'altra banda, hem de considerar el que passa quan es creuen dos
+individus que pertanyen a diferents taxons.
+
+Quan dos individus es creuen, s'asimilen les marques des de la marca
+més antiga fins a la primera que els diferencia als dos (marca discriminant). Es a dir, a tots els taxons cal revisar les marques. Pot ser es veu més clar amb un exemple. Considerem el següent conjunt de taxons.
+
+\begin{tabular}{l}
+A A A A A A\\
+A A A A A B\\
+A A A A B B\\
+A A A B A B\\
+A A A B B A\\
+A A A B B B\\
+A A B A A A
+\end{tabular}
+
+Si es creuen AAAABB i AAABBA, cal considerar equivalemts les
+subseqüencies de marques AAAA i AAAB equivalents.
+Tots els taxons que comencin per AAAB els canviem per AAAA sense
+oblidar-nos de modificar la següent marca més jove que la discriminant
+amb l'objectiu de que els taxons asimilats mantinguin el sentit.
+
+\begin{tabular}{lcl}
+A A A A A A&$\dashrightarrow$&A A A A A A\\
+A A A A A B&$\dashrightarrow$&A A A A A B\\
+A A A A B B&$\dashrightarrow$&A A A A B B\\
+A A A B A B&$\Rightarrow$&A A A {\em A C} B\\
+A A A B B A&$\Rightarrow$&A A A {\em A D} A\\
+A A A B B B&$\Rightarrow$&A A A {\em A D} B\\
+A A B A A A&$\dashrightarrow$&A A B A A A
+\end{tabular}
+
+De cara a la implementació, he considerat separar la major part
+del procés associat a la determinació de grups reproductius en
+un objecte independent anomenat taxonomista. Aquest objecte s'encarrega de mantenir els taxons al dia mitjançant una interfície estreta que manté amb el processador.
+
+A dins de la comunitat es manté una informació mínima: l'identificador del taxó al que pertany cada individu. El tràfec d'informació a l'exterior del objecte taxonomista es basa exclusivament en el pas d'aquests identificadors. La interfície oferida permet al processador:
+
+\begin{itemize}
+\item   Incrementar o decrementar la poblacio assignada a un taxó
+\item   Creuar un parell de taxons
+\item   Generar un nou taxó (Per individus generats espontàniament)
+\item   Envellir les marques i discriminar la població que comparteix el mateix taxó
+\item   Determinar el grau de parentesc entre dos individus
+\end{itemize}
+
+Quan hem de discriminar o quan fussionem dos taxons, necessitem
+que la Comunitat i el Taxonomista cooperin.
+
+Quan cal discriminar la població, la Comunitat demana al Taxonomista,
+per a cada individu, un nou taxó, basant-se en el taxó antic i el
+número de individus que en queden sense discriminar d'aquest.
+
+El nou taxo duu les marques X.X.X. ... .X.N on N és el número de
+queden sense discriminar.
+
+Quan, fruit d'un creuament, es fusionen dos taxons, un dels dos
+taxons és assimilat per l'altre i, en conseqüència, els individus
+associats al taxò assimilat, cal associar-los al taxó assimilador.
+
+Per dins, el taxonomista està compost per una llista indexada de
+taxons (taxonari). Els números d'índex es referencien des de cada
+individu pertanyent a la Comunitat.
+
+Una alternativa al taxonari hagués sigut una implementació en arbre
+en comptes de la llista indexada. En cada node hi hauria una marca
+i a les fulles els identificadors de cada taxó. La implementació en
+arbre simplifica molt la lògica dels algorismes de discriminació i
+creuament però complica altres operacions internes que amb la llista
+indexada són trivials.
+
+La llista indexada permet un accés directe als taxons i, a més, els
+manté ordenats de tal forma que les cerques de grups de parentesc
+tenen un cost temporal mínim.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage

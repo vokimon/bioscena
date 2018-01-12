@@ -1,0 +1,151 @@
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Línies de futur}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Experimentació amb el model presentat}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+La principal via de futur d'aquest projecte és la seva aplicació.
+Això vol dir plantejar experiments que es puguin realitzar sobre 
+aquest sistema.
+
+Com a exemple tenim la bateria d'experiments que s'han anat fent a la
+Universitat de San Diego sobre el sistema LEE.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Sistema de control}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Es pot adaptar el sistema d'una forma molt directa a altres models 
+d'organisme. Per exemple, es podria implementar fàcilment organismes 
+cognitius basats en diferents tipus de xarxes neuronals, de forma 
+similar a com s'ha fet als sistemes LEE, o en sistemes classificadors,
+entre d'altres.
+
+Dels resultats d'aquesta primera experiència hem resaltat que potser
+es milloraria el sistema si s'introdueixen o es modifiquen alguns dels
+seus elements. Uns exemples serien:
+
+\begin{description}
+\item [Millors zones operadores:] El significat que he donat a les zones
+operadores és un xic pobre. La majoria de casos adquireixen més un
+significat de probabilitat que no pas de dependència. Si s'enriquissin 
+una mica més, pot ser donaria peu a comportaments molt més elaborats.
+\item [Instruccions de test i predicats:] Pot ser de cara a millorar
+el significat de les zones operadores, convindria implementar 
+instruccions de test que modifiquessin bits de predicat, que al mateix
+temps es facin servir per validar o no una zona operadora.
+\end{description}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Sistema genètic}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+També és possible afegir altres elements interesants a la part 
+genètica.
+
+\begin{description}
+\item [Operadors de mutació:] Els que hi ha implementats potser no 
+són del tot els idonis per un problema donat. 
+\item [Evolució dels operadors de mutació]
+Donada la hetereogeneitat
+en la distribució dels gens als cromosòmes, pot ser és útil que el 
+tipus d'operador de mutació, o la probabilitat de mutar amb un o altre, 
+també evolucioni amb el mateix cromosoma.
+\item [Sexualitat:] Cal recordar que el model presentat no considera
+sexualitat, la qual cosa, no permet gaire variabilitat genètica. És
+trivial introduir mecanismes sexuals no lligats a la reproducció com
+els dels organismes unicel·lulars. Només caldria considerar l 
+\end{description}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Metabolisme}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Les reaccions metabòliques s'han implementat d'una forma molt simple
+si tenim en compte les possibilitats de configuració que donen els
+sistemes LEE. Els sistemes LEE permeten establir en una taula de 
+reaccions binàries on cada casella conté una llista de productes i 
+el balanç d'energia per a cada dos possibles reactius.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Interfícies}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+En aquest projecte, de cara a mantenir la portabilitat, s'ha volgut
+mantenir una interfície de tipus terminal de text. Malgrat tot, 
+aquesta interfície probablement no li serà prou amigable a un usuari 
+final, a més, la interfície en mode text presenta moltes limitacions 
+en la presentació de gràfics i, sobretot, en la quantitat de dades 
+representables i la seva llegibilitat.
+
+Així doncs, es podria implementar una interfície gràfica que 
+facilités la feina als usuaris del sistema.
+
+Aquesta tasca ve facilitada pel fet de que, durant l'elaboració del 
+nucli, s'ha tingut molt present el paradigma model-vista-controlador:
+
+El nucli és molt independent de la interfície. Fins i tot les traces 
+i els missatges de debug que han d'estar implementats a dintre del 
+nucli, estan preparats per no necessitar d'una plataforma concreta.
+Fan servir una classe adaptadora que pot visualitzar-les en un 
+terminal, en una finestra de la llibreria Curses, en MessageBoxes o 
+controls d'edició de MS-Windows o potencialment d'X-Windows.
+
+Els pocs objectes visuals implementats en mode text (mapes, gràfics 
+comparatius i gràfics d'evolució temporal) ofereixen un protocol 
+d'accés que podria implementar a sota elements gràfics d'alta 
+resolució.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Eines adicionals}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+A mida que compliquem el problema, les modificacions dels fitxers de 
+configuració dels agents externs es tornen molt feixugues. De forma
+no massa complicada es pot reutilitzar el codi del nucli per fer una
+petita eina que permeti editar l'estructura arboriforme dels agents.
+
+Una altra eina, podria ser una que ens permetés editar els individus 
+o el seu material genètic. Editar els organismes d'una forma fàcil
+facilitaria els experiments dels biòlegs i obtenir un organisme
+primigeni eficient per estalviar temps d'evolució. Proposant com a
+cultiu primigeni les cepes dominants de diversos experiments editades
+convenientment per falcilitar la variabilitat genètica.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Funcionalitats}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Donat que les simulacions s'allarguen molt de temps convindria
+implementar mecanismes per fer persistent el biosistema un cop
+es finalitza l'execució de l'eina i recuperar l'estat del biosistema
+en una execució posterior.
+
+També seria interesant una funcionalitat que permetés importar i 
+exportar organismes.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Optimitzacions}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Hi ha punts del sistema dels qual encara es pot optimitzar el seu 
+comportament:
+
+Per exemple, es podria fer compartir a tots els organismes amb el 
+mateix material genètic un punter a la mateixa estructura de dades.
+La millora que representa això en temps i en memòria tot i que és molt
+clara amb mutació o intercanvis sexuals no reproductius, deixaria de
+ser útil amb intercanvis sexuals lligats a la reproducció donat que
+la variabilitat genètica seria molt alta.
+
+
+
+

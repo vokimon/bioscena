@@ -1,0 +1,190 @@
+
+	Computacion Evolutiva o Algorismos Evolutivos: El mas general
+	Algorismos Geneticos: Representacion binaria clasica
+	Programas de Evolucion: Representacion especifica
+	Estrategias de Evolucion: Representacio real + Evolucina parametres del algorisme
+	Programacion Genetica: Evolucionar programas (expresiones funcionales) 
+		Arbol, dimensio variable, Xover especific, no mutacio
+	Programacion Evolutiva: Evolucionar maquinas de estados finitos
+	Sistemas Clasificadores: Obtener una serie de reglas para obtener 
+		una serie de respuestas
+		Michigan: Compiten las reglas entre si por obtener refuerzos externos
+		Pitsburg: Compiten conjuntos de reglas por tener un conjunto bueno
+
+
+EC\ES\sys91-2.ps.gz
+	FRANK HOFFMEISTER, THOMAS BACK. 
+	Genetic Algortihms and Evolution Strategies: Similarities and Differences. Technical Report SyS-91/2,
+	Systems Analysis Research Group, LSXI, Dept. of Computer Science,
+	University of Dortmund.
+
+EC\raich.ps.gz
+	RAICH/GHABOUSSI
+	Autogenesis and Redundancy in GA Representation
+	(ICGA97)
+
+	Representacio Redundant Implicita: Els Gens Locators diuen on
+	es troba un dels parametres. La resta es material redundant.
+	Permet un nombre variable de parametres que va be per resoldre
+	problemes on interve la creativitat.
+	- Menys disrupcio de les bones doncs els X i les Mut afecten
+	sovint a les parts redundants
+	- Aparicio de nous gens de les parts redundants
+	- Espai de cerca variable (1-n variables)
+	!! Quin problema concret?? Aconseguir un que no sigui abstract
+
+EC\soule.ps.gz
+	TERENCE SOULE / JAMES A. FOSTER
+	Comments on the intron/exon distinction as it relates to the genetic programming and biology 
+	(ICGA97)
+
+	Si hi ha Fenotip != Genotip
+	Intron: Codificacio que no afecta al fenotip
+	Exon: Codificacio que afecta al fenotip
+	Si no hi ha distincio
+	Codi Operatiu: Si afecta, de fet, a la bondat de l'individu.
+	Codi Viable: Si de canviar (internament) podria afectar-hi
+	Normalment introns=Inoperatius, ells diferencien els inviables
+	Usos Biologics Introns: Reguladors??, Start/Stop, Estructurals (Histones, formacio de cromosomes)
+	Quan no interesen: (Procariotes) Rapida reproduccion (Virus) Compresion
+	Desde la perspectiva de GP els introns (inviables) son negatius
+	doncs donen lloc a codi inutil
+
+EC\helmut.ps.gz
+	HELMUT A. MAYER
+	ptGA - GA using Promoter/Terminator Sequences Evolution of number, 
+	size and location of parameters and parts of the representation.
+	(ICGA97)
+
+	Utilitza el tema dels introns amb promotors i terminadors (pt).
+	el pt limitarien solucions -> fa evolucionar tambe els pt -> emergeixen especies i ninxols!!!
+
+EC\hillol.ps.gz
+	HILLOL KARGUPTA: 
+	Relation Learning in Gene Expression: 
+	Introns, Variable Legth Representation, And All That
+	(ICGA97)
+
+	Operadors genetics per l'expressio de gens (DNA -> Proteines)
+	Ojo con los intrones! El beneficio de Xover no es tanto, no saben donde estan
+	Modulo nuevo para aprender donde estan los extrones pues ¿es muy costoso evolucionarlo?
+	TODO: AAAAH! Ke chungo. Imprimelo i miratelo con calma!!!
+
+
+	
+
+Referencies que semblen interesants
+
+	ANNIE SIAHUNG WU / R. LINDSAY
+	A survey of introns research in genetics
+	Parallel Problem Solving from Nature (pag 101-110)
+	Ed. Springer-Verlag, Berlin, 1996
+
+	ANNIE SIAHUNG WU
+	Non-Coding DNA and Floating Building Blocks for the Genetic Algorithm
+	PhD thesis, University of Michigan, 1996
+
+	JAMES R. LEVENICK
+	Inserting Introns Improves Genetic Algorithm Succes Rate: Taking a Cue from Biology
+	Proceedings of the IV Internacional Conference on Genetic Algorithm (pag 123-127)
+	Univertity of California, San Diego, 1991
+
+	P. NORDING & W. BANZHAF
+	Complexity Compression and Evolution
+	Proceedings of the VI Internacional Conference on Genetic Algorithm (pag 310-317)
+	Morgan Kaufmann, San Mateo CA, 1995
+	
+
+EC\Thesis\phd\angeline-phd.tar.gz
+	PETER JOHN ANGELINE
+	Evolutionary Algorithms and Emergent Intelligence Disertation
+	Degre of Doctor of Philosofy in Computer Science
+	Ohio State University (1993)
+
+	Mira las ventajas de esta convinacion frente a tecnicas de 
+	conocimiento explicito.
+
+EC\Thesis\phd\bentley-phd.tar.gz
+	PETER JOHN BENTLEY
+	Generic Evolutionary Design of Solid Objects using a Genetic Algorithm
+	Degre of Doctor of Philosofy in Computer Science
+	Huddersfield University (1993)
+	
+EC\Thesis\phd\field-phd.tar.gz
+	PAUL FIELD
+	A Multary Theory for Genetic Algorithms: Unifying Binary and Nonbinary Problem Representations
+	University of London
+	Degre of Doctor of Philosofy in Computer Science
+
+	Bonita y completa introduccion sobre el origen biologico de los GA
+	Citas interesantes:
+		Hofstader (1980) y Morris (1989) transcripcion en GA
+		Ptashne (1992) regulacion en GA
+	Bonita y completa introduccion sobre los GA
+	Bonita y completa introduccion sobre otros EA
+	Citas interesantes:
+		Koza (1992) Genetic programming
+		Goldberg (1987) Individuos decepcionantes
+		Grefenstette (1993) 
+
+EC\GA\ecal92.ps.gz
+	THOMAS BÄCK
+	Self-Adaptation in GA
+	University of Dortmund (1992)
+
+	Aplica las ideas de las ES a los GA.
+	1 mut ratio para unimodal, n para multimodal
+	Recombinacion en n? Lo deja para futuros estudios
+
+
+EC\GA\icga91.ps.gz
+	THOMAS BÄCK / FRANK HOFFMEISTER / HANS-PAUL SCHWEFEL
+	A survey of Evolution Strategies
+	University of Dortmund (1991)
+
+	Resum de les diverses modalitats de ES que existeixen
+
+EC\GA\icga91-2.ps.gz
+	THOMAS BÄCK / FRANK HOFFMEISTER
+	Extended Selection Mechanisms in GA
+	University of Dortmund (1991-2)
+
+	Resum i comparació dels diferents mecanismes de selecció
+
+EC\GA\ilmenau91.ps.gz
+	THOMAS BÄCK
+	Optimization by Means of GA
+	University of Dortmund (1991)
+
+	Una altra discusio sobre com aplicar parametres dinamics als GA
+	TODO: Que aporta de nou?
+
+
+EC\GA\ml-dpe92.ps.gz
+	NICOL N. SCHRAUDOLPH / RICHARD K. BELEW
+	Dynamic Parameter Encoding for GA
+	Univertity of California, San Diego, 1992
+
+	Evita la convergència prematura.
+	Evaulacio variable per mantenir la pressió selectiva.
+	Comenta algunes altres solucions (ZOOM)
+
+EC\GA\seq_niche.ps
+	DAVID BEASLEY / RALPH R. MARTIN / DAVID R. BULL
+	A Sequential Niche Technique for Multimodal Function Optimization 
+	University of Wales
+
+	Soluciona multimodals depreciant les solucions properes a les ja optimitzades
+	a cada execució del algorisme
+
+
+????
+	DAVID E. GOLDBERG / ROBERT E. SMITH
+	Nonstationary function optimization using genetic algorithms with diploidy and dominance
+	Proceedings of Second International conference on Genetic Algorithm pag 59-68
+	(1987)
+
+	nomes solucionaba alguns casos
+
+
+

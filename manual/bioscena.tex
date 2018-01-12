@@ -1,0 +1,114 @@
+%----------------------------------------------------------
+%  Aixo es una plantilla basica de latex on es vol tenir
+%   el format principal d'un document i totes aquelles coses
+%   que normalment utilitzo en latex.
+
+%  Data inici creacio: 19-11-97
+%----------------------------------------------------------
+\documentclass[11pt,titlepage]{report}
+\usepackage[latin1]{inputenc}
+\usepackage[catalan]{babel}
+\usepackage{layout} % Per visualitzar marges
+\usepackage{graphicx}
+\usepackage{makeidx}
+\usepackage{verbatim}
+\usepackage{amssymb}
+\usepackage{hyperref} % Per PDFTEX
+%\usepackage[dvips]{hyperref} % Per DVIPS
+\def\boldindex#1{\textbf{\hyperpage{#1}}}
+
+\hypersetup{backref,hyperindex,colorlinks}
+
+\include{psfig}
+
+\makeindex
+\newlength{\defbaselineskip}
+\setlength{\defbaselineskip}{\baselineskip}
+\newcommand{\setlinespacing}[1]%
+           {\setlength{\baselineskip}{#1 \defbaselineskip}}
+\newcommand{\doublespacing}{\setlength{\baselineskip}%
+                           {2.0 \defbaselineskip}}
+\newcommand{\singlespacing}{\setlength{\baselineskip}{\defbaselineskip}}
+
+\oddsidemargin 0 cm
+\evensidemargin 0 cm
+\topmargin 0 cm
+\voffset 0 mm
+\headsep 1 cm
+\textheight 8 in
+\textwidth 6.4 in
+\footskip 2 cm
+\parskip 2 mm
+\columnsep 1 cm
+
+\hyphenation{}
+
+\def\baselinestretch{1}
+\setlinespacing{1.5}
+
+\makeindex
+
+\begin{document}
+
+%\DeclareGraphicsExtensions{.eps,.jpg,.gif,.png,.bmp}
+
+%-----------------------------------------------------
+%    Titol del document
+%-----------------------------------------------------
+\title{Bioscena\\Simulació d'un sistema biològic evolutiu amb interacció entre els individuus}
+\author{
+David Garcia\\
+\href{mailto:vokimon@jet.es}{vokimon@jet.es}\\
+%\includegraphics{04069.jpg}
+}
+\date{\today}
+
+\maketitle
+\newpage
+
+%-----------------------------------------------------
+%   Index
+%-----------------------------------------------------
+\tableofcontents
+\newpage
+\listoffigures
+\newpage
+\listoftables
+\newpage
+% La linia de sota serveix per visualitzar l'efecte dels parametres
+% de pagina. Cal descomentar (o afegir) la linia \usepackage{layout}
+% a la capcalera
+%\layout*
+
+\setlinespacing{1.66}
+\input{resums}
+%\part{Introducció}
+\input{introduccio}
+%\part{Part teòrica}
+\input{biologia}
+\input{tecnologia}
+%\part{Part pràctica}
+\chapter{Disseny de l'aplicatiu}
+\input{dissenyglobal}
+\input{eines}
+\input{biotop}
+\input{agents}
+\input{organismes}
+\input{analisis}
+\input{biosistema}
+\input{instruccions}
+%\input{interficie}
+\input{proves}
+%\part{Conclusions}
+\chapter{Conclusions i línies de futur}
+\input{conclusions}
+\input{todo}
+\appendix
+\input{manualusuari}
+\input{manualprogramador}
+\addcontentsline{toc}{chapter}{Bibliografia}
+\input{bibliografia}
+\addcontentsline{toc}{chapter}{Índex Alfabètic}
+\printindex
+
+\end{document}
