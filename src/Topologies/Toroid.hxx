@@ -131,6 +131,12 @@ Toroid::Position Toroid::displace(Position origin, Displacement movimentRelatiu)
 		}
 }
 
+inline uint32 _distance(uint32 a, uint32 b)
+{
+	if (a>b) return a-b;
+	return b-a;
+}
+
 bool Toroid::pathTowards (Position posOrigen, Position posDesti, Displacement & displacement) const
 {
 	uint32 x1 = col(posOrigen);
@@ -139,10 +145,19 @@ bool Toroid::pathTowards (Position posOrigen, Position posDesti, Displacement & 
 	uint32 y2 = row(posDesti);
 //	std::cout << "Origen: " << x1 << "@" << y1 << " Desti: " << x2 << "@" << y2 << std::endl;
 
-	displacement = 0x8888888;
+	displacement = 0x88888888u;
+
+	if (x1<x2) displacement = (displacement<<4) | E;
+	if (x1>x2) displacement = (displacement<<4) | W;
+	if (y1<y2) displacement = (displacement<<4) | S;
+	if (y1>y2) displacement = (displacement<<4) | N;
+
+	displacement &= 0xFFFFFFFF;
+
+	return true;
 
 	Direction horDirection = x2<x1 ? W:E;
-	uint32 dx = abs(x2-x1);
+	uint32 dx = x2-x1;
 //	std::cout << "DX: " << dx << " " << (horDirection==W?"W":"E") << std::endl;
 	if (dx>m_xMax/2)
 	{
@@ -162,7 +177,7 @@ bool Toroid::pathTowards (Position posOrigen, Position posDesti, Displacement & 
 	}
 
 	Direction verDirection = y2<y1 ? N:S;
-	uint32 dy = abs(y2-y1);
+	uint32 dy = _distance(y2,y1);
 //	std::cout << "DY: " << dy << " " << (verDirection==N?"N":"S") << std::endl;
 	if (dy>m_yMax/2)
 	{
@@ -194,6 +209,7 @@ bool Toroid::pathTowards (Position posOrigen, Position posDesti, Displacement & 
 		displacement = displacement<<4 | verDirection;
 	for (; dx; dx--)
 		displacement = displacement<<4 | horDirection;
+	displacement &= 0x88888888u;
 
 	return reached;
 }

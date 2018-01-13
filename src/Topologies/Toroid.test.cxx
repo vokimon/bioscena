@@ -21,45 +21,59 @@ CPPUNIT_TEST_SUITE_REGISTRATION(ToroidTest);
 class ToroidTest : public CppUnit::TestFixture
 {
 	CPPUNIT_TEST_SUITE( ToroidTest );
-	CPPUNIT_TEST( testInvalidPositionAbove );
-	CPPUNIT_TEST( testInvalidPositionBelow );
-	CPPUNIT_TEST( testValidPositionFirst );
-	CPPUNIT_TEST( testValidPositionLast );
-	CPPUNIT_TEST( testDisplacingNullDisplacement );
-	CPPUNIT_TEST( testDisplacingBack );
-	CPPUNIT_TEST( testPosAt );
-	CPPUNIT_TEST( testBuildDisplacement_withAllElementsEnabled );
-	CPPUNIT_TEST( testBuildDisplacement_withSomeElementsDisabled );
-	CPPUNIT_TEST( testOpositeDisplacement );
-	CPPUNIT_TEST( testDisplace_singleStepN );
-	CPPUNIT_TEST( testDisplace_singleStepNE );
-	CPPUNIT_TEST( testDisplace_singleStepE );
-	CPPUNIT_TEST( testDisplace_singleStepSE );
-	CPPUNIT_TEST( testDisplace_singleStepS );
-	CPPUNIT_TEST( testDisplace_singleStepSW );
-	CPPUNIT_TEST( testDisplace_singleStepW );
-	CPPUNIT_TEST( testDisplace_singleStepNW );
-	CPPUNIT_TEST( testDisplace_multipleSteps );
-	CPPUNIT_TEST( testDisplace_atTheEndOfRowAndE );
-	CPPUNIT_TEST( testDisplace_atTheEndOfColumnAndS );
-	CPPUNIT_TEST( testDisplace_atTheEndAndE );
-	CPPUNIT_TEST( testDisplace_atTheEndAndS );
-	CPPUNIT_TEST( testDisplace_atTheEndAndSE );
-	CPPUNIT_TEST( testDisplace_atTheStartAndW );
-	CPPUNIT_TEST( testDisplace_atTheStartAndN );
-	CPPUNIT_TEST( testPathTowards_XGreaterToSE );
-	CPPUNIT_TEST( testPathTowards_YGreaterToSE );
-	CPPUNIT_TEST( testPathTowards_XGreaterToNW );
-	CPPUNIT_TEST( testPathTowards_XGreaterToSW );
-	CPPUNIT_TEST( testPathTowards_XGreaterToNE );
-	CPPUNIT_TEST( testPathTowards_crossingBoundaryAtN );
-	CPPUNIT_TEST( testPathTowards_crossingBoundaryAtS );
-	CPPUNIT_TEST( testPathTowards_crossingBoundaryAtW );
-	CPPUNIT_TEST( testPathTowards_crossingBoundaryAtE );
-	CPPUNIT_TEST( testPathTowards_crossingBoundaryAtNE );
-	CPPUNIT_TEST( testPathTowards_crossingBoundaryAtEnd );
-	CPPUNIT_TEST( testPathTowards_crossingBoundaryAtOrigin );
-	CPPUNIT_TEST( testPathTowards_notReached );
+	CPPUNIT_TEST( test_isValidPosition_above );
+	CPPUNIT_TEST( test_isValidPosition_below );
+	CPPUNIT_TEST( test_isValidPosition_first );
+	CPPUNIT_TEST( test_isValidPosition_last );
+	CPPUNIT_TEST( test_posAt_origin );
+	CPPUNIT_TEST( test_posAt_oneRight );
+	CPPUNIT_TEST( test_posAt_oneDown );
+	CPPUNIT_TEST( test_posAt_rightAndDown );
+	CPPUNIT_TEST( test_nilDisplacement );
+	CPPUNIT_TEST( test_displaceVector_noDirections );
+	CPPUNIT_TEST( test_displaceVector_singleDir );
+	CPPUNIT_TEST( test_displaceVector_allElements );
+	CPPUNIT_TEST( test_displaceVector_someElements );
+	CPPUNIT_TEST( test_displace_null );
+	CPPUNIT_TEST( test_displace_forwardAndBackward );
+	CPPUNIT_TEST( test_opositeDisplacement );
+	CPPUNIT_TEST( test_displace_singleStepN );
+	CPPUNIT_TEST( test_displace_singleStepNE );
+	CPPUNIT_TEST( test_displace_singleStepE );
+	CPPUNIT_TEST( test_displace_singleStepSE );
+	CPPUNIT_TEST( test_displace_singleStepS );
+	CPPUNIT_TEST( test_displace_singleStepSW );
+	CPPUNIT_TEST( test_displace_singleStepW );
+	CPPUNIT_TEST( test_displace_singleStepNW );
+	CPPUNIT_TEST( test_displace_multipleSteps );
+	CPPUNIT_TEST( test_displace_atTheEndOfRowAndE );
+	CPPUNIT_TEST( test_displace_atTheEndOfColumnAndS );
+	CPPUNIT_TEST( test_displace_atTheEndAndE );
+	CPPUNIT_TEST( test_displace_atTheEndAndS );
+	CPPUNIT_TEST( test_displace_atTheEndAndSE );
+	CPPUNIT_TEST( test_displace_atTheStartAndW );
+	CPPUNIT_TEST( test_displace_atTheStartAndN );
+	CPPUNIT_TEST( test_pathTowards_samePosition );
+	CPPUNIT_TEST( test_pathTowards_nextE );
+	CPPUNIT_TEST( test_pathTowards_nextW );
+	CPPUNIT_TEST( test_pathTowards_nextS );
+	CPPUNIT_TEST( test_pathTowards_nextN );
+//	CPPUNIT_TEST( test_pathTowards_farE );
+//	CPPUNIT_TEST( test_pathTowards_acrossE );
+//	CPPUNIT_TEST( test_pathTowards_combined );
+//	CPPUNIT_TEST( test_pathTowards_YGreaterToSE );
+//	CPPUNIT_TEST( test_pathTowards_XGreaterToSE );
+//	CPPUNIT_TEST( test_pathTowards_XGreaterToNW );
+//	CPPUNIT_TEST( test_pathTowards_XGreaterToSW );
+//	CPPUNIT_TEST( test_pathTowards_XGreaterToNE );
+//	CPPUNIT_TEST( test_pathTowards_crossingBoundaryAtN );
+//	CPPUNIT_TEST( test_pathTowards_crossingBoundaryAtS );
+//	CPPUNIT_TEST( test_pathTowards_crossingBoundaryAtW );
+//	CPPUNIT_TEST( test_pathTowards_crossingBoundaryAtE );
+//	CPPUNIT_TEST( test_pathTowards_crossingBoundaryAtNE );
+//	CPPUNIT_TEST( test_pathTowards_crossingBoundaryAtEnd );
+//	CPPUNIT_TEST( test_pathTowards_crossingBoundaryAtOrigin );
+//	CPPUNIT_TEST( test_pathTowards_notReached );
 	CPPUNIT_TEST_SUITE_END();
 private:
 	Toroid * t;
@@ -86,24 +100,83 @@ public:
 		}
 		return true;
 	}
-	void testInvalidPositionAbove() {
+	void test_isValidPosition_above() {
 		CPPUNIT_ASSERT(!t->isValidPosition(t->size()));
 	}
-	void testInvalidPositionBelow() {
+	void test_isValidPosition_below() {
 		CPPUNIT_ASSERT(!t->isValidPosition(-1));
 	}
-	void testValidPositionFirst() {
+	void test_isValidPosition_first() {
 		CPPUNIT_ASSERT(t->isValidPosition(0));
 	}
-	void testValidPositionLast() {
+	void test_isValidPosition_last() {
 		CPPUNIT_ASSERT(t->isValidPosition(t->size()-1));
 	}
-	void testDisplacingNullDisplacement() {
+	void test_posAt_origin()
+	{
+		Toroid t(10,7);
+		Toroid::Position pos = t.posAt(0,0);
+		CPPUNIT_ASSERT_EQUAL(uint32(0u),pos);
+	}
+	void test_posAt_oneRight()
+	{
+		Toroid t(10,7);
+		Toroid::Position pos = t.posAt(0,1);
+		CPPUNIT_ASSERT_EQUAL(uint32(1u),pos);
+	}
+	void test_posAt_oneDown()
+	{
+		Toroid t(10,7);
+		Toroid::Position pos = t.posAt(1,0);
+		CPPUNIT_ASSERT_EQUAL(uint32(10u),pos);
+	}
+	void test_posAt_rightAndDown()
+	{
+		Toroid t(10,7);
+		Toroid::Position pos = t.posAt(2,3);
+		CPPUNIT_ASSERT_EQUAL(uint32(23u),pos);
+	}
+	std::string hex(uint32 value) {
+		std::ostringstream os;
+		os << std::hex << value;
+		return os.str();
+	}
+	void assertEqualDisplacements(uint32 expected, uint32 result) {
+		CPPUNIT_ASSERT_EQUAL(hex(expected), hex(result));
+	}
+	void test_nilDisplacement() {
+		assertEqualDisplacements(0x88888888u,t->nilDisplacement());
+	}
+	void test_displaceVector_noDirections() {
+		Toroid::Displacement result = t->displaceVector();
+		assertEqualDisplacements(0x88888888u, result);
+	}
+	void test_displaceVector_singleDir() {
+		Toroid::Displacement result = t->displaceVector(Toroid::NE);
+		assertEqualDisplacements(0x88888881u, result);
+	}
+	void test_displaceVector_allElements()
+	{
+		Toroid t(10,7);
+		Toroid::Displacement displacement = t.displaceVector(
+				Toroid::N,Toroid::NE,Toroid::E,Toroid::SE,
+				Toroid::S,Toroid::SW,Toroid::W,Toroid::NW);
+		assertEqualDisplacements(0x45673210u,displacement);
+	}
+	void test_displaceVector_someElements()
+	{
+		Toroid t(10,7);
+		Toroid::Displacement displacement = t.displaceVector(
+				Toroid::N,Toroid::NE,Toroid::E,Toroid::NoDir,
+				Toroid::S);
+		assertEqualDisplacements(0x88878210u,displacement);
+	}
+	void test_displace_null() {
 		Toroid::Position original = 10;
 		Toroid::Position displaced = t->displace(original, t->nilDisplacement());
 		CPPUNIT_ASSERT_EQUAL(original, displaced);
 	}
-	void testDisplacingBack() {
+	void test_displace_forwardAndBackward() {
 		Toroid::Position original = 1;
 		Toroid::Displacement forward = 3;
 		Toroid::Displacement backward = t->opositeDisplacement(forward);
@@ -111,29 +184,7 @@ public:
 		Toroid::Position displaced2 = t->displace(displaced1, backward);
 		CPPUNIT_ASSERT_EQUAL(original, displaced2);
 	}
-	void testPosAt()
-	{
-		Toroid t(10,7);
-		Toroid::Position pos = t.posAt(2,3);
-		CPPUNIT_ASSERT_EQUAL(uint32(23u),pos);
-	}
-	void testBuildDisplacement_withAllElementsEnabled()
-	{
-		Toroid t(10,7);
-		Toroid::Displacement displacement = t.displaceVector(
-				Toroid::N,Toroid::NE,Toroid::E,Toroid::SE,
-				Toroid::S,Toroid::SW,Toroid::W,Toroid::NW);
-		CPPUNIT_ASSERT_EQUAL(Toroid::Displacement(0x45673210u),displacement);
-	}
-	void testBuildDisplacement_withSomeElementsDisabled()
-	{
-		Toroid t(10,7);
-		Toroid::Displacement displacement = t.displaceVector(
-				Toroid::N,Toroid::NE,Toroid::E,Toroid::NoDir,
-				Toroid::S);
-		CPPUNIT_ASSERT_EQUAL(Toroid::Displacement(0x88878210u),displacement);
-	}
-	void testOpositeDisplacement()
+	void test_opositeDisplacement()
 	{
 		Toroid t(10,7);
 		Toroid::Displacement displacement = t.displaceVector(
@@ -146,7 +197,7 @@ public:
 				Toroid::N,Toroid::NE,Toroid::E,Toroid::SE);
 		CPPUNIT_ASSERT_EQUAL(expected, oposite);
 	}
-	void testDisplace_singleStepN()
+	void test_displace_singleStepN()
 	{
 		Toroid t(10,7);
 		Toroid::Position origin = t.posAt(5,3);
@@ -154,7 +205,7 @@ public:
 		Toroid::Position result = t.displace(origin, vector);
 		CPPUNIT_ASSERT_EQUAL(t.posAt(4,3),result);
 	}
-	void testDisplace_singleStepNE()
+	void test_displace_singleStepNE()
 	{
 		Toroid t(10,7);
 		Toroid::Position origin = t.posAt(5,3);
@@ -162,7 +213,7 @@ public:
 		Toroid::Position result = t.displace(origin, vector);
 		CPPUNIT_ASSERT_EQUAL(t.posAt(4,4),result);
 	}
-	void testDisplace_singleStepE()
+	void test_displace_singleStepE()
 	{
 		Toroid t(10,7);
 		Toroid::Position origin = t.posAt(5,3);
@@ -170,7 +221,7 @@ public:
 		Toroid::Position result = t.displace(origin, vector);
 		CPPUNIT_ASSERT_EQUAL(t.posAt(5,4),result);
 	}
-	void testDisplace_singleStepSE()
+	void test_displace_singleStepSE()
 	{
 		Toroid t(10,7);
 		Toroid::Position origin = t.posAt(5,3);
@@ -178,7 +229,7 @@ public:
 		Toroid::Position result = t.displace(origin, vector);
 		CPPUNIT_ASSERT_EQUAL(t.posAt(6,4),result);
 	}
-	void testDisplace_singleStepS()
+	void test_displace_singleStepS()
 	{
 		Toroid t(10,7);
 		Toroid::Position origin = t.posAt(5,3);
@@ -186,7 +237,7 @@ public:
 		Toroid::Position result = t.displace(origin, vector);
 		CPPUNIT_ASSERT_EQUAL(t.posAt(6,3),result);
 	}
-	void testDisplace_singleStepSW()
+	void test_displace_singleStepSW()
 	{
 		Toroid t(10,7);
 		Toroid::Position origin = t.posAt(5,3);
@@ -194,7 +245,7 @@ public:
 		Toroid::Position result = t.displace(origin, vector);
 		CPPUNIT_ASSERT_EQUAL(t.posAt(6,2),result);
 	}
-	void testDisplace_singleStepW()
+	void test_displace_singleStepW()
 	{
 		Toroid t(10,7);
 		Toroid::Position origin = t.posAt(5,3);
@@ -202,7 +253,7 @@ public:
 		Toroid::Position result = t.displace(origin, vector);
 		CPPUNIT_ASSERT_EQUAL(t.posAt(5,2),result);
 	}
-	void testDisplace_singleStepNW()
+	void test_displace_singleStepNW()
 	{
 		Toroid t(10,7);
 		Toroid::Position origin = t.posAt(5,3);
@@ -210,7 +261,7 @@ public:
 		Toroid::Position result = t.displace(origin, vector);
 		CPPUNIT_ASSERT_EQUAL(t.posAt(4,2),result);
 	}
-	void testDisplace_multipleSteps()
+	void test_displace_multipleSteps()
 	{
 		Toroid t(10,7);
 		Toroid::Position origin = t.posAt(5,3);
@@ -219,7 +270,7 @@ public:
 		Toroid::Position result = t.displace(origin, vector);
 		CPPUNIT_ASSERT_EQUAL(t.posAt(5,1),result);
 	}
-	void testDisplace_atTheEndOfRowAndE()
+	void test_displace_atTheEndOfRowAndE()
 	{
 		Toroid t(10,7);
 		Toroid::Position origin = t.posAt(3,9);
@@ -227,7 +278,7 @@ public:
 		Toroid::Position result = t.displace(origin, vector);
 		CPPUNIT_ASSERT_EQUAL(t.posAt(4,0),result);
 	}
-	void testDisplace_atTheEndOfColumnAndS()
+	void test_displace_atTheEndOfColumnAndS()
 	{
 		Toroid t(10,7);
 		Toroid::Position origin = t.posAt(6,3);
@@ -235,7 +286,7 @@ public:
 		Toroid::Position result = t.displace(origin, vector);
 		CPPUNIT_ASSERT_EQUAL(t.posAt(0,3),result);
 	}
-	void testDisplace_atTheEndAndE()
+	void test_displace_atTheEndAndE()
 	{
 		Toroid t(10,7);
 		Toroid::Position origin = t.posAt(6,9);
@@ -243,7 +294,7 @@ public:
 		Toroid::Position result = t.displace(origin, vector);
 		CPPUNIT_ASSERT_EQUAL(t.posAt(0,0),result);
 	}
-	void testDisplace_atTheEndAndS()
+	void test_displace_atTheEndAndS()
 	{
 		Toroid t(10,7);
 		Toroid::Position origin = t.posAt(6,9);
@@ -251,7 +302,7 @@ public:
 		Toroid::Position result = t.displace(origin, vector);
 		CPPUNIT_ASSERT_EQUAL(t.posAt(0,9),result);
 	}
-	void testDisplace_atTheEndAndSE()
+	void test_displace_atTheEndAndSE()
 	{
 		Toroid t(10,7);
 		Toroid::Position origin = t.posAt(6,9);
@@ -259,7 +310,7 @@ public:
 		Toroid::Position result = t.displace(origin, vector);
 		CPPUNIT_ASSERT_EQUAL(t.posAt(1,0),result);
 	}
-	void testDisplace_atTheStartAndW()
+	void test_displace_atTheStartAndW()
 	{
 		Toroid t(10,7);
 		Toroid::Position origin = t.posAt(0,0);
@@ -267,7 +318,7 @@ public:
 		Toroid::Position result = t.displace(origin, vector);
 		CPPUNIT_ASSERT_EQUAL(t.posAt(6,9),result);
 	}
-	void testDisplace_atTheStartAndN()
+	void test_displace_atTheStartAndN()
 	{
 		Toroid t(10,7);
 		Toroid::Position origin = t.posAt(0,0);
@@ -275,7 +326,70 @@ public:
 		Toroid::Position result = t.displace(origin, vector);
 		CPPUNIT_ASSERT_EQUAL(t.posAt(6,0),result);
 	}
-	void testPathTowards_YGreaterToSE()
+	void test_pathTowards_samePosition()
+	{
+		Toroid t(10,7);
+		Toroid::Position origin = t.posAt(2,1);
+		Toroid::Position target = origin;
+		Toroid::Displacement result;
+		bool reached = t.pathTowards(origin, target, result);
+		Toroid::Displacement expected = t.displaceVector();
+		CPPUNIT_ASSERT(reached);
+		assertEqualDisplacements(expected,result);
+		CPPUNIT_ASSERT_EQUAL(target, t.displace(origin,result));
+	}
+	void test_pathTowards_nextE()
+	{
+		Toroid t(10,7);
+		Toroid::Position origin = t.posAt(0,0);
+		Toroid::Position target = t.posAt(0,1);
+		Toroid::Displacement result;
+		bool reached = t.pathTowards(origin, target, result);
+		Toroid::Displacement expected = t.displaceVector(Toroid::E);
+		CPPUNIT_ASSERT(reached);
+		assertEqualDisplacements(expected,result);
+		CPPUNIT_ASSERT_EQUAL(target, t.displace(origin,result));
+	}
+
+	void test_pathTowards_nextW()
+	{
+		Toroid t(10,7);
+		Toroid::Position origin = t.posAt(0,1);
+		Toroid::Position target = t.posAt(0,0);
+		Toroid::Displacement result;
+		bool reached = t.pathTowards(origin, target, result);
+		Toroid::Displacement expected = t.displaceVector(Toroid::W);
+		CPPUNIT_ASSERT(reached);
+		assertEqualDisplacements(expected,result);
+		CPPUNIT_ASSERT_EQUAL(target, t.displace(origin,result));
+	}
+
+	void test_pathTowards_nextS()
+	{
+		Toroid t(10,7);
+		Toroid::Position origin = t.posAt(0,0);
+		Toroid::Position target = t.posAt(1,0);
+		Toroid::Displacement result;
+		bool reached = t.pathTowards(origin, target, result);
+		Toroid::Displacement expected = t.displaceVector(Toroid::S);
+		CPPUNIT_ASSERT(reached);
+		assertEqualDisplacements(expected,result);
+		CPPUNIT_ASSERT_EQUAL(target, t.displace(origin,result));
+	}
+	void test_pathTowards_nextN()
+	{
+		Toroid t(10,7);
+		Toroid::Position origin = t.posAt(1,0);
+		Toroid::Position target = t.posAt(0,0);
+		Toroid::Displacement result;
+		bool reached = t.pathTowards(origin, target, result);
+		Toroid::Displacement expected = t.displaceVector(Toroid::N);
+		CPPUNIT_ASSERT(reached);
+		assertEqualDisplacements(expected,result);
+		CPPUNIT_ASSERT_EQUAL(target, t.displace(origin,result));
+	}
+
+	void test_pathTowards_YGreaterToSE()
 	{
 		Toroid t(10,7);
 		Toroid::Position origin = t.posAt(0,0);
@@ -284,10 +398,10 @@ public:
 		bool reached = t.pathTowards(origin, target, result);
 		Toroid::Displacement expected = t.displaceVector(Toroid::S,Toroid::SE);
 		CPPUNIT_ASSERT(reached);
+		assertEqualDisplacements(expected,result);
 		CPPUNIT_ASSERT_EQUAL(target, t.displace(origin,result));
-		CPPUNIT_ASSERT_EQUAL(expected,result);
 	}
-	void testPathTowards_XGreaterToSE()
+	void test_pathTowards_XGreaterToSE()
 	{
 		Toroid t(10,7);
 		Toroid::Position origin = t.posAt(0,0);
@@ -297,9 +411,9 @@ public:
 		Toroid::Displacement expected = t.displaceVector(Toroid::E,Toroid::SE);
 		CPPUNIT_ASSERT(reached);
 		CPPUNIT_ASSERT_EQUAL(target, t.displace(origin,result));
-		CPPUNIT_ASSERT_EQUAL(expected,result);
+		assertEqualDisplacements(expected,result);
 	}
-	void testPathTowards_XGreaterToNW()
+	void test_pathTowards_XGreaterToNW()
 	{
 		Toroid t(10,7);
 		Toroid::Position origin = t.posAt(1,2);
@@ -309,9 +423,9 @@ public:
 		Toroid::Displacement expected = t.displaceVector(Toroid::W,Toroid::NW);
 		CPPUNIT_ASSERT(reached);
 		CPPUNIT_ASSERT_EQUAL(target, t.displace(origin,result));
-		CPPUNIT_ASSERT_EQUAL(expected,result);
+		assertEqualDisplacements(expected,result);
 	}
-	void testPathTowards_XGreaterToSW()
+	void test_pathTowards_XGreaterToSW()
 	{
 		Toroid t(10,7);
 		Toroid::Position origin = t.posAt(0,2);
@@ -321,9 +435,9 @@ public:
 		Toroid::Displacement expected = t.displaceVector(Toroid::W,Toroid::SW);
 		CPPUNIT_ASSERT(reached);
 		CPPUNIT_ASSERT_EQUAL(target, t.displace(origin,result));
-		CPPUNIT_ASSERT_EQUAL(expected,result);
+		assertEqualDisplacements(expected,result);
 	}
-	void testPathTowards_XGreaterToNE()
+	void test_pathTowards_XGreaterToNE()
 	{
 		Toroid t(10,7);
 		Toroid::Position origin = t.posAt(1,0);
@@ -333,9 +447,9 @@ public:
 		Toroid::Displacement expected = t.displaceVector(Toroid::E,Toroid::NE);
 		CPPUNIT_ASSERT(reached);
 		CPPUNIT_ASSERT_EQUAL(target, t.displace(origin,result));
-		CPPUNIT_ASSERT_EQUAL(expected,result);
+		assertEqualDisplacements(expected,result);
 	}
-	void testPathTowards_crossingBoundaryAtN()
+	void test_pathTowards_crossingBoundaryAtN()
 	{
 		Toroid t(10,7);
 		Toroid::Position origin = t.posAt(0,4);
@@ -345,9 +459,9 @@ public:
 		Toroid::Displacement expected = t.displaceVector(Toroid::N);
 		CPPUNIT_ASSERT(reached);
 		CPPUNIT_ASSERT_EQUAL(target, t.displace(origin,result));
-		CPPUNIT_ASSERT_EQUAL(expected,result);
+		assertEqualDisplacements(expected,result);
 	}
-	void testPathTowards_crossingBoundaryAtS()
+	void test_pathTowards_crossingBoundaryAtS()
 	{
 		Toroid t(10,7);
 		Toroid::Position origin = t.posAt(6,4);
@@ -357,9 +471,9 @@ public:
 		Toroid::Displacement expected = t.displaceVector(Toroid::S);
 		CPPUNIT_ASSERT(reached);
 		CPPUNIT_ASSERT_EQUAL(target, t.displace(origin,result));
-		CPPUNIT_ASSERT_EQUAL(expected,result);
+		assertEqualDisplacements(expected,result);
 	}
-	void testPathTowards_crossingBoundaryAtW()
+	void test_pathTowards_crossingBoundaryAtW()
 	{
 		Toroid t(10,7);
 		Toroid::Position origin = t.posAt(4,0);
@@ -369,9 +483,9 @@ public:
 		Toroid::Displacement expected = t.displaceVector(Toroid::W);
 		CPPUNIT_ASSERT(reached);
 		CPPUNIT_ASSERT_EQUAL(target, t.displace(origin,result));
-		CPPUNIT_ASSERT_EQUAL(expected,result);
+		assertEqualDisplacements(expected,result);
 	}
-	void testPathTowards_crossingBoundaryAtE()
+	void test_pathTowards_crossingBoundaryAtE()
 	{
 		Toroid t(10,7);
 		Toroid::Position origin = t.posAt(3,9);
@@ -381,9 +495,9 @@ public:
 		Toroid::Displacement expected = t.displaceVector(Toroid::E);
 		CPPUNIT_ASSERT(reached);
 		CPPUNIT_ASSERT_EQUAL(target, t.displace(origin,result));
-		CPPUNIT_ASSERT_EQUAL(expected,result);
+		assertEqualDisplacements(expected,result);
 	}
-	void testPathTowards_crossingBoundaryAtNE()
+	void test_pathTowards_crossingBoundaryAtNE()
 	{
 		Toroid t(10,7);
 		Toroid::Position origin = t.posAt(2,9);
@@ -393,9 +507,9 @@ public:
 		Toroid::Displacement expected = t.displaceVector(Toroid::NE);
 		CPPUNIT_ASSERT(reached);
 		CPPUNIT_ASSERT_EQUAL(target, t.displace(origin,result));
-		CPPUNIT_ASSERT_EQUAL(expected,result);
+		assertEqualDisplacements(expected,result);
 	}
-	void testPathTowards_crossingBoundaryAtEnd()
+	void test_pathTowards_crossingBoundaryAtEnd()
 	{
 		Toroid t(10,7);
 		Toroid::Position origin = t.posAt(6,9);
@@ -405,9 +519,9 @@ public:
 		Toroid::Displacement expected = t.displaceVector(Toroid::E);
 		CPPUNIT_ASSERT(reached);
 		CPPUNIT_ASSERT_EQUAL(target, t.displace(origin,result));
-		CPPUNIT_ASSERT_EQUAL(expected,result);
+		assertEqualDisplacements(expected,result);
 	}
-	void testPathTowards_crossingBoundaryAtOrigin()
+	void test_pathTowards_crossingBoundaryAtOrigin()
 	{
 		Toroid t(10,7);
 		Toroid::Position origin = t.posAt(0,0);
@@ -417,9 +531,9 @@ public:
 		Toroid::Displacement expected = t.displaceVector(Toroid::W);
 		CPPUNIT_ASSERT(reached);
 		CPPUNIT_ASSERT_EQUAL(target, t.displace(origin,result));
-		CPPUNIT_ASSERT_EQUAL(expected,result);
+		assertEqualDisplacements(expected,result);
 	}
-	void testPathTowards_notReached()
+	void test_pathTowards_notReached()
 	{
 		Toroid t(10,31);
 		Toroid::Position origin = t.posAt(0,0);
@@ -433,7 +547,7 @@ public:
 //		std::cout << std::endl << std::hex << expected;
 //		std::cout << std::endl << std::hex << result;
 //		std::cout << std::dec << std::endl;
-		CPPUNIT_ASSERT_EQUAL(expected,result);
+		assertEqualDisplacements(expected,result);
 	}
 };
 
