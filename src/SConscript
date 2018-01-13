@@ -48,10 +48,10 @@ Import('sources', 'testSources', 'includePath')
 env.Append(CPPPATH = includePath)
 
 
-env.Program('#BioscenaTests', testSources),
+env.Program('#bioscenatests', testSources),
 env.Default( [
-	env.Program('#Bioscena', sources),
-	env.Test('#BioscenaTests.passed', '#BioscenaTests' ),
+	env.Program('#bioscena', sources),
+	env.Test('#bioscenatests.passed', '#bioscenatests' ),
 ])
 
 
