@@ -66,20 +66,9 @@ class ToroidTest : public CppUnit::TestFixture
 	CPPUNIT_TEST( test_pathTowards_crossW );
 	CPPUNIT_TEST( test_pathTowards_crossS );
 	CPPUNIT_TEST( test_pathTowards_crossN );
-//	CPPUNIT_TEST( test_pathTowards_combined );
-//	CPPUNIT_TEST( test_pathTowards_YGreaterToSE );
-//	CPPUNIT_TEST( test_pathTowards_XGreaterToSE );
-//	CPPUNIT_TEST( test_pathTowards_XGreaterToNW );
-//	CPPUNIT_TEST( test_pathTowards_XGreaterToSW );
-//	CPPUNIT_TEST( test_pathTowards_XGreaterToNE );
-//	CPPUNIT_TEST( test_pathTowards_crossingBoundaryAtN );
-//	CPPUNIT_TEST( test_pathTowards_crossingBoundaryAtS );
-//	CPPUNIT_TEST( test_pathTowards_crossingBoundaryAtW );
-//	CPPUNIT_TEST( test_pathTowards_crossingBoundaryAtE );
-//	CPPUNIT_TEST( test_pathTowards_crossingBoundaryAtNE );
-//	CPPUNIT_TEST( test_pathTowards_crossingBoundaryAtEnd );
-//	CPPUNIT_TEST( test_pathTowards_crossingBoundaryAtOrigin );
-//	CPPUNIT_TEST( test_pathTowards_notReached );
+	CPPUNIT_TEST( test_pathTowards_SE );
+	CPPUNIT_TEST( test_pathTowards_SEandE );
+	CPPUNIT_TEST( test_pathTowards_notReached );
 	CPPUNIT_TEST_SUITE_END();
 private:
 	Toroid * t;
@@ -488,165 +477,43 @@ public:
 		);
 	}
 
-	void test_pathTowards_YGreaterToSE()
+	void test_pathTowards_SE()
 	{
-		Toroid t(10,7);
-		Toroid::Position origin = t.posAt(0,0);
-		Toroid::Position target = t.posAt(2,1);
-		Toroid::Displacement result;
-		bool reached = t.pathTowards(origin, target, result);
-		Toroid::Displacement expected = t.displaceVector(Toroid::S,Toroid::SE);
-		CPPUNIT_ASSERT(reached);
-		assertEqualDisplacements(expected,result);
-		CPPUNIT_ASSERT_EQUAL(target, t.displace(origin,result));
+		assertPathTowards(
+			0,0,
+			1,1,
+			true,
+			Toroid::SE
+		);
 	}
-	void test_pathTowards_XGreaterToSE()
+
+	void test_pathTowards_SEandE()
 	{
-		Toroid t(10,7);
-		Toroid::Position origin = t.posAt(0,0);
-		Toroid::Position target = t.posAt(1,2);
-		Toroid::Displacement result;
-		bool reached = t.pathTowards(origin, target, result);
-		Toroid::Displacement expected = t.displaceVector(Toroid::E,Toroid::SE);
-		CPPUNIT_ASSERT(reached);
-		CPPUNIT_ASSERT_EQUAL(target, t.displace(origin,result));
-		assertEqualDisplacements(expected,result);
+		assertPathTowards(
+			0,0,
+			1,5,
+			true,
+			Toroid::E,
+			Toroid::E,
+			Toroid::E,
+			Toroid::E,
+			Toroid::SE
+		);
 	}
-	void test_pathTowards_XGreaterToNW()
-	{
-		Toroid t(10,7);
-		Toroid::Position origin = t.posAt(1,2);
-		Toroid::Position target = t.posAt(0,0);
-		Toroid::Displacement result;
-		bool reached = t.pathTowards(origin, target, result);
-		Toroid::Displacement expected = t.displaceVector(Toroid::W,Toroid::NW);
-		CPPUNIT_ASSERT(reached);
-		CPPUNIT_ASSERT_EQUAL(target, t.displace(origin,result));
-		assertEqualDisplacements(expected,result);
-	}
-	void test_pathTowards_XGreaterToSW()
-	{
-		Toroid t(10,7);
-		Toroid::Position origin = t.posAt(0,2);
-		Toroid::Position target = t.posAt(1,0);
-		Toroid::Displacement result;
-		bool reached = t.pathTowards(origin, target, result);
-		Toroid::Displacement expected = t.displaceVector(Toroid::W,Toroid::SW);
-		CPPUNIT_ASSERT(reached);
-		CPPUNIT_ASSERT_EQUAL(target, t.displace(origin,result));
-		assertEqualDisplacements(expected,result);
-	}
-	void test_pathTowards_XGreaterToNE()
-	{
-		Toroid t(10,7);
-		Toroid::Position origin = t.posAt(1,0);
-		Toroid::Position target = t.posAt(0,2);
-		Toroid::Displacement result;
-		bool reached = t.pathTowards(origin, target, result);
-		Toroid::Displacement expected = t.displaceVector(Toroid::E,Toroid::NE);
-		CPPUNIT_ASSERT(reached);
-		CPPUNIT_ASSERT_EQUAL(target, t.displace(origin,result));
-		assertEqualDisplacements(expected,result);
-	}
-	void test_pathTowards_crossingBoundaryAtN()
-	{
-		Toroid t(10,7);
-		Toroid::Position origin = t.posAt(0,4);
-		Toroid::Position target = t.posAt(6,4);
-		Toroid::Displacement result;
-		bool reached = t.pathTowards(origin, target, result);
-		Toroid::Displacement expected = t.displaceVector(Toroid::N);
-		CPPUNIT_ASSERT(reached);
-		CPPUNIT_ASSERT_EQUAL(target, t.displace(origin,result));
-		assertEqualDisplacements(expected,result);
-	}
-	void test_pathTowards_crossingBoundaryAtS()
-	{
-		Toroid t(10,7);
-		Toroid::Position origin = t.posAt(6,4);
-		Toroid::Position target = t.posAt(0,4);
-		Toroid::Displacement result;
-		bool reached = t.pathTowards(origin, target, result);
-		Toroid::Displacement expected = t.displaceVector(Toroid::S);
-		CPPUNIT_ASSERT(reached);
-		CPPUNIT_ASSERT_EQUAL(target, t.displace(origin,result));
-		assertEqualDisplacements(expected,result);
-	}
-	void test_pathTowards_crossingBoundaryAtW()
-	{
-		Toroid t(10,7);
-		Toroid::Position origin = t.posAt(4,0);
-		Toroid::Position target = t.posAt(3,9);
-		Toroid::Displacement result;
-		bool reached = t.pathTowards(origin, target, result);
-		Toroid::Displacement expected = t.displaceVector(Toroid::W);
-		CPPUNIT_ASSERT(reached);
-		CPPUNIT_ASSERT_EQUAL(target, t.displace(origin,result));
-		assertEqualDisplacements(expected,result);
-	}
-	void test_pathTowards_crossingBoundaryAtE()
-	{
-		Toroid t(10,7);
-		Toroid::Position origin = t.posAt(3,9);
-		Toroid::Position target = t.posAt(4,0);
-		Toroid::Displacement result;
-		bool reached = t.pathTowards(origin, target, result);
-		Toroid::Displacement expected = t.displaceVector(Toroid::E);
-		CPPUNIT_ASSERT(reached);
-		CPPUNIT_ASSERT_EQUAL(target, t.displace(origin,result));
-		assertEqualDisplacements(expected,result);
-	}
-	void test_pathTowards_crossingBoundaryAtNE()
-	{
-		Toroid t(10,7);
-		Toroid::Position origin = t.posAt(2,9);
-		Toroid::Position target = t.posAt(2,0);
-		Toroid::Displacement result;
-		bool reached = t.pathTowards(origin, target, result);
-		Toroid::Displacement expected = t.displaceVector(Toroid::NE);
-		CPPUNIT_ASSERT(reached);
-		CPPUNIT_ASSERT_EQUAL(target, t.displace(origin,result));
-		assertEqualDisplacements(expected,result);
-	}
-	void test_pathTowards_crossingBoundaryAtEnd()
-	{
-		Toroid t(10,7);
-		Toroid::Position origin = t.posAt(6,9);
-		Toroid::Position target = t.posAt(0,0);
-		Toroid::Displacement result;
-		bool reached = t.pathTowards(origin, target, result);
-		Toroid::Displacement expected = t.displaceVector(Toroid::E);
-		CPPUNIT_ASSERT(reached);
-		CPPUNIT_ASSERT_EQUAL(target, t.displace(origin,result));
-		assertEqualDisplacements(expected,result);
-	}
-	void test_pathTowards_crossingBoundaryAtOrigin()
-	{
-		Toroid t(10,7);
-		Toroid::Position origin = t.posAt(0,0);
-		Toroid::Position target = t.posAt(6,9);
-		Toroid::Displacement result;
-		bool reached = t.pathTowards(origin, target, result);
-		Toroid::Displacement expected = t.displaceVector(Toroid::W);
-		CPPUNIT_ASSERT(reached);
-		CPPUNIT_ASSERT_EQUAL(target, t.displace(origin,result));
-		assertEqualDisplacements(expected,result);
-	}
+
 	void test_pathTowards_notReached()
 	{
 		Toroid t(10,31);
 		Toroid::Position origin = t.posAt(0,0);
-		Toroid::Position target = t.posAt(8,3);
+		Toroid::Position target = t.posAt(9,3);
 		Toroid::Displacement result;
 		bool reached = t.pathTowards(origin, target, result);
 		Toroid::Displacement expected = t.displaceVector(
 				Toroid::S, Toroid::S, Toroid::S, Toroid::S,
 				Toroid::S, Toroid::SE, Toroid::SE, Toroid::SE);
-		CPPUNIT_ASSERT(!reached);
-//		std::cout << std::endl << std::hex << expected;
-//		std::cout << std::endl << std::hex << result;
-//		std::cout << std::dec << std::endl;
 		assertEqualDisplacements(expected,result);
+		CPPUNIT_ASSERT_EQUAL(t.posAt(8,3), t.displace(origin,result));
+		CPPUNIT_ASSERT(!reached);
 	}
 };
 

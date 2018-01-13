@@ -137,7 +137,7 @@ inline uint32 _distance(uint32 a, uint32 b)
 	return b-a;
 }
 
-inline void applyDisplacement(uint32 & displacement, uint32 N, uint32 direction) {
+static void applyDisplacement(uint32 & displacement, uint32 N, uint32 direction) {
 	for (uint32 i=N;i--;)
 		displacement = (displacement<<4) | direction;
 }
@@ -164,73 +164,24 @@ bool Toroid::pathTowards (Position posOrigen, Position posDesti, Displacement & 
 		vertical = N;
 	}
 
-	applyDisplacement(displacement, xoff, horizontal);
-	applyDisplacement(displacement, yoff, vertical);
+	bool reached = true;
+	if (yoff>8) {
+		reached = false;
+		yoff=8;
+	}
+	if (xoff>8) {
+		reached = false;
+		xoff=8;
+	}
+
+	Direction combined = horizontal==E? (vertical==S?SE:NE) : (vertical==S?SW:NW);
+	uint32 ncombined = std::min(xoff, yoff);
+
+	applyDisplacement(displacement, ncombined, combined);
+	applyDisplacement(displacement, xoff-ncombined, horizontal);
+	applyDisplacement(displacement, yoff-ncombined, vertical);
 
 	displacement &= 0xFFFFFFFF;
-
-	return true;
-
-	uint32 x1 = col(posOrigen);
-	uint32 y1 = row(posOrigen);
-	uint32 x2 = col(posDesti);
-	uint32 y2 = row(posDesti);
-//	std::cout << "Origen: " << x1 << "@" << y1 << " Desti: " << x2 << "@" << y2 << std::endl;
-
-	Direction horDirection = x2<x1 ? W:E;
-	uint32 dx = x2-x1;
-//	std::cout << "DX: " << dx << " " << (horDirection==W?"W":"E") << std::endl;
-	if (dx>m_xMax/2)
-	{
-		dx = m_xMax -dx;
-		horDirection = horDirection==W ? E:W;
-
-		if (horDirection==W)
-		{
-			y2++;
-			y2%=m_yMax;
-		}
-		else
-		{
-			y1++;
-			y1%=m_yMax;
-		}
-	}
-
-	Direction verDirection = y2<y1 ? N:S;
-	uint32 dy = _distance(y2,y1);
-//	std::cout << "DY: " << dy << " " << (verDirection==N?"N":"S") << std::endl;
-	if (dy>m_yMax/2)
-	{
-		dy = m_yMax - dy;
-		verDirection = verDirection==S ? N:S;
-	}
-
-	Direction convinedDirection;
-	if (verDirection==N)
-		convinedDirection = horDirection==E ? NE:NW;
-	else
-		convinedDirection = horDirection==E ? SE:SW;
-
-	bool reached = true;
-	if (dx>=8)
-	{
-		dx=8;
-		reached=false;
-	}
-	if (dy>=8)
-	{
-		dy=8;
-		reached=false;
-	}
-
-	for (; dx and dy; dx--, dy--)
-		displacement = displacement<<4 | convinedDirection;
-	for (; dy; dy--)
-		displacement = displacement<<4 | verDirection;
-	for (; dx; dx--)
-		displacement = displacement<<4 | horDirection;
-	displacement &= 0x88888888u;
 
 	return reached;
 }
