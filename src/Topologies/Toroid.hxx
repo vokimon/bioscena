@@ -105,7 +105,7 @@ Toroid::Position Toroid::displace(Position origin, Displacement movimentRelatiu)
 {
 	// Descomentar la seguent linia perque el 4art bit del nibble
 	// indiqui la seva inibicio i no la seva activacio 
-	movimentRelatiu^=0x88888888;
+	movimentRelatiu^=0x88888888u;
 
 	// Les operacions estan fetes amb cura per que funcionin amb topologies
 	// amb un nombre elevat de posicions sense que es produeixi overflow. 
@@ -114,7 +114,7 @@ Toroid::Position Toroid::displace(Position origin, Displacement movimentRelatiu)
 	int moviment=0;
 	for (; movimentRelatiu; movimentRelatiu>>=4)
 		if (movimentRelatiu&010) 
-			moviment += m_direccions [movimentRelatiu&0x0000007];
+			moviment += m_direccions [movimentRelatiu&0x0000007u];
 	// -8*(xMax+1) < moviment < 8*(xMax + 1)
 
 	if (moviment<0) {
@@ -195,23 +195,23 @@ Toroid::Position Toroid::displaceRandomly (Position posOrigen, uint32 radi) cons
 
 	// Primer desplacem els basics que en sobren d'un vector sencer
 	unsigned partSteps = radi & 0x7;
-	Displacement partDisplacement = (rnd.get()|0x88888888) ^ (0x88888888>>(32-(partSteps*4)));
+	Displacement partDisplacement = (rnd.get()|0x88888888u) ^ (0x88888888u>>(32-(partSteps*4)));
 	uint32 posDesti = displace(posOrigen, partDisplacement);
 	// Despres calculem vectors sencers amb 8 basics cadascun 
 	for (unsigned fullSteps=radi>>=3; fullSteps--;)
-		posDesti = displace(posDesti,rnd.get()|0x88888888);
+		posDesti = displace(posDesti,rnd.get()|0x88888888u);
 	return posDesti;
 }
 
 Toroid::Displacement Toroid::opositeDisplacement(Displacement desp) const
 {
 	// invert just the 3 lower bits of each nibble
-	return desp ^ 0x77777777;
+	return desp ^ 0x77777777u;
 }
 
 Toroid::Displacement Toroid::nilDisplacement() const
 {
-	return 0x88888888;
+	return 0x88888888u;
 }
 
 }
