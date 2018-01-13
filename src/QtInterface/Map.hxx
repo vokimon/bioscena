@@ -13,6 +13,7 @@
 #include <iostream>
 #include "Toroid.hxx"
 #include "Assert.hxx"
+#include <unistd.h>
 
 class Map : public QGLWidget
 {
