@@ -47,7 +47,7 @@ namespace Bioscena
 #define KKEP_BREAKPOINT {_asm {int 3}}
 
 // GNU GCC
-#elif defined (__GNUC__) && defined  (__i386__)
+#elif defined (__GNUC__) && (defined  (__i386__) || defined(__amd64__))
 #define KKEP_BREAKPOINT {__asm__ (" int $3 "); }
 
 #elif defined (__GNUC__) && defined  (__powerpc__)
