@@ -17,11 +17,14 @@ includePath = [ dir.strip()[4:] for dir in os.popen('find src -type d | grep -v 
 
 Export('sources', 'testSources', 'includePath')
 
-print sources
-print testSources
+print '# Sources:'
+print '\n'.join(sources)
+print '# Tests:'
+print '\n'.join(testSources)
+print '# IncludePath'
 print includePath
 
-SConscript('src/SConscript', duplicate=0, build_dir='build')
+SConscript('src/SConscript', duplicate=0, variant_dir='build')
 
 
 
