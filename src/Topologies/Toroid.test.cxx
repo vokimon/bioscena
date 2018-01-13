@@ -329,118 +329,120 @@ public:
 		Toroid::Position result = t.displace(origin, vector);
 		CPPUNIT_ASSERT_EQUAL(t.posAt(6,0),result);
 	}
+	void assertPathTowards(
+		uint32 ox, uint32 oy,
+		uint32 tx, uint32 ty, 
+		bool reach,
+		Toroid::Direction d0 = Toroid::NoDir,
+		Toroid::Direction d1 = Toroid::NoDir,
+		Toroid::Direction d2 = Toroid::NoDir,
+		Toroid::Direction d3 = Toroid::NoDir,
+		Toroid::Direction d4 = Toroid::NoDir,
+		Toroid::Direction d5 = Toroid::NoDir,
+		Toroid::Direction d6 = Toroid::NoDir,
+		Toroid::Direction d7 = Toroid::NoDir
+		) {
+		Toroid t(10,7);
+		Toroid::Position origin = t.posAt(ox,oy);
+		Toroid::Position target = t.posAt(tx,ty);
+		Toroid::Displacement result;
+		bool reached_result = t.pathTowards(origin, target, result);
+		Toroid::Displacement expected = t.displaceVector(
+			d0,d1,d2,d3,d4,d5,d6,d7);
+		assertEqualDisplacements(expected,result);
+		CPPUNIT_ASSERT_EQUAL(reach, reached_result);
+		CPPUNIT_ASSERT_EQUAL(target, t.displace(origin,result));
+	}
+
 	void test_pathTowards_samePosition()
 	{
-		Toroid t(10,7);
-		Toroid::Position origin = t.posAt(2,1);
-		Toroid::Position target = origin;
-		Toroid::Displacement result;
-		bool reached = t.pathTowards(origin, target, result);
-		Toroid::Displacement expected = t.displaceVector();
-		CPPUNIT_ASSERT(reached);
-		assertEqualDisplacements(expected,result);
-		CPPUNIT_ASSERT_EQUAL(target, t.displace(origin,result));
+		assertPathTowards(
+			2,1,
+			2,1,
+			true,
+			Toroid::NoDir
+		);
 	}
 	void test_pathTowards_nextE()
 	{
-		Toroid t(10,7);
-		Toroid::Position origin = t.posAt(0,0);
-		Toroid::Position target = t.posAt(0,1);
-		Toroid::Displacement result;
-		bool reached = t.pathTowards(origin, target, result);
-		Toroid::Displacement expected = t.displaceVector(Toroid::E);
-		CPPUNIT_ASSERT(reached);
-		assertEqualDisplacements(expected,result);
-		CPPUNIT_ASSERT_EQUAL(target, t.displace(origin,result));
+		assertPathTowards(
+			0,0,
+			0,1,
+			true,
+			Toroid::E
+		);
 	}
 
 	void test_pathTowards_nextW()
 	{
-		Toroid t(10,7);
-		Toroid::Position origin = t.posAt(0,1);
-		Toroid::Position target = t.posAt(0,0);
-		Toroid::Displacement result;
-		bool reached = t.pathTowards(origin, target, result);
-		Toroid::Displacement expected = t.displaceVector(Toroid::W);
-		CPPUNIT_ASSERT(reached);
-		assertEqualDisplacements(expected,result);
-		CPPUNIT_ASSERT_EQUAL(target, t.displace(origin,result));
+		assertPathTowards(
+			0,1,
+			0,0,
+			true,
+			Toroid::W
+		);
 	}
 
 	void test_pathTowards_nextS()
 	{
-		Toroid t(10,7);
-		Toroid::Position origin = t.posAt(0,0);
-		Toroid::Position target = t.posAt(1,0);
-		Toroid::Displacement result;
-		bool reached = t.pathTowards(origin, target, result);
-		Toroid::Displacement expected = t.displaceVector(Toroid::S);
-		CPPUNIT_ASSERT(reached);
-		assertEqualDisplacements(expected,result);
-		CPPUNIT_ASSERT_EQUAL(target, t.displace(origin,result));
+		assertPathTowards(
+			0,0,
+			1,0,
+			true,
+			Toroid::S
+		);
 	}
 	void test_pathTowards_nextN()
 	{
-		Toroid t(10,7);
-		Toroid::Position origin = t.posAt(1,0);
-		Toroid::Position target = t.posAt(0,0);
-		Toroid::Displacement result;
-		bool reached = t.pathTowards(origin, target, result);
-		Toroid::Displacement expected = t.displaceVector(Toroid::N);
-		CPPUNIT_ASSERT(reached);
-		assertEqualDisplacements(expected,result);
-		CPPUNIT_ASSERT_EQUAL(target, t.displace(origin,result));
+		assertPathTowards(
+			1,0,
+			0,0,
+			true,
+			Toroid::N
+		);
 	}
 
 	void test_pathTowards_farE()
 	{
-		Toroid t(10,7);
-		Toroid::Position origin = t.posAt(0,0);
-		Toroid::Position target = t.posAt(0,2);
-		Toroid::Displacement result;
-		bool reached = t.pathTowards(origin, target, result);
-		Toroid::Displacement expected = t.displaceVector(Toroid::E,Toroid::E);
-		CPPUNIT_ASSERT(reached);
-		assertEqualDisplacements(expected,result);
-		CPPUNIT_ASSERT_EQUAL(target, t.displace(origin,result));
+		assertPathTowards(
+			0,0,
+			0,2,
+			true,
+			Toroid::E,
+			Toroid::E
+		);
 	}
 
 	void test_pathTowards_farW()
 	{
-		Toroid t(10,7);
-		Toroid::Position origin = t.posAt(0,2);
-		Toroid::Position target = t.posAt(0,0);
-		Toroid::Displacement result;
-		bool reached = t.pathTowards(origin, target, result);
-		Toroid::Displacement expected = t.displaceVector(Toroid::W, Toroid::W);
-		CPPUNIT_ASSERT(reached);
-		assertEqualDisplacements(expected,result);
-		CPPUNIT_ASSERT_EQUAL(target, t.displace(origin,result));
+		assertPathTowards(
+			0,2,
+			0,0,
+			true,
+			Toroid::W,
+			Toroid::W
+		);
 	}
 
 	void test_pathTowards_farS()
 	{
-		Toroid t(10,7);
-		Toroid::Position origin = t.posAt(0,0);
-		Toroid::Position target = t.posAt(2,0);
-		Toroid::Displacement result;
-		bool reached = t.pathTowards(origin, target, result);
-		Toroid::Displacement expected = t.displaceVector(Toroid::S, Toroid::S);
-		CPPUNIT_ASSERT(reached);
-		assertEqualDisplacements(expected,result);
-		CPPUNIT_ASSERT_EQUAL(target, t.displace(origin,result));
+		assertPathTowards(
+			0,0,
+			2,0,
+			true,
+			Toroid::S,
+			Toroid::S
+		);
 	}
 	void test_pathTowards_farN()
 	{
-		Toroid t(10,7);
-		Toroid::Position origin = t.posAt(2,0);
-		Toroid::Position target = t.posAt(0,0);
-		Toroid::Displacement result;
-		bool reached = t.pathTowards(origin, target, result);
-		Toroid::Displacement expected = t.displaceVector(Toroid::N, Toroid::N);
-		CPPUNIT_ASSERT(reached);
-		assertEqualDisplacements(expected,result);
-		CPPUNIT_ASSERT_EQUAL(target, t.displace(origin,result));
+		assertPathTowards(
+			2,0,
+			0,0,
+			true,
+			Toroid::N,
+			Toroid::N
+		);
 	}
 
 	void test_pathTowards_YGreaterToSE()
