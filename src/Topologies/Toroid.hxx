@@ -78,7 +78,7 @@ public:
 			Direction d7=NoDir
 			)
 	{
-		return d0 | d1<<4 | d2<<8 | d3<< 12 | d4<< 16 | d5<<20 | d6<<24 | d7<<28;
+		return (d0 | d1<<4 | d2<<8 | d3<< 12 | d4<< 16 | d5<<20 | d6<<24 | d7<<28)&0xFFFFFFFF;
 	}
 // Redefinibles
 public: 
