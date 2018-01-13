@@ -25,7 +25,8 @@ int main( int argc, char* argv[] )
 	QApplication app(argc,argv); // Needed to run qt app
 	CppUnit::QtUi::TestRunner runner;
 #else
-	CppUnit::TextUi::TestRunner runner;
+	CppUnit::TextTestRunner runner;
+	
 #endif
 
 	CppUnit::TestFactoryRegistry &registry = CppUnit::TestFactoryRegistry::getRegistry();
