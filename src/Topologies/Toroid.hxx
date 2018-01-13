@@ -144,22 +144,38 @@ inline void applyDisplacement(uint32 & displacement, uint32 N, uint32 direction)
 
 bool Toroid::pathTowards (Position posOrigen, Position posDesti, Displacement & displacement) const
 {
+	displacement = 0x88888888u;
+
+	// Reduce it to the problem of being at 0,0
+	uint32 normalizedTarget = (posDesti + size() - posOrigen)%size();
+
+	uint32 xoff = col(normalizedTarget);
+	uint32 yoff = row(normalizedTarget);
+
+	Direction horizontal = E;
+	if (xoff>m_xMax/2) {
+		xoff = m_xMax-xoff;
+		yoff +=1;
+		horizontal = W;
+	}
+	Direction vertical = S;
+	if (yoff>m_yMax/2) {
+		yoff = m_yMax-yoff;
+		vertical = N;
+	}
+
+	applyDisplacement(displacement, xoff, horizontal);
+	applyDisplacement(displacement, yoff, vertical);
+
+	displacement &= 0xFFFFFFFF;
+
+	return true;
+
 	uint32 x1 = col(posOrigen);
 	uint32 y1 = row(posOrigen);
 	uint32 x2 = col(posDesti);
 	uint32 y2 = row(posDesti);
 //	std::cout << "Origen: " << x1 << "@" << y1 << " Desti: " << x2 << "@" << y2 << std::endl;
-
-	displacement = 0x88888888u;
-
-	if (x1>x2) applyDisplacement(displacement, x1-x2, W);
-	if (x1<x2) applyDisplacement(displacement, x2-x1, E);
-	if (y1>y2) applyDisplacement(displacement, y1-y2, N);
-	if (y1<y2) applyDisplacement(displacement, y2-y1, S);
-
-	displacement &= 0xFFFFFFFF;
-
-	return true;
 
 	Direction horDirection = x2<x1 ? W:E;
 	uint32 dx = x2-x1;

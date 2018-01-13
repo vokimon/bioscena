@@ -62,7 +62,10 @@ class ToroidTest : public CppUnit::TestFixture
 	CPPUNIT_TEST( test_pathTowards_farW );
 	CPPUNIT_TEST( test_pathTowards_farS );
 	CPPUNIT_TEST( test_pathTowards_farN );
-//	CPPUNIT_TEST( test_pathTowards_acrossE );
+	CPPUNIT_TEST( test_pathTowards_crossE );
+	CPPUNIT_TEST( test_pathTowards_crossW );
+	CPPUNIT_TEST( test_pathTowards_crossS );
+	CPPUNIT_TEST( test_pathTowards_crossN );
 //	CPPUNIT_TEST( test_pathTowards_combined );
 //	CPPUNIT_TEST( test_pathTowards_YGreaterToSE );
 //	CPPUNIT_TEST( test_pathTowards_XGreaterToSE );
@@ -442,6 +445,46 @@ public:
 			true,
 			Toroid::N,
 			Toroid::N
+		);
+	}
+
+	void test_pathTowards_crossE()
+	{
+		assertPathTowards(
+			0,9,
+			1,0,
+			true,
+			Toroid::E
+		);
+	}
+
+	void test_pathTowards_crossW()
+	{
+		assertPathTowards(
+			1,0,
+			0,9,
+			true,
+			Toroid::W
+		);
+	}
+
+	void test_pathTowards_crossN()
+	{
+		assertPathTowards(
+			0,1,
+			6,1,
+			true,
+			Toroid::N
+		);
+	}
+
+	void test_pathTowards_crossS()
+	{
+		assertPathTowards(
+			6,1,
+			0,1,
+			true,
+			Toroid::S
 		);
 	}
 
