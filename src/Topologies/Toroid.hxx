@@ -137,6 +137,11 @@ inline uint32 _distance(uint32 a, uint32 b)
 	return b-a;
 }
 
+inline void applyDisplacement(uint32 & displacement, uint32 N, uint32 direction) {
+	for (uint32 i=N;i--;)
+		displacement = (displacement<<4) | direction;
+}
+
 bool Toroid::pathTowards (Position posOrigen, Position posDesti, Displacement & displacement) const
 {
 	uint32 x1 = col(posOrigen);
@@ -147,10 +152,10 @@ bool Toroid::pathTowards (Position posOrigen, Position posDesti, Displacement & 
 
 	displacement = 0x88888888u;
 
-	if (x1<x2) displacement = (displacement<<4) | E;
-	if (x1>x2) displacement = (displacement<<4) | W;
-	if (y1<y2) displacement = (displacement<<4) | S;
-	if (y1>y2) displacement = (displacement<<4) | N;
+	if (x1>x2) applyDisplacement(displacement, x1-x2, W);
+	if (x1<x2) applyDisplacement(displacement, x2-x1, E);
+	if (y1>y2) applyDisplacement(displacement, y1-y2, N);
+	if (y1<y2) applyDisplacement(displacement, y2-y1, S);
 
 	displacement &= 0xFFFFFFFF;
 
