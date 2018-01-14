@@ -77,6 +77,7 @@ void Toroid::ProvaClasse(void) {
 		for (uint32 radi=0; radi<10; radi++) {
 			cuc[0]=topo.randomPosition();
 			while (cuc[0]!=8) {
+				std::cout << "\033[1;1H";
 				for (uint32 i=7;i--;) celles[cuc[i]]=escala[6-i];
 				celles[cuc[6]]=0;
 				celles[topo.randomPosition()]=4;
@@ -84,6 +85,7 @@ void Toroid::ProvaClasse(void) {
 				for (uint32 i=6;i--;) cuc[i+1]=cuc[i];
 				cuc[0]=topo.displaceRandomly(cuc[0],radi);
 				if (cuc[0]==cuc[6]) cuc[0]=topo.randomPosition();
+				std::cout << "\033[0m";
 				std::cout << "Radi: " << radi << " Celles: ";
 				for (uint32 i=7;i--;) 
 					std::cout <<std::setw(5)<<std::setfill(' ')<< cuc[i] << " - ";
@@ -99,12 +101,14 @@ void Toroid::ProvaClasse(void) {
 		for (uint32 direction=0; --direction;) {
 			for (uint32 i=topo.size();i--;) celles[i]=3;
 			for (uint32 j=topo.size()+7;j--;) {
+				std::cout << "\033[1;1H";
 				for (uint32 i=7;i--;) celles[cuc[i]]=escala[6-i];
 				celles[cuc[6]]--;
 				dumpTestToroid(topo,celles,1,2);
 				for (uint32 i=6;i--;) cuc[i+1]=cuc[i];
 				cuc[0]=topo.displace(cuc[0],direction);
 //				KKEPAssert(topo.isValidPosition(cuc[0]),"Invalid position reached"); // PORT
+				std::cout << "\033[0m";
 				std::cout << "Dir:" << std::hex << direction <<" Celles: ";
 				for (uint32 i=7;i--;) std::cout <<std::setw(5)<<std::setfill(' ')<< cuc[i] << " - ";
 				std::cout<<std::setw(0)<<std::endl;
