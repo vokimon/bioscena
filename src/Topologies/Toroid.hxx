@@ -131,12 +131,6 @@ Toroid::Position Toroid::displace(Position origin, Displacement movimentRelatiu)
 		}
 }
 
-inline uint32 _distance(uint32 a, uint32 b)
-{
-	if (a>b) return a-b;
-	return b-a;
-}
-
 static void applyDisplacement(uint32 & displacement, uint32 N, uint32 direction) {
 	for (uint32 i=N;i--;)
 		displacement = (displacement<<4) | direction;
