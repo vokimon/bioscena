@@ -8,6 +8,8 @@ options.cache
 .sconsign.dblite
 *.pyc
 build
+reference/html
+reference/doxygenlog.txt
 
 # vim
 *.sw?
