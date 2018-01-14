@@ -111,7 +111,7 @@ public:
 // Redefinibles
 public: 
 	virtual inline Position displace (Position origin, Displacement relativeMovement) const;
-	virtual inline bool pathTowards (Position posOrigen, Position posDesti, Displacement & desp) const;
+	virtual inline bool wayTo (Position posOrigen, Position posDesti, Displacement & desp) const;
 	virtual inline Position displaceRandomly (Position origin, uint32 radius) const;
 	virtual inline Displacement opositeDisplacement(Displacement desp) const;
 	virtual inline Displacement nilDisplacement() const;
@@ -164,7 +164,7 @@ static void applyDisplacement(uint32 & displacement, uint32 N, uint32 direction)
 		displacement = (displacement<<4) | direction;
 }
 
-bool Toroid::pathTowards (Position posOrigen, Position posDesti, Displacement & displacement) const
+bool Toroid::wayTo (Position posOrigen, Position posDesti, Displacement & displacement) const
 {
 	displacement = 0x88888888u;
 

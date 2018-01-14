@@ -66,7 +66,7 @@ static void dumpTestToroid(Toroid&topo, uint32 * celles, uint32 x, uint32 y) {
 }
 
 void Toroid::ProvaClasse(void) {
-	// TODO: Proves Toroid::pathTowards
+	// TODO: Proves Toroid::wayTo
 	// TODO: Prova maximitzant els limits calculats als 'Pre' del constructor
 	{
 		int escala[]={7,6,4,4,12,14,15,9};

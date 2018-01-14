@@ -53,22 +53,22 @@ class ToroidTest : public CppUnit::TestFixture
 	CPPUNIT_TEST( test_displace_atTheEndAndSE );
 	CPPUNIT_TEST( test_displace_atTheStartAndW );
 	CPPUNIT_TEST( test_displace_atTheStartAndN );
-	CPPUNIT_TEST( test_pathTowards_samePosition );
-	CPPUNIT_TEST( test_pathTowards_nextE );
-	CPPUNIT_TEST( test_pathTowards_nextW );
-	CPPUNIT_TEST( test_pathTowards_nextS );
-	CPPUNIT_TEST( test_pathTowards_nextN );
-	CPPUNIT_TEST( test_pathTowards_farE );
-	CPPUNIT_TEST( test_pathTowards_farW );
-	CPPUNIT_TEST( test_pathTowards_farS );
-	CPPUNIT_TEST( test_pathTowards_farN );
-	CPPUNIT_TEST( test_pathTowards_crossE );
-	CPPUNIT_TEST( test_pathTowards_crossW );
-	CPPUNIT_TEST( test_pathTowards_crossS );
-	CPPUNIT_TEST( test_pathTowards_crossN );
-	CPPUNIT_TEST( test_pathTowards_SE );
-	CPPUNIT_TEST( test_pathTowards_SEandE );
-	CPPUNIT_TEST( test_pathTowards_notReached );
+	CPPUNIT_TEST( test_wayTo_samePosition );
+	CPPUNIT_TEST( test_wayTo_nextE );
+	CPPUNIT_TEST( test_wayTo_nextW );
+	CPPUNIT_TEST( test_wayTo_nextS );
+	CPPUNIT_TEST( test_wayTo_nextN );
+	CPPUNIT_TEST( test_wayTo_farE );
+	CPPUNIT_TEST( test_wayTo_farW );
+	CPPUNIT_TEST( test_wayTo_farS );
+	CPPUNIT_TEST( test_wayTo_farN );
+	CPPUNIT_TEST( test_wayTo_crossE );
+	CPPUNIT_TEST( test_wayTo_crossW );
+	CPPUNIT_TEST( test_wayTo_crossS );
+	CPPUNIT_TEST( test_wayTo_crossN );
+	CPPUNIT_TEST( test_wayTo_SE );
+	CPPUNIT_TEST( test_wayTo_SEandE );
+	CPPUNIT_TEST( test_wayTo_notReached );
 	CPPUNIT_TEST_SUITE_END();
 private:
 	Toroid * t;
@@ -296,7 +296,7 @@ public:
 		Toroid::Position origin = t.posAt(ox,oy);
 		Toroid::Position target = t.posAt(tx,ty);
 		Toroid::Displacement result;
-		bool reached_result = t.pathTowards(origin, target, result);
+		bool reached_result = t.wayTo(origin, target, result);
 		Toroid::Displacement expected = t.displaceVector(
 			d0,d1,d2,d3,d4,d5,d6,d7);
 		assertEqualDisplacements(expected,result);
@@ -304,67 +304,67 @@ public:
 		CPPUNIT_ASSERT_EQUAL(target, t.displace(origin,result));
 	}
 
-	void test_pathTowards_samePosition()
+	void test_wayTo_samePosition()
 	{
 		assertPathTowards( 2,1, 2,1, Toroid::NoDir);
 	}
 
-	void test_pathTowards_nextE()
+	void test_wayTo_nextE()
 	{
 		assertPathTowards( 0,0, 0,1, Toroid::E);
 	}
-	void test_pathTowards_nextW()
+	void test_wayTo_nextW()
 	{
 		assertPathTowards( 0,1, 0,0, Toroid::W);
 	}
-	void test_pathTowards_nextS()
+	void test_wayTo_nextS()
 	{
 		assertPathTowards( 0,0, 1,0, Toroid::S);
 	}
-	void test_pathTowards_nextN()
+	void test_wayTo_nextN()
 	{
 		assertPathTowards( 1,0, 0,0, Toroid::N);
 	}
 
-	void test_pathTowards_farE()
+	void test_wayTo_farE()
 	{
 		assertPathTowards( 0,0, 0,2, Toroid::E, Toroid::E);
 	}
-	void test_pathTowards_farW()
+	void test_wayTo_farW()
 	{
 		assertPathTowards( 0,2, 0,0, Toroid::W, Toroid::W);
 	}
-	void test_pathTowards_farS()
+	void test_wayTo_farS()
 	{
 		assertPathTowards( 0,0, 2,0, Toroid::S, Toroid::S);
 	}
-	void test_pathTowards_farN()
+	void test_wayTo_farN()
 	{
 		assertPathTowards( 2,0, 0,0, Toroid::N, Toroid::N);
 	}
 
-	void test_pathTowards_crossE()
+	void test_wayTo_crossE()
 	{
 		assertPathTowards( 0,9, 1,0, Toroid::E);
 	}
-	void test_pathTowards_crossW()
+	void test_wayTo_crossW()
 	{
 		assertPathTowards( 1,0, 0,9, Toroid::W);
 	}
-	void test_pathTowards_crossN()
+	void test_wayTo_crossN()
 	{
 		assertPathTowards( 0,1, 6,1, Toroid::N);
 	}
-	void test_pathTowards_crossS()
+	void test_wayTo_crossS()
 	{
 		assertPathTowards( 6,1, 0,1, Toroid::S);
 	}
 
-	void test_pathTowards_SE()
+	void test_wayTo_SE()
 	{
 		assertPathTowards( 0,0, 1,1, Toroid::SE);
 	}
-	void test_pathTowards_SEandE()
+	void test_wayTo_SEandE()
 	{
 		assertPathTowards( 0,0, 1,5,
 			Toroid::E,
@@ -375,13 +375,13 @@ public:
 		);
 	}
 
-	void test_pathTowards_notReached()
+	void test_wayTo_notReached()
 	{
 		Toroid t(10,31);
 		Toroid::Position origin = t.posAt(0,0);
 		Toroid::Position target = t.posAt(9,3);
 		Toroid::Displacement result;
-		bool reached = t.pathTowards(origin, target, result);
+		bool reached = t.wayTo(origin, target, result);
 		Toroid::Displacement expected = t.displaceVector(
 				Toroid::S, Toroid::S, Toroid::S, Toroid::S,
 				Toroid::S, Toroid::SE, Toroid::SE, Toroid::SE);

@@ -82,7 +82,7 @@ namespace Bioscena {
 		/// @param posDesti The goal for the movement
 		/// @param desp A reference to the variable where to put the calculated displacement
 		/// @returns True if the given displacement is enough to reach the goal.
-		virtual bool pathTowards(Position posOrigen, Position posDesti, Displacement & desp) const;
+		virtual bool wayTo(Position posOrigen, Position posDesti, Displacement & desp) const;
 		
 		/// Calculates the oposite/mirrored displacement.
 		/// @param desp A displacement to be mirror
