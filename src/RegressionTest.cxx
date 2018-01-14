@@ -13,6 +13,8 @@
 #include <cppunit/TestResult.h>
 #include <cppunit/TestFailure.h>
 #include <cppunit/TextOutputter.h>
+#include <cppunit/TestResultCollector.h>
+#include <cppunit/SourceLine.h>
 
 #include "Assert.hxx"
 
@@ -23,10 +25,10 @@ void SilentAssertHandler(const char* message, const char* filename, int lineNumb
 
 class AnsiListener: public CppUnit::TestListener {
 	bool _pending;
-	std::string _run;
-	std::string _fail;
-	std::string _error;
-	std::string _ok;
+	const std::string _run;
+	const std::string _fail;
+	const std::string _error;
+	const std::string _ok;
 public:
 	AnsiListener(bool unicode=true)
 		: _pending(false)
@@ -68,6 +70,56 @@ public:
 	}
 };
 
+class AnsiOutputter : public CppUnit::TextOutputter {
+	CppUnit::OStream & _stream;
+	
+public:
+	AnsiOutputter(CppUnit::TestResultCollector * result, CppUnit::OStream & stream)
+		: CppUnit::TextOutputter(result, stream)
+		, _stream(stream)
+	{
+	}
+
+	void printFailureWarning()
+	{
+		_stream  << "\033[31m!!!FAILURES!!!\033[0m\n";
+	}
+
+	void printHeader()
+	{
+		_stream << "Test Results:\n";
+		_stream << "\033[34m[\u2699] Run:  "  <<  m_result->runTests() << "\033[0m";
+		unsigned passed = m_result->runTests()-m_result->testFailuresTotal();
+		if (passed)
+			_stream <<  "   \033[32m[\u2713] Passed: "  <<  passed << "\033[0m";
+		if (m_result->testFailures())
+			_stream <<  "   \033[31;1m[\u2717] Failed: "  <<  m_result->testFailures() << "\033[0m";
+		if (m_result->testErrors())
+			_stream <<  "   \033[33m[!] Errors: "  <<  m_result->testErrors() << "\033[0m";
+		_stream <<  "\n";
+		if (m_result->testFailuresTotal())
+			_stream <<  "\n\033[31;1mFAILURES!!!!\033[0m\n";
+		else
+			_stream <<  "\n\033[32mAll OK\n\033[0m";
+	}
+
+	void printFailure(CppUnit::TestFailure *failure, int failureNumber )
+	{
+		_stream << (failure->isError()?"\033[31;1m":"\033[33m");
+		printFailureListMark( failureNumber );
+		_stream << ' ';
+		printFailureTestName( failure );
+		_stream << ' ';
+		printFailureType( failure );
+		_stream << ' ';
+		printFailureLocation( failure->sourceLine() );
+		_stream << "\033[0m";
+		_stream << "\n";
+		printFailureDetail( failure->thrownException() );
+		_stream << "\n";
+	}
+};
+
 
 int main( int argc, char* argv[] )
 {
@@ -83,6 +135,8 @@ int main( int argc, char* argv[] )
 #endif
 	AnsiListener listener(true);
 	runner.eventManager().addListener(&listener);
+
+	runner.setOutputter(new AnsiOutputter(&runner.result(), std::cerr));
 
 	CppUnit::TestFactoryRegistry &registry = CppUnit::TestFactoryRegistry::getRegistry();
 	runner.addTest( registry.makeTest() );
