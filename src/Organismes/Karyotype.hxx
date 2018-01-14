@@ -10,7 +10,8 @@
 
 namespace Bioscena
 {
-
+	/// A Karyotype is the Chromosome set of an individual.
+	/// Each individual has a set of chromosomes.
 	class Karyotype
 	{
 		// Inner Types
