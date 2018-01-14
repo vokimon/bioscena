@@ -13,19 +13,44 @@
 namespace Bioscena {
 
 /**
-* The Toroid class is an optimized implementation 
-* of Topology interface that represents a toroidal topology. 
-* That is a 2D mesh of cells so that when you reach the border
-* you get in the oposite border.
-* <p>
-* It has the particularity that when you reach the end of a
-* row of cells you get the next row like it were a twisted
-* string of cells. So if you move step by step in one cardinal
-* direction, you will visit every position on the topology.
-*
-* TODO: Document how the displacement works here
-*
-* @see Topology
+	A Toroid is a Topology that arranges cells as a
+	rectangular array where cells at opposite borders
+	are connected as well.
+	
+	_Positions_ are enumerated starting at zero
+	in latin reading order: left to right and top down.
+
+	__Notice:__ This implementation connects the last cell
+	of each row, not to the first cell of the same row,
+	but to the first cell of the next row.
+	This simplifies a lot the math and logic of movements
+	since a given direction corresponds to a fixed offset
+	whichever the position.
+
+	_Displacements_ encode in its 32 bits a sequence of
+	8 micromovements. Each micromovement is a nibble (4 bits),
+	where the upper bit disables it, and the lower 3 bits
+	indicates a cardinal direction:
+	(N,S,E,W,NE,NW,SE,SW).
+
+	_Directions_ are binary encoded so that binary inversion
+	gives the opposite direction and that most contiguous
+	directions are just one bit inversion away (or two).
+
+
+	direction| bits
+	---------|------
+	N        | 000
+	NE       | 001
+	E        | 010
+	SE       | 011
+	S        | 111
+	SW       | 110
+	W        | 101
+	NW       | 010
+
+
+	@see Topology
 */
 class Toroid : public Bioscena::Topology
 {
@@ -35,11 +60,13 @@ public:
 	typedef inherited::Position Position;
 	typedef inherited::Displacement Displacement;
 	/** 
-	 * The building block for a displacement vectors.
-	 * Note that oposed directions are complementaries 
-	 * in order to speed up the oposite calculation.
+		The building block for a displacement vectors.
+		Note that oposed directions are complementaries
+		in order to speed up the oposite calculation.
+		Every fouth bit is a disabler of the nibble,
+		so nibles beyond 7 are NoDir.
 	 */
-	enum Direction 
+	enum Direction
 	{
 		N  = 0,
 		NE = 1,
@@ -67,6 +94,7 @@ public:
 	/// @return the column corresponding to the given position
 	uint32 col(Position pos) const {return pos % m_xMax;}
 	Position posAt(uint32 row, uint32 col) const {return row*m_xMax+col;}
+	/// Contstructs a displacement given a sequence of cardinal directions
 	static Displacement displaceVector(
 			Direction d0=NoDir,
 			Direction d1=NoDir,

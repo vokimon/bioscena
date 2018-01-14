@@ -15,6 +15,9 @@
 namespace Bioscena
 {
 
+	/// A Chromosome is a sequence of gens aranged as Codons.
+	/// Together a set of Chromosomes form the Karyotype of an individual.
+	/// From a Chromosome you can decode genes which rule the individual behaviour.
 	class Chromosome
 	{
 		// Inner Types
