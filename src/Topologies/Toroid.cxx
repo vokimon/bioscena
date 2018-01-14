@@ -58,7 +58,7 @@ static void dumpTestToroid(Toroid&topo, uint32 * celles, uint32 x, uint32 y) {
 	uint32 nCella=0;
 	for (uint32 j=0;j<topo.height();j++) {
 		for (uint32 i=0;i<topo.width();i++)
-			std::cout << "\033[3" << (celles[nCella++]&7) << "m;" << "#";
+			std::cout << "\033[3" << (celles[nCella++]&7) << "m" << "#";
 //			std::cout << CColor(celles[nCella++]) << "#"; // PORT
 		std::cout << std::endl;
 		}
