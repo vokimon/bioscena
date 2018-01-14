@@ -39,8 +39,8 @@ private:
 		return result;
 */
 //		return (uint32)rand() ^ (uint32)rand()<<15 ^ (uint32)rand()<<30;
-		return (seed * 31415821 + 1) & 0xFFFFFFFF;
-//		return (seed * 16807) % 0x7FFFFFFF;
+//		return (seed * 31415821 + 1) & 0xFFFFFFFF;
+		return (seed * 16807) % 0x7FFFFFFF;
 		//^(seed * ##((7 raisedTo: 5) asInteger)) \\ 16r7FFFFFFF
 	};
 	void setSeed(uint32 nova=0) {
