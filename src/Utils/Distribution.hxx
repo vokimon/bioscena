@@ -19,7 +19,7 @@ namespace Bioscena {
 *
 * Some deductable caracteristics of the obtained distribution are that:
 * - The maximum value is m + M*n
-* - If you use only one dice, you will get an uniform distribution between the maximum and the minumum
+* - If you use only one dice, you will get an uniform distribution between the maximum and the minimum
 * - When you increase the number of dices, the distributions aproximates to a normal distribution 
 * with an increasing standarstandardtion and the median arround the center ( m + (n * M)/2 ).
 *
@@ -35,7 +35,7 @@ class Distribution
 public:
 	/**
 	* The Distribution constructor.
-	* @param minumum The minimum value of the distribution
+	* @param minimum The minimum value of the distribution
 	* @param dices The number of dices that will be added to the minimum
 	* @param magnitude The maximum value of the distribution
 	*/
