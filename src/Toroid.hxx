@@ -1,4 +1,4 @@
-// BiotopToroidal.h: interface for the Toroid class.
+// Toroid.hxx: interface for the Toroid class.
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -87,7 +87,7 @@ public:
 	};
 // Contruccio/Destruccio
 public: 
-	Toroid (uint32 XMax, uint32 YMax);
+	Toroid (uint32 xMax, uint32 yMax);
 // Operacions
 public: 
 	/// Number of rows of the topology
@@ -118,7 +118,7 @@ public:
 public: 
 	inline Position displace (Position origin, Displacement relativeMovement) const override;
 	inline bool wayTo (Position origin, Position destination, Displacement & desp) const override;
-
+	inline uint32 distance (Position origin, Position destination) const override;
 	inline Position displaceRandomly (Position origin, uint32 radius) const override;
 	inline Displacement opositeDisplacement(Displacement desp) const override;
 	inline Displacement nilDisplacement() const override;
@@ -126,10 +126,11 @@ public:
 protected:
 	uint32 m_xMax;
 	uint32 m_yMax;
-	int32 m_direccions[10]; // Cal que sigui signed!
+	int32 m_direccions[10]; // Must be signed!
 // Proves
 public:
-	static void ProvaClasse(void);
+	/// Supervised test. @see ToroidTest
+	static void ClassTest(void);
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -140,117 +141,117 @@ Toroid::Position Toroid::displace(Position origin, Displacement relativeMovement
 {
 	// Descomentar la seguent linia perque el 4art bit del nibble
 	// indiqui la seva inibicio i no la seva activacio 
-//	relativeMovement^=0x88888888;
+	relativeMovement^=0x88888888u;
 
 	// Les operacions estan fetes amb cura per que funcionin amb topologies
 	// amb un nombre elevat de posicions sense que es produeixi overflow. 
 	// Si no tenim aquest problema es podria optimitzar
+
 	int moviment=0;
 	for (; relativeMovement; relativeMovement>>=4)
-		if (relativeMovement&010) 
-			moviment += m_direccions [relativeMovement&0x0000007];
+		if (relativeMovement&010u)
+			moviment += m_direccions [relativeMovement&0x0000007u];
 
 	if (moviment<0) {
 		if (origin < uint32(-moviment))
-			return (_size - uint32(-moviment)) + origin;
+			return _size + moviment + origin;
 		else
 			return origin + moviment;
 		}
 	else {
-		if (_size-origin>uint32(moviment))
+		if (origin+moviment<_size)
 			return origin + moviment;
 		else
-			return (uint32)moviment - (_size - origin);
+			return origin + moviment - _size;
 		}
+}
+
+static void applyDisplacement(uint32 & displacement, uint32 N, uint32 direction) {
+	for (uint32 i=N;i--;)
+		displacement = (displacement<<4) | direction;
 }
 
 bool Toroid::wayTo (Position origin, Position destination, Displacement & displacement) const
 {
-	uint32 x1 = origin % m_xMax;
-	uint32 y1 = origin / m_xMax;
-	uint32 x2 = destination % m_xMax;
-	uint32 y2 = destination / m_xMax;
-//	out << "Origen: " << x1 << "@" << y1 << " Desti: " << x2 << "@" << y2 << endl;
-	bool adalt, esquerra;
-	uint32 dx, dy;
-	uint32 inner, outer;
-	
-	// TODO: Correccions per a les espirals horitzontals
+	displacement = 0x88888888u;
 
-	if (x1<x2) {
-		inner = x2-x1; // Camino interior, se hace hacia derecha
-		outer = (m_xMax-x2)+x1; // Camino exterior, se hace hacia izquerda
-		esquerra=outer<inner;
-		dx=esquerra?outer:inner;
-		if (esquerra && dx>x1) // Correccio espiralitat horitzontal
-			y1--;
+	// Reduce it to the problem of being at 0,0
+	uint32 normalizedTarget = (destination + size() - origin)%size();
+
+	uint32 xoff = col(normalizedTarget);
+	uint32 yoff = row(normalizedTarget);
+
+	Direction horizontal = E;
+	if (xoff>m_xMax/2) {
+		xoff = m_xMax-xoff;
+		yoff +=1;
+		horizontal = W;
 	}
-	else
-	{
-		inner = x1-x2;// Camino interior, se hace hacia izquierda
-		outer = (m_xMax-x1)+x2; // Camino exterior, se hace hacia derecha
-		esquerra=inner<outer; 
-		dx=esquerra?inner:outer;
-		if (!esquerra && x1>m_xMax-dx) // Correccio espiralitat horitzontal
-			y1++;
+	Direction vertical = S;
+	if (yoff>m_yMax/2) {
+		yoff = m_yMax-yoff;
+		vertical = N;
 	}
 
-	if (y1<y2) {
-		inner = y2-y1; // Camino interior, se hace hacia abajo
-		outer = (m_yMax-y2)+y1; // Camino exterior, se hace hacia arriba
-		adalt=outer<inner;
-		dy=adalt?outer:inner;
+	bool reached = true;
+	if (yoff>8) {
+		reached = false;
+		yoff=8;
 	}
-	else
-	{
-		inner = y1-y2; // Camino interior, se hace hacia arriba
-		outer = (m_yMax-y1)+y2; // Camino exterior, se hace hacia abajo
-		adalt=inner<outer;
-		dy=(adalt)?inner:outer;
+	if (xoff>8) {
+		reached = false;
+		xoff=8;
 	}
 
-	uint32 basic;
-//	out << "dx: " << dx << (esquerra?"L":"R")<< " dy: " << dy << (adalt?"U":"D") << endl;
+	Direction combined = horizontal==E? (vertical==S?SE:NE) : (vertical==S?SW:NW);
+	uint32 ncombined = std::min(xoff, yoff);
 
-	uint32 nBasics=8;
-	displacement=0x00000000;
-	basic = esquerra?(adalt?UP_LEFT:DOWN_LEFT):(adalt?UP_RIGHT:DOWN_RIGHT);
-	basic|=0x8;
-	while (dx&&dy&&nBasics) {
-		dx--;
-		dy--;
-		nBasics--;
-		displacement|=basic<<(nBasics<<2);
-	}
-	basic = dx?(esquerra?LEFT:RIGHT):(adalt?UP:DOWN);
-	basic|=0x8;
-	while (nBasics&&(dx||dy)) {
-		if (dx) dx--;
-		if (dy) dy--;
-		nBasics--;
-		displacement|=basic<<(nBasics<<2);
-	}
+	applyDisplacement(displacement, ncombined, combined);
+	applyDisplacement(displacement, xoff-ncombined, horizontal);
+	applyDisplacement(displacement, yoff-ncombined, vertical);
 
-	return !(dx || dy);
+	displacement &= 0xFFFFFFFF;
+
+	return reached;
+}
+
+uint32 Toroid::distance(Position origin, Position destination) const
+{
+	// TODO: N/S distances
+	// TODO: cross distances
+	// TODO: combined distances
+	uint32 result = origin<=destination?destination-origin:origin-destination;
+	uint32 rows = row(result);
+	uint32 cols = col(result);
+	if (rows>m_yMax/2) rows = m_yMax-rows;
+	if (cols>m_xMax/2) cols = m_xMax-cols;
+	return std::max(rows,cols);
 }
 
 Toroid::Position Toroid::displaceRandomly (Position origin, uint32 radius) const
 {
+	// TODO: unittest this
 	// El radius esta expressat en displacements basics (4 bits) -> en un vector de 
 	// displacement (32 bits) hi han 8 de basics.
 	// pe. Si tenim radius=45 -> 5 vectors * 8 basics/vector + 5 basics
 	// Recorda que el bit de mes pes de cada basic es un 'enabled'.
 
+
 	// Primer calculem els basics que en sobren
-	uint32 destination = displace(origin, (rnd.get()|0x88888888) & ~(0xFFFFFFFF>>((radius&7)<<2)));
+	uint32 nonFull = radius&7u;
+	uint32 nonFullBits = nonFull<<2;
+	uint32 mask = 0x88888888u >> nonFullBits;
+	Displacement move = (rnd.get()&0x77777777u) | mask;
+	uint32 destination = displace(origin, move);
 	// Despres calculem vectors sencers amb 8 basics cadascun 
 	for (radius>>=3; radius--;)
-		destination = displace(destination,rnd.get()|0x88888888);
+		destination = displace(destination,rnd.get()&0x77777777u);
 	return destination;
 }
 
 Toroid::Displacement Toroid::opositeDisplacement(Displacement desp) const
 {
+	// invert just the 3 lower bits of each nibble
 	return desp ^ 0x77777777u;
 }
 
@@ -261,4 +262,4 @@ Toroid::Displacement Toroid::nilDisplacement() const
 
 }
 
-#endif // !defined(Toroid_hxx)
+#endif //Toroid_hxx
