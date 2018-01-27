@@ -6,7 +6,7 @@
 #define __KKEP_TOPOLOGIATOROIDAL_H_INCLUDED
 
 #include "BioIncludes.h"
-#include "Topologia.h"
+#include "Topology.hxx"
 #include "RandomStream.hxx"
 #include "Missatger.h"
 
@@ -96,15 +96,15 @@ Torus::t_position Torus::displace(t_position origen, t_displacement movimentRela
 
 	if (moviment<0) {
 		if (origen < uint32(-moviment))
-			return (m_totalCasselles - uint32(-moviment)) + origen;
+			return (_size - uint32(-moviment)) + origen;
 		else
 			return origen + moviment;
 		}
 	else {
-		if (m_totalCasselles-origen>uint32(moviment))
+		if (_size-origen>uint32(moviment))
 			return origen + moviment;
 		else
-			return (uint32)moviment - (m_totalCasselles - origen);
+			return (uint32)moviment - (_size - origen);
 		}
 }
 

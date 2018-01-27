@@ -11,7 +11,7 @@
 
 #include <iomanip>
 #include "BioIncludes.h"
-#include "Topologia.h"
+#include "Topology.hxx"
 #include "RandomStream.hxx"
 #include "Color.h"
 

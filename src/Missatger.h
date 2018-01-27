@@ -10,7 +10,7 @@
 #include "Outputer.h"
 
 
-class CMissatger  
+class CMissatger
 {
 // Construccio
 public:
