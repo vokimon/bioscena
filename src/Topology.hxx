@@ -101,7 +101,7 @@ N cells so that they are ramdomly interconected.
 	public:
 		/// Supervised class test.
 		/// @see TopologyTest for automated ones.
-		static void ProvaClasse();
+		static void ClassTest();
 	};
 }
 
