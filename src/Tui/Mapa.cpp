@@ -40,7 +40,7 @@ CMapa::~CMapa()
 // Redefinibles
 //////////////////////////////////////////////////////////////////////
 
-void CMapa::visualitza(CMissatger & msg)
+void CMapa::visualitza(std::ostream & msg)
 {
 	if (!m_biosistema) return;
 	if (!m_biosistema->biotop()) return;
@@ -115,7 +115,7 @@ void CMapa::visualitza(CMissatger & msg)
 		}
 		cellaIniciLinia+=m_ampladaZona;
 	}		
-	msg << blanc.fosc();
+	msg << blanc.fosc() << std::flush;
 }
 
 //////////////////////////////////////////////////////////////////////

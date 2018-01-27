@@ -81,7 +81,7 @@ public:
 	virtual ~CGrafic();
 // Operacions
 public:
-	virtual void visualitza(CMissatger & msg)=0;
+	virtual void visualitza(std::ostream & msg)=0;
 	virtual void tamany(uint32 posX, uint32 posY, uint32 amplada, uint32 altura);
 // Implementacio
 protected:
@@ -107,7 +107,7 @@ public:
 	virtual ~CMarc();
 // Operacions
 public:
-	virtual void visualitza(CMissatger & msg)=0;
+	virtual void visualitza(std::ostream & msg)=0;
 	virtual void tamany(uint32 posX, uint32 posY, uint32 ample, uint32 altura);
 // Implementacio
 protected:
@@ -128,7 +128,7 @@ public:
 	virtual ~CComparativaOrganismes();
 // Operacions
 public:
-	virtual void visualitza(CMissatger & msg);
+	virtual void visualitza(std::ostream & msg);
 	void inici(uint32 org);
 	void comunitat(CComunitat * comunitat);
 	CComunitat * comunitat(void);
@@ -152,7 +152,7 @@ public:
 	virtual ~CComparativaTaxons();
 // Operacions
 public:
-	virtual void visualitza(CMissatger & msg);
+	virtual void visualitza(std::ostream & msg);
 	void inici(uint32 tax);
 	void taxonomista(CTaxonomista * comunitat);
 	CTaxonomista * taxonomista(void);
@@ -176,7 +176,7 @@ public:
 	virtual ~CGraficaEvolutiva();
 // Operacions
 public:
-	virtual void visualitza(CMissatger & msg);
+	virtual void visualitza(std::ostream & msg);
 	void biosistema(CBiosistema * biosistema);
 	CBiosistema * biosistema(void);
 // Implementacio
@@ -202,7 +202,7 @@ public:
 	CBiosistema * biosistema(void);
 	void primeraPosicio(uint32 pos);
 	uint32 primeraPosicio();
-	virtual void visualitza(CMissatger & msg);
+	virtual void visualitza(std::ostream & msg);
 	void scrollUp(uint32 steps);
 	void scrollDown(uint32 steps);
 	void scrollLeft(uint32 steps);

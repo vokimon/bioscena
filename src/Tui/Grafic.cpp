@@ -109,7 +109,7 @@ void CComparativaOrganismes::afegeixDomini(CDominiGraficaComparativa<CInfoOrgani
 	m_dominis.push_back(domini);
 }
 
-void CComparativaOrganismes::visualitza(CMissatger & msg)
+void CComparativaOrganismes::visualitza(std::ostream & msg)
 {
 	using AnsiCodes::gotoxy;
 	using AnsiCodes::clrlin;
@@ -247,7 +247,7 @@ void CComparativaTaxons::afegeixDomini(CDominiGraficaComparativa<CInfoTaxo> & do
 	m_dominis.push_back(domini);
 }
 
-void CComparativaTaxons::visualitza(CMissatger & msg)
+void CComparativaTaxons::visualitza(std::ostream & msg)
 {
 	using AnsiCodes::gotoxy;
 	using AnsiCodes::clrlin;
@@ -377,7 +377,7 @@ CBiosistema * CGraficaEvolutiva::biosistema(void)
 	return m_biosistema;
 }
 
-void CGraficaEvolutiva::visualitza(CMissatger & msg)
+void CGraficaEvolutiva::visualitza(std::ostream & msg)
 {
 /*	static CDominiGrafica domini (true);
 

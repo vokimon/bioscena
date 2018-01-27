@@ -37,8 +37,40 @@
 #include "Configuracio.h"
 #include "Grafic.h"
 #include "TopologiaToroidal.h"
+#include <sys/ioctl.h>
 
 using namespace AnsiCodes;
+
+class TerminalController {
+private:
+	uint32 _w;
+	uint32 _h;
+
+	void takeFromTerminal()
+	{
+		struct winsize size;
+		ioctl(0, TIOCGWINSZ, &size);
+		_w = size.ws_col;
+		_h = size.ws_row;
+	}
+
+public:
+	TerminalController()
+	: _w(80)
+	, _h(25)
+	{
+		takeFromTerminal();
+	}
+	uint32 height() const
+	{
+		return _h;
+	}
+	uint32 width() const
+	{
+		return _w;
+	}
+
+};
 
 static void importaOrganisme(CBiosistema & biosistema)
 {
@@ -209,6 +241,7 @@ inline static uint32 agafaTotalTaxo (CInfoTaxo & info) {
 
 void CBiosistema::ProvaClasse()
 {
+	TerminalController terminal;
 //	out << clrscr;
 	out << blanc.brillant() << "Provant Biosistema" << blanc.fosc() << endl;
 
@@ -266,65 +299,44 @@ void CBiosistema::ProvaClasse()
 	bool redisplayWanted=false;
 	bool congelat=false;
 	uint32 id=0;
-	out << endl << "Biosistema carregat. Prem return per continuar..." << endl;
+	std::cout << endl << "Biosistema carregat. Prem return per continuar..." << endl;
 	cin.get();
+
+	uint32 width = terminal.width();
+	uint32 height = terminal.height();
 
 	while (true) {
 		// Actualitzem el mode de visualitzacio
 		if (modeCanviat) {
-			out << clrscr;
+			std::cout << clrscr;
 			switch (mode) {
 			case Mapa:
 			default:
-				mapa1.tamany(1,2,80,45); 
+				mapa1.tamany(1,2,width,45); 
 				break;
 			case MapaOrganismes:
-				mapa1.tamany(1,2,40,40);
-				grafO[0].tamany(41,1,40,8);
-				grafO[0].inici(0);
-				grafO[1].tamany(41,11,40,8);
-				grafO[1].inici(40);
-				grafO[2].tamany(41,21,40,8);
-				grafO[2].inici(80);
-				grafO[3].tamany(41,31,40,8);
-				grafO[3].inici(120);
-				grafO[4].tamany(41,41,40,8);
-				grafO[4].inici(160);
+				mapa1.tamany(1,2,width-42,40);
+				for (uint32 i=0; i<5; i++) {
+					grafO[i].tamany(width-40,1+i*10,40,8);
+					grafO[i].inici(i*40);
+				}
 			case MapaTaxons:
-				mapa1.tamany(1,2,40,40);
-				grafT[0].tamany(41,1,40,8);
-				grafT[0].inici(0);
-				grafT[1].tamany(41,11,40,8);
-				grafT[1].inici(40);
-				grafT[2].tamany(41,21,40,8);
-				grafT[2].inici(80);
-				grafT[3].tamany(41,31,40,8);
-				grafT[3].inici(120);
-				grafT[4].tamany(41,41,40,8);
-				grafT[4].inici(160);
+				mapa1.tamany(1,2,width-42,40);
+				for (uint32 i=0; i<5; i++) {
+					grafT[i].tamany(width-40,1+i*10,40,8);
+					grafT[i].inici(i*40);
+				}
 				break;
 			case Organismes:
-				grafO[0].tamany(1,2,80,8);
-				grafO[0].inici(0);
-				grafO[1].tamany(1,12,80,8);
-				grafO[1].inici(80);
-				grafO[2].tamany(1,22,80,8);
-				grafO[2].inici(160);
-				grafO[3].tamany(1,32,80,8);
-				grafO[3].inici(240);
-				grafO[4].tamany(1,42,80,7);
-				grafO[4].inici(320);
+				for (uint32 i=0; i<4; i++) {
+					grafO[i].tamany(1,2+i*10,width,8);
+					grafO[i].inici(i*width);
+				}
 			case Taxons:
-				grafT[0].tamany(1,2,80,8);
-				grafT[0].inici(0);
-				grafT[1].tamany(1,12,80,8);
-				grafT[1].inici(80);
-				grafT[2].tamany(1,22,80,8);
-				grafT[2].inici(160);
-				grafT[3].tamany(1,32,80,8);
-				grafT[3].inici(240);
-				grafT[4].tamany(1,42,80,7);
-				grafT[4].inici(320);
+				for (uint32 i=0; i<4; i++) {
+					grafT[i].tamany(1,2+i*10,width,8);
+					grafT[i].inici(i*width);
+				}
 			}
 			modeCanviat=false;
 			redisplayWanted=true;
@@ -343,38 +355,38 @@ void CBiosistema::ProvaClasse()
 		if (redisplayWanted) {
 			redisplayWanted=false;
 			if (mode==Mapa||mode==MapaOrganismes||mode==MapaTaxons)
-				mapa1.visualitza(out);
+				mapa1.visualitza(std::cout);
 			if (mode==MapaOrganismes||mode==Organismes) {
-				grafO[0].visualitza(out);
-				grafO[1].visualitza(out);
-				grafO[2].visualitza(out);
-				grafO[3].visualitza(out);
-				grafO[4].visualitza(out);
+				grafO[0].visualitza(std::cout);
+				grafO[1].visualitza(std::cout);
+				grafO[2].visualitza(std::cout);
+				grafO[3].visualitza(std::cout);
+				grafO[4].visualitza(std::cout);
 			}
 			if (mode==MapaTaxons||mode==Taxons) {
-				grafT[0].visualitza(out);
-				grafT[1].visualitza(out);
-				grafT[2].visualitza(out);
-				grafT[3].visualitza(out);
-				grafT[4].visualitza(out);
+				grafT[0].visualitza(std::cout);
+				grafT[1].visualitza(std::cout);
+				grafT[2].visualitza(std::cout);
+				grafT[3].visualitza(std::cout);
+				grafT[4].visualitza(std::cout);
 			}
 			uint32 pos = mapa1.primeraPosicio();
-			out << setfill('0');
+			std::cout << setfill('0');
 			if (mode==MapaOrganismes||mode==MapaTaxons) {
-				out << gotoxy(1,42) 
+				std::cout << gotoxy(1,42) 
 					<< "Coords: " << setw(3) << pos%Config.get("Biotop/CasellesAmplitud") 
 					<< '@' << setw(3) << pos/Config.get("Biotop/CasellesAmplitud") 
 					;
 				}
 			else {
-				out << gotoxy(42,1) 
+				std::cout << gotoxy(42,1) 
 					<< "Coords: " << setw(3) << pos%Config.get("Biotop/CasellesAmplitud") 
 					<< '@' << setw(3) << pos/Config.get("Biotop/CasellesAmplitud") 
 					;
 				}
-			out << gotoxy(1, 1) << "Poblacio: " << setw(6) << biosistema.comunitat()->tamany();
-			out << gotoxy(26,1) << "Temps: " << setw(8) << biosistema.m_temps;
-			out << setfill(' ') << endl;
+			std::cout << gotoxy(1, 1) << "Poblacio: " << setw(6) << biosistema.comunitat()->tamany();
+			std::cout << gotoxy(26,1) << "Temps: " << setw(8) << biosistema.m_temps;
+			std::cout << setfill(' ') << endl;
 		}
 		char filename[300];
 		// Obtenim l'entrada del teclat
@@ -449,20 +461,20 @@ void CBiosistema::ProvaClasse()
 						cin.clear();
 						break;
 					}
-					out << clrscr << endl;
+					std::cout << clrscr << endl;
 					biosistema.deleteAgents();
 					biosistema.agents(CAgent::ParsejaArxiu(filename, biosistema, error));
 					// TODO: Recarregar configuracio 
-					out << "Prem una tecla" << endl;
+					std::cout << "Prem una tecla" << endl;
 					cin.get();
 					modeCanviat = true;
 					break;
 				case 'r': 
-					out << clrscr << endl;
+					std::cout << clrscr << endl;
 					biosistema.deleteAgents();
 					biosistema.agents(CAgent::ParsejaArxiu("Agents.ini", biosistema, error));
 					// TODO: Recarregar configuracio 
-					out << "Prem una tecla" << endl;
+					std::cout << "Prem una tecla" << endl;
 					cin.get();
 					modeCanviat = true;
 					break;
@@ -504,7 +516,7 @@ void CBiosistema::ProvaClasse()
 				case '\n': sortir=true;
 					break;
 				}
-				// out << gotoxy(20,48) << "Tecla: " << '\'' << (a?a:'#') << '\''<< endl;
+				// std::cout << gotoxy(20,48) << "Tecla: " << '\'' << (a?a:'#') << '\''<< endl;
 			}
 		}
 		if (helpWanted) {
@@ -515,7 +527,7 @@ void CBiosistema::ProvaClasse()
 		}
 		if (editWanted) {
 			editWanted=false;
-			cout << clrscr << endl;
+			out << clrscr << endl;
 			if (biosistema.comunitat()->esValid(id)) {
 				COrganisme * org = (*biosistema.comunitat())[id].cos();
 				uint32 pos = (*biosistema.comunitat())[id].posicio();
@@ -526,7 +538,7 @@ void CBiosistema::ProvaClasse()
 					<< endl;
 				org->dump(out);
 			}
-			else cout << "L'organisme ha mort o mai ha existit" << endl;
+			else out << "L'organisme ha mort o mai ha existit" << endl;
 			cin.get();
 			modeCanviat = true;
 		}
