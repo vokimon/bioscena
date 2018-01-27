@@ -30,7 +30,7 @@ template <> void CBiotop<CSubstrat>::ProvaClasse(void)
 			out << setw(1) << CColor(s.numeroMollecules()) << (s.ocupant()?'.':char('A'+s.ocupant()));
 		}
 		out << dec << endl;
-		t_displacement direccio;
+		Displacement direccio;
 		rnd >> direccio;
 		for (i=6;i--;) cuc[i+1]=cuc[i];
 		cuc[0]=topologia.displace(cuc[0],direccio);

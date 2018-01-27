@@ -35,7 +35,7 @@ bool Topology::isValidPosition(Position pos) const
 	return (pos<_size)&&(pos>=0);
 }
 
-Topology::Position Topology::displace (Position origin, t_displacement movimentRelatiu) const
+Topology::Position Topology::displace (Position origin, Displacement movimentRelatiu) const
 // Retorna la posicio resultant de fer el displacement des de l'origin
 {
 	// TODO: Per defecte aillades o indeterministic?
@@ -50,23 +50,23 @@ Topology::Position Topology::displaceRandomly (Position origin, uint32 radi) con
 	return origin;
 }
 
-Topology::t_displacement Topology::opositeDisplacement (t_displacement desp) const
+Topology::Displacement Topology::opositeDisplacement (Displacement desp) const
 // Retorna un displacement invers al displacement
 {
 	// TODO: Per defecte aillades o indeterministic?
-	t_displacement inverse_displacement;
+	Displacement inverse_displacement;
 	rnd >> inverse_displacement;
 	return inverse_displacement;
 }
 
-Topology::t_displacement Topology::nilDisplacement () const
+Topology::Displacement Topology::nilDisplacement () const
 // Retorna un displacement que aplicat a una posicio, retorna la posicio
 {
 	// TODO: Per defecte aillades o indeterministic?
 	return 0;
 }
 
-bool Topology::pathTowards (Position posOrigen, Position posDesti, t_displacement & desp) const
+bool Topology::pathTowards (Position posOrigen, Position posDesti, Displacement & desp) const
 // Retorna cert si es posible unir-les amb un sol displacement, a desp hi es
 // el displacement per unir-les o apropar-les
 {
@@ -107,7 +107,7 @@ void Topology::ProvaClasse(void) {
 			out << setw(1) << CColor(celles[i]) << "#";
 		out << dec << endl;
 		CRandomStream rnd;
-		t_displacement direccio;
+		Displacement direccio;
 		rnd>>direccio;
 		for (i=6;i--;) cuc[i+1]=cuc[i];
 		cuc[0]=topologia.displace(cuc[0],direccio);

@@ -33,7 +33,7 @@ class Torus : public Topology
 public:
 	typedef Topology inherited;
 	typedef inherited::Position Position;
-	typedef inherited::t_displacement t_displacement;
+	typedef inherited::Displacement Displacement;
 	/** 
 	 * The building block for a displacement vectors.
 	 * Note that oposed directions are complementaries 
@@ -61,11 +61,11 @@ public:
 	uint32 width() const {return m_xMax;}
 // Redefinibles
 public: 
-	inline Position displace (Position origen, t_displacement movimentRelatiu) const override;
-	inline bool pathTowards (Position posOrigen, Position posDesti, t_displacement & desp) const override;
+	inline Position displace (Position origen, Displacement movimentRelatiu) const override;
+	inline bool pathTowards (Position posOrigen, Position posDesti, Displacement & desp) const override;
 	inline Position displaceRandomly (Position posOrigen, uint32 radi) const override;
-	inline t_displacement opositeDisplacement(t_displacement desp) const override;
-	inline t_displacement nilDisplacement() const override;
+	inline Displacement opositeDisplacement(Displacement desp) const override;
+	inline Displacement nilDisplacement() const override;
 // Atributs
 protected:
 	uint32 m_xMax;
@@ -80,7 +80,7 @@ public:
 // Redefinibles
 //////////////////////////////////////////////////////////////////////
 
-Torus::Position Torus::displace(Position origen, t_displacement movimentRelatiu) const
+Torus::Position Torus::displace(Position origen, Displacement movimentRelatiu) const
 {
 	// Descomentar la seguent linia perque el 4art bit del nibble
 	// indiqui la seva inibicio i no la seva activacio 
@@ -108,7 +108,7 @@ Torus::Position Torus::displace(Position origen, t_displacement movimentRelatiu)
 		}
 }
 
-bool Torus::pathTowards (Position posOrigen, Position posDesti, t_displacement & displacement) const
+bool Torus::pathTowards (Position posOrigen, Position posDesti, Displacement & displacement) const
 {
 	uint32 x1 = posOrigen % m_xMax;
 	uint32 y1 = posOrigen / m_xMax;
@@ -193,11 +193,11 @@ Torus::Position Torus::displaceRandomly (Position posOrigen, uint32 radi) const
 	return posDesti;
 }
 
-Torus::t_displacement Torus::opositeDisplacement(t_displacement desp) const {
+Torus::Displacement Torus::opositeDisplacement(Displacement desp) const {
 	return desp ^ 0x77777777;
 }
 
-Torus::t_displacement Torus::nilDisplacement() const {
+Torus::Displacement Torus::nilDisplacement() const {
 	return 0;
 }
 

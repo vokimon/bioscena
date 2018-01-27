@@ -55,7 +55,7 @@ namespace Bioscena {
 		/// @param origin The origin of a movement
 		/// @param relativeMovement A displacement
 		/// @return The displaced position
-		virtual Position displace(Position origin, t_displacement relativeMovement) const
+		virtual Position displace(Position origin, Displacement relativeMovement) const
 			{return m_topology->displace(origin, relativeMovement);}
 		
 		/// Calculates a randomly displaced position from an origin.
@@ -74,18 +74,18 @@ namespace Bioscena {
 		/// @param posDesti The goal for the movement
 		/// @param desp A reference to the variable where to put the calculated displacement
 		/// @returns True if the given displacement is enough to reach the goal.
-		virtual bool pathTowards(Position posOrigen, Position posDesti, t_displacement & desp) const
+		virtual bool pathTowards(Position posOrigen, Position posDesti, Displacement & desp) const
 			{return m_topology->pathTowards(posOrigen, posDesti, desp);}
 		
 		/// Calculates the oposite/mirrored displacement.
 		/// @param desp A displacement to be mirror
 		/// @returns The mirrored displacement
-		virtual t_displacement opositeDisplacement(t_displacement desp) const
+		virtual Displacement opositeDisplacement(Displacement desp) const
 			{return m_topology->opositeDisplacement(desp);}
 		
 		/// Returns a displacement value that applied to one position it gives the same position.
 		/// @returns A null displacement
-		virtual t_displacement nilDisplacement() const
+		virtual Displacement nilDisplacement() const
 			{return m_topology->nilDisplacement();}
 		
 		/// Returns the number of displacements to reach one position from another.

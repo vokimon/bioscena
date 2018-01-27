@@ -32,7 +32,7 @@ public:
 	typedef CAgent inherited;
 	typedef Bioscena::Topology t_biotop;
 	typedef t_biotop::Position Position;
-	typedef t_biotop::t_displacement t_direccio;
+	typedef t_biotop::Displacement t_direccio;
 // Construccio/Destruccio
 public:
 	CPosicionador(t_biotop& biotop);
@@ -64,7 +64,7 @@ public:
 	typedef CAgent inherited;
 	typedef Bioscena::Topology t_biotop;
 	typedef t_biotop::Position Position;
-	typedef t_biotop::t_displacement t_direccio;
+	typedef t_biotop::Displacement t_direccio;
 // Construccio/Destruccio
 public:
 	CDireccionador(t_biotop& biotop);

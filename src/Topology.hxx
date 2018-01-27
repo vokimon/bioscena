@@ -35,7 +35,6 @@ N cells so that they are ramdomly interconected.
 		typedef uint32 Position;
 		/// The type for topologic displacements
 		typedef uint32 Displacement;
-		typedef Displacement t_displacement;
 	// Atributs
 	protected:
 		uint32 _size;

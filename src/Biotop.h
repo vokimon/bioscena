@@ -26,7 +26,7 @@ class CBiotop: public Topology
 public:
 	typedef Topology inherited;
 	typedef inherited::Position Position;
-	typedef inherited::t_displacement t_displacement;
+	typedef inherited::Displacement Displacement;
 	typedef Cella t_cella;
 // Atributs
 protected:
@@ -61,7 +61,7 @@ public:
 		}			
 		return str;
 	}
-	virtual Position displace(Position origen, t_displacement relativeMovement) const override
+	virtual Position displace(Position origen, Displacement relativeMovement) const override
 	// Retorna la posicio resultant de fer el displacement des de l'origen
 	{
 		return m_topologia->displace(origen, relativeMovement);
@@ -76,7 +76,7 @@ public:
 	{
 		return m_topologia->isValidPosition(cassella);
 	}
-	bool pathTowards (Position posOrigen, Position posDesti, t_displacement & desp) const override
+	bool pathTowards (Position posOrigen, Position posDesti, Displacement & desp) const override
 	// Retorna cert si es posible unir-les amb un sol displacement, a desp hi es
 	// el displacement per unir-les o apropar-les
 	{
