@@ -47,7 +47,7 @@ namespace Bioscena
 #define KKEP_BREAKPOINT {_asm {int 3}}
 
 // GNU GCC
-#elif defined (__GNUC__) && defined  (__i386__)
+#elif defined (__GNUC__) && (defined  (__i386__) || defined(__amd64__))
 #define KKEP_BREAKPOINT {__asm__ (" int $3 "); }
 
 #elif defined (__GNUC__) && defined  (__powerpc__)
@@ -116,7 +116,7 @@ namespace Bioscena
 * in whatever mode you use them.
 * 
 * @param expression The expression that must be true.
-* @param message A message that describes the unexpected 
+* @param description A message that describes the unexpected 
 * runtime error to the programmer.
 */
 /** 
@@ -218,7 +218,7 @@ public:
 /**
 * The type of the asserts handlers.
 * @param message A char pointer containing a description of the assertion
-* @param fileName A char pointer containing the source file where the assertion is placed
+* @param filename A char pointer containing the source file where the assertion is placed
 * @param lineNumber The line of the source file where the assertion is placed
 */
 typedef void (*AssertFailedHandlerType) (const char* message, const char* filename, int lineNumber);
@@ -228,10 +228,10 @@ typedef void (*AssertFailedHandlerType) (const char* message, const char* filena
 * <pre>
 * void MyHandler (const char* message, const char* filename, int lineNumber);
 * </pre>
-* @param The new handler
+* @param handler The new handler
 * @return The old handler, for restoring purposes.
 */
-AssertFailedHandlerType SetAssertFailedHandler(AssertFailedHandlerType);
+AssertFailedHandlerType SetAssertFailedHandler(AssertFailedHandlerType handler);
 
 /**
 * (Don't use directly, use the KKEP_ASSERT macro instead) Execute the assert failed handler.
@@ -241,7 +241,7 @@ void ExecuteAssertFailedHandler(const char* message, const char* filename, int l
 /**
 * The type of the warning handlers.
 * @param message A char pointer containing a description of the warning
-* @param fileName A char pointer containing the source file where the warning is placed
+* @param filename A char pointer containing the source file where the warning is placed
 * @param lineNumber The line of the source file where the warning is placed
 */
 typedef void (*WarningHandlerType) (const char* message, const char* filename, int lineNumber);
@@ -251,10 +251,10 @@ typedef void (*WarningHandlerType) (const char* message, const char* filename, i
 * <pre>
 * void MyHandler (const char* message, const char* filename, int lineNumber);
 * </pre>
-* @param The new handler
+* @param handler The new handler
 * @return The old handler, for restoring purposes.
 */
-WarningHandlerType SetWarningHandler(WarningHandlerType);
+WarningHandlerType SetWarningHandler(WarningHandlerType handler);
 
 /**
 * (Don't use directly, use the KKEP_WARNING macro instead) Execute the assert failed handler.
