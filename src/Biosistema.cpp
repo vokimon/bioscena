@@ -357,10 +357,17 @@ void CBiosistema::canviaOrganismeActiu()
 	// Repoblacio
 	if (m_comunitat->tamany()<Config.get("Comunitat/TamanyRegeneracio")) {
 		logAccio << magenta.brillant() << "Biosistema: " << blanc.fosc() << "Detectats pocs individuus" << endl;
-		while (!organismeExpontani()||!m_comunitat->tamany());
+		for (uint32 i=300; --i; ) {
+			bool wasAdded = organismeExpontani();
+			if (not wasAdded) continue;
+			if (not m_comunitat->tamany()) continue;
+			break;
+		}
+		logAccio << magenta.brillant() << "Biosistema: " << blanc.fosc() << "Repoblat" << endl;
 	}
-	else if (m_probabilitatGeneracioExpontanea.esDona())
+	else if (m_probabilitatGeneracioExpontanea.chance())
 		organismeExpontani();
+	
 	m_idOrganismeActiu = m_comunitat->organismeAleatori();
 	m_infoOrganismeActiu = &((*m_comunitat)[m_idOrganismeActiu]);
 	m_organismeActiu = m_infoOrganismeActiu->cos();
@@ -372,8 +379,15 @@ void CBiosistema::canviaOrganismeActiu()
 bool CBiosistema::organismeExpontani()
 {
 	// Escollim una posicio aleatoria, si esta lliure continuem
-	uint32 pos = m_biotop->posicioAleatoria();
-	if ((*m_biotop)[pos].esOcupat()) return false;
+	uint32 pos = m_biotop->randomPosition();
+	if ((*m_biotop)[pos].esOcupat()) {
+		/*
+		error << "Deixant un organisme en una posicio ocupada " << pos 
+			<< " hi ha " << m_comunitat->tamany()
+			<< " de " << m_biotop->size() << "."  << std::endl;
+		*/
+		return false;
+	}
 	// Creem un taxo per l'ancestre
 	uint32 taxo = m_taxonomista ? m_taxonomista->nouTaxoIndependent(): ~uint32(0);
 	// 
