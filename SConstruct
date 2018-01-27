@@ -7,13 +7,13 @@ def ScanSources(pattern) :
 
 allSources = ScanSources("*.cxx") + ScanSources("*/*.cxx") + ScanSources("*/*.cpp") + ScanSources("*.cpp") + ScanSources("*.c")
 tests = ScanSources("*/*.test.cxx") + ScanSources("*.test.cxx")
-
 mainFiles = ["MainBio1.cpp", "RegressionTest.cxx"]
+commonSources = [s for s in allSources if s not in tests and s not in mainFiles ]
 
-print allSources
+print commonSources
 
-sources = [ s for s in allSources if s not in tests and s not in mainFiles] + ["MainBio1.cpp"]
-testSources = [ s for s in allSources if s not in mainFiles] + ["RegressionTest.cxx"]
+sources = commonSources + ["MainBio1.cpp"]
+testSources = commonSources + tests + ["RegressionTest.cxx"]
 includePath = [ dir.strip()[4:] or '.' for dir in os.popen('find src -type d | grep -v CVS') ] 
 
 Export('sources', 'testSources', 'includePath')
