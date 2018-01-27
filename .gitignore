@@ -1,3 +1,19 @@
+# Non commiteable outputs
+bioscena
+bioscenatests
+bioscenatests.passed
+
+# Scons
+options.cache
+.sconsign.dblite
+*.pyc
+build
+reference/html
+reference/doxygenlog.txt
+
+# vim
+*.sw?
+
 # Compiled Object files
 *.slo
 *.lo
