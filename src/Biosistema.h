@@ -10,7 +10,7 @@
 #include "Substrat.h"
 #include "Agent.h"
 #include "Comunitat.h"
-#include "Probabilitat.h"
+#include "Probability.hxx"
 #include "Taxonomista.h"
 
 /*
@@ -32,7 +32,7 @@ class CBiosistema
 {
 // Tipus propis
 public:
-	typedef CBiotop<CSubstrat> t_biotop;
+	typedef Bioscena::CBiotop<CSubstrat> t_biotop;
 	typedef CSubstrat t_substrat;
 	typedef CComunitat t_comunitat;
 	typedef CAgent t_agent;
@@ -47,7 +47,7 @@ protected:
 
 	uint32 m_maxInstruccionsUtils;
 	uint32 m_maxInstruccions;
-	CProbabilitat m_probabilitatGeneracioExpontanea;
+	Bioscena::Probability m_probabilitatGeneracioExpontanea;
 	t_accioOrganisme * m_opcodes;
 	uint32 m_bitsCodiOperacio;
 	uint32 m_nCodisOperacio;

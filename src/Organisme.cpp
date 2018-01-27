@@ -22,7 +22,7 @@
 #include "Compatibilitat.h"
 #include "Missatger.h"
 #include "Color.h"
-#include "RandomStream.h"
+#include "RandomStream.hxx"
 #include "Configuracio.h"
 
 static CMissatger tracaOrganisme ("Organisme");

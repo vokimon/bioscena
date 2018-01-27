@@ -7,7 +7,7 @@
 #include "AppInfo.h"
 #include "Compatibilitat.h"
 #include "Missatger.h"
-#include "RandomStream.h"
+#include "RandomStream.hxx"
 #include "Color.h"
 #include "Configuracio.h"
 

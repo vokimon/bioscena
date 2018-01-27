@@ -12,7 +12,7 @@
 
 #include <algorithm>
 #include "MutacioGenica.h"
-#include "RandomStream.h"
+#include "RandomStream.hxx"
 #include "Color.h"
 
 using namespace AnsiCodes;

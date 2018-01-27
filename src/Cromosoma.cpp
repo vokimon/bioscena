@@ -25,7 +25,7 @@
 #include <iomanip>
 #include <algorithm>
 #include "Cromosoma.h"
-#include "RandomStream.h"
+#include "RandomStream.hxx"
 #include "Color.h"
 
 using namespace AnsiCodes;

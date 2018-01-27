@@ -12,7 +12,7 @@
 #include <iomanip>
 #include "turbioconio.h" 
 #include "ControlAleatori.h"
-#include "RandomStream.h"
+#include "RandomStream.hxx"
 #include "Configuracio.h"
 #include "Color.h"
 

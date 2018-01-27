@@ -22,7 +22,7 @@ CPosicionador::CPosicionador(t_biotop& biotop)
 {
 	m_tipus+="/Posicionador";
 	// Aixi ens asegurem de que la posicio inicial sigui valida
-	m_pos=biotop.posicioAleatoria(); 
+	m_pos=biotop.randomPosition(); 
 }
 
 CDireccionador::CDireccionador(t_biotop& biotop)
@@ -83,7 +83,7 @@ bool CDireccionador::configura(string parametre, istream & valor, t_diccionariAg
 
 void CPosicionador::pos(t_position nova) 
 {
-	if (m_biotop.esPosicioValida(nova))
+	if (m_biotop.isValidPosition(nova))
 		m_pos=nova;
 	else {
 		warning << "Posicionador '" << nom() << "' fixat a la posicio " << nova << ", invalida pel biotop" << endl;

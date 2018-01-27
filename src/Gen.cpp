@@ -18,7 +18,7 @@
 #include <iomanip>
 #include "Gen.h"
 #include "Color.h"
-#include "RandomStream.h" // Nomes per proves
+#include "RandomStream.hxx" // Nomes per proves
 #include "Configuracio.h"
 #include "Compatibilitat.h"
 

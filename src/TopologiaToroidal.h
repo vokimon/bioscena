@@ -7,7 +7,7 @@
 
 #include "BioIncludes.h"
 #include "Topologia.h"
-#include "RandomStream.h"
+#include "RandomStream.hxx"
 #include "Missatger.h"
 
 namespace Bioscena {
@@ -61,11 +61,11 @@ public:
 	uint32 width() const {return m_xMax;}
 // Redefinibles
 public: 
-	virtual inline t_position displace (t_position origen, t_displacement movimentRelatiu) const;
-	virtual inline bool unio (t_position posOrigen, t_position posDesti, t_displacement & desp) const;
-	virtual inline t_position displaceRandomly (t_position posOrigen, uint32 radi) const;
-	virtual inline t_displacement invers(t_displacement desp) const;
-	virtual inline t_displacement nilDisplacement() const;
+	inline t_position displace (t_position origen, t_displacement movimentRelatiu) const override;
+	inline bool pathTowards (t_position posOrigen, t_position posDesti, t_displacement & desp) const override;
+	inline t_position displaceRandomly (t_position posOrigen, uint32 radi) const override;
+	inline t_displacement opositeDisplacement(t_displacement desp) const override;
+	inline t_displacement nilDisplacement() const override;
 // Atributs
 protected:
 	uint32 m_xMax;
@@ -108,7 +108,7 @@ Torus::t_position Torus::displace(t_position origen, t_displacement movimentRela
 		}
 }
 
-bool Torus::unio (t_position posOrigen, t_position posDesti, t_displacement & displacement) const
+bool Torus::pathTowards (t_position posOrigen, t_position posDesti, t_displacement & displacement) const
 {
 	uint32 x1 = posOrigen % m_xMax;
 	uint32 y1 = posOrigen / m_xMax;
@@ -193,7 +193,7 @@ Torus::t_position Torus::displaceRandomly (t_position posOrigen, uint32 radi) co
 	return posDesti;
 }
 
-Torus::t_displacement Torus::invers(t_displacement desp) const {
+Torus::t_displacement Torus::opositeDisplacement(t_displacement desp) const {
 	return desp ^ 0x77777777;
 }
 

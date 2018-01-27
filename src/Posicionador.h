@@ -17,9 +17,9 @@
 #define __KKEP_POSICIONADOR_H_INCLUDED
 
 #include "Agent.h"
-#include "Topologia.h"
+#include "Topology.hxx"
 #include "Substrat.h"
-#include "RandomStream.h"
+#include "RandomStream.hxx"
 
 //////////////////////////////////////////////////////////////////////
 // CPosicionador: Controla una posicio (per defecte fixa)

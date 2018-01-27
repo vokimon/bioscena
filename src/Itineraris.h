@@ -12,7 +12,7 @@
 #define __KKEP_ITINERARIS_H_INCLUDED
 
 #include "Posicionador.h"
-#include "RandomStream.h"
+#include "RandomStream.hxx"
 
 //////////////////////////////////////////////////////////////////////
 // CItinerari: Varia la posicio respecte la posició anterior, segons 

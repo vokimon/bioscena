@@ -171,7 +171,7 @@ list<CAgent*> CPosicionadorZonal::dependencies() {
 
 void CPosicionadorAleatori::operator() (void) 
 {
-	m_pos=m_biotop.posicioAleatoria();
+	m_pos=m_biotop.randomPosition();
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -314,7 +314,7 @@ void CItinerari::ProvaClasse()
 	for (int i=50; i--;)
 	{
 		uint32 direccioCerca;
-		bool alcancat = biotop.unio(posicio->pos(),posicioRef->pos(),direccioCerca);
+		bool alcancat = biotop.pathTowards(posicio->pos(),posicioRef->pos(),direccioCerca);
 		direccio->dir(direccioCerca&0xFFFF0000L);
 		agents();
 //		if (!(i%5)) {

@@ -22,7 +22,7 @@ const CColor negre(0), vermell(1), verd(2), groc(3),
 	blau(4), magenta(5), cyan(6), blanc(7);
 
 namespace AnsiCodes {
-	// Si el buffer a on els ostrstreams fan el format no el proveim
+	// Si el buffer a on els ostringstream fan el format no el proveim
 	// nosaltres, en cridar al 'str' congelem el buffer dinamic intern
 	// i el destructor no l'allibera creant lagunes de memoria
 	static char myBuffer[160];

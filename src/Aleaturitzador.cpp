@@ -32,7 +32,7 @@ void CAleaturitzador::operator()(void)
 {
 	m_accionat=false;
 	// Nomes si es dona la probabilitat i existeix l'accio, l'executem
-	if (m_probabilitat.esDona()) 
+	if (m_probabilitat.chance()) 
 	{
 		CMultiAgent::operator()();
 		m_accionat=true;
@@ -45,21 +45,21 @@ void CAleaturitzador::dump(CMissatger & msg)
 {
 	CMultiAgent::dump(msg);
 	msg << "- Probabilitat " 
-		<< m_probabilitat.encerts() << " "
-		<< m_probabilitat.mostra() << endl;
+		<< m_probabilitat.success() << " "
+		<< m_probabilitat.sampleSize() << endl;
 	if (m_reAccio) msg << "- ReAccio " << m_reAccio->nom() << endl; 
 }
 
 bool CAleaturitzador::configura(string parametre, istream & valor, t_diccionariAgents & diccionari, CMissatger & errors)
 {
 	if (parametre=="Probabilitat") {
-		uint32 mostra, encerts;
-		if (!(valor>>encerts))
+		uint32 sampleSize, success;
+		if (!(valor>>success))
 			errors << "Format invalid per la probabilitat de '" << nom() << "'" << endl;
-		else if (!(valor>>mostra))
+		else if (!(valor>>sampleSize))
 			errors << "Falta la quantitat de mostra per a la probabilitat de '" << nom() << "'" << endl;
 		else 
-			probabilitat(mostra, encerts);
+			probabilitat(sampleSize, success);
 		return true; // Parametre interceptat
 	}
 	if (parametre=="ReAccio") {
@@ -91,9 +91,9 @@ list<CAgent*> CAleaturitzador::subordinats() {
 // Operacions
 //////////////////////////////////////////////////////////////////////
 // TODO: Change the order of the parameters to match the CProbabilitat criteria
-void CAleaturitzador::probabilitat(uint32 mostra, uint32 encerts)
+void CAleaturitzador::probabilitat(uint32 sampleSize, uint32 success)
 {
-	m_probabilitat.fixa(encerts,mostra);
+	m_probabilitat.set(success,sampleSize);
 }
 
 void CAleaturitzador::reAccio(t_accio * a)

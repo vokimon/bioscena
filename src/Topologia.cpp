@@ -4,7 +4,7 @@
 
 #include <iomanip>
 #include "Topologia.h"
-#include "RandomStream.h"
+#include "RandomStream.hxx"
 
 using namespace Bioscena;
 
@@ -76,8 +76,8 @@ bool Topology::pathTowards (t_position posOrigen, t_position posDesti, t_displac
 
 Topology::t_position Topology::randomPosition() const
 {
-	CRandomStream rnd;
-	return rnd.get(0,m_totalCasselles-1);
+	t_position pos = rnd.get(0,m_totalCasselles-1);
+	return pos;
 }
 
 uint32 Topology::distance(t_position posOrigen, t_position posDesti) const

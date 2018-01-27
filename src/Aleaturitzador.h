@@ -15,8 +15,8 @@
 #if !defined(__KKEP_ALEATURITZADOR_H_INCLUDED)
 #define __KKEP_ALEATURITZADOR_H_INCLUDED
 
-#include "RandomStream.h"
-#include "Probabilitat.h"
+#include "RandomStream.hxx"
+#include "Probability.hxx"
 #include "MultiAgent.h"
 
 class CAleaturitzador : public CMultiAgent
@@ -45,7 +45,7 @@ protected:
 // Atributs
 public:
 	bool m_accionat;
-	CProbabilitat m_probabilitat;
+	Bioscena::Probability m_probabilitat;
 protected:
 	// No fixat al protocol, son aqui per debug
 	t_accio * m_reAccio;

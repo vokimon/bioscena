@@ -23,7 +23,7 @@ template <> void CBiotop<CSubstrat>::ProvaClasse(void)
 	while (cuc[0]!=8) {
 		for (i=7;i--;) biotop[cuc[i]].ocupa(escala[6-i]);
 		biotop[cuc[6]].desocupa();
-		biotop[biotop.posicioAleatoria()].deposita(nut++);
+		biotop[biotop.randomPosition()].deposita(nut++);
 		out << gotoxy(1,1) << hex;
 		for (i=0; i<topologia.tamany(); i++) {
 			CSubstrat &s = biotop[i];
@@ -34,7 +34,7 @@ template <> void CBiotop<CSubstrat>::ProvaClasse(void)
 		rnd >> direccio;
 		for (i=6;i--;) cuc[i+1]=cuc[i];
 		cuc[0]=topologia.displace(cuc[0],direccio);
-		if (cuc[0]==cuc[6]) cuc[0]=topologia.posicioAleatoria();
+		if (cuc[0]==cuc[6]) cuc[0]=topologia.randomPosition();
 		out << blanc.fosc() << "Celles" << setfill(' ');
 		for (i=7;i--;) out << setw(5) << cuc[i] << " - ";
 		out<<setw(0)<<endl;
@@ -47,7 +47,7 @@ template <> void CBiotop<CSubstrat>::ProvaClasse(void)
 	biotop2.load(ifile);
 	ifile.close();
 	out << gotoxy(1,10) << hex;
-	for (i=0; i<topologia.tamany(); i++) {
+	for (i=0; i<topologia.size(); i++) {
 		CSubstrat &s = biotop2[i];
 		out << setw(1) << CColor(s.numeroMollecules()) << (s.ocupant()?'.':char('A'+s.ocupant()));
 	}

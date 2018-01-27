@@ -15,7 +15,7 @@
 
 #include <algorithm>
 #include "MutacioCariotip.h"
-#include "RandomStream.h"
+#include "RandomStream.hxx"
 #include "Color.h"
 #include "Configuracio.h"
 

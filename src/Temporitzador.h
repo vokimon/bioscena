@@ -16,7 +16,7 @@
 #define __KKEP_TEMPORITZADOR_H_INCLUDED
 
 #include "MultiAgent.h"
-#include "RandomStream.h"
+#include "RandomStream.hxx"
 
 class CTemporitzador : public CMultiAgent
 {

@@ -12,8 +12,10 @@
 #include <iomanip>
 #include "BioIncludes.h"
 #include "Topologia.h"
-#include "RandomStream.h"
+#include "RandomStream.hxx"
 #include "Color.h"
+
+using AnsiCodes::gotoxy;
 
 namespace Bioscena {
 
@@ -52,50 +54,50 @@ public:
 	{
 		uint32 i, nPosicions;
 		str.read((char*)&nPosicions,sizeof(uint32));
-		if (nPosicions != m_topologia->tamany())
+		if (nPosicions != m_topologia->size())
 			error << "El nombre de posicions no coincideix amb el tamany de la topologia" << endl;
 		for (i=0; i<nPosicions; i++) {
 			m_casselles[i].load(str);
 		}			
 		return str;
 	}
-	virtual t_position displace (t_position origen, t_displacement movimentRelatiu)
+	virtual t_position displace(t_position origen, t_displacement relativeMovement) const override
 	// Retorna la posicio resultant de fer el displacement des de l'origen
 	{
-		return m_topologia->displace(origen, movimentRelatiu);
+		return m_topologia->displace(origen, relativeMovement);
 	}
-	virtual t_position displaceRandomly (t_position origen, uint32 radi)
+	virtual t_position displaceRandomly (t_position origen, uint32 radi) const override
 	// Retorna la posicio resultant de tants displacements aleatoris des de l'origen com indiqui el radi
 	{
 		return m_topologia->displaceRandomly(origen, radi);
 	}
-	virtual bool esPosicioValida(t_position cassella) 
+	virtual bool isValidPosition(t_position cassella) const override
 	// Indica si la posicio es valida
 	{
-		return m_topologia->esPosicioValida(cassella);
+		return m_topologia->isValidPosition(cassella);
 	}
-	virtual bool unio (t_position posOrigen, t_position posDesti, t_displacement & desp)
+	bool pathTowards (t_position posOrigen, t_position posDesti, t_displacement & desp) const override
 	// Retorna cert si es posible unir-les amb un sol displacement, a desp hi es
 	// el displacement per unir-les o apropar-les
 	{
-		return m_topologia->unio(posOrigen, posDesti, desp);
+		return m_topologia->pathTowards(posOrigen, posDesti, desp);
 	}
-	virtual t_position posicioAleatoria() 
+	t_position randomPosition() const override
 	// Retorna una posicio aleatoria
 	{
-		return m_topologia->posicioAleatoria();
+		return m_topologia->randomPosition();
 	}
-	virtual uint32 tamany() 
+	virtual uint32 size() const override
 	// Retorna el nombre de casselles de la topologia
 	{
-		return m_topologia->tamany();
+		return m_topologia->size();
 	}
 // Operacions
 public:
 	Topology * topologia() const {return m_topologia;}
 	t_cella &operator [] (t_position index) 
 	{
-		if ((index>=tamany())||(index<0)) {
+		if ((index>=size())||(index<0)) {
 			error << "Accedint a una cella de la Topologia no existent" << endl;
 			cin.get();
 		}
@@ -103,7 +105,7 @@ public:
 	}
 // Implementacio
 protected:
-	void reservaCasselles(uint32 tamany);
+	void reservaCasselles(uint32 size);
 // Proves
 public:
 	virtual void debugPresenta(CMissatger & stream) {
@@ -127,7 +129,7 @@ template<class Cella> CBiotop<Cella>::CBiotop(Topology * topologia)
 	m_nPosicions=0;
 	m_topologia=topologia;
 	
-	reservaCasselles(m_topologia->tamany());
+	reservaCasselles(m_topologia->size());
 }
 template<class Cella> CBiotop<Cella>::~CBiotop()
 {
@@ -139,16 +141,16 @@ template<class Cella> CBiotop<Cella>::~CBiotop()
 // Implementacio
 //////////////////////////////////////////////////////////////////////
 
-template<class Cella> void CBiotop<Cella>::reservaCasselles(uint32 tamany) {
+template<class Cella> void CBiotop<Cella>::reservaCasselles(uint32 size) {
 	if (m_casselles) {
 //		warning << "Tornant a definir les celles de la topologia." <<endl;
 		delete[] m_casselles;
 		}
-	if (!tamany) {
+	if (!size) {
 		error << "Creant un biotop sense casselles." <<endl;
 		cin.get();
 		}
-	m_casselles = new t_cella [m_nPosicions=tamany];
+	m_casselles = new t_cella [m_nPosicions=size];
 	if (!m_casselles) {
 		m_nPosicions = 0;
 		error << "No hi ha suficient memoria per les celles de la topologia." << endl;

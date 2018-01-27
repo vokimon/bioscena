@@ -17,7 +17,7 @@
 #include "Cariotip.h"
 #include "Configuracio.h"
 #include "Color.h"
-#include "Probabilitat.h"
+#include "Probability.hxx"
 #include "MutacioCariotip.h"
 #include "MutacioCromosomica.h"
 #include "MutacioGenica.h"
@@ -304,7 +304,7 @@ void CCariotip::ProvaClasse(void)
 
 bool CCariotip::muta(CMutacioCariotip * mutacio)
 {
-	if (!CProbabilitat::EsDona(Config.get("Organisme/ProbabilitatMutacio/Encerts"),Config.get("Organisme/ProbabilitatMutacio/Mostra")))
+	if (!Bioscena::Probability::Chance(Config.get("Organisme/ProbabilitatMutacio/Encerts"),Config.get("Organisme/ProbabilitatMutacio/Mostra")))
 		return false;	
 	if (mutacio) return mutacio->muta(*this);
 

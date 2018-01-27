@@ -54,18 +54,18 @@ void Bioscena::Torus::ProvaClasse(void) {
 	uint32 i;
 	int escala[]={7,6,4,4,12,14,15,9};
 	Torus topo(25,21);
-	uint32 * celles = new uint32[topo.tamany()];
+	uint32 * celles = new uint32[topo.size()];
 	uint32 cuc[7]={130,130,130,130,130,130,130};
-	for (i=topo.tamany();i--;) celles[i]=3;
+	for (i=topo.size();i--;) celles[i]=3;
 	while (cuc[0]!=8) {
 		for (i=7;i--;) celles[cuc[i]]=escala[6-i];
 		celles[cuc[6]]=0;
-		celles[topo.posicioAleatoria()]=4;
+		celles[topo.randomPosition()]=4;
 //		topo.debugPresenta(out);
 		out << gotoxy(1,2);
 		uint32 nCella=0;
 		for (uint32 j=0;j<topo.height();j++) {
-			for (uint32 i=0;i<topo.widht();i++)
+			for (uint32 i=0;i<topo.width();i++)
 				out << CColor(celles[nCella++]) << "#";
 			out << endl;
 			}
@@ -75,7 +75,7 @@ void Bioscena::Torus::ProvaClasse(void) {
 		rnd>>direccio;
 		for (i=6;i--;) cuc[i+1]=cuc[i];
 		cuc[0]=topo.displace(cuc[0],direccio);
-		if (cuc[0]==cuc[6]) cuc[0]=topo.posicioAleatoria();
+		if (cuc[0]==cuc[6]) cuc[0]=topo.randomPosition();
 		out<<"Celles"<<setw(5)<<setfill(' ');
 		for (i=7;i--;) out << cuc[i] << " - ";
 		out<<setw(0)<<endl;

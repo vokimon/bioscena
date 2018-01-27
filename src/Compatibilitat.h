@@ -18,7 +18,7 @@
 //#include <time.h>
 //#include <stdlib.h>
 #include <fstream>
-#include "RandomStream.h"
+#include "RandomStream.hxx"
 
 typedef uint32 t_clau;
 

@@ -12,7 +12,7 @@
 //#include <functional>
 #include "Comunitat.h"
 #include "Configuracio.h"
-#include "RandomStream.h"
+#include "RandomStream.hxx"
 #include "Color.h"
 //#include "Grafic.h"
 
