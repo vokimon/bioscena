@@ -55,14 +55,15 @@ uint32 CRandomStream::get(uint32 limitInferior, uint32 limitSuperior)
 	KKEP_ASSERT(limitInferior <= limitSuperior, 
 		"Interval creuat per a un numero aleatori.");
 	uint32 diferencia=limitSuperior-limitInferior+1;
-	uint32 mascara=0xFFFFFFFF;
-	while (~mascara<diferencia) mascara<<=1;
+	uint32 mascara=0x1;
+	while (mascara<diferencia) { mascara<<=1; mascara++; }
 	// La mascara ens permet reduir l'interval total del random
 	// mantenint la distribucio plana. Per acabar d'ajustar-ho
 	// al que volem destriem les que no ens agraden.
-	uint32 escollit;
-	do escollit=get(); while ((escollit&~mascara)>=diferencia);
-	return limitInferior + (escollit&~mascara);
+	while (true) {
+		uint32 escollit = get() & mascara;
+		if (escollit<diferencia) return limitInferior + escollit;
+	}
 }
 
 extern CRandomStream rnd;
