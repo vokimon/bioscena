@@ -314,7 +314,7 @@ void CItinerari::ProvaClasse()
 	for (int i=50; i--;)
 	{
 		uint32 direccioCerca;
-		bool alcancat = biotop.pathTowards(posicio->pos(),posicioRef->pos(),direccioCerca);
+		bool alcancat = biotop.wayTo(posicio->pos(),posicioRef->pos(),direccioCerca);
 		direccio->dir(direccioCerca&0xFFFF0000L);
 		agents();
 //		if (!(i%5)) {

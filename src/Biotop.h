@@ -76,11 +76,11 @@ public:
 	{
 		return m_topologia->isValidPosition(cassella);
 	}
-	bool pathTowards (Position posOrigen, Position posDesti, Displacement & desp) const override
+	bool wayTo (Position posOrigen, Position posDesti, Displacement & desp) const override
 	// Retorna cert si es posible unir-les amb un sol displacement, a desp hi es
 	// el displacement per unir-les o apropar-les
 	{
-		return m_topologia->pathTowards(posOrigen, posDesti, desp);
+		return m_topologia->wayTo(posOrigen, posDesti, desp);
 	}
 	Position randomPosition() const override
 	// Retorna una posicio aleatoria

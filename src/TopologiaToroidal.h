@@ -62,7 +62,7 @@ public:
 // Redefinibles
 public: 
 	inline Position displace (Position origen, Displacement movimentRelatiu) const override;
-	inline bool pathTowards (Position posOrigen, Position posDesti, Displacement & desp) const override;
+	inline bool wayTo (Position posOrigen, Position posDesti, Displacement & desp) const override;
 	inline Position displaceRandomly (Position posOrigen, uint32 radi) const override;
 	inline Displacement opositeDisplacement(Displacement desp) const override;
 	inline Displacement nilDisplacement() const override;
@@ -108,7 +108,7 @@ Torus::Position Torus::displace(Position origen, Displacement movimentRelatiu) c
 		}
 }
 
-bool Torus::pathTowards (Position posOrigen, Position posDesti, Displacement & displacement) const
+bool Torus::wayTo (Position posOrigen, Position posDesti, Displacement & displacement) const
 {
 	uint32 x1 = posOrigen % m_xMax;
 	uint32 y1 = posOrigen / m_xMax;

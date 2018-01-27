@@ -66,9 +66,7 @@ Topology::Displacement Topology::nilDisplacement () const
 	return 0;
 }
 
-bool Topology::pathTowards (Position posOrigen, Position posDesti, Displacement & desp) const
-// Retorna cert si es posible unir-les amb un sol displacement, a desp hi es
-// el displacement per unir-les o apropar-les
+bool Topology::wayTo (Position posOrigen, Position posDesti, Displacement & desp) const
 {
 	rnd >> desp;
 	return false;
@@ -92,7 +90,7 @@ uint32 Topology::distance(Position posOrigen, Position posDesti) const
 using namespace AnsiCodes;
 
 void Topology::ProvaClasse(void) {
-	// TODO: Proves Topologia::pathTowards
+	// TODO: Proves Topologia::wayTo
 	uint32 i;
 	int escala[]={0,6,3,4,12,14,15,7};
 	Topology topologia(400);

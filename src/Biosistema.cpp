@@ -807,7 +807,7 @@ bool CBiosistema::organismeSensorQuimic(uint32 parametres)
 		uint32 posDesti = m_biotop->displace (posBase, radi);
 		if ((*m_biotop)[posDesti].rastreja(destiTipus, clauElement, tolerancia)) {
 			// TODO: Aixo retorna true si hi arribes nomes amb el displace. Ho fem servir?
-			m_biotop->pathTowards(posOrigen,posDesti,destiDireccio);
+			m_biotop->wayTo(posOrigen,posDesti,destiDireccio);
 			logAccio << m_infoOrganismeActiu->descripcio() << "SentoQ " << hex << nibble(4,parametres) << "=" << setw(8) << destiDireccio << " " << nibble(5,parametres) << "=" << setw(8) << destiTipus << " " << clauElement << "(" << ~tolerancia << ") a " << nibble(0,parametres) << ":" << setw(8) << direccio << dec << endl;
 			return true;
 		}
@@ -837,7 +837,7 @@ bool CBiosistema::organismeSensorPresencia(uint32 parametres)
 			uint32 ocupant=(*m_biotop)[posDesti].ocupant();
 			if (sonCompatibles((*(*m_comunitat)[ocupant].cos())[registre],clauElement,tolerancia)) {
 				// TODO: Aixo retorna true si hi arribes nomes amb el displace. Ho fem servir?
-				m_biotop->pathTowards(posOrigen,posDesti,destiDireccio);
+				m_biotop->wayTo(posOrigen,posDesti,destiDireccio);
 				logAccio << m_infoOrganismeActiu->descripcio() << "SentoP " << hex << nibble(4,parametres) << "=" << setw(8) << destiDireccio << " " << nibble(5,parametres) << "=" << setw(8) << destiTipus << " dir(" << nibble(0,parametres) << ") tq " << nibble(7,parametres) << "==R" << nibble(2,parametres) << "(R" << nibble(3,parametres) << ")" << dec << endl; 
 				return true;
 			}
