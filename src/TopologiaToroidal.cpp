@@ -11,7 +11,7 @@ using namespace AnsiCodes;
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-Torus::Torus(uint32 xMax=5, uint32 yMax=5)
+Bioscena::Torus::Torus(uint32 xMax=5, uint32 yMax=5)
 	// Precondicions:
 	//   nD<xMax<0x1FFFFFFF on nD es el nombre maxim de displacements basics a un displacement complert
 	//   2<yMax<(0xFFFFFFFF>>digitsSignificatius(xMax))
@@ -48,7 +48,7 @@ void debugPresenta(CMissatger & stream) {
 }
 */
 
-void Torus::ProvaClasse(void) {
+void Bioscena::Torus::ProvaClasse(void) {
 	// TODO: Proves TopologiaToroidal::unio
 	// TODO: Prova maximitzant els limits calculats als 'Pre' del constructor
 	uint32 i;

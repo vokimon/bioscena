@@ -30,7 +30,7 @@ namespace Bioscena {
 * N cells so that they are ramdomly interconected.
 * @see Torus A reference implementation for a concrete Topology
 */
-	class Topology  
+	class Topology
 	{
 	// Tipus propis
 	public:

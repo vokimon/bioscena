@@ -20,6 +20,7 @@
 #include "MultiAgent.h"
 #include "Color.h"
 #include "Organisme.h"
+#include "Substrat.h"
 
 using namespace AnsiCodes;
 
@@ -107,8 +108,8 @@ void CNutridor::ProvaClasse()
 	out << clrscr;
 	out << blanc.brillant() << "Provant Agent Nutridor" << endl;
 	
-	Torus topo(70,22);
-	CBiotop<CSubstrat> biotop(&topo);
+	Bioscena::Torus topo(70,22);
+	t_biotop biotop(&topo);
 
 	CMultiAgent agents;
 
@@ -157,8 +158,8 @@ void CDesnutridor::ProvaClasse()
 	out << clrscr;
 	out << blanc.brillant() << "Provant Agent Desnutridor" << endl;
 
-	Torus topo(70,22);
-	CBiotop<CSubstrat> biotop(&topo);
+	Bioscena::Torus topo(70,22);
+	Bioscena::CBiotop<CSubstrat> biotop(&topo);
 
 	CMultiAgent agents;
 

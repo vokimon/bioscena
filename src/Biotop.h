@@ -17,8 +17,8 @@
 
 namespace Bioscena {
 
-template<class Cella> 
-class CBiotop: public Topology  
+template<class Cella>
+class CBiotop: public Topology
 {
 // Tipus propis
 public:

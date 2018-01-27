@@ -114,8 +114,8 @@ void CMultiAgent::ProvaClasse()
 {
 	out << clrscr;
 	out << blanc.brillant() << "Provant MultiAgent" << blanc.fosc() << endl;
-	Torus topo(40,20);//(70,24);
-	CBiotop<CSubstrat> biotop(&topo);
+	Bioscena::Torus topo(40,20);//(70,24);
+	Bioscena::CBiotop<CSubstrat> biotop(&topo);
 
 	CMultiAgent agents;
 

@@ -216,7 +216,7 @@ private:
 // Atributs
 private:
 	CBiosistema * m_biosistema;
-	CBiotop<CSubstrat> * m_biotop;
+	Bioscena::CBiotop<CSubstrat> * m_biotop;
 	uint32 m_primeraPosicio;
 	uint32 m_ampladaZona;
 	uint32 m_alturaZona;

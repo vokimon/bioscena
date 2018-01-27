@@ -16,7 +16,7 @@ class CNutridor : public CActuador
 public:
 	typedef CActuador inherited;
 	typedef CActuador super; // equivalent a l'anterior
-	typedef CBiotop<CSubstrat> t_biotop;
+	typedef Bioscena::CBiotop<CSubstrat> t_biotop;
 // Construccio/Destruccio
 public:
 	CNutridor(t_biotop & biotop);

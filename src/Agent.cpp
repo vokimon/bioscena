@@ -280,8 +280,8 @@ void CAgent::ProvaClasse()
 	out << clrscr;
 	out << blanc.brillant() << "Provant Agent Parsing" << blanc.fosc() << endl;
 	CBiosistema biosistema;
-	Topology * topo = new Torus(70,21);
-	biosistema.biotop(new CBiotop<CBiosistema::t_substrat>(topo));
+	Bioscena::Topology * topo = new Bioscena::Torus(70,21);
+	biosistema.biotop(new Bioscena::CBiotop<CBiosistema::t_substrat>(topo));
 	CAgent * agentArrel = ParsejaArxiu("AgentsLog.txt", biosistema, error);
 	biosistema.comunitat(new CComunitat);
 //	biosistema.taxonomista(new CTaxonomista);
