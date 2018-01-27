@@ -3,7 +3,7 @@
 //////////////////////////////////////////////////////////////////////
 
 #include <iomanip>
-#include "TopologiaToroidal.h"
+#include "Toroid.hxx"
 #include "Color.h"
 using namespace AnsiCodes;
 

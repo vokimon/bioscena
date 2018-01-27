@@ -36,7 +36,7 @@
 #include "Biosistema.h"
 #include "Configuracio.h"
 #include "Grafic.h"
-#include "TopologiaToroidal.h"
+#include "Toroid.hxx"
 #include <sys/ioctl.h>
 
 using namespace AnsiCodes;

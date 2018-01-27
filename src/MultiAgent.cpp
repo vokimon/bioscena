@@ -6,7 +6,7 @@
 #include <algorithm>
 #include "MultiAgent.h"
 #include "Missatger.h"
-#include "TopologiaToroidal.h"
+#include "Toroid.hxx"
 #include "Biotop.h"
 #include "Substrat.h"
 #include "Itineraris.h"

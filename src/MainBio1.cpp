@@ -11,7 +11,7 @@
 #include "Color.h"
 #include "Configuracio.h"
 
-#include "TopologiaToroidal.h"
+#include "Toroid.hxx"
 #include "Substrat.h"
 
 #include "Agent.h"

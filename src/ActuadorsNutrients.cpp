@@ -14,7 +14,7 @@
 #include "Actuadors.h"
 #include "Itineraris.h"
 #include "Temporitzador.h"
-#include "TopologiaToroidal.h"
+#include "Toroid.hxx"
 #include "Iterador.h"
 #include "Biotop.h"
 #include "MultiAgent.h"

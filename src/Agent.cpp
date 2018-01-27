@@ -32,7 +32,7 @@
 #include "Aleaturitzador.h"
 #include "Iterador.h"
 #include "Color.h"
-#include "TopologiaToroidal.h"
+#include "Toroid.hxx"
 #include "Biosistema.h"
 
 using namespace AnsiCodes;

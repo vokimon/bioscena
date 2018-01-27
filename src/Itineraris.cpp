@@ -7,7 +7,7 @@
 #include "Aleaturitzador.h"
 #include "Temporitzador.h"
 #include "Iterador.h"
-#include "TopologiaToroidal.h"
+#include "Toroid.hxx"
 #include "Biotop.h"
 #include "Color.h"
 

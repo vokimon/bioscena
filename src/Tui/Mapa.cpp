@@ -14,7 +14,7 @@
 #include "Grafic.h"
 #include "Color.h"
 #include "Comunitat.h"
-#include "TopologiaToroidal.h"
+#include "Toroid.hxx"
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
