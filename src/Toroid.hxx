@@ -8,7 +8,6 @@
 #include "BioIncludes.h"
 #include "Topology.hxx"
 #include "RandomStream.hxx"
-#include "Missatger.h"
 
 namespace Bioscena {
 
@@ -58,15 +57,25 @@ class Toroid : public Topology
 // Tipus interns
 public:
 	typedef Topology inherited;
-	typedef inherited::Position Position;
-	typedef inherited::Displacement Displacement;
 	/** 
-	 * The building block for a displacement vectors.
-	 * Note that oposed directions are complementaries 
-	 * in order to speed up the oposite calculation.
+		The building block for a displacement vectors.
+		Note that oposed directions are complementaries
+		in order to speed up the oposite calculation.
+		Every fouth bit is a disabler of the nibble,
+		so nibles beyond 7 are NoDir.
 	 */
-	enum t_DireccionsBasiques 
+	enum Direction
 	{
+		N     = 0b0000, // 0
+		NE    = 0b0001, // 1
+		E     = 0b0011, // 3
+		SE    = 0b0010, // 2
+		S     = 0b0111, // 7
+		SW    = 0b0110, // 6
+		W     = 0b0100, // 4
+		NW    = 0b0101, // 5
+		NoDir = 0b1000,  // 8
+		// Deprecated ones
 		UP        = 0x00,
 		UP_RIGHT  = 0x01,
 		RIGHT     = 0x02,
@@ -81,15 +90,36 @@ public:
 	Toroid (uint32 XMax, uint32 YMax);
 // Operacions
 public: 
-	void height(uint32 rows) {m_yMax=rows;}
-	void width(uint32 cols) {m_xMax=cols;}
+	/// Number of rows of the topology
 	uint32 height() const {return m_yMax;}
+	/// Number of columns for the topology
 	uint32 width() const {return m_xMax;}
+	/// The row corresponding to the given position
+	uint32 row(Position pos) const {return pos / m_xMax;}
+	/// The column corresponding to the given position
+	uint32 col(Position pos) const {return pos % m_xMax;}
+	/// Translates row and column into position
+	Position posAt(uint32 row, uint32 col) const {return row*m_xMax+col;}
+	/// Contstructs a displacement given a sequence of cardinal directions
+	static Displacement displaceVector(
+			Direction d0=NoDir,
+			Direction d1=NoDir,
+			Direction d2=NoDir,
+			Direction d3=NoDir,
+			Direction d4=NoDir,
+			Direction d5=NoDir,
+			Direction d6=NoDir,
+			Direction d7=NoDir
+			)
+	{
+		return (d0 | d1<<4 | d2<<8 | d3<< 12 | d4<< 16 | d5<<20 | d6<<24 | d7<<28)&0xFFFFFFFF;
+	}
 // Redefinibles
 public: 
-	inline Position displace (Position origen, Displacement movimentRelatiu) const override;
-	inline bool wayTo (Position posOrigen, Position posDesti, Displacement & desp) const override;
-	inline Position displaceRandomly (Position posOrigen, uint32 radi) const override;
+	inline Position displace (Position origin, Displacement relativeMovement) const override;
+	inline bool wayTo (Position origin, Position destination, Displacement & desp) const override;
+
+	inline Position displaceRandomly (Position origin, uint32 radius) const override;
 	inline Displacement opositeDisplacement(Displacement desp) const override;
 	inline Displacement nilDisplacement() const override;
 // Atributs
@@ -106,40 +136,40 @@ public:
 // Redefinibles
 //////////////////////////////////////////////////////////////////////
 
-Toroid::Position Toroid::displace(Position origen, Displacement movimentRelatiu) const
+Toroid::Position Toroid::displace(Position origin, Displacement relativeMovement) const
 {
 	// Descomentar la seguent linia perque el 4art bit del nibble
 	// indiqui la seva inibicio i no la seva activacio 
-//	movimentRelatiu^=0x88888888;
+//	relativeMovement^=0x88888888;
 
 	// Les operacions estan fetes amb cura per que funcionin amb topologies
 	// amb un nombre elevat de posicions sense que es produeixi overflow. 
 	// Si no tenim aquest problema es podria optimitzar
 	int moviment=0;
-	for (; movimentRelatiu; movimentRelatiu>>=4)
-		if (movimentRelatiu&010) 
-			moviment += m_direccions [movimentRelatiu&0x0000007];
+	for (; relativeMovement; relativeMovement>>=4)
+		if (relativeMovement&010) 
+			moviment += m_direccions [relativeMovement&0x0000007];
 
 	if (moviment<0) {
-		if (origen < uint32(-moviment))
-			return (_size - uint32(-moviment)) + origen;
+		if (origin < uint32(-moviment))
+			return (_size - uint32(-moviment)) + origin;
 		else
-			return origen + moviment;
+			return origin + moviment;
 		}
 	else {
-		if (_size-origen>uint32(moviment))
-			return origen + moviment;
+		if (_size-origin>uint32(moviment))
+			return origin + moviment;
 		else
-			return (uint32)moviment - (_size - origen);
+			return (uint32)moviment - (_size - origin);
 		}
 }
 
-bool Toroid::wayTo (Position posOrigen, Position posDesti, Displacement & displacement) const
+bool Toroid::wayTo (Position origin, Position destination, Displacement & displacement) const
 {
-	uint32 x1 = posOrigen % m_xMax;
-	uint32 y1 = posOrigen / m_xMax;
-	uint32 x2 = posDesti % m_xMax;
-	uint32 y2 = posDesti / m_xMax;
+	uint32 x1 = origin % m_xMax;
+	uint32 y1 = origin / m_xMax;
+	uint32 x2 = destination % m_xMax;
+	uint32 y2 = destination / m_xMax;
 //	out << "Origen: " << x1 << "@" << y1 << " Desti: " << x2 << "@" << y2 << endl;
 	bool adalt, esquerra;
 	uint32 dx, dy;
@@ -204,27 +234,29 @@ bool Toroid::wayTo (Position posOrigen, Position posDesti, Displacement & displa
 	return !(dx || dy);
 }
 
-Toroid::Position Toroid::displaceRandomly (Position posOrigen, uint32 radi) const
+Toroid::Position Toroid::displaceRandomly (Position origin, uint32 radius) const
 {
-	// El radi esta expressat en displacements basics (4 bits) -> en un vector de 
+	// El radius esta expressat en displacements basics (4 bits) -> en un vector de 
 	// displacement (32 bits) hi han 8 de basics.
-	// pe. Si tenim radi=45 -> 5 vectors * 8 basics/vector + 5 basics
+	// pe. Si tenim radius=45 -> 5 vectors * 8 basics/vector + 5 basics
 	// Recorda que el bit de mes pes de cada basic es un 'enabled'.
 
 	// Primer calculem els basics que en sobren
-	uint32 posDesti = displace(posOrigen, (rnd.get()|0x88888888) & ~(0xFFFFFFFF>>((radi&7)<<2)));
+	uint32 destination = displace(origin, (rnd.get()|0x88888888) & ~(0xFFFFFFFF>>((radius&7)<<2)));
 	// Despres calculem vectors sencers amb 8 basics cadascun 
-	for (radi>>=3; radi--;)
-		posDesti = displace(posDesti,rnd.get()|0x88888888);
-	return posDesti;
+	for (radius>>=3; radius--;)
+		destination = displace(destination,rnd.get()|0x88888888);
+	return destination;
 }
 
-Toroid::Displacement Toroid::opositeDisplacement(Displacement desp) const {
-	return desp ^ 0x77777777;
+Toroid::Displacement Toroid::opositeDisplacement(Displacement desp) const
+{
+	return desp ^ 0x77777777u;
 }
 
-Toroid::Displacement Toroid::nilDisplacement() const {
-	return 0;
+Toroid::Displacement Toroid::nilDisplacement() const
+{
+	return 0x88888888u;
 }
 
 }
