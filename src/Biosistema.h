@@ -93,6 +93,9 @@ public:
 	void canviaOrganismeActiu();
 	bool introdueix(COrganisme * org, uint32 pos = ~uint32(0));
 	void activaLog(bool actiu);
+// Helpers
+private:
+	uint32 & fenotip(uint32 params, uint32 n);
 // Operacions (Instruccions)
 public:
 	bool organismeMitosi(uint32 parametres);

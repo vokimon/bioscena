@@ -442,11 +442,11 @@ bool CBiosistema::introdueix(COrganisme * org, uint32 pos /* =-1 */)
 bool CBiosistema::organismeMitosi(uint32 parametres)
 {
 	// Extreiem els parametres del codi d'operacio i el fenotip de l'organisme
-	uint32 desp        = (*m_organismeActiu)[nibble(0,parametres)];
-	uint32 elementBase = (*m_organismeActiu)[nibble(1,parametres)]&m_mascaraQuimica;
-	uint32 tolerancia  = (*m_organismeActiu)[nibble(2,parametres)]|~m_mascaraQuimica;
-	uint32 energia     = (*m_organismeActiu)[nibble(3,parametres)]&0x00ff;
-	uint32 nutrients   = (*m_organismeActiu)[nibble(4,parametres)]&0x00ff;
+	uint32 desp        = fenotip(parametres,0);
+	uint32 elementBase = fenotip(parametres,1)&m_mascaraQuimica;
+	uint32 tolerancia  = fenotip(parametres,2)|~m_mascaraQuimica;
+	uint32 energia     = fenotip(parametres,3)&0x00ff;
+	uint32 nutrients   = fenotip(parametres,4)&0x00ff;
 	uint32 regHeredat  = nibble(5,parametres);
 	// Precalculem tot el que utilitzem mutliples vegades
 	uint32 posOrigen = m_infoOrganismeActiu->posicio();
@@ -513,9 +513,9 @@ bool CBiosistema::organismeMitosi(uint32 parametres)
 bool CBiosistema::organismeAvanca(uint32 parametres)
 {
 	// Extreiem els parametres del codi d'operacio i el fenotip de l'organisme
-	uint32 desp =         (*m_organismeActiu)[nibble(0,parametres)];
-	uint32 energia =      (*m_organismeActiu)[nibble(1,parametres)];
-	uint32 clauMoviment = (*m_organismeActiu)[nibble(2,parametres)];
+	uint32 desp =         fenotip(parametres,0);
+	uint32 energia =      fenotip(parametres,1);
+	uint32 clauMoviment = fenotip(parametres,2);
 	// Precalculem tot el que utilitzem mutliples vegades
 	uint32 posOrigen = m_infoOrganismeActiu->posicio();
 	uint32 posDesti  = m_biotop->displace(posOrigen, desp);
@@ -544,10 +544,10 @@ bool CBiosistema::organismeAvanca(uint32 parametres)
 bool CBiosistema::organismeAtaca(uint32 parametres)
 {
 	// Extreiem els parametres del codi d'operacio i el fenotip de l'organisme
-	uint32 desp=       (*m_organismeActiu)[nibble(0,parametres)];
-	uint32 elementBase=(*m_organismeActiu)[nibble(1,parametres)]&m_mascaraQuimica;
-	uint32 tolerancia= (*m_organismeActiu)[nibble(2,parametres)]|~m_mascaraQuimica;
-	uint32 clauAtac=   (*m_organismeActiu)[nibble(3,parametres)];
+	uint32 desp=       fenotip(parametres,0);
+	uint32 elementBase=fenotip(parametres,1)&m_mascaraQuimica;
+	uint32 tolerancia= fenotip(parametres,2)|~m_mascaraQuimica;
+	uint32 clauAtac=   fenotip(parametres,3);
 	// Precalculem tot el que utilitzem mutliples vegades
 	uint32 posOrigen = m_infoOrganismeActiu->posicio();
 	uint32 posDesti = m_biotop->displace(posOrigen, desp);
@@ -584,9 +584,9 @@ bool CBiosistema::organismeAtaca(uint32 parametres)
 bool CBiosistema::organismeEngoleix(uint32 parametres)
 {
 	// Extreiem els parametres del codi d'operacio i el fenotip de l'organisme
-	uint32 desp=	   (*m_organismeActiu)[nibble(0,parametres)];
-	uint32 elementBase=(*m_organismeActiu)[nibble(1,parametres)]&m_mascaraQuimica;
-	uint32 tolerancia= (*m_organismeActiu)[nibble(2,parametres)]|~m_mascaraQuimica;
+	uint32 desp=	   fenotip(parametres,0);
+	uint32 elementBase=fenotip(parametres,1)&m_mascaraQuimica;
+	uint32 tolerancia= fenotip(parametres,2)|~m_mascaraQuimica;
 	// Precalculem tot el que utilitzem mutliples vegades
 	uint32 posOrigen = m_infoOrganismeActiu->posicio();
 	uint32 posDesti = m_biotop->displace(posOrigen, desp);
@@ -606,9 +606,9 @@ bool CBiosistema::organismeEngoleix(uint32 parametres)
 bool CBiosistema::organismeExcreta(uint32 parametres)
 {
 	// Extreiem els parametres del codi d'operacio i el fenotip de l'organisme
-	uint32 desp=	   (*m_organismeActiu)[nibble(0,parametres)];
-	uint32 elementBase=(*m_organismeActiu)[nibble(1,parametres)]&m_mascaraQuimica;
-	uint32 tolerancia= (*m_organismeActiu)[nibble(2,parametres)]|~m_mascaraQuimica;
+	uint32 desp=	   fenotip(parametres,0);
+	uint32 elementBase=fenotip(parametres,1)&m_mascaraQuimica;
+	uint32 tolerancia= fenotip(parametres,2)|~m_mascaraQuimica;
 	// Precalculem tot el que utilitzem mutliples vegades
 	uint32 posOrigen = m_infoOrganismeActiu->posicio();
 	uint32 posDesti = m_biotop->displace(posOrigen, desp);
@@ -629,11 +629,11 @@ bool CBiosistema::organismeAnabolitza(uint32 parametres)
 	// Realitza la reaccio A + B (+/-) energia -> C + D
 {
 	// Extreiem els parametres del codi d'operacio i el fenotip de l'organisme
-	uint32 patroA      = (*m_organismeActiu)[nibble(0,parametres)]&m_mascaraQuimica;
-	uint32 patroB      = (*m_organismeActiu)[nibble(1,parametres)]&m_mascaraQuimica;
-	uint32 toleranciaA = (*m_organismeActiu)[nibble(2,parametres)]|~m_mascaraQuimica;
-	uint32 toleranciaB = (*m_organismeActiu)[nibble(3,parametres)]|~m_mascaraQuimica;
-	uint32 &C          = (*m_organismeActiu)[nibble(4,parametres)];
+	uint32 patroA      = fenotip(parametres,0)&m_mascaraQuimica;
+	uint32 patroB      = fenotip(parametres,1)&m_mascaraQuimica;
+	uint32 toleranciaA = fenotip(parametres,2)|~m_mascaraQuimica;
+	uint32 toleranciaB = fenotip(parametres,3)|~m_mascaraQuimica;
+	uint32 &C          = fenotip(parametres,4);
 
 
 	uint32 A,B;
@@ -658,11 +658,11 @@ bool CBiosistema::organismeAnabolitza(uint32 parametres)
 bool CBiosistema::organismeCatabolitza(uint32 parametres)
 {
 	// Extreiem els parametres del codi d'operacio i el fenotip de l'organisme
-	uint32 patroA         = (*m_organismeActiu)[nibble(0,parametres)]&m_mascaraQuimica;
-	uint32 toleranciaA    = (*m_organismeActiu)[nibble(1,parametres)]|~m_mascaraQuimica;
-	uint32 clauCatabolica = (*m_organismeActiu)[nibble(2,parametres)]|~m_mascaraQuimica;
-	uint32 &B  = (*m_organismeActiu)[nibble(3,parametres)];
-	uint32 &C  = (*m_organismeActiu)[nibble(4,parametres)];
+	uint32 patroA         = fenotip(parametres,0)&m_mascaraQuimica;
+	uint32 toleranciaA    = fenotip(parametres,1)|~m_mascaraQuimica;
+	uint32 clauCatabolica = fenotip(parametres,2)|~m_mascaraQuimica;
+	uint32 &B  = fenotip(parametres,3);
+	uint32 &C  = fenotip(parametres,4);
 
 	logAccio << m_infoOrganismeActiu->descripcio() << "Catab  " << hex << nibble(3,parametres) << "," << nibble(4,parametres) << "=" << setw(8) << patroA << ">" << nibble(2,parametres) << ":" << clauCatabolica << dec << ": ";
 
@@ -685,86 +685,86 @@ bool CBiosistema::organismeCatabolitza(uint32 parametres)
 
 bool CBiosistema::organismeAnd(uint32 parametres)
 {
-	(*m_organismeActiu)[nibble(0,parametres)] =
-	(*m_organismeActiu)[nibble(1,parametres)] &
-	(*m_organismeActiu)[nibble(2,parametres)] ;
-	logAccio << m_infoOrganismeActiu->descripcio() << "And    " << hex << nibble(0,parametres) << "=" << setw(8) << (*m_organismeActiu)[nibble(0,parametres)] << " " << nibble(1,parametres) << "&" << nibble(2,parametres) << dec << endl;
+	fenotip(parametres,0) =
+	fenotip(parametres,1) &
+	fenotip(parametres,2) ;
+	logAccio << m_infoOrganismeActiu->descripcio() << "And    " << hex << nibble(0,parametres) << "=" << setw(8) << fenotip(parametres,0) << " " << nibble(1,parametres) << "&" << nibble(2,parametres) << dec << endl;
 	return true;
 }
 
 bool CBiosistema::organismeOr(uint32 parametres)
 {
-	(*m_organismeActiu)[nibble(0,parametres)] =
-	(*m_organismeActiu)[nibble(1,parametres)] |
-	(*m_organismeActiu)[nibble(2,parametres)] ;
-	logAccio << m_infoOrganismeActiu->descripcio() << "Or     " << hex << nibble(0,parametres) << "=" << setw(8) << (*m_organismeActiu)[nibble(0,parametres)] << " " << nibble(1,parametres) << "|" << nibble(2,parametres) << dec << endl;
+	fenotip(parametres,0) =
+	fenotip(parametres,1) |
+	fenotip(parametres,2) ;
+	logAccio << m_infoOrganismeActiu->descripcio() << "Or     " << hex << nibble(0,parametres) << "=" << setw(8) << fenotip(parametres,0) << " " << nibble(1,parametres) << "|" << nibble(2,parametres) << dec << endl;
 	return true;
 }
 
 bool CBiosistema::organismeXor(uint32 parametres)
 {
-	(*m_organismeActiu)[nibble(0,parametres)] =
-	(*m_organismeActiu)[nibble(1,parametres)] ^
-	(*m_organismeActiu)[nibble(2,parametres)] ;
-	logAccio << m_infoOrganismeActiu->descripcio() << "Xor    " << hex << nibble(0,parametres) << "=" << setw(8) << (*m_organismeActiu)[nibble(0,parametres)] << " " << nibble(1,parametres) << "^" << nibble(2,parametres) << dec << endl;
+	fenotip(parametres,0) =
+	fenotip(parametres,1) ^
+	fenotip(parametres,2) ;
+	logAccio << m_infoOrganismeActiu->descripcio() << "Xor    " << hex << nibble(0,parametres) << "=" << setw(8) << fenotip(parametres,0) << " " << nibble(1,parametres) << "^" << nibble(2,parametres) << dec << endl;
 	return true;
 }
 
 bool CBiosistema::organismeShiftRight(uint32 parametres)
 {
-	(*m_organismeActiu)[nibble(0,parametres)] =
-	(*m_organismeActiu)[nibble(1,parametres)] >>
+	fenotip(parametres,0) =
+	fenotip(parametres,1) >>
 	nibble(2,parametres);
-	logAccio << m_infoOrganismeActiu->descripcio() << "ShiftR " << hex << nibble(0,parametres) << "=" << setw(8) << (*m_organismeActiu)[nibble(0,parametres)] << " " << nibble(1,parametres) << ">>" << dec << setw(2) << nibble(2,parametres) << endl;
+	logAccio << m_infoOrganismeActiu->descripcio() << "ShiftR " << hex << nibble(0,parametres) << "=" << setw(8) << fenotip(parametres,0) << " " << nibble(1,parametres) << ">>" << dec << setw(2) << nibble(2,parametres) << endl;
 	return true;
 }
 
 bool CBiosistema::organismeShiftLeft(uint32 parametres)
 {
-	(*m_organismeActiu)[nibble(0,parametres)] =
-	(*m_organismeActiu)[nibble(1,parametres)] <<
+	fenotip(parametres,0) =
+	fenotip(parametres,1) <<
 	nibble(2,parametres);
-	logAccio << m_infoOrganismeActiu->descripcio() << "ShiftL " << hex << nibble(0,parametres) << "=" << setw(8) << (*m_organismeActiu)[nibble(0,parametres)] << " " << nibble(1,parametres) << "<<"<< dec << setw(2) << nibble(2,parametres) << endl; 
+	logAccio << m_infoOrganismeActiu->descripcio() << "ShiftL " << hex << nibble(0,parametres) << "=" << setw(8) << fenotip(parametres,0) << " " << nibble(1,parametres) << "<<"<< dec << setw(2) << nibble(2,parametres) << endl; 
 	return true;
 }
 
 bool CBiosistema::organismeNot(uint32 parametres)
 {
-	(*m_organismeActiu)[nibble(0,parametres)] =
-	~ (*m_organismeActiu)[nibble(1,parametres)] ;
-	logAccio << m_infoOrganismeActiu->descripcio() << "Negat  " << hex << nibble(0,parametres) << "=" << setw(8) << (*m_organismeActiu)[nibble(0,parametres)] << " ~" << nibble(1,parametres) << dec << endl;
+	fenotip(parametres,0) =
+	~ fenotip(parametres,1) ;
+	logAccio << m_infoOrganismeActiu->descripcio() << "Negat  " << hex << nibble(0,parametres) << "=" << setw(8) << fenotip(parametres,0) << " ~" << nibble(1,parametres) << dec << endl;
 	return true;
 }
 
 bool CBiosistema::organismeOposa(uint32 parametres)
 // Serveix per obtenir la direccio oposada
 {
-	(*m_organismeActiu)[nibble(0,parametres)] =
-	(*m_organismeActiu)[nibble(1,parametres)] ^ 0x77777777;
-	logAccio << m_infoOrganismeActiu->descripcio() << "Oposa  " << hex << nibble(0,parametres) << "=" << setw(8) << (*m_organismeActiu)[nibble(0,parametres)] << " " << nibble(1,parametres) << "^77777777" << dec << endl;
+	fenotip(parametres,0) =
+	fenotip(parametres,1) ^ 0x77777777;
+	logAccio << m_infoOrganismeActiu->descripcio() << "Oposa  " << hex << nibble(0,parametres) << "=" << setw(8) << fenotip(parametres,0) << " " << nibble(1,parametres) << "^77777777" << dec << endl;
 	return true;
 }
 
 bool CBiosistema::organismeRandom(uint32 parametres)
 {
-	(*m_organismeActiu)[nibble(0,parametres)] = rnd.get();
-	logAccio << m_infoOrganismeActiu->descripcio() << "Random " << hex << nibble(0,parametres) << "=" << setw(8) << (*m_organismeActiu)[nibble(0,parametres)] << dec << endl;
+	fenotip(parametres,0) = rnd.get();
+	logAccio << m_infoOrganismeActiu->descripcio() << "Random " << hex << nibble(0,parametres) << "=" << setw(8) << fenotip(parametres,0) << dec << endl;
 	return true;
 }
 
 bool CBiosistema::organismeCopia(uint32 parametres)
 {
-	(*m_organismeActiu)[nibble(0,parametres)] =
-	(*m_organismeActiu)[nibble(1,parametres)];
-	logAccio << m_infoOrganismeActiu->descripcio() << "Copy   " << hex << nibble(0,parametres) << "=" << setw(8) << (*m_organismeActiu)[nibble(0,parametres)] << " " << nibble(1,parametres) << dec << endl;
+	fenotip(parametres,0) =
+	fenotip(parametres,1);
+	logAccio << m_infoOrganismeActiu->descripcio() << "Copy   " << hex << nibble(0,parametres) << "=" << setw(8) << fenotip(parametres,0) << " " << nibble(1,parametres) << dec << endl;
 	return true;
 }
 
 bool CBiosistema::organismeCarrega(uint32 parametres)
 {
-	(*m_organismeActiu)[nibble(0,parametres)] =
+	fenotip(parametres,0) =
 	m_organismeActiu->seguentInstruccio();
-	logAccio << m_infoOrganismeActiu->descripcio() << "Load   " << hex << nibble(0,parametres) << "=" << setw(8) << (*m_organismeActiu)[nibble(0,parametres)] << dec << endl;
+	logAccio << m_infoOrganismeActiu->descripcio() << "Load   " << hex << nibble(0,parametres) << "=" << setw(8) << fenotip(parametres,0) << dec << endl;
 	return true;
 }
 
@@ -779,12 +779,12 @@ bool CBiosistema::organismeNoOperacio(uint32 parametres)
 bool CBiosistema::organismeSensorQuimic(uint32 parametres)
 {
 	// Extreiem els parametres del codi d'operacio i el fenotip de l'organisme
-	uint32 direccio        = (*m_organismeActiu)[nibble(0,parametres)];
-	uint32 radi            = (*m_organismeActiu)[nibble(1,parametres)]&31;
-	uint32 clauElement     = (*m_organismeActiu)[nibble(2,parametres)]&m_mascaraQuimica;
-	uint32 tolerancia      = (*m_organismeActiu)[nibble(3,parametres)]|~m_mascaraQuimica;
-	uint32 & destiDireccio = (*m_organismeActiu)[nibble(4,parametres)];
-	uint32 & destiTipus    = (*m_organismeActiu)[nibble(5,parametres)];
+	uint32 direccio        = fenotip(parametres,0);
+	uint32 radi            = fenotip(parametres,1)&31;
+	uint32 clauElement     = fenotip(parametres,2)&m_mascaraQuimica;
+	uint32 tolerancia      = fenotip(parametres,3)|~m_mascaraQuimica;
+	uint32 & destiDireccio = fenotip(parametres,4);
+	uint32 & destiTipus    = fenotip(parametres,5);
 	// Precalculem tot el que utilitzem mutliples vegades
 	uint32 posOrigen = m_infoOrganismeActiu->posicio();
 	uint32 posBase = m_biotop->displace(posOrigen, direccio);
@@ -835,14 +835,18 @@ bool CBiosistema::organismeSensorPresencia(uint32 parametres)
 	return true;
 }
 
+uint32 & CBiosistema::fenotip(uint32 params, uint32 n) {
+	return (*m_organismeActiu)[nibble(n,params)];
+}
+
 bool CBiosistema::organismeSensorIntern(uint32 parametres)
 {
 	// TODO: SensorIntern no esta implementada encara
 	// Extreiem els parametres del codi d'operacio i el fenotip de l'organisme
-	uint32 clauElement     = (*m_organismeActiu)[nibble(2,parametres)]&m_mascaraQuimica;
-	uint32 tolerancia      = (*m_organismeActiu)[nibble(3,parametres)]|~m_mascaraQuimica;
-	uint32 & destiEnergia  = (*m_organismeActiu)[nibble(4,parametres)];
-	uint32 & destiTipus    = (*m_organismeActiu)[nibble(5,parametres)];
+	uint32 clauElement     = fenotip(parametres,2)&m_mascaraQuimica;
+	uint32 tolerancia      = fenotip(parametres,3)|~m_mascaraQuimica;
+	uint32 & destiEnergia  = fenotip(parametres,4);
+	uint32 & destiTipus    = fenotip(parametres,5);
 
 	destiEnergia = m_organismeActiu->energia();
 
