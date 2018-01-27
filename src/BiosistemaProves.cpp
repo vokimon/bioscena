@@ -328,12 +328,12 @@ void CBiosistema::ProvaClasse()
 				}
 				break;
 			case Organismes:
-				for (uint32 i=0; i<4; i++) {
+				for (uint32 i=0; i<5; i++) {
 					grafO[i].tamany(1,2+i*10,width,8);
 					grafO[i].inici(i*width);
 				}
 			case Taxons:
-				for (uint32 i=0; i<4; i++) {
+				for (uint32 i=0; i<5; i++) {
 					grafT[i].tamany(1,2+i*10,width,8);
 					grafT[i].inici(i*width);
 				}
@@ -357,18 +357,14 @@ void CBiosistema::ProvaClasse()
 			if (mode==Mapa||mode==MapaOrganismes||mode==MapaTaxons)
 				mapa1.visualitza(std::cout);
 			if (mode==MapaOrganismes||mode==Organismes) {
-				grafO[0].visualitza(std::cout);
-				grafO[1].visualitza(std::cout);
-				grafO[2].visualitza(std::cout);
-				grafO[3].visualitza(std::cout);
-				grafO[4].visualitza(std::cout);
+				for (uint32 i=0; i<5; i++) {
+					grafO[i].visualitza(std::cout);
+				}
 			}
 			if (mode==MapaTaxons||mode==Taxons) {
-				grafT[0].visualitza(std::cout);
-				grafT[1].visualitza(std::cout);
-				grafT[2].visualitza(std::cout);
-				grafT[3].visualitza(std::cout);
-				grafT[4].visualitza(std::cout);
+				for (uint32 i=0; i<5; i++) {
+					grafT[i].visualitza(std::cout);
+				}
 			}
 			uint32 pos = mapa1.primeraPosicio();
 			std::cout << setfill('0');
