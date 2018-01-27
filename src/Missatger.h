@@ -5,7 +5,7 @@
 #if !defined(__KKEP_MISSATGER_H_INCLUDED)
 #define __KKEP_MISSATGER_H_INCLUDED
 
-#include <strstream>
+#include <sstream>
 #include <iostream>
 #include "Outputer.h"
 
@@ -42,7 +42,7 @@ public:
 // Atributs
 protected:
 	CBasicOutputer &m_out;
-	std::ostrstream m_stream;
+	std::ostringstream m_stream;
 	bool m_hiHaCapcelera; // A true si hem definit una capcelera
 	char m_capcelera[40]; // Guarda una capcelera comuna a aquests missatges
 	bool m_hiHaFinal; // A true si hem definit un missatge de sumari.
@@ -52,7 +52,7 @@ protected:
 	bool m_activat; // A true vol dir que fa traces
 // Implementacio
 private:
-	void print(char * capcelera);
+	void print(const char * capcelera);
 // Proves
 public:
 	static void ProvaClasse();

@@ -4,7 +4,7 @@
 #include <iostream>
 #include <assert.h>
 #include "Missatger.h"
-#include "Portable.h"
+#include "Portable.hxx"
 
 // Definim el nostre assert
 //#if (defined(_MSVC)&&defined(_DEBUG))||(!defined(_MSVC)&&!defined(NDEBUG)

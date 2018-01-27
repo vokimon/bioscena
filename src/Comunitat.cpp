@@ -43,7 +43,7 @@ CComunitat::~CComunitat()
 // Redefinibles
 //////////////////////////////////////////////////////////////////////
 
-ostream & CComunitat::store(ostream & str) 
+std::ostream & CComunitat::store(std::ostream & str) 
 {
 	// TODO: Fer els store cooperativament amb InfoOrganisme
 	uint32 valor;
@@ -98,7 +98,7 @@ istream & CComunitat::load(istream & str)
 			nouOrganisme.taxo(taxo);
 			nouOrganisme.posicio(posicio);
 			nouOrganisme.cos(org);
-			ostrstream fluxe;
+			std::ostringstream fluxe;
 			fluxe
 				<< setfill('0') 
 				<< oct << (index>>6) << dec << CColor((index>>3)&07).brillant() << (index&07) << blanc.fosc() << "-" 
@@ -107,7 +107,6 @@ istream & CComunitat::load(istream & str)
 				<< setfill(' ') 
 				<< ends; // El fluxe no afegeix un /0 sino ho fem nosaltres
 			nouOrganisme.descripcio(fluxe.str());
-			fluxe.freeze(false);
 			++m_nOrganismes;
 			}
 		}
@@ -174,7 +173,7 @@ uint32 CComunitat::introdueix(COrganisme* org, uint32 posicio, uint32 taxo)
 	nouOrganisme.taxo(taxo);
 	nouOrganisme.posicio(posicio);
 	nouOrganisme.cos(org);
-	ostrstream fluxe;
+	std::ostringstream fluxe;
 	fluxe
 		<< setfill('0') 
 		<< oct << (index>>6) << dec << CColor((index>>3)&07).brillant() << (index&07) << blanc.fosc() << "-" 
@@ -183,7 +182,6 @@ uint32 CComunitat::introdueix(COrganisme* org, uint32 posicio, uint32 taxo)
 		<< setfill(' ') 
 		<< ends; // El fluxe no afegeix un /0 sino ho fem nosaltres
 	nouOrganisme.descripcio(fluxe.str());
-	fluxe.freeze(false);
 	++m_nOrganismes;
 	return index;
 }

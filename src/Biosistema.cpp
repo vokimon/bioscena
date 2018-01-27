@@ -53,9 +53,9 @@ static CMissatger logAccio("Accions realitzades", NULL, unLog);
 //////////////////////////////////////////////////////////////////////
 
 struct COpcodeInfo {
-	char *mnemonic;
+	const char *mnemonic;
 	CBiosistema::t_accioOrganisme fn;
-	char *param[8];
+	const char *param[8];
 	};
 
 COpcodeInfo opcodes [] = {

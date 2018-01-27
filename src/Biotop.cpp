@@ -25,7 +25,7 @@ template <> void CBiotop<CSubstrat>::ProvaClasse(void)
 		biotop[cuc[6]].desocupa();
 		biotop[biotop.randomPosition()].deposita(nut++);
 		out << gotoxy(1,1) << hex;
-		for (i=0; i<topologia.tamany(); i++) {
+		for (i=0; i<topologia.size(); i++) {
 			CSubstrat &s = biotop[i];
 			out << setw(1) << CColor(s.numeroMollecules()) << (s.ocupant()?'.':char('A'+s.ocupant()));
 		}

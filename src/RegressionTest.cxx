@@ -11,6 +11,7 @@
 #endif
 
 #include "Assert.hxx"
+#include "Biosistema.h"
 
 void SilentAssertHandler(const char* message, const char* filename, int lineNumber )
 {

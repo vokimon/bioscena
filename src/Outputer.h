@@ -37,7 +37,7 @@ using namespace std;
 class CBasicOutputer {
 public:
 	CBasicOutputer() {};
-	virtual void print(char *msg, char *caption)=0;
+	virtual void print(const char *msg, const char *caption)=0;
 };
 
 /////////////////////////////////////////////////////////////////////
@@ -51,7 +51,7 @@ public:
 	CColorOutputer(ostream &str=cout, int color=7)
 		: m_stream(str), m_color(color) 
 	{}
-	virtual void print(char *msg, char *caption) {
+	virtual void print(const char *msg, const char *caption) {
 		posaColor();
 		if (caption) m_stream << caption << ": ";
 		m_stream << msg;
@@ -91,7 +91,7 @@ public:
 		m_longitud=longitud;
 	}
 	virtual ~CMemoryOutputer(){};
-	virtual void print(char *msg, char *caption);
+	virtual void print(const char *msg, const char *caption);
 };
 
 /////////////////////////////////////////////////////////////////////
@@ -105,7 +105,7 @@ public:
 	CBoxOutputer(unsigned int icona = MB_ICONINFORMATION){
 		m_estil = MB_OK | MB_TOPMOST | (icona&MB_ICONMASK);
 	};
-	virtual void print(char *msg, char *caption) {
+	virtual void print(const char *msg, const char *caption) {
 		MessageBox(NULL, msg, caption, m_estil);
 	}
 };
@@ -122,7 +122,7 @@ public:
 	CEditOutputer(CEdit *edit=NULL){
 		m_editControl = edit;
 	};
-	virtual void print(char *msg, char *caption) {
+	virtual void print(const char *msg, char *caption) {
 		// Potser volem enviar un missatge abans de crear el control
 		// o, si s'ens ha colat attachar-ho que no peti
 		if (!m_editControl) {

@@ -25,11 +25,9 @@ namespace AnsiCodes {
 	// Si el buffer a on els ostringstream fan el format no el proveim
 	// nosaltres, en cridar al 'str' congelem el buffer dinamic intern
 	// i el destructor no l'allibera creant lagunes de memoria
-	static char myBuffer[160];
-
 	string set_mode(int mode) // Setmode
 	{
-		ostrstream str(myBuffer,16);
+		std::ostringstream str;
 		str << "\033[=" << mode << 'h' << ends;
 		return str.str();
 	}
@@ -39,32 +37,32 @@ namespace AnsiCodes {
 
 	string gotoxy(int col, int lin) // Posicionament del cursor
 	{
-		ostrstream str(myBuffer,16);
-		str << "\033[" << lin << ';' << col << 'H' << ends;
-//		str << "\033[" << lin << ';' << col << 'f' << ends; // Equivalent a la H
+		std::ostringstream str;
+//		str << "\033[" << lin << ';' << col << 'H' << ends;
+		str << "\033[" << lin << ';' << col << 'f' << ends; // Equivalent a la H
 		return str.str();
 	}
 	string cursup(int lin) // Cursor Up
 	{
-		ostrstream str(myBuffer,16);
+		std::ostringstream str;
 		str << "\033[" << lin << 'A' << ends;
 		return str.str();
 	}
 	string cursdn(int lin) // Cursor Down
 	{
-		ostrstream str(myBuffer,16);
+		std::ostringstream str;
 		str << "\033[" << lin << 'B' << ends;
 		return str.str();
 	}
 	string cursfw(int lin) // Cursor Forward
 	{
-		ostrstream str(myBuffer,16);
+		std::ostringstream str;
 		str << "\033[" << lin << 'C' << ends;
 		return str.str();
 	}
 	string cursbw(int lin) // Cursor Backward
 	{
-		ostrstream str(myBuffer,16);
+		std::ostringstream str;
 		str << "\033[" << lin << 'D' << ends;
 		return str.str();
 	}

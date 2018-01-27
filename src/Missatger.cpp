@@ -17,6 +17,7 @@
 // 19990722 VoK - Construits els objectes missatger globals (error, warning..)
 
 #include "Missatger.h"
+#include <cstring>
 
 /////////////////////////////////////////////////////////////////////
 // Els Missatgers per la meva aplicacio
@@ -52,7 +53,7 @@ CMissatger::CMissatger(char * capcelera, char* final, CBasicOutputer& str)
 	:m_out(str)
 {
 	m_hiHaCapcelera = (capcelera!=NULL);
-	if (capcelera) strcpy(m_capcelera,capcelera);
+	if (capcelera) std::strcpy(m_capcelera,capcelera);
 
 	m_hiHaFinal = (final!=NULL);
 	if (final) strcpy(m_final, final);
@@ -88,7 +89,7 @@ CMissatger & CMissatger::operator<<(std::ostream& (*pf)(std::ostream&))
 // Aquest membre serveix per interceptar els 'endl'
 {
 	if (!m_activat) return *this;
-	if (pf==endl) { 
+	if (pf== (std::basic_ostream<char>& (*)(std::basic_ostream<char>&)) std::endl) {
 		m_newMsg=true;
 		print(m_hiHaCapcelera?m_capcelera:NULL);
 	}
@@ -108,10 +109,9 @@ void CMissatger::operator() (char * str)
 /////////////////////////////////////////////////////////////////////
 // Implementacio
 /////////////////////////////////////////////////////////////////////
-void CMissatger::print(char * capcelera) {
+void CMissatger::print(const char * capcelera) {
 	m_stream << std::ends;
-	m_out.print(m_stream.str(), capcelera);
-	m_stream.rdbuf()->freeze(false);
+	m_out.print(m_stream.str().c_str(), capcelera);
 	m_stream.seekp(0);	
 }
 
@@ -122,7 +122,7 @@ void CMissatger::ProvaClasse() {
 	// Provant els predefinits
 	error << "Provant error" << std::endl;
 	warning << "Provant avis" << std::endl;
-	out << "Salida" << endl;
+	out << "Salida" << std::endl;
 	log << "Log no especialitzat" << std::endl;
 	log1 << "Log de nivell 1" << std::endl;
 	log2 << "Log de nivell 2" << std::endl;

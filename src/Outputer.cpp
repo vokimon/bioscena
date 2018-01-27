@@ -16,7 +16,7 @@ static unsigned int col=15, fil=2;
 
 using namespace AnsiCodes;
 
-void CMemoryOutputer::print(char *msg, char *caption) {
+void CMemoryOutputer::print(const char *msg, const char *caption) {
 /*	m_llista.push_back(msg);
 	if (m_llista.size()>m_longitud)
 		m_llista.pop_front();
