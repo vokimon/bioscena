@@ -3,7 +3,7 @@
 //////////////////////////////////////////////////////////////////////
 
 #include <iomanip>
-#include "Topologia.h"
+#include "Topology.hxx"
 #include "RandomStream.hxx"
 
 using namespace Bioscena;
@@ -14,7 +14,7 @@ using namespace Bioscena;
 
 Topology::Topology(uint32 size)
 {
-	m_totalCasselles=size;
+	_size=size;
 }
 
 Topology::~Topology()
@@ -27,12 +27,12 @@ Topology::~Topology()
 
 uint32 Topology::size() const
 {
-	return m_totalCasselles;
+	return _size;
 }
 
 bool Topology::isValidPosition(t_position pos) const
 {
-	return (pos<m_totalCasselles)&&(pos>=0);
+	return (pos<_size)&&(pos>=0);
 }
 
 Topology::t_position Topology::displace (t_position origin, t_displacement movimentRelatiu) const
@@ -76,7 +76,7 @@ bool Topology::pathTowards (t_position posOrigen, t_position posDesti, t_displac
 
 Topology::t_position Topology::randomPosition() const
 {
-	t_position pos = rnd.get(0,m_totalCasselles-1);
+	t_position pos = rnd.get(0,_size-1);
 	return pos;
 }
 

@@ -1,43 +1,45 @@
-// Topologia.h: interface for the Topology class.
+// Topology.hxx: interface for the Topology class.
 //
 //////////////////////////////////////////////////////////////////////
 
-#if !defined(__KKEP_TOPOLOGIA_H_INCLUDED)
-#define __KKEP_TOPOLOGIA_H_INCLUDED
+#ifndef Topologia_hxx
+#define Topologia_hxx
 
 #include "BioIncludes.h"
 
 namespace Bioscena {
 
 /**
-* A Topology encapsulates the geometrical caracteristics for a discrete biotop.
-* 
-* You can specialize this interface in order to describe your own
-* geometry for the biotop (the inert media in which life beings live).
-* 
-* A topology defines:
-* 
-* - A position domain (Possible values and its meaning)
-* - A displacement domain (Possible values and its meaning)
-* - The relation between them based on two functions:
-*    - Given a position and a displacement calculate the resulting position.
-*    - Given two positions calculate the displacement to reach one from the other.
-* 
-* This class also implements a dummy default implementation: 
-* N cells so that they are ramdomly interconected.
-* @see Torus A reference implementation for a concrete Topology
+A Topology represents the geometrical features of a discrete biotop.
+
+You can specialize this interface in order to describe your own
+geometry for the biotop (the inert media in which life beings live).
+
+A topology defines:
+
+- A position domain (Possible values and its meaning)
+- A displacement domain (Possible values and its meaning)
+- The relation between them based on two functions:
+	- Given a position and a displacement calculate the resulting position.
+	- Given two positions calculate the displacement to reach one from the other.
+
+This class also implements a dummy default implementation:
+N cells so that they are ramdomly interconected.
+@see Torus A reference implementation for a concrete Topology
 */
 	class Topology
 	{
 	// Tipus propis
 	public:
 		/// The type for position identifiers
-		typedef uint32 t_position;
+		typedef uint32 Position;
+		typedef Position t_position;
 		/// The type for topologic displacements
-		typedef uint32 t_displacement;
+		typedef uint32 Displacement;
+		typedef Displacement t_displacement;
 	// Atributs
 	protected:
-		uint32 m_totalCasselles;
+		uint32 _size;
 	// Construccio/Destruccio
 	public:
 		Topology(uint32 size=0);
@@ -106,4 +108,4 @@ namespace Bioscena {
 	};
 }
 
-#endif // !defined(__KKEP_TOPOLOGIA_H_INCLUDED)
+#endif//Topologia_hxx
