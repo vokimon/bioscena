@@ -42,7 +42,8 @@ if env['qtunit'] :
 	env.Append(LIBS = ['qttestrunner'])
 	env.Append(CCFLAGS = ["-DGUI_ENABLED"])
 
-env.Append(BUILDERS = {'Test' : Builder(action = "./$SOURCE && touch $TARGET")})
+#env.Append(BUILDERS = {'Test' : Builder(action = "./$SOURCE && touch $TARGET")})
+env.Append(BUILDERS = {'Test' : Builder(action = "./$SOURCE")})
 
 Import('sources', 'testSources', 'includePath')
 env.Append(CPPPATH = includePath)
