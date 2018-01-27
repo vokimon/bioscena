@@ -49,7 +49,7 @@ CMissatger mem("Cua de missatges", NULL, memOutputer);
 // Construccio/Desctruccio
 /////////////////////////////////////////////////////////////////////
 
-CMissatger::CMissatger(char * capcelera, char* final, CBasicOutputer& str)
+CMissatger::CMissatger(const char * capcelera, const char* final, CBasicOutputer& str)
 	:m_out(str)
 {
 	m_hiHaCapcelera = (capcelera!=NULL);

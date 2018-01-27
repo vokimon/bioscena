@@ -8,7 +8,7 @@
 #include <string>
 #include <list>
 #include <map>
-#include <strstream>
+#include <sstream>
 #include <iomanip>
 #include "BioIncludes.h"
 #include "Missatger.h"
@@ -151,7 +151,7 @@ public:
 public:
 	static void DumpDiccionari(CMissatger& msg);
 	static CAgent * CercaDiccionari(string s);
-	static CAgent * ParsejaArxiu(char * nomArxiu, CBiosistema & biosistema, CMissatger & errors);
+	static CAgent * ParsejaArxiu(const char * nomArxiu, CBiosistema & biosistema, CMissatger & errors);
 private:
 	static CAgent * CreaAgent(string tipus, CBiosistema & biosistema);
 // Proves

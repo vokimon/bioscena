@@ -87,7 +87,7 @@ CConfiguracio::~CConfiguracio()
 
 }
 
-void CConfiguracio::parsejaArxiu(char * nomArxiu, CMissatger & errors)
+void CConfiguracio::parsejaArxiu(const char * nomArxiu, CMissatger & errors)
 {
 	// Obrim l'arxiu
 	ifstream entrada(nomArxiu);

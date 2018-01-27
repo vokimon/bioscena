@@ -46,7 +46,7 @@ CAgent::CAgent()
 	m_tipus="Agent";
 	m_numeroAgent=s_ultimNumeroAgent++;
 	m_nomDefinit=false;
-	ostrstream stream;
+	std::ostringstream stream;
 	stream 
 		<< tipus() << " " 
 		<< setfill('0') << setw(4) << m_numeroAgent 
@@ -166,7 +166,7 @@ CAgent* CAgent::CercaDiccionari(string s)
 	return it->second;
 }
 
-CAgent * CAgent::ParsejaArxiu(char * nomArxiu, CBiosistema & biosistema, CMissatger & errors)
+CAgent * CAgent::ParsejaArxiu(const char * nomArxiu, CBiosistema & biosistema, CMissatger & errors)
 {
 	// Com que els noms del fitxer poden estar agafats, fem servir
 	// el nostre propi diccionari per manegar els noms de l'arxiu
@@ -230,7 +230,7 @@ CAgent * CAgent::ParsejaArxiu(char * nomArxiu, CBiosistema & biosistema, CMissat
 			entrada >> parametre;
 			getline(entrada, valor);
 			entrada >> prefetch;
-			strstream stream;
+			std::stringstream stream;
 			stream << valor;
 			if (!((*it).second->configura(parametre, stream, diccionari, errors))) {
 				errors 

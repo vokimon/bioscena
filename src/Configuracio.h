@@ -31,7 +31,7 @@ public:
 // Operacions
 public:
 	void dump(CMissatger& msg);
-	void parsejaArxiu(char * nomArxiu, CMissatger & errors);
+	void parsejaArxiu(const char * nomArxiu, CMissatger & errors);
 	void set (t_clau clau, t_valor valor) {
 		m_diccionari.erase(clau);
 		m_diccionari.insert(t_parellClauValor(clau,valor));

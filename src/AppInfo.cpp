@@ -9,17 +9,17 @@
 /////////////////////////////////////////////////////////////////////
 // Construcctor
 /////////////////////////////////////////////////////////////////////
-CAppInfo::CAppInfo(char *name, unsigned int major, unsigned int minor, 
-	char *designer, char *enterprise, 
-	unsigned int buildNumber, char *buildDate)
+CAppInfo::CAppInfo(const char *name, unsigned int major, unsigned int minor, 
+	const char *designer, const char *enterprise, 
+	unsigned int buildNumber, const char *buildDate)
+: m_name(name)
+, m_major(major)
+, m_minor(minor)
+, m_designer(designer)
+, m_enterprise(enterprise)
+, m_buildDate(buildDate)
+, m_buildNumber(buildNumber)
 {
-	m_name=name;
-	m_major=major;
-	m_minor=minor;
-	m_designer=designer;
-	m_enterprise=enterprise;
-	m_buildDate=buildDate;
-	m_buildNumber=buildNumber;
 	out << *this;
 }
 

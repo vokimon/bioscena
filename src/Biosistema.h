@@ -73,7 +73,7 @@ public:
 	virtual ostream & store(ostream & str);
 // Operacions (Access als membres)
 public:
-	bool carregaOpCodes(char * nomFitxer, CMissatger & errors);
+	bool carregaOpCodes(const char * nomFitxer, CMissatger & errors);
 	t_biotop * biotop() const;
 	void biotop(t_biotop *);
 	void deleteBiotop();

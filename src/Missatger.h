@@ -14,7 +14,7 @@ class CMissatger
 {
 // Construccio
 public:
-	CMissatger(char * capcelera=NULL, char* final=NULL, 
+	CMissatger(const char * capcelera=NULL, const char* final=NULL, 
 		CBasicOutputer& str=defaultOut);
 	virtual ~CMissatger();
 	void sumari();

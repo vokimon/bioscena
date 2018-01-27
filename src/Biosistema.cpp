@@ -224,7 +224,7 @@ void CBiosistema::deleteTaxonomista()
 // Operacions (Inicialitzacio)
 //////////////////////////////////////////////////////////////////////
 
-bool CBiosistema::carregaOpCodes(char * nomArxiu, CMissatger & errors)
+bool CBiosistema::carregaOpCodes(const char * nomArxiu, CMissatger & errors)
 {
 	string prefetch;
 	string mnemonicOperacio;
