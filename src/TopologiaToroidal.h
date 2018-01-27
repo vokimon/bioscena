@@ -32,7 +32,7 @@ class Torus : public Topology
 // Tipus interns
 public:
 	typedef Topology inherited;
-	typedef inherited::t_position t_position;
+	typedef inherited::Position Position;
 	typedef inherited::t_displacement t_displacement;
 	/** 
 	 * The building block for a displacement vectors.
@@ -61,9 +61,9 @@ public:
 	uint32 width() const {return m_xMax;}
 // Redefinibles
 public: 
-	inline t_position displace (t_position origen, t_displacement movimentRelatiu) const override;
-	inline bool pathTowards (t_position posOrigen, t_position posDesti, t_displacement & desp) const override;
-	inline t_position displaceRandomly (t_position posOrigen, uint32 radi) const override;
+	inline Position displace (Position origen, t_displacement movimentRelatiu) const override;
+	inline bool pathTowards (Position posOrigen, Position posDesti, t_displacement & desp) const override;
+	inline Position displaceRandomly (Position posOrigen, uint32 radi) const override;
 	inline t_displacement opositeDisplacement(t_displacement desp) const override;
 	inline t_displacement nilDisplacement() const override;
 // Atributs
@@ -80,7 +80,7 @@ public:
 // Redefinibles
 //////////////////////////////////////////////////////////////////////
 
-Torus::t_position Torus::displace(t_position origen, t_displacement movimentRelatiu) const
+Torus::Position Torus::displace(Position origen, t_displacement movimentRelatiu) const
 {
 	// Descomentar la seguent linia perque el 4art bit del nibble
 	// indiqui la seva inibicio i no la seva activacio 
@@ -108,7 +108,7 @@ Torus::t_position Torus::displace(t_position origen, t_displacement movimentRela
 		}
 }
 
-bool Torus::pathTowards (t_position posOrigen, t_position posDesti, t_displacement & displacement) const
+bool Torus::pathTowards (Position posOrigen, Position posDesti, t_displacement & displacement) const
 {
 	uint32 x1 = posOrigen % m_xMax;
 	uint32 y1 = posOrigen / m_xMax;
@@ -178,7 +178,7 @@ bool Torus::pathTowards (t_position posOrigen, t_position posDesti, t_displaceme
 	return !(dx || dy);
 }
 
-Torus::t_position Torus::displaceRandomly (t_position posOrigen, uint32 radi) const
+Torus::Position Torus::displaceRandomly (Position posOrigen, uint32 radi) const
 {
 	// El radi esta expressat en displacements basics (4 bits) -> en un vector de 
 	// displacement (32 bits) hi han 8 de basics.

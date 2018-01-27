@@ -44,18 +44,18 @@ namespace Bioscena {
 		/// Returns whether a given position is valid for the topology
 		/// @param position A position to be checked
 		/// @return true if the position is a valid one on the topology
-		virtual bool isValidPosition(t_position position) const
+		virtual bool isValidPosition(Position position) const
 			{return m_topology->isValidPosition(position);}
 		
 		/// Returns a random valid position on the topology
-		virtual t_position randomPosition() const
+		virtual Position randomPosition() const
 			{return m_topology->randomPosition();}
 
 		/// Calculates a single movement within the topology
 		/// @param origin The origin of a movement
 		/// @param relativeMovement A displacement
 		/// @return The displaced position
-		virtual t_position displace(t_position origin, t_displacement relativeMovement) const
+		virtual Position displace(Position origin, t_displacement relativeMovement) const
 			{return m_topology->displace(origin, relativeMovement);}
 		
 		/// Calculates a randomly displaced position from an origin.
@@ -64,7 +64,7 @@ namespace Bioscena {
 		/// @param origin The origin of a movement
 		/// @param radius The number of random displacements to perform
 		/// @return The displaced position
-		virtual t_position displaceRandomly(t_position origin, uint32 radius) const
+		virtual Position displaceRandomly(Position origin, uint32 radius) const
 			{return m_topology->displaceRandomly(origin, radius);}
 
 		/// Calculates the displacement needed in order to go from one position to the other one.
@@ -74,7 +74,7 @@ namespace Bioscena {
 		/// @param posDesti The goal for the movement
 		/// @param desp A reference to the variable where to put the calculated displacement
 		/// @returns True if the given displacement is enough to reach the goal.
-		virtual bool pathTowards(t_position posOrigen, t_position posDesti, t_displacement & desp) const
+		virtual bool pathTowards(Position posOrigen, Position posDesti, t_displacement & desp) const
 			{return m_topology->pathTowards(posOrigen, posDesti, desp);}
 		
 		/// Calculates the oposite/mirrored displacement.
@@ -92,7 +92,7 @@ namespace Bioscena {
 		/// @param origin The original position
 		/// @param destination The final position
 		/// @returns The number of displacements
-		virtual uint32 distance(t_position origin, t_position destination) const;
+		virtual uint32 distance(Position origin, Position destination) const;
 			{return m_topology->distance(origin, destination);}
 		
 	//@}	

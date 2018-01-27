@@ -30,12 +30,12 @@ uint32 Topology::size() const
 	return _size;
 }
 
-bool Topology::isValidPosition(t_position pos) const
+bool Topology::isValidPosition(Position pos) const
 {
 	return (pos<_size)&&(pos>=0);
 }
 
-Topology::t_position Topology::displace (t_position origin, t_displacement movimentRelatiu) const
+Topology::Position Topology::displace (Position origin, t_displacement movimentRelatiu) const
 // Retorna la posicio resultant de fer el displacement des de l'origin
 {
 	// TODO: Per defecte aillades o indeterministic?
@@ -43,7 +43,7 @@ Topology::t_position Topology::displace (t_position origin, t_displacement movim
 //	return origin;
 }
 
-Topology::t_position Topology::displaceRandomly (t_position origin, uint32 radi) const
+Topology::Position Topology::displaceRandomly (Position origin, uint32 radi) const
 // Retorna la posicio resultant de tants displacements aleatoris des de l'origin com indiqui el radi
 {
 	while (radi--) origin = displace (origin, rnd.get());
@@ -66,7 +66,7 @@ Topology::t_displacement Topology::nilDisplacement () const
 	return 0;
 }
 
-bool Topology::pathTowards (t_position posOrigen, t_position posDesti, t_displacement & desp) const
+bool Topology::pathTowards (Position posOrigen, Position posDesti, t_displacement & desp) const
 // Retorna cert si es posible unir-les amb un sol displacement, a desp hi es
 // el displacement per unir-les o apropar-les
 {
@@ -74,13 +74,13 @@ bool Topology::pathTowards (t_position posOrigen, t_position posDesti, t_displac
 	return false;
 }
 
-Topology::t_position Topology::randomPosition() const
+Topology::Position Topology::randomPosition() const
 {
-	t_position pos = rnd.get(0,_size-1);
+	Position pos = rnd.get(0,_size-1);
 	return pos;
 }
 
-uint32 Topology::distance(t_position posOrigen, t_position posDesti) const
+uint32 Topology::distance(Position posOrigen, Position posDesti) const
 {
 	return 0;
 }
@@ -98,7 +98,7 @@ void Topology::ProvaClasse(void) {
 	Topology topologia(400);
 	uint32 * celles = new uint32[topologia.size()];
 	for (i=topologia.size();i--;) celles[i]=0;
-	t_position cuc[7]={130,130,130,130,130,130,130};
+	Position cuc[7]={130,130,130,130,130,130,130};
 	while (cuc[0]!=8) {
 		for (i=7;i--;) celles[cuc[i]]=escala[6-i];
 		celles[topologia.randomPosition()]=8;

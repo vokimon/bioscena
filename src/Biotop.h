@@ -25,7 +25,7 @@ class CBiotop: public Topology
 // Tipus propis
 public:
 	typedef Topology inherited;
-	typedef inherited::t_position t_position;
+	typedef inherited::Position Position;
 	typedef inherited::t_displacement t_displacement;
 	typedef Cella t_cella;
 // Atributs
@@ -61,28 +61,28 @@ public:
 		}			
 		return str;
 	}
-	virtual t_position displace(t_position origen, t_displacement relativeMovement) const override
+	virtual Position displace(Position origen, t_displacement relativeMovement) const override
 	// Retorna la posicio resultant de fer el displacement des de l'origen
 	{
 		return m_topologia->displace(origen, relativeMovement);
 	}
-	virtual t_position displaceRandomly (t_position origen, uint32 radi) const override
+	virtual Position displaceRandomly (Position origen, uint32 radi) const override
 	// Retorna la posicio resultant de tants displacements aleatoris des de l'origen com indiqui el radi
 	{
 		return m_topologia->displaceRandomly(origen, radi);
 	}
-	virtual bool isValidPosition(t_position cassella) const override
+	virtual bool isValidPosition(Position cassella) const override
 	// Indica si la posicio es valida
 	{
 		return m_topologia->isValidPosition(cassella);
 	}
-	bool pathTowards (t_position posOrigen, t_position posDesti, t_displacement & desp) const override
+	bool pathTowards (Position posOrigen, Position posDesti, t_displacement & desp) const override
 	// Retorna cert si es posible unir-les amb un sol displacement, a desp hi es
 	// el displacement per unir-les o apropar-les
 	{
 		return m_topologia->pathTowards(posOrigen, posDesti, desp);
 	}
-	t_position randomPosition() const override
+	Position randomPosition() const override
 	// Retorna una posicio aleatoria
 	{
 		return m_topologia->randomPosition();
@@ -95,7 +95,7 @@ public:
 // Operacions
 public:
 	Topology * topologia() const {return m_topologia;}
-	t_cella &operator [] (t_position index) 
+	t_cella &operator [] (Position index) 
 	{
 		if ((index>=size())||(index<0)) {
 			error << "Accedint a una cella de la Topologia no existent" << endl;

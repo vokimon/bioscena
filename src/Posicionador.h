@@ -31,7 +31,7 @@ class CPosicionador : public CAgent
 public:
 	typedef CAgent inherited;
 	typedef Bioscena::Topology t_biotop;
-	typedef t_biotop::t_position t_position;
+	typedef t_biotop::Position Position;
 	typedef t_biotop::t_displacement t_direccio;
 // Construccio/Destruccio
 public:
@@ -44,12 +44,12 @@ public:
 	virtual bool configura(string parametre, istream & nom, t_diccionariAgents & diccionari, CMissatger & errors);
 // Operacions
 public:
-	t_position pos() {return m_pos;};;
-	void pos(t_position nova);
-	CPosicionador & operator = (t_position nova) {m_pos=nova; return *this;};
+	Position pos() {return m_pos;};;
+	void pos(Position nova);
+	CPosicionador & operator = (Position nova) {m_pos=nova; return *this;};
 // Atributs
 protected:
-	t_position m_pos;
+	Position m_pos;
 	t_biotop & m_biotop;
 };
 
@@ -63,7 +63,7 @@ class CDireccionador : public CAgent
 public:
 	typedef CAgent inherited;
 	typedef Bioscena::Topology t_biotop;
-	typedef t_biotop::t_position t_position;
+	typedef t_biotop::Position Position;
 	typedef t_biotop::t_displacement t_direccio;
 // Construccio/Destruccio
 public:

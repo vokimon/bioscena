@@ -33,7 +33,6 @@ N cells so that they are ramdomly interconected.
 	public:
 		/// The type for position identifiers
 		typedef uint32 Position;
-		typedef Position t_position;
 		/// The type for topologic displacements
 		typedef uint32 Displacement;
 		typedef Displacement t_displacement;

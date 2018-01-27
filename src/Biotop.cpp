@@ -19,7 +19,7 @@ template <> void CBiotop<CSubstrat>::ProvaClasse(void)
 	int escala[]={7,6,4,4,12,14,15,9};
 	Topology topologia(400);
 	CBiotop biotop(&topologia);
-	t_position cuc[7]={130,130,130,130,130,130,130};
+	Position cuc[7]={130,130,130,130,130,130,130};
 	while (cuc[0]!=8) {
 		for (i=7;i--;) biotop[cuc[i]].ocupa(escala[6-i]);
 		biotop[cuc[6]].desocupa();
