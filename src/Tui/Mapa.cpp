@@ -225,8 +225,8 @@ void CMapa::biosistema(CBiosistema * biosistema)
 	m_biotop = m_biosistema->biotop();
 	if (!m_biotop)
 		return;
-	m_ampladaZona =((Bioscena::Torus*)m_biotop->topologia())->width();
-	m_alturaZona = ((Bioscena::Torus*)m_biotop->topologia())->height();
+	m_ampladaZona =((Bioscena::Toroid*)m_biotop->topologia())->width();
+	m_alturaZona = ((Bioscena::Toroid*)m_biotop->topologia())->height();
 	m_totalCelles = m_alturaZona * m_ampladaZona;
 	m_primeraPosicio = 0;
 }

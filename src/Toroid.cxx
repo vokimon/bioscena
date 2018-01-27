@@ -1,4 +1,4 @@
-// TopologiaToroidal.cpp: implementation of the Torus class.
+// TopologiaToroidal.cpp: implementation of the Toroid class.
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -11,7 +11,7 @@ using namespace AnsiCodes;
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-Bioscena::Torus::Torus(uint32 xMax=5, uint32 yMax=5)
+Bioscena::Toroid::Toroid(uint32 xMax=5, uint32 yMax=5)
 	// Precondicions:
 	//   nD<xMax<0x1FFFFFFF on nD es el nombre maxim de displacements basics a un displacement complert
 	//   2<yMax<(0xFFFFFFFF>>digitsSignificatius(xMax))
@@ -48,12 +48,12 @@ void debugPresenta(CMissatger & stream) {
 }
 */
 
-void Bioscena::Torus::ProvaClasse(void) {
+void Bioscena::Toroid::ProvaClasse(void) {
 	// TODO: Proves TopologiaToroidal::unio
 	// TODO: Prova maximitzant els limits calculats als 'Pre' del constructor
 	uint32 i;
 	int escala[]={7,6,4,4,12,14,15,9};
-	Torus topo(25,21);
+	Toroid topo(25,21);
 	uint32 * celles = new uint32[topo.size()];
 	uint32 cuc[7]={130,130,130,130,130,130,130};
 	for (i=topo.size();i--;) celles[i]=3;

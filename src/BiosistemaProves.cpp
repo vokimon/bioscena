@@ -249,7 +249,7 @@ void CBiosistema::ProvaClasse()
 	CBiosistema biosistema;
 	biosistema.carregaOpCodes("Opcodes.ini", error);
 	out << "Inicialitzant Biotop..." << endl;
-	Bioscena::Topology * topologia = new Bioscena::Torus(Config.get("Biotop/CasellesAmplitud"),Config.get("Biotop/CasellesAltitud"));
+	Bioscena::Topology * topologia = new Bioscena::Toroid(Config.get("Biotop/CasellesAmplitud"),Config.get("Biotop/CasellesAltitud"));
 	biosistema.biotop(new Bioscena::CBiotop<CBiosistema::t_substrat>(topologia));
 	biosistema.comunitat(new CComunitat);
 	biosistema.taxonomista(new CTaxonomista);

@@ -1,9 +1,9 @@
-// BiotopToroidal.h: interface for the CBiotopToroidal class.
+// BiotopToroidal.h: interface for the Toroid class.
 //
 //////////////////////////////////////////////////////////////////////
 
-#ifndef __KKEP_TOPOLOGIATOROIDAL_H_INCLUDED
-#define __KKEP_TOPOLOGIATOROIDAL_H_INCLUDED
+#ifndef Toroid_hxx
+#define Toroid_hxx
 
 #include "BioIncludes.h"
 #include "Topology.hxx"
@@ -13,21 +13,47 @@
 namespace Bioscena {
 
 /**
-* The CTopogogiaToroidal class is an optimized implementation 
-* of Topology interface that represents a toroidal topology. 
-* That is a 2D mesh of cells so that when you reach the border
-* you get in the oposite border.
-* <p>
-* It has the particularity that when you reach the end of a
-* row of cells you get the next row like it were a twisted
-* string of cells. So if you move step by step in one cardinal
-* direction, you will visit every position on the topology.
-*
-* TODO: Document how the displacement works here
-*
-* @see Topology
+	A Toroid is a Topology that arranges cells as a
+	rectangular array having cells at opposite borders
+	connected as well.
+	
+	_Positions_ are enumerated starting at zero
+	in latin reading order: left to right and top down.
+
+	__Notice:__ This implementation connects the last cell
+	of each row, not to the first cell of the same row,
+	but to the first cell of the next row.
+	This simplifies a lot the math and logic of movements
+	since a given direction corresponds to a fixed offset
+	whichever the position.
+
+	_Displacements_ encode in its 32 bits a sequence of
+	8 micromovements. Each micromovement is a nibble (4 bits),
+	where the upper bit disables it, and the lower 3 bits
+	indicates a cardinal direction:
+	(N,S,E,W,NE,NW,SE,SW).
+
+	_Directions_ are binary encoded so that binary inversion
+	gives the opposite direction and that most contiguous
+	directions are just one bit inversion away (or two).
+
+
+	direction|  bits
+	---------|------
+	N        | 0 000
+	NE       | 0 001
+	E        | 0 011
+	SE       | 0 010
+	S        | 0 111
+	SW       | 0 110
+	W        | 0 100
+	NW       | 0 101
+	None     | 1 xxx
+
+
+	@see Topology
 */
-class Torus : public Topology
+class Toroid : public Topology
 {
 // Tipus interns
 public:
@@ -52,7 +78,7 @@ public:
 	};
 // Contruccio/Destruccio
 public: 
-	Torus (uint32 XMax, uint32 YMax);
+	Toroid (uint32 XMax, uint32 YMax);
 // Operacions
 public: 
 	void height(uint32 rows) {m_yMax=rows;}
@@ -80,7 +106,7 @@ public:
 // Redefinibles
 //////////////////////////////////////////////////////////////////////
 
-Torus::Position Torus::displace(Position origen, Displacement movimentRelatiu) const
+Toroid::Position Toroid::displace(Position origen, Displacement movimentRelatiu) const
 {
 	// Descomentar la seguent linia perque el 4art bit del nibble
 	// indiqui la seva inibicio i no la seva activacio 
@@ -108,7 +134,7 @@ Torus::Position Torus::displace(Position origen, Displacement movimentRelatiu) c
 		}
 }
 
-bool Torus::wayTo (Position posOrigen, Position posDesti, Displacement & displacement) const
+bool Toroid::wayTo (Position posOrigen, Position posDesti, Displacement & displacement) const
 {
 	uint32 x1 = posOrigen % m_xMax;
 	uint32 y1 = posOrigen / m_xMax;
@@ -178,7 +204,7 @@ bool Torus::wayTo (Position posOrigen, Position posDesti, Displacement & displac
 	return !(dx || dy);
 }
 
-Torus::Position Torus::displaceRandomly (Position posOrigen, uint32 radi) const
+Toroid::Position Toroid::displaceRandomly (Position posOrigen, uint32 radi) const
 {
 	// El radi esta expressat en displacements basics (4 bits) -> en un vector de 
 	// displacement (32 bits) hi han 8 de basics.
@@ -193,14 +219,14 @@ Torus::Position Torus::displaceRandomly (Position posOrigen, uint32 radi) const
 	return posDesti;
 }
 
-Torus::Displacement Torus::opositeDisplacement(Displacement desp) const {
+Toroid::Displacement Toroid::opositeDisplacement(Displacement desp) const {
 	return desp ^ 0x77777777;
 }
 
-Torus::Displacement Torus::nilDisplacement() const {
+Toroid::Displacement Toroid::nilDisplacement() const {
 	return 0;
 }
 
 }
 
-#endif // !defined(__KKEP_TOPOLOGIATOROIDAL_H_INCLUDED)
+#endif // !defined(Toroid_hxx)

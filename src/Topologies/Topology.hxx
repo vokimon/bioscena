@@ -25,7 +25,7 @@ A topology defines:
 
 This class also implements a dummy default implementation:
 N cells so that they are ramdomly interconected.
-@see Torus A reference implementation for a concrete Topology
+@see Toroid A reference implementation for a concrete Topology
 */
 	class Topology
 	{
