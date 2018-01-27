@@ -45,7 +45,7 @@ N cells so that they are ramdomly interconected.
 		Topology(uint32 size=0);
 		virtual ~Topology();
 
-	/// @name Redefinibles
+	/// @name Overridable
 	//@{
 	public:
 		/// Gives the number of discrete positions that the topology has
@@ -55,16 +55,16 @@ N cells so that they are ramdomly interconected.
 		/// Returns whether a given position is valid for the topology
 		/// @param position A position to be checked
 		/// @return true if the position is a valid one on the topology
-		virtual bool isValidPosition(t_position position) const;
+		virtual bool isValidPosition(Position position) const;
 		
 		/// Returns a random valid position on the topology
-		virtual t_position randomPosition() const;
+		virtual Position randomPosition() const;
 
 		/// Calculates a single movement within the topology
 		/// @param origin The origin of a movement
 		/// @param relativeMovement A displacement
 		/// @return The displaced position
-		virtual t_position displace(t_position origin, t_displacement relativeMovement) const;
+		virtual Position displace(Position origin, Displacement relativeMovement) const;
 		
 		/// Calculates a randomly displaced position from an origin.
 		/// By applying several random displacements you will obtain a normal
@@ -72,7 +72,7 @@ N cells so that they are ramdomly interconected.
 		/// @param origin The origin of a movement
 		/// @param radius The number of random displacements to perform
 		/// @return The displaced position
-		virtual t_position displaceRandomly(t_position origin, uint32 radius) const;
+		virtual Position displaceRandomly(Position origin, uint32 radius) const;
 
 		/// Calculates the displacement needed in order to go from one position to the other one.
 		/// Not always an only displacement is enough to reach the goal but the displacement
@@ -81,29 +81,28 @@ N cells so that they are ramdomly interconected.
 		/// @param posDesti The goal for the movement
 		/// @param desp A reference to the variable where to put the calculated displacement
 		/// @returns True if the given displacement is enough to reach the goal.
-		virtual bool pathTowards(t_position posOrigen, t_position posDesti, t_displacement & desp) const;
+		virtual bool pathTowards(Position posOrigen, Position posDesti, Displacement & desp) const;
 		
 		/// Calculates the oposite/mirrored displacement.
 		/// @param desp A displacement to be mirror
 		/// @returns The mirrored displacement
-		virtual t_displacement opositeDisplacement(t_displacement desp) const;
+		virtual Displacement opositeDisplacement(Displacement desp) const;
 		
 		/// Returns a displacement value that applied to one position it gives the same position.
 		/// @returns A null displacement
-		virtual t_displacement nilDisplacement() const;
+		virtual Displacement nilDisplacement() const;
 		
 		/// Returns the number of displacements to reach one position from another.
 		/// @param origin The original position
 		/// @param destination The final position
 		/// @returns The number of displacements
-		virtual uint32 distance(t_position origin, t_position destination) const;
+		virtual uint32 distance(Position origin, Position destination) const;
 		
 	//@}	
-	// Funcions estatiques
+	// Testing
 	public:
-	// Proves
-	public:
-		/// The class test
+		/// Supervised class test.
+		/// @see TopologyTest for automated ones.
 		static void ProvaClasse();
 	};
 }
