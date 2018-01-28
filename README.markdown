@@ -5,7 +5,7 @@ This project is a computer model that simulates a complex evolutionary world by 
 
 ![bioscenalogo](bioscenalogo.png)
 
-Bioscena beings are controlled by an inner system which is analogous to the actual gene expression in real life beings.
+Bioscena beings are controlled by a mechanism which is analogous to the actual gene expression in real life beings.
 Simulations show up many interesting emerging behaviours that you can monitor and trace.
 
 The gene expression system works like that:
@@ -27,7 +27,7 @@ The gene expression system works like that:
 	- Actions of the being modify it
 	- Other beings may observe it
 
-To my surprise many behaviors i thought that i had to hardcode in the system, emerged in my first runs
+Many behaviors that you might thing should be hard coded as world rules emerge by its own as result of evolution.
 
 - Complexity: regardles the simplicity/easiness of the biotope, beings create the complexity with their interactions
 - Mortality: Inmortals appear at first, but they are no longer relevant as reproducing beings appear
