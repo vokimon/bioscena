@@ -59,7 +59,7 @@ Toroid::Position Toroid::displaceRandomly (Position origin, uint32 radius) const
 	//std::cout << "Move " << hex << move << dec << " " << (radius>>3) << std::endl;
 	// Despres calculem vectors sencers amb 8 basics cadascun 
 	for (unsigned fullSteps=radius>>3; fullSteps--;)
-		position = displace(position,rnd.get()&0xffffffffu|0x88888888u);
+		position = displace(position,rnd.get()&0x77777777u);
 	return position;
 }
 
