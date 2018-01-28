@@ -282,7 +282,9 @@ void CBiosistema::ProvaClasse()
 	enum {Blanc, Mapa, MapaOrganismes, Organismes, Taxons, MapaTaxons} mode 
 		= MapaOrganismes;
 	bool modeCanviat=true;
-	CComparativaOrganismes grafO[5];
+	const size_t nGraphs = 5;
+	const size_t graphWidth = 40;
+	CComparativaOrganismes grafO[nGraphs];
 	CDominiGraficaComparativa<CInfoOrganisme> 
 		dominiEnergia, dominiEdat, dominiCarrega;
 	dominiEdat.funcio(agafaEdatOrganisme);
@@ -293,20 +295,20 @@ void CBiosistema::ProvaClasse()
 	dominiCarrega.funcio(agafaCarregaOrganisme);
 	dominiCarrega.representacio('+','^');
 	dominiCarrega.logaritmic(false);
-	for (int i=5; i--;) {
+	for (int i=nGraphs; i--;) {
 		grafO[i].comunitat(biosistema.comunitat());
 		grafO[i].afegeixDomini(dominiEdat);
 		grafO[i].afegeixDomini(dominiEnergia);
 //		grafO[i].afegeixDomini(dominiCarrega);
 		}
 
-	CComparativaTaxons grafT[5];
+	CComparativaTaxons grafT[nGraphs];
 	CDominiGraficaComparativa<CInfoTaxo> dominiCens, dominiTotal;
 	dominiCens.funcio(agafaCensTaxo);
 	dominiCens.representacio('-','?');
 	dominiTotal.funcio(agafaTotalTaxo);
 	dominiTotal.representacio('+','?');
-	for (int i=5; i--;) {
+	for (int i=nGraphs; i--;) {
 		grafT[i].taxonomista(biosistema.taxonomista());
 		grafT[i].afegeixDomini(dominiCens);
 		grafT[i].afegeixDomini(dominiTotal);
@@ -340,28 +342,28 @@ void CBiosistema::ProvaClasse()
 			switch (mode) {
 			case Mapa:
 			default:
-				mapa1.tamany(1,2,width,45); 
+				mapa1.tamany(1,2,width,height-6); 
 				break;
 			case MapaOrganismes:
-				mapa1.tamany(1,2,width-42,40);
-				for (uint32 i=0; i<5; i++) {
-					grafO[i].tamany(width-40,1+i*10,40,8);
-					grafO[i].inici(i*40);
+				mapa1.tamany(1,2,width-graphWidth-2,height-6);
+				for (uint32 i=0; i<nGraphs; i++) {
+					grafO[i].tamany(width-graphWidth,1+i*10,graphWidth,8);
+					grafO[i].inici(i*graphWidth);
 				}
 			case MapaTaxons:
-				mapa1.tamany(1,2,width-42,40);
-				for (uint32 i=0; i<5; i++) {
-					grafT[i].tamany(width-40,1+i*10,40,8);
-					grafT[i].inici(i*40);
+				mapa1.tamany(1,2,width-graphWidth-2,height-6);
+				for (uint32 i=0; i<nGraphs; i++) {
+					grafT[i].tamany(width-graphWidth,1+i*10,graphWidth,8);
+					grafT[i].inici(i*graphWidth);
 				}
 				break;
 			case Organismes:
-				for (uint32 i=0; i<5; i++) {
+				for (uint32 i=0; i<nGraphs; i++) {
 					grafO[i].tamany(1,2+i*10,width,8);
 					grafO[i].inici(i*width);
 				}
 			case Taxons:
-				for (uint32 i=0; i<5; i++) {
+				for (uint32 i=0; i<nGraphs; i++) {
 					grafT[i].tamany(1,2+i*10,width,8);
 					grafT[i].inici(i*width);
 				}
@@ -385,38 +387,30 @@ void CBiosistema::ProvaClasse()
 			if (mode==Mapa||mode==MapaOrganismes||mode==MapaTaxons)
 				mapa1.visualitza(std::cout);
 			if (mode==MapaOrganismes||mode==Organismes) {
-				for (uint32 i=0; i<5; i++) {
+				for (uint32 i=0; i<nGraphs; i++) {
 					grafO[i].visualitza(std::cout);
 				}
 			}
 			if (mode==MapaTaxons||mode==Taxons) {
-				for (uint32 i=0; i<5; i++) {
+				for (uint32 i=0; i<nGraphs; i++) {
 					grafT[i].visualitza(std::cout);
 				}
 			}
 			uint32 pos = mapa1.primeraPosicio();
 			std::cout << setfill('0');
-			if (mode==MapaOrganismes||mode==MapaTaxons) {
-				std::cout << gotoxy(1,42) 
-					<< "Coords: " << setw(3) << pos%Config.get("Biotop/CasellesAmplitud") 
-					<< '@' << setw(3) << pos/Config.get("Biotop/CasellesAmplitud") 
-					;
-				}
-			else {
-				std::cout << gotoxy(42,1) 
-					<< "Coords: " << setw(3) << pos%Config.get("Biotop/CasellesAmplitud") 
-					<< '@' << setw(3) << pos/Config.get("Biotop/CasellesAmplitud") 
-					;
-				}
+			std::cout << gotoxy(42,1)
+				<< "Coords: " << setw(3) << pos%Config.get("Biotop/CasellesAmplitud") 
+				<< '@' << setw(3) << pos/Config.get("Biotop/CasellesAmplitud") 
+				;
 			std::cout << gotoxy(1, 1) << "Poblacio: " << setw(6) << biosistema.comunitat()->tamany();
-			std::cout << gotoxy(26,1) << "Temps: " << setw(8) << biosistema.m_temps;
+			std::cout << gotoxy(22,1) << "Temps: " << setw(8) << biosistema.m_temps;
 			std::cout << setfill(' ') << endl;
 		}
 		char filename[300];
 		// Obtenim l'entrada del teclat
 		if (kbhit())
 		{
-			cout << gotoxy(1,48) << clrlin << "Comanda: " << flush;
+			cout << gotoxy(1,height-4) << clrlin << "Comanda: " << flush;
 			bool sortir=false;
 			while (!sortir)
 			{
