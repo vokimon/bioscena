@@ -75,7 +75,7 @@ class ToroidTest : public CppUnit::TestFixture
 	CPPUNIT_TEST( test_distance_farW );
 	CPPUNIT_TEST( test_distance_combinedEqual );
 	CPPUNIT_TEST( test_distance_combinedEFurther );
-	CPPUNIT_TEST( test_ClassTest );
+	//CPPUNIT_TEST( test_ClassTest );
 	CPPUNIT_TEST_SUITE_END();
 private:
 	Toroid * t;
