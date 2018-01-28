@@ -79,6 +79,7 @@ public:
 // Contruccio/Destruccio
 public: 
 	Toroid (uint32 xMax, uint32 yMax);
+	virtual ~Toroid();
 // Operacions
 public: 
 	/// Number of rows of the topology
@@ -110,7 +111,7 @@ public:
 	inline Position displace (Position origin, Displacement relativeMovement) const override;
 	inline bool wayTo (Position origin, Position destination, Displacement & desp) const override;
 	inline uint32 distance (Position origin, Position destination) const override;
-	inline Position displaceRandomly (Position origin, uint32 radius) const override;
+	Position displaceRandomly (Position origin, uint32 radius) const override;
 	inline Displacement opositeDisplacement(Displacement desp) const override;
 	inline Displacement nilDisplacement() const override;
 // Atributs
@@ -210,34 +211,12 @@ uint32 Toroid::distance(Position origin, Position destination) const
 {
 	// TODO: N/S distances
 	// TODO: cross distances
-	// TODO: combined distances
 	uint32 result = origin<=destination?destination-origin:origin-destination;
 	uint32 rows = row(result);
 	uint32 cols = col(result);
 	if (rows>m_yMax/2) rows = m_yMax-rows;
 	if (cols>m_xMax/2) cols = m_xMax-cols;
 	return std::max(rows,cols);
-}
-
-Toroid::Position Toroid::displaceRandomly (Position origin, uint32 radius) const
-{
-	// TODO: unittest this
-	// El radius esta expressat en displacements basics (4 bits) -> en un vector de 
-	// displacement (32 bits) hi han 8 de basics.
-	// pe. Si tenim radius=45 -> 5 vectors * 8 basics/vector + 5 basics
-	// Recorda que el bit de mes pes de cada basic es un 'enabled'.
-
-
-	// Primer calculem els basics que en sobren
-	uint32 nonFull = radius&7u;
-	uint32 nonFullBits = nonFull<<2;
-	uint32 mask = 0x88888888u >> nonFullBits;
-	Displacement move = (rnd.get()&0x77777777u) | mask;
-	uint32 destination = displace(origin, move);
-	// Despres calculem vectors sencers amb 8 basics cadascun 
-	for (radius>>=3; radius--;)
-		destination = displace(destination,rnd.get()&0x77777777u);
-	return destination;
 }
 
 Toroid::Displacement Toroid::opositeDisplacement(Displacement desp) const

@@ -37,6 +37,33 @@ Toroid::Toroid(uint32 xMax, uint32 yMax)
 	m_yMax=yMax;
 }
 
+Toroid::~Toroid() {}
+
+Toroid::Position Toroid::displaceRandomly (Position origin, uint32 radius) const
+{
+	// TODO: unittest this
+	// El radius esta expressat en displacements basics (4 bits) -> en un vector de 
+	// displacement (32 bits) hi han 8 de basics.
+	// pe. Si tenim radius=45 -> 5 vectors * 8 basics/vector + 5 basics
+	// Recorda que el bit de mes pes de cada basic es un 'enabled'.
+
+
+	// Primer calculem els basics que en sobren
+	uint32 nonFull = radius&7u;
+	uint32 position = origin;
+	if (nonFull) {
+		uint32 mask = 0x88888888u >> (nonFull<<2);
+		Displacement move = (rnd.get()&0x77777777u) | mask;
+		position = displace(position, move);
+	}
+	//std::cout << "Move " << hex << move << dec << " " << (radius>>3) << std::endl;
+	// Despres calculem vectors sencers amb 8 basics cadascun 
+	for (unsigned fullSteps=radius>>3; fullSteps--;)
+		position = displace(position,rnd.get()&0xffffffffu|0x88888888u);
+	return position;
+}
+
+
 //////////////////////////////////////////////////////////////////////
 // Proves
 //////////////////////////////////////////////////////////////////////
@@ -71,19 +98,20 @@ void Toroid::ClassTest(void) {
 	// TODO: Prova maximitzant els limits calculats als 'Pre' del constructor
 	{
 		std::cout << "\033[s";
-		Toroid topo(100,10);
+		Toroid topo(50,10);
 		uint32 * celles = new uint32[topo.size()];
 		uint32 cuc[7]={130,130,130,130,130,130,130};
 		for (uint32 i=topo.size();i--;) celles[i]=3;
 		for (uint32 radi=0; radi<14; radi++) {
 			cuc[0]=topo.randomPosition();
-			for (unsigned times=400; --times; ) {
+			for (unsigned times=40; --times; ) {
 				for (uint32 i=7;i--;)
 					celles[cuc[i]]=escala[6-i];
 				celles[cuc[6]]=0;
 				celles[topo.randomPosition()]=4;
 				for (uint32 i=6;i--;) cuc[i+1]=cuc[i];
 				cuc[0]=topo.displaceRandomly(cuc[0],radi);
+				if (radi==0) cuc[0]=topo.randomPosition();
 				std::cout << "\033[1;1H";
 				dumpTestToroid(topo,celles,1,2);
 				std::cout << "\033[0m";
@@ -94,7 +122,7 @@ void Toroid::ClassTest(void) {
 				for (uint32 i=7;i--;)
 					std::cout <<std::setw(5)<<std::setfill(' ')<< cuc[i] << " - ";
 				std::cout<<std::setw(0) << std::endl;
-				// std::cin.get(); // Debugging aid
+				std::cin.get(); // Debugging aid
 			}
 		}
 	}
@@ -119,37 +147,6 @@ void Toroid::ClassTest(void) {
 			}
 		}
 		std::cout << "\033[u";
-	}
-	{
-		uint32 i;
-		int escala[]={7,6,4,4,12,14,15,9};
-		Toroid topo(25,21);
-		uint32 * celles = new uint32[topo.size()];
-		uint32 cuc[7]={130,130,130,130,130,130,130};
-		for (i=topo.size();i--;) celles[i]=3;
-		while (cuc[0]!=8) {
-			for (i=7;i--;) celles[cuc[i]]=escala[6-i];
-			celles[cuc[6]]=0;
-			celles[topo.randomPosition()]=4;
-	//		topo.debugPresenta(out);
-			out << gotoxy(1,2);
-			uint32 nCella=0;
-			for (uint32 j=0;j<topo.height();j++) {
-				for (uint32 i=0;i<topo.width();i++)
-					out << CColor(celles[nCella++]) << "#";
-				out << endl;
-				}
-			out << blanc.fosc();
-			CRandomStream rnd;
-			uint32 direccio;
-			rnd>>direccio;
-			for (i=6;i--;) cuc[i+1]=cuc[i];
-			cuc[0]=topo.displace(cuc[0],direccio);
-			if (cuc[0]==cuc[6]) cuc[0]=topo.randomPosition();
-			out<<"Celles"<<setw(5)<<setfill(' ');
-			for (i=7;i--;) out << cuc[i] << " - ";
-			out<<setw(0)<<endl;
-		}
 	}
 }
 
