@@ -74,16 +74,7 @@ public:
 		SW    = 0b0110, // 6
 		W     = 0b0100, // 4
 		NW    = 0b0101, // 5
-		NoDir = 0b1000,  // 8
-		// Deprecated ones
-		UP        = 0x00,
-		UP_RIGHT  = 0x01,
-		RIGHT     = 0x02,
-		DOWN_RIGHT= 0x03,
-		DOWN	  = 0x07,
-		DOWN_LEFT = 0x06,
-		LEFT      = 0x05,
-		UP_LEFT   = 0x04
+		NoDir = 0b1000  // 8
 	};
 // Contruccio/Destruccio
 public: 
