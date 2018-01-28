@@ -38,39 +38,61 @@
 #include "Grafic.h"
 #include "Toroid.hxx"
 #include <sys/ioctl.h>
+#include <csignal>
 
 using namespace AnsiCodes;
 
 class TerminalController {
 private:
-	uint32 _w;
-	uint32 _h;
+	uint32 _w=80;
+	uint32 _h=25;
+	void (*_oldhandler)(int)=0;
+	static bool _dirty;
 
 	void takeFromTerminal()
 	{
 		struct winsize size;
 		ioctl(0, TIOCGWINSZ, &size);
+		_dirty = false;
 		_w = size.ws_col;
 		_h = size.ws_row;
+	}
+	static void dirtySize(int)
+	{
+		_dirty = true;
 	}
 
 public:
 	TerminalController()
 	: _w(80)
 	, _h(25)
+	, _oldhandler(0)
 	{
 		takeFromTerminal();
+		_oldhandler = std::signal(SIGWINCH, dirtySize);
 	}
-	uint32 height() const
+	~TerminalController()
 	{
+		std::signal(SIGWINCH, _oldhandler);
+	}
+	uint32 height()
+	{
+		if (_dirty) takeFromTerminal();
 		return _h;
 	}
-	uint32 width() const
+	uint32 width()
 	{
+		if (_dirty) takeFromTerminal();
 		return _w;
+	}
+	bool isDirty() const
+	{
+		return _dirty;
 	}
 
 };
+
+bool TerminalController::_dirty=true;
 
 static void importaOrganisme(CBiosistema & biosistema)
 {
@@ -241,7 +263,6 @@ inline static uint32 agafaTotalTaxo (CInfoTaxo & info) {
 
 void CBiosistema::ProvaClasse()
 {
-	TerminalController terminal;
 //	out << clrscr;
 	out << blanc.brillant() << "Provant Biosistema" << blanc.fosc() << endl;
 
@@ -302,10 +323,17 @@ void CBiosistema::ProvaClasse()
 	std::cout << endl << "Biosistema carregat. Prem return per continuar..." << endl;
 	cin.get();
 
+	TerminalController terminal;
 	uint32 width = terminal.width();
 	uint32 height = terminal.height();
 
 	while (true) {
+		if (terminal.isDirty()) {
+			width = terminal.width();
+			height = terminal.height();
+			modeCanviat = true;
+		}
+
 		// Actualitzem el mode de visualitzacio
 		if (modeCanviat) {
 			std::cout << clrscr;
