@@ -28,4 +28,4 @@ print includePath
 SConscript('src/SConscript', duplicate=0, variant_dir='build')
 
 
-
+# vim: syntax=python

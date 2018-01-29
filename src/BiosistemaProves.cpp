@@ -37,8 +37,11 @@
 #include "Configuracio.h"
 #include "Grafic.h"
 #include "Toroid.hxx"
-#include <sys/ioctl.h>
 #include <csignal>
+
+#ifdef POSIX
+#include <sys/ioctl.h>
+#endif
 
 using namespace AnsiCodes;
 
@@ -51,11 +54,13 @@ private:
 
 	void takeFromTerminal()
 	{
+		_dirty = false;
+#ifdef POSIX
 		struct winsize size;
 		ioctl(0, TIOCGWINSZ, &size);
-		_dirty = false;
 		_w = size.ws_col;
 		_h = size.ws_row;
+#endif
 	}
 	static void dirtySize(int)
 	{
@@ -69,11 +74,15 @@ public:
 	, _oldhandler(0)
 	{
 		takeFromTerminal();
+#ifdef POSIX
 		_oldhandler = std::signal(SIGWINCH, dirtySize);
+#endif
 	}
 	~TerminalController()
 	{
+#ifdef POSIX
 		std::signal(SIGWINCH, _oldhandler);
+#endif
 	}
 	uint32 height()
 	{

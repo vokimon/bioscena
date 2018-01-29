@@ -14,13 +14,7 @@
 ///////////////////////////////////////////////////////////////////////
 */
 
-/* 
-#ifndef __TURBOC__
-#ifndef __DJGPP__
-#ifndef _MSC_VER
-*/
-
-#ifndef WINDOWS
+#ifdef POSIX
 
 #include <stdio.h>
 #include <unistd.h>
@@ -80,9 +74,4 @@ int kbhit(void)
 	return desc;
 }
 
-#endif /* ! MSVC */
-/*
-#endif // _MSC_VER
-#endif // __DJGPP__
-#endif // __TURBOC__
-*/
+#endif /* POSIX */

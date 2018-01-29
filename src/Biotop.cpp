@@ -6,8 +6,10 @@
 #include "Biotop.h"
 #include "Substrat.h"
 
-using namespace Bioscena;
 using namespace AnsiCodes;
+
+namespace Bioscena
+{
 
 // Donat que es un template tota la implementacio ha de anar a la 
 // capcelera (Es necessari per la majoria de compiladors
@@ -54,4 +56,4 @@ template <> void CBiotop<CSubstrat>::ProvaClasse(void)
 	out << endl;
 
 }
-
+}//namespace Bioscena

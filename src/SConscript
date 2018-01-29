@@ -20,6 +20,7 @@ env['QT4_QRCCXXPREFIX'] = os.path.join('qrc_')
 def blue(str):
     return u'\033[34m== '+str+u'\033[0m'
 if not env['verbose']:
+    env['CCOMSTR'] = blue('Compiling $SOURCE')
     env['CXXCOMSTR'] = blue('Compiling $SOURCE')
     env['LINKCOMSTR'] = blue('Linking $TARGET')
     env['SHLINKCOMSTR'] = blue('Linking library $TARGET')
