@@ -14,7 +14,7 @@
 ///////////////////////////////////////////////////////////////////////
 */
 
-#ifdef POSIX
+#ifdef __unix__
 
 #include <stdio.h>
 #include <unistd.h>
@@ -23,7 +23,7 @@
 #include <sys/types.h>
 
 #define STDIN_DESCRIPTOR	1
-#define chESC			0x1B
+#define chESC 0x1B
 
 #ifdef __linux__
 	#define FDCAST (fd_set *)
@@ -74,4 +74,4 @@ int kbhit(void)
 	return desc;
 }
 
-#endif /* POSIX */
+#endif /* __unix__ */
