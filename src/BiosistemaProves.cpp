@@ -39,7 +39,7 @@
 #include "Toroid.hxx"
 #include <csignal>
 
-#ifdef POSIX
+#ifdef __unix__
 #include <sys/ioctl.h>
 #endif
 
@@ -55,7 +55,7 @@ private:
 	void takeFromTerminal()
 	{
 		_dirty = false;
-#ifdef POSIX
+#ifdef __unix__
 		struct winsize size;
 		ioctl(0, TIOCGWINSZ, &size);
 		_w = size.ws_col;
@@ -74,13 +74,13 @@ public:
 	, _oldhandler(0)
 	{
 		takeFromTerminal();
-#ifdef POSIX
+#ifdef __unix__
 		_oldhandler = std::signal(SIGWINCH, dirtySize);
 #endif
 	}
 	~TerminalController()
 	{
-#ifdef POSIX
+#ifdef __unix__
 		std::signal(SIGWINCH, _oldhandler);
 #endif
 	}
