@@ -49,7 +49,7 @@ class Key {
 
 	private:
 		enum {selectedAlgoritm=2};
-		uint3 m_key;
+		uint32 m_key;
 		
 		template <unsigned algoritm=selectedAlgoritm>
 		static bool compat(t_clau k1, t_clau k2, uint32 tolerancia);
