@@ -88,6 +88,8 @@ COpcodeInfo opcodes [] = {
 //////////////////////////////////////////////////////////////////////
 
 CBiosistema::CBiosistema()
+	: m_opcodes(NULL)
+	, _opcodeIndexes(0)
 {
 	m_biotop = NULL;
 	m_comunitat = NULL;
@@ -111,7 +113,6 @@ CBiosistema::CBiosistema()
 	m_bitsCodiOperacio=Config.get("Biosistema/OpCodes/BitsOperacio");
 	m_nCodisOperacio=1<<m_bitsCodiOperacio;
 	m_mascaraCodis = m_nCodisOperacio-1;
-	m_opcodes = NULL;
 
 	m_mascaraQuimica = Config.get("Biosistema/Metabolisme/BitsSignificatius");
 }
@@ -220,40 +221,68 @@ void CBiosistema::deleteTaxonomista()
 		delete m_taxonomista;
 	m_taxonomista=NULL;
 }
+std::string CBiosistema::operationDescriptor(uint32 operation)
+{
+	std::cout <<"operation: "  << operation << " " << _opcodeIndexes.get() << std::endl;
+	uint32 opcodeIdx = _opcodeIndexes.get()? _opcodeIndexes[operation]:0;
+	std::cout << "opcode idx: " << opcodeIdx << std::endl;
+	return opcodes[opcodeIdx].mnemonic;
+}
+
+bool CBiosistema::addOperation(uint32 operation, const std::string & mnemonic)
+{
+	uint32 i;
+	for (i=0; opcodes[i].mnemonic && mnemonic!=opcodes[i].mnemonic; i++);
+	if (!opcodes[i].mnemonic) {
+		m_opcodes[operation]=&CBiosistema::organismeNoOperacio;
+		_opcodeIndexes[operation]=0;
+		return false;
+	}
+	m_opcodes[operation]=opcodes[i].fn;
+	_opcodeIndexes[operation]=i;
+	return true;
+}
+
+void CBiosistema::clearOpcodes() {
+	if (m_opcodes) delete [] m_opcodes;
+	m_opcodes = new t_accioOrganisme[m_nCodisOperacio];
+	_opcodeIndexes.reset(new uint32[m_nCodisOperacio]);
+	for (uint32 i=m_nCodisOperacio; i--;) {
+		m_opcodes[i]= (t_accioOrganisme) NULL;
+		_opcodeIndexes[i]= 0u;
+	}
+}
+
 //////////////////////////////////////////////////////////////////////
 // Operacions (Inicialitzacio)
 //////////////////////////////////////////////////////////////////////
 
-bool CBiosistema::carregaOpCodes(const char * nomArxiu, CMissatger & errors)
+bool CBiosistema::carregaOpCodes(const std::string & nomArxiu, CMissatger & errors)
 {
-	string prefetch;
-	string mnemonicOperacio;
-	uint32 valor;
-
 	// Obrim l'arxiu
-	ifstream entrada(nomArxiu);
-
+	std::ifstream entrada(nomArxiu);
 	out << "Carregant la taula de codis d'operacions [" << nomArxiu << "]" << endl;
 	if (!entrada) {
 		errors 
 			<< "Error obrint '" << nomArxiu << '\'' << endl;
 		return false;
 	}
-	if (m_opcodes) delete [] m_opcodes;
-	m_opcodes = new t_accioOrganisme[m_nCodisOperacio];
-	if (m_opcodes)
-		for (uint32 i=m_nCodisOperacio; i--;) {
-			m_opcodes[i]= (t_accioOrganisme) NULL;
-		}
-	else {
-		errors 
-			<< "Error memoria carregant els Codis d'operacio" << endl;
-		return false;
-	}
+	bool result = carregaOpCodes(entrada, errors);
+	out << "Taula codis d'operacio [" << nomArxiu << "] carregada" << endl;
+	return result;
+}
+
+bool CBiosistema::carregaOpCodes(std::istream & entrada, CMissatger & errors)
+{
+
+	string prefetch;
+	clearOpcodes();
 
 	//TODO: (MSVC5) Pk quan s'executa la seguent instruccio s'enguarra m_opcodes?????
 	entrada >> prefetch;
 	while (entrada && prefetch=="*") {	
+		uint32 valor;
+		string mnemonicOperacio;
 		entrada >> hex >> valor >> dec >> mnemonicOperacio >> prefetch;
 		// TODO: Esborrar aquesta traca (o no)
 		out << '\t' << hex << valor << dec << '\t' << mnemonicOperacio << endl;
@@ -273,16 +302,10 @@ bool CBiosistema::carregaOpCodes(const char * nomArxiu, CMissatger & errors)
 			continue;
 		}
 #endif
-		uint32 i;
-		for (i=0; opcodes[i].mnemonic && mnemonicOperacio!=opcodes[i].mnemonic; i++);
-		if (opcodes[i].mnemonic) {
-			m_opcodes[valor]=opcodes[i].fn;
-		}
-		else {
+		if (!addOperation(valor, mnemonicOperacio)) {
 			errors
 				<< "El mnemonic '" << mnemonicOperacio
 				<< "' no es un mnemonic valid per a aquest biosistema" << endl;
-			m_opcodes[valor]=&CBiosistema::organismeNoOperacio;
 		}
 	}
 	if (entrada) {
@@ -297,11 +320,10 @@ bool CBiosistema::carregaOpCodes(const char * nomArxiu, CMissatger & errors)
 			m_opcodes[i]=&CBiosistema::organismeNoOperacio;
 		}
 
-	out << "Taula codis d'operacio [" << nomArxiu << "] carregada" << endl;
-
 	return true;
 
 }
+
 
 //////////////////////////////////////////////////////////////////////
 // Operacions (Cicle basic)

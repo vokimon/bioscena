@@ -12,7 +12,7 @@
 #include "Comunitat.h"
 #include "Probability.hxx"
 #include "Taxonomista.h"
-
+#include <memory>
 /*
 class CParametreOpcode {
 	uint32 offset;
@@ -49,6 +49,7 @@ protected:
 	uint32 m_maxInstruccions;
 	Bioscena::Probability m_probabilitatGeneracioExpontanea;
 	t_accioOrganisme * m_opcodes;
+	std::unique_ptr<uint32[]> _opcodeIndexes;
 	uint32 m_bitsCodiOperacio;
 	uint32 m_nCodisOperacio;
 	uint32 m_mascaraCodis;
@@ -73,7 +74,11 @@ public:
 	virtual ostream & store(ostream & str);
 // Operacions (Access als membres)
 public:
-	bool carregaOpCodes(const char * nomFitxer, CMissatger & errors);
+	bool addOperation(uint32 opcode, const std::string & mnemonic);
+	std::string operationDescriptor(uint32 operaion);
+	void clearOpcodes();
+	bool carregaOpCodes(const std::string & nomFitxer, CMissatger & errors);
+	bool carregaOpCodes(std::istream & entrada, CMissatger & errors);
 	t_biotop * biotop() const;
 	void biotop(t_biotop *);
 	void deleteBiotop();
