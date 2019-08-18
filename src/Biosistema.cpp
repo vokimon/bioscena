@@ -274,11 +274,9 @@ bool CBiosistema::carregaOpCodes(const std::string & nomArxiu, CMissatger & erro
 
 bool CBiosistema::carregaOpCodes(std::istream & entrada, CMissatger & errors)
 {
-
-	string prefetch;
 	clearOpcodes();
 
-	//TODO: (MSVC5) Pk quan s'executa la seguent instruccio s'enguarra m_opcodes?????
+	string prefetch;
 	entrada >> prefetch;
 	while (entrada && prefetch=="*") {	
 		uint32 valor;
@@ -293,15 +291,6 @@ bool CBiosistema::carregaOpCodes(std::istream & entrada, CMissatger & errors)
 				<< " bits que hi ha pel codi d'operacio" << endl;
 			continue;
 		}
-// TODO: (MSVC5) Restaurar aquesta proteccio quan l'enguarrada de m_opcodes es solucioni
-#ifndef _MSC_VER
-		if (m_opcodes[valor]!=NULL) {
-			errors
-				<< "El valor " << valor
-				<< " ja estava assignat a una altra operacio dins del fitxer." << endl;
-			continue;
-		}
-#endif
 		if (!addOperation(valor, mnemonicOperacio)) {
 			errors
 				<< "El mnemonic '" << mnemonicOperacio
@@ -309,7 +298,7 @@ bool CBiosistema::carregaOpCodes(std::istream & entrada, CMissatger & errors)
 		}
 	}
 	if (entrada) {
-		errors << "No s'esperava '" << prefetch << "'"<< endl;
+		throw OpcodeConfigError("Unexpected '"+prefetch+"' in opcode configuration");
 	}
 
 	// Comprovacions a posteriori

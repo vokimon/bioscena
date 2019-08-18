@@ -50,7 +50,8 @@ class BiosystemTest : public CppUnit::TestFixture
 	CPPUNIT_TEST_SUITE( BiosystemTest );
 	CPPUNIT_TEST( test_opcodes_byDefaultAllNops );
 	CPPUNIT_TEST( test_addOperation );
-	CPPUNIT_TEST( test_afterLoading );
+	CPPUNIT_TEST( test_load_ok );
+	CPPUNIT_TEST( test_load_badline );
 //	CPPUNIT_TEST( test_ClassTest );
 	CPPUNIT_TEST_SUITE_END();
 	typedef CBiosistema Biosystem;
@@ -77,7 +78,7 @@ public:
 		std::string opcode = biosystem.operationDescriptor(0x03);
 		CPPUNIT_ASSERT_EQUAL(std::string("Carrega"), opcode);
 	}
-	void test_afterLoading()
+	void test_load_ok()
 	{
 		Biosystem biosystem;
 		std::istringstream configFile(opcodes);
@@ -86,6 +87,20 @@ public:
 		CPPUNIT_ASSERT_EQUAL(op, std::string("NoOperacio"));
 		std::string op2 = biosystem.operationDescriptor(0x001f);
 		CPPUNIT_ASSERT_EQUAL(op2, std::string("ShiftL"));
+	}
+	void test_load_badline()
+	{
+		Biosystem biosystem;
+		std::istringstream configFile(
+			"badline\n"
+		);
+		try {
+			bool ok = biosystem.carregaOpCodes(configFile, error);
+			CPPUNIT_FAIL("Should have raised an exception");
+		} catch (OpcodeConfigError & e) {
+			CPPUNIT_ASSERT_EQUAL(std::string(e.what()),
+				std::string("Unexpected 'badline' in opcode configuration"));
+		}
 	}
 };
 

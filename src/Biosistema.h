@@ -28,6 +28,19 @@ class COpCode {
 }
 */
 
+class OpcodeConfigError: public std::exception
+{
+	std::string _message;
+public:
+	OpcodeConfigError(const std::string& message)
+		: _message(message) {}
+	virtual ~OpcodeConfigError() {}
+	const char	* what() const throw() {
+		return _message.c_str();
+	}
+};
+
+
 class CBiosistema  
 {
 // Tipus propis
