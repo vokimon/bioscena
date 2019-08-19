@@ -437,7 +437,7 @@ bool CBiosistema::eliminaOrganismeActiu()
 }
 
 bool CBiosistema::introdueix(COrganisme * org, uint32 pos /* =-1 */)
-// Pre: org es un punter vàlid
+// Pre: org es un punter vÃ lid
 {
 	if (!m_biotop->isValidPosition(pos)) {
 		pos = m_biotop->randomPosition();
@@ -494,7 +494,7 @@ bool CBiosistema::organismeMitosi(uint32 parametres)
 		logAccio << vermell << "No tinc energia" << blanc.fosc() << endl;
 		return false;
 		}
-	// Comprovem que la posició del futur nado està buida
+	// Comprovem que la posiciÃ³ del futur nado estÃ  buida
 	if (substratDesti.esOcupat()) {
 		logAccio << vermell.brillant() << "Ocupat " << blanc.fosc() << (*m_comunitat)[substratDesti.ocupant()].descripcio() << endl;
 		return false; // Error: Ja hi ha penya a la posicio, no la podem ocupar
@@ -557,7 +557,7 @@ bool CBiosistema::organismeAvanca(uint32 parametres)
 	m_organismeActiu->consumeixEnergia(energiaGastada);
 	(*m_comunitat)[m_idOrganismeActiu].posicio(posDesti);
 	logAccio << groc.brillant() << "Desti " << setw(4) << posDesti << " Ok" << blanc.fosc() << endl;
-	// TODO: Complicar la logica: Cost de displace, camí lliure, corrents...
+	// TODO: Complicar la logica: Cost de displace, camÃ­ lliure, corrents...
 	// TODO: Logs
 	return true;
 }
