@@ -87,7 +87,7 @@ public:
 	virtual ostream & store(ostream & str);
 // Operacions (Access als membres)
 public:
-	bool addOperation(uint32 opcode, const std::string & mnemonic);
+	void addOperation(uint32 opcode, const std::string & mnemonic);
 	std::string operationDescriptor(uint32 operaion);
 	void clearOpcodes();
 	bool carregaOpCodes(const std::string & nomFitxer, CMissatger & errors);

@@ -79,9 +79,10 @@ COpcodeInfo opcodes [] = {
 	{"SensorP", &CBiosistema::organismeSensorPresencia, {"dir","radi","base","tol","ddir","dtip",NULL,"reg"}},
 	{"SensorI", &CBiosistema::organismeSensorIntern, {NULL,NULL,"base","tol","denr","dtip",NULL,NULL}},
 	{"Anabol", &CBiosistema::organismeAnabolitza, {"patA","patB","tolA","tolB","desC",NULL,NULL,NULL}},
-	{"Catabol", &CBiosistema::organismeCatabolitza,{"patA","tolA","clau","desB","desC",NULL,NULL,NULL}}, 
-	{NULL, NULL, {NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL}}
+	{"Catabol", &CBiosistema::organismeCatabolitza, {"patA","tolA","clau","desB","desC",NULL,NULL,NULL}},
+	{NULL, NULL, {NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL}},
 };
+
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -221,6 +222,11 @@ void CBiosistema::deleteTaxonomista()
 		delete m_taxonomista;
 	m_taxonomista=NULL;
 }
+
+//////////////////////////////////////////////////////////////////////
+// Operacions (Inicialitzacio)
+//////////////////////////////////////////////////////////////////////
+
 std::string CBiosistema::operationDescriptor(uint32 operation)
 {
 	std::cout <<"operation: "  << operation << " " << _opcodeIndexes.get() << std::endl;
@@ -229,18 +235,25 @@ std::string CBiosistema::operationDescriptor(uint32 operation)
 	return opcodes[opcodeIdx].mnemonic;
 }
 
-bool CBiosistema::addOperation(uint32 operation, const std::string & mnemonic)
+void CBiosistema::addOperation(uint32 opcode, const std::string & mnemonic)
 {
+	if (opcode>=m_nCodisOperacio) {
+		std::ostringstream message;
+		message
+			<< "Operation opcode 0x" << hex << opcode << dec
+			<< " cannot be represented with " << m_bitsCodiOperacio
+			<< " bits" << ends;
+		throw OpcodeConfigError(message.str());
+	}
+
 	uint32 i;
 	for (i=0; opcodes[i].mnemonic && mnemonic!=opcodes[i].mnemonic; i++);
 	if (!opcodes[i].mnemonic) {
-		m_opcodes[operation]=&CBiosistema::organismeNoOperacio;
-		_opcodeIndexes[operation]=0;
-		return false;
+		throw OpcodeConfigError(
+			"Mnemonic '"+mnemonic+"' does not exist");
 	}
-	m_opcodes[operation]=opcodes[i].fn;
-	_opcodeIndexes[operation]=i;
-	return true;
+	m_opcodes[opcode]=opcodes[i].fn;
+	_opcodeIndexes[opcode]=i;
 }
 
 void CBiosistema::clearOpcodes() {
@@ -252,10 +265,6 @@ void CBiosistema::clearOpcodes() {
 		_opcodeIndexes[i]= 0u;
 	}
 }
-
-//////////////////////////////////////////////////////////////////////
-// Operacions (Inicialitzacio)
-//////////////////////////////////////////////////////////////////////
 
 bool CBiosistema::carregaOpCodes(const std::string & nomArxiu, CMissatger & errors)
 {
@@ -284,22 +293,10 @@ bool CBiosistema::carregaOpCodes(std::istream & entrada, CMissatger & errors)
 		entrada >> hex >> valor >> dec >> mnemonicOperacio >> prefetch;
 		// TODO: Esborrar aquesta traca (o no)
 		out << '\t' << hex << valor << dec << '\t' << mnemonicOperacio << endl;
-		if (valor>=m_nCodisOperacio) {
-			errors 
-				<< "El valor " << valor 
-				<< " no es pot representar amb els " << m_bitsCodiOperacio 
-				<< " bits que hi ha pel codi d'operacio" << endl;
-			continue;
-		}
-		if (!addOperation(valor, mnemonicOperacio)) {
-			errors
-				<< "El mnemonic '" << mnemonicOperacio
-				<< "' no es un mnemonic valid per a aquest biosistema" << endl;
-		}
+		addOperation(valor, mnemonicOperacio);
 	}
-	if (entrada) {
-		throw OpcodeConfigError("Unexpected '"+prefetch+"' in opcode configuration");
-	}
+	if (entrada) throw OpcodeConfigError(
+		"Unexpected '"+prefetch+"' in opcode configuration");
 
 	// Comprovacions a posteriori
 	for (uint32 i=0; i<m_nCodisOperacio; i++)

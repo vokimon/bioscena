@@ -50,6 +50,8 @@ class BiosystemTest : public CppUnit::TestFixture
 	CPPUNIT_TEST_SUITE( BiosystemTest );
 	CPPUNIT_TEST( test_opcodes_byDefaultAllNops );
 	CPPUNIT_TEST( test_addOperation );
+	CPPUNIT_TEST( test_addOperation_withInvalidMnemonic );
+	CPPUNIT_TEST( test_addOperation_whenCodeBeyondBits );
 	CPPUNIT_TEST( test_load_ok );
 	CPPUNIT_TEST( test_load_badline );
 //	CPPUNIT_TEST( test_ClassTest );
@@ -73,10 +75,35 @@ public:
 	{
 		Biosystem biosystem;
 		biosystem.clearOpcodes();
-		bool ok = biosystem.addOperation(0x03, "Carrega");
-		CPPUNIT_ASSERT_EQUAL(ok, true);
+		biosystem.addOperation(0x03, "Carrega");
 		std::string opcode = biosystem.operationDescriptor(0x03);
 		CPPUNIT_ASSERT_EQUAL(std::string("Carrega"), opcode);
+	}
+	void test_addOperation_withInvalidMnemonic()
+	{
+		Biosystem biosystem;
+		biosystem.clearOpcodes();
+		try {
+			biosystem.addOperation(0x03, "BadMnemonic");
+			CPPUNIT_FAIL("Should have thrown");
+		} catch (OpcodeConfigError & e) {
+			CPPUNIT_ASSERT_EQUAL(std::string(
+				"Mnemonic 'BadMnemonic' does not exist"),
+				std::string(e.what()));
+		}
+	}
+	void test_addOperation_whenCodeBeyondBits()
+	{
+		Biosystem biosystem;
+		biosystem.clearOpcodes();
+		try {
+			biosystem.addOperation(0x20, "Carrega");
+			CPPUNIT_FAIL("Should have thrown");
+		} catch (OpcodeConfigError & e) {
+			CPPUNIT_ASSERT_EQUAL(std::string(
+				"Operation opcode 0x20 cannot be represented with 5 bits"),
+				std::string(e.what()));
+		}
 	}
 	void test_load_ok()
 	{
