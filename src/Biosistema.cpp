@@ -647,8 +647,8 @@ bool CBiosistema::organismeExcreta(uint32 parametres)
 	return true;
 }	
 
+/// Realitza la reaccio A + B + energia -> C
 bool CBiosistema::organismeAnabolitza(uint32 parametres)
-	// Realitza la reaccio A + B (+/-) energia -> C + D
 {
 	// Extreiem els parametres del codi d'operacio i el fenotip de l'organisme
 	uint32 patroA      = fenotip(parametres,0)&m_mascaraQuimica;
@@ -677,6 +677,7 @@ bool CBiosistema::organismeAnabolitza(uint32 parametres)
 	return true;
 }	
 
+/// Realitza la reaccio A -> B + C + energia
 bool CBiosistema::organismeCatabolitza(uint32 parametres)
 {
 	// Extreiem els parametres del codi d'operacio i el fenotip de l'organisme
