@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  push: # on push commits at any branch
+  pull_request: # on external PR
+  workflow_dispatch: # on demand
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install system dependencies
+        run: |
+          sudo apt update -qq
+          sudo apt install -y scons libcppunit-dev
+          pip install cpp-coveralls
+          pip install scons-tool-loader scons-tool-gcccov
+      - name: Unit tests
+        run: |
+          scons
