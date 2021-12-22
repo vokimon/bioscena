@@ -15,9 +15,11 @@ jobs:
         run: |
           sudo apt update -qq
           sudo apt install -y scons libcppunit-dev
-          pip install cpp-coveralls
           pip install scons-tool-loader scons-tool-gcccov
       - name: Unit tests
         run: |
           scons
-          coveralls -n
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
