@@ -36,19 +36,19 @@ tests = ScanSources("*/*.test.cxx") + ScanSources("*.test.cxx")
 mainFiles = [built("MainBio1.cpp"), built("RegressionTest.cxx")]
 commonSources = [s for s in allSources if s not in tests and s not in mainFiles ]
 
-print commonSources
+print(commonSources)
 
 sources = commonSources + [built("MainBio1.cpp")]
 testSources = commonSources + tests + [built("RegressionTest.cxx")]
 includePath = [ dir.strip() for dir in os.popen('find src -type d') ]
 env.Append(CPPPATH = includePath)
 
-print '# Sources:'
-print '\n'.join(sources)
-print '# Tests:'
-print '\n'.join(testSources)
-print '# IncludePath'
-print includePath
+print('# Sources:')
+print('\n'.join(sources))
+print('# Tests:')
+print('\n'.join(testSources))
+print('# IncludePath')
+print(includePath)
 
 #SConscript('src/SConscript', duplicate=0, variant_dir='build')
 
