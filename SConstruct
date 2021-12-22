@@ -3,7 +3,7 @@ import os
 
 options = Variables('options.cache', ARGUMENTS)
 options.Add(BoolVariable('verbose', 'Display the full command line instead a short command description', 'no') )
-options.Add(BoolVariable('qtunit', 'Use the qt based test runner', 'no') )
+#options.Add(BoolVariable('qtunit', 'Use the qt based test runner', 'no') )
 options.Add('cross', 'Cross compiling tools prefix, ie: x86_64-w64-mingw32-', '')
 
 env = DefaultEnvironment(ENV=os.environ, tools=['default'], options=options)
@@ -74,7 +74,7 @@ if cross_prefix:
 
 
 
-env.Tool('qt4', toolpath=['.'])
+#env.Tool('qt4', toolpath=['.'])
 
 
 env['CXXFILESUFFIX'] = '.cxx'

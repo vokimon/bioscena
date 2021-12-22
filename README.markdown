@@ -15,11 +15,11 @@ The gene expression system works like that:
 	- Chromosomes can be multiple in a single being
 	- Their lenght is variable
 	- They may mutate when copied to the offspring
-	- Mutations are as diverse as in nature
+	- Mutations are as diverse as in nature: Base switch, inversions, translocations...
 - Genes are little programs coded into the chromosomes
 	- On transcription bases are grouped into codons, three bases
 	- Special codons mark begining and end of each gene to be transcripted
-	- A gene is expressed depending on its leading part, the promoter
+	- A gene is expressed or not depending on its leading part, the promoter
 	- The promoter codes a condition depending on the state of the phenotype
 	- The rest of the gen are byte codes coding operations: Split, sense, move, feed, metabolize, excrete, modify the phenotype...
 - Phenotype is an array of numbers
