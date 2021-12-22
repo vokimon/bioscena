@@ -5,6 +5,8 @@ This project is a computer model that simulates a complex evolutionary world by 
 
 ![bioscenalogo](bioscenalogo.png)
 
+[![CI](https://github.com/vokimon/bioscena/actions/workflows/main.yml/badge.svg)](https://github.com/vokimon/bioscena/actions/workflows/main.yml)
+
 Bioscena beings are controlled by a mechanism which is analogous to the actual gene expression in real life beings.
 Simulations show up many interesting emerging behaviours that you can monitor and trace.
 
