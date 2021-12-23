@@ -14,7 +14,7 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt update -qq
-          sudo apt install -y scons libcppunit-dev
+          sudo apt install -y scons libcppunit-dev lcov
           pip install scons-tool-loader scons-tool-gcccov
       - name: Unit tests
         run: |
