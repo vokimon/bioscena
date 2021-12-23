@@ -18,9 +18,8 @@ jobs:
           pip install scons-tool-loader scons-tool-gcccov
       - name: Unit tests
         run: |
-          scons
-          lcov --capture -b . -d build/ -o bioscena.lcov
-          lcov --remove bioscena.lcov '/usr/include/*' -o bioscena.lcov
+          scons cover=1
+          lcov --capture -b . -d build/ -o bioscena.lcov --no-external
       - name: Coveralls
         uses: coverallsapp/github-action@master
         with:

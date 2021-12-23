@@ -6,19 +6,21 @@ sconstool.loader.extend_toolpath()
 options = Variables('options.cache', ARGUMENTS)
 options.Add(BoolVariable('verbose', 'Display the full command line instead a short command description', 'no') )
 #options.Add(BoolVariable('qtunit', 'Use the qt based test runner', 'no') )
+options.Add(BoolVariable('cover', 'Generate coverage info', 'no') )
 options.Add('cross', 'Cross compiling tools prefix, ie: x86_64-w64-mingw32-', '')
 
-env = DefaultEnvironment(ENV=os.environ, tools=['default', 'sconstool.gcccov'], options=options)
+env = DefaultEnvironment(ENV=os.environ, tools=['default'], options=options)
 options.Save('../options.cache', env)
 Help(options.GenerateHelpText(env))
 env.SConsignFile() # Single signature file
 
-#env.Tool('gcccov')
-env.GCovInjectObjectEmitters()
-env.Append(
-    CPPFLAGS = ['--coverage'],
-    LINKFLAGS = ['--coverage'],
-)
+if env['cover']:
+    env.Tool('sconstool.gcccov')
+    env.GCovInjectObjectEmitters()
+    env.Append(
+        CPPFLAGS = ['--coverage', '-g', '-O0'],
+        LINKFLAGS = ['--coverage'],
+    )
 
 def buildDir():
 	if not env['cross']: return 'build/'
