@@ -19,7 +19,8 @@ jobs:
       - name: Unit tests
         run: |
           scons
-          lcov --capture -d . -o lcov.info 
+          lcov --capture -d build/ -o bioscena.lcov
+          lcov --remove bioscena.lcov '/usr/include/*' -o bioscena.lcov
       - name: Coveralls
         uses: coverallsapp/github-action@master
         with:
